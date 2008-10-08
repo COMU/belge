@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:04+03:00"><title>A. Çekirdek Derleme ve Kurulum Örneği</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-smpboot.html" title="SMP Önyükleme"><link rel="next" href="../howto/linux-i386-boot-code-howto-internel_lds.html" title="B. Dahili İlintileme Betiği"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">A. Çekirdek Derleme ve Kurulum Örneği</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-smpboot.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-internel_lds.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><div class="appendix"> <div class="titlepage"><div> <h2 class="title"><a name="linux-i386-boot-code-howto-kbuild"></a>A. Çekirdek Derleme ve Kurulum Örneği</h2></div></div><p>
+Aşağıda bir çekirdek kurulum örneği var (<a class="ulink" href="http://www.redhat.com" target="_top">Redhat</a> 9.0 üzerinde). "/*" ve "*/" arasındaki ifadeler konsol çıktısı değil yorum satırlarıdır.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+[root@localhost root]# <b><tt>ln -s /usr/src/linux-2.4.20 /usr/src/linux</tt></b>
+[root@localhost root]# <b><tt>cd /usr/src/linux</tt></b>
+[root@localhost linux]# <b><tt>make xconfig</tt></b>
+   <i>/* .config dosyasını oluşturun:</i>
+    <i>*   1. "Load Configuration from File" ile</i>
+    <i>*       /boot/config-2.4.20-28.9 veya istediğiniz bir config</i>
+    <i>*       dosyasını yükleyin.</i>
+    <i>*   2. Çekirdek yapılandırma parametrelerini değiştirin.</i>
+    <i>*   3. "Kaydedip çıkın" */</i>
+[root@localhost linux]# <b><tt>make oldconfig</tt></b>
+        <i>/* isterseniz .config'i yeniden kontrol edin */</i>
+[root@localhost linux]# <b><tt>vi Makefile</tt></b>
+        <i>/* isterseniz linux/Makefile içindeki EXTRAVERSION</i>
+         <i>* değerini değiştirin */</i>
+[root@localhost linux]# <b><tt>make dep</tt></b>
+        <i>/* .depend vs. yi oluşturun */</i>
+[root@localhost linux]# <b><tt>make bzImage</tt></b>
+        <i>/* ... Bazı çıktılar atlandı */</i>
+ld -m elf_i386 -T /usr/src/linux-2.4.20/arch/i386/vmlinux.lds -e stext arch/i386
+/kernel/head.o arch/i386/kernel/init_task.o init/main.o init/version.o init/do_m
+ounts.o \
+        --start-group \
+        arch/i386/kernel/kernel.o arch/i386/mm/mm.o kernel/kernel.o mm/mm.o fs/f
+s.o ipc/ipc.o \
+         drivers/char/char.o drivers/block/block.o drivers/misc/misc.o drivers/n
+et/net.o drivers/media/media.o drivers/char/drm/drm.o drivers/net/fc/fc.o driver
+s/net/appletalk/appletalk.o drivers/net/tokenring/tr.o drivers/net/wan/wan.o dri
+vers/atm/atm.o drivers/ide/idedriver.o drivers/cdrom/driver.o drivers/pci/driver
+.o drivers/net/pcmcia/pcmcia_net.o drivers/net/wireless/wireless_net.o drivers/p
+np/pnp.o drivers/video/video.o drivers/net/hamradio/hamradio.o drivers/md/mddev.
+o drivers/isdn/vmlinux-obj.o \
+        net/network.o \
+        /usr/src/linux-2.4.20/arch/i386/lib/lib.a /usr/src/linux-2.4.20/lib/lib.
+a /usr/src/linux-2.4.20/arch/i386/lib/lib.a \
+        --end-group \
+        -o vmlinux
+nm vmlinux | grep -v '\(compiled\)\|\(\.o$\)\|\( [aUw] \)\|\(\.\.ng$\)\|\(LASH[R
+L]DI\)' | sort &gt; System.map
+make[1]: Entering directory `/usr/src/linux-2.4.20/arch/i386/boot'
+gcc -E -D__KERNEL__ -I/usr/src/linux-2.4.20/include -D__BIG_KERNEL__ -traditiona
+l -DSVGA_MODE=NORMAL_VGA  bootsect.S -o bbootsect.s
+as -o bbootsect.o bbootsect.s
+bootsect.S: Assembler messages:
+bootsect.S:239: Warning: indirect lcall without `*'
+ld -m elf_i386 -Ttext 0x0 -s --oformat binary bbootsect.o -o bbootsect
+gcc -E -D__KERNEL__ -I/usr/src/linux-2.4.20/include -D__BIG_KERNEL__ -D__ASSEMBL
+Y__ -traditional -DSVGA_MODE=NORMAL_VGA  setup.S -o bsetup.s
+as -o bsetup.o bsetup.s
+setup.S: Assembler messages:
+setup.S:230: Warning: indirect lcall without `*'
+ld -m elf_i386 -Ttext 0x0 -s --oformat binary -e begtext -o bsetup bsetup.o
+make[2]: Entering directory `/usr/src/linux-2.4.20/arch/i386/boot/compressed'
+tmppiggy=_tmp_$$piggy; \
+rm -f $tmppiggy $tmppiggy.gz $tmppiggy.lnk; \
+objcopy -O binary -R .note -R .comment -S /usr/src/linux-2.4.20/vmlinux $tmppigg
+y; \
+gzip -f -9 &lt; $tmppiggy &gt; $tmppiggy.gz; \
+echo "SECTIONS { .data : { input_len = .; LONG(input_data_end - input_data) inpu
+t_data = .; *(.data) input_data_end = .; }}" &gt; $tmppiggy.lnk; \
+ld -m elf_i386 -r -o piggy.o -b binary $tmppiggy.gz -b elf32-i386 -T $tmppiggy.l
+nk; \
+rm -f $tmppiggy $tmppiggy.gz $tmppiggy.lnk
+gcc -D__ASSEMBLY__ -D__KERNEL__ -I/usr/src/linux-2.4.20/include -traditional -c
+head.S
+gcc -D__KERNEL__ -I/usr/src/linux-2.4.20/include -Wall -Wstrict-prototypes -Wno-
+trigraphs -O2 -fno-strict-aliasing -fno-common -fomit-frame-pointer -pipe -mpref
+erred-stack-boundary=2 -march=i686 -DKBUILD_BASENAME=misc -c misc.c
+ld -m elf_i386 -Ttext 0x100000 -e startup_32 -o bvmlinux head.o misc.o piggy.o
+make[2]: Leaving directory `/usr/src/linux-2.4.20/arch/i386/boot/compressed'
+gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -o tools/build tools/buil
+d.c -I/usr/src/linux-2.4.20/include
+objcopy -O binary -R .note -R .comment -S compressed/bvmlinux compressed/bvmlinu
+x.out
+tools/build -b bbootsect bsetup compressed/bvmlinux.out CURRENT &gt; bzImage
+Root device is (3, 67)
+Boot sector 512 bytes.
+Setup is 4780 bytes.
+System is 852 kB
+make[1]: Leaving directory `/usr/src/linux-2.4.20/arch/i386/boot'
+[root@localhost linux]# <b><tt>make modules modules_install</tt></b>
+        <i>/* ... Bazı çıktılar atlandı */</i>
+cd /lib/modules/2.4.20; \
+mkdir -p pcmcia; \
+find kernel -path '*/pcmcia/*' -name '*.o' | xargs -i -r ln -sf ../{} pcmcia
+if [ -r System.map ]; then /sbin/depmod -ae -F System.map  2.4.20; fi
+[root@localhost linux]# <b><tt>cp arch/i386/boot/bzImage /boot/vmlinuz-2.4.20</tt></b>
+[root@localhost linux]# <b><tt>cp vmlinux /boot/vmlinux-2.4.20</tt></b>
+[root@localhost linux]# <b><tt>cp System.map /boot/System.map-2.4.20</tt></b>
+[root@localhost linux]# <b><tt>cp .config /boot/config-2.4.20</tt></b>
+[root@localhost linux]# <b><tt>mkinitrd /boot/initrd-2.4.20.img 2.4.20</tt></b>
+[root@localhost linux]# <b><tt>vi /boot/grub/grub.conf</tt></b>
+        <i>/* Aşağıdaki satırları grub.conf dosyasına ekleyin:</i>
+<i>title Linux (2.4.20)</i>
+        <i>kernel /vmlinuz-2.4.20 ro root=LABEL=/</i>
+        <i>initrd /initrd-2.4.20.img */</i>
+</pre> </td></tr></table></div>
+      </p><p>
+Daha fazla ayrıntı için <a class="ulink" href="http://kernelnewbies.org/faq/index.php3#compile" target="_top">Kernelnewbies FAQ: How do I compile a kernel</a> ve <a class="ulink" href="http://www.digitalhermit.com/linux/kernel.html" target="_top">Kernel Rebuild Procedure</a> belgelerine başvurunuz.
+      </p><p>
+Çekirdeği <a class="ulink" href="http://www.debian.org" target="_top">Debian</a> üzerinde kurmak için ayrıca <a class="ulink" href="http://www.debian.org/releases/stable/i386/ch-post-install.en.html#s-kernel-baking" target="_top">Debian Installation Manual: Compiling a New Kernel</a>, <a class="ulink" href="http://www.debian.org/doc/manuals/debian-faq/ch-kernel.en.html" target="_top">The Debian GNU/Linux FAQ: Debian and the kernel</a> ve <a class="ulink" href="http://www.debian.org/doc/manuals/reference/ch-kernel.en.html" target="_top">Debian Reference: The Linux kernel under Debian</a> belgelerine başvurunuz. Eğer bir sorunla karşılaşırsanız "<b><tt>zless /usr/share/doc/kernel-package/Problems.gz</tt></b>" dosyasına bakınız.
+    </p></div><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-smpboot.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-internel_lds.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">SMP Önyükleme </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> B. Dahili İlintileme Betiği</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

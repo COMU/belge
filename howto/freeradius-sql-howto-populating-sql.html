@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-04-17T23:20:14+02:00"><title>SQL'in Kullanıma Hazır Hale Getirilmesi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/freeradius-sql-howto.html" title="FreeRADIUS ile SQL NASIL"><link rel="previous" href="../howto/freeradius-sql-howto-configure-freeradius.html" title="FreeRadius'un SQL Kullanması İçin Yapılandırılması"><link rel="next" href="../howto/freeradius-sql-howto-test.html" title="Test"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">SQL'in Kullanıma Hazır Hale Getirilmesi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/freeradius-sql-howto-configure-freeradius.html">Önceki</a> </td><th width="60%" align="center">FreeRADIUS ile SQL NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/freeradius-sql-howto-test.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="freeradius-sql-howto-populating-sql"></a>SQL'in Kullanıma Hazır Hale Getirilmesi</h2></div></dt><dd><p>Veritabanını denemek için sahte veriler oluşturmamız gerekir. Bunun için aşağıdaki adımları takip etmelisiniz:</p><div class="itemizedlist"><ul type="disc"><li>usergroup tablosuna, grup adlarına karşılık gelen kullanıcılar eklenmelidir.</li><li>radcheck tablosuna, her kullanıcı için 'Cleartext-Password' özelliğinde bir parola girilmelidir.</li><li>radreply tablosuna, her kullanıcı adı için kendisine has özellikli bir radius cevap mesajı girilmelidir.</li><li>radgroupreply tablosuna, tüm grup üyelerine geri döndürülecek özellikler girilmelidir.</li></ul></div><p>Aşağıda MySQL veritabanından örnek 'radius' tabloları verilmiştir. PostgreSQL için küçük değişiklikler olsa da tam olarak aynı içerik kullanılmaktadır.</p><p>Bu örnekte üç farklı kullanıcı tipi vardır. Kullanıcılardan birinin (fredf) IP adresi AEN tarafından dinamik olarak atanırken, ikincisi (barney) statik bir IP adresi kullanmaktadır. Üçüncüsü kullanıcı (dialrouter) ise çevirmeli ağ ile yönlendiricisi bağlantısını temsil etmektedir:</p><pre class="literallayout">mysql&gt; select * from usergroup;
++----+---------------+-----------+
+| id | UserName      | GroupName |
++----+---------------+-----------+
+|  1 | fredf         | dynamic   |
+|  2 | barney        | static    |
+|  2 | dialrouter    | netdial   |
++----+---------------+-----------+
+3 rows in set (0.01 sec)
+    
+mysql&gt; select * from radcheck;
++----+----------------+--------------------+------------------+------+
+| id | UserName       | Attribute          | Value            | Op   | 
++----+----------------+--------------------+------------------+------+
+|  1 | fredf          | Cleartext-Password | wilma            | :=   |
+|  2 | barney         | Cleartext-Password | betty            | :=   |
+|  2 | dialrouter     | Cleartext-Password | dialup           | :=   |
++----+----------------+--------------------+------------------+------+
+3 rows in set (0.01 sec)
+    
+mysql&gt; select * from radreply;
+    
++----+------------+-------------------+---------------------------------+------+
+| id | UserName   | Attribute         | Value                           | Op   |
++----+------------+-------------------+---------------------------------+------+
+|  1 | barney     | Framed-IP-Address | 1.2.3.4                         | :=   |
+|  2 | dialrouter | Framed-IP-Address | 2.3.4.1                         | :=   |
+|  3 | dialrouter | Framed-IP-Netmask | 255.255.255.255                 | :=   |
+|  4 | dialrouter | Framed-Routing    | Broadcast-Listen                | :=   |
+|  5 | dialrouter | Framed-Route      | 2.3.4.0 255.255.255.248         | :=   |
+|  6 | dialrouter | Idle-Timeout      | 900                             | :=   |
++----+------------+-------------------+---------------------------------+------+
+6 rows in set (0.01 sec)
+    
+mysql&gt; select * from radgroupreply;
++----+-----------+--------------------+---------------------+------+
+| id | GroupName | Attribute          | Value               | Op   |
++----+-----------+--------------------+---------------------+------+
+| 34 | dynamic   | Framed-Compression | Van-Jacobsen-TCP-IP | :=   |
+| 33 | dynamic   | Framed-Protocol    | PPP                 | :=   |
+| 32 | dynamic   | Service-Type       | Framed-User         | :=   |
+| 35 | dynamic   | Framed-MTU         | 1500                | :=   |
+| 37 | static    | Framed-Protocol    | PPP                 | :=   |
+| 38 | static    | Service-Type       | Framed-User         | :=   |
+| 39 | static    | Framed-Compression | Van-Jacobsen-TCP-IP | :=   |
+| 41 | netdial   | Service-Type       | Framed-User         | :=   |
+| 42 | netdial   | Framed-Protocol    | PPP                 | :=   |
++----+-----------+--------------------+---------------------+------+
+12 rows in set (0.01 sec)</pre><p>Bu örnekte 'barney' kullanıcısı statik IP adresini alması için sadece radreply'ın IP adresiyle ilgili bir özelliğine ihtiyaç duymaktadır. Diğer özellikler radgroupreply tarafından 'static' bölümünde sağlandığından burada başka bir özelliğe ihtiyacı yoktur.</p><p>'fred' kullanıcısı IP adresini dinamik olarak AEN'dan aldığından radreply bölümünde bir girdiye ihtiyaç duymaz. Bu yüzden bütün 'dynamic' grup girdilerini SADECE radgroupreply bölümden alacaktır.</p><p>'dialrouter' çevirmeli ağ yönlendiricisi olduğundan ve statik IP adresine ihtiyaç duyduğundan route ve mask özellikleri gereklidir. Bunlar için de ilave girdiler yapılmalıdır.</p><p>'dialrouter' ilave olarak bir idle-timeout özelliğine sahip olduğundan aktif olmadığında yönlendirici tarafından bağlantısı kesilebilir. Bu özelliği isterseniz diğer kullanıcılara da verebilirsiniz. Başka özellikler eklemek sizin isteğinize bağlıdır.</p><p>Operatör ('op') değerlerinin birçok tabloda kullanıldığına dikkat edin. Parola kontrol özelliği  := ile birlikte KULLANILMALIDIR. Geri dönen özelliklerin çoğu bir := operatorü içermelidir. Aynı tipte birden fazla değer (örneğin çoklu Cisco- AVpair's) döndürüyorsanız += operatörü kullanılmalıdır, aksi halde sadece ilki döndürülecektir.</p><p>Eğer kullanıcı adlarındaki bütün alan adlarını ayırıyorsanız, SQL tablolarına yazdığınız kullanıcı adlarına alan adlarını EKLEMEYİN. Bu ayırma işlemi veritabanı kontrol edilmeden önce yapılmalıdır. Bu yüzden name@domain kullanıcı adı, eğer ayırma işlemini yapıyorsanız ASLA veritabanındaki 'name' kullanıcısıyla eşleşmeyecektir. Bir kere bu olmadan çalıştırdıktan sonra eğer daha karmaşık alan kontrolleri isterseniz geriye dönüp alan adlarını ayırmamak (veritabanında kullanıcı isimlerini name@domain şeklinde tutmak) üzerine çalışabilirsiniz.</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/freeradius-sql-howto-configure-freeradius.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/freeradius-sql-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/freeradius-sql-howto-test.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">FreeRadius'un SQL Kullanması İçin Yapılandırılması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Test</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

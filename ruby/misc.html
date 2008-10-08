@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Ve diğer şeyler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="nesne_hazirlamasi.html">
+ <img border=0 src="a2l.gif" alt="Nesne Hazırlaması"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2r.gif" alt="İçindekiler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Ve diğer şeyler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Bu bölüm pratik bir kaç konuyu kapsar.</p>
+<h3><a name="label:0" id="label:0">Deyim sınırlayıcıları (<i>Statement delimiters</i>)</a></h3><!-- RDLabel: "Statement delimiters" -->
+<p>Bazı diller deyimleri sonlandırmak için, noktalı virgül <code>;</code> gibi noktalama işaretleri gerektirir. Ruby bunun yerine <code>sh</code> ve <code>csh</code>'ın geleneğini takip eder. Birden fazla deyim noktalı virgülle ayrılmalıdır ancak bir satırın sonuna noktalı virgül koymanız gerekmez, satır geri besleme bir noktalı virgülmüş gibi davranır. Eğer bir satır sola eğik çizgi (<code>\</code>) ile biterse o zaman onu takip eden satır geri besleme dikkate alınmaz, bu da bir çok satırdan oluşan mantıksal tek bir satır oluşturmanızı sağlar.
+</p>
+<h3><a name="label:1" id="label:1">Yorum Satırları</a></h3><!-- RDLabel: "Comments" -->
+<p>Niçin yorum yazmalıyız? İyi yazılmış bir kodun öz bir döküman olmasının yanında başkalarının da çiziktirdiğimiz koda bakabileceği ihtimalini göz ardı etmemeliyiz. Öte yandan siz ve kendiziniz iki gün önceki sizle farklı kişilersiniz; hangimiz bir bölüm sonra durup, "bunu yazdığımı hatırlıyorum, ama ne cehennemi kastettim!" dememişizdir ki?</p>
+<p>Bazı deneyimli programcılar, güncelliğini yitirmiş ve tutarsız yorumların hiç yorum yazmamaktan daha kötü olduğuna dikkat çekerler. Tabii ki yorumlar okunabilir bir kodun vekili olmamalıdırlar; eğer kodunuz yeterince açık değilse muhtemelen yanlışlarla doludur. Ruby'yi öğrenirken yorum yazmaya sık sık ihtiyacınız olacak- ancak daha iyi duruma geldiğiniz zaman basit, şık ve okunabilir kodlar yazmaya başladığınızda daha az yorum satırına ihtiyaç duyacaksınız.</p>
+<p>Ruby komut satırı belirtmek için <code>#</code> işareti kullanarak betik dillerinin izlediği geleneksel bir yol izler. <code>#</code> ile başlayan her satır yorumlayıcı tarafından gözardı edilir.</p>
+<p>Ayrıca büyük yorum bloklarını mümkün kılmak için Ruby yorumlayıcısı "<code>=begin</code>" ve "<code>=end</code>" arasındaki satırları da gözardı eder.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">#!/usr/bin/env ruby
+
+=begin
+**********************************************************************
+  Bu bir yorum bloğu. Burada kodunuzu okuyan kişilerin yararlanabileceği 
+  şeyler yazabilirsiniz. Yorumlayıcı bu satırları görmezden gelecektir.
+  Her satırın başında bir '#''e ihtiyaç olmadığına dikkat edin.
+**********************************************************************
+=end</font></pre></td></tr></table>
+<h3><a name="label:2" id="label:2">Kodunuzu düzenlemek</a></h3><!-- RDLabel: "Organizing your code" -->
+<p>Ruby yorumlayıcısı kodları okuduğu gibi işletir. Derleme aşaması gibi bir şey söz konusu değildir; eğer birşey henüz okunmamışsa basitçe tanımsızdır.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black"># bu bir "undefined method" hatasina sebep olur:
+
+print successor(3),"\n"
+
+def successor(x)
+  x + 1
+end</font></pre></td></tr></table>
+<p>Bu, ilk bakışta öyle gibi gözükse de, kodunuzu baştan aşağı bir tasarım harikasına dönüştürmeniz için zorlamaz. Yorumlayıcı, bir metot tanımlamasıyla karşılaştığında tanımlanmamış referansları da rahatlıkla ekleyebilir ve metot çağrıldığında tanımlı olabileceğinden emin olabilirsiniz:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black"># fahrenheit'i  celsius'a cevirir, iki
+# adima ayrilmistir.
+
+def f_to_c(f)
+  scale(f - 32.0)  # Bu ileri bir referanstır ancak sorun değil.
+end
+
+def scale(x)
+  x * 5.0 / 9.0
+end
+
+printf "%.1f uygun bir sicaklik.\n", f_to_c(72.3)</font></pre></td></tr></table>
+<p>Perl ya da Java'da alıştığınızdan daha az elverişli olsa da prototip yazmadan C yazmaktan daha az kısıtlayıcıdır. Bir kaynak kodunun altındaki kodu en üste koymak her zaman çalışır. Üstelik başlangıçta göründüğünden daha az can sıkıcıdır. Tanımlamak istediğiniz davranışı yaptırmak için en ağrısız ve uygun yol dosyanın başında bir <code>main</code> fonksiyonu tanımlamak ve en altta çağırmaktır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">#!/usr/bin/env ruby
+
+def main
+  # Burada ana mantigini aciklayin...
+end
+
+# ...buraya destek kodunu koyun, gerekiyorsa aciklayin...
+
+main # ... ve calistirmaya baslayin.</font></pre></td></tr></table>
+<p>Bu yöntem ayrıca Ruby'nin karmaşık programları, okunabilir, tekrar kullanılabilir ve mantıksal ilişkilendirilmiş parçalara bölünmesini desteklemesine yardımcı olur. Daha önce modüllere ulaşmak için <code>include </code>özelliğinin kullanımını görmüştük. Ayrıca <code>load</code> ve <code>require</code> özellikleri de yararlı olabilir. <code>load</code> başvurduğu dosya kopyalanıp yapıştırılmış gibi işlev görür (C'deki <code>#include</code> ön işlemcisine benzer). require biraz daha yetenekli bir özelliktir: kodun bir kere ve ihtiyaç duyulduğu zaman yüklenmesini sağlar. <code>load</code> ve <code>require</code> arasındaki diğer farklılıklar için <a href="http://dev.rubycentral.com/faq/rubyfaq.html">Ruby SSS</a>'a bakın.
+</p>
+<h3><a name="label:3" id="label:3">İşte bu kadar!...</a></h3><!-- RDLabel: "That's it..." -->
+<p>
+Bu kılavuz Ruby'de program yazmaya başlamanıza yetecek kadar bilgi içerir. Eğer başka sorularınız olursa Ruby başvuru kılavuzu'na göz atabilirsiniz. <a href="http://dev.rubycentral.com/faq/rubyfaq.html">Ruby SSS</a> ve <a href="http://dev.rubycentral.com/ref/"> başvuru kütüphanesi</a> de yararlı kaynaklardan bir kaç tanesidir.
+</p>
+<p>Şansınız bol olsun, mutlu kodlamalar!</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="nesne_hazirlamasi.html">
+ <img border=0 src="a2l.gif" alt="Nesne Hazırlaması"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2r.gif" alt="İçindekiler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-11-03T02:51:36+02:00"><title>Sorun Giderme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/quake-howto.html" title="Linux Quake Nasıl"><link rel="previous" href="../howto/quake-howto-multiplayer.html" title="Çok Oyunculu"><link rel="next" href="../howto/quake-howto-quakesquels.html" title="Quake Devamları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sorun Giderme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/quake-howto-multiplayer.html">Önceki</a> </td><th width="60%" align="center">Linux Quake Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/quake-howto-quakesquels.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="quake-howto-troubleshooting"></a>Sorun Giderme</h2></div></dt><dd><p>
+Diğer sorun giderme kaynakları aşağıda listelenmiştir: <a href="http://mfcn.ilo.de/glxquake" target="_top">Jörgen'in GLQuake Sitesi</a>, bu belgenin <a href="../howto/quake-howto-other.html#quake-howto-old" title="Eski Quake NASIL Belgesi">eski versiyonu</a> ve <a href="http://www.icculus.org/lgfaq" target="_top">Linux Oyuncu SSS</a>'i.
+</p><p>
+Sıklıkla, <a href="../howto/quake-howto-engine.html#quake-howto-tyrquake" title="TyrQuake">TyrQuake</a>, <a href="../howto/quake-howto-multiplayer.html#quake-howto-fuhquake" title="FuhQuake">FuhQuake</a> ve <a href="../howto/quake-howto-engine.html#quake-howto-darkplaces" title="Darkplaces">Darkplaces</a> gibi  alternatif oyun motorları fare ve sese bağlı sorunları giderecektir.
+</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-bashwont"></a>Kabuk, programı başlatmıyor</h3></div></dt><dd><p>
+<tt>"bash: ./glquake.glx: Permission denied"</tt>
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+İkilik çalıştırma iznine sahip olmayabilir. Sorunu düzeltmek için <tt>chmod +x glquake.glx</tt> komutunu uygulayın.
+</li><li>
+Eğer program Windows bölümündeyse, <tt>noexec</tt> seçeneğiyle bağlanmış olabilir. Bu komutu uygulayın (root olarak): <tt>mount -o remount,exec /mnt/windows</tt></li></ul></div>
+</p><p>
+<tt>"bash: glquake.glx: command not found"</tt>
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+Bash kabuğu sizin bulunduğunuz dizini yolunda içermiyor olabilir. "<b><tt>export PATH=$PATH:.</tt></b>" yazın.
+</li></ul></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-diesatstartup"></a>Program başlangıçta ölüyor</h3></div></dt><dd><p>
+Bu pek de iyi bir durum değil, ama bir kaç seçenek deneyebilirsiniz:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+- eğer herhangi bir ses sorunu varsa <tt>-nosound</tt> kullanın. Ses problemleri aşağıda izah edilmiştir.
+</li><li>Eğer ağ yapılandırılmamışsa <tt>-noudp</tt> kullanın.
+</li><li>Eğer cdrom bulunmuyorsa <tt>-nocdaudio</tt> kullanın.
+</li><li>
+Eğer düzgün olarak ayarlanmış bir ekran kipi seçmek istiyorsanız komut satırından <tt>-height</tt>, <tt>-width</tt> ve <tt>-fullscreen</tt> seçeneklerini kullanın. ör.  <b><tt>glquake.glx -width 800 -height 600 -fullscreen -nosound</tt></b></li></ul></div>
+</p><p>
+<i>Dosyalar küçük harfli değil</i> ya da  <i>Veri dosyaları kayıp </i>.
+</p><p>
+Linux Quake (çoğu) dosya isimlerinin küçük harfli olmasını gerektirir. Eğer "<tt>Error: W_LoadWadFile: couldn't load gfx.wad</tt>" gibi bir hata alıyorsanız, oyun veri dosyalarını bulamıyor demektir ve bunun da sebebi büyük ihtimalle tamamının küçük harfle olmamasından kaynaklanıyordur.
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+"pak0.pak" ve "pak1.pak" dosyalarını içeren "id1" alt dizinine ("ID1" değil) sahip olduğunuzdan emin olun.
+</li><li>
+Ayrıntılı küçük harf programı için bu <a href="http://prdownloads.sourceforge.net/uhexen2/lowercase?download" target="_top">programı</a> indirin ya da <a href="http://filerenameutils.sourceforge.net" target="_top">http://filerenameutils.sourceforge.net</a>'u ziyaret edin.
+</li></ul></div>
+</p><p>
+"<i>Memory overwrite in Sys_Printf</i>"
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+Bu hata <tt>sys_linux.c</tt> dosyanızı düzenlemenizi, <tt>Sys_Printf</tt> yordamını ve 89. satırın yanında, <tt>text[1024]</tt>'u <tt>text[4096]</tt>'a çevirip derlemeniz gerektiği anlamına gelir.
+</li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-diesloadinglevel"></a>Program yükleme seviyesinde ölüyor</h3></div></dt><dd><div class="itemizedlist"><ul type="disc"><li>
+Çoğu kip ek bellek gerektirir. Yığın için bellekten 48 megabayt tahsis etmek için <tt>-mem 48</tt> seçeneğini kullanın.
+</li><li>
+Bazı kipler sadece standart GLQuake ile çalışmazlar ve geliştirilmiş bir  <a href="../howto/quake-howto-engine.html" title="Oyun Motorları">oyun motoruna</a> ihtiyaç duyar.
+</li><li>
+Bazı durumlarda, sorun sese bağlı olabilir. Ses kısmındaki ipuçlarını uygulamayı deneyin.
+</li></ul></div></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-soundproblems"></a>Ses Problemleri</h3></div></dt><dd><p>
+Linux ses sistemi ile ilgili daha fazla bilgi için <a href="../howto/quake-howto-troubleshooting.html#quake-howto-sounddrivers" title="Ses Sürücüleri">sürücüler</a> kısmına bakın.
+</p><p>
+"<tt>/dev/dsp: Device or resource busy</tt>" gibi bir hata bir programın hali hazırda sizin ses kartınızı kullandığı anlamına gelir ve Quake'in ses efektlerini almak için bu programı sonlandırmanız gerekir.
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+Linux komut satırından <tt>killall artsd</tt> ya da <tt>killall esd</tt> yazarak en azından popüler ses programlarını sonlandırabilirsiniz.
+</li><li>
+Alternatif olarak, Quake'i KDE ses programı ile çalıştırmak istiyorsanız <tt>artsdsp glquake.glx ...</tt> yazabilirsiniz.
+</li></ul></div>
+</p><p>
+"Quake makinası oyunu çıkıyor ve <tt>mmap</tt> ile ilgili bir hata alıyorum!"
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+<a href="http://www.icculus.org/lgfaq" target="_top">Linux Oyuncular SSS</a> şunu önerir: "Ses kartınız/sürücünüz bu özelliği desteklemiyor. Buna rağmen KDE/arts kullanarak -m ile artsdsp sarma paketine atlayabilirsiniz.
+<p></p><p>
+<tt>ps -A | grep artsd</tt> yazarak <tt>artsd</tt> programının halen çalıştığından emin olabilirsiniz (bu komut en azından bir boş olmayan satır döndürmelidir). Daha sonra <tt>artsdsp -m glquake.glx</tt> komutunu çalıştırabilirsiniz.
+</p><p></p></li><li><a href="../howto/quake-howto-troubleshooting.html#quake-howto-sounddrivers" title="Ses Sürücüleri">Ses Sürücüleri</a> bölümünde bulunan alternatif ses sürücülerini deneyebilirsiniz.
+</li></ul></div>
+</p><p>
+Ses kesik kesik geliyor ya da kalitesiz.
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>-sndspeed</tt> ya da  <tt>-sndbits</tt> seçeneğini/seçeneklerini deneyin ya da ses sürücülerini takas edin.
+</li></ul></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-otherissues"></a>Diğer Sorunlar</h3></div></dt><dd><p><div class="variablelist"><dl><dt><span class="term">Oyun Çok Karanlık</span></dt><dd>
+Eğer seçenekler kısmındaki aydınlık ayarı çalışmazsa görüntünün aydınlığını ayarlamak için <tt>xgamma</tt>'yı ayarlayabilirsiniz.
+    <p></p><p>
+    <div class="itemizedlist"><ul type="disc"><li>
+Oyunu çalıştırmadan önce DEGER 1'den büyük olmak üzere <tt>xgamma -gamma DEGER</tt> yazın. Bitirdikten sonra <tt>xgamma -gamma 1</tt> ile aydınlığı eski haline getirebilirsiniz.
+    </li></ul></div>
+    </p><p>
+Bu ip ucu az desteklenen donanımlarda çalışmayacaktır. Voodoo 1/2 kullanıcıları daha fazla bilgi için
+<a href="http://sourceforge.net/docman/display_doc.php?docid=28982&amp;group_id=124987" target="_top">buraya</a> bakabilirler.
+    </p><p></p></dd><dt><span class="term">Fare Görünümü</span></dt><dd>"Bu oyun etrafa doğru dürüst bakmamı engelliyor. <tt>%$!$@</tt>"
+    <p></p><p>
+    <div class="itemizedlist"><ul type="disc"><li>"~" tuşu ile oyunu konsola düşürün ve <tt>+mlook</tt> girin.</li></ul></div>
+    </p><p></p></dd><dt><span class="term">Fare Düzgün Çalışmıyor</span></dt><dd>Aşağıdakileri deneyin -
+    <p></p><p>
+    <div class="itemizedlist"><ul type="disc"><li><tt>-fullscreen</tt> seçeneği ile oyunu tam ekran çalıştırın.
+    </li><li>
+Oyun konsolundan <tt>_windowed_mouse 1</tt> yazın.
+    </li><li>
+Eğer Fluxbox kullanıyorsanız başka bir pencere yöneticisi deneyin. Fluxbox bazı oyunlarda tam ekran kipiyle ilgili sorunlar çıkarıyor.
+    </li><li>
+Eğer hala sorunu halledemediyseniz, <a href="../howto/quake-howto-engine.html#quake-howto-NPRQuake" title="NPRQuake">NPRQuake</a> ya da  <a href="../howto/quake-howto-engine.html#quake-howto-darkplaces" title="Darkplaces">Darkplaces</a> SDL istemcilerini deneyin. Oyunu başlatmadan önce <tt>export SDL_VIDEO_X11_DGAMOUSE=0</tt> yazarsanız dga faresini etkisiz kılarsınız.
+    </li></ul></div>
+    </p><p></p></dd><dt><span class="term">Oyunu kaydedemiyorum / Seçenekler hatırlanmıyor</span></dt><dd>
+Eğer Quake'i normal bir kullanıcı olarak çalıştırıyorsanız ve bu tür bir sorunla karşılaştıysanız
+oyun dizinlerine yazma yetkiniz olmayabilir. Muhtemel çözümlerden bazıları:
+    <p></p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+Oyunu super kullanıcı olarak çalıştırın: oyunu başlatmak için <tt>glquake.glx ...</tt> yazmadan önce  <b><tt>su</tt></b> yazıp root parolanızı girin.
+</li><li>
+Oyun dosyalarının izinlerini değiştirin. Unix işletim sistemleri, kazara dosya değişimleri ya da yetkilendirilmemiş ayrıcalıksız erişimlere karşı oldukça sağlam bir güvenliğe sahiptir. Tek kullanıcılı bir ortam için bu sorunun hakkından gelmenin en kolay yolu super kullanıcı olmak ve Quake
+dizininin iznini (root olarak) <tt>chown -R KULLANICI_ADI /usr/local/games/quake</tt> ile değiştirmektir. Buna rağmen Unix dosya izinlerinin daha iyi anlaşılması açısından <b><tt>chmod</tt></b> ve <b><tt>chown</tt></b> kılavuz sayfalarını ve belgelerini okumanızı öneriyoruz.
+</li><li>
+Çok kullanıcılı ortamlar için her veriyi her kullanıcının kendi ev dizinlerine yerleştiren <a href="../howto/quake-howto-engine.html#quake-howto-darkplaces" title="Darkplaces">Darkplaces</a> ya da <a href="../howto/quake-howto-engine.html#quake-howto-quakeforge" title="QuakeForge">QuakeForge</a> oyun motorlarını kullanabilirsiniz.
+</li></ul></div>
+</p><p>Quake özellikle eklentiler oynanırken oyun seçeneklerini kaydetmek ve yeniden geri getirmek için bir yöntem kullanır ve bazen yeniden değer verilmesi gerekebilir. Bu gibi durumlarda, yazarın önerebileceği herhangi bir öneri yoktur <tt>%-/</tt>.
+    </p><p></p></dd><dt><span class="term">Çılgın çokgenler</span></dt><dd>
+Bazı görev paketleri/kipler Quake'in varolan oyuncu/canavar modellerini çizgiler halinde göstermesine
+neden olabiliyor. Bunu düzeltmek için "quake/id1/glquake" dizinini silin. Oyunu yeniden başlattığınızda bu dizin yeniden yaratılacaktır ve herşey yoluna girecektir.
+    <p></p><p></p></dd><dt><span class="term">Ekrandaki çizgiler</span></dt><dd>
+3dfx kartlarıyla ilgili genel bir sorun bir dizi çizginin ekranda titremesidir.
+    <p></p><p>
+<div class="itemizedlist"><ul type="disc"><li>Oyun konsolundan <b><tt>gl_ztrick 0</tt></b> yazın.</li></ul></div>
+    </p><p></p></dd><dt><span class="term">Diğer grafik sorunları</span></dt><dd>
+Bazı Quake motorları çoklu dokunuş olarak da bilinen bir OpenGL hızlandırması kullanır. Bu yöntem normalde güzel çalışır fakat grafikte bozulmalar görüyorsanız bu özelliği <tt>-nomtex</tt> seçeneği ile geçersiz kılabilirsiniz.
+<p></p><p>
+Eski ekran kartları ara sıra modelleri tamamen beyaz olarak çizebilir. Başarımı düzeltmek açısından
+PlanetQuake'te oyunun GL değişkenleri için kullanabileceğiniz <a href="http://www.planetquake.com/console/commands/quake.html" target="_top">komut listesine</a> bakın.
+</p><p></p></dd></dl></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-videodrivers"></a>Video Sürücüleri</h3></div></dt><dd><p>
+Linux altında donanım GL hızlandırması kurmak eskiden bir hayli yaygındı, ama artık modern dağıtımlar bu işi otomatik olarak hallediyorlar. Tabii ki halen istisnalar da çıkabiliyor...
+</p><p>
+Nvidia'nın modern ekran kartı sürücülerinin çoğu açık kaynak kodlu değil. Bu yüzden çoğu dağıtım bu sürücüleri beraberinde getirmiyor. Eğer Nvidia kartınız yavaş çalışıyorsa muhtelen sorun budur ve  <a href="http://www.nvidia.com" target="_top">http://www.nvidia.com</a>  adresinden Linux  yükleyicisini indirmeniz gerekir. Yazarın deneyimine göre bu sürücüler oldukça iyi fakat kartların hepsinde %100 çalıştığını söyleyemeyiz.Eğer Nvidia ekran kartınız halen sorun çıkarıyorsa başka bir sürücü deneyin.
+</p><p>
+XFree ve Xorg'un Voodoo 3, 4 ve 5 için oldukça iyi desteği olmasına rağmen, Voodoo1, Voodoo2 ve Rush gibi daha eski 3dfx donanımları için artık donanım hızlandırması mevcut değildir. OpenGL'in bu kartlarla çalışmasını istiyorsanız, Glide ve Mesa yazılım kütüphanelerini indirip kurmanız gerekmektedir.  <a href="http://sourceforge.net/docman/display_doc.php?docid=28982&amp;group_id=124987" target="_top">Burada</a> eski  3dfx kartlarıyla ilgili ayrıntılı bir BENİOKU belgesi mevcut.
+</p><p>Bağlantılar:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><a href="http://www.x.org" target="_top">http://www.x.org</a></li><li><a href="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=22" target="_top">Linux Oyuncuları ATI NASIL</a></li><li><a href="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=31" target="_top">Linux Oyuncuları Nvidia NASIL</a></li></ul></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-sounddrivers"></a>Ses Sürücüleri</h3></div></dt><dd><p>
+İki  büyük Linux ses sistemi bulunmaktadır - Open Sound System ve ALSA. Eğer ses problemleriyle karşı karşıyaysanız ve sorun giderme kısımlar size yardımcı olmadıysa ses sürücünüzü değiştirmeyi deneyebilirsiniz. Bu zor bir iştir ve sadece deneyimli kullanıcılara önerilir.
+</p><p>
+Kullanıdığınız sürücüyü tespit etmek için yüklenmiş çekirdek modüllerini <tt>lsmod</tt> yazarak listeleyebilirsiniz. ALSA ses modülleri "snd_" ile başlayan gereksiz modül isimlerine sahipken, OSS modülleri daha kısa ve öz isimlere sahiptir. Örneğin "ALSA Sound Blaster Live" modülü "snd_emu10k1" iken,  OSS modülü "emu10k1" adına sahiptir. 2.4 önceki çekirdekler genelde OSS ses sistemi ile beraber gelirken, Linux çekirdeği 2.6'dan beri  ALSA standart ses sistemi olmuştur.
+</p><p>
+ALSA hakkında daha fazla bilgi <a href="http://www.alsa-project.org" target="_top">Alsa Anasayfası</a>'ndan ve Linux Journal'ın <a href="http://www.linuxjournal.com/node/8234/print" target="_top">ALSA Kılavuzu</a>'ndan edinilebilir.
+</p><p>
+OSS modüllerini denemek isteyen ALSA kullanıcıları gerekli olduğu taktirde <a href="http://www.tldp.org/HOWTO/Kernel-HOWTO/" target="_top">çekirdeği yeniden derleme</a> ihtiyacı
+duyabilirsiniz.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/quake-howto-multiplayer.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/quake-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/quake-howto-quakesquels.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Çok Oyunculu </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Quake Devamları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

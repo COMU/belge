@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:24+03:00"><title>IPv6'nın Linux geçmişi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-basics.html" title="Temel Bilgiler"><link rel="previous" href="../howto/ipv6-howto-basics-whatisIPv6.html" title="IPv6 nedir?"><link rel="next" href="../howto/ipv6-howto-basics-looklike.html" title="IPv6 adresi neye benzer?"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">IPv6'nın Linux geçmişi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-basics-whatisIPv6.html">Önceki</a> </td><th width="60%" align="center">Temel Bilgiler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-basics-looklike.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-basics-history-ipv6-linux"></a>IPv6'nın Linux geçmişi</h3></div></dt><dd><p>
+1992, 1993 ve 1994 yıllarını kapsayan bir kaynak: <a href="http://www.laynetworks.com/IPv6.htm#CH3" target="_top">IPv6 or IPng (IP next generation)</a> .
+  </p><p>
+Yapılacaklar: daha iyi zaman çizelgesi, daha çok içerik...
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id12"></a>Başlangıç</h4></div></dt><dd><p>
+Linux çekirdeğine IPv6 ile ilgili ilk ağ kodu Kasım 1996'da Pedro Roque tarafından eklenmiştir. BSD API'sini kullanan kod:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">diff -u --recursive --new-file v2.1.7/linux/include/linux/in6.h linux/include/linux/in6.h
+--- v2.1.7/linux/include/linux/in6.h Thu Jan 1 02:00:00 1970
++++ linux/include/linux/in6.h Sun Nov 3 11:04:42 1996
+@@ -0,0 +1,99 @@
++/*
++ * Types and definitions for AF_INET6
++ * Linux INET6 implementation
++ * + * Authors:
++ * Pedro Roque &lt;******&gt;
++ *
++ * Source:
++ * IPv6 Program Interfaces for BSD Systems
++ * &lt;draft-ietf-ipngwg-bsd-api-05.txt&gt;
+</pre> </td></tr></table></div>
+  </p><p>
+Yukarıdaki satırlar 2.1.8 çekirdeğinin yamasından kopyalanmıştır. (e-posta adresi gölgelenmiştir).
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id22"></a>Ara dönem</h4></div></dt><dd><p>
+Geliştiricilerin azlığı yüzünden çekirdeğin IPv6 gelişimi yeni yazılan RFC'leri takip edemedi. Ekim 2000'de Japonya'da Linux'un IPv6 desteğinin eksik ve eski yanlarını geliştirmek için <a href="http://www.linux-ipv6.org/" target="_top">USAGI</a> isimli bir proje başlatıldı. Bunu FreeBSD'nin IPv6 desteğini gerçekleştiren <a href="http://www.kame.net/" target="_top">KAME project</a> projesi takip etti. Zaman zaman orjinal (vanilya) Linux çekirdeği kodlarına karşı sürümler çıkartmaktadırlar.
+  </p><p>
+<a href="http://www.linux-ipv6.org/" target="_top">USAGI</a> yaması çok büyük olduğundan 2.5.x serisi çekirdek geliştirilmeye başlanmadan önce Linux'un ağ desteğini sağlayanlar tarafından 2.4.x serisi çekirdeklerde kullanılamıyordu.
+  </p><p>
+2.5.x serisi çekirdeğin geliştirilmesi sürecinde <a href="http://www.linux-ipv6.org/" target="_top">USAGI</a> kendi güncel eklentilerini yerleştirmeye çalışmıştır.
+  </p><p>
+Bunların hepsi olmasa da bazıları 2.4.x serisine port edildi ve bu yüzden birçok eklentileri eksik kaldığından
+bazı (birçok) genişlemeleri kaçırmakta ve güncel RFC'lere uygun olamamaktadır (bakınız <a href="http://www.ietf.org/html.charters/ipv6-charter.html" target="_top">IP Version 6 Working Group (ipv6) Charter</a>). 
+Bu da diğer işletim sistemleri ile ortak çalışmada bazı sorunlara yol açabilmektedir.
+   </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id32"></a>Güncel</h4></div></dt><dd><p>
+<a href="http://www.linux-ipv6.org/" target="_top">USAGI</a> ve başkaları tarafından uzun süredir geliştirilen yamalar 2.6.x
+serisi çekirdekte kullanılmaktadır.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id42"></a>Gelecek</h4></div></dt><dd><p>
+<a href="http://www.linux-ipv6.org/" target="_top">USAGI</a> ve diğerleri gezicilik (mobility) gibi daha yeni özellikleri gerçeklemek için çalışmaktadırlar. Zaman zaman yeni eklentiler yayınlanmakta ve çekirdeğe eklenmektedir. 
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-basics-whatisIPv6.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-basics.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-basics-looklike.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">IPv6 nedir? </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> IPv6 adresi neye benzer?</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

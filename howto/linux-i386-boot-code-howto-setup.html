@@ -1,0 +1,757 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>linux/arch/i386/boot/setup.S</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-bootsect.html" title="linux/arch/i386/boot/bootsect.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-compressed_head.html" title="linux/arch/i386/boot/compressed/head.S"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/arch/i386/boot/setup.S</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-bootsect.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-setup"></a>linux/arch/i386/boot/setup.S</h2></div></dt><dd><p>
+<tt>setup.S</tt> sistem verilerinin BIOS'dan alınmasından ve onların uygun bir bellek bölgesine yerleştirilmesinden sorumludur.
+      </p><p>
+<a class="ulink" href="http://www.gnu.org/software/grub" target="_top">GNU GRUB</a> ve <a class="ulink" href="http://freshmeat.net/projects/lilo" target="_top">LILO</a> gibi diğer önyükleyiciler de <tt>bzImage</tt>'ı yükleyebilirler. Bu tür önyükleyiciler <tt>bzImage</tt>'ı belleğe yüklemeli ve "gerçek-biçim çekirdek başlıkları"nı kurmalıdırlar, özellikle <tt>type_of_loader</tt>; sonra denetimi <tt>bsetup</tt>'a devreder. <tt>setup.S</tt> şunları varsayar:
+      </p><p><div class="itemizedlist"><ul type="disc"><li>
+<tt>bsetup</tt> veya <tt>setup</tt> SETUPSEG:0'a yüklenmemiş olabilir, örn. denetim <tt>setup.S</tt>'ye geçtiğinde CS SETUPSEG'e eşit olmayabilir;
+        <p></p><p></p></li><li>
+<tt>setup</tt>'ın ilk 4 sektörü <tt>bootsect</tt>'den hemen sonra yüklenir. Sıfırlama <tt>vmlinux</tt>'den önce gelecek şekilde SYSSEG:0'da yüklü olabilir, bu varsayım <tt>bsetup</tt>'ta etkili olmaz.
+        <p></p><p></p></li></ul></div>
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-setup_header"></a>Başlık</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/* LILO'nun doğru yüklendiğinden emin olmak için imza kelimeleri */
+#define SIG1    0xAA55
+#define SIG2    0x5A5A
+
+INITSEG  = DEF_INITSEG         # 0x9000, önyüklemeyi buraya taşır, yolun dışına
+SYSSEG   = DEF_SYSSEG          # 0x1000, sistem 0x10000'a yüklenir (65536).
+SETUPSEG = DEF_SETUPSEG        # 0x9020, bu geçerli bölüttür
+                               # ... ve CS'nin önceki içeriği
+
+DELTA_INITSEG = SETUPSEG - INITSEG      # 0x0020
+
+.code16
+.text
+
+///////////////////////////////////////////////////////////////////////////////
+start:
+{
+  goto trampoline();              // sıradaki başlığı atla
+}
+
+# Bu setup başlığıdır ve %cs:2 (old 0x9020:2) adresinden başlamalıdır
+                .ascii  "HdrS"          # başlık imzası
+                .word   0x0203          # başlık sürüm numarası (&gt;= 0x0105)
+                                        # yoksa eski loadlin-1.5 başarısız olur
+realmode_swtch: .word   0, 0            # default_switch, SETUPSEG
+start_sys_seg:  .word   SYSSEG
+                .word   kernel_version  # çekirdek sürüm dizgesini göstererek
+                                        # yukarıdaki başlık bölümü
+                                        # loadlin-1.5 (başlık v1.5) ile uyumlu.
+                                        # Değiştirmeyin
+// kernel_version defined below
+type_of_loader: .byte   0               # = 0, eski (LILO, Loadlin,
+                                        #      Bootlin, SYSLX, bootsect...)
+                                        # atanmış id değerleri için
+                                        # bakınız Documentation/i386/boot.txt
+# bayraklar, kullanılmayan bitler 0 olmalı, (RFU) loadflags arasındaki bitler
+loadflags:
+LOADED_HIGH     = 1               # Sıfır değilse, çekirdek yüksek yüklenmiştir
+CAN_USE_HEAP    = 0x80            # Sıfır değilse, yükleyici ayrıca setup.S'nin
+                                  # gerisinde ne kadar alanın yığın (heap)
+                                  # olarak kullanılacağını tutmak için
+                                  # heap_end_ptr'ye sahiptir.
+                                  # Neyin boş olduğunu sadece yükleyici bilir
+#ifndef __BIG_KERNEL__
+                .byte   0
+#else
+                .byte   LOADED_HIGH
+#endif
+setup_move_size: .word  0x8000    # kurulum 0x90000'ye yüklenmediğinde
+                                  # taşıma boyutu. Çekirdeğe sıçramadan
+                                  # hemen önce kurulumu 0x90000'a taşıyacağız.
+
+
+                                  # Bununla birlikte geride bıraktığımız
+                                  # ne kadar yüklenmesi gereken veri
+                                  # bulunduğunu sadece yükleyici bilir.
+                                  # burada yükleyiciler 32-bit kod
+code32_start:                     # için farklı başlangıç
+                                  # adresleri koyarlar.
+#ifndef __BIG_KERNEL__
+                .long   0x1000    #   0x1000 = zImage için varsayılan
+#else
+                .long   0x100000  # 0x100000 = büyük çekirdek için öntanımlı
+#endif
+ramdisk_image:  .long   0         # yüklü ramdisk görüntüsünün adresi
+                                  # Burada yükleyici görüntüyü yüklediği
+                                  # 32-bit adresi koyar. Bu sadece
+                                  # çekirdek tarafından okunacaktır.
+ramdisk_size:   .long   0         # boyutu bayt cinsindendir
+bootsect_kludge:
+                .word  bootsect_helper, SETUPSEG
+heap_end_ptr:   .word   modelist+1024  # (Başlık sürümü 0x0201 veya daha büyük)
+                                       # buradan sonra kurulum sonuna kadar
+                                  # boşluklar (özel) kurulum tarafından
+                                  # yerel yığın amaçları için kullanılabilir.
+// modelist .text bölümünün sonundadır
+pad1:           .word   0
+cmd_line_ptr:   .long 0           # (Başlık sürümü 0x0202 veya daha büyük)
+                                  # Sıfır değilse, çekirdek komut
+                                  # satırına 32-bit bir gösterici.
+                                  # Komut satırı kurulumun başı ile
+                                  # alçak bellek arasına (0xa0000)
+                                  # yerleştirilmeli veya okunmadan önce
+                                  # üzerine yazılmalı. Eğer bu alan
+                                  # kullanılırsa, 0x90000 bölütüyle ilgili
+                                  # sihirli birşey kalmaz; kurulum
+                                  # alçak bellekte 0x10000 veya
+                                  #  daha yüksek herhangi bir
+                                  # yere yerleştirilebilir.
+ramdisk_max:    .long __MAXMEM-1  # (Başlık sürümü 0x0203 veya daha büyük)
+                                  # initrd içeriği için en
+                                  # yüksek güvenli adres
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>__MAXMEM</tt> tanımlaması <tt>linux/asm-i386/page.h</tt> içindedir:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/*
+ * 0xC0000000'ın bir __PAGE_OFFSET değeri çekirdeğin bir gigabayt
+ * sanal adres boşluğuna sahip olduğu anlamına gelir ki bu da
+ * kullanabileceğiniz fiziksel bellek miktarını 950MB'a sınırlar
+ */
+#define __PAGE_OFFSET           (0xC0000000)
+
+/*
+ * Bu kadar adres boşluğu vmalloc() ve iomap() olduğu kadar
+ * "fixmap" eşleştirmeleri (mappings) için de tahsis edilir.
+ */
+#define __VMALLOC_RESERVE       (128 &lt;&lt; 20)
+
+#define __MAXMEM                (-__PAGE_OFFSET-__VMALLOC_RESERVE)
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>__MAXMEM</tt> = 1G - 128M değerini verir.
+      </p><p>
+Bu başlık bazı plan örneklerini takip etmelidir. <tt>linux/Documentation/i386/boot.txt</tt> belgesine başvurun:
+      </p><p>
+<pre class="literallayout">
+Konum   Proto   İsim            Anlamı
+/Boyut
+0200/2  2.00+   jump            Sıçrama komutu
+0202/4  2.00+   header          Sihirli imza "HdrS"
+0206/2  2.00+   version         Desteklene önyükleme protokolü sürümü
+0208/4  2.00+   realmode_swtch  Önyükleme yükleyici çengeli (hook)
+020C/2  2.00+   start_sys       load-low bölütü (0x1000) (modası geçmiş)
+020E/2  2.00+   kernel_version  Çekirdek sürüm dizgesi göstericisi
+0210/1  2.00+   type_of_loader  Önyükleme yükleyici belirteci
+0211/1  2.00+   loadflags       Önyükleme protokolü seçenek bayrakları
+0212/2  2.00+   setup_move_size Yüksek bellek boyutuna taşı
+                                (çengellerle kullanılır)
+0214/4  2.00+   code32_start    Önyükleyici çengeli
+0218/4  2.00+   ramdisk_image   initrd yükleme adresi
+                                (önyükleyici tarafından atanır)
+021C/4  2.00+   ramdisk_size    initrd boyutu (önyükleyici tarafından atanır)
+0220/4  2.00+   bootsect_kludge KULLANMAYIN - sadece bootsect.S kullanımı için
+0224/2  2.01+   heap_end_ptr    kurulum bittikten sonra boş bellek
+0226/2  N/A     pad1            Kullanılmaz
+0228/4  2.02+   cmd_line_ptr    çekirdek komut satırına 32-bit gösterici
+022C/4  2.03+   initrd_addr_max En yüksek yasal initrd adresi
+</pre></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-check_code"></a>Kod Bütünlüğünü Kontrol Et</h3></div></dt><dd><p>
+<tt>setup</tt> kodu sürekli olmayabileceği için önce kod bütünlüğünü kontrol etmeliyiz.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+trampoline()
+{
+  start_of_setup();       // asla dönmez
+  .space 1024;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// tüm kodun yüklenip yüklenmediğini görmek için imzayı kontrol et
+start_of_setup()
+{
+  // Bootlin bunun daha önce yapılmasına bağlıdır, bakınız <a class="ulink" href="http://ftp.us.xemacs.org/ftp/pub/linux/suse/suse/i386/7.3/dosutils/bootlin/technic.doc" target="_top">bootlin:technic.doc</a>
+  int13/AH=15h(AL=0, DL=0x81);
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0639.htm" target="_top">int13/AH=15h: DİSK - DİSK TÜRÜNÜ AL</a>
+
+#ifdef SAFE_RESET_DISK_CONTROLLER
+  int13/AH=0(AL=0, DL=0x80);
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0605.htm" target="_top">int13/AH=00h: DİSK - DİSK SİSTEMİNİ RESETLE</a>
+#endif
+
+  DS = CS;
+  // kurulum sonunda imzayı kontrol et
+  if (setup_sig1!=SIG1 || setup_sig2!=SIG2) {
+    goto bad_sig;
+  }
+  goto goodsig1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// bazı küçük işlevler
+prtstr();  /* DS:SI'teki ascii'leri yaz */
+prtsp2();  /* çift boşluk yaz */
+prtspc();  /* tek boşluk yaz  */
+prtchr();  /* AL'deki ascii'leri yaz */
+beep();    /* CTRL-G yaz, örn. bip */
+</pre> </td></tr></table></div>
+      </p><p>
+Kod bütünlüğünü doğrulamak için imza kontrol edilir.
+      </p><p>
+İmza bulunmazsa kalan <tt>setup</tt> kodu <tt>SYSSEG:0</tt>'da <tt>vmlinux</tt> öncesinde yer alır.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+no_sig_mess: .string "No setup signature found ..."
+
+goodsig1:
+  goto goodsig;                           // yakın sıçrama yap
+
+///////////////////////////////////////////////////////////////////////////////
+// kalan setup kodunu SYSSEG:0'dan CS:0800'e taşı
+bad_sig()
+  DELTA_INITSEG = 0x0020 (= SETUPSEG - INITSEG)
+  SYSSEG = 0x1000
+  word start_sys_seg = SYSSEG;            // kurulum başlığında tanımlı
+{
+  DS = CS - DELTA_INITSEG;                // INITSEG olarak da bilinir
+  BX = (byte)(DS:[497]);                  // örn. setup_sects
+
+  // ilk 4 sekctör zaten yüklü
+  CX = (BX - 4) &lt;&lt; 8;           // kelime cinsinden kalan kod (2-bayt)
+  start_sys_seg = (CX &gt;&gt; 3) + SYSSEG;     // gerçek sistem kodu başlangıcı
+  move SYSSEG:0 to CS:0800 (CX*2 bytes);
+
+  if (setup_sig1!=SIG1 || setup_sig2!=SIG2) {
+no_sig:
+    prtstr("No setup signature found ...");
+no_sig_loop:
+    hlt;
+    goto no_sig_loop;
+  }
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>hlt</tt> komutu komut çalıştırmayı durdurur ve işlemciyi halt durumuna getirir. İşlemci halt kipine girildiğini belirtecek şekilde özel bir taşıt dizisi üretir. Etkin bir kesme (NMI dahil) oluştuğunda, işlemci çalıştırmayı <tt>hlt</tt> komutundan sonra devam ettirir ve komut göstericisi, <tt>hlt</tt>'ı takip eden komutu göstererek, kesme yöneticisi çağırılmadan önce yığıta kaydedilecektir. Böylece işlemciyi tekrar halt durumuna koymak için <tt>hlt</tt>'tan sonra <tt>jmp</tt> komutuna ihtiyaç duyarız.
+      </p><p>
+<tt>setup</tt> kodu doğru yere taşınmıştır. <tt>start_sys_seg</tt> değişkeni gerçek sistem kodunun başladığı yeri gösterir. Eğer <tt>bad_sig</tt> olmazsa <tt>start_sys_seg, SYSSEG</tt> olarak kalır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-check_loader"></a>Yükleyici Türünü Kontrol Et</h3></div></dt><dd><p>
+Yükleyicinin imgeyle uyumluluğunu olduğunu kontrol et.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+good_sig()
+  char loadflags;                 // setup başlığı içinde
+  char type_of_loader;            // setup başlığı içinde
+  LOADHIGH = 1
+{
+  DS = CS - DELTA_INITSEG;        // INITSEG olarak da bilinir
+  if ( (loadflags &amp; LOADHIGH) &amp;&amp; !type_of_loader ) {
+    // Hata, eski yükleyiciler büyük-çekirdek yüklemeye çalışırlar
+    prtstr("Wrong loader, giving up...");
+    goto no_sig_loop;             // yukarıda bad_sig()'de tanımlı
+  }
+}
+
+loader_panic_mess: .string "Wrong loader, giving up..."
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>bootsect_helper()</tt> tarafından <tt>bvmlinux</tt> yüklendiğinde <tt>type_of_loader</tt>'un 0x20 olarak  değiştiğine dikkat edin.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-get_mem_size"></a>Bellek Boyutunu</h3></div></dt><dd><p>
+kB cinsinden genişletilmiş bellek boyutunu (1M üzeri) elde etmek için üç değişik bellek saptama şeması dene.
+      </p><p>
+İlk olarak bir bellek haritası oluşturmamızı sağlayan <tt>e820h</tt>'yi dene; sonra 32 bitlik bellek boyutu döndüren <tt>e801h</tt>'yi ve son olarak 0-64M döndüren <tt>88h</tt>'yi dene.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+// bellek boyunu al
+loader_ok()
+  E820NR  = 0x1E8
+  E820MAP = 0x2D0
+{
+  // bu işleve girerken, DS = CS-DELTA_INITSEG; INITSEG olarak da bilinir
+  (long)DS:[0x1E0] = 0;
+
+#ifndef STANDARD_MEMORY_BIOS_CALL
+  (byte)DS:[0x1E8] = 0;                   // E820NR
+
+  /* method E820H: bakınız <a class="ulink" href="http://www.acpi.info" target="_top">ACPI spec</a>
+    * bellek haritası (from hell).  e820h belleği farklı türlerden
+    * bir bütün deste olarak sınıflandırılmış şekilde döndürür, ve
+    * bellek deliklerine ve herşeye izin verir. Biz bu bellek
+    * haritasını tararız ve ilk 32 bellek alanının listesini oluştururuz,
+    * [E820MAP]'den döneriz. */
+meme820:
+  EBX = 0;
+  DI = 0x02D0;                            // E820MAP
+  do {
+jmpe820:
+    int15/EAX=E820h(EDX='SMAP', EBX, ECX=20, ES:DI=DS:DI);
+    // <a class="ulink" href="http://www.ctyme.com/intr/rb-1741.htm" target="_top">int15/AX=E820h: GET SYSTEM MEMORY MAP</a>
+    if (failed || 'SMAP'!=EAX) break;
+    // if (1!=DS:[DI+16]) continue; // kullanışsız
+good820:
+    if (DS:[1E8]&gt;=32) break;        // entry# &gt; E820MAX
+    DS:[0x1E8]++;                   // entry# ++;
+    DI += 20;                       // tamponu sonraki için ayarla
+again820:
+  } while (!EBX)                          // bitmedi
+bail820:
+
+  /* method E801H:
+    * 1k parça boyutuyla bellek boyutu, loadlin karıştırmamak için.
+    * 0xe801 bellek boyutunu tamamen farklı bir yerde tutarız
+    * çünkü muhtemelen 16 bitten daha uzun olacaktır
+    * (1e0 kullanınız çünkü bu Larry Augustine'in alternatif bellek
+    * tespit şemasını kullanma yöntemidir ve bu yöntem
+    * herşeyi aynı yere yazma konusunda hassastır.) */
+meme801:
+  stc;            // hatalı BIOSlar için uğraş
+  CX = DX = 0;
+  int15/AX=E801h;
+  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1739.htm" target="_top">int15/AX=E801h: &gt;64M YAPILANDIRMALAR İÇİN BELLEK BOYUTUNU AL</a>
+    *   AX = K cinsinden 1M ve 16M arasında bellek boyutu (en çok 3C00 = 15MB)
+    *   BX = genişletilmiş bellek, 16M üzeri, 64K bloklar halinde
+    *   CX = K cinsinden 1M'dan 16M'a yapılandırılmış bellek
+    *   DX = 16M üzeri yapılandırılmış bellek, 64K bloklar halinde */
+  if (failed) goto mem88;
+  if (!CX &amp;&amp; !DX) {
+    CX = AX;
+    DX = BX;
+  }
+e801usecxdx:
+  (long)DS:[0x1E0] = ((EDX &amp; 0xFFFF) &lt;&lt; 6) + (ECX &amp; 0xFFFF);      // in K
+#endif
+
+mem88:  // eski geleneksel yöntem
+  int15/AH=88h;
+  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1529.htm" target="_top">int15/AH=88h: SİSTEM - GENİŞLETİLMİŞ BELLEK BOYUTU</a>
+   *   AX = mutlak 100000h adresinden başlayan sürekli kB'ların sayısı */
+  DS:[2] = AX;
+}</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-hw_support"></a>Donanım Desteği</h3></div></dt><dd><p>
+Klavye, ekran kartı, harddisk, MCA bus'ı ve işaretleme cihazı gibi donanımların desteğini kontrol et.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">{
+  // klavye tekrarlama oranını en çoğa ayarla
+  int16/AX=0305h(BX=0);
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1757.htm" target="_top">int16/AH=03h: KEYBOARD - SET TYPEMATIC RATE AND DELAY</a>
+
+  /* Ekran kiplerini kullanıcıya göstermek için
+    *   ekran kartını ve parametrelerini kontrol et. */
+  video();                        // see video.S
+
+  // hd0 ve hd1 verisini al
+  hd0 verisini (*int41)'dan CS-DELTA_INITSEG:0080'ya (16 bytes) kopyala;
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-6135.htm" target="_top">int41: SYSTEM DATA - HARD DISK 0 PARAMETRE TABLO ADRESİ</a>
+  hd1 verisini (*int46)'dan CS-DELTA_INITSEG:0090'ya (16 bytes) kopyala;
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-6184.htm" target="_top">int46: SYSTEM DATA - HARD DISK 1 PARAMETRE TABLE ADRESİ</a>
+  // hd1 var mı kontrol et
+  int13/AH=15h(AL=0, DL=0x81);
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0639.htm" target="_top">int13/AH=15h: DISK - DİSK TÜRÜNÜ AL</a>
+  if (failed || AH!=03h) {        // AH==03h eğer harddisk ise
+no_disk1:
+    temizle CS-DELTA_INITSEG:0090 (16 bytes);
+  }
+is_disk1:
+
+  // Mikro Kanal veriyolu (Micro Channel-MCA bus) için kontrol et
+  CS-DELTA_INITSEG:[0xA0] = 0;    // tablo uzunluğunu 0'a ayarla
+  int15/AH=C0h;
+  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1594.htm" target="_top">int15/AH=C0h: SİSTEM - YAPILANDIRMAYI AL</a>
+    *   ES:BX = ROM yapılandırma tablosu */
+  if (failed) goto no_mca;
+    ROM yapılandırma tablosunu (ES:BX)'den CS-DELTA_INITSEG:00A0 adresine taşı;
+  // CX = (table length&lt;14)? CX:16;    sadece ilk 16 bayt
+no_mca:
+
+  // PS/2 noktalama cihazlarını (pointing device) kontrol et
+  CS-DELTA_INITSEG:[0x1FF] = 0;   // varsayılan noktalama cihazı 0
+  int11h();
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0575.htm" target="_top">int11h: BIOS - EKİPMAN LİSTESİNİ AL</a>
+  if (AL &amp; 0x04) {                // fare kuruldu
+          DS:[0x1FF] = 0xAA;
+  }
+}
+</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-apm_support"></a>APM Desteği</h3></div></dt><dd><p>
+BIOS APM desteğini kontrol et.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#if defined(CONFIG_APM) || defined(CONFIG_APM_MODULE)
+{
+  DS:[0x40] = 0;                  // sürüm = 0 APM BIOS olmadığı anlamına gelir
+  int15/AX=5300h(BX=0);
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1394.htm" target="_top">int15/AX=5300h: Advanced Power Management v1.0+ - INSTALLATION CHECK</a>
+  if (failed || 'PM'!=BX || !(CX &amp; 0x02)) goto done_apm_bios;
+  // (CX &amp; 0x02) 32 bit desteklendiği anlamına gelir
+  int15/AX=5304h(BX=0);
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">int15/AX=5304h: Advanced Power Management v1.0+ - DISCONNECT INTERFACE</a>
+  EBX = CX = DX = ESI = DI = 0;
+  int15/AX=5303h(BX=0);
+  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1397.htm" target="_top">int15/AX=5303h: Advanced Power Management v1.0+</a>
+    *   <a class="ulink" href="http://www.ctyme.com/intr/rb-1397.htm" target="_top">- CONNECT 32-BIT PROTMODE INTERFACE</a> */
+  if (failed) {
+no_32_apm_bios:                     // no_32_apm_bios etiketini buraya taşıdım
+    DS:[0x4C] &amp;= ~0x0002;   // 32 bit destekleme bitini kaldır
+    goto done_apm_bios;
+  }
+  DS:[0x42] = AX, 32-bit kod bölütü temel adresi;
+  DS:[0x44] = EBX, giriş noktası konumu;
+  DS:[0x48] = CX, 16-bit kod bölütü temel adresi;
+  DS:[0x4A] = DX, 16-bit veri bölütü temel adresi;
+  DS:[0x4E] = ESI, APM BIOS kod bölütü uzunluğu;
+  DS:[0x52] = DI, APM BIOS veri bölütü uzunluğu;
+  int15/AX=5300h(BX=0);     // tekrar kontrol et
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1394.htm" target="_top">int15/AX=5300h: Advanced Power Management v1.0+ - INSTALLATION CHECK</a>
+  if (success &amp;&amp;  'PM'==BX) {
+          DS:[0x40] = AX, APM version;
+          DS:[0x4C] = CX, APM flags;
+  } else {
+apm_disconnect:
+    int15/AX=5304h(BX=0);
+    /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">int15/AX=5304h: Advanced Power Management v1.0+</a>
+     * <a class="ulink" href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">- DISCONNECT INTERFACE</a> */
+  }
+done_apm_bios:
+}
+#endif
+</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-prepare_protmode"></a>Korumalı Kip için Hazırlık</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+// kip seçiciyi çağır
+{
+  if (realmode_swtch) {
+    realmode_swtch();               // kip seçme çengeli
+  } else {
+rmodeswtch_normal:
+    default_switch() {
+      cli;                    // hiçbir kesmeye izin yok
+      outb(0x80, 0x70);       // NMI etkinleştirmeyi kaldır
+    }
+  }
+rmodeswtch_end:
+}
+
+// gerekliyse kodu tekrar konumla
+{
+  (long)code32 = code32_start;
+  if (!(loadflags &amp; LOADED_HIGH)) {       // düşük yüklü zImage
+    // 0x0100 &lt;= start_sys_seg &lt; CS-DELTA_INITSEG
+do_move0:
+    AX = 0x100;
+    BP = CS - DELTA_INITSEG;        // INITSEG olarak da bilinir
+    BX = start_sys_seg;
+do_move:
+    sistem imgesini (start_sys_seg:0 .. CS-DELTA_INITSEG:0)'dan
+      0100:0'a taşı;                // her seferinde 0x1000 bayt taşı
+  }
+end_move:
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>code32_start</tt>'ın <tt>zImage</tt> için <tt>0x1000</tt> adresi ile  <tt>bzImage</tt> için ise <tt>0x100000</tt> adresi ile ilklendirildiğine dikkat edin. <tt>code32</tt> değeri denetimin <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-switch_protmode" class="xref" title="Korumalı Kipe Geç"> Korumalı Kipe Geç</a> içindeki<tt>linux/arch/i386/boot/compressed/head.S</tt>'e geçirilmesi için kullanılacaktır. <tt>zImage</tt> önyüklemesi yapılırsa <tt>vmlinux</tt>'u <tt>0100:0</tt>'a taşır; <tt>bzImage</tt> önyüklemesi yapılırsa <tt>bvmlinux start_sys_seg:0</tt>'da kalır. Taşıma adresi <tt>linux/arch/i386/boot/compressed/Makefile</tt> içindeki <tt>-Ttext</tt> seçeneğiyle uyuşmalıdır. Bakınız <a href="../howto/linux-i386-boot-code-howto-makefiles.html#linux-i386-boot-code-howto-i386_boot_compressed_makefile" class="xref" title="linux/arch/i386/boot/compressed/Makefile"> linux/arch/i386/boot/compressed/Makefile</a>.
+      </p><p>
+Sonra, eğer gerekliyse, kod <tt>CS-DELTA_INITSEG:0</tt>'dan (<tt>bbootsect</tt> ve <tt>bsetup</tt>) <tt>INITSEG:0</tt>'a taşınır.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+  DS = CS;                // SETUPSEG olarak da bilinir
+  // sürüm &lt;=201 ile geriye dönük uyumluluğa ihtiyacımız olup olmadığını kontrol et
+  if (!cmd_line_ptr &amp;&amp; 0x20!=type_of_loader &amp;&amp; SETUPSEG!=CS) {
+    cli;            // taşınırken kesme olarak yığıtı kullanabilir
+    // store new SS in DX
+    AX = CS - DELTA_INITSEG;
+    DX = SS;
+    if (DX&gt;=AX) {   // yığıt çerçevesi birlikte taşınacak
+      DX = DX + INITSEG - AX; // i.e. SS-CS+SETUPSEG
+    }
+move_self_1:
+    /* CS-DELTA_INITSEG:0'dan INITSEG:0'ya taşı (setup_move_size bayt)
+      *  CS:IP üzerindeki kodun üzerine yazmamak için iki adımda
+      * (src &lt; dest) taşı fakat aşağıya doğru ("std") */
+    move CS-DELTA_INITSEG:move_self_here+0x200
+      to INITSEG:move_self_here+0x200,
+      setup_move_size-(move_self_here+0x200) bytes;
+    // INITSEG:move_self_here+0x200 == SETUPSEG:move_self_here
+    goto SETUPSEG:move_self_here;   // artık CS=SETUPSEG
+move_self_here:
+    move CS-DELTA_INITSEG:0 to INITSEG:0,
+      move_self_here+0x200 bytes;   // goto'dan önce eski CS anlamında
+    DS = SETUPSEG;
+    SS = DX;
+  }
+end_move_self:
+}
+</pre> </td></tr></table></div>
+      </p><p>
+Tekrar dikkat edin, <tt>bvmlinux</tt>'u yüklediğinde <tt>bootsect_helper()</tt> tarafından <tt>type_of_loader</tt>'un değeri <tt>0x20</tt> olarak değiştirilmektedir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-enable_a20"></a>A20'yi Etkinleştir</h3></div></dt><dd><p>
+A20 sorunu ve çözümü için <a class="ulink" href="http://www.win.tue.nl/~aeb/linux/kbd/A20.html" target="_top">A20 - a pain from the past</a>'e başvurun.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+  A20_TEST_LOOPS          =  32   # Bekleme başına adım sayısı
+  A20_ENABLE_LOOPS        = 255   # deneme için toplam döngü
+{
+#if defined(CONFIG_MELAN)
+  // Enable A20. AMD Elan bug fix.
+  outb(0x02, 0x92);               // outb(val, port)
+a20_elan_wait:
+  while (!a20_test());            // testi geçemedi
+  goto a20_done;
+#endif
+
+a20_try_loop:
+  // Önce, A20 kapısı olmayan bir sistemde olup olmadığımıza bak.
+a20_none:
+  if (a20_test()) goto a20_done;  // testi geçti
+
+  // Sonra, BIOS'u (INT 0x15, AX=0x2401) dene
+a20_bios:
+  int15/AX=2401h;
+  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1336.htm" target="_top">Int15/AX=2401h: SYSTEM - later PS/2s - ENABLE A20 GATE</a>
+  if (a20_test()) goto a20_done;  // testi geçti
+
+  // Klavye denetleyici üzerinden A20'yi etkinleştirmeye çalış
+a20_kbc:
+  empty_8042();
+  if (a20_test()) goto a20_done;  // BIOS gecikmesi durumunda testi tekrarla
+  outb(0xD1, 0x64);               // komut yaz
+  empty_8042();
+  outb(0xDF, 0x60);               // A20 etkin
+  empty_8042();
+  // a20 gerçekten etkin olana kadar bekle
+a20_kbc_wait:
+  CX = 0;
+a20_kbc_wait_loop:
+  do {
+          if (a20_test()) goto a20_done;  // testi geçti
+  } while (--CX)
+
+  // Son girişim: "yapılandırma portu A"'yı kullan
+  outb((inb(0x92) | 0x02) &amp; 0xFE, 0x92);
+  // yapılandırma portu A etkilenene kadar bekle
+a20_fast_wait:
+  CX = 0;
+a20_fast_wait_loop:
+  do {
+          if (a20_test()) goto a20_done;  // testi geçti
+  } while (--CX)
+
+  // A20 hala cevap vermiyor. Tekrar ayarlamayı dene.
+  if (--a20_tries) goto a20_try_loop;
+  prtstr("linux: fatal error: A20 gate not responding!");
+a20_die:
+  hlt;
+  goto a20_die;
+}
+
+a20_tries:
+  .byte   A20_ENABLE_LOOPS                // i.e. 255
+a20_err_msg:
+  .ascii  "linux: fatal error: A20 gate not responding!"
+  .byte   13, 10, 0
+</pre> </td></tr></table></div>
+      </p><p>
+I/O port işlemleri için, <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-setup_ref" class="xref" title="Kaynakça"> Kaynakça</a> içindeki ilgili başvuru materyallerine bakın.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-switch_protmode"></a>Korumalı Kipe Geç</h3></div></dt><dd><p>
+Tüm 32 bitlik IA-32 işlemcileri ile kod uyumluluğunu sağlamak için, aşağıdaki korumalı kipe geçmeyi sağlayacak adımları yerine getirin:
+      </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+İlk GDT girdisinde boş tanımlayıcılı GDT'yi hazırlayın, bir kod bölütü tanımlayıcı ve bir veri bölütü tanımlayıcı;
+          </div></li><li><div class="listitem">
+Maskelenebilir donanım kesmeleri ve NMI dahil kesmeleri etkisiz kılın;
+          </div></li><li><div class="listitem"><tt>lgdt</tt> asm komutunu kullanarak GDTR yazmacına taban adresini ve GDT sınırını yükleyin;
+          </div></li><li><div class="listitem"><tt>mov cr0</tt> (Intel 386 ve üstü) veya <tt>lmsw</tt> komutu (Intel 286 ile uyumluluk için) kullanarak CR0 yazmacındaki PE bayrağını etkinleştirin;
+          </div></li><li><div class="listitem">
+Ardından bir uzak <tt>jmp</tt> veya bir uzak <tt>call</tt> komutu çalıştırın.
+          </div></li></ol></div>
+      </p><p>
+Yığıt normal oku/yaz veri bölütüne yerleştirilebilir, böylece adanmış tanımlayıcıya gerek kalmaz.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+a20_done:
+{
+  lidt    idt_48;         // load idt with 0, 0;
+
+  // DS:gdt'yi doğrusal göstericiye dönüştür
+  *(long*)(gdt_48+2) = DS &lt;&lt; 4 + &amp;gdt;
+  lgdt    gdt_48;
+
+  // yardımcı işlemciyi sıfırla
+  outb(0, 0xF0);
+  delay();
+  outb(0, 0xF1);
+  delay();
+
+  // kesmeleri yeniden programla
+  outb(0xFF, 0xA1);       // tüm kesmeleri maskele
+  delay();
+  outb(0xFB, 0x21);       // irq2 dışında tüm irq'ları maskele
+
+  // korumalı kip!
+  AX = 1;
+  lmsw ax;                // makina durumu kelimesi (word), CR0'ın 0'dan 15'e
+                          // kadar bitleri sadece PE, MP, EM ve TS bayraklarını
+                          // etkiler
+  goto flush_instr;
+
+flush_instr:
+  BX = 0;                                 // bir önyükleme gösteren bayrak
+  ESI = (CS - DELTA_INITSEG) &lt;&lt; 4;        // gerçek kip kod göstericisi
+  /* NOT: Yüksek yüklenen büyük çekirdekler için
+    * jmpi    0x100000,__KERNEL_CS'ye gereksinim duyarız
+    *
+    * fakat henüz CS yazmacını yüklemedik,
+    * bu yüzden hedef konumun varsayılan boyutu hala 16 bit.
+    * Bununla birlikte, bir terim öneki (0x66) kullanarak,
+    * CPU bizim 48 bit uzak göstericimizi uygun bir şekilde alır.
+    * Bakınız (INTeL 80386 Programmer's Reference Manual,
+    * Mixing 16-bit and 32-bit code, page 16-6) */
+
+  // __KERNEL_CS:[(uint32*)code32]'e git;
+  .byte   0x66, 0xea
+code32: .long   0x1000          // <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-prepare_protmode" class="xref" title="Korumalı Kip için Hazırlık"> Korumalı Kip için Hazırlık</a> içinde üstüne yazılır
+  .word   __KERNEL_CS     // bölüt 0x10
+  // bakınız linux/arch/i386/boot/compressed/head.S:startup_32
+}
+</pre> </td></tr></table></div>
+      </p><p>
+Uzak <tt>jmp</tt> komutu (0xea) CS kaydedicisini günceller. kalan bölüt kaydedicileri (DS, SS, ES, FS ve GS) içeriği daha sonra yeniden yüklenmelidir. terim boyutu öneki (0x66) <tt>jmp</tt>'ı 32 bitlik terim <tt>code32</tt>'ye kadar çalıştırılmasına zorlamak için kullanılır. Terim boyutu öneki ayrıntıları için bakınız: IA-32 Manual (Vol.1. Ch.3.6. Operand-size and Address-size Attributes, and Vol.3. Ch.17. Mixing 16-bit and 32-bit Code).
+      </p><p>
+Denetim <tt>linux/arch/i386/boot/compressed/head.S:startup_32</tt>'ye geçirilir. <tt>zImage</tt> için 0x1000 adresinde; <tt>bzImage</tt> için 0x100000 adresinde. Bakınız: <a href="../howto/linux-i386-boot-code-howto-compressed_head.html" class="xref" title="linux/arch/i386/boot/compressed/head.S"> linux/arch/i386/boot/compressed/head.S</a>.
+      </p><p>
+ESI toplanan sistem verilerinin bellek alanını gösterir. 16 bitlik gerçek kip çekirdek kodundan 32 bitlik kısma parametre geçirmek için kullanılır. Ayrıntılar için <tt>linux/Documentation/i386/zero-page.txt</tt> dosyasına bakınız.
+      </p><p>
+Daha fazla anahtarlama ayrıntısı için IA-32 Manual Vol.3. (Ch.9.8. Software Initialization for Protected-Mode Operation, Ch.9.9.1. Switching to Protected Mode, and Ch.17.4. Transferring Control Among Mixed-Size Code Segments) belgesine başvurun.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-setup_misc"></a>Muhtelif</h3></div></dt><dd><p>
+Kalanlar destek işlevleri ve değişkenleridir.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/* linux/Makefile hedefleri tarafından oluşturulan makrolar:
+ *   include/linux/compile.h ve include/linux/version.h */
+kernel_version: .ascii  UTS_RELEASE
+                .ascii  " ("
+                .ascii  LINUX_COMPILE_BY
+                .ascii  "@"
+                .ascii  LINUX_COMPILE_HOST
+                .ascii  ") "
+                .ascii  UTS_VERSION
+                .byte   0
+
+///////////////////////////////////////////////////////////////////////////////
+default_switch() { cli; outb(0x80, 0x70); } /* Kesmeleri ve NMI'yi iptal et */
+bootsect_helper(ES:BX); /* bkz. <a href="../howto/linux-i386-boot-code-howto-bootsect.html#linux-i386-boot-code-howto-bootsect_helper" class="xref" title="Bootsect Yardımcısı"> Bootsect Yardımcısı</a> */
+
+///////////////////////////////////////////////////////////////////////////////
+a20_test()
+{
+  FS = 0;
+  GS = 0xFFFF;
+  CX = A20_TEST_LOOPS;                    // i.e. 32
+  AX = FS:[0x200];
+  do {
+a20_test_wait:
+    FS:[0x200] = ++AX;
+    delay();
+  } while (AX==GS:[0x210] &amp;&amp; --CX);
+  return (AX!=GS[0x210]);
+  // ZF==0 (i.e. NZ/NE, a20_test!=0) means test passed
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// klavye komut kuyruğu boş mu, bak
+empty_8042()
+{
+  int timeout = 100000;
+
+  for (;;) {
+empty_8042_loop:
+          if (!--timeout) return;
+          delay();
+          inb(0x64, &amp;AL);                 // 8042 durum portu
+          if (AL &amp; 1) {                   // çıktı
+            delay();
+            inb(0x60, &amp;AL);               // oku
+no_output:} else if (!(AL &amp; 2)) return;   // girdi yok
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CMOS saatini oku, AL'den saniyeyi döndür, video.S'de kullanılır
+gettime()
+{
+  int1A/AH=02h();
+  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-2273.htm" target="_top">int1A/AH=02h: SAAT - GERÇEK SAAT ZAMANINI AL</a>
+    * DH = BCD gösterimli saniye*/
+  AL = DH &amp; 0x0F;
+  AH = DH &gt;&gt; 4;
+  aad;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+delay() { outb(AL, 0x80); }                     // I/O yaptıktan sonra gerekli
+
+// Tanımlayıcı tablo
+gdt:
+  .word   0, 0, 0, 0                      # dummy
+  .word   0, 0, 0, 0                      # kullanılmadı
+  // bölüt 0x10, __KERNEL_CS
+  .word   0xFFFF                          # 4Gb - (0x100000*0x1000 = 4Gb)
+  .word   0                               # taban adres = 0
+  .word   0x9A00                          # kodu oku/çalıştır
+  .word   0x00CF                          # tanelilik (granularity) = 4096, 386
+                                          #  (sınırın 5. yarım baytı)
+  // bölüt 0x18, __KERNEL_DS
+  .word   0xFFFF                          # 4Gb - (0x100000*0x1000 = 4Gb)
+  .word   0                               # taban adres = 0
+  .word   0x9200                          # veri oku/yaz
+  .word   0x00CF                          # tanelilik = 4096, 386
+                                          #  (sınırın 5. yarım baytı)
+idt_48:
+  .word   0                               # idt sınırı = 0
+  .word   0, 0                            # idt tabanı = 0L
+/* [gdt_48] komutla eşleşmesi için 0x0800 (2048) olmalı,
+ *   Linux 2.2.22'nin yaptığı gibi. */
+gdt_48:
+  .word   0x8000                          # gdt sınırı=2048,
+                                          #  256 GDT girdisi
+  .word   0, 0                            # gdt tabanı (daha sonra doldurulur)
+
+#include "video.S"
+
+// setup.S'nin sonundaki imza:
+{
+setup_sig1:     .word   SIG1                    // 0xAA55
+setup_sig2:     .word   SIG2                    // 0x5A5A
+modelist:
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>video.S</tt> içindeki video ayar ve algılama kodu:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+ASK_VGA = 0xFFFD  // defined in linux/include/asm-i386/boot.h
+///////////////////////////////////////////////////////////////////////////////
+video()
+{
+        pushw DS;               // farklı bölütler kullan
+        FS = DS;
+        DS = ES = CS;
+        GS = 0;
+        cld;
+        basic_detect();         // temel kart türü testi (EGA/VGA/MDA/CGA)
+#ifdef CONFIG_VIDEO_SELECT
+  if (FS:[0x01FA]!=ASK_VGA) {     // kullanıcı seçimli video kipi
+    mode_set();
+    if (failed) {
+      prtstr("You passed an undefined mode number.\n");
+      mode_menu();
+    }
+  } else {
+vid2:
+    mode_menu();
+  }
+vid1:
+#ifdef CONFIG_VIDEO_RETAIN
+  restore_screen();               // ekran içeriğini geri yükle
+#endif /* CONFIG_VIDEO_RETAIN */
+#endif /* CONFIG_VIDEO_SELECT */
+    mode_params();                  // kip parametrelerini sakla
+    popw ds;                        // orjinal DS'yi geri yükle
+}
+</pre> </td></tr></table></div>
+      </p><p>
+/* YAPILACAKLAR: video() ayrıntıları */
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-setup_ref"></a>Kaynakça</h3></div></dt><dd><div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.win.tue.nl/~aeb/linux/kbd/A20.html" target="_top">A20 - a pain from the past</a></li><li><a class="ulink" href="http://www.student.cs.uwaterloo.ca/~cs452/postscript/book.ps" target="_top">Real-time Programming</a> Appendix A: Complete I/O Port List
+          </li><li><a class="ulink" href="http://developer.intel.com/design/pentium4/manuals/" target="_top"> IA-32 Intel Architecture Software Developer's Manual</a></li><li>
+Summary of empty_zero_page layout (kernel point of view): <tt>linux/Documentation/i386/zero-page.txt</tt></li></ul></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-bootsect.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/arch/i386/boot/bootsect.S </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> linux/arch/i386/boot/compressed/head.S</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:00+03:00"><title>Basit Örnekler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-intro.html" title="Giriş"><link rel="next" href="../howto/ruby-ug-strings.html" title="Dizgeler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Basit Örnekler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-intro.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-strings.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-examples"></a>Basit Örnekler</h2></div></dt><dd><p>
+Şimdi faktöriyel hesabı yapan basit bir işlev yazalım. <b><tt>Faktöriyel</tt></b>'in matematiksel tanımı şöyledir:
+  </p><p>
+<pre class="literallayout">
+    n! = 1                (n==0 ise)
+       = n * (n-1)!       (aksi taktirde)
+</pre>
+   </p><p>
+Ruby'de bunu aşağıdaki gibi yazabiliriz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Tekrarlanan <b><tt>end</tt></b> deyiminin varlığını fark etmiş olmalısınız. Sırf bu yüzden Ruby "Algol benzeri" olarak anılır. (Aslında Ruby'nin sözdizimi Eiffel dilini daha çok andırmaktadır.) Ayrıca <b><tt>return</tt></b> deyiminin eksikliğini de hissetmiş olmalısınız. Bu deyim Ruby için gereksizdir çünkü bir Ruby işlevi değerlendirdiği en son şeyi geri döndürür. <b><tt>return</tt></b> deyimi kullanılabilir ancak gereksizdir.
+   </p><p>
+Şimdi faktöriyel işlevimizi deneyelim. Ekleyeceğimiz bir satır, bize çalışan bir yazılım sunacaktır:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># Sayının faktöriyelini bulan yazılım
+# fact.rb olarak kaydedin
+
+def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+
+print fact(ARGV[0].to_i), "\n"
+</pre> </td></tr></table></div>
+  </p><p>
+Burada <b><tt>ARGV</tt></b> komut satırı argümanlarını içeren bir dizidir ve <b><tt>to_i</tt></b> alınan bir dizgeyi tamsayıya çevirmeye yarar.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>ruby fact.rb 1</tt></b>
+1
+$ <b><tt>ruby fact.rb 5</tt></b>
+120
+</pre> </td></tr></table></div>
+    </p><p>
+Acaba argüman olarak 40 versek çalışır mı? Muhtemelen hesap makineniz taşma hatası verecektir...
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>ruby fact.rb 40</tt></b>
+815915283247897734345611269596115894272000000000
+</pre> </td></tr></table></div>
+    </p><p>
+Bu çalışır, üstelik Ruby makinenizin belleğinin izin verdiği kadar tamsayıyla da çalışabilir. 400 için aşağıdaki gibi bir çıktı alacaksınız:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>ruby fact.rb 400</tt></b>
+64034522846623895262347970319503005850702583026002959458684
+44594280239716918683143627847864746326467629435057503585681
+08482981628835174352289619886468029979373416541508381624264
+61942352307046244325015114448670890662773914918117331955996
+44070954967134529047702032243491121079759328079510154537266
+72516278778900093497637657103263503315339653498683868313393
+52024373788157786791506311858702618270169819740062983025308
+59129834616227230455833952075961150530223608681043329725519
+48526744322324386699484224042325998055516106359423769613992
+31917134063858996537970147827206606320217379472010321356624
+61380907794230459736069956759583609615871512991382228657857
+95493616176544804532220078258184008484364155912294542753848
+03558374518022675900061399560145595206127211192918105032491
+00800000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000
+</pre> </td></tr></table></div>
+    </p><p>
+Sonucun doğruluğunu kontrol edemeyiz ama öyle olması gerekiyor <tt>:)</tt>.
+  </p><h4><a name="id143"></a>Girdi/Değerlendirme döngüsü</h4><p>
+Eğer Ruby'yi hiçbir argüman olmadan çağırırsanız, komutları standart girdi olarak alır ve girdinin bitiminde komutları çalıştırır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>ruby</tt></b>
+print "merhaba dunya\n"
+print "hoscakal dunya\n"
+^D
+merhaba dunya
+hoscakal dunya
+</pre> </td></tr></table></div>
+  </p><p>
+Ruby, <b><tt>eval.rb</tt></b> adında bir araç ile gelir. Bu, ruby kodunuzu etkileşimli olarak klavyeden alan ve yazdıklarınızı gösteren bir araçtır. Bu öğreticinin devamında sıkça kullanacağız.
+  </p><p>
+Eğer ANSI uyumlu bir uçbirimle çalışıyorsanız<sup>[<a name="id143" href="#ftn.id143">46</a>]</sup>, ek olarak girintileme yapabilen, kodu renklendirebilen ve uyarılar veren <a class="ulink" href="http://www.ruby-doc.org/docs/UsersGuide/rg/eval.rb" target="_top">gelişmiş eval.rb</a>'yi kullanmalısınız. Aksi takdirde, ruby dağıtımının <tt>sample</tt> dizininde bulunan ve ANSI uyumluluğu gerektirmeyen sürümünü kullanabilirsiniz. Kısa bir <b><tt>eval.rb</tt></b> oturumu:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>ruby eval.rb</tt></b>
+<tt>ruby&gt; </tt><tt class="empinput">puts "Merhaba dünya.\n"</tt>
+Merhaba dünya.
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">exit</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<tt>Merhaba dünya</tt>, <tt>puts</tt> ile çıktılandı. Sonraki satırdaki <tt class="empoutput">nil</tt> ise son değerlemenin sonucunu göstermektedir; ruby, deyimlerle ifadeler arasında bir ayrım yapmaz, yani kod parçalarının değerlendirilmesi temel olarak kodun icra edilmesidir. Burada <tt class="empoutput">nil</tt>, <tt>print</tt>'in anlamlı bir değer döndürmediğini ifade etmektedir. Son olarak, <tt class="empinput">exit</tt> yazarak yorumlayıcı döngüsünü sonlandırıyoruz.
+  </p><p>
+Bu kılavuzun devamında <tt>ruby&gt; </tt> bir <b><tt>eval.rb</tt></b> oturumunun girdi istemi olarak kullanılmış olacaktır.
+  </p><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id143" href="#id143">46</a>] </sup>Unix altında çalışıyorsanız zaten uçbirim ANSI uyumludur; DOS altında bunu sağlamak için ANSI.SYS veya ANSI.COM yüklemelisiniz.</p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-strings.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Dizgeler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

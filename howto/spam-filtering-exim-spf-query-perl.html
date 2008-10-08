@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:21+03:00"><title>Mail::SPF::Query üzerinden SPF sınamaları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-spf.html" title="SPF Sınamalarının Eklenmesi"><link rel="previous" href="../howto/spam-filtering-exim-spf-exiscan.html" title="Exiscan-ACL üzerinden SPF sınamaları"><link rel="next" href="../howto/spam-filtering-exim-mime.html" title="MIME ve Dosya türü Sınamalarının Eklenmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Mail::SPF::Query üzerinden SPF sınamaları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-spf-exiscan.html">Önceki</a> </td><th width="60%" align="center">SPF Sınamalarının Eklenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-mime.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-spf-query-perl"></a>Mail::SPF::Query üzerinden SPF sınamaları</h3></div></dt><dd><p>
+<tt>Mail::SPF::Query</tt> bir resmi SPF deneme paketidir ve <a class="ulink" href="http://www.openspf.org/downloads.html" target="_top">http://www.openspf.org/downloads.html</a> adresinden edinilebilir.  Debian kullanıcıları,
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# <b><tt>apt-get install libmail-spf-query-perl</tt></b>
+</pre> </td></tr></table></div>
+   </p><p>
+ile kolayca kurabilir.
+      </p><p>
+<tt>Mail::SPF::Query</tt> paketi gelen istekleri bir UNIX soketinden dinleyen bir artalan süreci (<b><tt>spfd</tt></b>) ile gelir. Ama, bu artalan sürecini başlatmak için bir başlatma betiği ile gelmez. Bu bakımdan, aşağıdaki örnekte, bizim SPF isteklerimiz için anlık bir uygulama olarak çalıştırılan <b><tt>spfquery</tt></b> aracını kullanacağız.
+      </p><p>
+Aşağıdaki satırları <a href="../howto/spam-filtering-acl_rcpt_to_1.html" class="xref" title="acl_rcpt_to"> acl_rcpt_to</a> içinde, yukarıdaki gibi sonuncu <tt>accept</tt> deyiminden önce ve/veya varsa grilisteleme sınamasından önceye yerleştirin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Bu gönderici/konak için SPF durumunu öğrenmek için "spfquery"
+  # kullanacağız. Eğer komuttan dönen kod 1 ise bu bir yetkisiz
+  # göndericidir.
+  #
+  deny
+    message     = [SPF] $sender_host_address is not allowed to send mail \
+                  from $sender_address_domain.
+    log_message = SPF check failed.
+    set acl_m9  = -ipv4=$sender_host_address \
+                  -sender=$sender_address \
+                  -helo=$sender_helo_name
+    set acl_m9  = ${run{/usr/bin/spfquery $acl_m9}}
+    condition   = ${if eq {$runrc}{1}{true}{false}}
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-spf-exiscan.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-spf.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-mime.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Exiscan-ACL üzerinden SPF sınamaları </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> MIME ve Dosya türü Sınamalarının Eklenmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

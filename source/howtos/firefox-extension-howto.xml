@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************
+     $Id: firefox-extension-howto.xml,v 1.20 2003/07/19 09:25:04 nilgun Exp $
+     ******************************************************************** -->
+<article id="firefox-extension-howto" lang="tr">
+  <articleinfo>
+    <title>Firefox Eklentisi NASIL</title>
+<authorgroup><author>
+      <firstname>Figen</firstname>
+      <surname>Bozkurt</surname>
+      <affiliation>
+        <address><email>040401010@students.comu.edu.tr</email></address>
+      </affiliation>
+    </author></authorgroup>
+    
+<revhistory>
+    <revision>
+      <revnumber>1.0</revnumber>
+      <date>Temmuz 2006</date>
+      <authorinitials>fb</authorinitials>
+      <revremark>İlk sürüm</revremark>
+    </revision>
+  </revhistory>  
+    
+  <legalnotice><title>Yasal Açıklamalar</title><para>
+Bu belgenin, <emphasis>Firefox Eklentisi Nasıl</emphasis> belgesinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2006 <emphasis>Figen Bozkurt</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2.0 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+  </para>
+  <para>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </para>
+  </legalnotice>
+
+    <abstract>
+      <para>Bu belgede basit bir Firefox eklentisinin nasıl yazılacağı anlatılmıştır.</para>
+    </abstract>
+  </articleinfo>
+  
+  <sect1 id="firefox-extension-howto-intro"><title>Giriş</title>
+<para>İlk olarak bu bir Firefox eklentisi, amacı Firefox açıkken Tools menüsünde ya da fare ile sağ tıklayınca
+ “Batsın Bu Dunya” yazmak. Çokta gerekli bir eklenti olmasada Firefox eklentilerinin nasıl yapılacağı hakkında 
+ bir şeyler öğrenmek için bayağı yararlı oluyor. En azından ben böyle düşünüyorum.</para>
+ </sect1>
+ 
+ <sect1 id="firefox-extension-howto-files"><title>Dosyalar</title>
+ <para>Eklentinin nasıl yapılacağından başlarsak ilk olarak içinde hangi dosyaların olması gerektiği sorusuyla 
+ karşılaşıyoruz.Birçok eklentide standart var olması gereken dosyalar var ve bu dosyaların çoğundaki bilgiler 
+ sabit (tüm eklentilerde aynı). Şimdi bu dosyaların neler olduğuna ve içeriklerinin nasıl olduğuna bakalım:</para>
+ <screen>
+1.chrome(dizin)
+   	a.content
+        1.Batsinbudunya
+           *about.xul
+           *contents.rdf
+           *batsinbudunyaOverlay.xul
+           *batsinbudunyaOverlay.js
+		b.skin
+		  1.classic
+		   	a.batsinbudunya
+		     		*contents.rdf
+			      *batsinbudunyadb.png
+			      *batsinbudunya.png
+2.install.js
+3.install.rdf</screen>
+<para>Şimdi dosyaların içlerinde neler olduğuna bakalım. Sonrada içindeki satırların ne işe yaradığına bakalım.</para>
+
+<sect2 id="firefox-extension-howto-files-about.xul"><title>about.xul</title>
+<para>buraya da bişiler lazım</para>
+<screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+&lt;window class="dialog"
+	title="<emphasis role="bold">Batsin Bu Dunya! - About</emphasis>"
+	orient="vertical"
+	autostretch="always"
+	onload="sizeToContent()"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;!-- Original template by Jed Brown --&gt;
+
+&lt;groupbox align="center" orient="horizontal"&gt;
+&lt;vbox&gt;
+  &lt;text value="<emphasis role="bold">Batsin Bu Dunya!</emphasis>" style="font-weight: bold; font-size: x-large;"/&gt;
+  &lt;text value="<emphasis role="bold">ver. 0.1</emphasis>"/&gt;
+  &lt;separator class="thin"/&gt;
+  &lt;text value="Created By:" style="font-weight: bold;"/&gt;
+  &lt;text value="<emphasis role="bold">Figen Bozkurt</emphasis>" class="url"
+        onclick="window.open('<emphasis role="bold">http://figenbozkurt.blogspot.com</emphasis>'); window.close();"/&gt;
+  &lt;separator class="thin"/&gt;
+    &lt;text value="Home Page:" style="font-weight: bold;"/&gt;
+    &lt;text value="<emphasis role="bold">http://figenbozkurt.blogspot.com</emphasis>"
+          class="url"
+        onclick="window.open('<emphasis role="bold">http://figenbozkurt.blogspot.com</emphasis>'); window.close();"/&gt;
+  &lt;separator class="thin"/&gt;
+&lt;/vbox&gt;
+&lt;spring flex="1"/&gt;
+&lt;image src="<emphasis role="bold">chrome://batsinbudunya/skin/batsinbudunyadb.png</emphasis>"/&gt;
+&lt;/groupbox&gt;
+
+  &lt;hbox&gt;
+  &lt;spacer flex="1"/&gt;
+   &lt;button label="Close" oncommand="window.close();"/&gt;
+  &lt;/hbox&gt;
+
+&lt;/window&gt;</screen>
+
+</sect2>
+
+<sect2 id="firefox-extension-howto-files-batsinbudunyaOverlay.js"><title>batsinbudunyaOverlay.js</title>
+<para>buraya da bişiler lazım</para>
+<screen>// This is our javascript, which will pop up our message
+// in an alert box.
+
+function <emphasis role="bold">batsinbudunya</emphasis>() {
+	alert("<emphasis role="bold">Batsin Bu Dunya!</emphasis>");
+}</screen>
+</sect2>
+
+<sect2 id="firefox-extension-howto-files-batsinbudunyaOverlay.xul"><title>batsinbudunyaOverlay.xul</title>
+<para>buraya da bişiler lazım</para>
+<screen>&lt;?xml version="1.0"?&gt;
+
+&lt;overlay id="<emphasis role="bold">batsinbudunyaOverlay</emphasis>"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+// This imports our javascript.
+
+&lt;script type="application/x-javascript" 
+src="<emphasis role="bold">chrome://batsinbudunya/content/batsinbudunyaOverlay.js</emphasis>"&gt;
+
+&lt;/script&gt;
+
+
+// Fare ile sag tıklayınca
+
+<emphasis role="bold">&lt;popup id="contentAreaContextMenu"&gt;
+  &lt;menuitem id="batsinbudunya" label="Batsin Bu Dunya!" accesskey="H" 
+  insertafter="context-stop" oncommand="batsinbudunya();"/&gt;
+&lt;/popup&gt;</emphasis>
+
+
+// Bu da Tools menu.
+
+<emphasis role="bold">&lt;menupopup id="menu_ToolsPopup"&gt;
+	&lt;menuitem insertafter="devToolsSeparator" label="Batsin Bu Dunya!"
+	accesskey="H" oncommand="batsinbudunya();" /&gt;	
+&lt;/menupopup&gt;</emphasis>
+
+&lt;/overlay&gt;</screen>
+</sect2>
+
+<sect2 id="firefox-extension-howto-files-contens.rdf"><title>contens.rdf</title>
+<para>buraya da bişiler lazım</para>
+<screen>&lt;?xml version="1.0"?&gt;
+
+&lt;RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:chrome="http://www.mozilla.org/rdf/chrome#"&gt;
+
+	&lt;RDF:Seq RDF:about="urn:mozilla:package:root"&gt;
+		&lt;RDF:li RDF:resource="urn:mozilla:package:<emphasis role="bold">batsinbudunya</emphasis>"/&gt;
+	&lt;/RDF:Seq&gt;
+
+	&lt;RDF:Seq RDF:about="urn:mozilla:overlays"&gt;
+		&lt;RDF:li RDF:resource="chrome://browser/content/browser.xul"/&gt;
+		&lt;RDF:li RDF:resource="chrome://navigator/content/navigator.xul"/&gt;
+	&lt;/RDF:Seq&gt;
+
+	&lt;RDF:Seq RDF:about="chrome://browser/content/browser.xul"&gt;
+		&lt;RDF:li&gt;<emphasis role="bold">chrome://batsinbudunya/content/batsinbudunyaOverlay.xul</emphasis>&lt;/RDF:li&gt;
+	&lt;/RDF:Seq&gt;
+
+	&lt;RDF:Seq about="chrome://navigator/content/navigator.xul"&gt;
+		&lt;RDF:li&gt;<emphasis role="bold">chrome://batsinbudunya/content/batsinbudunyaOverlay.xul</emphasis>&lt;/RDF:li&gt;
+	&lt;/RDF:Seq&gt;
+
+	&lt;RDF:Description RDF:about="urn:mozilla:package:<emphasis role="bold">batsinbudunya</emphasis>"
+		chrome:displayName="<emphasis role="bold">Batsin Bu Dunya! 0.1</emphasis>"
+		chrome:author="<emphasis role="bold">Figen Bozkurt</emphasis>"
+		chrome:authorURL="<emphasis role="bold">figenbozkurt1984@gmail.com</emphasis>"
+		chrome:name="<emphasis role="bold">batsinbudunya</emphasis>"
+		chrome:extension="true"
+		chrome:description="<emphasis role="bold">Displays an alert message via right-click or Tools menu.</emphasis>"&gt;
+	&lt;/RDF:Description&gt;
+
+&lt;/RDF:RDF&gt;</screen>
+
+</sect2>
+
+<sect2 id="firefox-extension-howto-files-contens.rdf2"><title>contens.rdf</title>
+<para>Bu incelediğimiz dosyalarn content dizininin içindeki dosya ve dizinlerdi.
+Bu dizinin dışında <filename>skin</filename> dizininin içindeki dosyaları incelersek;</para>
+<screen>&lt;?xml version="1.0"?&gt;
+&lt;RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:chrome="http://www.mozilla.org/rdf/chrome#"&gt;
+
+  &lt;RDF:Seq about="urn:mozilla:skin:root"&gt;
+    &lt;RDF:li resource="urn:mozilla:skin:classic/1.0" /&gt;
+  &lt;/RDF:Seq&gt;
+
+  &lt;RDF:Description about="urn:mozilla:skin:classic/1.0"&gt;
+    &lt;chrome:packages&gt;
+      &lt;RDF:Seq about="urn:mozilla:skin:classic/1.0:packages"&gt;
+        &lt;RDF:li resource="urn:mozilla:skin:classic/1.0:<emphasis role="bold">batsinbudunya</emphasis>" /&gt;
+      &lt;/RDF:Seq&gt;
+    &lt;/chrome:packages&gt;
+  &lt;/RDF:Description&gt;
+
+&lt;/RDF:RDF&gt;</screen>
+<para>Buradaki <filename>contents.rdf</filename> diğerinden farklı buna dikkat edin lutfen. 
+Dosyanın içindeki bilgiler tüm eklentilerde olan bilgiler o yüzden bu dosyaya çok fazla şey eklememize gerek yok. 
+<filename>batsinbudunyadb.png</filename> ve <filename>batsinbudunya.png</filename> ise uzantısındanda anlaşılacağı 
+gibi resim dosyalarıdır. Eklenti kurulurken <filename>about.xul</filename> gibi ekranda bu resimler icon olarak 
+görülmektedir.</para>
+
+</sect2>
+
+<sect2 id="firefox-extension-howto-files-install.js"><title>install.js</title>
+<para>Firefox 0.9 sürümünden önce bir eklentinin kurulabilmesi için gerekli tek dosya <filename>install.js</filename>
+dosyası iken eklenti yöneticisinin değişmesi ile birlikte <filename>install.rdf</filename> dosyası aynı görevi üstlenmiştir.
+Bu dosya sadece kurulumla ilgili bilgileri içerir. <filename>install.js</filename> dosyası sadece Firefox/bird, Mozilla ve 
+Netscape'in eski sürümlerine uyumluluğu sağlamak için bulundurulmaktadır. Eğer eklentinizin sadece 0.9 üstü Firefox'lar ile çalışmasını istiyorsanız
+bu dosyayı atlamanızda bir problem olmaz.</para>
+
+<screen>// XpiInstaller
+// By Pike (Heavily inspired by code from Henrik Gemal and Stephen Clavering)
+
+var XpiInstaller = {
+
+	// --- Editable items begin ---
+	extFullName: '<emphasis role="bold">Batsin Bu Dunya!</emphasis>', // The name displayed to the user (don't include the version)
+	extShortName: '<emphasis role="bold">batsinbudunya</emphasis>', // The leafname of the JAR file (without the .jar part)
+	extVersion: '<emphasis role="bold">0.1</emphasis>',
+	extAuthor: '<emphasis role="bold">Figen Bozkurt</emphasis>',
+	extLocaleNames: null, // e.g. ['en-US', 'en-GB']
+	extSkinNames: null, // e.g. ['classic', 'modern']
+	extPostInstallMessage: 'Success! Please restart your browser to finish the installation.', // Set to null for no post-install message
+	// --- Editable items end ---
+
+	profileInstall: true,
+	silentInstall: false,
+
+	install: function()
+	{
+		var jarName = this.extShortName + '.jar';
+		var profileDir = Install.getFolder('Profile', 'chrome');
+
+		// Parse HTTP arguments
+		this.parseArguments();
+
+		// Check if extension is already installed in profile
+		if (File.exists(Install.getFolder(profileDir, jarName)))
+		{
+			if (!this.silentInstall)
+			{
+				Install.alert('Updating existing Profile install of ' + this.extFullName + ' to version ' + this.extVersion + '.');
+			}
+			this.profileInstall = true;
+		}
+		else if (!this.silentInstall)
+		{
+			// Ask user for install location, profile or browser dir?
+			this.profileInstall = Install.confirm('Install ' + this.extFullName + ' ' + this.extVersion + ' to your Profile directory (OK) or your Browser directory (Cancel)?');
+		}
+
+		// Init install
+		var dispName = this.extFullName + ' ' + this.extVersion;
+		var regName = '/' + this.extAuthor + '/' + this.extShortName;
+		Install.initInstall(dispName, regName, this.extVersion);
+
+		// Find directory to install into
+		var installPath;
+		if (this.profileInstall) installPath = profileDir;
+		else installPath = Install.getFolder('chrome');
+
+		// Add JAR file
+		Install.addFile(null, 'chrome/' + jarName, installPath, null);
+
+		// Register chrome
+		var jarPath = Install.getFolder(installPath, jarName);
+		var installType = this.profileInstall ? Install.PROFILE_CHROME : Install.DELAYED_CHROME;
+
+		// Register content
+		Install.registerChrome(Install.CONTENT | installType, jarPath, 'content/' + this.extShortName + '/');
+
+		// Register locales
+		for (var locale in this.extLocaleNames)
+		{
+			var regPath = 'locale/' + this.extLocaleNames[locale] + '/' + this.extShortName + '/';
+			Install.registerChrome(Install.LOCALE | installType, jarPath, regPath);
+		}
+
+		// Register skins
+		for (var skin in this.extSkinNames)
+		{
+			var regPath = 'skin/' + this.extSkinNames[skin] + '/' + this.extShortName + '/';
+			Install.registerChrome(Install.SKIN | installType, jarPath, regPath);
+		}
+
+		// Perform install
+		var err = Install.performInstall();
+		if (err == Install.SUCCESS || err == Install.REBOOT_NEEDED)
+		{
+			if (!this.silentInstall &amp;&amp; this.extPostInstallMessage)
+			{
+				Install.alert(this.extPostInstallMessage);
+			}
+		}
+		else
+		{
+			this.handleError(err);
+			return;
+		}
+	},
+
+	parseArguments: function()
+	{
+		// Can't use string handling in install, so use if statement instead
+		var args = Install.arguments;
+		if (args == 'p=0')
+		{
+			this.profileInstall = false;
+			this.silentInstall = true;
+		}
+		else if (args == 'p=1')
+		{
+			this.profileInstall = true;
+			this.silentInstall = true;
+		}
+	},
+
+	handleError: function(err)
+	{
+		if (!this.silentInstall)
+		{
+			Install.alert('Error: Could not install ' + this.extFullName + ' ' + this.extVersion + ' (Error code: ' + err + ')');
+		}
+		Install.cancelInstall(err);
+	}
+};
+
+XpiInstaller.install();// XpiInstaller
+// By Pike (Heavily inspired by code from Henrik Gemal and Stephen Clavering)
+
+var XpiInstaller = {
+
+	// --- Editable items begin ---
+	extFullName: '<emphasis role="bold">Batsin Bu Dunya!</emphasis>', // The name displayed to the user (don't include the version)
+	extShortName: '<emphasis role="bold">batsinbudunya</emphasis>', // The leafname of the JAR file (without the .jar part)
+	extVersion: '<emphasis role="bold">0.1</emphasis>',
+	extAuthor: '<emphasis role="bold">Figen Bozkurt</emphasis>',
+	extLocaleNames: null, // e.g. ['en-US', 'en-GB']
+	extSkinNames: null, // e.g. ['classic', 'modern']
+	extPostInstallMessage: 'Success! Please restart your browser to finish the installation.', // Set to null for no post-install message
+	// --- Editable items end ---
+
+	profileInstall: true,
+	silentInstall: false,
+
+	install: function()
+	{
+		var jarName = this.extShortName + '.jar';
+		var profileDir = Install.getFolder('Profile', 'chrome');
+
+		// Parse HTTP arguments
+		this.parseArguments();
+
+		// Check if extension is already installed in profile
+		if (File.exists(Install.getFolder(profileDir, jarName)))
+		{
+			if (!this.silentInstall)
+			{
+				Install.alert('Updating existing Profile install of ' + this.extFullName + ' to version ' + this.extVersion + '.');
+			}
+			this.profileInstall = true;
+		}
+		else if (!this.silentInstall)
+		{
+			// Ask user for install location, profile or browser dir?
+			this.profileInstall = Install.confirm('Install ' + this.extFullName + ' ' + this.extVersion + ' to your Profile directory (OK) or your Browser directory (Cancel)?');
+		}
+
+		// Init install
+		var dispName = this.extFullName + ' ' + this.extVersion;
+		var regName = '/' + this.extAuthor + '/' + this.extShortName;
+		Install.initInstall(dispName, regName, this.extVersion);
+
+		// Find directory to install into
+		var installPath;
+		if (this.profileInstall) installPath = profileDir;
+		else installPath = Install.getFolder('chrome');
+
+		// Add JAR file
+		Install.addFile(null, 'chrome/' + jarName, installPath, null);
+
+		// Register chrome
+		var jarPath = Install.getFolder(installPath, jarName);
+		var installType = this.profileInstall ? Install.PROFILE_CHROME : Install.DELAYED_CHROME;
+
+		// Register content
+		Install.registerChrome(Install.CONTENT | installType, jarPath, 'content/' + this.extShortName + '/');
+
+		// Register locales
+		for (var locale in this.extLocaleNames)
+		{
+			var regPath = 'locale/' + this.extLocaleNames[locale] + '/' + this.extShortName + '/';
+			Install.registerChrome(Install.LOCALE | installType, jarPath, regPath);
+		}
+
+		// Register skins
+		for (var skin in this.extSkinNames)
+		{
+			var regPath = 'skin/' + this.extSkinNames[skin] + '/' + this.extShortName + '/';
+			Install.registerChrome(Install.SKIN | installType, jarPath, regPath);
+		}
+
+		// Perform install
+		var err = Install.performInstall();
+		if (err == Install.SUCCESS || err == Install.REBOOT_NEEDED)
+		{
+			if (!this.silentInstall &amp;&amp; this.extPostInstallMessage)
+			{
+				Install.alert(this.extPostInstallMessage);
+			}
+		}
+		else
+		{
+			this.handleError(err);
+			return;
+		}
+	},
+
+	parseArguments: function()
+	{
+		// Can't use string handling in install, so use if statement instead
+		var args = Install.arguments;
+		if (args == 'p=0')
+		{
+			this.profileInstall = false;
+			this.silentInstall = true;
+		}
+		else if (args == 'p=1')
+		{
+			this.profileInstall = true;
+			this.silentInstall = true;
+		}
+	},
+
+	handleError: function(err)
+	{
+		if (!this.silentInstall)
+		{
+			Install.alert('Error: Could not install ' + this.extFullName + ' ' + this.extVersion + ' (Error code: ' + err + ')');
+		}
+		Install.cancelInstall(err);
+	}
+};
+
+XpiInstaller.install();</screen>
+</sect2>
+
+<sect2 id="firefox-extension-howto-files-install.rdf"><title>install.rdf</title>
+	<para><filename>install.rdf</filename> dosyası tamamiyle kurulum ile ilgili bilgileri içerir.</para>
+<screen>
+&lt;?xml version="1.0"?&gt;
+
+&lt;RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#"&gt;
+
+  &lt;Description about="urn:mozilla:install-manifest"&gt;
+  		&lt;em:id&gt;<emphasis role="bold">{aa746fc2-3e39-4f45-b07a-83004c33f007}</emphasis>&lt;/em:id&gt;
+		&lt;em:name&gt;<emphasis role="bold">Batsin Bu Dunya!</emphasis>&lt;/em:name&gt;
+		&lt;em:version&gt;<emphasis role="bold">0.1</emphasis>&lt;/em:version&gt;
+		&lt;em:description&gt;<emphasis role="bold">Displays an alert message via right-click or Tools menu.</emphasis>&lt;/em:description&gt;
+		&lt;em:creator&gt;<emphasis role="bold">Figen Bozkurt</emphasis>&lt;/em:creator&gt;
+		&lt;em:homepageURL&gt;<emphasis role="bold">http://figenbozkurt.blogspot.com</emphasis>&lt;/em:homepageURL&gt;
+		&lt;em:iconURL&gt;<emphasis role="bold">chrome://batsinbudunya/skin/batsinbudunya.png</emphasis>&lt;/em:iconURL&gt;
+		&lt;em:aboutURL&gt;<emphasis role="bold">chrome://batsinbudunya/content/about.xul</emphasis>&lt;/em:aboutURL&gt;
+		&lt;em:file&gt;
+			&lt;Description about="<emphasis role="bold">urn:mozilla:extension:file:batsinbudunya.jar"</emphasis>&gt;
+				&lt;em:package&gt;<emphasis role="bold">content/batsinbudunya/</emphasis>&lt;/em:package&gt;
+				&lt;em:skin&gt;<emphasis role="bold">skin/classic/batsinbudunya/</emphasis>&lt;/em:skin&gt;
+			&lt;/Description&gt;
+		&lt;/em:file&gt;
+
+		&lt;em:targetApplication&gt;
+			&lt;Description&gt;
+				&lt;em:id&gt;{ec8030f7-c20a-464f-9b0e-13a3a9e97384}&lt;/em:id&gt;
+				&lt;em:minVersion&gt;<emphasis role="bold">0.7</emphasis>&lt;/em:minVersion&gt;
+				&lt;em:maxVersion&gt;<emphasis role="bold">1.5.0.*</emphasis>&lt;/em:maxVersion&gt;
+			&lt;/Description&gt;
+		&lt;/em:targetApplication&gt;
+
+	&lt;/Description&gt;
+
+&lt;/RDF&gt;</screen>
+
+<para>
+<screen>&lt;?xml version="1.0"?&gt;
+
+&lt;RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#"&gt;
+
+  &lt;Description about="urn:mozilla:install-manifest"&gt;</screen>
+</para>
+<para>Bu kısım tüm eklentilerde sabit olan kısımdır. Tüm <filename>install</filename> dosyaları bu şekilde başlar.</para>
+<screen> &lt;Description about="urn:mozilla:install-manifest"&gt;
+  		&lt;em:id&gt;{aa746fc2-3e39-4f45-b07a-83004c33f007}&lt;/em:id&gt;
+		&lt;em:name&gt;Batsin Bu Dunya!&lt;/em:name&gt;
+		&lt;em:version&gt;0.1&lt;/em:version&gt;</screen>
+		
+		<para>em:id elemanının içeriği, eklentinizin diğer eklentilerden ayırt edilmesinde kullanılacağından Küresel Eşsiz (GUID) olarak tanımlanmalıdır.
+		Yazacağınız her eklenti için yeni bir GUID üretmelisiniz. Bu <ulink url="http://www.hoskinson.net/webservices/guidgeneratorclient.aspx">adreste</ulink> kullanabileceğiniz bir web arayüzü bulunmaktadır.</para>
+		
+<screen>		&lt;em:description&gt;Displays an alert message via right-click or Tools menu.&lt;/em:description&gt;
+		&lt;em:creator&gt;Figen Bozkurt&lt;/em:creator&gt;
+		&lt;em:homepageURL&gt;http://figenbozkurt.blogspot.com&lt;/em:homepageURL&gt;
+		&lt;em:iconURL&gt;chrome://batsinbudunya/skin/batsinbudunya.png&lt;/em:iconURL&gt;
+		&lt;em:aboutURL&gt;chrome://batsinbudunya/content/about.xul&lt;/em:aboutURL&gt;
+		&lt;em:file&gt;
+			&lt;Description about="urn:mozilla:extension:file:batsinbudunya .jar"&gt;
+				&lt;em:package&gt;content/batsinbudunya/&lt;/em:package&gt;
+				&lt;em:skin&gt;skin/classic/batsinbudunya/&lt;/em:skin&gt;
+			&lt;/Description&gt;
+		&lt;/em:file&gt;</screen>
+<para>Dosyanın bu kısmında ise</para>
+<screen>&lt;em:targetApplication&gt;
+			&lt;Description&gt;
+				&lt;em:id&gt;{ec8030f7-c20a-464f-9b0e-13a3a9e97384}&lt;/em:id&gt;
+				&lt;em:minVersion&gt;0.7&lt;/em:minVersion&gt;
+				&lt;em:maxVersion&gt;1.5.0.*&lt;/em:maxVersion&gt;
+			&lt;/Description&gt;
+		&lt;/em:targetApplication&gt;
+
+	&lt;/Description&gt;
+
+&lt;/RDF&gt;</screen>
+</sect2>
+    </sect1>
+<sect1 id="firefox-extension-howto-end"><title>Final</title>
+
+<para>Dosyaların nasıl oluşturulacağı kısmına baktıktan sonra bu işin sadece bu kadarla kalmıyacağını belirteyim. 
+Firefox eklentilerini kurarken belki dikkatinizi çekmiştir, kurulum dosyalarının uzantılarının tümü .xpi uzantılı ve 
+dosyaların hepsi zip ile sıkıştırılmıştır. Bunun nasıl yapacağımız kısmına bakalım birazda.</para>
+
+<para>İlk olarak yapmamız gereken chrome dizininin içine girip orada bulunan <filename>skin</filename> ve <filename>content</filename> dizinlerini birlikte zip ile arşivlemek.
+Elde ettiğimiz bu arşiv dosyasının adını da “<filename>batsınbudunya.jar</filename>” yapmak. Bu kısmı hallettikten sonra sıra .xpi 
+uzantısını yapmaya geldi. <filename>Chrome</filename>, <filename>install.js</filename>, <filename>install.rdf</filename> dosyalarınıda birlikte zipleyip tek bir zip dosyası 
+oluşturduktan sonra adının ve uzantısını “<filename>batsinbudunya.xpi</filename>” yaparsak firefox eklentisini tamalamış oluruz.</para>
+
+<para>Eklentiyi nasıl kuracağımız kısmı ise; bir Firefox ekranı açıp “CTRL-O” yapıp “<filename>batsinbudunya.xpi</filename>” 
+dosyasını kurarsak eklentimizi Tools menüsünde ve fare ile sağ tıklayarak görmüş oluruz.</para>
+	
+</sect1>	
+	
+</article>

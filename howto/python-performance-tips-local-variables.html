@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-02-05T19:09:14+02:00"><title>Yerel Değişkenler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/python-performance-tips.html" title="Python Performans İpuçları"><link rel="previous" href="../howto/python-performance-tips-avoiding-dots.html" title="Noktalardan kaçınma..."><link rel="next" href="../howto/python-performance-tips-initializing-dict-elements.html" title="Sözlük Elemanlarını İlklendirme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yerel Değişkenler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/python-performance-tips-avoiding-dots.html">Önceki</a> </td><th width="60%" align="center">Python Performans İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/python-performance-tips-initializing-dict-elements.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="python-performance-tips-local-variables"></a>Yerel Değişkenler</h2></div></dt><dd><p>
+		for döngülerinde performansı arttırmadaki map'siz son yöntemimiz mümkün olan her yerde yerel değişkenler kullanmaktır. Eğer yukarıdaki döngü bir fonksiyona dönüştürülürse append ve upper yerel değişkenler haline gelir. Python yerel değişkenlere evrensel değişkenlerden daha hızlı erişir. 
+	</p><div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+		def func():
+			upper = str.upper
+			newlist = []
+			append = newlist.append
+			for word in words:
+				append(upper(word))
+    				return newlist
+	</pre> </td></tr></table></div><p>
+		Bu programı yazdığımda BSDI altında 100MHz bir Pentium kullanmakta idim. /usr/share/dict/words altındaki kelimeleri (o anda 38.470 idi) büyük harfe dönüştürdüğümdeki zamanlar şöyle oldu:
+	</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+		Sürüm                                  Zaman (saniye)
+		Temel döngü                            3.47
+		Noktaları çıkarınca                    2.45
+		Yerel değişkenler &amp; noktasız         1.79
+		map fonksiyonu kullaanımı              0.54
+	
+	</pre> </td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/python-performance-tips-avoiding-dots.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/python-performance-tips.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/python-performance-tips-initializing-dict-elements.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Noktalardan kaçınma... </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sözlük Elemanlarını İlklendirme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

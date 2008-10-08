@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-04-11T01:57:48Z"><title>Linux için Gezici IPv6</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/mobil-ipv6-howto.html" title="Linux Gezici IPv6 NASIL"><link rel="previous" href="../howto/mobil-ipv6-howto-IPSec.html" title="IPSec"><link rel="next" href="../howto/mobil-ipv6-howto-testbed.html" title="Deneme ortamı"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Linux için Gezici IPv6</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/mobil-ipv6-howto-IPSec.html">Önceki</a> </td><th width="60%" align="center">Linux Gezici IPv6 NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/mobil-ipv6-howto-testbed.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="mobil-ipv6-howto-MIPv6"></a>Linux için Gezici IPv6</h2></div></dt><dd><p>
+Helsinki Teknoloji Üniversitesinin MIPL projesi Linux için güncel tek Gezici IPv6 uygulamasıdır. 
+Desteklediği son çekirdek 2.6.15'dir ve <a href="http://www.ietf.org/rfc/rfc3775.txt" target="_top">RFC3775</a> ile uyumludur
+Makaleler, yazılımlar ya da e-posta arşivleri için <a href="http://www.mobile-ipv6.org/" target="_top">http://www.mobile-ipv6.org/</a> adresini ziyaret edebilirsiniz.
+  </p><p>Uygulama çekirdeğin yamanmasını ve kullanıcı tarafı programlarını içermektedir.</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="mobil-ipv6-howto-patch"></a>Çekirdeğin Yamanması</h3></div></dt><dd><p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Çekirdeğe yama yapılması ve yeniden derlenmesi kolayca sisteminizi açılamaz hale getirebilir.
+Eğer daha önce bunu yapmmışsanız <a href="http://www.tldp.org/HOWTO/Kernel-HOWTO/" target="_top">Linux Çekirdek NASIL</a> belgesini okumanızı öneririm.
+  </p></td></tr></table></div>    
+    </p><p>
+MIPL MIPv6 gerçekleştirimi çekirdeğin yamanmasını gerektirir. Bu gerçenim çekirdeğin IPv6 yığıtını (stack) değiştirdiğinden çekirdeğin yeniden derlenmesi gerekir. Kurulum süreci iyi belgelendirilmiş olmasına rağmen burada özet olarak adım adım anlatacağım.
+  </p><p>
+Gezici Düğüm'ün (MN) ve Ev Yetkilisi'nin (HA) çekirdeklerinin yamalanması gerekir ama aynı çekirdek parametlerelerini kullanmaları gerekmez.
+Ayrıntılar aşağıda verilmektedir.
+</p><p>
+  <div class="orderedlist"><ol type="1"><li><div class="listitem">
+Son Linux MIPv6 kaynak kodunu  <a href="http://www.mobile-ipv6.org/" target="_top">http://www.mobile-ipv6.org/</a> adresinden indirin. Bu belge yazılırken son sürüm: mipv6-2.0-v2.6.15 idi. Son dört rakam yamanın uygulanacağı çekirdeğin sürümünü göstermektedir:
+    <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>cd /usr/local/src</tt></b>
+# <b><tt>http://mobile-ipv6.org/download/mipv6-2.0-v2.6.15.tar.gz</tt></b>
+# <b><tt>tar zxfv mipv6-1.0-v2.4.22.tar.gz</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></div></li><li><div class="listitem">
+Linux çekirdeğinin uygun sürümünü from <a href="ftp://ftp.kernel.org" target="_top">ftp://ftp.kernel.org</a> adresinden indirin ve açın:
+    <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>cd /usr/src</tt></b>
+# <b><tt>wget ftp://ftp.kernel.org/pub/linux/kernel/v2.6/linux-2.6.15.tar.bz2</tt></b>
+# <b><tt>tar jxvf linux-2.6.15.tar.bz2</tt></b>
+# <b><tt>ln -s linux-2.6.15 linux</tt></b>
+# <b><tt>cd linux</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></div></li><li><div class="listitem">
+MIPv6 yamasını uygulayın:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>zcat /usr/local/src/mipv6-2.0.1-linux-2.6.15.patch.gz | patch -p1 --dry-run</tt></b>
+</pre> </td></tr></table></div>
+   </p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>Eğer hatalar ile karşılaşırsanız devam etmeden önce yukarıdaki adımı dikkatle tekrarlayın.</p></td></tr></table></div></p><p>
+<tt>--dry-run</tt> seçeneği yamayı uygulamaz, yamanın düzgün yapılıp yapılamayacağını anlamanızı sağlar. Herşey yolunda giderse yamayı uygulayın:
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>zcat /usr/local/src/mipv6-2.0.1-linux-2.6.15.patch.gz | patch -p1</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></div></li><li><div class="listitem">
+Artık çekirdeğiniz yapılandırma için hazır. Tercih ettiğiniz <b><tt>make *config</tt></b> komutunu çalıştırın. 
+MIPv6 seçenekleri "Networking Options" bölümünde yer alacaktır. 
+Düğümün Gezici Düğüm veya Ev Yetkilisi olmasına ve IPSec kullanmak isteyip istemediğinize göre <tt>.config</tt> dosyasındaki
+seçenekler farklılık gösterecektir.<p></p><p>Aşağıdaki seçenekler iki durumda da bulunmalıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CONFIG_EXPERIMENTAL=y
+CONFIG_SYSVIPC=y
+CONFIG_PROC_FS=y
+CONFIG_NET=y
+CONFIG_INET=y 
+CONFIG_IPV6=y
+CONFIG_IPV6_MIP6=y
+CONFIG_XFRM=y
+CONFIG_XFRM_USER=y
+CONFIG_XFRM_ENHANCEMENT=y
+CONFIG_IPV6_TUNNEL=y
+CONFIG_IPV6_ADVANCED_ROUTER=y
+CONFIG_IPV6_MULTIPLE_TABLES=y</pre> </td></tr></table></div>
+    </p><p>
+Gezici Düğüm için aşağıdakiler de bulunmalıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CONFIG_IPV6_SUBTREES=y
+CONFIG_ARPD=y</pre> </td></tr></table></div>
+   </p><p>IPSec'i de aktif etmek istediğimizden aşağıdakileri de ekliyoruz:</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CONFIG_INET6_ESP=y
+CONFIG_NET_KEY=y
+CONFIG_NET_KEY_MIGRATE=y</pre> </td></tr></table></div></p><p>Uygun tüm seçenekleri etkinleştirdiğinizden emin olmak için MIPL ile birlikte gelen <b><tt>chkconf_kernel.sh</tt></b> kabuk betiğini çalıştırabilirsiniz.
+Eğer betik eksik seçenekler raporlarsa devam etmeden önce onları düzeltin.
+  </p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>./chkconf_kernel.sh  /usr/src/linux</tt></b>
+
+Checking kernel configuration...
+Using /usr/src/linux/.config
+    
+All kernel options are as they should.</pre> </td></tr></table></div><p></p></div></li><li><div class="listitem">
+Son adımda çekirdeği derleyin ve kurun.
+  <p></p><p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/tip.png"></td><th>İpucu</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Bu çekirdeği diğerlerinden kolayca ayırmak için <tt>/usr/src/linux/Makefile</tt> dosyasındaki <tt>EXTRAVERSION</tt> değişkenine <tt>-MIPv6-1</tt> değerini atayabilirsiniz.
+  </p></td></tr></table></div></p><p></p></div></li></ol></div>
+  </p><p>
+Çekirdeğin yamanması, derlenmesi ve kurulması ile ilgili detaylı bilgiyi <a href="http://www.tldp.org/HOWTO/Kernel-HOWTO/" target="_top">Linux Çekirdek NASIL</a> belgesinde bulabilirsiniz.
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="mobil-ipv6-howto-userspace"></a>Kullanıcı araçları</h3></div></dt><dd><p>
+Modülün düzgün çalışması için <b><tt>mipdiag</tt></b> aracı, yapılandırma dosyaları ve başlatma betikleri yüklenmelidir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>cd /usr/local/src</tt></b>
+# <b><tt>wget http://mobile-ipv6.org/software/download/mipv6-2.0.1.tar.gz</tt></b>
+# <b><tt>tar zxfv mipv6-2.0.1.tar.gz</tt></b>
+# <b><tt>cd mipv6-2.0.1</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>Kaynak kodu yapılandırıp, derleyip yüklemelisiniz. Yapılandırma sırasında --enable-vt seçeneğini eklediğimize dikkat edin.
+Bu seçenek gerekli olmamakla birlikte 7777 nolu portu dinleyen bir sanal terminale izin vererek yararlı bilgiler almamıza yardımcı olacaktır.
+</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>CPPFLAGS=-I/usr/src/linux/include ./configure --enable-vt</tt></b>
+# <b><tt>make</tt></b>
+# <b><tt>make install</tt></b></pre> </td></tr></table></div></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="mobil-ipv6-howto-startup"></a>Başlatma Betikleri</h3></div></dt><dd><p>Belgelerde <tt>extra/</tt> dizini altında init (başlangıç) betikleri olduğu belirtiliyor olsa da
+ben sadece bir kaç örnek yapılandırma dosyası bulabildim.
+Aşağıda Debian ve Ubuntu için bir init betiği bulunuyor ama küçük değişikliklerle diğer dağıtımlarda da
+çalışabilecek hale getirilebilir.</p><p>Bütün init betikleri <tt>/etc/init.d</tt> dizininde bulunur ve uygun runlevel'a (<tt>/etc/rcX.d</tt>) sembolik linkle
+bağlanmışlardır.</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">    #!/bin/sh
+    #
+    # mip6d:       Starts the Mobile IPv6 Daemon
+    #   
+    # description: This is a daemon which provide IPv6 Mobility
+    #              support (RFC3775). Init script for Debian and Ubuntu.
+    #   
+    # (C) GNU GPL Lars Strand &lt;lars strand at linpro no&gt;
+    #
+    
+    PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin
+    DAEMON=/usr/local/sbin/mip6d
+    DESC=mip6d
+    CONFIG=/etc/mip6d.conf
+    OPTIONS="-d 0 -c $CONFIG"
+    
+    set -e 
+    
+    # Check for IPv6 support in kernel
+    if [ ! -e /proc/sys/net/ipv6 ]; then
+      echo "IPv6 support must be enabled in the kernel for $DESC to work."
+      exit 1
+    fi
+    
+    # Can we fint the mip6d?
+    if [ ! -x $DAEMON ]; then
+        echo "Unable to find $DAEMON."
+        exit 1
+    fi
+    
+    chkconfig() {
+        if [ ! -e $CONFIG -o ! -s $CONFIG ]; then
+            echo ""
+            echo "ERROR: $CONFIG does not exist or is empty." 
+            echo "       See mip6d.conf(5) for configuration file syntax and example"
+            echo "       configuration. $DESC will *not* be started."
+            echo ""
+            exit 1
+        fi
+    }
+
+    # See how we were called.
+    case "$1" in
+        start)
+            echo -n "Starting $DESC..."
+            chkconfig
+            if ! start-stop-daemon --oknodo --start --exec $DAEMON -- $OPTIONS; then
+                echo "failed." &amp;&amp; exit 1 
+            fi
+            echo " done."
+            ;;
+         stop)
+            echo -n "Stopping $DESC..."
+            start-stop-daemon --oknodo --stop --exec $DAEMON
+            echo " done."
+            ;;
+         restart)
+            chkconfig
+            echo -n "Restarting $DESC..."
+            start-stop-daemon --oknodo --stop --exec $DAEMON
+            sleep 1
+            start-stop-daemon --oknodo --start --exec $DAEMON -- $OPTIONS
+            echo " done."
+            ;;
+         *)
+            echo "Usage: $0 {start|stop|restart}" &gt;&amp;2
+            exit 1
+            ;;
+    esac
+    
+    exit 0</pre> </td></tr></table></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/mobil-ipv6-howto-IPSec.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/mobil-ipv6-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/mobil-ipv6-howto-testbed.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">IPSec </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Deneme ortamı</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

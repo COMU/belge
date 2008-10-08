@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************
+     $Id: Assembly-HOWTO.xml,v 1.20 2003/07/19 09:25:04 nilgun Exp $
+     ******************************************************************** -->
+<article id="python-performance-tips">
+	<articleinfo>
+		<title>Python Performans İpuçları</title>
+		<authorgroup>
+			<author role="translator">
+				<firstname>Oğuz Yarımtepe</firstname>
+				<affiliation>
+					<address><email>oguzy@comu.edu.tr</email></address>
+				</affiliation>
+			</author>
+		</authorgroup>
+		
+		<abstract>
+			<para>
+				Bu belge, Python programlarınızın performansını arttırmak ve gelişirmek için çeşitli ipucu ve hilelerin nasıl yapılacağını göstermektedir. Her kimden bu konu ile ilgili bilgi aldıysam, kaynağını araştırmaya çalıştım.
+			</para>
+			<para>	
+				1996 yılında yazdığım "hızlı python" yazısından bu yana Python dili çok gelişti. Bu da artık bazı önermelerin gelecekte değişeceği anlamına geliyor. Birileri ileride belgeyi sürdürür umuduyla Python wikisine koydum.
+			</para>
+			<note><para>
+				Buradaki ipuçlarını her zaman kullanmayı planladığınız Python sürümü ve uygulamayla test etmeli, körü körüne bir yöntemin diğerinden daha iyi olduğunu kabul etmemelisiniz. Python kodu için profil oluşturma ile ilgili <ulink url="http://wingware.com/doc/howtos/performance-profiling-python-code">http://wingware.com/doc/howtos/performance-profiling-python-code</ulink> adresini ziyaret ediniz.
+			</para></note>
+			<para>
+				Ayrıca <ulink url="http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/">Pyrex</ulink>, <ulink url="http://psyco.sourceforge.net/">Psyco</ulink>, <ulink url="http://www.scipy.org/Weave">Weave</ulink> ve <ulink url="http://pyinline.sourceforge.net/">PyInline</ulink> gibi programınızın performansını, performans-kritik kodu C veya makine diline dönüştürerek gözle görülür performans artışı sağlayan paketler de vardır. 
+			</para>
+		</abstract>
+		<legalnotice><title>Yasal Açıklamalar</title>
+			<para>
+				Bu belgenin çevirisinin, <emphasis>Python Performans İpuçları</emphasis> 1.0 sürümünün <emphasis role="bold">telif hakkı © 2005 <emphasis>Oğuz Yarımtepe</emphasis>'ye</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan GNU Özgür Belgeleme Lisansının 1.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/copyleft/fdl.html"/> adresinde bulabilirsiniz.
+			</para><para>
+				BU BELGE "ÜCRETSiZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARİN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZİLİ OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKİ SAHİPLERİ VE/VEYA BAŞKA ŞAHİSLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZİMNEN, SATİLABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞİTMAKTADİRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALİ BİLGİDEN DOLAYİ DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARİ SİZE AİTTİR.
+			</para><para>
+				İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKİ SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKİ SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+			</para><para>
+				Tüm telif haklari aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmıŞ olması ona onay verildiği anlamında görülmemelidir.
+			</para>
+		</legalnotice>
+</articleinfo>
+
+<sect1 id="python-performance-tips-versions"><title>Diğer sürümler</title>
+<para><itemizedlist>
+	<listitem>Rusça: <ulink url="http://omsk.lug.ru/wacko/PythonHacking/PerfomanceTips"/></listitem>
+	<listitem>Türkçe: <ulink url="http://docs.comu.edu.tr/howto/python-performance-tips.html"/></listitem>
+</itemizedlist></para>
+</sect1>
+
+<sect1 id="python-performance-tips-overview"><title>Gerekli olanı eniyileştirin</title>
+	<para>
+		Programınızı neyin yavaşlattığını ancak onu doğru sonuçlar alır hale getirdiğinizde anlayabilirsiniz. Ancak bundan sonra doğru programı çalıştırarak yavaşlığına bakabilirsiniz. Yavaş olduğu bulunduğunda profil oluşturmak programın hangi kısımlarının en çok zamanı tükettiğini gösterir. Daha sonra, yoğun fakat hızlı çalışan test kitleri sonraki eniyileştirmelerin programın doğruluğunu değiştirmeyeceğini garanti eder.
+		<orderedlist>
+			<listitem>Programı doğru bir şekilde ele alın</listitem>
+			<listitem>Programın doğru taraflarını test edin</listitem>
+			<listitem>Yavaş şekilde profilini oluşturun</listitem>
+			<listitem>Eniyileştirin</listitem>
+			<listitem>2. adımdan itibaren tekrar edin</listitem>
+		</orderedlist>
+	</para>
+	<para>
+		Belli eniyileştirme teknikleri iyi programlama yöntemlerine bağlıdır, bu bakımdan dili öğrenirken öğrenilmelidir. Örnek olarak da bir döngü içerisinde değeri değişmeyen değerlerin döngü dışında hesaplanmaları söylenebilir.
+	</para>
+</sect1>
+
+<sect1 id="python-performance-tips-sorting"><title>Sıralama</title>
+	<para>
+		Temel Python nesne listelerini sıralamak genelde oldukça verimlidir. Listeki sıralama yöntemleri, sıralama davranışını değiştiren isteğe bağlı kullanılan bir kıyaslama fonksiyonunu bağımsız değişken olarak alırlar. Oldukça kullanışlı olmalarına rağmen karşılaştırma fonksiyonu defalarca çağrılacağından sıramalarınızı ciddi ölçüde yavaşlatabilir. Python sürüm 2.4'te yerleşik (built-in) sıralama metodu yerine sıralama için en hızlı yöntem olması gereken anahtar bağımsız değişkenleri kullanmalısınız. 
+	</para>
+	
+	<para>
+		Eğer bundan daha eski Python sürümü kullanıyorsanız Guido van Rossum'un şu tavsiyesine kulak verin:
+	</para>
+	
+	<para>
+		Sıralamaları hızlandırmanın diğer bir yolu ilk elemanı varsayılan karşılaştırmaya bakılarak sıralanacak sıralama anahtarları olan tüpler oluşturmaktır. Bu tüplerin ikinci elemanı da asıl liste elemanlarıdır. Bu yöntem <ulink url="http://wiki.python.org/moin/DecorateSortUndecorate">DecorateSortUndecorate</ulink> olarak da bilinen <ulink url="http://www.google.com/search?q=Schwartzian+Transform">Schwartzian Dönüşümü</ulink>'dür. 
+	</para>
+	
+	<para>
+		Diyelim ki her birinin n. alanına göre sıralamak istediğiniz tüp listeleriniz var. Aşağıdaki fonksiyon bu işi yapacaktır: 
+	</para>
+	
+	<programlisting>
+		def sortby(somelist, n):
+			nlist = [(x[n], x) for x in somelist]
+			nlist.sort()
+    			return [val for (key, val) in nlist]
+	</programlisting>
+	
+	<para>
+		Kullandığımız listenin sıralama yöntemi davranışını (yerinde, in place, sıralama) karşılaştırmak da basitçe gerçeklenmiş olur: 
+	</para>
+	
+	<programlisting>
+		def sortby_inplace(somelist, n):
+			somelist[:] = [(x[n], x) for x in somelist]
+			somelist.sort()
+			somelist[:] = [val for (key, val) in somelist]
+    			return
+	</programlisting>
+	
+	<para>
+		Denemek için aşağıdaki örneğe bakalım:
+	</para>
+	
+	<programlisting>
+		&gt;&gt;&gt; somelist = [(1, 2, 'def'), (2, -4, 'ghi'), (3, 6, 'abc')]
+		&gt;&gt;&gt; somelist.sort()
+		&gt;&gt;&gt; somelist
+		[(1, 2, 'def'), (2, -4, 'ghi'), (3, 6, 'abc')]
+		&gt;&gt;&gt; nlist = sortby(somelist, 2)
+		&gt;&gt;&gt; sortby_inplace(somelist, 2)
+		&gt;&gt;&gt; nlist == somelist
+		True
+		&gt;&gt;&gt; nlist = sortby(somelist, 1)
+		&gt;&gt;&gt; sortby_inplace(somelist, 1)
+		&gt;&gt;&gt; nlist == somelist
+		True		
+	</programlisting>
+	
+	<para>
+		Tim Delaney'den
+	</para>
+	
+	<para>
+		Python 2.3 sürümünden itibaren sıralama işleminin kararlı olduğu garanti edilmiştir. 
+	</para>
+	
+	<para>
+		(net olmak gerekirse CPython 2.3 sürümünde kararlı idi ve Python 2.4 sürümünde kararlı olacağı garanti edildi)
+	</para>
+	
+	<para>
+		Python 2.4 sürümü dönüşümü oldukça kolay hale getiren isteğe bağlı bir parametre ekler: 
+	</para>
+	
+	<programlisting>
+		import operator
+		sort(nlist, key=operator.itemgetter(n))
+	</programlisting>
+	
+	<para>
+		Asıl elemanın sıralama için kullanılmadığına dikkat edin. Bu şunu yapmakla aynıdır:
+	</para>
+	
+	<programlisting>
+		nlist = [(x[i], i, x) for (i, x) in enumerate(nlist)]
+		nlist.sort()
+		nlist = [val for (key, index, val) in nlist]
+	</programlisting>
+</sect1>
+
+<sect1 id="python-performance-tips-string-concatenation"><title>Karakter Dizisi Bitiştirme</title>
+	
+	<para>
+		Python'daki karakter dizileri değiştirilemezdir. Bu durum yeni başlayan programcıların sıklıkla farkında olmadan hatalar yapmalarına sebep olur. Değiştirilemezlik bazı avantaj ve dezavantajları beraberinde getirir. Artı sütununda karakter dizilerinin sözlüklerde anahtar olarak kullanılması ve bireysel kopyalarının pek çok değişken cilti (bindingi) arasında kullanılabilmesi bulunmaktadır. (Python otomatik olarak bir ve iki karakterli karakter dizilerini paylaşır.) Eksi sütununda ise verilmiş bir karakter dizisinin tüm a'larını b yapın gibi bir şey söyleyememeniz bulunmaktadır. Bunun yerine istenen özelliklere uygun yeni bir karakter dizisi oluşturmalısınız. Bu sürekli kopyalamalar Python programları içerisinde önemli verimsizliklere yol açabilir. 
+	</para>
+	
+	<para>
+		Karakter dizisi bitiştirmede <ulink url="http://wiki.python.org/moin/ConcatenationTestCode">şu</ulink> örnek koda bakılarak süre kıyaslaması yapılabilir. join kullanılan örneğin zamanının daha az olduğunu ve yazım şeklindeki farklılığın da bu süreyi daha aza çektiğini göreceksiniz. 
+	</para>
+	
+	<para>
+		Bundan kaçının:
+	</para>
+	<programlisting>
+		s = ""
+		for substring in list:
+    		s += substring
+		
+	</programlisting>
+	<para>Bunun yerine <emphasis>s = "".join(list)</emphasis> kullanın. İlki büyük karakter dizileri oluştururken yapılan genel ve felaket bir hatadır. Benzer şekilde ardışık olarak karakter dizisi bitleri üretiyorsanız, 
+	</para>
+	
+	<programlisting>
+		s = ""
+		for x in list:
+    		s += some_function(x)
+	</programlisting>
+	<para>yerine</para>
+	
+	<programlisting>
+		slist = [some_function(elt) for elt in somelist]
+		s = "".join(slist)
+	</programlisting>
+	<para>kullanın.</para>
+	<para>Bundan kaçının:</para>	
+	<programlisting>
+		out = "&lt;html&gt;" + head + prologue + query + tail + "&lt;/html&gt;"
+	</programlisting>
+	
+	<para>Yerine bunu kullanın:</para>
+	<programlisting>
+		out = "&lt;html&gt;%s%s%s%s&lt;/html&gt;" % (head, prologue, query, tail)
+	</programlisting>
+	
+	<para>Hatta daha iyi okunabilirlik için sözlük yerdeğiştirmesi kullanın (bunun verimlilikle bir ilgisi yoktur):</para>
+	
+	<programlisting>
+		out = "&lt;html&gt;%(head)s%(prologue)s%(query)s%(tail)s&lt;/html&gt;" % locals()
+	</programlisting>
+	
+	<para>
+		Son ikisi özellikle pek çok CGI betiğinin çalışımının peşpeşe yığılmasından sonra daha hızlı çalışacak, ayağa kalkması ve değiştirilmesi daha kolay olacaktır. Ek olarak, işleri yavaş şekilde gerçeklemek dile eklenen zengin kıyaslamalar ile Python 2.0 sürümünde daha yavaş hale gelmiştir. Şimdi Python sanal makinesinin iki karakter dizisinin bitiştirmesinin asıl olacağına karar vermesi daha uzun sürmektedir. (Python'un tüm yöntem aramalarını çalışma zamanında yaptığını unutmayın.) 
+	</para>
+</sect1>
+
+<sect1 id="python-performance-tips-loops"><title>Döngüler</title>
+	<para>
+		Python bir kaç döngüsel yapıyı desteklemektedir. for ifadesi en çok kullanılanıdır. Ardışıl elemanların üzerinde gezinerek her birini döngü değişkenlerine atar. Eğer döngü gövdeniz basitse yorumlayıcının for döngüsü ek yükü toplam zamanın önemli kısmı olabilir. İşte burada karşımıza <ulink url="http://www.python.org/doc/lib/built-in-funcs.html">map</ulink> fonksiyonu çıkmaktadır. map fonksiyonunu C kodu içerisinde taşınmış for olarak düşünebilirsiniz. Tek sınırlama map fonksiyon gövdesinin bir fonksiyon çağrısı olması gerektiğidir. map fonksiyonunun <ulink url="http://www.python.org/dev/peps/pep-3000/#id38">Python 3000</ulink>'de liste tanımına faydası olması için çıkarılacağını unutmayın. Liste tanımları söz dizimsel faydaları yanında genelde denkleri olan map ifadelerinden daha hızlı veya en az o kadar hızlıdır.
+	</para>
+	
+	<para>İşte size konuyu direk sunan bir örnek. Bir kelime listesi üzerinde dönmek ve her birini büyük harfe dönüştürmek yerine,</para>
+	
+	<programlisting>
+		newlist = []
+		for word in oldlist:
+    			newlist.append(word.upper())
+	</programlisting>
+	
+	<para>map fonksiyonu kullanarak döngüyü yorumlayıcıdan, derlenmiş C koduna bırakabilirsiniz:</para>
+	
+	<programlisting>
+		newlist = map(str.upper, oldlist)
+	</programlisting>
+	
+	<para>Liste tanımlaması Python sürüm 2.0'da eklenmiştir. Sözdizimsel olarak yukarındaki kodu daha küçük ve daha verimli bir şekilde yazma yöntemi sunarlar:</para>
+	
+	<programlisting>
+		newlist = [s.upper() for s in oldlist]
+	</programlisting>
+	
+	<para>
+		Üretici ifadeleri Python sürüm 2.4'te eklenmiştir. Liste tanımlama veya map fonksiyona benzer şekilde işlev görürler, fakat listenin tamamının üretilmesi ek yükünden kaçınırlar. Yerine, liste üzerinde bit bit ilerleyen bir üretici nesnesi geri döndürürler:
+	</para>
+	
+	<programlisting>
+		newlist = (s.upper() for s in oldlist)
+	</programlisting>
+	
+	<para>
+		Hangi metodu kullandığınız, ne tür verileri değiştirdiğiniz ve hangi Python sürümünü kullandığınıza bağlıdır. 
+	</para>
+	
+	<para>
+		Guido van Rossum'un döngü optimizasyonu ile ilgili gerçekten okumaya değer, daha detaylı açıklamalar olan bir <ulink url="http://www.python.org/doc/essays/list2str.html">yazısı</ulink> vardır. 
+	</para>
+</sect1>
+
+<sect1 id="python-performance-tips-avoiding-dots"><title>Noktalardan kaçınma...</title>
+	
+	<para>
+		Liste tanımlamayı veya map fonksiyonunu kullanamadığınızı düşünelim. for döngüsüne takılıp kalabilirsiniz. newlist.append ve word.upper fonksiyonlarının her ikisi de döngünün her çevriminde yeniden değerlendirilen refranslardır. Esas döngü şu şekilde yazılabilir:
+	</para>
+	
+	<programlisting>
+		upper = str.upper
+		newlist = []
+		append = newlist.append
+		for word in list:
+    			append(upper(word))
+	</programlisting>
+	
+	<para>
+		Bu teknik dikkatle kullanılmalıdır. Eğer for döngüsü genişse südürülmesi daha zor hale gelir. Bu kod parçası ile haşır neşir olmadığınız durumda kendinizi append ve upper'ın tanımlamalarını inceler halde bulacaksınız. 
+	</para>
+		
+</sect1>
+
+<sect1 id="python-performance-tips-local-variables"><title>Yerel Değişkenler</title>
+	<para>
+		for döngülerinde performansı arttırmadaki map'siz son yöntemimiz mümkün olan her yerde yerel değişkenler kullanmaktır. Eğer yukarıdaki döngü bir fonksiyona dönüştürülürse append ve upper yerel değişkenler haline gelir. Python yerel değişkenlere evrensel değişkenlerden daha hızlı erişir. 
+	</para>
+	
+	<programlisting>
+		def func():
+			upper = str.upper
+			newlist = []
+			append = newlist.append
+			for word in words:
+				append(upper(word))
+    				return newlist
+	</programlisting>
+	
+	<para>
+		Bu programı yazdığımda BSDI altında 100MHz bir Pentium kullanmakta idim. /usr/share/dict/words altındaki kelimeleri (o anda 38.470 idi) büyük harfe dönüştürdüğümdeki zamanlar şöyle oldu:
+	</para>
+	
+	<screen>
+		Sürüm                                  Zaman (saniye)
+		Temel döngü                            3.47
+		Noktaları çıkarınca                    2.45
+		Yerel değişkenler &amp; noktasız         1.79
+		map fonksiyonu kullaanımı              0.54
+	
+	</screen>
+</sect1>
+
+<sect1 id="python-performance-tips-initializing-dict-elements"><title>Sözlük Elemanlarını İlklendirme</title>
+	
+	<para>
+		Diyelim ki kelime frekanslarını içeren bir sözlük oluşturuyorsunuz ve metninizi de hali hazırda bir kelime listesine dönüştürmüşsünüz. Şöyle bir şey çalıştırabilirsiniz:
+	</para>
+	
+	<programlisting>
+		wdict = {}
+		for word in words:
+			if word not in wdict:
+				wdict[word] = 0
+			wdict[word] += 1
+	</programlisting>
+	
+	<para>
+		İlk durum haricinde kelime her göründüğünde if koşulu yanlış olacaktır. Çok sayıda kelimeyi sayıyorsanız muhtemelen pek çoğu sıklıkla sayılacaktır. Bir değer ilklendirmesinin sadece bir kere gerçekleşeceği ve bu değerin arttırımının çok defa olduğu durumlarda try ifadesi kullanmak daha ucuz bir yoldur. 
+	</para>
+	
+	<programlisting>
+		wdict = {}
+		for word in words:
+			try:
+				wdict[word] += 1
+			except KeyError:
+        			wdict[word] = 1
+	</programlisting>
+	
+	<para>
+		Varsayılan bir except kullanmak ve try kısmından gönderilen <ulink url="http://wiki.python.org/moin/KeyError">hatayı</ulink> ele almaya çalışmaktan kaçınmak yerine beklenen KeyError hatasını yakalamak önemlidir. 
+	</para>
+	
+	<para>
+		Python 2.x sürümlerinin yayınlanmasından sonra üçüncü bir metod daha ortaya çıkmıştır. Sözlüklerin artık eğer aranan anahtarın bulunmaması durumunda geri varsayılan bir değer döndürmelerini sağlayan bir get() metodu bulunmaktadır. Bu yaklaşım döngüyü daha sade bir hale getirir:
+	</para>
+	
+	<para>
+		wdict = {}
+		get = wdict.get
+		for word in words:
+    			wdict[word] = get(word, 0) + 1
+	</para>
+	
+	<para>
+		Bu yazıyı yazdığımda ilk iki yaklaşımdan birinin daha hızlı çalıştığı açık örnekler vardı. Görünen odur ki bu üç yaklaşım artık kelime listesinin özelliklerine az veya çok bağlı olarak hemen hemen aynı (birbirlerine yaklaşık %10 kadar bir fark atarak) peformansı göstermektedir 
+	</para>
+	
+	<para>
+		Ek olarak eğer sözlükte saklanan değer eğer bir nesne veya (değiştirilemez) bir liste ise dict.setdefault metodunu da kullanabilirsiniz:
+	</para>
+	
+	<programlisting>
+		...
+    			wdict.setdefault(key, []).append(new_element)
+	</programlisting>
+	
+	<para>Bu yaklaşım anahtarı iki kere arama zorunluluğunu ortadan kaldırır.</para>
+</sect1>
+
+<sect1 id="python-performance-tips-import-statement-overhead"><title>import İfadesini Ek Yükü</title>
+	<para>
+		import ifadesi herhangi bir yerde çalıştırılabilir. Genelde görünürlüklerini sınırlamak ve/veya ilklendirilme zamanlarını kısaltmak için fonksiyonlar içine yerleştirmek daha faydalıdır. Her ne kadar Python yorumlayıcısı aynı modulü çok sayıda import etmeyecek şekilde en iyileştirilmiş olsa da bir import ifadesinin tekrar tekrar çalıştırılması bazı durumlarda performansı etkileyebilir.
+	</para>
+	
+	<para>
+		Aşağıdaki iki kod örneğini göz önüne alalım (Bu örnek Greg <ulink url="http://wiki.python.org/moin/McFarlane">McFarlane</ulink>'den, bu örneği comp.lang.python <ulink url="mailto:python-list@python.org">python-list@python.org</ulink> listesinde ve daha sonra kendisine özel olarak başka bir yerde sorulmuş olarak buldum):
+	</para>
+	
+	<programlisting>
+		def doit1():
+			import string             ###### import ifadesi fonksiyon içerisinde
+    			string.lower('Python')
+
+		for num in range(100000):
+			doit1()
+	</programlisting>
+	
+	<para>veya</para>
+	
+	<programlisting>
+		import string             ###### import ifadesi fonksiyon dışında
+		def doit2():
+			string.lower('Python')
+		
+		for num in range(100000):
+    			doit2()
+	</programlisting>
+	
+	<para>
+		Her ne kadar karakter dizisine referans evrensel olsa da doit2 fonksiyonu doit1'den daha hızlı çalışacaktır. Aşağıda Python 2.3 ile ve yeni timeit modulü kullanılarak çalıştırılmış ve ikincisinin birincisinden ne kadar hızlı olduğunu gösteren bir örnek bulunmaktadır:
+	</para>
+	
+	<programlisting>
+		&gt;&gt;&gt; def doit1():
+			import string
+			string.lower('Python')
+				...
+		&gt;&gt;&gt; import string
+		&gt;&gt;&gt; def doit2():
+			string.lower('Python')
+				...
+		&gt;&gt;&gt; import timeit
+		&gt;&gt;&gt; t = timeit.Timer(setup='from __main__ import doit1', stmt='doit1()')
+		&gt;&gt;&gt; t.timeit()
+		11.479144930839539
+		&gt;&gt;&gt; t = timeit.Timer(setup='from __main__ import doit2', stmt='doit2()')
+		&gt;&gt;&gt; t.timeit()
+4.6661689281463623
+	</programlisting>
+	
+	<para>Karakter dizisi işlemleri Python sürüm 2.0 ile gelmiştir. Bu sürüm ile import ifadesinden tamamen kaçınma ve daha hızlı bir çalışma sağlanmıştır.</para>
+	
+	<programlisting>
+		def doit3():
+			'Python'.lower()
+		
+		for num in range(100000):
+			doit3()
+		
+		timeit ipsatı da şu şekilde:
+		
+		&gt;&gt;&gt; def doit3():
+			'Python'.lower()
+				...
+		&gt;&gt;&gt; t = timeit.Timer(setup='from __main__ import doit3', stmt='doit3()')
+		&gt;&gt;&gt; t.timeit()
+		2.5606080293655396
+	</programlisting>
+	
+	<para>Yukarıdaki örnek açık şekilde icat edilmiş gibi durmaktadır, fakat genel prensibi sağlamaktadır.</para>
+	<para>
+		Özellikle dahil edilen modül gereksinim duyulmayabilecekse fonksiyon içerisine import ifadesi koymak modulün ilklendirilmesini hızlandırabilir. Bu genelde "tembel" eniyileştirme olarak bilinir. Gerekli olduğunu düşündüğünüz ana kadar işten (oldukça pahalı bir import gerektiren modulü import etme) kaçınmaktır.
+	</para>
+	
+	<para>
+		Bu, eğer modul tamamen import edilmediyse (başka bir modülden) önemli bir başarımdır. Eğer modül hali hazırda yüklenmiş ise (string ve re gibi pek çok standart modülde olduğu gibi) import idafesinden kaçınmak bir başarım sağlamayacaktır. Hangi modüllerin yüklendiğini görmek için sys.modules'e bakınız:
+	</para>
+	
+	<programlisting>
+		email = None
+		
+		def parse_email():
+			global email
+			if email is None:
+        			import email
+	</programlisting>
+	
+	<para>Bu şekilde email modülü parse_email() fonksiyonunun ilk çağrımında sadece bir kere import edilecektir. </para>
+</sect1>
+
+<sect1 id="python-performance-tips-data-aggregation"><title>Veri Bütünlüğü</title>
+	
+	<para>
+		Özellikle bir yerleşik fonksiyonun çalışma zamanıyla kıyaslanınca Python'da fonksiyon çağrımının ekyükü daha yüksektir. Bu durum da uygun olan her yerde fonksiyonların veri bütünlüğünü sağlamalarını zorunlu kılmaktadır. Python ile yazılmış durumu örnekleyen bir örnek şu şekilde:
+	</para>
+	
+	<programlisting>
+		import time
+		x = 0
+		def doit1(i):
+			global x
+			x = x + i
+		
+		list = range(100000)
+		t = time.time()
+		for i in list:
+			doit1(i)
+		
+		print "%.3f" % (time.time()-t)
+	</programlisting>
+
+	<para>örneğine kıyasla</para>
+	
+	<programlisting>
+		import time
+		x = 0
+		def doit2(list):
+			global x
+			for i in list:
+				x = x + i
+		
+		list = range(100000)
+		t = time.time()
+		doit2(list)
+		print "%.3f" % (time.time()-t)
+	</programlisting>
+	
+	<para>
+		Etkileşimli kabuk ile durumun ispatlanması şu şekilde örneklenebilir:
+	</para>
+	
+	<screen>
+		&gt;&gt;&gt; t = time.time()
+		&gt;&gt;&gt; for i in list:
+			doit1(i)
+				...
+		&gt;&gt;&gt; print "%.3f" % (time.time()-t)
+			0.758
+		&gt;&gt;&gt; t = time.time()
+		&gt;&gt;&gt; doit2(list)
+		&gt;&gt;&gt; print "%.3f" % (time.time()-t)
+		0.204
+	</screen>
+	
+	<para>
+		Python ile yazılmış olsa da ikinci örnek ilkinden yaklaşık dört kat daha hızlı çalışır. doit fonksiyonunun C ile yazıldığı durumda  (Python for döngüsünü C for döngüsü ile yer değiştirince ve pek çok fonksiyon çağrımını kaldırınca) bu fark daha fazla olacaktı. 
+	</para>
+</sect1>
+
+<sect1 id="python-performance-tips-doing-stuff-less-often"><title>İşleri Daha Az Sıklıkla Yapmak</title>
+	
+	<para>
+		Python yorumlayıcısı düzenli aralıklarla bazı kontroller yapar. Aslında başka bir ipliğin veya bekleyen bir çağrının çalışıp çalışmamasına karar verir. Genelde yapılacak bir şey yoktur, bundan dolayı da yorumlayıcının her bir döngüsünde bu kontrolleri yapmak işleri yavaşlatabilir. sys modülü içerisinde yorumlayıcıya bu kontrolleri hangi sıklık ile yapması gerektiğini söyleyebileceğiniz setcheckinterval fonksiyonu bulunmaktadır. Python 2.3 sürümünden önce bunun varsayılan değeri 10 idi. 2.3 sürümünde bu 100'e yükseltildi. Eğer iplikler ile çalışmıyor ve çok sayıda sinyali yakalamayı ummuyorsanız bu değeri büyük bir değer olarak ayarlamak bazen performansı önemli ölçüde arttırabilir. 
+	</para>
+</sect1>
+
+<sect1 id="python-performance-tips-python-isnot-c"><title>Python C değildir</title>
+	<para>
+		Perl, Java, C++ veya Haskell de değildir. Diğer dillerin Python'da nasıl gerçeklendiği ile ilgili bilginizi aktarırken dikkatli olun. Basit bir örnek bunu göstermektedir:
+	</para>
+	
+	<screen>
+		% timeit.py -s 'x = 47' 'x * 2'
+		1000000 loops, best of 3: 0.574 usec per loop
+		% timeit.py -s 'x = 47' 'x &lt;&lt; 1'
+		1000000 loops, best of 3: 0.524 usec per loop
+		% timeit.py -s 'x = 47' 'x + x'
+		1000000 loops, best of 3: 0.382 usec per loop
+	</screen>
+	
+	<para>Şimdi de benzer C koduna bakın (sadece toplama kısmı gösterildi):</para>
+	
+	<programlisting>
+		#include &lt;stdio.h&gt;
+			
+		int main (int argc, char **argv) {
+			int i = 47;
+			int loop;
+			for (loop=0; loop&lt;500000000; loop++)
+				i + i;
+		}
+						     
+	</programlisting>
+	
+	<para>ve çalışma zamanları şu şekildedir:</para>
+	
+	<screen>
+		% for prog in mult add shift ; do
+		&lt; for i in 1 2 3 ; do
+		&lt;   echo -n "$prog: "
+		&lt;   /usr/bin/time ./$prog
+		&lt; done
+		&lt; echo
+		&lt; done
+		mult:         6.12 real         5.64 user         0.01 sys
+		mult:         6.08 real         5.50 user         0.04 sys
+		mult:         6.10 real         5.45 user         0.03 sys
+				
+		add:          6.07 real         5.54 user         0.00 sys
+		add:          6.08 real         5.60 user         0.00 sys
+		add:          6.07 real         5.58 user         0.01 sys
+				
+		shift:        6.09 real         5.55 user         0.01 sys
+		shift:        6.10 real         5.62 user         0.01 sys
+		shift:        6.06 real         5.50 user         0.01 sys
+	</screen>
+	
+	<para>
+		Python içerisinde bir sayıyı kendisi ile toplamanın onu iki ile çarpmak veya bir bit sola kaydırmaktan daha avantajlı olduğuna dikkat edin. C içerisinde, tüm modern mimarilerde, tüm bu üç aritmetik işlem bir çevrimde gerçeklenecek olan makine dili komutlarına dönüştürülür, dolayısi ile hangisini kullandığınız pek önemli değildi.
+	</para>
+	
+	<para>
+		Yeni Python programcılarının bu aralarki genel testleri Perl yaklaşımını tercüme etmektir:
+	</para>
+	
+	<programlisting>
+		while (&lt;&gt;) {
+			print;
+		}
+	</programlisting>
+	
+	<para>Python içerisinde bu kod şu şekilde gözükür:</para>
+	
+	<programlisting>
+		import fileinput
+		
+		for line in fileinput.input():
+			print line,
+	</programlisting>
+	
+	<para>Buna bakarak Python'un Perl'den daha yavaş olacağı sonucunu çıkarırlar. Diğerlerinin defalarca belirttiği gibi bazı durumlarda Python Perl'e göre daha yavaş fakat bazılarına göre ise daha hızlı olmaktadır. Bağıl hız genelde bu iki dil ile olan tecrübenize bağlıdır.</para>
+	
+</sect1>
+
+<sect1 id="python-performance-tips-xrange-vs-range"><title>range Yerine xrange Kullanın</title>
+	
+	<para>
+		Python'da bir dizi sayı elde etmenin iki yolu vardır: range ve xrange. Pekçok insan açıklayıcı isminden dolayı range'i bilir. Alfabetik sıralamada daha aşağılarda olan xrange ise daha az bilinir.
+	</para>
+	
+	<para>xrange, aşağıdaki Python 2.3 sürümündeki koda eşdeğer bir üretici nesnedir:</para>
+	
+	<programlisting>
+		def xrange(start, stop=None, step=1):
+			if stop is None:
+				stop = start
+				start = 0
+			else:
+				stop = int(stop)
+			start = int(start)
+			step = int(step)
+		
+			while start &lt; stop:
+				yield start
+        			start += step
+	</programlisting>
+	
+	<para>
+		Tek farkı C ile yazılmış olmasıdır.
+	</para>
+	
+	<para>
+		xrange'in bazı sınırlamaları vardır. Özellikle sadece tamsayı (int) değerler ile çalışır; uzun tamsası (long) ve noktalı sayılar (float) ile kullanamazsınız (yukarıda gösterildiği gibi tamsayıya dönüştürüleceklerdir). 
+	</para>
+	
+	<para>
+		Üretilen (yielded) nesneyi bir yerlere kaydetmediğiniz sürece belli bir anda sadece tek bir nesne bulunacak ve bu da bellek tasarrufu sağlayacaktır. Fark böylece ortaya çıkmaktadır: range fonksiyonu çağrıldığında çok sayıda sayı (int, long veya foat) içeren nesneler üretir  Bu nesnelerin hepsi bir kerede oluşturulur ve aynı anda bellekte bulunur. Sayı miktarının fazla olduğu durumda bu bir zaman kaybı ve performans düşüklüğü olacaktır. 
+	</para>
+	
+	<para>Buna karşın xrange hiç bir sayı üretmez, sadece nesnenin kendisini üretir. Sayı nesneleri ancak, örneğin bir döngü içerisinde, erişmeye çalıştığınızda üretilir.Örneğin:</para>
+	
+	<para>xrange(sys.maxint) # Döngü yok, .next için bir çağrım yok hiç bir sayı üretilmez</para>
+	
+	<para>
+		İşte bu yüzden kod anlık olarak çalışabilir. Eğer burada range kullanırsanızi Python kilitlenecektir: sys.maxint sayı nesnelerini (basit bir PC'de yaklaşık 2.1 milyar) bellekte tahsis etmek için çok meşgul olacak ve başka bir iş yapamaz hale gelecektir. 
+	</para>
+	
+	<para>Python 2.2 sürümünden önce xrange nesneleri aynı zamanda hızlı bellek testleri (i in xrange(n)) gibi eniyileştirmeleri de desteklemekteydi. Bu özellik 2.2'de kullanışsız olduğundan dolayı kaldırıldı.</para> 
+</sect1>
+
+<sect1 id="python-performance-tips-remap"><title>Çalışma Zamanında remap Fonksiyonu</title>
+	<para>Diyelim şöyle ki bir fonksiyonunuz var:</para>
+	
+	<programlisting>
+		class Test:
+			def check(self,a,b,c):
+				if(a):
+					self.str = b*100
+				else:
+					self.str = c*100
+		
+		a = Test()
+		def example():
+			for i in xrange(0,100000):
+				a.check(i,"b","c")
+		
+		import profile
+ 		profile.run("example()")
+	</programlisting>
+	
+	<para>Ve bu fonksiyonunun bir yerleden çok defa çağrıldığını düşünün.</para>
+	
+	<para>Bu durumda ilk kere hariç diğer seferlerde sizi yavaşlatacak olan bir koşul kontrolü durumunuz olacaktır. Bu bakımdan şunu kullanın:</para>
+	
+	<programlisting>
+		class Test2:
+			def check(self,a,b,c):
+				self.str = b*100
+				self.check = self.check_post
+			def check_post(self,a,b,c):
+				self.str = c*100
+		
+		a = Test2()
+		def example2():
+			for i in xrange(0,100000):
+				a.check(i,"b","c")
+		
+		import profile
+ 		profile.run("example2()")
+	</programlisting>
+	
+	<para>Aslında bu örnek bir miktar basit, fakat if ifadeniz daha karmaşık (bir çok nokta içeren) bir ifade olsaydı ve sadece bir kere doğru olacağını biliyorsanız zaman kazancı sağlayabilirsiniz.</para>
+</sect1>
+
+<sect1 id="python-performance-tips-profiling"><title>Kodun Profilini Çıkarmak</title>
+	
+	<para>
+		Programınızı hızlandırmanın ilk adımı dar boğazların nerede olduğunu tespit etmektir. Bu, hiç çalışmayan bir kodu eniyileştirmede veya zaten hızlı çalışan bir kod için pek bir önem teşkil etmez. Kod içerisindeki önemli noktaları bulmada, onları takip etmede ve profil oluşturmada iki modül kullanacağım. Sonraki örneklerde Python 2.3 sürümüyle gelen timeit modülünü de kullanacağım. 
+	</para>
+	
+	<sect2 id="python-performance-tips-profile-modul"><title>Modülün Profilini Çıkarmak</title>
+		<para>
+			<ulink url="http://www.python.org/doc/current/lib/module-profile.html">profil</ulink> modülü Python dağıtımı içerisinde standart bir modül olarak bulunmaktadır. Bir fonksiyon kümesinin çalışmasının profilini oluşturmak için kullanımı oldukça basittir. Diyelim ki ana fonksiyonunuzun ismi main ve parametre almamaktadır, siz de profil modülü altında bunu çalıştırmak istemektesiniz. En basit hali ile şunu çalıştırırsınız.
+		</para>
+		
+		<programlisting>
+			import profile
+			profile.run('main()')
+		</programlisting>
+		
+		<para>
+			main() fonksiyonu sonlandığı zaman profil modülü fonksiyonların çağrımlarını ve çalışma zamanlarını gösteren bir tabloyu ekrana basacaktır. Modül içerisindeki Stats sınıfı kullanılarak çıktı değiştirilebilir. Python sürüm 2.4'te yerleşik elemanların ve profili çıkarılacak uzatılmış fonksiyonların çalışma zamanları da gösterilir. 
+		</para>
+	
+	</sect2>
+	
+	<sect2 id="python-performance-tips-hotspot-modul"><title>Hotspot Modülü</title>
+		
+		<para>
+			Python 2.2 sürümüyle gelen <ulink url="http://www.python.org/doc/current/lib/module-hotshot.html">hotspot modülü</ulink> profil modülünün bir eşdeğeri olarak tasarlanmıştır. C ile yazıldığından daha az bir performance harcaması yapar ve bu da uygulamanızın performansı hakkında daha doğru bilgi edinmenizi sağlar. Ayrıca Tools/scripts altında hotshotmain.py programı konsoldan programınızı çalıştırarak hotspot kontrolünde test etmenizi sağlar. 
+		</para>
+		
+	</sect2>
+	
+	<sect2 id="python-performance-tips-trace-modul"><title>Trace Modülü</title>
+		
+		<para>
+			Trace modülü henüz ele alınmamış seviye testlerini gerçeklemek için yazdığım bir profile modül türevidir. İlk sürümünü yayınladığımdan beri pek çok kişi tarafından oldukça farklı değişikliklere uğramıştır. Python 2.0 sürümünde Tools/scripts altında trace.py dosyasını bulacaksınız. Sürüm 2.3'ten itibaren standart kütüphanenin içinde yer almıştır. bin dizinine kopyalayıp çalışma izinlerini vererek doğrudan çalıştırabilirsiniz. Tüm betiği konsoldan çalıştırmak daha kolaydır:
+		</para>
+		
+		<programlisting>
+			% trace.py -t spam.py eggs
+		</programlisting>
+		
+		<para>Python 2.4 sürümünde daha da basit bir hal almıştır, sadece python -m trace yazmak yeterlidir.</para>
+		<para>Ayrı bir belgelendirmesi olmamakla beraber "pydoc trace" diyerek satıriçi belgelendirmesini görebilirsiniz. </para>
+	</sect2>
+</sect1>
+</article>

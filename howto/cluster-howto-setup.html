@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-07-22T11:00:23+03:00"><title>Kurulum, Yapılandırma ve Bakım</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/cluster-howto.html" title="Linux Kümeleme NASIL"><link rel="previous" href="../howto/cluster-howto-sw.html" title="Yazılım"><link rel="next" href="../howto/cluster-howto-tasks.html" title="İşleri Küme Üzerinde Gerçekleştirme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kurulum, Yapılandırma ve Bakım</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/cluster-howto-sw.html">Önceki</a> </td><th width="60%" align="center">Linux Kümeleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/cluster-howto-tasks.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="cluster-howto-setup"></a>Kurulum, Yapılandırma ve Bakım</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Disk Yapılandırması</h3></div></dt><dd><p>
+Bu bölüm, disk bölümleme stratejimizi tanımlar. Donanım ve yazılım değişmeleri için mantıksal yapının fiziksel ifadesinin sürdürülebilir olmadığını gördük. Hedefimiz, makinelerin sanal yapılarını mantıksal olarak organize etmektir. Şu anki stratejimiz:
+</p><p>
+<pre class="literallayout">    küme makinaları:
+
+    sistem diski üzerindeki 1. bölüm     - swap  (2 * RAM)
+    sistem diski üzerindeki 2. bölüm     - /     (kalan disk alanı)
+    ek disk üzerindeki 1. bölüm          - /maxa (toplam disk)
+
+    sunucular:
+
+    sistem diski üzerindeki 1. bölüm     - swap  (2 * RAM)
+    sistem diski üzerindeki 2. bölüm     - /     (4-8 GB)
+    sistem diski üzerindeki 3. bölüm     - /home (kalan disk alanı)
+    1. ek disk üzerindeki 1. bölüm       - /maxa (toplam disk)
+    2. ek disk üzerindeki 1. bölüm       - /maxb (toplam disk)
+    3. ek disk üzerindeki 1. bölüm       - /maxc (toplam disk)
+    4. ek disk üzerindeki 1. bölüm       - /maxd (toplam disk)
+    5. ek disk üzerindeki 1. bölüm       - /maxe (toplam disk)
+    6. ek disk üzerindeki 1. bölüm       - /maxf (toplam disk)
+    diğer ek diskler üzerindeki 1. bölüm - /maxg (toplam disk alanı)
+
+    Masaüstü bilgisayarlar:
+
+    sistem diski üzerindeki 1. bölüm     - swap   (2 * RAM)
+    sistem diski üzerindeki 2. bölüm     - /      (4-8 GB)
+    sistem diski üzerindeki 3. bölüm     - /spare (kalan disk alanı)
+    1. ek disk üzerindeki 1. bölüm       - /maxa  (toplam disk)
+    diğer ek diskler üzerindeki 1. bölüm - /maxb  (toplam disk alanı)
+</pre>
+</p><p>
+Not etmek gerekirse, sunucularda ve masaüstü bilgisayarlarda, maxg ve maxb tek bir disk
+veya disk yığını olabilir.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Paket Yapılandırması</h3></div></dt><dd><p>
+Çalışma alanı için minimum paketler kümesini kurun. Kullanıcılar masaüstlerini istedikleri gibi değiştirebilirler, sağlanan sanal yapı yukarıda tanımlandığı gibi korunur.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>İşletim Sistemi Kurulumu ve Bakımı</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a>Kişisel kopyalama stratejisi</h4></div></dt><dd><p>
+Bir sistemin tamamen dağıtık olması taraftarıyım. Bunun anlamı her bir makinenin işletim sisteminin bir kopyasını içermesidir. İS'yi her bir makineye tek tek kurmak sıkıcıdır. Bu süreci iyileştirmek için ilk önce bir makineye tam olarak istediğim şekilde kurulumu yaparım. Sonra bütün sistemin tar ve gzip'lenmiş bir dosyasını oluştururum ve bunu kümede her bir makine üzerine kopyalayabilmemi sağlayacak "boot" edilebilir şekilde CD-ROM'a yazarım.
+</p><p>
+Tar dosyasını oluşturmak için kullandığım komutlar aşağıdaki gibidir:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+tar -czvlps --same-owner --atime-preserve -f /maxa/slash.tgz /
+</pre> </td></tr></table></div>
+</p><p>
+Argüman olarak makine numarasını alan ve CD-ROM'daki <tt>slash.tgz</tt>  dosyasını "untar" edip adını ve IP adresini uygun yerlerde değiştiren <tt>go</tt> denilen bir betik kullanıyorum. <tt>go</tt> betiğinin bir sürümüne ve onun için gereken giriş dosyalarına şu adresten erişebilirsiniz: <a href="http://www.ram.org/computing/linux/cluster/" target="_top">http://www.ram.org/computing/linux/cluster/</a>. Bu betiğin sizin küme tasarımınızı temel alarak ona göre düzenlenmesi gerekir.
+</p><p>
+Bunun çalışması için Martin Purschke'nin Özel Kurtarma Diskini, (<a href="http://www.phenix.bnl.gov/~purschke/RescueCD/" target="_top">http://www.phenix.bnl.gov/~purschke/RescueCD/</a>) <tt>go</tt> betiği ve diğer ilişkili dosyalarla birlikte kopyalanmış sistemi ifade eden .tgz dosyasını da içeren "boot" edilebilen bir CD imajı oluşturmak için kullanırım. Bu, CD-ROM'a yazılır.
+</p><p>
+Böylece, tek yapmanız gerekenin CD-ROM'u yerleştirmek olduğu bir sisteminiz vardır. Makineyi açarsınız, bir fincan kahve (veya bir kutu kola) alıp tam bir kopyayı görmek için arkanıza yaslanırsınız. Bu işlemi ne kadar makineniz varsa o kadar kez tekrar edin. Bu yöntem benim için çok iyi çalıştı ve eğer işi gerçekten yapan (CD-ROM'ları yerleştiren ve çıkaran) biri daha varsa bu sizin için idealdir. Benim sistemimde, makinenin numarasından yola çıkarak IP adresini belirliyorum; ama bu DHCP kullanarak tamamen otomatik olabilir.
+</p><p>
+Rob Fantini <span class="email">&lt;rob (at) fantinibakery.com&gt;</span>, <a href="http://www.ram.org/computing/linux/cluster/fantini_contribution.tgz" target="_top">http://www.ram.org/computing/linux/cluster/fantini_contribution.tgz</a> adresinden erişilebilen Mandrake 8.2 sistemini kopyalamak için kullandığı yukarıdaki betiklerin düzenlenmelerine katkıda bulunmuştur.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id23"></a>Kopyalama ve Bakım Paketleri</h4></div></dt><dd><p>
+<div class="variablelist"><dl><dt><span class="term">FAI</span></dt><dd>
+FAI (<a href="http://www.informatik.uni-koeln.de/fai/" target="_top">http://www.informatik.uni-koeln.de/fai/</a>) bir PC kümesine Debian GNU/Linux işletim sistemi kurmak için otomatik bir sistemdir. Bir veya daha fazla el değmemiş PC'yi alın, çalıştırın ve birkaç dakikanın ardından hiçbir ara etkileşime gerek kalmadan Linux kurulmuş, yapılandırılmış ve tüm kümenin üzerinde çalışıyor olacaktır.
+<p></p><p></p></dd><dt><span class="term">SystemImager</span></dt><dd>
+SystemImager (<a href="http://systemimager.org" target="_top">http://systemimager.org</a>) Linux kurulumlarını, yazılım dağıtımını ve ürün yaygınlaştırmasını otomatikleştiren bir yazılımdır.
+<p></p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a>Donanıma bağımlı IP Adresleri ve DHCP</h4></div></dt><dd><p>
+Eğer kurulmuş DHCP'niz varsa, o zaman IP adresini tekrar ayarlamanıza gerek yoktur ve <tt>go</tt> betiğinden ilgili o kısım çıkarılabilir.
+</p><p>
+DHCP'nin avantajı, sunucunun uygun şekilde yapılandırılması durumunda sağlanan IP adresleriyle hiç boğuşulmamasıdır. Dezavantajı, merkezi bir sunucu üzerinde olmasıdır (söylediğim gibi, sistemleri mümkün mertebe dağıtık yapmaya eğilimim vardır). Eğer makineleri değiştirmek veya rutin olarak konak adlarını değiştirmek isterseniz donanım ethernet adreslerini IP adreslerine bağlamak uyumsuzluğa neden olacaktır.
+</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="cluster-howto-known_hardware_issues"></a>Bilinen Donanım Sorunları</h3></div></dt><dd><p>
+Genel olarak donanım bizim için gerçekten iyi çalıştı. Özel konulardan aşağıda bahsedilmiştir:
+</p><p>
+AMD dual 1.2 GHz makineler gerçekten çok ısınıyor. Onlardan iki tanesi bir odanın sıcaklığını hissedilir derecede yükseltiyorlar. Bundan dolayı masaüstü konusunda uygun olabilirler; ama geniş bir kümenin parçası olarak kullanılacakları söz konusuysa soğutma ve güç tüketimi göz önüne alınması gereken konulardır. Daha önce tanımlanan AMD Palmino yapılandırması gerçekten iyi çalışıyor görünüyor; ama ben kasaya kesinlikle iki fan koymanızı tavsiye ederim; bu bizim tüm kararsızlık problemlerimizi çözdü.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="cluster-howto-known_software_issues"></a>Bilinen Yazılım Sorunları</h3></div></dt><dd><p>
+Bazı çalışır tar'lar beklenildiği gibi (özellikle sembolik bağlantıların referanslanmasında ve bu referansların kaldırılmasında) açıkça bir tar dosyası oluşturmuyor. Buna bulduğum çözüm bu işi yapan RedHat 7.0'dakine benzer bir çalışır tar kullanmak.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/cluster-howto-sw.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/cluster-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/cluster-howto-tasks.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yazılım </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> İşleri Küme Üzerinde Gerçekleştirme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

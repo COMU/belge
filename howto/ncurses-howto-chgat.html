@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:19+03:00"><title>chgat() işlevleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-attrib.html" title="Öznitelikler"><link rel="previous" href="../howto/ncurses-howto-wattrfuncs.html" title="wattr işlevleri"><link rel="next" href="../howto/ncurses-howto-windows.html" title="Pencereler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">chgat() işlevleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-wattrfuncs.html">Önceki</a> </td><th width="60%" align="center">Öznitelikler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-windows.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-chgat"></a><tt>chgat()</tt> işlevleri</h3></div></dt><dd><p>
+<tt>chgat()</tt> işlevi, <tt>curs_attr</tt> kılavuz sayfalarının sonunda listelenmiştir. Aslında faydalı bir işlevdir. Belli karakterlere hareket etmeden öznitelikleri kazandırmak için kullanılabilir. İmleci hareket ettirmeden !!! demek istedim <tt>:-)</tt>. O anki imleç konumundan itibaren belirtilen sayıdaki öznitelik değiştirilebilir.
+</p><p>
+Karakter sayısı olarak -1 vererek satır sonuna kadar güncelleyebiliriz. O anki konumdan satır sonuna kadar öznitelikleri değiştirmek için sadece şunu kullanın:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+chgat(-1, A_REVERSE, 0, NULL);
+</pre> </td></tr></table></div>
+</p><p>
+Bu işlev halihazırda ekranda olan karakterlerin özniteliklerini değiştirmek için faydalıdır. Değiştirmek istediğiniz karaktere konumlanın ve özniteliğini değiştirin.
+</p><p>
+<tt>wchgat(), mvchgat(), wchgat()</tt> işlevleri de belirtilen pencere üzerinde çalışmaları dışında benzerdir. <tt>mv</tt> işlevleri önce imleci hareket ettirip daha sonra kendilerine verilen işi yapar. Aslında <tt>chgat</tt>, <tt>wchgat()</tt> işlevinin pencere parametresi olarak <tt>stdscr</tt>'yi aldığı duruma bir makrodur. Pekçok "<tt>w</tt>'siz" işlev aslında birer makrodur.
+</p><div class="example"><p><a name="ncurses-howto-bwich"></a><b>Örnek 5.11. <tt>chgat()</tt> Kullanım Örneği </b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;
+
+int main(int argc, char *argv[])
+{ initscr();                      /* Curses kipine başlama  */
+  start_color();                  /* Renk özelliği etkin    */
+
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+  printw("Yazmaya üsendigim oldukça uzun bir dizge ");
+  mvchgat(0, 0, -1, A_BLINK, 1, NULL);
+  /*
+    * İlk iki parametre başlangıç konumunu
+    * üçüncü parametre güncellenecek karakter sayısını belirtir.
+    * -1 satır sonuna kadar demektir.
+    * Dördüncü parametre karaktere kazandırmak istediğiniz özniteliktir
+    * Beşincisi renk indisidir. init_pair() sırasında verilen indistir.
+    * Renk istemiyorsanız 0 kullanın.
+    * Altıncısı her zaman NULL değerdir.
+    */
+  refresh();
+  getch();
+  endwin();                       /* Curses kipi sonu  */
+  return 0;
+}
+</pre> </td></tr></table></div></p></div><p>
+Bu örnek aynı zamanda curses dünyasının renk kullanımını da göstermektedir. Renkler konusu  <a class="link" href="../howto/ncurses-howto-color.html" title="Renkler">daha sonra</a> ayrıntılı olarak açıklanacaktır. Renkli görüntü istemiyorsanız 0 kullanın.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-wattrfuncs.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-attrib.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-windows.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">wattr işlevleri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Pencereler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-11-09T01:49:04+02:00"><title>Yapılandırma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/jabberd-howto.html" title="Jabber Sunucusu NASIL"><link rel="previous" href="../howto/jabberd-howto-postgresql.html" title="Postgresql Üzerinde Jabberd Kurulumu"><link rel="next" href="../howto/jabberd-howto-mysql.html" title="Mysql Üzerinde Jabberd Kurulumu"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yapılandırma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/jabberd-howto-postgresql.html">Önceki</a> </td><th width="60%" align="center">Jabber Sunucusu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/jabberd-howto-mysql.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="jabberd-howto-config-postgre"></a>Yapılandırma</h2></div></dt><dd><p>Jabberd dosyalarının içerdiği bilgiler arasında parolalar da olduğu için gerekli izinleri aşağıdaki gibi ayarlayalım:
+
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><b><tt>chown</tt></b> -R root:jabber <tt>/usr/local/etc/jabberd/*</tt>
+<b><tt>chmod</tt></b> -R 640 <tt>/usr/local/etc/jabberd/*</tt></pre> </td></tr></table></div>
+</p><p>Böylece artık yalnızca jabber kullanıcısı ve root'un yapılandırma
+dosyalarını okuyabilmesini ve değiştirebilmesini sağladık.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/tip.png"></td><th>İpucu</th></tr><tr><td colspan="2" align="left" valign="top"><p>Kolaylık için yapılandırma dosyalarına bir sembolik link atayabilirsiniz:</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ln -s /usr/local/etc/jabberd/ /etc/jabberd</pre> </td></tr></table></div></td></tr></table></div><p>Şimdi <tt>/etc/jabberd</tt> dizinine geçip ve yapılandırma dosyalarını düzenleme işine başlayalım. 
+Jabberd'de yapılandırma dosyaları xml halinde bulunurlar. İlk iş
+olarak <tt>sm.xml</tt> ve <tt>c2s.xml</tt> dosyalarındaki <i><tt>hostname</tt></i>'i ayarlayın. Bunun için 
+<tt>sm.xml</tt> dosyasının ilk paragrafında <i><tt>localhost</tt></i> gördüğünüz yere kendi
+alan adınızı yazın:
+</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;!-- Session manager configuration --&gt;
+&lt;sm&gt;
+ &lt;!-- Our ID on the network. Users will have this as the domain part of
+      their JID. If you want your server to be accessible from other
+      Jabber servers, this ID must be resolvable by DNS.s
+      (default: localhost) --&gt;
+ &lt;id&gt;<i><tt>jabber.comu.edu.tr</tt></i>&lt;/id&gt;
+</pre> </td></tr></table></div><p><tt>c2s.xml</tt> dosyasında ise "Local Network Configuration" ile başlayan
+kısımda <i><tt>localhost</tt></i> yazan yere kendi alan adınızı yazın:</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;!-- Local network configuration --&gt;
+ &lt;local&gt;
+   &lt;!-- Who we identify ourselves as. This should correspond to the
+        ID (host) that the session manager thinks it is. You can
+        specify more than one to support virtual hosts, as long as you
+        have additional session manager instances on the network to
+        handle those hosts. The realm attribute specifies the auth/reg
+        or SASL authentication realm for the host. If the attribute is
+        not specified, the realm will be selected by the SASL
+        mechanism, or will be the same as the ID itself. Be aware that
+        users are assigned to a realm, not a host, so two hosts in the
+        same realm will have the same users.
+        If no realm is specified, it will be set to be the same as the
+        ID. --&gt;
+   &lt;id&gt;<i><tt>jabber.comu.edu.tr</tt></i>&lt;/id&gt;</pre> </td></tr></table></div><p>Şimdi Postgresql ile olan işimizi halledelim. Öncelikle Jabberd için bir veritabanı yaratın:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><b><tt>createdb</tt></b> -U postgres jabberd2</pre> </td></tr></table></div>
+</p><p>Daha sonra da jabberd2 kullanıcısını oluşturun:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><b><tt>createuser</tt></b> -P -U postgres jabberd2</pre> </td></tr></table></div>
+</p><p>Daha sonra açtığınız Jabberd kaynak kodlarının bulunduğu dizindeki
+<tt>tools</tt> dizinine geçerek;
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><b><tt>psql</tt></b> -U jabberd2 jabberd2</pre> </td></tr></table></div>
+ve ardından;
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><b><tt>jabberd2</tt></b> -i db-setup.pgsql</pre> </td></tr></table></div>
+komutlarını çalıştırarak db-setup.pgsql betiğini çalıştırın. 
+</p><p>Şimdi yapılandırma dosyanızda veritabanı için ufak bir kaç ayar
+yapmanız gerekiyor. Öncelikle <tt>sm.xml</tt> dosyasında "Storage database configuration" ile
+başlayan satıra gidip driver etiketleri arasında yazılı olan mysql'i pgsql'e çevirin.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+&lt;!-- Storage database configuration --&gt;
+       &lt;storage&gt;
+         &lt;!-- By default, we use the MySQL driver for all storage --&gt;
+         &lt;driver&gt;<i><tt>pgsql</tt></i>&gt;&lt;/driver&gt;
+</pre> </td></tr></table></div>
+</p><p>
+Sonra yine aynı dosyada postgresql ile olan kısımdaki ("PostgreSQL
+driver configuration" etiketi ile başlayan) "<i><tt>secret</tt></i>" kelimesi yerine
+kendi parolanızı yazın.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;!-- PostgreSQL driver configuration --&gt;
+     &lt;pgsql&gt;
+       &lt;!-- Database server host and port --&gt;
+       &lt;host&gt;<i><tt>localhost</tt></i>&lt;/host&gt;
+       &lt;port&gt;<i><tt>5432</tt></i>&lt;/port&gt;
+
+       &lt;!-- Database name --&gt;
+       &lt;dbname&gt;<i><tt>jabberd2</tt></i>&lt;/dbname&gt;
+
+       &lt;!-- Database username and password --&gt;
+       &lt;user&gt;<i><tt>jabberd2</tt></i>&lt;/user&gt;
+       &lt;pass&gt;<i><tt>secret</tt></i>&lt;/pass&gt;
+
+       &lt;!-- Transaction support. If this is commented out, transactions
+            will be disabled. This might make database accesses faster,
+            but data may be lost if jabberd crashes. --&gt;
+       &lt;transactions/&gt;
+     &lt;/pgsql&gt;</pre> </td></tr></table></div>
+</p><p>
+Şimdi <tt>c2s.xml</tt> dosyasını açın ve "Authentication/registration
+database configuration" ile başlayan etikette module tagındaki <i><tt>mysql</tt></i>'i
+<i><tt>pgsql</tt></i>'e çevirin.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;!-- Authentication/registration database configuration --&gt;
+     &lt;authreg&gt;
+       &lt;!-- Backend module to use --&gt;
+       &lt;module&gt;<i><tt>pgsql</tt></i>&lt;/module&gt;
+</pre> </td></tr></table></div>
+</p><p>Sonra yine aynı dosyadaki "PostgreSQL module configuration" ile
+başlayan etikette "Database username and password" kısmındaki <i><tt>secret</tt></i>
+kelimesinin yerine jabberd2 kullanıcısının veritabanı parolasını yazın.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;!-- PostgreSQL module configuration --&gt;
+     &lt;pgsql&gt;
+       &lt;!-- Database server host and port --&gt;
+       &lt;host&gt;<i><tt>localhost</tt></i>&lt;/host&gt;
+       &lt;port&gt;<i><tt>5432</tt></i>&lt;/port&gt;
+
+       &lt;!-- Database name --&gt;
+       &lt;dbname&gt;<i><tt>jabberd2</tt></i>&lt;/dbname&gt;
+
+       &lt;!-- Database username and password --&gt;
+       &lt;user&gt;<i><tt>jabberd2</tt></i>&lt;/user&gt;
+       &lt;pass&gt;<i><tt>secret</tt></i>&lt;/pass&gt;
+     &lt;/pgsql&gt;</pre> </td></tr></table></div>
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/jabberd-howto-postgresql.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/jabberd-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/jabberd-howto-mysql.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Postgresql Üzerinde Jabberd Kurulumu </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Mysql Üzerinde Jabberd Kurulumu</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

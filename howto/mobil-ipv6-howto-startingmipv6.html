@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-04-11T01:57:48Z"><title>Gezici IPv6'nın Başlatılması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/mobil-ipv6-howto.html" title="Linux Gezici IPv6 NASIL"><link rel="previous" href="../howto/mobil-ipv6-howto-testbed.html" title="Deneme ortamı"><link rel="next" href="../howto/mobil-ipv6-howto-dotest.html" title="Denemelerin Yapılması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Gezici IPv6'nın Başlatılması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/mobil-ipv6-howto-testbed.html">Önceki</a> </td><th width="60%" align="center">Linux Gezici IPv6 NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/mobil-ipv6-howto-dotest.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="mobil-ipv6-howto-startingmipv6"></a>Gezici IPv6'nın Başlatılması</h2></div></dt><dd><p>
+Ev Yetkilisinde (HA) gezici IPv6'yı başlatalım. Test yaparken ayrıntılı çıktıları görmek istediğimizden init betiklerini kullanmayacağız.
+</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># mip6d -c /etc/mip6d.conf
+mip6d[3794]: MIPL Mobile IPv6 for Linux v2.0.1 started (Home Agent) <a name="mobil-ipv6-howto-actingHA"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+main: MIPL Mobile IPv6 for Linux started in debug mode, not detaching from terminal
+conf_show: config_file = /etc/mip6d.conf <a name="mobil-ipv6-howto-mip6dconf"></a><img src="../images/xsl/callouts/2.png" alt="2" border="0">
+conf_show: vt_hostname = localhost
+conf_show: vt_service = 7777
+conf_show: mip6_entity = 2
+conf_show: debug_level = 10
+conf_show: PolicyModulePath = [internal]
+conf_show: DefaultBindingAclPolicy = 0
+conf_show: NonVolatileBindingCache = disabled
+conf_show: KeyMngMobCapability = disabled
+conf_show: UseMnHaIPsec = enabled <a name="mobil-ipv6-howto-usingipsec"></a><img src="../images/xsl/callouts/3.png" alt="3" border="0">
+conf_show: MnMaxHaBindingLife = 262140
+conf_show: MnMaxCnBindingLife = 420
+conf_show: MnRouterProbes = 0
+conf_show: MnRouterProbeTimeout = 0.000000
+conf_show: InitialBindackTimeoutFirstReg = 1.500000
+conf_show: InitialBindackTimeoutReReg = 1.000000
+conf_show: UseCnBuAck = disabled
+conf_show: DoRouteOptimizationMN = enabled
+conf_show: MnUseAllInterfaces = disabled
+conf_show: MnDiscardHaParamProb = disabled
+conf_show: SendMobPfxSols = enabled
+conf_show: SendMobPfxAdvs = enabled
+conf_show: SendUnsolMobPfxAdvs = enabled
+conf_show: MaxMobPfxAdvInterval = 86400
+conf_show: MinMobPfxAdvInterval = 600
+conf_show: HaMaxBindingLife = 262140
+conf_show: DoRouteOptimizationCN = enabled
+xfrm_cn_init: Adding policies and states for CN
+xfrm_ha_init: Adding policies and states for HA
+vt_server_init: VT server listens 127.0.0.1[7777] OK <a name="mobil-ipv6-howto-avt"></a><img src="../images/xsl/callouts/4.png" alt="4" border="0">
+</pre> </td></tr></table></div></p><p>
+<div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-actingHA"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>Düğüm Ev Yetkilisi olarak davranıyor.
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-mip6dconf"><img src="../images/xsl/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>Yapılandırma dosyası <tt>/etc/mip6d.conf</tt>
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-usingipsec"><img src="../images/xsl/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>IPSec kullanıyoruz
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-avt"><img src="../images/xsl/callouts/4.png" alt="4" border="0"></a> </td><td valign="top" align="left"><p>Localhost'da 7777. portu dinleyen bir Vt sunucusu var. 
+  </p></td></tr></table></div></p><p>İkinci olarak Gezici Düğümde gezici IPv6'yı başlatalım. Ev yetkilisinde olduğu gibi yine init betiklerini kullanmayacağız.
+</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># mip6d -c /etc/mip6d.conf
+mip6d[9121]: MIPL Mobile IPv6 for Linux v2.0.1 started (Mobile Node) <a name="mobil-ipv6-howto-bir"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+main: MIPL Mobile IPv6 for Linux started in debug mode, not detaching from terminal
+conf_show: config_file = /etc/mip6d.conf <a name="mobil-ipv6-howto-iki"></a><img src="../images/xsl/callouts/2.png" alt="2" border="0">
+conf_show: vt_hostname = localhost
+conf_show: vt_service = 7777
+conf_show: mip6_entity = 1
+conf_show: debug_level = 10
+conf_show: PolicyModulePath = [internal]
+conf_show: DefaultBindingAclPolicy = 0
+conf_show: NonVolatileBindingCache = disabled
+conf_show: KeyMngMobCapability = disabled
+conf_show: UseMnHaIPsec = enabled <a name="mobil-ipv6-howto-uc"></a><img src="../images/xsl/callouts/3.png" alt="3" border="0">
+conf_show: MnMaxHaBindingLife = 262140
+conf_show: MnMaxCnBindingLife = 420
+conf_show: MnRouterProbes = 0
+conf_show: MnRouterProbeTimeout = 0.000000
+conf_show: InitialBindackTimeoutFirstReg = 1.500000
+conf_show: InitialBindackTimeoutReReg = 1.000000
+conf_show: UseCnBuAck = disabled
+conf_show: DoRouteOptimizationMN = enabled
+conf_show: MnUseAllInterfaces = disabled
+conf_show: MnDiscardHaParamProb = enabled
+conf_show: SendMobPfxSols = enabled
+conf_show: SendMobPfxAdvs = enabled
+conf_show: SendUnsolMobPfxAdvs = enabled
+conf_show: MaxMobPfxAdvInterval = 86400
+conf_show: MinMobPfxAdvInterval = 600
+conf_show: HaMaxBindingLife = 262140
+conf_show: DoRouteOptimizationCN = enabled
+xfrm_cn_init: Adding policies and states for CN
+xfrm_mn_init: Adding policies and states for MN
+conf_home_addr_info: HoA address fec0:106:2700:0:0:0:0:4 <a name="mobil-ipv6-howto-dort"></a><img src="../images/xsl/callouts/4.png" alt="4" border="0">
+conf_home_addr_info: HA address fec0:106:2700:0:0:0:0:2
+__tunnel_add: created tunnel ip6tnl1 (17) from fec0:106:2700:0:0:0:0:4 to fec0:106:2700:0:0:0:0:2 user count 1
+conf_home_addr_info: Home address fec0:106:2700:0:0:0:0:4
+flag_hoa: set HoA fec0:106:2700:0:0:0:0:4/128 iif 17 flags 10 preferred_time 4294967295 valid_time 4294967295
+conf_home_addr_info: Added new home_addr_info successfully
+__md_discover_router: discover link on iface eth0 (4)
+vt_server_init: VT server listens 127.0.0.1[7777] OK <a name="mobil-ipv6-howto-bes"></a><img src="../images/xsl/callouts/5.png" alt="5" border="0">
+md_change_default_router: add new router fe80:0:0:0:201:2ff:fef1:91ee on interface eth1 (4)
+mn_addr_do_dad: DAD succeeded!
+mn_move: 1535
+mn_move: in home net <a name="mobil-ipv6-howto-alti"></a><img src="../images/xsl/callouts/6.png" alt="6" border="0">
+mv_hoa: move HoA fec0:106:2700:0:0:0:0:4/64 from iface 17 to 4</pre> </td></tr></table></div></p><p>
+<div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-bir"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>Düğüm Gezici Düğüm olarak davranıyor.
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-iki"><img src="../images/xsl/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>Yapılandırma dosyası <tt>/etc/mip6d.conf</tt>
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-uc"><img src="../images/xsl/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>IPSec kullanıyoruz.
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-dort"><img src="../images/xsl/callouts/4.png" alt="4" border="0"></a> </td><td valign="top" align="left"><p>Bu iki satır Ev Adresi (HoA) ve Home Agent adresini (HA) gösterir.
+Daha sonra bir IPv6 tüneli yaracaklar.
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-bes"><img src="../images/xsl/callouts/5.png" alt="5" border="0"></a> </td><td valign="top" align="left"><p>Localhost'da 7777. portu dinleyen bir Vt sunucusu var.
+  </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-alti"><img src="../images/xsl/callouts/6.png" alt="6" border="0"></a> </td><td valign="top" align="left"><p>Düğüm ev ağında olduğunu saptadığından Ev Adresini (HoA) tünelden
+(ip6tnl1) gerçek arayüze (eth0) değiştirir.
+  </p></td></tr></table></div></p><p><b><tt>ifconfig</tt></b> komutunu kullandığımızda (ip6tnl1) tünelinin aktif olduğunu görürüz:</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># ifconfig
+           eth0      Link encap:Ethernet  HWaddr 00:90:7D:F3:03:1A  
+         inet6 addr: fec0:106:2700::4/64 Scope:Site                 
+         inet6 addr: fe80::290:7dff:fef3:31a/64 Scope:Link          
+         inet6 addr: fec0:106:2700:0:290:7dff:fef3:31a/64 Scope:Site
+         UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+         RX packets:513 errors:89 dropped:89 overruns:0 frame:85
+         TX packets:140 errors:41 dropped:0 overruns:0 carrier:0
+         collisions:0 txqueuelen:100 
+         RX bytes:56084 (54.7 Kb)  TX bytes:19212 (18.7 Kb)
+         Interrupt:3 Base address:0x100
+
+ip6tnl1   Link encap:UNSPEC  HWaddr FE-C0-01-06-27-00-00-00-00-00-00-00-00-00-00-00  <a name="mobil-ipv6-howto-yedi"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+         inet6 addr: fe80::211:43ff:fecc:279c/64 Scope:Link
+         UP POINTOPOINT RUNNING NOARP  MTU:1460  Metric:1
+         RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+         TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+         collisions:0 txqueuelen:0 
+         RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)       
+
+lo        Link encap:Local Loopback  
+         inet addr:127.0.0.1  Mask:255.0.0.0
+         inet6 addr: ::1/128 Scope:Host
+         UP LOOPBACK RUNNING  MTU:16436  Metric:1
+         RX packets:20352 errors:0 dropped:0 overruns:0 frame:0
+         TX packets:20352 errors:0 dropped:0 overruns:0 carrier:0
+         collisions:0 txqueuelen:0 
+         RX bytes:1840264 (1.7 MiB)  TX bytes:1840264 (1.7 MiB)</pre> </td></tr></table></div></p><p>
+<div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#mobil-ipv6-howto-yedi"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>Tünel faal ve bağlantılara hazırdır.
+  </p></td></tr></table></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/mobil-ipv6-howto-testbed.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/mobil-ipv6-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/mobil-ipv6-howto-dotest.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Deneme ortamı </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Denemelerin Yapılması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

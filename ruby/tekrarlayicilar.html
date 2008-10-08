@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:slagell@ruby-lang.org">
+  <TITLE>Tekrarlayıcılar</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="kontrol.html">
+ <img border=0 src="a2l.gif" alt="Kontrol Yapıları"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ny_dusunce.html">
+ <img border=0 src="a2r.gif" alt="Nesneye yöncelik düşünme"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Tekrarlayıcılar  (<i>Iterators</i>)</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p><em>Tekrarlayıcılar</em> sadece Ruby'ye özgü bir kavram değildir. Genel olarak çoğu nesneye yönelik programlama dilinde kullanımaktadır. Lisp'te de tekrarlayıcılar olarak adlandırılmasalar da kullanılmaktadır. Ancak <em>tekrarlayıcı</em> kavramı neredeyse her dilde değişik bir anlam kazandığı için önce bu kavramı daha detaylı anlatmaya çalışalım:</p>
+<p><em>iterate</em> sözcüğü aynı şeyi birçok kez tekrarlamak anlamına gelir.</p>
+<p>Kod yazarken değişik durumlarda döngülere ihtiyacımız olur. C'de <code>for</code> ya da <code>while</code> kullanarak işimizi hallederiz. Örneğin,</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#d8d8e0"><tr><td><pre><font color="black">char *str;
+for (str = "abcdefg"; *str != '\0'; str++) {
+  /* burada bir karakter işleyin */
+}</font></pre></td></tr></table>
+<p>C'nin  <code>for(...)</code>  dizimi döngünün yaratılmasında soyutlama sağlayarak yardımcı olsa da <code>*str</code>'nin bir boş bir karaktere karşı test edilmesi programcının dizgi yapısı hakkında daha detaylı bilgi bilmesini gerektirir. Bu C'nin düşük-seviyeli olduğunu hissettiren nedenlerden biridir. Yüksek seviyeli diller tekrarlayıcılara uyumluluklarıyla ün kazanmışlardır. Aşağıdaki <code>sh </code>kabuk betiğini göz önünde bulunduralım:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">#!/bin/sh
+
+for i in *.[ch]; do
+  # ...  örnegin; her dosya icin yapilacak birkac işlem yer alabilir.
+done</font></pre></td></tr></table>
+<p>Bulunulan dizindeki tüm C kaynak ve başlık dosyaları çalıştırıldı ve komut satırı detayları tuttu. C'den daha yüksek seviyeli olduğunu düşünüyorum, öyle değil mi?</p>
+<p>Ancak göz önüne alınması gereken başka bir nokta daha var: bir dilin gömülü veri yapıları için tekrarlayıcıleri desteklemesi güzel birşey olsa da, geri dönüp kendi veri yapılarımızı tekrarlatacak düşük seviyeli döngüler yazmak hayalkırıklığı yaratacak bir iş olacaktır. Nesneye yönelik programlamada, kullanıcılar çoğu kez ardı ardına veri tipleri tanımlarlar ve bu ciddi bir problem olabilir.</p>
+<p>Her nesneye yönelik programlama dili iterasyonlar için kolaylıklar içerir. Bazı diller bu iş için özel sınıflar tanımlarken, Ruby tekrarlayıcıleri doğrudan tanımlamayı tercih eder.</p>
+<p>Ruby'nin <code>string</code> tipi bazı yararlı tekrarlayıcılara sahiptir.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "abc".each_byte{|c| printf "&lt;%c&gt;", c}; print "\n"</b></font>
+&lt;a&gt;&lt;b&gt;&lt;c&gt;
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p><code>each_byte</code>, dizgideki her karakter için bir tekrarlayıcıdır. Her bir karakter yerel bir değişken olan <code>c</code> yerine konur. Bu daha çok C koduna benzeyen birşeyle açıklanabilir...</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> s="abc";i=0</b></font>
+<font color="#50ffff"><b>   0</b></font>
+ruby&gt;<font color="#ffff00"><b> while i&lt;s.length</b></font>
+    |<font color="#ffff00"><b>    printf "&lt;%c&gt;", s[i]; i+=1</b></font>
+    |<font color="#ffff00"><b> end; print "\n"</b></font>
+&lt;a&gt;&lt;b&gt;&lt;c&gt;
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Buna rağmen <code>each_byte</code> tekrarlayıcısı hem kabul edilebilir bir basitlikte hem de <code>String</code> sınıfı radikal bir değişikliğe uğrarsa çalışmaya devam edilmesi hoş olacak bir tekrarlayıcıdır. Tekrarlayıcıların başka bir yayarı da değişiklere karşı sağlam durmasıdır ki bu da iyi bir kodun karakteristik özelliklerinden biridir (evet, sabırlı olun, <em>sınıflar</em> hakkında da konuşacağız.).</p>
+<p><code>String</code>'in başka bir tekrarlayıcısı da <code>each_line</code>'dır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "a\nb\nc\n".each_line{|l| print l}</b></font>
+a
+b
+c
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>C'de satır sınırlayıcıları bulmak, alt dizgiler üretmek gibi güç işler tekrarlayıcılarla kolayca üstesinden gelinebilir.</p>
+<p>Geçen bölümdeki <code>for</code> döngüsü, <code>each</code> operatörünü kullanarak tekrarlanmayı sağlamaktaydı. <code>String</code>'in <code>each</code>'i aynı <code>each_line</code> gibi görev görür, o yüzden yukarıdaki örneği <code>for</code> ile tekrar yazalım:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> for l in "a\nb\nc\n"</b></font>
+    |<font color="#ffff00"><b>   print l </b></font>
+    |<font color="#ffff00"><b> end</b></font>
+a
+b
+c
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Bulunulan tekrarlamayı döngünün başından itibaren tekrar ettirmek için <code>retry</code> kontrol yapısını kullanabiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> c=0</b></font>
+<font color="#50ffff"><b>   0</b></font>
+ruby&gt;<font color="#ffff00"><b> for i in 0..4</b></font>
+    |<font color="#ffff00"><b>   print i</b></font>
+    |<font color="#ffff00"><b>   if i == 2 and c == 0</b></font>
+    |<font color="#ffff00"><b>     c = 1</b></font>
+    |<font color="#ffff00"><b>     print "\n"</b></font>
+    |<font color="#ffff00"><b>     retry</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end; print "\n"</b></font>
+012
+01234
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>
+
+Tekrarlayıcı tanımlamasında bazen <code>yield</code>'le karşılaşırız. <code>yield</code>, kontrolü tekrarlayıcıya parametre olarak geçilen kod bloğuna verir (bu konu <a href="prosedur_nesneleri.html">prosedür nesneleri</a> bölümünde daha detaylı anlatılacaktır). Aşağıdaki örnekte, argümanda verilen sayı kadar bir kod bloğunu tekrarlayan <code>repeat</code> tekrarlayıcısı tanımlanmıştır.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> def repeat(num)</b></font>
+    |<font color="#ffff00"><b>   while num &gt; 0</b></font>
+    |<font color="#ffff00"><b>     yield</b></font>
+    |<font color="#ffff00"><b>     num -= 1</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> repeat(3) { print "foo\n" }</b></font>
+foo
+foo
+foo
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p><code>retry</code> ile <code>while</code> gibi çalışan ancak hız açısından pek de pratik olmayan bir tekrarlayıcı tanımlayabiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> def WHILE(cond)</b></font>
+    |<font color="#ffff00"><b>   return if not cond</b></font>
+    |<font color="#ffff00"><b>   yield</b></font>
+    |<font color="#ffff00"><b>   retry</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> i=0; WHILE(i&lt;3) { print i; i+=1 }</b></font>
+012   nil</font></pre></td></tr></table>
+<p>
+Tekrarlayıcının ne olduğunu anladınız mı? Bir kaç kısıtlama hariç, kendi tekrarlayıcınızı yazabilirsiniz, aslında yeni bir veri tipi tanımladığınız zaman ona uygun bir tekrarlayıcı tanımlamanız da uygun olacaktır. Yukarıdaki örnekler pek de kullanışlı örnekler sayılmazlar. Sınıfları daha iyi anladığımızda daha pratik tekrarlayıcılar hakkında konuşabiliriz. 
+</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="kontrol.html">
+ <img border=0 src="a2l.gif" alt="Kontrol Yapıları"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ny_dusunce.html">
+ <img border=0 src="a2r.gif" alt="Nesneye yöncelik düşünme"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

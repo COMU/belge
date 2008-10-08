@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:01+03:00"><title>Yöntemler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-oothinking.html" title="Nesne Yönelimli Düşünme"><link rel="next" href="../howto/ruby-ug-classes.html" title="Sınıflar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yöntemler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-oothinking.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-classes.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-methots"></a>Yöntemler</h2></div></dt><dd><p>
+Yöntem nedir? Nesneye yönelik yazılım geliştirmede, nesnenin dışından doğrudan veri üzerinde işlem yapmak yerine (<i>eğer nazikçe böyle yapmalarını söylerseniz</i>) nesnelerin kendilerini nasıl çalıştıracakları hakkında bilgiye sahip olması tercih edilir. Nesnelere mesajlar gönderdiğimizi ve bunların genelde bir olay tarafından gerçekleştirildiğini ya da anlamlı bir cevapla karşılandığını söyleyebilirsiniz. Bu muhtemelen bizim özellikle bilmemizi gerektiren ya da nesnenin kendi içinde nasıl çalıştığına dikkat etmemizi gerektirmeyen bir olaydır. Bir nesneye gerçekleştirmesi için (<i>ya da anlayacağı mesajlar göndermemiz için</i>) izinli olduğumuz görevlere, <span class="wordasword"><i>nesnenin yöntemleri</i></span> denir.
+  </p><p>
+Ruby'de bir nesnenin yöntemini nokta gösterimi ile çağırırız (C++ ya da Java'da olduğu gibi).
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> "abcdef".length</tt>
+   <tt class="empoutput">6</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Muhtemelen bu dizgenin <i>uzunluğunun ne kadar olduğu</i> soruluyor.
+  </p><p>
+Teknik olarak,<b><tt>"abcdef"</tt></b> nesnesi için <b><tt>length</tt></b> yöntemini çağırıyoruz.
+  </p><p>
+Diğer nesnelerin <b><tt>length</tt></b> yöntemi için biraz farklılıkları olabilir, ya da hiç olmayabilir de. Mesajlara nasıl cevap verileceği kararı yazılımın çalıştırılması sırasında verilir ve hangi nesneye başvurduğuna bağlı olarak olay değişebilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> foo = "abc"</tt>
+   <tt class="empoutput">"abc"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> foo.length</tt>
+   <tt class="empoutput">3</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> foo = ["abcde", "fghij"]</tt>
+   <tt class="empoutput">["abcde", "fghij"]</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> foo.length</tt>
+   <tt class="empoutput">2</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<tt>length</tt> yönteminin, nesneye göre değişebilmesiyle neyi kastediyoruz?
+Yukarıdaki örnekte ilk önce <b><tt>foo</tt></b>'nun uzunluğunu soruyoruz, basit bir dizgeye başvuruyor ve sadece tek bir mantıklı cevabı olabilir. İkinci sefer <b><tt> foo</tt></b> bir diziye başvuruyor ve uzunluğunun 2, 5 ya da 10 olduğunu düşünebilirsiniz ama genelde en kabul edilebilir cevap tabii ki 2 olacaktır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> foo[0].length</tt>
+   <tt class="empoutput">5</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> foo[0].length + foo[1].length</tt>
+   <tt class="empoutput">10</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Burada dikkat edilmesi gereken nokta bir dizinin, dizi olmanın ne demek olduğunu bilmesidir. Ruby'de veri parçaları beraberlerinde bilgi taşıdıkları için talepler otomatik olarak  algılanabilir ve bir çok yolla gerçekleştirilebilir.
+  </p><p>
+Bu yazılımcıyı spesifik işlev adlarını hatırlamaktan kurtarır, değişik veri türlerine uygulanabilir ve sonuç istediğimiz gibi olur. Nesneye yönelik yazılım geliştirmenin bu özelliği <tt>polimorfizm</tt> olarak adlandırılır.
+  </p><p>
+Bir nesne anlamadığı bir mesaj aldığında bir hata uyanır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> foo = 5</tt>
+   <tt class="empoutput">5</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> foo.length</tt>
+<tt class="empoutput">ERR: (eval):1: undefined method `length' for 5(Fixnum)</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Sonuçta bir nesne için hangi yöntemlerın kabul edilebilir olduğunu bilmemiz geretiği halde, yöntemlerin nasıl işlendiğini bilmek zorunda değiliz.
+  </p><p>
+Eğer argümanlar bir yönteme verilecekse genelde parantez içine alınırlar.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">object.method(arg1, arg2)  </pre> </td></tr></table></div>
+  </p><p>
+Ancak belirsizlik ihtiva etmedikleri sürece kullanılmayabilirler de.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">object.method arg1, arg2  </pre> </td></tr></table></div>
+  </p><p>
+Ruby, <b><tt>self</tt></b> adında bir nesnenin bir yöntemini çağırdığı zaman başvurulan özel bir değişkene sahiptir. Rahatlık için "<b><tt>self.</tt></b>"  genelde yöntem çağrılırken kullanılmayabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">self.method_name(args...)  </pre> </td></tr></table></div>
+  </p><p>
+yukarıdaki ifadeyle aşağıdaki aynıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">method_name(args...)  </pre> </td></tr></table></div>
+  </p><p>
+Bir <tt>işlev çağrısı</tt> sadece <b><tt>self</tt></b>'le yöntem çağrımının kısaltılmış şeklidir. Bu da Ruby'yi saf bir nesneye yönelik yazılım geliştirme dili yapan şeydir.  Hala işlevsel yöntemler diğer dillerdeki işlevlere çok benzese de aslında işlev çağrılarının Ruby'de gerçek nesne yöntemlerinden başka birşey olmadığını görmeniz gerekir. İstersek hala gerçek nesne yöntemleri değilmiş gibi kabul ederek <tt>işlev</tt>lerden bahsedebiliriz.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-oothinking.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-classes.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Nesne Yönelimli Düşünme </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sınıflar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

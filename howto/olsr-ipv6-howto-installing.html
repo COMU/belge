@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-25T01:43:22+03:00"><title>OLSRd'yi kurma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/olsr-ipv6-howto-OLSRLinux.html" title="Linux için OLSR"><link rel="previous" href="../howto/olsr-ipv6-howto-OLSRLinux.html" title="Linux için OLSR"><link rel="next" href="../howto/olsr-ipv6-howto-using.html" title="OLSRd'nin kullanımı"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">OLSRd'yi kurma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/olsr-ipv6-howto-OLSRLinux.html">Önceki</a> </td><th width="60%" align="center">Linux için OLSR</th><td width="20%" align="right"> <a accesskey="n" href="../howto/olsr-ipv6-howto-using.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="olsr-ipv6-howto-installing"></a>OLSRd'yi kurma</h3></div></dt><dd><p>
+OLSRd'nin her ay birçok yeni sürümü çıkar, bu yüzden en yeni sürüm için OLSRd <a href="http://www.olsr.org" target="_top">web-site</a>'sine arasıra bakın.
+    </p><p>
+  <div class="orderedlist"><ol type="1"><li><div class="listitem">
+Bu satırları yazarken en son sürüm 0.4.3; ama siz bunu okurken kesin yeni bir sürüm daha çıkmış olacaktır. En son sürümü <a href="http://www.olsr.org/index.cgi?action=download" target="_top">http://www.olsr.org/index.cgi?action=download</a> adresinden edinebilirsiniz.
+    <p></p><p></p></div></li><li><div class="listitem">
+Paketi açın, derleyin ve kurun:
+    <p></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"><tt># </tt><b><tt>tar jxvf uolsrd-x.y.z</tt></b>
+<tt># </tt><b><tt>cd unik-olsrd-x.y.z</tt></b>
+<tt># </tt><b><tt>make</tt></b>
+<tt># </tt><b><tt>make install</tt></b>
+</pre> </td></tr></table></div>
+    </p><p></p></div></li><li><div class="listitem">
+<b><tt>olsrd</tt></b> <tt>/usr/bin/</tt>'e kurulur ve öntanımlı yapılandırma dosyası, <tt>olsrd.conf</tt> <tt>/etc</tt>'nin altında bulunabilir.
+    <p></p><p></p></div></li></ol></div>
+  </p><p>
+<tt>/etc/olsrd.conf</tt> yapılandırma dosyasını kontrol edin ve sisteminize uyması için değerleri değiştirin. <b><tt>olsrd</tt></b> komut satırı seçenekleri bu dosya içindeki tüm değerlere göre daha önceliklidir. Değiştirmek için başlıca seçenekler:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># Debug level(0-9)
+# If set to 0 the daemon runs in the background
+DEBUG           1
+# IP version to use (4 or 6)
+IPVERSION       6
+# A list of whitespace separated interface names
+INTERFACES      eth1
+</pre> </td></tr></table></div>
+  </p><p>
+Daha sonra, OLSRd'nin doğru bir şekilde yapılandırıldığını bildiğinizde onu arka planda çalıştırmak için "DEBUG"'ı <b><tt>0</tt></b>'a ayarlayabilirsiniz. Sonrasında onu açılış betiklerinizin içine de eklersiniz. Ama herşeyi öncelikle denemek için bunu en az <b><tt>1</tt></b>'e ayarlayın (bunu daha yüksek ayarlamak yapılandırma dosyasının APM'si, aktarılması, kısımlara ayrılması, vs. üzerine daha fazla bilgi iletisi üretecektir.)
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/olsr-ipv6-howto-OLSRLinux.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/olsr-ipv6-howto-OLSRLinux.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/olsr-ipv6-howto-using.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Linux için OLSR </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> OLSRd'nin kullanımı</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

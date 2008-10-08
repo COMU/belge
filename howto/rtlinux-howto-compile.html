@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:55:49+03:00"><title>Derleme ve Çalıştırma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/rtlinux-howto.html" title="RTLinux NASIL"><link rel="previous" href="../howto/rtlinux-howto-rtlinuxprogramming.html" title="RTLinux Programları Yazmak"><link rel="next" href="../howto/rtlinux-howto-interprocess.html" title="Süreçlerarası İletişim"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Derleme ve Çalıştırma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/rtlinux-howto-rtlinuxprogramming.html">Önceki</a> </td><th width="60%" align="center">RTLinux NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/rtlinux-howto-interprocess.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="rtlinux-howto-compile"></a>Derleme ve Çalıştırma</h2></div></dt><dd><p><tt>hello.c</tt> programını çalıştırmak için  (tabii ki RTLinux açılışından sonra) aşağıdaki adımları sırası ile yapmalısınız:
+</p><p>
+<div class="orderedlist"><ol type="1"><li><div class="listitem">
+GCC derleyicisini kullanarak kaynak kodu derleyip bir modül oluşturun. Birşeyleri basitleştirmek adına bir Makefile oluşturmak daha iyidir. Böylece kodu derlemek için tek ihtiyacınız make yazmak olacaktır.
+<p></p><p>
+Aşağıdaki satırları 'Makefile' isimli bir dosyaya yazarak Makefile'ı oluşturabilirsiniz:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+include rtl.mk
+all: hello.o
+clean:
+    rm -f *.o
+hello.o: hello.c
+    $(CC) ${INCLUDE} ${CFLAGS} -c hello.c
+</pre> </td></tr></table></div>
+</p><p></p></div></li><li><div class="listitem">
+<tt>rtl.mk</tt> dosyasını <tt>hello.c</tt> ve <tt>Makefile</tt> ile aynı dizinin içine kopyalayın. <tt>rtl.mk</tt> dosyası, kodu derlemek için gerekli bütün seçenekleri içeren bir başlık dosyasıdır. Bunu RTLinux kaynak ağacından kopyalayabilirsiniz ve <tt>hello.c</tt> dosyasının yanına koyabilirsiniz.
+<p></p><p></p></div></li><li><div class="listitem">
+Kodu derlemek için '<b><tt>make</tt></b>' komutunu kullanın:
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>make</tt></b></pre> </td></tr></table></div>
+</p><p></p></div></li><li><div class="listitem">
+Oluşan ikilik nesne dosyası RTLinux tarafından çalıştırılacak çekirdeğe eklenmelidir. Bunun için '<b><tt>rtlinux</tt></b>' komutunu kullanmak gerekir (tabii önce 'root' olmak gerekir).
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>rtlinux start hello</tt></b></pre> </td></tr></table></div>
+</p><p></p></div></li></ol></div>
+</p><p>
+Artık <b><tt>hello.o</tt></b> programının iletisini saniyede bir yazdırması izleyebiliyor olmalısınız.nı her saniye görebilirsiniz. Makinenizin yapılandırmasına bağlı olarak onu ya doğrudan konsolda ya da
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>dmesg</tt></b></pre> </td></tr></table></div>
+</p><p>
+komutunu girerek görebilirsiniz. Programı sonlandırmak için onu çekirdekten çıkarmanız gerekir. Bunu yapmak için:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>rtlinux stop hello</tt></b></pre> </td></tr></table></div>
+</p><p>
+Bu modülü eklemek ve çıkarmak için diğer bir yol da sırayla <b><tt>insmod</tt></b> ve <b><tt>rmmod</tt></b> kullanmaktır.
+</p><p>
+Burada örnek programımızı çok basit yaptık. Gördüğümüzün aksine burada bir programda çok sayıda evre olabilir. Öncelik evre oluşturulurken belirtilebilir ve daha sonra değiştirilebilir. Ayrıca kullanılacak işlemci zamanlama algoritmasını da seçebiliriz. Aslında kendi zamanlama algoritmamızı kendimiz yazabiliriz!
+</p><p>
+Örneğimizde, evreye öncelik olarak 1 verebilir ve <tt>evre_kodu()</tt> işlevinin başlangıcına aşağıdaki satırları ekleyerek FIFO zamanlamasını seçebiliriz :
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+struct sched_param p;
+p.sched_priority = 1;
+pthread_setschedparam (pthread_self(), SCHED_FIFO, &amp;p);
+</pre> </td></tr></table></div>
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/rtlinux-howto-rtlinuxprogramming.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/rtlinux-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/rtlinux-howto-interprocess.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">RTLinux Programları Yazmak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Süreçlerarası İletişim</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

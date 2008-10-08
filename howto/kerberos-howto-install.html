@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-06T10:10:12+03:00"><title>Kurulum ve Yapılandırma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kerberos-howto.html" title="Kerberos Altyapısı NASIL"><link rel="previous" href="../howto/kerberos-howto-overview.html" title="Kerberos Altyapısının Tanıtımı"><link rel="next" href="../howto/kerberos-howto-time-sync.html" title="Eşzamanlama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kurulum ve Yapılandırma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kerberos-howto-overview.html">Önceki</a> </td><th width="60%" align="center">Kerberos Altyapısı NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kerberos-howto-time-sync.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="kerberos-howto-install"></a>Kurulum ve Yapılandırma</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-machine-configure"></a>Yapılandırmaya Genel Bir Bakış</h3></div></dt><dd><p>
+Bu bölümde KDC olarak işlev yapacak bilgisayarların ve yazılımları yapılandırmaları anlatılacaktır. Önerilen yapılandırmalarda küçük ayarlamalar yapmak isteyebilirsiniz ama KDC'nizi yapılandırırken burada gösterilen bazı anahtar noktaları hatırlamanız çok önemli olacaktır. Bu yüzden, eğer alternatif bir yapılandırma stratejisi izlemeye karar verirseniz buradakileri anladığınızdan emin olun.
+</p><p>
+Bilgisayarlar Kerberos artalan sürecini çalıştıracak ve parolaları saklayacak olduklarından, sunucuların güvenli kalabilmeleri için bulundukları ağın güvenliği son derece önemlidir. Bu sunucuların ele geçirilmesini önlemek için mümkün olan bütün önlemleri almamız gerekir. Bu bölümdeki tüm güvenlik uyarıları dikkatle uygulanmalıdır.
+</p><p>
+Güvenlik tavsiyelerinin anahtar noktası Kerberos KDC servisi verecek sunucunun adanmış sunucu olmasıdır. Bu sunucunun fiziksel güvenliğini sağlamalı ve üzerinde çalışacak GNU/Linux'u mümkün olduğunca güçlendirmelisiniz. Eğer KDC ele geçirilirse tüm Kerberos alt yapınız ele geçirilmiş olur.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-hardware"></a>Donanım</h3></div></dt><dd><p>
+Kerberos servisi donanıma fazlaca bağlı olmadığından ve Kerberos servisleri yedekli çalışabildiğinden sunucunun donanımı minimum olabilir. İşlettiğim Kerberos sunucularım bir PIII işlemcisi ve iki RAID 1 diski olan sunuculardı. Bu bilgisayarlar günde elli ila yüz bin arası kimlik denetimi yapması gereken sunuculardı. Sunucular yedekli NIC kartları ile çalıştırılırken her iki kartın birden etkin olmamasına dikkat edilmesi gerekir. Kerberos'da biletler KDC'nin IP'sini de içerdiğinden eğer bir istemci kimlik denetimi sırasında KDC'nin birden fazla arabirimi ile iletişim kurarsa kimlik denetiminde zorluklarla karşılaşabilir.
+</p><p>
+Kerberos servisinin adanmış bir sunucu üzerinde çalışmasına dikkat edilmelidir. Adanmış bir sunucu ile kasdedilen sadece Kerberos yöneticisinin oturum açmasının gerekeceği bir sunucudur. Bu aynı zamanda, belki SSH hariç, başka hiç bir servisin çalışmaması anlamına da gelmelidir. Tüm kullanıcılarınızın parolaları Kerberos sunucuları üzerinde tutulacağından bu donanımlara erişimi mümkün olduğunca kısıtlamak iyi olacaktır. Kerberos için adanan sunucuları fiziki güvenliklerini de mümkün olduğunca sağlamak gereklidir. Kerberos sunucuları için bu güvenlik sunucuların bir kabin içerisine kilitlenmesi ve adanmış bir terminalin kullanılmasını da kapsar.
+</p><p>
+Kerberos'un yedekli çalışma özelliğinden faydalanabilmek için en az iki bilgisayar KDC olarak çalışmalıdır. Kerberos bir ana (master) sunucu ve bir veya daha fazla yardımcı (slave) sunucu ile çalışabilecek şekilde tasarlanmıştır. İstediğiniz kadar ikincil sunucunuz olabilir.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-gnulinux-install"></a>GNU/Linux Kurulumu</h3></div></dt><dd><p>
+GNU/Linux kuracağımız sunucular sadece Kerberos servislerinde kullanılacağından güvenliklerini sağlamak için birkaç ilave işlem yapabiliriz.
+</p><p>
+İlk olarak, sadece Kerberos servisleri için gerekli yazılımları kuracağız. Bu tanım temel işletim sistemini ve Kerberos yazılımını kapsar. X'i veya herhangi bir GUI uygulamasını kurmayacağız. SSH kurulumu isteğe bağlıdır. Eğer sunucuları uzaktan yönetmek isterseniz SSH kurabilirsiniz. Ama sunuculara sadece onlara bağlı terminalden erişmek sunucuları önemli derecede daha fazla güvenli kılar.
+</p><p>
+Fedora Core GNU/Linux'da Kerberos servisi vermek için gerekli paketler şunlardır:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">krb5-server
+krb5-libs
+</pre> </td></tr></table></div>
+</p><p>
+Bilgisayarları KDC servisleri haricinde bir iş için kullanmak istemediğimizden belgeler veya geliştirme kütüphaneleri kurulmayacaktır.
+</p><p>
+Sıradaki adım gerekli olmayan bütün portların kapatılması ve gerekli tüm yamaların yapılmasıdır. Hangi yönetim yazılımı kurulmuşsa onun güvenlik yamaları yapılmalıdır. Bilgisayarın hangi portları dinlediği netstat komutu kullanılarak öğrenilebilir. Örneğin sadece ssh çalıştıran bir bilgisayarda aşağıdaki sonucu görmelisiniz:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash$ <b><tt>netstat -an | grep -i listen | less</tt></b>
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
+</pre> </td></tr></table></div>
+</p><p>
+Son olarak, sunucuyu sadece kimlik denetimi için gerekli sunucularla konuşacak şekilde kısıtlandırarak yapılandıracağız. Bu işlem <tt>iptables</tt> ile yapılabileceği gibi <tt>/etc/hosts.allow</tt> ve <tt>/etc/hosts.deny</tt> dosyalarını düzenleyerek de yapılabilir.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-realm"></a>Bir Bölge Seçmek</h3></div></dt><dd><p>
+Bölge adları büyük-küçük harfe duyarlıdır ve ağınızda benzersiz olmalıdır. İkinci seviye alan adınızı tümü büyük harflerle bölge adınız olarak kullanmak bir uygulama standardı olmuştur. Kerberos'u tüm ağınıza değil de bir alt ağa kuracaksanız bu alt ağın alan adını kullanmalısınız.
+</p><p>
+Bölge topolojinizi belirlerken, örgütlenmenizin tüm yapısını göz önüne almalısınız. Eğer örğütünüzün bir ya da daha fazla uzak ofisi veya bağımsız alt grubu varsa, onları ayrı bölgelere dahil etmek daha iyi olacaktır. Kerberos bölge topolojisi fiziksel ağ topolojisine değil sistem yönetim topolojisine benzemelidir.
+</p><p>
+Son olarak, miras sistemleri de örneğin Kerberos mirası veya korumak istediğiniz mevcut ağ topoloji gruplamaları (Windows NT alanı gibi) hesaba katmalısınız.
+</p><p>
+Eğer halen tüm ağında veya bir alt ağında Kerberos çalışan bir ağa Kerberos kuruyorsanız bölge isimlerinin çakışmasından kaçınmalısınız. Çalışan bir Kerberos sistemi mevcutken yeni bir Kerberos kurulmasına en çok ağların IBM SP kümelemesi içerdiği durumlarda karşılaşılır. Böyle durumlarda en iyi çözüm SP kümelemesi için üçüncü ya da daha üst seviyeden alan adında özel bir bölge yaratarak birincil Kerberos bölgeniz için ikinci seviye alan adını kullanmanız olacaktır.
+</p><p>
+Bu belgede altyapının tasarımı ve yapılandırmasının tasvirine yardımcı olmak için bir örnek kullanacağız. Örneğimiz için hayali Gnu Üniversitesini (Dublin, İrlanda) kullanacağız. Dublin Gnu Üniversitesi, öğrencilerinin ve fakültelerinin kimlik denetimi için iki Kerberos sunucusu kullanacak. Üniversitenin adresi gnud.ie olduğundan, Kerberos alanı için GNUD.IE adını kullanacağız.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-configure"></a>Kerberos Yazılımı Yapılandırması</h3></div></dt><dd><p>
+Şimdi Kerberos'u yapılandırmalı, bir yönetici yaratmalı, kurallarınızı belirlemeli ve Kerberos'un esas (principal) veritabanını ilklendirmelisiniz.
+</p><p>
+İlk adım <tt>/etc/krb5.conf</tt> yapılandırma dosyasını düzenlemektir. Bu dosyada bölge belirlenir, Kerberos sunucuları belirtilerek bölge tanımlaması genişletilir ve son olarak alan bölgesi ayarlanır. Bizim örneğimizde bu aşağıdaki gibi yapılır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">default_realm = GNUD.IE
+
+[realms]
+ GNUD.IE = {
+  kdc = kerberos1.gnud.ie:88
+  kdc = kerberos2.gnud.ie:88
+  admin_server = kerberos1.gnud.ie:749
+  default_domain = gnud.ie
+ }
+
+[domain_realm]
+ .gnud.ie = GNUD.IE
+ gnud.ie = GNUD.IE
+</pre> </td></tr></table></div>
+</p><p>
+Kerberos veritabanını yaratmak ve ilklendirmek için aşağıdaki komutu çalıştırmalısınız:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}bash# <b><tt>/usr/Kerberos/sbin/kdb5_util create -s</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+<tt>-s</tt> seçeneği ile KDC'ye kendisinin kimlik denetimi için bir gizli dosya yaratması söylenir. Bir bölge belirlemek için <tt>-r</tt> seçeneğini kullanabilirsiniz. Yeni veritabanı için bir bölge belirlemek ancak <tt>krb5.conf</tt> dosyasında birden çok bölge tanımlıysa gerekli olur.
+</p><p>
+Ardından Kerberos sizden veritabanı için bir yönetici parolası ister. Bu parolayı unutmamanız çok önemlidir. Eğer bu parolayı unutursanız Kerberos'u yönetemezsiniz.
+</p><p>
+KDC'ye yönetici olarak erişebilmek için acl dosyasını düzenlemelisiniz. Bu dosya öntanımlı olarak <tt>/var/Kerberos/krb5kdc/kadm5.acl</tt> konumundadır. Gerekirse acl dosyasının yerini <tt>kdc.conf</tt> dosyanızda belirtin. <tt>kdc.conf</tt> dosyanızın yeri <tt>/etc/krb5.conf</tt> dosyasında yazar, öntanımlı olarak <tt>/var/Kerberos/krb5kdc/kdc.conf</tt> konumundadır. Örneğimizdeki Dublin GNU Üniversitesi için acl dosyamızı aşağıdakileri içerecek şekilde düzenleyeceğiz:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">*/admin@GNUD.IE     *
+</pre> </td></tr></table></div>
+</p><p>
+Bu acl'ler <i>GNUD.IE</i> bölgesinde <tt>/admin</tt> ile biten bir hesabın tam erişim yetkisine sahip olduğu anlamına gelir.
+</p><p>
+Şimdi yönetici kullanıcılarımızın erişimini ayarlamalıyız; önce yönetici kullanıcıları yaratalım. Bunu KDC'de root kabuğunda kadmin.local komutunu addprinc komutu ile birlikte çalıştırarak yapabilirsiniz. Yöneticinin kullanıcı adı standart olarak <i>admin</i>'dir. Dublin GNU Üniversitesi Kerberos Yöneticisi için aşağıdaki komut yeterli olacaktır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}bash# <b><tt>/usr/Kerberos/sbin/kadmin.local -q "addprinc admin/admin"</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Sunucuda çalışması gereken artalan süreçleri krb5kdc ve kadmin'dir. Eğer gerekirse krb524 çalıştırılarak Kerberos 4 istemcileri için geriye dönük uyumluluk sağlanabilir. krb524 uygulamasını çalıştırmadan önce Kerberos 4 ile ilgili güvenlik uyarılarımızı hatırlayın ve ancak mutlaka bu işlevin gerekli olduğundan emin olduğunuzda çalıştırın. krb5kdc ve kadmin'nin KDC'de otomatik başlayacak şekilde yapılandırılması için chkconfig komutu kullanılabilir.
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}bash# <b><tt>/sbin/chkconfig krb5kdc on</tt></b>
+{Kerberos1}bash# <b><tt>/sbin/chkconfig kadmin on</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Son olarak, aşağıdaki komutları kullanarak elle başlatalım:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}bash# <b><tt>/etc/rc.d/init.d/krb5kdc start</tt></b>
+{Kerberos1}bash# <b><tt>/etc/rc.d/init.d/kadmin start</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+ve artık çalışan bir KDC'miz var.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-principal-creation"></a>Yetkili Kullanıcı Yaratma</h3></div></dt><dd><p>
+Aşağıdaki komutla Kerberos'da ilk yetkili kullanıcınızı yaratabilirsiniz:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}bash# <b><tt>kadmin.local</tt></b>
+{Kerberos1}kadmin.local: <b><tt>addprinc</tt></b> <i>kullanıcıismi</i>
+</pre> </td></tr></table></div>
+</p><p>
+Kerberos ile destekleyeceğiniz çok sayıda kullanıcınız varsa hesapların açılması için bir betik yazılabilir.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kerberos-howto-overview.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kerberos-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/kerberos-howto-time-sync.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kerberos Altyapısının Tanıtımı </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Eşzamanlama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

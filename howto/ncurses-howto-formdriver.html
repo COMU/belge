@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:26+03:00"><title>form_driver: Form sisteminin dolap beygiri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-filedvalidate.html" title="Alan Doğrulama"><link rel="next" href="../howto/ncurses-howto-tools.html" title="Araçlar ve Küçük Uygulama Kütüphaneleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">form_driver: Form sisteminin dolap beygiri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-filedvalidate.html">Önceki</a> </td><th width="60%" align="center">Form Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-tools.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-formdriver"></a><tt>form_driver</tt>: Form sisteminin dolap beygiri</h3></div></dt><dd><p>
+Menü sisteminde olduğu gibi, <tt>form_driver()</tt> form sisteminde çok önemli bir rol oynamaktadır. Form sistemine yapılan tüm istekler <tt>form_driver()</tt>'dan süzülmek zorundadır.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>form_driver</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FORM *<i>form</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek form */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    <i>istek</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* form istek kodu */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Yukarıdaki örneklerin bazılarında da gördüğünüz gibi, bir döngü kurup kullanıcıdan gelen istekleri kontrol edip bunun bir veri mi yoksa kullanıcı isteği mi olduğuna karar vermeniz gerekir. Form istekleri daha sonra işlemi gerçeklemesi için <tt>form_driver()</tt>'a gönderilir.
+</p><p>
+İstekler kabaca şu alt sınıflara ayrılabilir. Değişik isteklerin kulanımları aşağıda açıklanmıştır:
+</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-pagenavreq"></a>Sayfada Gezinti İstekleri</h4></div></dt><dd><p>
+Bu istekler form içerisinde sayfa bazında hareketlere sebep olur, form ekranının kayması sağlanır. Bir form pek çok sayfadan oluşmuş olabilir. Eğer çok sayıda alandan ve mantıksal bölümden oluşmuş büyük bir formunuz varsa onu sayfalara bölebilirsiniz.  <tt>set_new_page()</tt> belirtilen alanda yeni bir sayfa oluşturur.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_new_page</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">bool    <i>sayfa_kesme</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sayfa kesmesi yapılacak mı? */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Aşağıdaki istekler farklı sayfalara hareket etmenizi sağlar.
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>REQ_NEXT_PAGE</tt> Sonraki form sayfasına hareket
+</li><li><tt>REQ_PREV_PAGE</tt> Önceki form sayfasına hareket
+</li><li><tt>REQ_FIRST_PAGE</tt> İlk form sayfasına hareket
+</li><li><tt>REQ_LAST_PAGE</tt> Son form sayfasına hareket
+</li></ul></div>
+</p><p>
+Bu istekler döngüsel şekilde liste üzerinde hareket eder; yani <tt>REQ_NEXT_PAGE</tt> son sayfadan sonra ilk sayfaya gider, <tt>REQ_PREV_PAGE</tt> ilk sayfadan sonra son sayfaya gider.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-interfieldnavreq"></a> Alan İçi Gezinti İstekleri</h4></div></dt><dd><p>
+Aynı sayfadaki alanlarda gezinti isteklerinde bunlar kullanılır:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>REQ_NEXT_FIELD</tt> Sonraki alana git
+</li><li><tt>REQ_PREV_FIELD</tt> Önceki alana git
+</li><li><tt>REQ_FIRST_FIELD</tt> İlk alana git
+</li><li><tt>REQ_LAST_FIELD</tt>  Son alana git
+</li><li><tt>REQ_SNEXT_FIELD</tt> Sıralanmış sonraki alana git
+</li><li><tt>REQ_SPREV_FIELD</tt> Sıralanmış önceki alana git
+</li><li><tt>REQ_SFIRST_FIELD</tt> Sıralanmış ilk alana git
+</li><li><tt>REQ_SLAST_FIELD</tt> Sıralanmış son alana git
+</li><li><tt>REQ_LEFT_FIELD</tt> Alanın soluna git
+</li><li><tt>REQ_RIGHT_FIELD</tt> Alanın sağına git
+</li><li><tt>REQ_UP_FIELD</tt> Alanın yukarısına git
+</li><li><tt>REQ_DOWN_FIELD</tt> Alanın aşağısına git
+</li></ul></div>
+</p><p>
+Bu istekler bir sayfadaki alan listesi üzerinde döngüsel şekilde işlenir; yani <tt>REQ_NEXT_FIELD</tt> son alandan sonra ilk alana döner, <tt>REQ_PREV_FIELD</tt> ilk alandan sonra son alana döner. Bunlar için (aynı zamanda <tt>REQ_FIRST_FIELD</tt> ve <tt>REQ_LAST_FIELD</tt>) alanların sırası form dizisindeki alan göstericisinin sırasıdır (<tt>new_form()</tt> veya <tt>set_form_fields()</tt> ile oluşturulmuştur).
+</p><p>
+Alanları ekranda görüntülendikleri şekilde soldan sağa ve yukarıdan aşağı gezmek de mümkündür. Bunu gerçeklemek için sıralanmış hareket listesinden ikinci guruptakileri kullanın.
+</p><p>
+Son olarak da alanlar arasında görsel yukarı, aşağı, sağ, sol yönlerini kullanarak gezinmek mümkündür. Bunu gerçeklemek için, üçüncü guruptaki dört isteği kullanın. Bir formun bu tür işler için başlangıcının sol üst köşesi olduğunu unutmayın.
+</p><p>
+Örneğin, çok satırlı bir B alanı, tek satırlı A ve C alanlarının aynı satırda A, B, C şeklinde sıralandığını düşünün. A alanından verilmiş <tt>REQ_MOVE_RIGHT</tt> isteği A, B ve C nin aynı satırı paylaşması halinde B alanına geçmeyi sağlayacaktır. Aksi halde B ve C alanlarını atlayacaktır.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-intrafieldnavreq"></a>Alan İçi Dahili Gezinti İstekleri</h4></div></dt><dd><p>
+Bu istekler o an düzenlenilen alan içerisinde imlecin hareketini sağlar.
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>REQ_NEXT_CHAR</tt> Bir sonraki karaktere git</li><li><tt>REQ_PREV_CHAR</tt> Bir önceki karaktere git</li><li><tt>REQ_NEXT_LINE</tt> Bir sonraki satıra git</li><li><tt>REQ_PREV_LINE</tt> Bir önceki satıra git</li><li><tt>REQ_NEXT_WORD</tt> Bir sonraki kelimeye git</li><li><tt>REQ_PREV_WORD</tt> Bir önceki kelimeye git </li><li><tt>REQ_BEG_FIELD</tt> Alanın başına git</li><li><tt>REQ_END_FIELD</tt> Alanın sonuna git</li><li><tt>REQ_BEG_LINE</tt> Satır başına git</li><li><tt>REQ_END_LINE</tt> Satır sonuna git</li><li><tt>REQ_LEFT_CHAR</tt> Alan içerisinde sola git</li><li><tt>REQ_RIGHT_CHAR</tt> Alan içerisinde sağa git</li><li><tt>REQ_UP_CHAR</tt> Alan içerisinde yukarı git</li><li><tt>REQ_DOWN_CHAR</tt> Alan içerisinde aşağı git</li></ul></div>
+</p><p>
+Her kelime bir önceki bir sonraki kelimeler arasında boşluk karakteriyle ayrılır. Satır veya alanın başına ve sonuna gitmeye yarayan komutlar kendi menzilleri içerisindeki ilk veya son dolgu karakteri olmayan karakteri arar.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-scrollreq"></a>Kaydırma İstekleri</h4></div></dt><dd><p>
+Çalışma zamanında büyüyebilen ve açık şekilde ekranda görülmeyen satırlardan oluşmuş alanlar kaydırılabilir. Tek satırlık alanlar yatay olarak kaydırılır, çok satırlık alanlar dikey olarak kaydırılır. Pek çok kaydırma işlemi alan içi hareketlerle ve düzenleme ile başlatılır (kütüphane imleci görünür kılmak için alan içerisinde kaydırma işlemi gerçekler). Açık şekilde kaydırma işlemlerine istekte bulunmak aşağıdaki şekilde mümkündür:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>REQ_SCR_FLINE</tt> Bir satırın ilerisine dikey olarak kaydırma</li><li><tt>REQ_SCR_BLINE</tt> Bir satırın gerisine dikey olarak kaydırma</li><li><tt>REQ_SCR_FPAGE</tt> Bir sayfanın ilerisine dikey kaydırma</li><li><tt>REQ_SCR_BPAGE</tt> Bir sayfanın gerisine dikey olarak kaydırma</li><li><tt>REQ_SCR_FHPAGE</tt> Bir sayfanın yarısına ileri yönde dikey kaydırma</li><li><tt>REQ_SCR_BHPAGE</tt> Bir sayfanın yarısına geri yönde dikey kaydırma</li><li><tt>REQ_SCR_FCHAR</tt> Yatay olarak bir karakter ilerisine kaydırma</li><li><tt>REQ_SCR_BCHAR</tt> Yatay olarak bir karakter gerisine kaydırma</li><li><tt>REQ_SCR_HFLINE</tt> Yatay olarak bir alan ilerisine kaydırma</li><li><tt>REQ_SCR_HBLINE</tt> Yatay olarak bir alan gerisine kaydırma</li><li><tt>REQ_SCR_HFHALF</tt> Yatay olarak yarım alan ilerisine kaydırma</li><li><tt>REQ_SCR_HBHALF</tt> Yatay olarak yarım alan gerisine kaydırma</li></ul></div>
+</p><p>
+Kaydırma işlemleri için, bir alanın sayfası görünür kısmının yüksekliğidir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-editreq"></a>İstekleri Düzenlemek</h4></div></dt><dd><p>
+Form sürücüsüne bir ASCII karakter gönderdiğiniz zaman, alan veri belleğine bir karakter eklemek için bir istek olarak algılanır. Bunun bir araya ekleme mi yoksa üzerine yazma mı olduğu alanın düzenleme kipine bağlıdır (varsayılan araya eklemedir).
+</p><p>
+Aşağıdaki istekler alanı düzenlemeyi ve düzenleme kipini değiştirmeyi sağlar:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>REQ_INS_MODE</tt> Araya ekleme kipini ayarla</li><li><tt>REQ_OVL_MODE</tt> Üzerine yazma kipini ayarla</li><li><tt>REQ_NEW_LINE</tt> Yeni satır isteği (açıklama için aşağıya bakınız)</li><li><tt>REQ_INS_CHAR</tt> Karakterin olduğu konuma boşluk yerleştir</li><li><tt>REQ_INS_LINE</tt> Karakterin olduğu konuma boş satır ekle</li><li><tt>REQ_DEL_CHAR</tt> İmlecin olduğu konumdaki karakteri sil</li><li><tt>REQ_DEL_PREV</tt> İmlecin olduğu konumdan önceki kelimeyi sil</li><li><tt>REQ_DEL_LINE</tt> İmlecin olduğu satırı sil</li><li><tt>REQ_DEL_WORD</tt> İmlecin olduğu konumdaki kelimeyi sil</li><li><tt>REQ_CLR_EOL</tt> Satırı sonuna kadar temizle </li><li><tt>REQ_CLR_EOF</tt> Alanı sonuna kadar temizle</li><li><tt>REQ_CLR_FIELD</tt> Alanın tüm içeriğini temizle</li></ul></div>
+</p><p>
+<tt>REQ_NEW_LINE</tt> ve <tt>REQ_DEL_PREV</tt> istekleri kısmen bazı form seçenek çiftleri tarafından kontrol edilen karmaşık isteklerdir. Özel durumlar imlecin alanın başında veya alanın sonunda olması durumunda etkin olur.
+</p><p>
+Önce <tt>REQ_NEW_LINE</tt> isteğini gözönüne alalım:
+</p><p>
+Araya ekleme kipinde <tt>REQ_NEW_LINE</tt>, halihazırdaki imlecin olduğu konumdan satırı keser, kalanı yeni bir satır olarak ekler ve imleci o satırın başına konumlandırır (bunu alan önbelleğine yeni satır eklemek olarak düşünebilirsiniz).
+</p><p>
+Üzerine yazma kipinde <tt>REQ_NEW_LINE</tt>, imlecin o an bulunduğu konumdan itibaren satırı satır sonuna kadar siler. Daha sonra imleç yeni satırın başına konumlanır.
+</p><p>
+Yine de alanın başında veya sonunda <tt>REQ_NEW_LINE</tt> aslında, <tt>REQ_NEXT_FIELD</tt> gerçekler. Bu özel durumun gerçekleşmesi için <tt>O_NL_OVERLOAD</tt> özelliği kapalı olmalıdır.
+</p><p>
+Şimdi de <tt>REQ_DEL_PREV</tt> isteğini ele alalım:
+</p><p>
+<tt>REQ_DEL_PREV</tt>'in normal davranışı bir önceki karakteri silmek şeklindedir. Eğer araya ekleme kipi açık, imleç satır başındaysa ve o satırdaki metin bir öncekine sığıyorsa, o anki satırın içeriğini bir öcnekinin sonuna ekler ve o anki satırı siler (bunu alan önbellek alanından bir satırın silinmesi olarak düşünebilirsiniz).
+</p><p>
+Aslında <tt>REQ_DEL_PREV</tt> alanın başında <tt>REQ_PREV_FIELD</tt> gibi davranır.
+</p><p>
+Eğer <tt>O_BS_OVERLOAD</tt> kapalıysa, bu özel davranış biçimi etkisizdir ve form sürücüsü sadece <tt>E_REQUEST_DENIED</tt> üretir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-orderreq"></a>Emir İstekleri</h4></div></dt><dd><p>
+Eğer alanınızın türü emir türünde ve verilmiş bir türün sonraki ve önceki değerlerini almakla ilişkilendirilmiş işlevler içeriyorsa, alan ön belleğinde bu değeri eşleyecek istekler vardır:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>REQ_NEXT_CHOICE</tt> O anki değerden sonrakini önbelleğe yerleştir.
+</li><li><tt>REQ_PREV_CHOICE</tt> O anki değerin öncekisini önbelleğe yerleştir.
+</li></ul></div>
+</p><p>
+Yerleşik alan türleri için sadece <tt>TYPE_ENUM</tt>'un yerleşik önceki ve sonraki işlevleri vardır. Kendinize ait bir alan türü tanımlarsanız, kendi sıralama işlevlerinizi ilişiklendirebilirsiniz  (Özel Doğrulama Türleri'ne bakınız -- Ç.N.: belgede bulunamadı).
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-appliccommands"></a>Uygulama Komutları</h4></div></dt><dd><p>
+<tt>KEY_MAX</tt>'tan büyük ve sabit <tt>MAX_COMMAND</tt>'den küçük veya eşit imleç değerleri üzerindeki form istekleri tamsayı olarak gösterilir. Bu sınır değerleri içerisindeki bir değer <tt>form_driver()</tt> tarafından ihmal edilir. Dolayısıyla bu, uygulama tarafından herhangi bir amaç için kullanılabilir. Uygulamaya özgü bir davranış olarak ele alınıp buna özgü bir davranış sergilenebilir.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-filedvalidate.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-forms.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-tools.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Alan Doğrulama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Araçlar ve Küçük Uygulama Kütüphaneleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

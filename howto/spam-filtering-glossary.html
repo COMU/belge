@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:24+03:00"><title>Terimler Sözlüğü</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering.html" title="Eposta Alıcısında (MX'te) Spam Engelleme"><link rel="previous" href="../howto/spam-filtering-acl_data_final.html" title="acl_data"><link rel="next" href="../howto/howtos-networking.html" title="IV. Oylum - Ağ Uygulamaları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Terimler Sözlüğü</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_data_final.html">Önceki</a> </td><th width="60%" align="center">Eposta Alıcısında (MX'te) Spam Engelleme</th><td width="20%" align="right"> <a accesskey="n" href="../howto/howtos-networking.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><div id="spam-filtering-glossary" class="glossary"><div class="titlepage"><div> <h2 class="title"><a name="spam-filtering-glossary"></a>Terimler Sözlüğü</h2></div></div><p>
+Burada, belge içinde kullanılan bazı terimlerin tanımlarına yer verilmiştir.
+  </p><dl><a name="spam-filtering-openrelay"></a><dt><span class="glossterm"><b>Açık Röle</b></span></dt><dd>(İng.: Open Relay)
+Her yerden açıkça posta kabul eden ve bu postaları heryere gönderen bir <a href="../howto/spam-filtering-glossary.html#spam-filtering-relay" class="xref" title="Röle">Röle</a> çeşidi.
+      <p></p><p>
+1980'lerde sanal olarak her SMTP sunucusu birer açık röle idi. İletileri çoğunlukla tüm makineler kabul eder ve yerlerine gönderirdi. Şimdilerde ise, meşru postalar özellikle doğrudan gönderici uçtaki bir <a href="../howto/spam-filtering-glossary.html#spam-filtering-mta" class="xref" title="Posta Aktarımcısı">Posta Aktarımcısı</a> tarafından gönderilmekte ve alıcının alan adı için tahsis edilmiş <a class="link" href="../howto/spam-filtering-glossary.html#spam-filtering-mx">Posta Alıcıları</a> tarafından kabul edilmektedir.
+      </p><p>
+Hala internette röle işlemine açık sunucular bulunmakta ve bunlar şans eseri DNS karalistelerine girene kadar, özellikle kimliklerini gizlemek isteyen spamcılar tarafından istismar edilmekte, çoğunlukla da milyonlarca iletiyi gönderirken yükü dağıtmak amacıyla kullanılmaktadırlar.
+      </p><p>
+Ayrıca <a href="../howto/spam-filtering-smtpchecks.html#spam-filtering-relayprevent" class="xref" title="Açık Röleye meydan vermemek">Açık Röleye meydan vermemek</a> bölümüne de bakınız.
+        </p></dd><a name="spam-filtering-openproxy"></a><dt><span class="glossterm"><b>Açık Vekil</b></span></dt><dd>(İng.: Open Proxy)<p></p><p>
+Her yerden açıkça TCP/IP bağlantısı kabul eden ve bunları her yere yönlendiren bir <a href="../howto/spam-filtering-glossary.html#spam-filtering-proxy" class="xref" title="Vekil">Vekil</a> çeşidi.
+      </p><p>
+Bunlar, IP adreslerine gizli tutmak isteyen ve/veya yükü çeşitli konaklara ve ağlara daha verimli olarak dağıtmak isteyen spamcılar ve virüsler tarafından istismar edilirler.
+      </p><p>
+Ayrıca bakınız: <a href="../howto/spam-filtering-glossary.html#spam-filtering-zombie" class="xref" title="Zombi Konak">Zombi Konak</a>
+        </p></dd><a name="spam-filtering-rfc"></a><dt><span class="glossterm"><b>Açıklama İsteği</b></span></dt><dd>
+(İng.: Request for Comments - <i>RFC</i>)
+      <p></p><p>
+<a class="ulink" href="http://www.rfc-editor.org/" target="_top">http://www.rfc-editor.org/</a>'daki tanımı:
+      </p><p><blockquote class="blockquote"><p>
+Açıklama İsteği (RFC) belgeleri internet hakkında teknik ve organizasyonel bilgiler içeren belgelerdir [...].  RFC serisindeki açıklamalar, bilgisayar ağları ile ilgili protokoller, yordamlar,  programlar ve kavramlar hakkında bilgiler yanında bu konularda yapılmış toplantılardan elde edilmiş notlar, fikirler ile biraz da mizahi unsurlar içerir.
+     </p></blockquote></p><p>
+Bu belgeler protokollerin veri biçimlerinin açıklamalarını yaparak internet yönetimi ile ilgili kuralları oluşturur. Özellikle posta teslimatçıları ile ilgili olanlar:
+     </p><p><div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.ietf.org/rfc/rfc2821" target="_top">RFC 2821</a>, "Simple Mail transfer Protocol" (Basit Posta Aktarım Protokolü),</li><li><a class="ulink" href="http://www.ietf.org/rfc/rfc2821" target="_top">RFC 2822</a>, "Internet Message Format" (İnternet İletilerinin Biçimi).</li></ul></div></p></dd><a name="spam-filtering-bayesian"></a><dt><span class="glossterm"><b>Bayes Filtreleri</b></span></dt><dd>(İng.: Bayesian Filters)<p></p><p>
+İleti içinde geçen sözcüklere ve sözcüklerin dizilişlerine bakarak iletinin spam olma olasılığıyla ilgili bir derecelendirme yapan bir filtre.
+      </p><p>
+Meşru (ham) ve gayrimeşru (spam) iletileri belirterek bu filtreyi eğitebilirsiniz. Bu iletilerde (ham ve spam) geçen sözcüklerin bulunma sıklığına bağlı olarak her sözcüğe veya deyime bir puan verilir. Bu sözcükler ve puanları <i>Bayes indeksinde</i> saklanır.
+      </p><p>
+Bu tür filtreler, yazılımcılar tarafından el yordamıyla oluşturulan anahtar sözcük tabanlı filtrelerden kaçanları yakalayabilmektedir. Çünkü bu işlemi özdevimli hale getirmektedirler.
+      </p><p>
+Bayes sözcük indeksleri çoğunlukla eğitildikleri dile özeldirler. Hatta kullanıcıya özeldirler. Bu bakımdan sistem çapında, SMTP sırasında yapılan filtrelemeden ziyade kişisel içerik filtrelemesine uygundurlar (bkz. <a href="../howto/spam-filtering-glossary.html#spam-filtering-mua" class="xref" title="Posta İstemcisi">Posta İstemcisi</a>).
+      </p><p>
+Ancak, spamcılar iletilerine kısa hikayeler ve sözlükten rasgele seçilmiş sözcükler  ekleyerek basit bayes filtrelerini etkisiz kılacak teknikler geliştirdiler. Bu, bayes filtrelerinin atadığı spam puanını düşürerek uzun vadede bayes indeksinin kalitesini düşürmektedir.
+      </p><p>
+Ayrıca bakınız: <a class="ulink" href="http://www.everything2.com/index.pl?node=Bayesian" target="_top">http://www.everything2.com/index.pl?node=Bayesian</a>.
+      </p></dd><a name="spam-filtering-dns"></a><dt><span class="glossterm"><b>Alan Adı Sistemi</b></span></dt><dd>
+(İng.: Domain Name System - <i>DNS</i>)
+      <p></p><p>
+İnternet alan adları hakkında bilgi sağlayan fiili standart. Bu bilgilere örnek olarak, sunucuların IP adresleri (<i>A kayıtları</i>), posta alıcılarının adları (<i>MX kayıtları</i>), genel sunucu bilgileri (<i>SRV kayıtları</i>) ve muhtelif dizgesel bilgiler (<i>TXT kayıtları</i>) verilebilir.
+       </p><p>
+DNS, hiyerarşik ve dağıtık bir sistemdir; Her alan adı içerdiği her alt alan adı ile ilgili bilgileri içeren bir veya daha fazla sayıda DNS sunucusu ile ilişkilendirilir.
+       </p><p>
+Örneğin, üst seviye alan adı olarak &#8220;org&#8221; The Public Interest Registry tarafından işleme sokulur; onun DNS sunucuları &#8220;tldp.org&#8221; alan adı sorguları için Linux Belgelendirme Projesine özel isim sunucularını görevlendirir. Sonuçta, TLDP isim sunucuları (aslında UNC sunucuları) &#8220;www.tldp.org&#8221; için ya bu alana ait bilgileri döndürür ya da bu alan adıyla ilgili bir alt seviye isim sunucusunu görevlendirir.
+      </p><p>
+DNS sorguları genelde, sorgular bir internet servis sağlayıcının isim sunucularına yönlendirilerek (örn. DHCP üzerinden) gerçekleştirilir.
+      </p></dd><dt><span class="glossterm"><b>Bal Çanağı</b></span></dt><dd>(İng.: Honeypot<sup>[<a name="id141" href="#ftn.id141">37</a>]</sup> - <i>Sugarcane</i>)<p></p><p>
+Bir bal çanağı bilgi sistemlerini yetkisiz kullanmaya çalışanları saptamak ya da caydırmak amacıyla kurulan bir tuzaktır. Genelde saldırgan açısından değerli olabilecek bir bilgi içeriyormuş gibi görünen bir bilgisayardan, bir veri parçasından ya da bir ağ parçasından oluşur ve bir ağın parçasıymış gibi görünmesine rağmen ağdan yalıtılmış ve korunmuştur. Bunların açık vekil gibi davrananlarına şekerkamışı ismi verilir.
+      </p><p>
+Daha ayrıntılı bilgi için <a class="ulink" href="http://spamlinks.net/track-trace-honeypot.htm" target="_top">http://spamlinks.net/track-trace-honeypot.htm</a> adresine bakınız.
+      </p></dd><a name="spam-filtering-coldamage"></a><dt><span class="glossterm"><b>Çevresel Bozunma</b></span></dt><dd>(İng.: Collateral Damage)<p></p><p>
+Bir meşru gönderici konağın bir DNS karalistesindeki bir girdiden dolayı engellenmesi.
+      </p><p>
+Bazı karalisteler (SPEWS gibi) şikayetler karşısında duyarsız davranan servis sağlayıcılarını, <i>tüm</i> müşterilerini de kapsayacak şekilde, bir IP bloğu halinde veritabanlarına kaydederler.
+      </p><p>
+Ayrıca bakınız: <a href="../howto/spam-filtering-glossary.html#spam-filtering-falsepos" class="xref" title="Hatalı Olumlama">Hatalı Olumlama</a>
+        </p></dd><a name="spam-filtering-colspam"></a><dt><span class="glossterm"><b>Dolaylı Spam</b></span></dt><dd>(İng.: Collateral Spam)<p></p><p>
+Gönderici adresi taklit edilerek bir özgün iletiye yanıt gibi gönderilen otomatikleştirilmiş iletiler. Dolaylı spama örnek olarak virüs tarama raporları (&#8220;Virüs bulundu&#8221;) veya <a class="link" href="../howto/spam-filtering-glossary.html#spam-filtering-dsn">teslimat durum bildirimleri</a> verilebilir.
+      </p></dd><a name="spam-filtering-micropay"></a><dt><span class="glossterm"><b>Gönderici ücretlendirme şemaları</b></span></dt><dd>
+(İng.: Micropayment Schemes -- <i>sender pay</i> schemes)
+      <p></p><p>
+Bir iletinin her alıcısı için bir sanal <i>posta damgası</i> oluşturmak adına bazı makine kaynaklarını kullanma karşılığı olarak göndericinin ücret ödemesi şeklinde çalışan bir sistem. Bu posta damgası büyük miktarda bellek okuma/yazma işlemleri gerektiren bir matematiksel kimlik kanıtlama işleminin çözümlemesinin sonucudur. Bu damga iletinin başlığına eklenir ve alıcı bu damgayı daha basit bir kod çözme işlemi ile doğrulatır.
+      </p><p>
+Ana fikir, iletinin her alıcısı için bir posta damgası gerektirmesi nedeniyle böyle bir sistemde yüzlerce binlerce kişiye spam göndermenin oldukça pahalıya malolacak olmasıdır.
+      </p><p>
+Böyle iki sistem vardır:
+        </p><p>
+        <div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.camram.org/" target="_top">Camram</a></li><li><a class="ulink" href="http://research.microsoft.com/research/sv/PennyBlack/" target="_top">Microsoft's Penny Black Project</a></li></ul></div><p></p>
+      </p></dd><a name="spam-filtering-falsepos"></a><dt><span class="glossterm"><b>Hatalı Olumlama</b></span></dt><dd>(İng.: False Positive)<p></p><p>
+Yanlışlıkla gayrimeşru posta olarak sınıflandırılmış (dolayısıyla engellenmiş) meşru posta.
+        </p><p>
+Ayrıca bakınız: <a href="../howto/spam-filtering-glossary.html#spam-filtering-coldamage" class="xref" title="Çevresel Bozunma">Çevresel Bozunma</a>.
+        </p></dd><a name="spam-filtering-falseneg"></a><dt><span class="glossterm"><b>Hatalı Olumsuzlama</b></span></dt><dd>(İng.: False Negative)<p></p><p>
+Yanlışlıkla meşru posta olarak sınıflandırılmış (dolayısıyla filtrelenmemiş) gayrimeşru posta (spam, virüs, kötücül yazılım).
+        </p></dd><a name="spam-filtering-joejob"></a><dt><span class="glossterm"><b>Joe İşi</b></span></dt><dd>
+Çoğunlukla üçüncü şahıslar nezdinde adres sahibine zarar vermek, hakkında yanlış kanaatler uyandırmak için onun geçerli adresinden geliyormuş gibi görünmek üzere tasarlanmış bir spam türü.
+        <p></p><p>
+Ayrıca bakınız: <a class="ulink" href="http://www.everything2.com/index.pl?node=Joe%20Job" target="_top">http://www.everything2.com/index.pl?node=Joe%20Job</a>
+      </p></dd><a name="spam-filtering-ratware"></a><dt><span class="glossterm"><b>Kalleş Yazılım</b></span></dt><dd>(İng.: Ratware)<p></p><p>
+Çok kısa bir sürede büyük miktarlarda postayı teslim etmek üzere tasarlanmış spamcılar tarafından kullanılan eposta yazılımı ve postalama virüsleri.
+      </p><p>
+Çoğu kalleş yazılım gerçeklenimi en iyi senaryo altında mümkün olduğunca sadece posta teslimatı için gerekli olan SMTP istemci koduyla işbirliğine girer. Alıcı konakla yaptıkları SMTP diyaloğunda yanlış veya belli-belirsiz bilgi verirler. Komutları göndermek için alıcının yanıtını beklemezler ve eğer alıcı taraftan birkaç saniye içinde bir yanıt alamazlarsa, bağlantıyı keserler. Geçici hataların oluşması durumunda işlem yineleme mekanizmasını kullanmazlar.
+      </p></dd><a name="spam-filtering-fqdn"></a><dt><span class="glossterm"><b>Nitelikli Alan Adı</b></span></dt><dd>
+(İng: Fully Qualified Domain Name - &#8220;FQDN&#8221;)
+      <p></p><p>
+DNS alanını da içeren, küresel olarak eşsiz internet ismi. Örneğin: &#8220;www.belgeler.org&#8221;.
+      </p><p>
+Nitelikli bir alan adı her zaman tek bir makineyi göstermez. Örneğin, yük dengelemesi amacıyla bazı hizmetler sunuculara dağıtılır, dolayısiyle &#8220;www&#8221; gibi hizmet isimleri çok sayıda IP adresini gösterebilir. Yine de, belli bir makinenin birincil konak ismi o makineye özel olmalıdır; örneğin: &#8220;p16.www.scd.yahoo.com&#8221;.
+        </p><p>
+Nitelikli bir alan adı daima bir nokta (".") içerir. İlk noktadan önceki parça küresel olarak eşsiz olmayan <i>niteliksiz isimdir</i>.
+        </p></dd><a name="spam-filtering-mta"></a><dt><span class="glossterm"><b>Posta Aktarımcısı</b></span></dt><dd>
+(İng.: Mail Transport Agent - <i>MTA</i>)
+      <p></p><p>
+Bir posta sunucusunda çalışan, internet alanının posta alıcısı olarak davranabilen diğer konaklarla posta alışverişi yapabilen bir yazılım. Sendmail, Postfix, Exim ve Smail tanınmış posta aktarımcıları arasında sayılabilir.
+      </p></dd><a name="spam-filtering-mx"></a><dt><span class="glossterm"><b>Posta Alıcısı</b></span></dt><dd>
+(İng.: Mail Exchanger - <i>MX</i>)
+      <p></p><p>
+Özellikle, bir internet alanına gelen postaları almaya (bazan göndermeye de) adanmış bir makine.
+      </p><p>
+Bir internet alanının DNS bilgileri normalde, bu alan için gelen postaları alacak makinelerin bir listesini içerir. Bu listeye &#8220;MX kaydı&#8221; denir ve öncelik sırasını belirten bir numarayla imlenmiş makine isimleri içerir. Listedeki en küçük numaralı makine postaları almada en yüksek önceliğe sahip makine kabul edilir ve bu makineye &#8220;birincil posta alıcısı&#8221; denir.
+      </p></dd><a name="spam-filtering-loop"></a><dt><span class="glossterm"><b>Posta Döngüsü</b></span></dt><dd>(İng.: Mail Loop -- <i>Ringing</i>)<p></p><p>
+Bir özdevinimli iletinin bir diğerini tetiklemesiyle dolaylı veya doğrudan ilk iletinin tekrar tetiklenmesiyle süregiden bir durum.
+      </p><p>
+Üyelerinden birinin adresinin o eposta listesinin adresi olduğu durum buna bir örnek olarak verilebilir.  Bu gibi durumların üstesinden, liste sunucusu tarafından iletinin başlığına bir &#8220;X-Loop:&#8221; satırı eklenerek gelinir; bu satırı içeren bir posta tekrar işleme sokulmaz.
+      </p></dd><a name="spam-filtering-mua"></a><dt><span class="glossterm"><b>Posta İstemcisi</b></span></dt><dd>
+(İng.: Mail User Agent - <i>MUA</i> veya <i>Mail Reader</i>)
+      <p></p><p>
+Posta alma, gönderme, indirme, erişim gibi yetenekleri olan kullanıcı yazılımı. Örneğin, Microsoft Outlook/Outlook Express, Apple Mail, Mozilla Thunderbird, Ximian, Evolution, KMail.
+      </p></dd><a name="spam-filtering-mda"></a><dt><span class="glossterm"><b>Posta Teslimatçısı</b></span></dt><dd>
+(İng.: Mail Delivery Agent - <i>MDA</i>)
+      <p></p><p>
+Kullanıcıların posta kutularının bulunduğu makinede çalışan, görevi postaları bu eposta kutularına teslim etmek olan yazılım. Bu teslimat çoğunlukla <a href="../howto/spam-filtering-glossary.html#spam-filtering-mta" class="xref" title="Posta Aktarımcısı">Posta Aktarımcısı</a> tarafından ikincil bir görev olarak yerine getirilir. Sadece posta teslimatçısı olan yazılımlara, Deliver, Procmail, Cyrmaster ve/veya Cyrdeliver (Cyrus IMAP ailesinden) örnek verilebilir.
+      </p></dd><a name="spam-filtering-relay"></a><dt><span class="glossterm"><b>Röle</b></span></dt><dd>
+Bir epostayı internetten alıp internete gönderen bir makine. Röleye örnek olarak bir servis sağlayıcının müşterilerine epostalarını gönderebilmeleri için tahsis ettiği konak (&#8220;smarthost&#8221;) gösterilebilir.
+      <p></p><p>
+Ayrıca bakınız: <a href="../howto/spam-filtering-glossary.html#spam-filtering-openrelay" class="xref" title="Açık Röle">Açık Röle</a>, <a href="../howto/spam-filtering-glossary.html#spam-filtering-proxy" class="xref" title="Vekil">Vekil</a>
+        </p></dd><a name="spam-filtering-spamtrap"></a><dt><span class="glossterm"><b>Spam Tuzağı</b></span></dt><dd>
+(İng.: Spam Trap)<p></p><p>
+Kamuya açık alanlardan eposta adresi toplayan robotları <i>yemlemekte</i> kullanılan bir eposta adresi. Tuzağa yakalananlar <a href="../howto/spam-filtering-dnschecks.html#spam-filtering-dnsbl" class="xref" title="DNS Karalisteleri"> DNS Karalisteleri</a> ve <a href="../howto/spam-filtering-datachecks.html#spam-filtering-jmsr" class="xref" title="Döküntü Posta İmza Depoları"> Döküntü Posta İmza Depoları</a> gibi dost araçları beslemekte kullanılır.
+      </p><p>
+Bu adreslere gönderilmiş postalar normal olarak ya spamdır ya da kötücül yazılımdır. Ancak bazıları dolaylı spam olacaktır - gönderici adreslerinin taklit edilmesi durumu (<a href="../howto/spam-filtering-glossary.html#spam-filtering-dsn" class="xref" title="Teslimat Durum Bildirimi">Teslimat Durum Bildirimi</a>). Bu tür (dolaylı spam) iletilerin spam olarak kayda geçirilmemesi için gerekli önlemler alınmış olmalıdır, aksi taktirde spam tuzağı
+güvenilir olmayacaktır.
+      </p></dd><a name="spam-filtering-dsn"></a><dt><span class="glossterm"><b>Teslimat Durum Bildirimi</b></span></dt><dd>
+(İng.: Delivery Status Notification, <i>DSN</i>)
+      <p></p><p>
+Bir özgün iletinin göndericisini durum hakkında bilgilendirmek için bir <a href="../howto/spam-filtering-glossary.html#spam-filtering-mta" class="xref" title="Posta Aktarımcısı">Posta Aktarımcısı</a> veya <a href="../howto/spam-filtering-glossary.html#spam-filtering-mda" class="xref" title="Posta Teslimatçısı">Posta Teslimatçısı</a> tarafından özdevinimli olarak oluşturulan bir ileti.  Teslimat Durum Bildirimleri genelde, bir iletinin geçici veya kalıcı bir sorundan dolayı teslim edilemediği ve/veya bir süre daha bu teslimatın gerçekleştirilmesinin denenip denenmeyeceğini hakkında özgün iletinin göndericisine bilgi vermek için gönderilir.
+        </p><p>
+Teslimat Durum Bildirimleri bir boş <a href="../howto/spam-filtering-glossary.html#spam-filtering-envfrom" class="xref" title="Zarf Göndericisi">Zarf Göndericisi</a> adresiyle gönderilir.
+      </p></dd><a name="spam-filtering-proxy"></a><dt><span class="glossterm"><b>Vekil</b></span></dt><dd>
+Başkalarının yararına çalışan bir makine. TCP/IP bağlantıları ya da HTTP istekleri için genellikle internet adresleriyle ilgili yönlendirme yapar. Örneğin, şirketlerin - bazan bir ülkenin tamamının - dahili ağlarından yapılan HTTP isteklerini filtrelemek için sıkça kullanılır. Bundan, son kullanıcının haberi olabileceği gibi olmayabilir de.
+      <p></p><p>
+Ayrıcı bakınız: <a href="../howto/spam-filtering-glossary.html#spam-filtering-openproxy" class="xref" title="Açık Vekil">Açık Vekil</a>, <a href="../howto/spam-filtering-glossary.html#spam-filtering-relay" class="xref" title="Röle">Röle</a>.
+        </p></dd><a name="spam-filtering-envto"></a><dt><span class="glossterm"><b>Zarf Alıcısı</b></span></dt><dd>(İng.: Envelope Recipient)<p></p><p>
+İletinin gönderildiği e-posta adres(ler)i. Bunlar SMTP aktarımı sırasında <b><tt>RCPT TO</tt></b> komutuyla kullanılır. Bu adres(ler) iletinin &#8220;To:&#8221; ve &#8220;Cc:&#8221; başlıklarında belirtilenden farklı adres(ler) olabilir.
+        </p><p>
+Ayrıca bakınız: <a href="../howto/spam-filtering-smtpintro.html" class="xref" title="SMTP Aktarımı"> SMTP Aktarımı</a>
+        </p></dd><a name="spam-filtering-envfrom"></a><dt><span class="glossterm"><b>Zarf Göndericisi</b></span></dt><dd>(İng.: Envelope Sender)<p></p><p>
+Bir iletinin SMTP aktarımı sırasında, <b><tt>MAIL FROM:</tt></b> komutunda gönderici olarak belirtilen e-posta adresi. Bu adres iletinin &#8220;From:&#8221; başlığında belirtilenden farklı bir adres olabilir.
+        </p><p>
+Tek özel durum <a href="../howto/spam-filtering-glossary.html#spam-filtering-dsn" class="xref" title="Teslimat Durum Bildirimi">Teslimat Durum Bildirimi</a> (gönderici adresi olmayan [bounced] ileti, return receipt, vacation message..) durumudur. Böyle postalar için <a href="../howto/spam-filtering-glossary.html#spam-filtering-envfrom" class="xref" title="Zarf Göndericisi">Zarf Göndericisi</a> boştur. Bu genellikle, <a href="../howto/spam-filtering-glossary.html#spam-filtering-loop" class="xref" title="Posta Döngüsü">Posta Döngüsü</a>nden kaçınmak ve bunları &#8220;normal&#8221; postalardan ayırmayı mümkün kılmak için yapılır.
+        </p><p>
+Ayrıca bakınız: <a href="../howto/spam-filtering-smtpintro.html" class="xref" title="SMTP Aktarımı"> SMTP Aktarımı</a>
+        </p></dd><a name="spam-filtering-zombie"></a><dt><span class="glossterm"><b>Zombi Konak</b></span></dt><dd>(İng.: Zombie Host)<p></p><p>
+Postalama virüsleri veya kurtları bulaşmış internete bağlı bir makine. Bu makineler değişmez bir şekilde Microsoft® Windows® ailesinden bir işletim sistemi kullanan makinelerdir ve hemen hemen daima mahalli IP adres bloklarındadırlar. Bunların sahiplerinin makinelerine virüs bulaştığından ya haberleri yoktur ya da önemsemiyorlardır ve çoğunlukla da bunların servis sağlayıcıları bunlara hizmet vermemek gibi bir önleme başvurmaz.
+      </p><p>
+Bu sebeplerden, böyle "mahalli" adres bloklarını veritabanlarına ekleyen &#8220;dul.dnsbl.sorbs.net&#8221; gibi bazı DNS karalisteleri vardır. Böyle servis sağlayıcılardan hizmet alanlar meşru postalarını göndermek için normalde servis sağlayıcının posta sunucusunu kullandıklarından mahalli adreslerden gelen postaları reddetmek için bu karalisteleri kullanmalısınız.
+      </p></dd></dl><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id141" href="#id141">37</a>] </sup>"Bal Çanağı" özgün belgede yoktur. Çevirmen tarafından eklenmiştir.</p></td></tr></table></td></tr></table></div></div><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_data_final.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/howtos-networking.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">acl_data </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> IV. Oylum - Ağ Uygulamaları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Sınıf Sabitleri</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="yerel_degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Local variables"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="rescue.html">
+ <img border=0 src="a2r.gif" alt="İstisna işlemleri: rescue"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Sınıf Sabitleri</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Bir sabit büyük harfle başlayan bir ada sahiptir. Sabitlere bir kere değer ataması yapılmalıdır. Ruby'nin şu anki uygulamasına göre, sabitlere yeniden değer ataması yapmak hata yerine uyarı meydana getirir (eval.rb'nin ANSI olmayan versiyonuna göre hata aşağıdaki gibi belirtilir):</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b>fluid=30</b></font>
+<font color="#50ffff"><b>   30</b></font>
+ruby&gt;<font color="#ffff00"><b>fluid=31</b></font>
+<font color="#50ffff"><b>   31</b></font>
+ruby&gt;<font color="#ffff00"><b>Solid=32</b></font>
+<font color="#50ffff"><b>   32</b></font>
+ruby&gt;<font color="#ffff00"><b>Solid=33</b></font>
+<font color="#50ffff"><b>   (eval):1: warning: already initialized constant Solid</b></font>
+<font color="#50ffff"><b>   33</b></font></font></pre></td></tr></table>
+<p>Sabitler sınıflarla beraber tanımlanabilirler ancak örnek değişkenlere göre sınıfın dışından da erişilebilir durumdadırlar.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class ConstClass</b></font>
+    |<font color="#ffff00"><b>   C1=101</b></font>
+    |<font color="#ffff00"><b>   C2=102</b></font>
+    |<font color="#ffff00"><b>   C3=103</b></font>
+    |<font color="#ffff00"><b>   def show</b></font>
+    |<font color="#ffff00"><b>     print C1," ",C2," ",C3,"\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> C1</b></font>
+<font color="#50ffff"><b>ERR: (eval):1: uninitialized constant C1</b></font>
+ruby&gt;<font color="#ffff00"><b> ConstClass::C1</b></font>
+<font color="#50ffff"><b>   101</b></font>
+ruby&gt;<font color="#ffff00"><b> ConstClass.new.show</b></font>
+101 102 103
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Sabitler modüller içinde de tanımlanabilirler.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> module ConstModule</b></font>
+    |<font color="#ffff00"><b>   C1=101</b></font>
+    |<font color="#ffff00"><b>   C2=102</b></font>
+    |<font color="#ffff00"><b>   C3=103</b></font>
+    |<font color="#ffff00"><b>   def showConstants</b></font>
+    |<font color="#ffff00"><b>     print C1," ",C2," ",C3,"\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> C1</b></font>
+<font color="#50ffff"><b>ERR: (eval):1: uninitialized constant C1</b></font>
+ruby&gt;<font color="#ffff00"><b> include ConstModule</b></font>
+<font color="#50ffff"><b>   Object</b></font>
+ruby&gt;<font color="#ffff00"><b> C1</b></font>
+<font color="#50ffff"><b>   101</b></font>
+ruby&gt;<font color="#ffff00"><b> showConstants</b></font>
+101 102 103
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> C1=99  # pek iyi bir fikir değil</b></font>
+<font color="#50ffff"><b>   99</b></font>
+ruby&gt;<font color="#ffff00"><b> C1</b></font>
+<font color="#50ffff"><b>   99</b></font>
+ruby&gt;<font color="#ffff00"><b> ConstModule::C1  # modülün sabiti değişmedi ...</b></font>
+<font color="#50ffff"><b>   101</b></font>
+ruby&gt;<font color="#ffff00"><b> ConstModule::C1=99 </b></font>
+<font color="#50ffff"><b>ERR: (eval):1: compile error</b></font>
+<font color="#50ffff"><b>(eval):1: parse error</b></font>
+<font color="#50ffff"><b>ConstModule::C1=99</b></font>
+<font color="#50ffff"><b>                ^</b></font>
+ruby&gt;<font color="#ffff00"><b> ConstModule::C1  # .. nasıl değiştiriğimize aldırış etmez.</b></font>
+<font color="#50ffff"><b>   101</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="yerel_degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Local variables"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="rescue.html">
+ <img border=0 src="a2r.gif" alt="İstisna işlemleri: rescue"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

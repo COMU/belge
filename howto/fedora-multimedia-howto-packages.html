@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-05-23T11:35:36+03:00"><title>Paketler, Araçlar ve Depolar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/fedora-multimedia-howto.html" title="Fedora Multimedia Kurulumu NASIL"><link rel="previous" href="../howto/fedora-multimedia-howto-introduction.html" title="Giriş"><link rel="next" href="../howto/fedora-multimedia-howto-security.html" title="Güvenlik noktaları ve diğer riskler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Paketler, Araçlar ve Depolar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/fedora-multimedia-howto-introduction.html">Önceki</a> </td><th width="60%" align="center">Fedora Multimedia Kurulumu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/fedora-multimedia-howto-security.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="fedora-multimedia-howto-packages"></a>Paketler, Araçlar ve Depolar</h2></div></dt><dd><p>
+Modern Linux dağıtımları hızlı bir şekilde fiziksel ortamın sadece işletim sisteminin yüklenmek için kullanıldığı, güncellemelerin de Internet depolarından sorgulanıp yapıldığı bir dünyaya doğru hareket etmektedir. Bu araçlarla ve ikilik paketleri aldıkları depolarla ilgili bir miktar bilgiye ihtiyacınız olacaktır.
+</p><p>
+Fedora paketleri RPM olarak isimlendirilir. Her birisi tekil olarak sisteme kurulup kaldırılabilir ve ihtiyaç duyduğu diğer dosyalarla birlikte sisteme bir uygulama sunar. Bazı paketler diğerlerine ihtiyaç duyar, bir uygulama örneğin, belli kütüphanelere ihtiyaç duyuyor olabilir. Yükleme işleminin bir kısmı bu paket bağımlılıklarını tespit edip ana paket yüklenmeden bunları yüklemektedir.
+</p><p>
+Ne yazık ki RPM'ler birbirleriyle uyuşmayabilmektedir: örn, uyumsuz bir komut ya da destek dosyasını bir yere koymayı istemek. Bir depo yöneticisinin emin olması gereken işlerden birisi (a) depodaki RPM'lerin birbirleriyle uyuşması ve (b) tüm bağımlılıkların ya o depoda ya da başka bir bahsedilen temel depoda çözülmüş olmasıdır.
+</p><p>
+Fedora Linux için sürdürülen tek bir temel depo vardır ve yarım düzine kadar eklenti deposu bu temel depoya bağımlıdır. Bu eklenti veya 3. sürüm depolar can sıkıcı şeyleri bulacağınız depolardır. Bu depolar Fedora Projesi'nden bağımsız gönüllüler tarafından yürütülür ve genelde Amerika dışında bir yerlerde, yırtıcı avukatların gözlerinden uzaklarda bulunur.
+</p><p>
+Depolardaki eklentiler ne ile neyin uyumlu olduğunu belirten birer takım oluştururlar. Bu takımlar etrafında da oldukça fazla politik fikir olmakla beraber son kullanıcı olarak bunları göz ardı edebilirsiniz. Sizin ihtiyacınız ve bilmeniz gereken tek şey uyuşmazlıkları önleyecek bir takımı seçmenizdir. 2006 başlarında temelde daha sonra bahsedeceğim 3 takım bulunmaktaktadır.
+</p><p>
+Öncelikle size şu can sıkıcı şeyleri yüklemekte yardım edecek araçları tanıtayım:
+</p><p>
+<div class="variablelist"><dl><dt><span class="term">yum</span></dt><dd>
+yum (Yellow Dog Updater) Fedora Core yüklenmesi ile gelen bir komut satırı aracıdır. Fedora depolarından güncelleştirmeleri ve depolarında olmayan şu can sıkıcı paketleri indirmenize yardım eder.
+<p></p><p></p></dd><dt><span class="term">pirut</span></dt><dd>
+Bu, FC5 ile gelen yum üzerinde çalışan bir grafik arayüzüdür. yum'u kullanmanın daha nazik ve kolay yoludur.
+<p></p><p></p></dd></dl></div>
+</p><p>
+Ayrıca başka paket depolarını da bilmeniz gerekir. Her birisi içlerinde RPM'ler barındıran ve kanal adı verilen alt kolleksiyonlardan oluşmuştur.
+</p><p><div class="variablelist"><dl><dt><span class="term"><a class="ulink" href="http://fedora.redhat.com" target="_top">http://fedora.redhat.com</a></span></dt><dd>
+Bu, temel Fedora deposudur. 'kararlı' ('stable') ve 'güncel' ('updates') kanallardaki RPM'ler bir Fedora CD-ROM'u içerisinde yer alanlardır. Bu belgenin eski sürümlerini okuyan eski okuyucularımız için bir not: Red Hat'ın 'extra' isimli deposu fedora.us içerisinde kullanılan araçların aynılarını içermektedir.
+<p></p><p></p></dd><dt><span class="term"><a class="ulink" href="http://rpmforge.net/" target="_top">RPMForge</a></span></dt><dd>
+Livna ve ATrpm dışındaki 3. kuşak RPM sitelerindenkilerden oluşan bir takımdır. Bu paketler Fedora Core ve Extra depolarını genişletmek niyetindedir, sürdürücüler de Dag Wieer'sin depoları ile Drie'ninkileri, NewRPM depolarındakileri ya da PlanetCCRMA'dakiler çarpıştırmamaya dikkat eder. Depolarını birleştirecek şekilde gelişmektedirler ve halihazırda genel kaynaklı RPM'lerden oluşmuşlardır. Ne yazık ki RPMForge kolleksiyonu livna ve ATRPM depolarındakilerle ciddi uyuşmazlıklar içermektedir.
+<p></p><p></p></dd><dt><span class="term"><a class="ulink" href="http://rpm.livna.org" target="_top">http://rpm.livna.org</a></span></dt><dd>
+Amerika dışında DMCA'nın erişiminden uzaklarda Fedora Core ve Extra depolarının taşıyamacağı şu can sıkıcı paketleri taşıyan sayfadır. Aralarında resmi bir bağlantı yoktur ve işin gerçeğinde de Fedora insanları livna'yı DVDCCA'daki yüz karası insanlardan gelecek ve seslerini kısacak bir davadan korktuklarından sayfalarında veya belgelendirmelerinde bahsetmemektedir. Fakat livnadakiler Fedorayı yakın takibe almış durumdadır. livna deposu Fedora depolarına bağımlıdır. RPMForge depoları ile uyumsuzdur.
+<p></p><p></p></dd><dt><span class="term"><a class="ulink" href="http://macromedia.mplug.org/" target="_top">http://macromedia.mplug.org/</a></span></dt><dd>
+Macromedia Flash sürümlerinin paketleri için temel depodur. Herhangi diğer RPM depoları ile bu depoyu kullanmak güvenlidir.
+<p></p><p></p></dd></dl></div>
+</p><p>
+Buraya kadar size önerdiğim depolar RPMForge, livna (tümüyle) ve ATrpms (tümüyle)'dir. FC5 ile teorik olarak, önceki SSS sürümde açıkladığım  RPMforge kullanımı yerine, livnadan sağlayabileceğiniz tüm çoklu ortam desteğini alabilirsiniz. Teorik olarak diyorum çünkü FC5 içerisinde aslında hiç biri çalışmaz.
+</p><p>
+livnaya erişimi sağlamak için şunu yapın:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+rpm -ivh http://rpm.livna.org/livna-release-5.rpm
+</pre> </td></tr></table></div>
+</p><p>
+Bu işlem yum depo ayarlarının <tt>/etc/yum.repos.d/</tt> ismiyle kaydedilmesine sebep olmalıdır.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/fedora-multimedia-howto-introduction.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/fedora-multimedia-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/fedora-multimedia-howto-security.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Güvenlik noktaları ve diğer riskler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

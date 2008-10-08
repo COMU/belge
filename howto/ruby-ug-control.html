@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:01+03:00"><title>Denetim Yapıları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-b2examples.html" title="Örneklere Dönüş"><link rel="next" href="../howto/ruby-ug-iterators.html" title="Yineleyiciler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Denetim Yapıları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-b2examples.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-iterators.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-control"></a>Denetim Yapıları</h2></div></dt><dd><p>
+Bu bölümde Ruby'nin denetim yapılarını açıklayacağız.
+  </p><div class="variablelist"><dl><dt><span class="term"><tt>case</tt></span></dt><dd>
+<b><tt>case</tt></b> deyimini bir dizi koşulu test etmek için kullanırız. Bu yapı, C ve Java 'daki <b><tt>switch</tt></b>'e çok benzer ancak
+birazdan da göreceğiniz gibi ondan biraz daha güçlüdür.
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">i=8</tt>
+<tt>ruby&gt; </tt><tt class="empinput">case i</tt>
+    | <tt class="empinput">when 1, 2..5</tt>
+    | <tt class="empinput">  print "1..5\n"</tt>
+    | <tt class="empinput">when 6..10</tt>
+    | <tt class="empinput">  print "6..10\n"</tt>
+    | <tt class="empinput">end</tt>
+6..10
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>2..5</tt></b>, 2 ile 5 arasındaki sayı aralığını ifade eder. Sonraki ifade, <b><tt>i</tt></b> değişkeninin bu aralığa düşüp düşmediğini sınar:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">(2..5) === i  </pre> </td></tr></table></div>
+  </p><p>
+<b><tt>case</tt></b> aynı anda birden çok koşulu sınamak için <b><tt>===</tt></b> ilişki işleçini kullanır. Ruby'nin nesneye yönelik yapısını korumak için <b><tt>===</tt></b> işleci nesneye uygun olarak yorumlanır. Örneğin aşağıdaki kodda ilk <b><tt>when</tt></b>'de dizgelerin eşitliği sınanırken ikinci <b><tt>when</tt></b>'de düzenli ifadenin eşleşmesi sınanıyor.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">case 'abcdef'</tt>
+    | <tt class="empinput">when 'aaa', 'bbb'</tt>
+    | <tt class="empinput">  print "aaa or bbb\n"</tt>
+    | <tt class="empinput">when /def/</tt>
+    | <tt class="empinput">  print "/def/ icerir\n"</tt>
+    | <tt class="empinput">end</tt>
+/def/ icerir
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term"><tt>while</tt></span></dt><dd>
+Ruby döngü oluşturmak için bir çok yola sahiptir, bununla birlikte ileriki bölümde doğrudan döngü kurmanıza yarayan <i>yineleyici</i>leri göreceksiniz.
+  <p></p><p>
+<b><tt>while</tt></b> bir tekrarlanmış <b><tt>if</tt></b>'ten başka birşey değildir. <b><tt>while</tt></b>'ı daha önce kelime-tahmin oyunumuzda ve düzenli ifadeler yazılımımızda kullanmıştık (<a href="../howto/ruby-ug-regex.html" class="xref" title="Düzenli İfadeler"> Düzenli İfadeler</a> bölümüne göz atın); <b><tt>while </tt></b><i><tt>koşul</tt></i><b><tt> ... end</tt></b> ile çevrilmiş bir kod bloğu koşul doğru olduğu sürece tekrarlanmaktaydı. Ancak <b><tt>while</tt></b> ve <b><tt>if</tt></b> ayrı ifadeler olarak da kullanılabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">i = 0</tt>
+   <tt class="empoutput">0</tt>
+<tt>ruby&gt; </tt><tt class="empinput">print "Sıfır.\n" if i==0</tt>
+Sıfır.
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">print "Negatif.\n" if i&lt;0</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">print "#{i+=1}\n" while i&lt;3</tt>
+1
+2
+3
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p></p></dd></dl></div><p>
+Bazen bir sınama koşulunu olumsuzlamak istersiniz. <b><tt>unless</tt></b> bir olumsuzlandırılmış <b><tt>if</tt></b>, <b><tt>until</tt></b> ise olumsuzlandırılmış bir <b><tt>while</tt></b>'dır. Bunları deneyip tecrübe etmeyi size bırakıyoruz.
+  </p><p>
+Bir döngüyü içerden kesmek için dört yol vardır. İlki C'deki gibi, döngüden tamamen çıkmamızı sağlayan <b><tt>break</tt></b>'tir. İkincisi (C'deki <b><tt>continue</tt></b>'ya benzeyen) döngünün başına atlayan <b><tt>next</tt></b>'tir. Üçüncüsü o anki yinelemeyi tekrar çalıştıran <b><tt>redo</tt></b>'dur. Aşağıda <b><tt>break</tt></b>, <b><tt>next</tt></b> ve  <b><tt>redo</tt></b> arasındaki farkı açıklayan bir C kodu bulunuyor:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">while (koşul) {
+ label_redo:
+   goto label_next;        /* ruby'nin "next"'i */
+   goto label_break;       /* ruby'nin "break"'i */
+   goto label_redo;        /* ruby'nin "redo"'su */
+   ...
+   ...
+ label_next:
+}
+label_break:
+...
+</pre> </td></tr></table></div>
+  </p><p>
+Bir döngünün içinden çıkmak için dördüncü yol, <b><tt>return</tt></b>'dür. <b><tt>return</tt></b> sadece döngüden değil, döngüyü içeren
+yöntemden de çıkmamızı sağlar. Eğer bir argüman verildiyse, yöntem çağrısına dönecektir; aksi halde <b><tt>nil</tt></b> döndürecektir.
+  </p><div class="variablelist"><dl><dt><span class="term"><tt>for</tt></span></dt><dd>
+C yazılımcıları <b><tt>for</tt></b> döngüsünün nasıl yapıldığını merak edeceklerdir. Ruby'nin <b><tt>for</tt></b>'u tahmin ettiğinizden biraz daha ilginçtir.
+Aşağıdaki döngü, her eleman için bir kere döner:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+for eleman in dizi
+  ...
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Elemanlar bir değer aralığı olabilir (bu, döngü denildiğinde çoğu insanın anladığı şeydir):
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt><tt class="empinput">for num in (4..6)</tt>
+    | <tt class="empinput">   print num,"\n"</tt>
+    | <tt class="empinput">end</tt>
+4
+5
+6
+   <tt class="empoutput">4..6</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Elemanlar dizi gibi başka bir türden değerler olabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt><tt class="empinput">for elt in [100,-9.6,"pickle"]</tt>
+    | <tt class="empinput">   print "#{elt}\t(#{elt.type})\n"</tt>
+    | <tt class="empinput">end</tt>
+100    (Fixnum)
+-9.6   (Float)
+pickle (String)
+   <tt class="empoutput">[100, -9.6, "pickle"]</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Ancak ilerleme kaydediyoruz. <b><tt>for</tt></b> aslında <b><tt>each</tt></b>'i kullanmanın başka bir yoludur. Aşağıdaki iki biçim de aynı görevi görür:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Eğer daha önce C ya da Java kullandıysanız aşağıdaki gibi
+# birşey tercih edersiniz:
+for i in collection
+  ...
+end
+
+#  Smalltalk yazılımcısıysanız aşağıdaki gibi birşeyi tercih edersiniz:
+collection.each {|i|
+  ...
+}
+</pre> </td></tr></table></div>
+  </p><p>
+Yineleyiciler sık sık geleneksel döngülere tercih edilir; bir kere onları kullanmaya alıştığınızda ne kadar kolay olduklarını göreceksiniz.
+  </p><p></p></dd></dl></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-b2examples.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-iterators.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Örneklere Dönüş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yineleyiciler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

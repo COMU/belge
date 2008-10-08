@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="secure-boot-cd-howto" lang="tr">
+  <articleinfo>
+	  <title>VPN için Güvenli Açılış CD'si NASIL</title>
+	  <author>
+		  <firstname>Jeffery Douglas</firstname>
+		  <surname>Waddell</surname>
+		  <affiliation>
+			  <address><email>jefferydouglaswaddell@gmail.com</email></address>
+		  </affiliation>
+    </author>
+	  <author role="translator">
+      <firstname>Necdet</firstname>
+      <surname>Yücel</surname>
+      <affiliation>
+        <address><email>nyucel@comu.edu.tr</email></address>
+      </affiliation>
+</author><author role="translator">
+	<firstname>Meltem</firstname>
+	<surname>Parmaksız</surname>
+	<affiliation>
+		<address><email>meltem@comu.edu.tr</email></address>
+	</affiliation>
+    </author>
+    <revhistory>
+	    <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>Temmuz 2008</date>
+		    <authorinitials>ny, mp</authorinitials>
+		    <revremark>İlk sürüm</revremark>
+	    </revision>
+    </revhistory><revhistory>
+	    <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>2007-05-15</date>
+		    <authorinitials>jdw</authorinitials>
+		    <revremark>İlk sürüm</revremark>		    
+	    </revision>
+    </revhistory>
+    <legalnotice><title>Yasal Açıklamalar</title><para>
+		    Bu belgenin, <emphasis>VPN için Güvenli Açılış CD'si NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis> ve <emphasis>Meltem Parmaksız</emphasis>'a</emphasis> aittir, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2007 <emphasis>Jeffery Douglas Waddell</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+	    </para>
+	    <para>
+		    BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+	    </para>
+	    <para>
+		    İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+	    </para>
+	    <para>
+		    Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+	    </para>
+  </legalnotice>  
+  <abstract>
+	  <para>Bu belgede güvenlik duvarı arkasındaki bilgisayarlara internet üzerinde güvenli VPN bağlantısı yapılabilmasında kullanılabilecek çalışan cd oluşturulması anlatılmaktadır.</para>
+    </abstract>
+  </articleinfo>
+
+  <sect1 id="secure-boot-cd-intro">
+    <title>Giriş</title>
+    <para>Yıllardır kısmi zamanlı olarak çalıştığım enstitünün çalışanları yerel ağa kararlı ve güvenli bir erişim taleplerini dile getiriyorlardı. Yerel ağda bazı istemciler özel ağlarda bazıları ise internete bağlanabilir durumdaydı.</para>
+    <para>Çok fazla Microsoft ürünü kullandığımızdan mümkün olan seçeneklerin bir çoğu başta güvenlik olmak üzere çeşitli nedenlerle uygun değildi. Bir kaç ay önce bu problemle karşılaşıp istekleri dinledikten sonra bütün güvenlik ihtiyaçlarına cevap verecek olan çalışan cd'yi önerdim. Bunu denemem için bana şans verildi ve artık çalışan bir prototipim var. Bu belge çalışan cd'nin oluşturulma sürecini anlatmaktadır.</para>
+ 
+    <sect2 id="secure-boot-cd-intro-copright">
+	<title>Telif Hakkı</title>
+	<para>Bu belgenin <emphasis role="bold">telif hakkı © 2007 <emphasis>Jeffery Douglas Waddell</emphasis>'e</emphasis> aittir.
+		<itemizedlist><listitem>Belgeyi kopyalayabilir, dağıtabilir, görüntüleyebilir ve belgede yazanları uygulayabilirsiniz.
+		</listitem><listitem>Belgeden türetmeler yapabilirsiniz,
+		</listitem><listitem>Belgenin ticari uygulamalarını yapabilirsiniz.</listitem></itemizedlist>
+	<para>Bunları yaparken belgenin asıl sahibine atıfta bulunmalısınız. Share Alike. Eğer bu belgeyi değiştirir, dönüştürür veya bu belge üzerine yeni bir belge oluşturursanız ortaya çıkacak yeni işi de bu belgenin lisansıyla aynı lisansla dağıtmalısınız.</para>
+	<itemizedlist><listitem>Belgenin yeniden kullanımı veya dağıtımında lisans anlaşmasının terimlerini açıklamalısınız.
+		</listitem><listitem>Bu şartlardan herhangi birinden yazarın izniyle feragat edilebilir.</listitem></itemizedlist>
+</para>
+    </sect2>
+    <sect2 id="secure-boot-cd-intro-disclimer">
+	<title>Feragatname</title>
+	<para>Use the information in this document at your own risk. I disavow any potential liability for the contents of this document. Use of the concepts, examples, and/or other content of this document is entirely at your own risk.</para>
+	<para>Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır.</para>
+	<para>Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.</para>
+	<para>Temel kurulumdan önce ve kurulumun ardından belirli aralıklarla yedek almanız yararınıza olacaktır.</para>
+</sect2>
+<sect2 id="secure-boot-cd-intro-credits">
+	<title>Katkıda Bulunanlar</title>
+	<para>Yaptıklarım için pek çok kaynak kullandım. Bu projelerin katkıcılarına çok teşekkür ederim. Aşağıda bunların tam olmayan bir listesi var:
+	<itemizedlist>	
+		<listitem> <ulink url="http://www.linuxjournal.com/article/7246"/></listitem>
+		<listitem> <ulink url="http://www.openvpn.net/howto.html"/></listitem>
+		<listitem> <ulink url="http://www.damnsmalllinux.org"/></listitem>
+		<listitem> <ulink url="http://www.ubuntu.com"/></listitem>
+	</itemizedlist></para>
+</sect2>
+<sect2 id="secure-boot-cd-intro-translation">
+	<title>Çeviriler</title>
+	<para>Belgenin sadece Türkçe çevirisi bulunmaktadır. Eğer başka bir dile çevirmek istiyorsanız bana jefferydouglaswaddell (at) gmail (dot) com adresinden ulaşabilirsiniz.
+	</para>
+</sect2>
+</sect1>
+<sect1 id="secure-boot-cd-theory">
+	<title>Teori</title>
+	<para>Başlarken problemi tam olarak tanımlamak ve ürünün ardındaki teoriyi vermek istiyorum.</para>
+	<para>Enstitüde bilgisayarlar çok sağlam bir güvenlik duvarı arkasındaydılar. Güvelik duvarı içeri ÇOK AZ paket geçişine izin veriyordu. Dışarı bağlantıda HTTP, FTP, SSH gibi bir çok tipte bağlantıya izin verilirken dışarıdan içeriye bunların hiç birine izin verilmiyordu.</para>
+		
+	<para>Güvenlik duvarını yerel ağımızın köşesinde duran makineler olarak düşünebilirsiniz. Hem özel ağlar hem de internete çıkan bilgisayarları barındıran iç ağımızda güvenli olayan fazlaca trafik vardı. Bu işlerden birini yapmak üzere internetten yerel ağın İÇİNE bir bağlantıya izin verebilmek için yerel ağın sınırında (güvenlik duvarının bir parçası olarak) bir sunucu bulundurmak gereklidir.</para>
+		
+	<para>Kullanıcıların evden işlerini yapmalarına yetecek kadar (ofislerinden çalıştıklarına eşit düzeyde) yerel ağa erişmeleri isteniyor ama güvenli olayan trafiğimizin güvenlik duvarı üzerinden internete açılması istenmiyordu. Ayrıca yerel ağımızdaki hassas verilerin ev bilgisayarlarına kopyalanması veya evden yazıcı çıktısı alınması istenmiyordu.</para>
+		
+	<para>İşte sorunumuz: Bazı kullanıcılarımıza işlerini evlerinden yapmalarına yetecek erişimi verirken önemli verilerimizi ve yerel ağımızı nasıl koruyabiliriz? Güvenlikle ilgili diğer olası problemler şunlar olabilir:
+		<itemizedlist><listitem> Gizli bilgileri içeren bir dizüstü bilgisayar çalınabilir.</listitem>
+			<listitem> Erişim için kullanılan bir ev bilgisayarı politikamıza uymasa bile ağımız dışında olduğundan izinin sürülmesinin veya zorlanmasının mümkün olmaz.</listitem>
+		</itemizedlist></para>
+	<para>Çözüm için benim aklıma gelen şey kullanıcılara birer çalışan cd vererek herhangi (bir tanıdıklarının, kendi evlerindeki veya internet kafedeki) bir bilgisayardan yerel ağdaki bilgisayarlarında oturum açmalarını sağlamak oldu. Teorik olarak kullanıcıların kendi masaüstü bilgisayarlarına bağlanmak için önce ağın sınırındaki bir sunucuya bağlanmaları en az yerel bilgisayarlarını kullanarak ağa erişmeleri kadar güvenlidir ve bu sayede erişimin ne zaman ve nasıl yapılacağının probleminin üzerinden gelinebilir. Çalışan CD için işletim sistemi yapılandırması gerekmeyeceği gibi malware, spy-ware veya virüs gibi sorunlarla da karşılaşılmayacaktır. Bir sonraki Teknolojiler bölümünde gerçekleştirim için bazı yolları tartışacak ve daha sonraki bölümde bizim nasıl yaptığımızı açıklayacağım.</para>
+</sect1>
+<sect1 id="secure-boot-cd-technologies">
+	<title>Teknolojiler</title>
+	<para>OpenVPN bir çok kişi tarafından bilindiğinden iyi bir fikir gibi görünür ama tek başına yeterli değildir. Kullanıcıların çalışabilmesi için en uygun yöntem varolan masaüstlerine doğrudan bağlanmaları olacaktır. Kullanıcıların tamamı çözüm olarak rdesktop'u öneren Windows XP (tm) ya da Windows 2000 (tm) kullanmalarına rağmen rdesktop güvenlik duvarımızdan geçememekte ve güvenliğini sağlamak mümkün olmadığından geçişine izin verilememektedir. OpenVPN daha fazla güvenlik sağladığı halde bizim gerçekleşitirimimizde aşağıdaki problemlere yol açmaktadır:
+		
+		<orderedlist><listitem> Yerel ağdaki TÜM bilgisayarlara OpenVPN sunucusu ve ağın dışından bağlantı için kullanılacak bilgisayarlara (evde, internet kafede ya da başka bir yerde) ise OpenVPN istemcisi kurulması gerekmektedir. Bu da tabi ki çok fazla IT zamanının harcanmasına ve her bir bilgisayarda kullanıcıların yapılandırılma problemleriyle uğraşılması demektir.</listitem>
+		<listitem> Eğer doğrudan oturum açılmasına (OpenVPN üzerinden bile olsa) izin verirseniz bir çok potansiyel güvenlik riskiyle karşılaşırsınız.
+		<para><orderedlist>
+		<listitem> İstemci bilgisayarlarda kurulmuş keylogger programları,</listitem>
+		<listitem> Yerel ağdaki Windows(tm) bilgisayarların VPN için açtığınız ve internete ulaşabilen portlarına gelen saldırılar,</listitem>
+		<listitem> VPN bağlantısı sağlanan bilgisayarlara (ve onlarla etkileşen diğer bilgisayarlara) bulaşan virusler, spy ware ve diğer zararlı yazılımlar,</listitem>
+		<listitem> Güvenli olmayan bir çok masaüstü gizli anahtarların bulunduruluyor olması. Bu (yerel ağa VPN bağlantısı yapmak için gerekli olan) anahtarlardan birine erişimi olan herhangi biri istenmeyen yeni bir anahtar üretiminde bulunabilir.</listitem></orderedlist></para></listitem>
+		<listitem> Sadece IT personeli tarafından yapılandırılmış belirli bilgisayarlar gerçekten ihtiyaç duyulduğunda yetkilendirilmiş kullanıcılar herhangi bir yerden bağlantı yapabilmeli ve kaynakları kullanabilmelidir.</listitem></orderedlist>
+	</para>
+	<para>Yukarıdaki güvenlik problemlerinin üstesinden gelmek ve sistemi gelecekte de daha az karmaşık halde tutabilmek için benim önerim bir çalışan Linux CD'si oluşturmak ve bu CD ile hem yerel ağa hem de internete ulaşabilen OpenVPN sunucusuna bağlanmak ve buradan <command>rdesktop</command> kullanarak otamatik olarak yerel masaüstüne bağlanmak oldu.</para>
+</sect1>
+<sect1 id="secure-boot-cd-implementation">
+	<title>Gerçekleştirme</title>
+	<para>Nasıl bir yol izlenmesi gerektiğine dair bir çok karar alınması gereklidir. Takip eden bölümlerde çalışan bir prototip elde edene kadar yaptıklarımı bulacaksınız. Benim yaptıklarımı kendi sisteminize göre uyarlamayı unutmayın. Gerekli yerlede açıklayıcı yorumlar yapmaya çalıştım.</para>
+	<para>Bir çok çalışan CD dağıtımını inceledim ve sonunda ihtiyaçlarımız için en uygununun DSL olduğuna karar verdim. Üzerinde düşündüğüm dağıtımlar şunlardı:
+		<orderedlist><listitem> Ubuntu. Bu çalışan CD göreceli olarak daha fazla sistem kaynağına ihtiyaç duyduğu gibi bu projede ihtiyaç duyduklarımızından çok fazla uygulama içeriyor. Çok fazla uygulamayı kaldırmakla uğraşmak yerine bu dağıtımı kullanmamayı tercih ettim. Eğer istediğiniz kullanıcılarınızın masaüstlerine erişimin YANINDA iç ağınıza da erişmelerini istiyorsanız ubuntu iyi bir seçim olabilir.</listitem>
+		<listitem> PuppyLinux. Bu çalışan CD gerçekten iyi görünmesine rağmen kök dosya sistemi olarak kullandığı SFS'yi biçimlendiriken sorunlar yaşadım ve okuduklarımdan Knoppix'in sıkıştırılmış dosya sistemiyle daha kolayca yönetildiğini anladım.</listitem>
+		<listitem> Knoppix. Bu çalışan CD de, Ubuntu gibi, projemizin özel amaçları için çok fazla ağır bir dağıtımdır.</listitem>
+		<listitem> Damn Small Linux. Bu çalışan CD 50 MB olmasına rağmen neredeyse tüm donanımlarda çalıştığından projenin hayata geçirilmesinde onu kullanmayı seçtim.</listitem></orderedlist>
+	</para>
+<sect2 id="secure-boot-cd-implementation-getting-iso">
+	<title>DSL-tabanlı .ISO dosyasının düzenlenmesi</title>
+	<para>DSL'i seçtiğimize göre onun ağa DHCP ile dahil olması için gereken otomatik bulma, yapılandırma ve bağlanma yeteneklerine güveniyoruz demektir. DSL'in kablosuz desteği son derece sınırlı olduğundan şimdilik kablosuz desteği vermiyoruz. Son kullanıcı ağ kablosuyla bağlanan bir bilgisayara ve bulunduğu ağda DHCP sunucusuna ihtiyaç duyacaktır.		
+		<orderedlist><listitem> Yeni bir <ulink url="http://www.ubuntu.com">Ubuntu</ulink>, <ulink url="http://www.edubuntu.org">EdUbuntu</ulink>, <ulink url="http://www.xubuntu.org">xUbuntu</ulink> veya <ulink url="http://www.kubuntu.org">kUbuntu</ulink> kurun,<footnote><para>Ç.N. Biz kurulumu debian ile problemsiz yaptık.</para></footnote></listitem>
+		<listitem> Synaptic kullanarak mümkün olan bütün depoları ekleyin,</listitem>
+		<listitem> qemu, open-vpn ve cloop-utils paketlerini kurun,</listitem>
+		<listitem> Bir ISO dosyası edinin (ben dsl-3.0 öneriyorum<footnote><para>Ç.N. Biz 4.3.3'ü problemsiz kullandık.</para></footnote>); umarım yakında (VPN anahtarlarını içermeyen) prototip ISO'larımdan birini indirebileceğiniz bir yere koyabilirim. Bu ISO başlamak için uygun olacaktır.</listitem>
+		<listitem> ISO'yu uygun bir dizine bağlayın.
+		<screen>mkdir /tmp/workingiso
+mount -t iso9660 -o loop dsl-3.0.iso /tmp/working.iso</screen></listitem>
+		
+		<listitem> ISO'nun sıkıştırılmış dosya sistemini açın ve uygun bir dizine bağlayın.
+		<screen>extract_compressed_fs /tmp/workingiso/KNOPPIX/KNOPPIX > /var/tmp/KNOPPIX-cloop
+mkdir /tmp/workingiso.cloop
+mount -o loop /var/tmp/KNOPPIX-cloop /tmp/workingiso.cloop</screen></listitem>
+		
+		<listitem> Artık CD'nin iç bölümlerine de erişebilir durumdasınız, onunla çalışabileceğiniz bir yere kopyalayın.
+		<orderedlist><listitem> Çalışmak için bir dizin oluşturun (<filename>/home/meltem/Desktop/vpn-tree</filename> gibi)</listitem>
+			<listitem>
+<command>tar -C /tmp/workingiso.cloop -cf - . | tar -C /home/meltem/Desktop/vpn-tree -xvpf</command> -</listitem></orderedlist></listitem>
+		
+		<listitem> CD'nin dış bölümünü de çalışabileceğiniz bir dizine kopyalayın.
+			<orderedlist><listitem> Çalışmak için bir dizin oluşturun (<filename>/home/meltem/Desktop/vpn-cd-tree</filename> gibi)</listitem>
+		<listitem><command>tar -C /tmp/workingiso -cf - . | tar -C /home/meltem/Desktop/vpn-cd-tree -xvpf -</command></listitem></orderedlist></listitem>
+		
+		<listitem> Bu aşamaya kadar hatasız gelip gelmediğinizi kontrol etmek için bir CD görüntüsü oluşturun.
+		<screen>mkisofs -pad -l -r -J -V "YOURVPN v0.1" -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -hide-rr-moved  -o yourvpn.iso /home/meltem/Desktop/vpn-cd-tree/</screen></listitem>
+		
+		<listitem> Yukarıdaki komut hatasız sonuçlanınca oluşturduğunuz CD'yi test edin:
+			<orderedlist><listitem><command>qemu -boot d -cdrom yourvpn.iso</command></listitem></orderedlist></listitem>
+		
+		<listitem> Artık değişiklik yapmaya başlayabilirsiniz.
+		<orderedlist><listitem> Aşağıdaki komutla proc dizinini bağlayın:
+		
+		<para><command>mount -t proc none /home/meltem/Desktop/vpn-tree/proc</command></para></listitem>
+		
+		<listitem><command>chroot /home/meltem/Desktop/vpn-tree</command></listitem>
+		
+	<listitem> Dosya sisteminde istediğiniz değişiklikleri yapın.</listitem></orderedlist></listitem>
+	<listitem> Etrafta biraz dolaştıktan sonra yeni sıkıştırılmış dosya görüntümüzü yazmanın ve CD oluşturmanın zamanı geldi.
+			<orderedlist><listitem> chroot'dan çıkın</listitem>
+			<listitem> Yukarıda bağladığınız proc dizinini çözün (bu aşamayı unutursanız çalışan bir CD oluşturamazsınız)</listitem>
+			<listitem> Sıkıştırılmış dosya görüntüsünü oluşturun
+		
+		<screen>mkisofs -L -R -l -V "YOURVPN ISO9660" -v -allow-multidot /home/meltem/Desktop/vpn-tree/ | create_compressed_fs - 65536 > /home/meltem/Desktop/vpn-cd-tree/KNOPPIX/KNOPPIX </screen></listitem>
+		
+			<listitem> CD görüntüsünü oluşturun
+		
+		<screen>mkisofs -pad -l -r -J -V "YOURVPN v0.2" -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -hide-rr-moved -o yourvpn.iso /home/meltem/Desktop/vpn-cd-tree/</screen></listitem>
+		
+	<listitem> Bir emülatör kullanarak test edin (Ben qemu'yu tercih ediyorum ama isterseniz vmware, xen veya başkasını kullanabilirsiniz)
+		
+		<para><command>qemu -boot d -cdrom yourvpn.iso</command></para></listitem></orderedlist></listitem>
+		
+		<listitem> Gerekli ISO dosyasını oluşturana kadar bu adımları tekrar edin.</listitem>
+		<listitem> CD görüntüsünü yazın ve kullanın.</listitem></orderedlist>
+	</para>
+</sect2>
+<sect2 id="secure-boot-cd-implementation-modifying-cd">
+	<title>CD'deki yazılımların düzenlenmesiyle ilgili açıklamalar</title>
+	<para><orderedlist><listitem> Chroot yaptıktan sonra openvpn*.deb dosyasını kök dosya sistemine açın<footnote><para>Ç.N. Bu işlem için önce openvpn'in uygun paketini internetten indirmelisiniz ardından da dpkg komutunu kullanmanız gerekiyor ama bunun için önce <command>dpkg-rebuild</command> komutunu çalıştırmanız gerekiyor. Daha sonra <command>dpkg --unpack openvpn*.deb</command> komutunu çalıştırmalısınız.</para> </footnote></listitem>
+		<listitem> Gerekli bütün kütüphanelerin uygun yerlere kopyalandığından emin olun.
+		<orderedlist><listitem> <command>chroot</command></listitem>
+		<listitem> <command>ldd /usr/sbin/openvpn</command></listitem>
+		<listitem> Ana sistemin başka bir terminaline geçerek gerekli kütüphaneleri ana sistemden <filename>vpn-tree</filename> dizininde uygun yerlere kopyalayın</listitem>
+		<listitem> tun düğümünü oluşturun: <command>mknod /dev/net/tun c 10 200</command></listitem></orderedlist></listitem>
+<listitem> <filename>vpn-cd-tree/boot/isolinux/boot.msg</filename> dosyasından "^Xlogo.16" ile başlayan satırı silin.</listitem>
+<listitem> Açılışta boot seçenekleri için beklenilmemesi için <filename>vpn-cd-tree/boot/isolinux/isolinux.cfg</filename> dosyasını düzenleyerek "PROMPT 1" yerine "PROMPT 0" yazın.</listitem>
+	<listitem> <filename>vpn-tree/etc/skel/.xinitrc</filename> dosyasını düzenleyerek masaüstünde olmasını istediklerimizi yansıtın. Masaüstüne ikonların yüklenmesini sağlayan ve pencereleri yükleyen kodları kaldırın, VPN bağlantısı için gerekli kodu ekleyin ve son olarak rdesktop'u yükleyen ve doğru makineye bağlantı yapılmasını sağlayan kodu ekleyin.</listitem>
+	<listitem> Açılış ekranını aşağıdaki adımlarla değiştirin.
+		<orderedlist><listitem> <filename>vpn-cd-tree/boot/isolinux/minirt24.gz</filename> dosyasını <filename>/tmp</filename> dizinine kopyalayın,</listitem>
+			<listitem> <command>gunzip minirt24.gz</command></listitem>
+			<listitem> <command>mount -o loop minirt24 /mnt</command></listitem>
+			<listitem> <filename>/mnt/linuxrc</filename> dosyasını düzenleyerek "DSL" yerine istediğiniz logoyu koyun</listitem>
+			<listitem> <command>umount /mnt</command></listitem>
+			<listitem> <command>gzip minirt24</command></listitem>
+			<listitem> <filename>minirt24.gz</filename> dosyasını <filename>vpn-cd-tree/boot/isolinux/minirt24.gz</filename> olarak kopyalayın.</listitem></orderedlist>
+	</listitem></orderedlist>
+	</para>
+</sect2>
+<sect2 id="secure-boot-cd-implementation-setting-up">
+	<title>Çok kullanıcılı OpenVPN sunucusunun yapılandırılması</title>
+	<para>  <orderedlist><listitem> Sunucu için cert ve keys dosyalarını oluşturmak için yönergeleri takip edin.</listitem>
+		<listitem> OPenVPN NASIL dosyasında anlatılan bazı bilgileri girmeniz gerekecektir.</listitem>
+		<listitem> İstemciler için parola-korumalı anahtar üretmeyi unutmayın.</listitem>
+		<listitem> Gerekli tüm yapılandırmaları yapın.</listitem>
+		<listitem> Her bir istemci için aşağıdakileri yapmalısınız:
+		<orderedlist><listitem> Sertifikayı kullanarak parola korumalı bir anahtar oluşturun,</listitem>
+			<listitem> Sertifikayı ve istemci anahtarını (sadece) <filename>vpn-tree/etc/openvpn/keys</filename> dizinine yerleştirin,</listitem>
+			<listitem> <filename>vpn-tree/etc/openvpn/openvpn.cfg</filename> dosyasını düzenleyerek gerekli anahtar dosyaların yollarını belirtin (Örnekler bölümündeki sunucu yapılandırmasına bakınız),</listitem>
+			<listitem> <filename>vpn-tree/opt/bootlocal.sh</filename> dosyasında eklenen rotaları düzenleyin,</listitem>
+			<listitem> <filename>vpn-tree/etc/skel/.xinitrc</filename> dosyasına rdesktop ile bağlanılacak bilgisayarın IP adresini yazın.</listitem></orderedlist></listitem>
+	<listitem> Yeniden CD oluşturun.</listitem>
+	<listitem> Emülatör ile test edin.</listitem>
+	<listitem> Çalıştığını gördükten sonra; ISO dosyasını CD'ye yazabileceğiniz gibi, isterseniz ISO dosyasını <filename>win-qemu-yourvpn-cd</filename> dizinine kopyalayarak qemu Windows emülatör sürümünü oluşturup daha sonra ISO dosyasını oluşturup CD'ye yazabilirsiniz.</listitem></orderedlist>
+	</para>
+</sect2>
+<sect2 id="secure-boot-cd-implementation-references">
+	<title>Referanslar</title>
+	<para>  <orderedlist><listitem> <ulink url="http://www.linuxjournal.com/article/7246"/></listitem>
+		<listitem> <ulink url="http://openvpn.net/howto.html"/></listitem>
+		<listitem> <ulink url="http://www.damnsmalllinux.org"/></listitem>
+		<listitem> <ulink url="http://www.ubuntu.com"/></listitem></orderedlist>
+	</para>
+</sect2>
+</sect1>
+			<sect1 id="secure-boot-cd-maintenance">
+	<title>Bakım</title>
+	<para>CD oluşturulduktan sonra, herhangi bir bakımı yoktur. Kullanıcılardan birinin özel anahtar parolasını degiştirmeniz gekirse ya da kullanıcı cd sini kaybetmişse, kullanıcının CD certifikasını iptal etmek ve yeni bir CD hazırlamak gerekir. Eğer CD zarar görmüş ise, CD nin bir kopyasını verebilirsiniz.</para>
+	<para>OpenVPN sunucusun ise küçük bir bakıma ihtiyacı vardır; davranış uygunlugunu ve olası kötü faaliyetleri kontrol edebilmek için sunucu logları periyodik olarak kontrol edilmelidir. Kullanım-takibi bu belgenin içerigine girmemektedir.</para>
+</sect1>
+<sect1 id="secure-boot-cd-advanced-issues">
+	<title>İleri Konular</title>
+	<para>Güvenlik ve kullanım kolaylığıyla ilgili konuların yukarıda anlatmaya çalıştığım teknolojilerle üstesinden gelinebileceğine inanıyorum. Elbette bu teknolojilerin kullanımıyla ortaya çıkabilecek sorunlar da olacaktır (bunlar çoğunlukla kurumunuzun yerel politikalarından kaynaklanacaktır).</para>
+	<para>Burada bahsedilen teknolojilerde bir hata varsa bunu haber vermekten çekinmeyin.</para>	
+	<para>Ayrıca *bsd kullanarak paketleri VPN'in iç tarafında internete yönlendirilen ağ segmentlerine düzgünce forward edebilmek için gereken <command>pf</command> kurallarını da açıklayabilirseniz menun olurum. Bunu Linux üzerinde masquerading ile yapabilmeme rağmen pf ile çalıştıramadım.</para>
+</sect1>
+<sect1 id="secure-boot-cd-features">
+	<title>Özellikler</title>
+	<para>  <orderedlist><listitem> Son kullanıcı için kullanımı kolaydır:
+				<orderedlist><listitem> CD'yi takın,</listitem>
+				<listitem> Bilgisayarı başlatın,</listitem>
+				<listitem> Özel anahtar parolasını girin,</listitem>
+				<listitem> Her zamanki gibi masaüstüne erişim çalışın.</listitem></orderedlist></listitem>
+<listitem> Yönetici(ler)nin kullanımı kolaydır:
+	<orderedlist><listitem> Anahtar üretimi kullanımdan ayrıdır.</listitem>
+		<listitem> Bir kullanıcının erişimi (eriştiği kendi bilgisayarında bir şey yapmadan) tek bir komutla iptal edilebilir.</listitem>
+		<listitem> Sunucudaki OpenVPN sunucu sürecini durdurduğunuzda yeni bağlantıların yapılmasına engel olmuş olursunuz.</listitem>
+		<listitem> Sunucuyu kapatmak bütün bağlantıların kesilmesine neden olacaktır. Böylece aynı zamanda sunucu yeniden başlatılana kadar yeni bağlantı yapılmasına da izin verilmeyecektir.</listitem></orderedlist></listitem>
+<listitem> CD üretim süreci kullanım kolaylığı açısından otomatik hale getirilebilir.</listitem>
+<listitem> OpenVPN kayıtları kötü niyetli veya politika dışı kullanımı tespit etmek için kullanılabilir.
+	</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="secure-boot-cd-troubleshooting">
+	<title>Hatalarla Başetme</title>
+	<para>Bu projede hatalarla başetmek için farklı yöntemler kullandım. Bunların çoğuyla ya da tamamıyla daha önceden ilgilenmiş olduğunuzu tahmin ediyorum. Bu yönemlerin bazıları şunlardı:
+		
+		<orderedlist><listitem> <command>tcpdump</command> trafiğin gerçekten VPN üzerinden aktığını görmeniz için kullanışlı bir araçtır.</listitem>
+		<listitem> <command>ldd</command> bir paketi elle kurmaya çalıştığınızda onun hangi kütüphalere ihtiyaç duyduğunu anlamanız için çok yardımcı olacaktır.</listitem>
+		<listitem> <command>qemu</command> veya diğer bir emülatörler CD'leri fiziksel olarak kaydedip, onlarla bilgisayarı açmaya çalışmaktan sizi kurtaran paha biçilmez araçlardır.</listitem></orderedlist>
+	</para>
+</sect1>
+<sect1 id="secure-boot-cd-further-information">
+	<title>Ayrıntılı Bilgi</title>
+	<para>Yukarıda da söylendiği gibi OpenVPN hakkında daha ayrıntılı bilgi için <ulink url="http://openvpn.net"/> adresini ziyaret edin. NASIL belgesi özellikle iyidir.</para>
+		
+	<para>DSL hakkında daha ayrıntılı bilgi için <ulink url="http://damnsmalllinux.org"/> adresini ziyaret edin.</para>
+		
+<para>Çalışan CD'ler hakkında oldukça iyi görünen bir kitap olsa da en iyi yardımı yine Google'dan alabilirsiniz.
+</para>
+</sect1>
+<sect1 id="secure-boot-cd-getting-help">
+	<title>Yardım Almak</title>
+<para>Yukarıda adı geçen topluluklar bu bulmacanın çeşitli aşamalrında size yardımcı olacaklardır.</para>
+<para>Bütün bunları bir araya getirmekle ilgili anlamadığınız bir şey olursa bu NASIL belgesini tamamen okuduktan (ve denemeler yaptıktan) sonra benimle haberleşmekten çekinmeyin.</para>
+</sect1>
+<sect1 id="secure-boot-cd-remarks">
+	<title>Son Sözler</title>
+	<para>İşte burada. Belki yararlı olabilir.</para>
+</sect1>
+<sect1 id="secure-boot-cd-questions">
+	<title>Soru - Cevap</title>
+	<para>Bu belgeyle ilgili sorular aldığımda onları derleyip buraya yerleştireceğim.</para>
+</sect1>
+<sect1 id="secure-boot-cd-bits">
+	<title>Ayrıntılar</title>
+<sect2 id="secure-boot-cd-bits-windows">
+	<title>Windows'ta otomatik çalışan CD oluşturmak</title>
+	<para>Her ne kadar çalışıyor olsa da kararımız ilkesel olarak bu konuda yayılmamak yönünde oldu. Bu yöntem aşağıdaki güvenlik problemlerini barındırır:
+		
+		<orderedlist><listitem> Windows (tm) yüklü bilgisayarlardaki Key logger programları. Bu programlar sayesinde özel anahtar parolaları ele geçirilebilir ve yetkisiz erişim yapılabilir.</listitem>
+		<listitem> Windows (tm) yüklü bilgisayarlardaki Malware yazılımlar. VPN içinden veri gönderebilirler ...ihtimal dışı görünüyor.</listitem>
+		<listitem> Windows (tm) yüklü bilgisayarlardaki virüsler. Kendilerini iç ağa yayabilirler...yine ihtimal dışı görünüyor.
+		</listitem></orderedlist></para>
+	<para>Windows'ta otomatik açlışan CD oluşturmanız için gerekenler aşağıda sıralınamaktadır. Bu yöntem başka projeler için de yardımcı olacaktır.	
+		<orderedlist><listitem><command>mkdir win-qemu-yourvpn-cd</command></listitem>
+		<listitem> <ulink url="http://www.h7.dion.ne.jp/~qemu-win/"/> adresinden <filename>qemu-0.8.2-windows.zip</filename> dosyasını indirin.</listitem>
+		<listitem> İndirdiğiniz <filename>qemu-0.8.2-windows.zip</filename> dosyasını <filename>win-qemu-yourvpn-cd</filename> dizinine açın.</listitem>
+		<listitem> Bütün qemu-0.8.2-windows dosyalarını bir dizinde toplayın. <filename>qemu-0.8.2</filename> dizinini silin.</listitem>
+		<listitem> Bir simge dosyası oluşturun. Ben mevcut bir dosyayı alıp GIMP ile yeniden boyutlandırdım.</listitem>
+		<listitem> <filename>win-qemu-yourvpn-cd</filename> dizininde aşağıdaki satırları içeren bir <filename>autorun.inf</filename> dosyası yaratın:
+		<screen>[autorun]
+icon=youricon.ico
+open=yourvpn.bat</screen></listitem>
+<listitem> <filename>qemu-win.bat</filename> dosyasını <filename>yourvpn.bat</filename> ismiyle kopyalayın.</listitem>
+<listitem> <filename>yourvpn.bat</filename> dosyasının son satırını aşağıdaki satırla değiştirin: <screen>qemu.exe -L . -m 64 -soundhw all -localtime -cdrom yourvpn.iso</screen></listitem>
+<listitem> <filename>yourvpn.iso</filename> dosyanızı bulunduğu yerden <filename>win-qemu-yourvpn-cd</filename> dizinine kopyalayın.</listitem>
+			<listitem> Bu dizinin bir ISO dosyasını oluşturun: <screen>mkisofs -pad -l -r -J -V "WQYOURVPN v0.1" -hide-rr-moved -o wqyourvpn.iso /home/meltem/Desktop/win-qemu-yourvpn-cd/</screen></listitem>
+		<listitem> ISO dosyasını CD'ye yazın ve Windows (tm) yüklü bir bilgisayarda deneyin.
+	</listitem></orderedlist>
+	</para>
+</sect2></sect1>
+<sect1 id="secure-boot-cd-examples">
+	<title>Örnekler</title>
+	<para>Aşağıda IP adresi ve anahtar isimleri çıkartılmış bir yapılandırma dosyası örneği bulunuyor. Büyük harflerle yazılan yerleri yapılandırmanıza göre değiştirmelisiniz.</para>
+	<literallayout>##############################################
+# Sample client-side OpenVPN 2.0 config file #
+# for connecting to multi-client server.     #
+#                                            #
+# This configuration can be used by multiple #
+# clients, however each client should have   #
+# its own cert and key files.                #
+#                                            #
+# On Windows, you might want to rename this  #
+# file so it has a .ovpn extension           #
+##############################################
+# Specify that we are a client and that we
+# will be pulling certain config file directives
+# from the server.
+client
+
+# Use the same setting as you are using on
+# the server.
+# On most systems, the VPN will not function
+# unless you partially or fully disable
+# the firewall for the TUN/TAP interface.
+;dev tap
+dev tun
+
+# Windows needs the TAP-Win32 adapter name
+# from the Network Connections panel
+# if you have more than one.  On XP SP2,
+# you may need to disable the firewall
+# for the TAP adapter.
+;dev-node MyTap
+
+# Are we connecting to a TCP or
+# UDP server?  Use the same setting as
+# on the server.
+;proto tcp
+proto udp
+
+# The hostname/IP and port of the server.
+# You can have multiple remote entries
+# to load balance between the servers.
+remote PUT_YOUR_OPENVPN_SERVER_IP_HERE 1194
+;remote my-server-2 1194
+
+# Choose a random host from the remote
+# list for load-balancing.  Otherwise
+# try hosts in the order specified.
+;remote-random
+
+# Keep trying indefinitely to resolve the
+# host name of the OpenVPN server.  Very useful
+# on machines which are not permanently connected
+# to the internet such as laptops.
+resolv-retry infinite
+
+# Most clients don't need to bind to
+# a specific local port number.
+nobind
+
+# Downgrade privileges after initialization (non-Windows only)
+user nobody
+group nogroup
+
+# Try to preserve some state across restarts.
+persist-key
+persist-tun
+
+# If you are connecting through an
+# HTTP proxy to reach the actual OpenVPN
+# server, put the proxy server/IP and
+# port number here.  See the man page
+# if your proxy server requires
+# authentication.
+;http-proxy-retry # retry on connection failures
+;http-proxy [proxy server] [proxy port #]
+
+# Wireless networks often produce a lot
+# of duplicate packets.  Set this flag
+# to silence duplicate packet warnings.
+;mute-replay-warnings
+
+# SSL/TLS parms.
+# See the server config file for more
+# description.  It's best to use
+# a separate .crt/.key file pair
+# for each client.  A single ca
+# file can be used for all clients.
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/THECDUSERSCRTFILE.crt
+key /etc/openvpn/keys/THECDUSERSPASSWORDPROTECTEDPUBLICKEY.key
+
+# Verify server certificate by checking
+# that the certicate has the nsCertType
+# field set to "server".  This is an
+# important precaution to protect against
+# a potential attack discussed here:
+#  http://openvpn.net/howto.html#mitm
+#
+# To use this feature, you will need to generate
+# your server certificates with the nsCertType
+# field set to "server".  The build-key-server
+# script in the easy-rsa folder will do this.
+ns-cert-type server
+
+# If a tls-auth key is used on the server
+# then every client must also have the key.
+;tls-auth ta.key 1
+
+# Select a cryptographic cipher.
+# If the cipher option is used on the server
+# then you must also specify it here.
+;cipher x
+
+# Enable compression on the VPN link.
+# Don't enable this unless it is also
+# enabled in the server config file.
+comp-lzo
+
+# Set log file verbosity.
+verb 3
+
+# Silence repeating messages
+mute 20
+
+#added in hopes of removing a command line option
+auth-retry interact</literallayout>
+<para>Aşağıda openVPN sunucusu için yapılandırma dosyası bulunmaktadır.</para>
+<literallayout>#################################################
+# Sample OpenVPN 2.0 config file for            #
+# multi-client server.                          #
+#                                               #
+# Edited on 9/12/2006 by Jeff Waddell           #
+#                                               #
+# This file is for the server side              #
+# of a many-clients &lt;-&gt; one-server              #
+# OpenVPN configuration.                        #
+#                                               #
+# OpenVPN also supports                         #
+# single-machine &lt;-&gt; single-machine             #
+# configurations (See the Examples page         #
+# on the web site for more info).               #
+#                                               #
+# This config should work on Windows            #
+# or Linux/BSD systems.  Remember on            #
+# Windows to quote pathnames and use            #
+# double backslashes, e.g.:                     #
+# "C:\\Program Files\\OpenVPN\\config\\foo.key" #
+#                                               #
+# Comments are preceded with '#' or ';'         #
+#################################################
+
+# Which local IP address should OpenVPN
+# listen on? (optional)
+;local a.b.c.d
+local YOUR_OPENVPN_SERVER_IP_GOES_HERE_NEEDS_TO_BE_AN_IP_THAT_THIS_BOX_IS
+
+# Which TCP/UDP port should OpenVPN listen on?
+# If you want to run multiple OpenVPN instances
+# on the same machine, use a different port
+# number for each one.  You will need to
+# open up this port on your firewall.
+port 1194
+
+# TCP or UDP server?
+;proto tcp
+proto udp
+			
+# "dev tun" will create a routed IP tunnel,
+# "dev tap" will create an ethernet tunnel.
+# Use "dev tap0" if you are ethernet bridging
+# and have precreated a tap0 virtual interface
+# and bridged it with your ethernet interface.
+# If you want to control access policies
+# over the VPN, you must create firewall
+# rules for the the TUN/TAP interface.
+# On non-Windows systems, you can give
+# an explicit unit number, such as tun0.
+# On Windows, use "dev-node" for this.
+# On most systems, the VPN will not function
+# unless you partially or fully disable
+# the firewall for the TUN/TAP interface.
+;dev tap
+dev tun
+
+# Windows needs the TAP-Win32 adapter name
+# from the Network Connections panel if you
+# have more than one.  On XP SP2 or higher,
+# you may need to selectively disable the
+# Windows firewall for the TAP adapter.
+# Non-Windows systems usually don't need this.
+;dev-node MyTap
+
+# SSL/TLS root certificate (ca), certificate
+# (cert), and private key (key).  Each client
+# and the server must have their own cert and
+# key file.  The server and all clients will
+# use the same ca file.
+#
+# See the "easy-rsa" directory for a series
+# of scripts for generating RSA certificates
+# and private keys.  Remember to use
+# a unique Common Name for the server
+# and each of the client certificates.
+#
+# Any X509 key management system can be used.
+# OpenVPN can also use a PKCS #12 formatted key file
+# (see "pkcs12" directive in man page).
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+key /etc/openvpn/keys/server.key  # This file should be kept secret
+
+# Diffie hellman parameters.
+# Generate your own with:
+#   openssl dhparam -out dh1024.pem 1024
+# Substitute 2048 for 1024 if you are using
+# 2048 bit keys.
+dh /etc/openvpn/keys/dh1024.pem
+
+# Configure server mode and supply a VPN subnet
+# for OpenVPN to draw client addresses from.
+# The server will take 10.8.0.1 for itself,
+# the rest will be made available to clients.
+# Each client will be able to reach the server
+# on 10.8.0.1. Comment this line out if you are
+# ethernet bridging. See the man page for more info.
+server 10.8.0.0 255.255.255.0
+
+# Maintain a record of client &lt;-&gt; virtual IP address
+# associations in this file.  If OpenVPN goes down or
+# is restarted, reconnecting clients can be assigned
+
+# the same virtual IP address from the pool that was
+# previously assigned.
+ifconfig-pool-persist ipp.txt
+
+# Configure server mode for ethernet bridging.
+# You must first use your OS's bridging capability
+# to bridge the TAP interface with the ethernet
+# NIC interface.  Then you must manually set the
+# IP/netmask on the bridge interface, here we
+# assume 10.8.0.4/255.255.255.0.  Finally we
+# must set aside an IP range in this subnet
+# (start=10.8.0.50 end=10.8.0.100) to allocate
+# to connecting clients.  Leave this line commented
+# out unless you are ethernet bridging.
+;server-bridge 10.8.0.4 255.255.255.0 10.8.0.50 10.8.0.100
+
+# Push routes to the client to allow it
+# to reach other private subnets behind
+# the server.  Remember that these
+# private subnets will also need
+# to know to route the OpenVPN client
+# address pool (10.8.0.0/255.255.255.0)
+# back to the OpenVPN server.
+;push "route 192.168.10.0 255.255.255.0"
+;push "route 192.168.20.0 255.255.255.0"
+
+# To assign specific IP addresses to specific
+# clients or if a connecting client has a private
+# subnet behind it that should also have VPN access,
+# use the subdirectory "ccd" for client-specific
+# configuration files (see man page for more info).
+
+# EXAMPLE: Suppose the client
+# having the certificate common name "Thelonious"
+# also has a small subnet behind his connecting
+# machine, such as 192.168.40.128/255.255.255.248.
+# First, uncomment out these lines:
+;client-config-dir ccd
+;route 192.168.40.128 255.255.255.248
+# Then create a file ccd/Thelonious with this line:
+#   iroute 192.168.40.128 255.255.255.248
+# This will allow Thelonious' private subnet to
+# access the VPN.  This example will only work
+# if you are routing, not bridging, i.e. you are
+# using "dev tun" and "server" directives.
+
+# EXAMPLE: Suppose you want to give
+# Thelonious a fixed VPN IP address of 10.9.0.1.
+# First uncomment out these lines:
+;client-config-dir ccd
+;route 10.9.0.0 255.255.255.252
+# Then add this line to ccd/Thelonious:
+#   ifconfig-push 10.9.0.1 10.9.0.2
+
+# Suppose that you want to enable different
+# firewall access policies for different groups
+# of clients.  There are two methods:
+# (1) Run multiple OpenVPN daemons, one for each
+#     group, and firewall the TUN/TAP interface
+#     for each group/daemon appropriately.
+# (2) (Advanced) Create a script to dynamically
+#     modify the firewall in response to access
+#     from different clients.  See man
+#     page for more info on learn-address script.
+;learn-address ./script
+
+# If enabled, this directive will configure
+# all clients to redirect their default
+# network gateway through the VPN, causing
+# all IP traffic such as web browsing and
+# and DNS lookups to go through the VPN
+# (The OpenVPN server machine may need to NAT
+# the TUN/TAP interface to the internet in
+# order for this to work properly).
+# CAVEAT: May break client's network config if
+# client's local DHCP server packets get routed
+# through the tunnel.  Solution: make sure
+# client's local DHCP server is reachable via
+# a more specific route than the default route
+# of 0.0.0.0/0.0.0.0.
+;push "redirect-gateway"
+
+# Certain Windows-specific network settings
+# can be pushed to clients, such as DNS
+# or WINS server addresses.  CAVEAT:
+# http://openvpn.net/faq.html#dhcpcaveats
+;push "dhcp-option DNS 10.8.0.1"
+;push "dhcp-option WINS 10.8.0.1"
+
+# Uncomment this directive to allow different
+# clients to be able to "see" each other.
+# By default, clients will only see the server.
+# To force clients to only see the server, you
+# will also need to appropriately firewall the
+# server's TUN/TAP interface.
+;client-to-client
+	
+# Uncomment this directive if multiple clients
+# might connect with the same certificate/key
+# files or common names.  This is recommended
+# only for testing purposes.  For production use,
+# each client should have its own certificate/key
+# pair.
+#
+# IF YOU HAVE NOT GENERATED INDIVIDUAL
+# CERTIFICATE/KEY PAIRS FOR EACH CLIENT,
+# EACH HAVING ITS OWN UNIQUE "COMMON NAME",
+# UNCOMMENT THIS LINE OUT.
+;duplicate-cn
+
+# The keepalive directive causes ping-like
+# messages to be sent back and forth over
+# the link so that each side knows when
+# the other side has gone down.
+# Ping every 10 seconds, assume that remote
+# peer is down if no ping received during
+# a 120 second time period.
+keepalive 10 60
+
+# For extra security beyond that provided
+# by SSL/TLS, create an "HMAC firewall"
+# to help block DoS attacks and UDP port flooding.
+#
+# Generate with:
+#   openvpn --genkey --secret ta.key
+#
+# The server and each client must have
+# a copy of this key.
+# The second parameter should be '0'
+# on the server and '1' on the clients.
+;tls-auth ta.key 0 # This file is secret
+
+# Select a cryptographic cipher.
+# This config item must be copied to
+# the client config file as well.
+;cipher BF-CBC        # Blowfish (default)
+;cipher AES-128-CBC   # AES
+;cipher DES-EDE3-CBC  # Triple-DES
+
+# Enable compression on the VPN link.
+# If you enable it here, you must also
+# enable it in the client config file.
+comp-lzo
+
+# The maximum number of concurrently connected
+# clients we want to allow.
+;max-clients 100
+
+# It's a good idea to reduce the OpenVPN
+# daemon's privileges after initialization.
+#
+# You can uncomment this out on
+# non-Windows systems.
+user nobody
+group nogroup
+
+# The persist options will try to avoid
+# accessing certain resources on restart
+# that may no longer be accessible because
+# of the privilege downgrade.
+persist-key
+persist-tun
+
+# Output a short status file showing
+# current connections, truncated
+# and rewritten every minute.
+status /var/log/openvpn-status.log
+
+# By default, log messages will go to the syslog (or
+# on Windows, if running as a service, they will go to
+# the "\Program Files\OpenVPN\log" directory).
+# Use log or log-append to override this default.
+# "log" will truncate the log file on OpenVPN startup,
+# while "log-append" will append to it.  Use one
+# or the other (but not both).
+;log         openvpn.log
+log-append  /var/log/openvpn.log
+
+# Set the appropriate level of log
+# file verbosity.
+#
+# 0 is silent, except for fatal errors
+# 4 is reasonable for general usage
+# 5 and 6 can help to debug connection problems
+# 9 is extremely verbose
+verb 3
+
+# Silence repeating messages.  At most 20
+# sequential messages of the same message
+# category will be output to the log.
+mute 20</literallayout>	
+</sect1>
+</article>

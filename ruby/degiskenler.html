@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Değişkenler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="prosedur_nesneleri.html">
+ <img border=0 src="a2l.gif" alt="Prosedür nesneleri"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="global_degiskenler.html">
+ <img border=0 src="a2r.gif" alt="Global değişkenler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Değişkenler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Ruby bir sabit türü, iki tane de yalancı- değişken olmak üzere üç çeşit değişkene sahiptir. Değişkenlerin ve sabitlerin türü yoktur. Türü olmayan değişkenler sakıncalı olsa bile, Ruby'nin <em>kolay ve hızlı</em> felsefesine uygun olarak bir çok avantaj sağlar.
+
+</p>
+<p>Bir çok programlama dilinde değişkenler tür tayin etmek, modifiye edilebilirliği arttırmak (sabit olsalar bile), kapsam alanını belirlemek için tanımlanmak zorundadır. Ancak değişken tipleri önemli olmadığından ve aşikar çözümün göreceğiniz gibi değişken isminden halledilebilediğinden beri, Ruby'de değişken tanımlamalarına ihtiyacımız yoktur.
+
+</p>
+<p>Değişkenin ilk karakteri sayesinde bir bakışta türünü anlamak mümkündür:</p>
+<p><table border="1"><tr><td><code>$</code> </td><td> global değişken</td></tr>
+<tr><td>
+<code>@</code> </td><td>  örnek (instance) değişken </td></tr>
+<tr><td>
+<code>[a-z]</code> ya da <code>_</code> </td><td>  yerel değişken </td></tr>
+<tr><td>
+<code>[A-Z]</code> </td><td> sabit</td></tr></table>
+<p>Bunların dışında tek istisna Ruby'nin <em>yalancı</em> (pseudo) değişkenleridir: Her zaman o an çalıştırılan nesneyi referans eden <code>self</code> ve başlangıç değeri verilmemiş değişkenlere atanan <code>nil</code>. Her ikisi de yerel değişkenler gibi tanımlanmış olsalar da, <code>self</code> yorumlayıcı tarafından saklanan bir global değişken ve <code>nil</code> de gerçek bir sabittir. Bunlar sadece iki istisna olduğu için üzerlerinde fazla durmayacağız.</p>
+<p><code>self</code>'e ya da <code>nil</code>'e değer atamamalıyız. <code>main</code> en üstteki nesneyi referans eden bir <code>self</code> değeridir:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> self</b></font>
+<font color="#50ffff"><b>   main</b></font>
+ruby&gt;<font color="#ffff00"><b> nil</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="prosedur_nesneleri.html">
+ <img border=0 src="a2l.gif" alt="Prosedür nesneleri"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="global_degiskenler.html">
+ <img border=0 src="a2r.gif" alt="Global değişkenler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

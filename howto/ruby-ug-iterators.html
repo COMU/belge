@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:01+03:00"><title>Yineleyiciler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-control.html" title="Denetim Yapıları"><link rel="next" href="../howto/ruby-ug-oothinking.html" title="Nesne Yönelimli Düşünme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yineleyiciler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-control.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-oothinking.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-iterators"></a>Yineleyiciler</h2></div></dt><dd><p>
+Yineleyiciler sadece Ruby'ye özgü bir kavram değildir. Genel olarak çoğu nesneye yönelik yazılım geliştirme dilinde kullanılmaktadır. Lisp'te de yineleyiciler olarak adlandırılmasalar da  kullanılmaktadır. Ancak yineleyici kavramı neredeyse her dilde değişik bir anlam kazandığı için önce bu kavramı daha ayrıntılı anlatmaya çalışalım:
+  </p><p>
+<i>Yinelemek</i> sözcüğü aynı şeyi birçok kez tekrarlamak anlamına gelir.
+  </p><p>
+Kod yazarken değişik durumlarda döngülere ihtiyacımız olur. C'de <b><tt>for</tt></b> ya da <b><tt>while</tt></b> kullanarak işimizi hallederiz. Örneğin,
+ </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">char *str;
+for (str = "abcdefg"; *str != '\0'; str++) {
+  /* her karakter için işlemler burada */
+}</pre> </td></tr></table></div>
+  </p><p>
+C'nin <b><tt> for(...) </tt></b> sözdizimi döngünün yaratılmasında soyutlama sağlayarak yardımcı olsa da <tt>*str</tt>'nin bir boş bir karakterle sınanması yazılımcının dizge yapısı hakkında daha ayrıntılı bilgi edinmesini gerektirir. Bu C'nin düşük-seviyeli olduğunu hissettiren nedenlerden biridir. Yüksek seviyeli diller yineleyicilere uyumluluklarıyla ün kazanmışlardır. Aşağıdaki <b><tt>sh</tt></b> kabuk betiğini göz önünde bulunduralım:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#!/bin/sh
+
+for i in *.[ch]; do
+  # ... her dosya icin yapilacak birkaç işlem
+done
+</pre> </td></tr></table></div>
+  </p><p>
+Bulunulan dizindeki tüm C kaynak ve başlık dosyaları çalıştırıldı ve komut satırı ayrıntıları tuttu.  C'den daha yüksek seviyeli olduğunu düşünüyorum, öyle değil mi?
+  </p><p>
+Ancak göz önüne alınması gereken başka bir nokta daha var: bir dilin
+gömülü veri yapıları için yineleyicileri desteklemesi güzel birşey olsa
+da, geri dönüp kendi veri yapılarımızı tekrarlatacak düşük seviyeli
+döngüler yazmak hayal kırıklığı yaratacak bir iş olacaktır. Nesneye
+yönelik yazılım geliştirmede, kullanıcılar çoğu kez ardı ardına veri türleri
+tanımlarlar ve bu ciddi bir sorun olabilir.
+  </p><p>
+Her nesneye yönelik yazılım geliştirme dili yineleyiciler için kolaylıklar içerir. Bazı diller bu iş için özel sınıflar tanımlarken, Ruby yineleyicileri doğrudan tanımlamayı tercih eder.
+  </p><p>
+Ruby'nin <b><tt>String</tt></b> türü bazı yararlı yineleyicilere sahiptir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">"abc".each_byte{|c| printf "&lt;%c&gt;", c}; print "\n"</tt>
+&lt;a&gt;&lt;b&gt;&lt;c&gt;
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<tt>each_byte</tt>, dizgedeki her karakter için bir yineleyicidir. Her bir karakter yerel bir değişken olan <tt>c</tt>'ye yerleştirilir. Bu daha çok C koduna benzeyen bir şeyle açıklanabilir...
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">s="abc";i=0</tt>
+   <tt class="empoutput">0</tt>
+<tt>ruby&gt; </tt><tt class="empinput">while i&lt;s.length</tt>
+    | <tt class="empinput">   printf "&lt;%c&gt;", s[i]; i+=1</tt>
+    | <tt class="empinput">end; print "\n"</tt>
+&lt;a&gt;&lt;b&gt;&lt;c&gt;
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Buna rağmen <tt>each_byte</tt> yineleyicisi hem kabul edilebilir bir basitliktedir hem de <b><tt>String</tt></b> sınıfı radikal bir değişikliğe uğrasa da çalışmaya devam eder. Yineleyicilerin başka bir yararı da değişiklere karşı sağlam durmasıdır ki bu da iyi bir kodun karakteristik özelliklerinden biridir (evet, sabırlı olun, <i>sınıflar</i> hakkında da konuşacağız.).
+  </p><p>
+<b><tt>String</tt></b>'in başka bir yineleyicisi de <b><tt>each_line</tt></b>'dır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">"a\nb\nc\n".each_line{|l| print l}</tt>
+a
+b
+c
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+C'de satır sınırlayıcıları bulmak, alt dizgeler üretmek gibi güç işlerin yineleyicilerle kolayca üstesinden gelinebilir.
+  </p><p>
+Geçen bölümdeki <b><tt>for</tt></b> döngüsü, <b><tt>each</tt></b> işlecini kullanarak tekrarlamayı sağlamaktaydı. <b><tt>String</tt></b>'in <b><tt>each</tt></b>'i aynı <b><tt>each_line</tt></b> gibi görev görür, o yüzden yukarıdaki örneği <b><tt>for</tt></b> ile tekrar yazalım:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">for l in "a\nb\nc\n"</tt>
+    | <tt class="empinput">  print l </tt>
+    | <tt class="empinput">end</tt>
+a
+b
+c
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bulunan yineleyiciyi döngünün başından itibaren tekrar ettirmek için <b><tt>retry</tt></b> denetim yapısını kullanabiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput"> c=0</tt>
+   <tt class="empoutput">0</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">for i in 0..4</tt>
+    | <tt class="empinput">  print i</tt>
+    | <tt class="empinput">  if i == 2 and c == 0</tt>
+    | <tt class="empinput">    c = 1</tt>
+    | <tt class="empinput">    print "\n"</tt>
+    | <tt class="empinput">    retry</tt>
+    | <tt class="empinput">  end</tt>
+    | <tt class="empinput">end; print "\n"</tt>
+012
+01234
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Yineleyici tanımlamasında bazen <b><tt>yield</tt></b>'le karşılaşırız.  <b><tt>yield</tt></b>, denetimi yineleyiciye parametre olarak geçilen kod bloğuna verir (bu konu <a href="../howto/ruby-ug-pobjects.html" class="xref" title="Yordam Nesneleri"> Yordam Nesneleri</a> bölümünde daha ayrıntılı anlatılacaktır).
+  </p><p>
+Aşağıdaki örnekte, argümanda verilen sayı kadar bir kod bloğunu tekrarlayan <b><tt>repeat</tt></b> yineleyicisi tanımlanmıştır.
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">def repeat(num)</tt>
+    | <tt class="empinput">  while num &gt; 0</tt>
+    | <tt class="empinput">    yield</tt>
+    | <tt class="empinput">    num -= 1</tt>
+    | <tt class="empinput">  end</tt>
+    | <tt class="empinput">end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">repeat(3) { print "foo\n" }</tt>
+foo
+foo
+foo
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>retry</tt></b> ile <b><tt>while</tt></b> gibi çalışan ancak hız açısından pek de pratik olmayan bir yineleyici tanımlayabiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">def WHILE(cond)</tt>
+    | <tt class="empinput">  return if not cond</tt>
+    | <tt class="empinput">  yield</tt>
+    | <tt class="empinput">  retry</tt>
+    | <tt class="empinput">end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">i=0; WHILE(i&lt;3) { print i; i+=1 }</tt>
+012  nil
+</pre> </td></tr></table></div>
+  </p><p>
+Yineleyicinin ne olduğunu anladınız mı? Bir kaç kısıtlama hariç, kendi
+yineleyicinızı yazabilirsiniz, aslında yeni bir veri türü
+tanımladığınız zaman ona uygun bir yineleyici tanımlamanız da uygun
+olacaktır. Yukarıdaki örnekler pek de kullanışlı örnekler sayılmazlar.
+Sınıfları daha iyi anladığımızda daha uygulanabilir yineleyiciler hakkında
+konuşabiliriz.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-control.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-oothinking.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Denetim Yapıları </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Nesne Yönelimli Düşünme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Kontrol Yapıları</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="orneklere_donus.html">
+ <img border=0 src="a2l.gif" alt="Basit Örneklere Dönüş"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="tekrarlayicilar.html">
+ <img border=0 src="a2r.gif" alt="Tekrarlayıcılar"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Kontrol Yapıları</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Bu bölümde Ruby'nin kontrol yapılarını açıklayacağız.</p>
+<h3><a name="label:0" id="label:0"><code>case</code></a></h3><!-- RDLabel: "case" -->
+<p><code>case</code> deyimini bir dizi koşulşu test etmek için kullanırız. Bu yapı, C ve Java 'daki <code>switch</code>'e çok benzer ancak birazdan da göreceğiniz gibi ondan biraz daha güçlüdür.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> i=8</b></font>
+ruby&gt;<font color="#ffff00"><b> case i</b></font>
+    |<font color="#ffff00"><b> when 1, 2..5</b></font>
+    |<font color="#ffff00"><b>   print "1..5\n"</b></font>
+    |<font color="#ffff00"><b> when 6..10</b></font>
+    |<font color="#ffff00"><b>   print "6..10\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+6..10
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p><code>2..5</code>, 2 ile 5 arasındaki sayı aralığını ifade eder. Sonraki ifade, <code>i</code> değişkeninin bu aralığa düşüp düşmediğini test eder:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">(2..5) === i</font></pre></td></tr></table>
+<p><code>case</code> aynı anda birden çok koşulu test etmek için <code>===</code> ilişki operaötürünü kullanır. Ruby'nin nesneye yönelik yapısını korumak için <code>===</code> operatörü nesneye uygun olarak yorumlanır. Örneğin aşağıdaki kodda ilk <code>when</code>'de dizgilerin eşitliği sınanırken ikinci <code>when</code>'de düzenli ifadenin eşliği sınanıyor.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> case 'abcdef'</b></font>
+    |<font color="#ffff00"><b> when 'aaa', 'bbb'</b></font>
+    |<font color="#ffff00"><b>   print "aaa or bbb\n"</b></font>
+    |<font color="#ffff00"><b> when /def/</b></font>
+    |<font color="#ffff00"><b>   print "includes /def/\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+includes /def/
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<h3><a name="label:1" id="label:1"><code>while</code></a></h3><!-- RDLabel: "while" -->
+<p>Ruby döngü oluşturmak için bir çok yola sahiptir, bununla birlikte ilerki bölümde kesin döngüler kurmanıza yarayan tekrarlayıcıları göreceksiniz.</p>
+<p>
+<code>while</code> bir tekrarlanmış <code>if</code>'ten başka birşey değildir. <code>while</code>'ı daha önce kelime-tahmin oyunumuzda ve düzenli ifadeler programımızda kullanmıştık ( <a href="duzenli_ifadeler.html">önceki bölüme</a> göz atın); <code>while</code>, <code>koşul</code> ... <code>end</code> tarafından çevrilmiş bir kod bloğu koşul doğru olduğu sürece tekrarlanmaktaydı. Ancak <code>while</code> ve <code>if</code> ayrı ifadeler olarak da kullanılabilir:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> i = 0</b></font>
+<font color="#50ffff"><b>   0</b></font>
+ruby&gt;<font color="#ffff00"><b> print "Sifir.\n" if i==0</b></font>
+Sifir.
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> print "Negatif.\n" if i&lt;0</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> print "#{i+=1}\n" while i&lt;3</b></font>
+1
+2
+3
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Bazen bir test koşulunu olumsuzlandırmak istersiniz. <code>unless</code> bir olumsuzlandırılmış <code>if</code>, <code>until</code> ise olumsuzlandırılmış bir <code>while</code>'dır. Bunları deneyip tecrübe etmeyi size bırakıyoruz.</p>
+<p>
+Bir döngüyü içerden kesmek için dört yol vardır. İlki C'deki gibi, döngüden tamamen çıkmamızı sağlayan <code>break</code>'tir. İkincisi (C'deki <code>continue</code>'ya benzeyen) döngünün başına atlayan <code>next</code>'tir. Üçüncüsü o anki tekrarlayıcıyı yeniden çalıştıran <code>redo</code>'dur. Aşağıda <code>break</code>, <code>next</code> ve <code>redo</code> arasındaki farkı açıklayan bir C kodu bulunuyor:
+
+
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#d8d8e0"><tr><td><pre><font color="black">while (condition) {
+ label_redo:
+   goto label_next;        /* ruby'nin "next"'i */
+   goto label_break;       /* ruby'nin "break"'i */
+   goto label_redo;        /* ruby'nin "redo"'su */
+   ...
+   ...
+ label_next:
+}
+label_break:
+...</font></pre></td></tr></table>
+<p>
+Bir döngünün içinden çıkmak için dördüncü yol, <code>return</code>'dür. <code>return</code> sadece döngüden değil, döngüyü içeren metottan da çıkmamızı sağlar. Eğer bir argüman verildiyse, metot çağrısına dönecektir; aksi halde <code>nil</code> döndürecektir.
+</p>
+<h3><a name="label:2" id="label:2"><code>for</code></a></h3><!-- RDLabel: "for" -->
+<p>C programcıları for döngüsünün nasıl yapıldığını merak edeceklerdir. Ruby'nin <code>for</code>'u tahmin ettiğinizden biraz daha ilginçtir. Aşağıdaki döngü, her eleman için bir kere döner:
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">for elt in collection
+  ...
+end</font></pre></td></tr></table>
+<p>Elemanlar bir değer aralığı olabilir (bu döngü denildiğinde çoğu insanın anladığı şeydir):
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> for num in (4..6)</b></font>
+    |<font color="#ffff00"><b>    print num,"\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+4
+5
+6
+<font color="#50ffff"><b>   4..6</b></font></font></pre></td></tr></table>
+<p>Elemanlar dizi gibi başka bir türden değerler olabilir:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> for elt in [100,-9.6,"pickle"]</b></font>
+    |<font color="#ffff00"><b>    print "#{elt}\t(#{elt.type})\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+100    (Fixnum)
+-9.6   (Float)
+pickle (String)
+<font color="#50ffff"><b>   [100, -9.6, "pickle"]</b></font></font></pre></td></tr></table>
+<p>Ancak ilerleme kaydediyoruz. <code>for</code> aslında <code>each</code>'i kullanmanın başka bir yoludur. Aşağıdaki iki form da aynı görevi görür:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black"># Eğer C ya da Java kullandıysanız bunun gibi birşeyi tercih edeeceksiniz:
+for i in collection
+  ...
+end
+
+# Bir Smalltalk programcısı aşağıdakini tercih ederler:
+collection.each {|i|
+  ...
+}</font></pre></td></tr></table>
+<p>Tekrarlayıcılar sık sık konvansiyonel döngülere tercih edilir; bir kere onları kullanmaya alıştığınızda ne kadar kolay olduklarını göreceksiniz. </p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="orneklere_donus.html">
+ <img border=0 src="a2l.gif" alt="Basit Örneklere Dönüş"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="tekrarlayicilar.html">
+ <img border=0 src="a2r.gif" alt="Tekrarlayıcılar"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

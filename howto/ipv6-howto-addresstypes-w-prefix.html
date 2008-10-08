@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:25+03:00"><title>Adresin ağ parçası; önek diye de bilinir</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-addresstypes.html" title="Adres Türleri"><link rel="previous" href="../howto/ipv6-howto-addresstypes-wo-prefix.html" title="Özel bir öneki olmayan adresler"><link rel="next" href="../howto/ipv6-howto-addresstypes-prefix-length.html" title="Yönlendirme için önek uzunlukları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Adresin ağ parçası; önek diye de bilinir</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-addresstypes-wo-prefix.html">Önceki</a> </td><th width="60%" align="center">Adres Türleri</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-addresstypes-prefix-length.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-addresstypes-w-prefix"></a>Adresin ağ parçası; önek diye de bilinir</h3></div></dt><dd><p>
+Tasarımcılar bazı adres türlerini tanımlayıp geri kalan büyük alanı gelecekte öngöremedikleri ihtiyaçlarda kullanılması için boş bırakmışlardır. <a href="http://www.faqs.org/rfcs/rfc2373.html" target="_top">RFC 2373 [July 1998] / IP Version 6 Addressing Architecture</a> güncel adresleme şemasını tanımlasa da yeni bir taslak da mevcuttur: <a href="ftp://ftp.ietf.org/internet-drafts/" target="_top">draft-ietf-ipngwg-addr-arch-*.txt</a> .
+  </p><p>
+Şimdi farklı öneklere ve dolayısıyla adres tiplerine göz atalım:
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id12"></a>Bağlantılı yerel adres türü</h4></div></dt><dd><p>
+Bu adresler sadece bir arabirim bağlantısı üzerinde geçerli olacak özel adreslerdir. Eğer hedef adresi olarak kullanılırsa paketler yönlendiriciyi asla geçemezler. Sadece aşağıdaki gibi bağ iletişimleri için kullanılır:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+Bu bağlantıda başka biri var mı?
+  </li><li>
+Burada özel adrese sahip birisi var mı? (yani, yönlendiriciyi arıyorum)
+  </li></ul></div></p><p>
+Bu adresler aşağıdaki gibi başlarlar (burada <tt>x</tt> herhangi bir onaltılık rakamdır, genellikle <tt>0</tt> kullanılır).
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">fe8x:  &lt;== <i>şu anda sadece bu, kullanımda</i>
+fe9x:
+feax:
+febx:
+</pre> </td></tr></table></div>
+  </p><p>
+Bu öneke sahip bir adres IPv6 ile yapılandırılmış her arabirimde bulunur.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id22"></a>Site yerel adres türü</h4></div></dt><dd><p>
+Bu adresler bugün IPv4 ile kullandığımız <a href="http://www.faqs.org/rfcs/rfc1918.html" target="_top">RFC 1918 / Address Allocation for Private Internets</a> adreslerine benzerler. Bir avantajı bu adres türünü kullananların adresin 16 bit'lik kısmını, en fazla, 65536 alt ağ için kullanabilmeleridir. Bu IPv4'ün 10.0.0.0/8 adresleri ile karşılaştırılabilir bir büyüklüktür.
+  </p><p>
+Bir diğer avantajı ise: IPv6 kullanılarak bir arabirime birden çok adres atanabildiğinden bir arabirime onun global adresinin yanı sıra site yerel adresinin verilebilmesidir.
+  </p><p>
+Bu adresler aşağıdaki gibi başlarlar:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">fecx:  &lt;== <i>en yaygın kullanılan</i>
+fedx:
+feex:
+fefx:
+</pre> </td></tr></table></div>
+  </p><p>
+(burada <tt>x</tt> herhangi bir onaltılık rakamdır, genellikle <tt>0</tt> kullanılır)
+  </p><p>
+Bazı sorunları olduğundan bu tür adreslere karşı çıkışların sürdüğü olduğu dikkate alınmalıdır. Daha fazlası için güncel taslak okunabilir: <a href="http://www.ietf.org/internet-drafts/" target="_top">draft-ietf-ipv6-deprecate-site-local-XY.txt</a>.
+  </p><p>
+Laboratuar testleri için bu tür adresler bence hala uygundurlar.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id32"></a>Unique Local IPv6 Unicast Addresses</h4></div></dt><dd><p>Because the original defined site local addresses are not unique, this can lead to major problems, if two former independend networks would be connected later (overlapping of subnets). This and other issues lead to a new address type named RFC 4193 / Unique Local IPv6 Unicast Addresses</p><p>It begins with:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">fdxx:
+fcxx:</pre> </td></tr></table></div>  
+  </p><p>A part of the prefix (40 bits) are generated using a pseudo-random algorithm and its improbably, that two generated ones are equal.</p><p>Example for a prefix (generated using a web-based tool: Goebel Consult / createLULA):
+  <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">fd0f:8b72:ac90::/48</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id42"></a>Global adres türü "(Aggregatable) global unicast"</h4></div></dt><dd><p>
+Günümüzde tanımlı tek bir global adres türü vardır (ilk tasarım olan "üretici tabanlı" adres türünden yıllar önce vazgeçilmiştir <a href="http://www.faqs.org/rfcs/rfc1884.html" target="_top">RFC 1884 / IP Version 6 Addressing Architecture [obsolete]</a>, Linux çekirdeğinin eski sürümlerinin kodlarında izleri bulunabilir).
+  </p><p>
+Bu adresler aşağıdaki gibi başlarlar (burada <tt>x</tt> herhangi bir onaltılık rakamdır)
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">2xxx:
+3xxx:
+</pre> </td></tr></table></div>
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>"aggregatable" öneki güncel belgelerden çıkartılmıştır. Aşağıda bazı alt türler tanımlanmıştır:
+  </p><a name="ipv6-howto-addresstypes-6bone"></a><p><div class="variablelist"><dl><dt><span class="term">Salt6 (6bone) deneme adresleri</span></dt><dd>
+Bu adresler ilk olarak tanımlanan ve kullanılan global adreslerdir. Bu adresleri tümü aşağıdaki gibi başlar:
+  <p></p><p>
+<pre class="literallayout">   3ffe:</pre>
+  </p><p>Örneğin:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">3ffe:ffff:100:f102::1</pre> </td></tr></table></div>Otomatik hesaplananlar (durumsuz olarak da bilinir)
+
+
+  </p><p>
+Bir özel salt6 deneme adresi asla genel kullanımda olmayacak olan
+  </p><p>
+<pre class="literallayout">   3ffe:ffff:</pre>
+  </p><p>
+ile başlayan adrestir. Bir çok örnekte kullanılır, çünkü eğer gerçek bir adres kullanılırsa birisi kopyala yapıştır yaparken olduğu gibi bırakabilir. Gerçek bir adres vermeyerek onun tekrarlı kullanımının önüne geçilmektedir. Tekrarlı kullanım asıl konak (host) için ciddi sorunlara yol açabilir. (örneğin; hiç göndermediği paketlerin yanıtını alabilir). IPv6 kullanımda olduğundan bu önek'ten artık bahsedilmeyecek ve muhtemelen 6.6.2006 tarihinden itibaren yönlendirmeden çıkarılacaktır (bakınız <a href="http://www.faqs.org/rfcs/rfc3701.html" target="_top">RFC 3701 / 6bone Phaseout </a>).
+  </p><p></p></dd><dt><span class="term">6'ya 4 adresler</span></dt><dd>
+Bu adresler özel bir tünelleme mekanizması için tasarlanmıştır [<a href="http://www.faqs.org/rfcs/rfc3056.html" target="_top">RFC 3056 / Connection of IPv6 Domains via IPv4 Clouds</a> ve <a href="http://www.faqs.org/rfcs/rfc2893.html" target="_top">RFC 2893 / Transition Mechanisms for IPv6 Hosts and Routers</a>], verilen bir IPv4 adresini ve mümkün olan alt ağı kodlar ve
+  <p></p><p>
+<pre class="literallayout">   2002:</pre>
+  </p><p>
+ile başlarlar. Örneğin, 192.168.1.1/5 adresini göstermek için:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">2002:c0a8:0101:5::1</pre> </td></tr></table></div>
+  </p><p>
+Verilen bir IPv4 adresinden böyle bir adres üretmek için aşağıdaki kabuk komutu size yardım edebilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ipv4="1.2.3.4"; sla="5"; printf "2002:%02x%02x:%02x%02x:%04x::1" `echo $ipv4 | tr "." " "` $sla
+</pre> </td></tr></table></div>
+  </p><p>
+Ayrıca, <a href="../howto/ipv6-howto-configuring-6in4-tunnels-types.html#ipv6-howto-tunelling-6to4" title="6'ya 4 Tünelleme"> 6'ya 4 Tünelleme</a> ve <a href="../howto/ipv6-howto-information-online.html#ipv6-howto-information-joinipv6-6to4-tunelling" title="6ya4"> 6ya4</a> bölümlerine de bakınız.
+  </p><p></p></dd><dt><span class="term">Hiyerarşik yönlendirme için üretici tarafından atanmış adresler</span></dt><dd>
+Bu adresler İnternet Servis Sağlayıcılara (ISS) tahsis edilmiştir ve
+  <p></p><p>
+<pre class="literallayout">   2001:</pre>
+  </p><p>
+ile başlarlar. LIRs olarak da bilinen büyük ISS'lere 32 bitlik önekler verilmiştir: <a href="../howto/ipv6-howto-information-online.html#ipv6-howto-information-majorregionregistries" title="Başlıca yerel kayıtlar"> Başlıca yerel kayıtlar</a>
+  </p><p>
+Herhangi bir ISS müşterisi 48 bit uzunluğunda bir önek alabilir.
+  </p><p></p></dd><dt><span class="term">Örnekler ve belgelendirme için ayrılmış adresler</span></dt><dd>
+Hali hazırda, iki adres aralığı örnekler ve belgelendirme için ayrılmıştır:
+  <p></p><p>
+<pre class="literallayout">   3ffe:ffff::/32
+    2001:0DB8::/32 EXAMPLENET-WF
+</pre>
+  </p><p>
+Bu adres aralıkları yönlendiricilerde süzülerek mümkünse internete çıkarılmamalıdır.
+  </p><p></p></dd></dl></div>
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id52"></a>Çoğa Gönderim (Multicast) adresleri</h4></div></dt><dd><p>
+Çoğa gönderim adresleri ilgili servisler için kullanılır.
+  </p><p>
+Her zaman aşağıdaki gibi başlarlar (<tt>xx</tt> değerleri değişebilir):
+  </p><p>
+<pre class="literallayout">   ffxy:</pre>
+  </p><p>
+Etki bölgelerine ve türlerine göre ayrılırlar:
+  </p><p><div class="variablelist"><dl><dt><span class="term">Çoğa Gönderim Bölgeleri</span></dt><dd>
+Çoğa gönderim bölgesi bir çoğa gönderim paketinin gidebileceği azami uzaklığı belirleyen bir parametredir.
+  <p></p><p>
+Hali hazırda aşağıdaki bölgeler tanımlanmıştır:
+  </p><p><div class="itemizedlist"><ul type="disc"><li><tt>ffx1</tt>: düğüm-içi, paketler düğümden ayrılamaz.
+  </li><li><tt>ffx2</tt>: bağlantı-içi, paketler yönlendiriciler tarafından dışarı yönlendirilmediklerinden asla belirlenen bağlantıdan ayrılamazlar.
+  </li><li><tt>ffx5</tt>: alan-içi, paketler alandan ayrılamazlar.
+  </li><li><tt>ffx8</tt>: kurum-içi, paketler kurumdan ayrılamazlar.
+  </li><li><tt>ffxe</tt>: küresel bölge
+  </li><li>
+diğerleri yedeğe alınmıştır.
+  </li></ul></div></p><p></p></dd><dt><span class="term">Çoğa Gönderim Türleri</span></dt><dd>
+Tanımlanımış/ayrılmıştır pek çok tür vardır (ayrıntılar için <a href="http://www.faqs.org/rfcs/rfc2373.html" target="_top">RFC 2373 / IP Version 6 Addressing Architecture</a> adresine bakabilirsiniz). Bazı örnekler:
+  <p></p><p><div class="itemizedlist"><ul type="disc"><li>
+Tüm düğümlerin adresi: <tt>ID = 1h</tt>, yerel düğüm üzerindeki tüm konakların adresleri (<tt>ff01:0:0:0:0:0:0:1</tt>) ya da bağlantı üzerindeki tüm konakların adresleri (<tt>ff02:0:0:0:0:0:0:1</tt>).
+  </li><li>
+Tüm yönlendiriciler adresi: <tt>ID = 2h</tt>, yerel düğüm üzerindeki tüm yönlendiricilerin adresleri (<tt>ff01:0:0:0:0:0:0:2</tt>), bağlantı üzerindeki (<tt>ff02:0:0:0:0:0:0:2</tt>) veya yerel alan üzerindeki (<tt>ff05:0:0:0:0:0:0:2</tt>) tüm yönlendiricilerin adresleri
+  </li></ul></div></p><p></p></dd><dt><span class="term">İstemli düğüm bağlantı-içi çoğa gönderim adresleri</span></dt><dd>
+IPv6'da, IPv4'te bulunan ARP olmadığından komşuların araştırılmasında hedef adresi olarak özel çoğa gönderim adresleri kullanılır.
+  <p></p><p>
+Bu adresler aşağıdaki örnekteki gibidirler
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ff02::1:ff00:1234</pre> </td></tr></table></div>
+  </p><p>
+Kullanılan önek bu adresin bağlantı-içi çoğa gönderim adresi olduğunu göstermektedir. Sonek ise hedef adresinden oluşturulmuştur. Bu örnekte, bir paket <tt>fe80::1234</tt> adresine gönderilmekte fakat ağ yığıtı (stack) ikinci katman MAC adresini bilmemektedir. İlk 24 bit aynı bırakılarak son 104 bit <tt>ff02:0:0:0:0:1:ff00::/104</tt> ile değiştirilir. Bu adres artık yanıt gönderebilecek ikinci katman MAC adresini içeren uygun düğümü bulmak için kullanılabilir.
+  </p><p></p></dd></dl></div>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id62"></a>Rasgele gönderim adresleri</h4></div></dt><dd><p>
+Rasgele gönderim (anycast) adresleri en yakın DNS sunucusu, DHCP sunucusu veya benzer dinamik grupları bulmak için kullanılan adreslerdir. Bu adresler tekil gönderim (unicast) adres alanından çıkartılırlar. Rasgele gönderim mekanizması (istemci tarafında) dinamik yönlendirme protokolleri ile idare edilir.
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Rasgele gönderim adresleri kaynak adresi olarak kullanılamazlar, sadece hedef adresi olabilirler.
+  </p></td></tr></table></div></p><div class="sect4"><div> <h5 class="title"><a name="id162"></a>Alt ağ-yönlendirici rasgele gönderim adresi</h5></div><p>
+Rasgele gönderim adresine en basit örnek alt ağ-yönlendirici rasgele gönderim adresidir. Bir düğümün aşağıdaki küresel IPv6 adresine sahip olduğunu kabul edelim:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">3ffe:ffff:100:f101:210:a4ff:fee3:9566/64 &lt;==<i>Düğüm adresi</i>
+</pre> </td></tr></table></div>
+  </p><p>
+Alt ağ-yönlendirici rasgele gönderim adresi en azından sondan 64 bitlik bölümün tamamiyle boş bırakılmasıyla elde edilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">3ffe:ffff:100:f101::/64  &lt;==<i>alt ağ-yönlendirici rasgele gönderim adresi</i>
+</pre> </td></tr></table></div>
+  </p></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-addresstypes-wo-prefix.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-addresstypes.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-addresstypes-prefix-length.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Özel bir öneki olmayan adresler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yönlendirme için önek uzunlukları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

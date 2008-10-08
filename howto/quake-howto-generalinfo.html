@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-11-03T02:51:35+02:00"><title>Genel Bilgiler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/quake-howto.html" title="Linux Quake Nasıl"><link rel="previous" href="../howto/quake-howto-intro.html" title="Giriş"><link rel="next" href="../howto/quake-howto-engine.html" title="Oyun Motorları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Genel Bilgiler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/quake-howto-intro.html">Önceki</a> </td><th width="60%" align="center">Linux Quake Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/quake-howto-engine.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="quake-howto-generalinfo"></a>Genel Bilgiler</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-gettingstarted"></a>Başlangıç Adımları</h3></div></dt><dd><p>Quake'i yüklemek basit bir kaç adımdan ibarettir.</p><p><div class="variablelist"><dl><dt><span class="term">Oyunun Veri Dosyalarını Elde Etmek</span></dt><dd>
+Normalde oyunun veri dosyalarını almak için Microsoft Windows kullanarak oyunu yüklemek, ya da Wine ya da Dosbox gibi emülatörler kullanıp sonra da kurulu oyunun <tt>id1</tt> dizinini kendi Linux Quake dizininize kopyalamak gibi yöntemler izlenir (tüm dosyaların burada olduğundan emin olun).
+   <p></p><p>
+Alternatif olarak, eğer DOS Quake CD'niz varsa, veri dosyalarını çıkartmak için <a href="http://freshmeat.net/projects/lhaforunix/" target="_top">lha ambarını</a> kullanabilirsiniz. Daha eski CD'ler için, öncelikle bu komutu uygulamalısınız;
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">cat /mnt/cdrom/quake101.1 /mnt/cdrom/quake101.2 &gt; resource.1</pre> </td></tr></table></div>
+   </p><p>ve <tt>resource.1</tt> dosyasını elde ettikten sonra
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+cd /usr/local/games/quake
+lha e {some directory}/resource.1
+</pre> </td></tr></table></div>
+    </p><p>komutlarını uygulamalısınız.
+    </p><p>
+Oyununun WinQuake içeren sonraki sürümleri için, sıkıştırılmamış biçimde bulunan veri dosyalarını doğrudan CD üzerinden <tt>id1</tt> dizinine kopyalayabilirsiniz.
+    </p><p></p></dd><dt><span class="term">Çalıştırılabilir bir Quake Yüklemek</span></dt><dd>
+Quake'i çalıştırmak için yürüttüğünüz program genelde <a href="../howto/quake-howto-engine.html" title="Oyun Motorları">oyun makinası</a> olarak bilinir.  Aslında seçilebilecek bir çok makina bulunmaktadır ancak öne çıkanlardan iki tanesi Jörgen'in <a href="../howto/quake-howto-engine.html#quake-howto-glquake" title="GLQuake">GLQuake</a>'i ya da
+yazarın <a href="http://prdownloads.sourceforge.net/uhexen2/tyr-glquake?download" target="_top">TyrQuake</a>'idir. Herhangi bir oyun makinasını indirdikten ya da derledikten sonra, bu ikiliği <tt>id1</tt> dizininin yanında kendi Quake dizininize yerleştirin.
+   <p></p><p></p></dd><dt><span class="term">Özet</span></dt><dd>
+Sonuç olarak, burada <a href="../howto/quake-howto-troubleshooting.html#quake-howto-diesatstartup" title="Program başlangıçta ölüyor">küçük harfli</a> bulunması gereken tüm dosyaların olduğu örnek bir dizin yapısı aşağıdaki gibi olmalıdır:
+   <p></p><p>
+<pre class="literallayout">
+/usr/local/games/quake -+- glquake.glx (ya da başka bir oyun makinası)
+                        |
+                        +- id1 -+- config.cfg
+                                |
+                                +- game.dat
+                                |
+                                +- pak0.pak
+                                |
+                                +- pak1.pak
+</pre>
+   </p><p>Şimdi oyunu başlatmak için bir xterm penceresinden (örnek olarak) aşağıdaki komutu girin:
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">./glquake.glx -fullscreen -width 800 -height 600</pre> </td></tr></table></div>
+   </p><p></p></dd><dt><span class="term">Yardım</span></dt><dd>
+Aslında yukarıdaki adımları uygulamak oldukça basit, değil mi? Ama yine de eğer Linux'a yeniyseniz ve komut satırına aşina değilseniz daha fazla bilgi için aşağıdaki bağlantıları izleyin
+  <p></p><p>
+   <div class="itemizedlist"><ul type="disc"><li>Bu NASIL belgesinin <a href="../howto/quake-howto-other.html#quake-howto-old" title="Eski Quake NASIL Belgesi">eski sürümü</a></li><li><a href="../howto/quake-howto-troubleshooting.html" title="Sorun Giderme">Sorun Giderme</a> kısmı</li><li><a href="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=42" target="_top">Linuxgamers Quake NASIL</a></li><li><a href="http://wiki.quakesrc.org/index.php/HomePage" target="_top">Quake wiki</a></li><li><a href="http://www.happypenguin.org" target="_top">The Linux Game Tome</a></li></ul></div>
+   </p><p></p></dd></dl></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-commandlineoptions"></a>Komut Satırı Seçenekleri</h3></div></dt><dd><p>
+Komut Satırı Seçenekleri, programın ismini takiben Linux komut satırına yazdığınız ek parametrelerdir. Quake bu parametrelerden bolca içerir ve bu içerik makinadan makinaya bazı değişiklikler gösterir. En yararlı/yaygın olanlar aşağıdaki gibidir:
+</p><p><dl><dt><span class="glossterm"><b><tt>-window</tt></b></span></dt><dd>Oyunu pencereli kipte çalıştırır.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-fullscreen</tt></b></span></dt><dd>Oyunu tam ekran kipinde çalıştırır.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-game </tt></b><i><tt>isim</tt></i></span></dt><dd><i><tt>isim</tt></i> kipini yükler.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-mem </tt></b><i><tt>n</tt></i></span></dt><dd>Dahili yığın için <i><tt>n</tt></i> megabayt bellek tahsis eder. Bu seçenek genelde 8 ile 16 MB arasındadır, ama daha büyük kiplerle arttırılabilir.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-width </tt></b><i><tt>genişlik</tt></i></span></dt><dd>pencere/tam ekran <i><tt>genişliği</tt></i>
+    <p></p></dd><dt><span class="glossterm"><b><tt>-height </tt></b><i><tt>yükseklik</tt></i></span></dt><dd>pencere/tam ekran <i><tt>yüksekliği</tt></i>
+    <p></p></dd><dt><span class="glossterm"><b><tt>-sndspeed </tt></b><i><tt>hız</tt></i></span></dt><dd>Ses örnekleme <i><tt>hız</tt></i>ını ayarlar (ör. 44100, 22100, 11025)
+    <p></p></dd><dt><span class="glossterm"><b><tt>-sndbits </tt></b><i><tt>n</tt></i></span></dt><dd>Ses bitlerini ayarlar; <i><tt>n</tt></i> = 8 ya da 16
+    <p></p></dd><dt><span class="glossterm"><b><tt>-nosound</tt></b></span></dt><dd>Sesi kapatır. Bu seçenek ses düzeni olmadığında ya da ayarlanmamış olduğunda oyunun çökmesini engellemek için kullanılır.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-nomtex</tt></b></span></dt><dd>Çoklu GL yapısını kapatır.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-listen </tt></b><i><tt>n</tt></i></span></dt><dd>Çok Oyunculu oyunlar için azami <i><tt>n</tt></i> oyuncu/ya da bot'un katılmasını sağlar.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-cddev </tt></b><i><tt>aygıt</tt></i></span></dt><dd>CD müziğini çalmak için <i><tt>aygıt</tt></i>'ın kullanılmasını sağlar.
+    <p></p></dd><dt><span class="glossterm"><b><tt>-nocdaudio</tt></b></span></dt><dd>CD sesini iptal eder.
+    <p></p></dd></dl>
+</p><p>
+Aynı zamanda artı öneki sayesinde Linux komut satırına Quake komutları ekleyebilirsiniz. Örneğin, oyunu otomatik olarak zor kipte başlatmak için aşağıdaki komutu veririz;
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">glquake.glx +skill 2 +map e1m1</pre> </td></tr></table></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="quake-howto-gameconsolcommands"></a>Oyun Konsolu Komutları</h3></div></dt><dd><p>
+Daha fazla bilgi için <a href="http://www.planetquake.com/console/commands/quake.html" target="_top">bu belgeye</a> bakın.
+</p><p>
+Konsol, oyun oynadığınız sırada oyuna etkileşimli komutlar vermenizi, değişkenleri değiştirmenizi ve hile yapmanıza yarayan bir komut satırıdır. Oyun sırasında konsola geçiş tuşu için yaklaşık işareti "~" kullanılır. Ana komutlar aşağıdaki gibidir:
+</p><p><div class="variablelist"><dl><dt><span class="term">god</span></dt><dd>Dokunulmazlık
+    <p></p><p></p></dd><dt><span class="term">noclip</span></dt><dd>Duvarların içinden geçme
+    <p></p><p></p></dd><dt><span class="term">notarget</span></dt><dd>Düşmanlar oyuncuya saldıramaz.
+    <p></p><p></p></dd><dt><span class="term">timedemo DEMO</span></dt><dd>DEMO'yu (ör. "demo1") oynatır ve çerçeve hızını ve ana hızı gösterir.
+    <p></p><p></p></dd><dt><span class="term">impulse N</span></dt><dd>"impuls N"<p></p><p>Bunlar size özel kullanımlar sunan oyun içi komutlardır. En çok kullanılan hile, tüm silahları veren <b><tt>impulse  9</tt></b> hilesidir.
+    </p><p></p></dd><dt><span class="term">bind TUŞ "KOMUT"</span></dt><dd>Bir tuşu belirtilen komutu çalıştırmak için kısayol yapar.
+    <p></p><p></p></dd><dt><span class="term">map HARİTA</span></dt><dd>HARİTA isimli haritayı yükler.
+    <p></p><p></p></dd><dt><span class="term">changelevel HARİTA</span></dt><dd>Oyuncunun ayarlarını yeniden yüklemeden sadece HARİTA isimli haritayı yükler.
+    <p></p><p></p></dd><dt><span class="term">quit</span></dt><dd>Sistemden çıkar.
+    <p></p><p></p></dd><dt><span class="term">skill DEĞER</span></dt><dd>değer = 0 (kolay) - 3 (en zor)<p></p><p>Zorluk derecesi. Sonuçlarını görmek için seviyenin yeniden başlatılması gerekir.
+    </p><p></p></dd><dt><span class="term">r_wateralpha  DEĞER</span></dt><dd>değer = 0.0 - 1.0<p></p><p>Suyun berraklığı
+    </p><p></p></dd><dt><span class="term">_snd_mixahead DEĞER</span></dt><dd>değer = 0.1 - 1.0<p></p><p>Bu değeri arttırmak, biraz ses gecikmesine karşın oyunu hızlandırır. Ben 0.3 kullanıyorum.
+    </p><p></p></dd><dt><span class="term">r_shadows BAYRAK</span></dt><dd>flag = 0 | 1<p></p><p>Model gölgelerini gösterir.
+    </p><p></p></dd><dt><span class="term">vid_wait BAYRAK</span></dt><dd>bayrak = 0 | 1<p></p><p>Video çıkışını ekran tazelemesiyle eşzamanlar
+    </p><p></p></dd><dt><span class="term">chase_active BAYRAK</span></dt><dd>bayrak = 0 | 1<p></p><p>Oyunu üçüncü kişi görünümünden sunar.
+    </p><p></p></dd></dl></div>
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/quake-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/quake-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/quake-howto-engine.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Oyun Motorları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

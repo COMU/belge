@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:21+03:00"><title>Exiscan-ACL üzerinden SPF sınamaları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-spf.html" title="SPF Sınamalarının Eklenmesi"><link rel="previous" href="../howto/spam-filtering-exim-spf.html" title="SPF Sınamalarının Eklenmesi"><link rel="next" href="../howto/spam-filtering-exim-spf-query-perl.html" title="Mail::SPF::Query üzerinden SPF sınamaları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Exiscan-ACL üzerinden SPF sınamaları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-spf.html">Önceki</a> </td><th width="60%" align="center">SPF Sınamalarının Eklenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-spf-query-perl.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-spf-exiscan"></a>Exiscan-ACL üzerinden SPF sınamaları</h3></div></dt><dd><p>
+Tom Kistner'in <tt>Exiscan-ACL</tt> yamasının son sürümü (bkz. <a href="../howto/spam-filtering-exim-prereq.html" class="xref" title="Öngereksinimler"> Öngereksinimler</a>) SPF için destek içermektedir<sup>[<a name="id1" href="#ftn.id1">33</a>]</sup>. Kullanımı çok basittir. Bir <tt>spf</tt> ACL kuralı eklenir ve <tt>pass</tt>, <tt>fail</tt>,  <tt>softfail</tt>, <tt>none</tt>, <tt>neutral</tt>, <tt>err_perm</tt> veya <tt>err_temp</tt> anahtar sözcükleriyle karşılaştırma yapılır.
+      </p><p>
+<a href="../howto/spam-filtering-acl_rcpt_to_final.html" class="xref" title="acl_rcpt_to"> acl_rcpt_to</a> ACL'sine grilisteleme sınamalarının ve/veya sonuncu <tt>accept</tt> deyiminin öncesine aşağıdaki satırları yerleştirin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Gönderici adresinin alanadı için varsa, SPF kayıtlarını sorgulayalım.
+  # Gönderici konak bu alanadı için yetkilendirilmişse teslimatı kabul
+  # yoksa red edeceğiz.
+  #
+  deny
+    message     = [SPF] $sender_host_address is not allowed to send mail \
+                  from $sender_address_domain
+    log_message = SPF check failed.
+    spf         = fail
+
+
+  # İleti başlığına bir SPF-Received: satırı ekleyelim.
+  warn
+    message     = $spf_received
+</pre> </td></tr></table></div>
+      </p><p>
+Bu deyim, eğer gönderici adresinin alanadının sahibi, postayı teslim etmeye çalışan konağı teslimat için yetkilendirmemişse postayı reddedecektir. Bazılarına göre alan adı sahibi için bu kadar kontrol yetkisi fazladır, hatta bu yetkiyle istem dışı olarak rahatça kendilerini sabote edebilirler.  SPF sınamalarını başka sınamalarla birleştirmek de önerilmektedir. Örneğin, Gönderici Varlık Sınamaları ile birlikte (fakat eğer posta sunucunuz göstermelik sunucu ise - yani, postaları bir dış sunucu üzerinden gönderiyorsa - bunu yapamazsınız).
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Gönderici adresini varlık doğrulamaları ile doğrulatamazsak ve
+  # gönderici adresin alanadı sahibi SPF kaydıyla teslimatı yapmaya
+  # çalışan konağı yetkilendirmemişse postayı reddedeceğiz.
+  #
+  deny
+    message     = The sender address does not seem to be valid, and SPF \
+                  information does not grant $sender_host_address explicit \
+                  authority to send mail from $sender_address_domain
+    log_message = SPF check failed.
+    !verify     = sender/callout,random,postmaster
+    !spf        = pass
+
+
+  # İleti başlığına bir SPF-Received: satırı ekleyelim.
+  warn
+    message     = $spf_received
+</pre> </td></tr></table></div>
+      </p><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id1" href="#id1">33</a>] </sup>
+Debian Kullanıcılarının dikkatine: 14 Temmuz 2004 itibariyle Exiscan-ACL'nin SPF desteği içeren sürümü <tt>exim4-daemon-heavy</tt> paketine dahil edilmemişti. (Ç.N.: Bu çeviri yapılırken Debian'ın kararlı dağıtımıyla gelen <tt>exim4-daemon-heavy</tt> paketi hala bu desteği içermiyordu - Aralık 2005. Ancak diğer Debian dağıtımlarında bu destek var.) Şimdilik, başka bir SPF gerçeklenimi kurabilirsiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# <b><tt>apt-get install libmail-spf-query-perl</tt></b>
+</pre> </td></tr></table></div>
+</p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-spf.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-spf.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-spf-query-perl.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">SPF Sınamalarının Eklenmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Mail::SPF::Query üzerinden SPF sınamaları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

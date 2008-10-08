@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="encrypted-swap-howto" lang="tr">
+  <articleinfo>
+    <title>Şifrelenmiş Takas Alanı ve Ev Dizini NASIL</title>
+    <author role="translator">
+      <firstname>Necdet Yücel</firstname>
+      <affiliation>
+        <address><email>nyucel@comu.edu.tr</email></address>
+      </affiliation>
+    </author>
+    <author>
+       <firstname>Lars</firstname>
+       <surname>Strand</surname>
+       <affiliation>
+	       <address><email>lars@gnist.org</email></address>
+       </affiliation>
+     </author>
+    <revhistory>
+      <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>27 Eylül 2008</date>
+        <authorinitials>ny</authorinitials>
+        <revremark>İlk Çeviri</revremark>
+      </revision>
+    </revhistory>
+    <revhistory>
+      <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.0</revnumber>
+          <date>2008-05-04</date>
+          <authorinitials>LKS</authorinitials>
+          <revremark>İlk Sürüm</revremark>
+       </revision></revhistory>
+<copyright><year>2008</year><holder>Lars Strand - Özgün belge</holder></copyright><sbr/>
+<copyright><year>2008</year><holder>Necdet Yücel - Türkçe çeviri</holder></copyright>
+    <legalnotice><title>Yasal Açıklamalar</title>
+	    <para>Bu belgenin, <emphasis>Şifrelenmiş Takas Alanı ve Ev Dizini NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün  <emphasis role="bold">telif hakkı © 2008 <emphasis>Lars Strand</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
+  <para>BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.</para>
+    </legalnotice>
+     <abstract>
+      <para>Bu belgede şifrelenmiş takas alanı ve kullanıcı ev dizininin nasıl kurulucağı ve kullanılacağı anlatılmaktadır.</para>
+      <para>Bu belgenin İngilizce sürümünü <ulink url="http://blog.gnist.org/article.php?story=EncryptedSwapAndHomeUbuntu"> bu adreste</ulink> bulabilirsiniz.</para>
+     </abstract>
+  </articleinfo>
+
+<sect1 id="encrypted-swap-howto-intro"><title>Giriş</title>
+	<para>Dizüstü bilgisayarımda şifrelenmiş takas alanı ve ev dizini kullanmak istiyorum. Çalınması veya benim onu bir yerde unutmam durumunda özel dosyalarımın kimse tarafından okunamayacağından emin olmam gerekir. Bu nasıl belgesinde ev dizinimi LVM kullanarak oluşturdum ama normal bir disk bölümü olarak oluşturmuş olsaydım da çalışması gerekirdi. Belgede dağıtım olarak Ubuntu kullanmış olsam da, ufak değişikliklerle, başka dağıtımlarda da çalışacaktır.</para>
+	<para>Linux Unified Key Setup (LUKS) yardımıyla Linux'ta şifrelenmiş disk bölümü kurulumu kolaylıkla yapılabilmektedir.</para>
+	<sect2 id="encrypted-swap-howto-intro-pre"><title>Gereklilikler</title>
+		<para>Önce gerekli pakatleri kuralım:<screen># apt-get install lvm2 cryptsetup libpam-mount</screen></para>
+		<para>Gerekli modulleri aktif edin (ya da bilgisayarınızı yeniden başlatın). En azından aşağıdaki modüllerin kurulu olduğunu görmelisiniz:<screen>$ lsmod | egrep 'aes|dm_crypt'
+aes_i586               33536  3 
+dm_crypt               15364  0 
+dm_mod                 62660  3 dm_crypt,dm_mirror,dm_snapshot</screen></para>
+	<para>device-mapper aktif durumda olmalı:<screen>$ ls -l /dev/mapper/
+total 0
+crw-rw---- 1 root root 10, 63 2008-05-04 17:12 control</screen></para>
+	<para>...crypto desteği açık olmalı:<screen># dmsetup targets | grep crypt
+crypt            v1.5.0</screen></para>
+	<para>Elbette çekirdekte hash ve encryption desteği de olmalıdır:<screen>$ cat /proc/crypto | grep name
+name         : sha256
+name         : cbc(aes)
+name         : aes
+name         : md5</screen></para>
+	<para>Artık hazırız.</para>
+	</sect2>
+</sect1>
+
+<sect1 id="encrypted-swap-howto-part1"><title>Şifrelenmiş Takas Alanı Kurulumu</title>
+	<sect2 id="encrypted-swap-howto-part1-step1"><title>Takas Alanının Hizmet Dışı Bırakmak</title>
+		<para> <screen># swapoff /dev/sda2</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part1-step2"><title>Takas Alanının Rasgele Verilerle Doldurulması</title>
+		<para><screen># dd if=/dev/urandom of=/dev/sda2 bs=1M
+1954+0 records in
+1953+0 records out
+2048094208 bytes (2.0 GB) copied, 529.177 s, 3.9 MB/s</screen></para>
+	<para>Gördüğünüz gibi bu işlem takas alanınızın büyüklüğüne bağlı olarak zaman almaktadır. Bir kahve arası iyi olabilir</para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part1-step3"><title>Şifrelenmiş Takas Alanının Yapılandırılması</title>
+	<para>Aşağıdaki satırı <filename>/etc/crypttab</filename> dosyasına ekleyin:
+			<screen># cat /etc/cryptab
+...
+cryptoswap /dev/sda2 /dev/urandom cipher=aes-cbc-essiv:sha256,size=256,hash=sha256,swap</screen></para>
+	<para>Peki neden <filename>/dev/random</filename> değil de <filename>/dev/random</filename>? Çünkü random yeterli entropiyi sağlayana kadar devam etmeyecektir ama urandom'da durum böyle değildir. Bu yüzden eğer urandom yerine random kullanırsanız açılış sırasında yeterli entropi sağlanana kadar beklemeniz gerekebilir. Eğer <emphasis>gerçekten</emphasis> paranoidseniz <filename>/dev/random</filename> kullanın. Detaylar için <ulink url="https://bugs.launchpad.net/ubuntu/+source/cryptsetup/+bug/62751">bu hata raporunun</ulink> son yorumlarını okuyun.</para>
+	<para>Takas alanınızla ilgili <filename>/etc/fstab</filename> içindeki satırı değiştirin:<screen># cat /etc/fstab
+...
+/dev/mapper/cryptoswap none swap sw 0 0</screen></para>
+	<para>Bilgisayarımız her açlışında takas alanı başka bir şifreleme anahtarıyla şifrelenecektir.</para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part1-step4"><title>Test</title>
+	<para>Test etmek için bilgisayarınızı yeniden başlatmalısınız. Artık şifrelenmiş bir takas alanımız var:
+		<screen># cat /proc/swaps
+Filename				Type		Size	Used	Priority
+/dev/mapper/cryptoswap                  partition	2000084	0	-1
+
+# cryptsetup status cryptoswap
+/dev/mapper/cryptoswap is active:
+cipher:  aes-cbc-essiv:sha256
+keysize: 256 bits
+device:  /dev/sda2
+offset:  0 sectors
+size:    4000185 sectors
+mode:    read/write</screen></para>
+	<para>Güzel. Artık güvendeyiz değil mi?</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="encrypted-swap-howto-part2"><title>Şifrelenmiş Ev Dizini Oluşturulması ve Kullanımı</title>
+
+	<sect2 id="encrypted-swap-howto-part2-step1"><title>LVM Kullanarak ev disk bölümünün ayarlanması</title>
+		<para>Eğer sıradan bir disk bölümü kullanıyorsanız güvenle bu bölümü atlayabilirsiniz.
+			<screen># pvcreate /dev/sda3
+Physical volume "/dev/sda3" successfully created
+# vgcreate vg_storage /dev/sda3
+Volume group "vg_storage" successfully created
+# vgchange -a y vg_storage
+0 logical volume(s) in volume group "vg_storage" now active
+# lvcreate -L20G -nlv_home vg_storage
+Logical volume "lv_home" created</screen></para>
+	<para>LVM ile ilgili daha fazla detay için <ulink url="http://tldp.org/HOWTO/LVM-HOWTO/">LVM NASIL</ulink> belgesine bakabilirsiniz.</para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part2-step2"><title>Ev dizininiz olacak disk bölümünün rasgele veriyle doldurulması</title>
+		<para><screen># dd if=/dev/urandom of=/dev/vg_storage/lv_home
+20481+0 records in
+20480+0 records out
+21474836480 bytes (21 GB) copied, 5554.23 s, 3.9 MB/s</screen></para>
+	<para>Bu işlem takas alanından da çok zaman alacağından öğle yemeğine ya da benzer bir işe vakit ayırabilirsiniz.</para>
+	</sect2>	
+	<sect2 id="encrypted-swap-howto-part2-step3"><title>Disk bölümünün sıfırlanması ve başlangıç anahtarının atanması</title>
+	<para>Unutmayın; zayıf parola işe yaramaz, parolanızı unutursanız oyun biter!<screen># cryptsetup -c aes-cbc-essiv:sha256 -y -s 256 luksFormat /dev/vg_storage/lv_home
+				
+WARNING!
+========
+This will overwrite data on /dev/vg_storage/lv_home irrevocably.
+
+Are you sure? (Type uppercase yes): YES
+Enter LUKS passphrase: 
+Verify passphrase: 
+Command successful.</screen></para>
+<para>Cipher olarak "aes-cbc-essi" kullanmamızın nedeni öntanımlı olanın <ulink url="http://en.wikipedia.org/wiki/Watermarking_attack">Watermarking Saldırısına</ulink> karşı savunmasız oluşudur.</para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part2-step4"><title>Aygıt haritalamasının yaratılması</title>
+	<para><screen># cryptsetup luksOpen /dev/vg_storage/lv_home cryptohome
+Enter LUKS passphrase: 
+key slot 0 unlocked.
+Command successful.</screen></para>
+	<para>Aşağıdaki komutla oluşturduğunuz aygıt haritasını görebilirsiniz:<screen>$ ls -l /dev/mapper/
+total 0
+crw-rw---- 1 root root  10, 63 2008-05-04 18:46 control
+brw-rw---- 1 root disk 254,  2 2008-05-04 20:53 cryptohome
+brw-rw---- 1 root disk 254,  0 2008-05-04 18:52 cryptoswap
+brw-rw---- 1 root disk 254,  1 2008-05-04 20:53 vg_storage-lv_home</screen></para>
+	<para>LVM'nin de device-mapper kullandığına dikkat edin (bu nedenle LVM hacimlari de listeleniyorlar).</para>
+	<para>Başka bir yöntem olarak <command>dmsetup ls</command> komutunu kullanabilirsiniz:<screen>$ dmsetup ls
+cryptoswap      (254, 0)
+vg_storage-lv_home      (254, 1)
+cryptohome      (254, 2)</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part2-step5"><title>Dosya sistemi yaratılması</title>
+		<para>Artık Şifrelenmiş bir disk bölümümüz var, onu kullanmak için üzerinde bir dosya sistemi oluşturmalıyız:<screen># mkfs.ext3 -j -m 1 -O dir_index,filetype,sparse_super /dev/mapper/cryptohome
+mke2fs 1.40.8 (13-Mar-2008)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+1310720 inodes, 5242623 blocks
+52426 blocks (1.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=0
+160 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,
+4096000
+
+Writing inode tables: done
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 28 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part2-step6"><title>Test</title>
+		<para>Test için şifrelenmiş disk bölümünü bağlamadan önce şifrelemeyi kapatıp yeniden açıyoruz:
+			<screen># cryptsetup luksClose cryptohome
+# cryptsetup luksOpen /dev/vg_storage/lv_home cryptohome
+Enter LUKS passphrase: 
+key slot 0 unlocked.
+Command successful.
+# mkdir -p /mnt/cryptohome
+# mount /dev/mapper/cryptohome /mnt/cryptohome
+# touch /mnt/cryptohome/testfile
+# ls /mnt/cryptohome/
+testfile</screen></para>
+	<para>Çalışıp çalışmadığını aşağıdaki komutla da öğrenebiliriz:<screen># cryptsetup status cryptohome
+/dev/mapper/cryptohome is active:
+cipher:  aes-cbc-essiv:sha256
+keysize: 256 bits
+device:  /dev/mapper/vg_storage-lv_home
+offset:  2056 sectors
+size:    41940984 sectors
+mode:    read/write</screen></para>
+	<para>Her şey yolundaysa ev dizininizi yeni bölüme taşıyabilirsiniz.</para>
+	<para>Son olarak diski çözelim:<screen> # umount /mnt/cryptohome
+# cryptsetup luksClose cryptohome</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part2-step7"><title>Şifrelenmiş ev dizininin bağlanma zamanı</title>
+		<para>Bu aşamada bir karar vermeniz gerekiyor. Şifrelenmiş disk bölümünüzün bilgisayarınız açılırken bağlanmasını seçebilirsiniz, bu durumda açılış işlemleri LUKS parolasını girmeniz için kesintiye uğrayacaktır. Eğer bu bölümün oturum açtığınızda otomatik olarak bağlanmasını istiyorsanız bir sonraki bölüme geçebilirsiniz.</para>
+		<para>Parolanızı elle girmek yerine harici bir ortamda (örneğin bir usb diskte) saklamayı tercih edebilirsiniz. Bu konuda ayrıntılı bilgi için <ulink url="http://wiki.archlinux.org/index.php/LUKS_Encrypted_Root#Storing_the_key_externally_.28USB_stick.29">bu adrese</ulink> bakabilirsiniz.</para>
+		<para>Eğer tercihiniz diskin açılışta bağlanması ise <filename>/etc/crypttab</filename> dosyasını aşağıdaki gibi düzenleyin:<screen># cat /etc/crypttab
+...
+cryptohome /dev/vg_storage/lv_home none luks</screen></para>
+		<para><filename>/etc/fstab</filename> dosyası da düzenlenmelidir:<screen># cat /etc/fstab
+...
+/dev/mapper/cryptohome	/mnt/cryptohome ext3 relatime,errors=remount-ro 0 2</screen></para>
+		<para>Artık bilgisayarınızı yeniden başlattığınızda açılış süreci siz LUKS parolanızı girene kadar kesintiye uğrayacaktır. Eğer doğru girerseniz ev dizininiz bağlanır. Oturum açtığınızda sizi bekleyen şifrelenmiş bir ev dizini bulacaksınız.</para>
+	</sect2>
+</sect1>
+
+<sect1 id="encrypted-swap-howto-part3"><title>Oturum Açılırken Otomatik Bağlama</title>
+	<para>Daha iyi bir çözüm ev dizininizin siz oturum açtığınızda otomatik olarak bağlanması olacaktır. Bunun için oturum açma parolanız ile şifreleme parolanızın <emphasis>aynı olması</emphasis> gereklidir. (Aslında bu tamamen doğru değildir. Parolanızı başka bir yerde kaydedilmiş olarak bulundurabilirsiniz, ama bu belgede her ikisi için de aynı parolayı kullandığınızı kabul edeceğiz.)</para>
+	<sect2 id="encrypted-swap-howto-part3-step1"><title>Ev dizininin /etc/fstab dosyasından çıkartılması</title>
+		<para>Eğer şifrelenmiş ev dizininizin bulunduğu disk bölümü için <filename>/etc/fstab</filename> dosyasında bir satır varsa silin. <screen># cat /etc/fstab
+...
+/dev/mapper/cryptohome	/mnt/cryptohome ext3 relatime,errors=remount-ro 0 2 # this gotta go</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part3-step2"><title>/etc/crypttab dosyasının güncellenmesi</title>
+		<para><filename>/etc/crypttab</filename> dosyasında aşağıdaki gibi bir satır olmalıdır:<screen># cat /etc/crypttab
+...
+cryptohome /dev/vg_storage/lv_home noauto luks</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part3-step3"><title>pam_mount kurulumu ve yapılandırması</title>
+		<para><screen># apt-get install libpam-mount</screen></para>
+		<para><filename>/etc/security/pam_mount.conf.xml</filename> dosyasına aşağıdaki satırı ekleyin. Bu dosyada bir çok yorum satırı bulunmaktadır, bunları okumanız faydalı olacaktır.<screen># cat /etc/security/pam_mount.conf.xml
+...
+&lt;volume user="lars" fstype="crypt" path="/dev/vg_storage/lv_home" mountpoint="/home" /&gt;</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part3-step4"><title>PAM Yapılandırması</title>
+		<para>Aşağıdaki satırı <filename>/etc/pam.d/common-auth</filename> dosyasına ekleyin.<screen># cat /etc/pam.d/common-auth
+...
+auth	optional	pam_mount.so use_first_pass</screen></para>
+<para><filename>/etc/pam.d/common-session</filename> dosyasını da aşağıdaki gibi düzenleyin:<screen># cat /etc/pam.d/common-session
+...
+session	optional	pam_mount.so</screen></para>
+	</sect2>
+	<sect2 id="encrypted-swap-howto-part3-step5"><title>Test</title>
+		<para>Oturumdan çıkıp tekrar oturum açın. Artık şifrelenmiş bir ev diziniz olmalıdır:<screen>$ df -h
+...
+/dev/mapper/_dev_mapper_vg_storage-lv_home
+20G  296M   20G   2% /home</screen></para>
+		<para>Tebrikler! Artık şifrelenmiş bir takas alanınız ve ev dizininiz var.<note><para><emphasis>Düzenli</emphasis> yedek alın!</para></note></para>
+	</sect2>
+</sect1>
+
+<sect1 id="encrypted-swap-howto-links"><title>Kaynaklar</title>
+	<para><itemizedlist>
+	<listitem><ulink url="http://www.saout.de/misc/dm-crypt/"/></listitem>
+	<listitem><ulink url="http://www.saout.de/tikiwiki/tiki-index.php?page=HOWTO"/></listitem>
+	<listitem><ulink url="http://gentoo-wiki.com/HOWTO_Encrypt_Your_Home_Directory_Using_LUKS_and_pam_mount"/></listitem>
+	<listitem><ulink url="http://www.linuxguiden.no/index.php/Kryptert_filsystem_luks"/></listitem></itemizedlist>
+</para>
+</sect1>
+</article>

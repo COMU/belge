@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:25+03:00"><title>Farklı ağ aygıtları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-configuration-interface.html" title="Arabirimlerin Yapılandırması"><link rel="previous" href="../howto/ipv6-howto-configuration-interface.html" title="Arabirimlerin Yapılandırması"><link rel="next" href="../howto/ipv6-howto-configuration-interface-updown.html" title="Arabirimlerin etkin/edilgen hale getirilmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Farklı ağ aygıtları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-configuration-interface.html">Önceki</a> </td><th width="60%" align="center">Arabirimlerin Yapılandırması</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-configuration-interface-updown.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-configuration-interface-diff"></a>Farklı ağ aygıtları</h3></div></dt><dd><p>
+Bir düğümde farklı ağ aygıtları mevcuttur. Bunlar aşağıdaki sınıflara ayrılabilir
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+Fiziksel aygıtlar: eth0, tr0 gibi
+  </li><li>
+Sanal aygıtlar: ppp0, tun0, tap0, sit0, isdn0, ippp0 gibi
+  </li></ul></div></p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>Fiziken sınırlandırılmış aygıtlar</h4></div></dt><dd><p>
+Fiziksel olarak sınırlandırılmış Ethernet veya Token-Ring gibi arabirimler özel bir muameleye ihtiyaç duymazlar.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>Sanal olarak sınırlandırılmış aygıtlar</h4></div></dt><dd><p>
+Sanal olarak sınırlandırılmış arabirimler her zaman özel destek isterler.
+  </p><p><div class="variablelist"><dl><dt><span class="term">IPv4 içinde IPv6 tüneli arabirimleri</span></dt><dd>
+Bu arabirimler genellikle <tt>sitx</tt> olarak adlandırılırlar.<tt>sit</tt> ismi Simple Internet Transition (basit internet geçişi) baş harflerinin kısaltmasıdır. Bu aygıt IPv6 paketlerini IPv4 paketlerinin içine kapsülleyerek başka bir uç noktaya tüneller.
+  <p></p><p>
+<tt>sit0</tt> özel bir anlama sahiptir ve adanmış tünellerde kullanılamaz.
+  </p><p></p></dd><dt><span class="term">PPP arabirimleri</span></dt><dd>
+PPP arabirimleri IPv6 kabiliyetlerini IPv6 uyumlu artalan süreçlerinden alırlar.
+  <p></p><p></p></dd><dt><span class="term">ISDN HDLC arabirimleri</span></dt><dd>
+HDLC arabirimlerinin IPv6 kabiliyetleri çekirdekte hazır gelmektedir.
+  <p></p><p></p></dd><dt><span class="term">ISDN PPP arabirimleri</span></dt><dd>
+ISDN PPP arabirimlerinin (<tt>ippp</tt>) IPv6 desteği çekirdekte olmadığı gibi bu destek için bir plan dahi yoktur çünkü daha genel bir ppp arabirim katmanı ile değiştirilmesi planlanmaktadır.
+  <p></p><p></p></dd><dt><span class="term">SLIP + PLIP</span></dt><dd>
+Daha önce söylendiği gibi bu arabirimlerin IPv6 destekleri yoktur (gönderme yapılabilmesine rağmen alma çalışmamaktadır).
+  <p></p><p></p></dd><dt><span class="term">Ether-tap aygıtı</span></dt><dd>
+Ether-tap aygıtları IPv6 uyumludur ve kullanılabilmesi için önce "ethertap" modülünün yüklenmesi gerekmektedir.
+  <p></p><p></p></dd><dt><span class="term">tun aygıtları</span></dt><dd>
+Henüz denemedim.
+  <p></p><p></p></dd><dt><span class="term">ATM</span></dt><dd>
+01/2002: Çekirdekte desteklenmiyor fakat USAGI yaması ile destekliyor.
+  <p></p><p></p></dd><dt><span class="term">Diğerleri</span></dt><dd>
+Unuttuğum bir arabirim var mı?...
+  <p></p><p></p></dd></dl></div>
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-configuration-interface.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-configuration-interface.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-configuration-interface-updown.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Arabirimlerin Yapılandırması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Arabirimlerin etkin/edilgen hale getirilmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

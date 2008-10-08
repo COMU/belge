@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:52:22+03:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kahve-nasil.html" title="Kahve Yapmak Nasıl"><link rel="previous" href="../howto/kahve-nasil.html" title="Kahve Yapmak Nasıl"><link rel="next" href="../howto/kahve-nasil-menu.html" title="Menü"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kahve-nasil.html">Önceki</a> </td><th width="60%" align="center">Kahve Yapmak Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kahve-nasil-menu.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="kahve-nasil-tanitim"></a>Giriş</h2></div></dt><dd><p>
+Uzun yıllardır insanlık, bir bilgisayarın nasıl kahve yapabileceğini merak etti.
+    </p><p>
+İnsanlar, uyanık kalmak ve bilgisayar karşısında uzun süre kalabilmek için kahveye ihtiyaç duyar. Geceleri kod yazmanın daha iyi olduğu yaygın bir bilgece sözdür!
+    </p><p>
+Esas hüner, bir kahve makinasını, bir yazılım ile kontrol edilebilmesi için, bilgisayarla bütünleştirmektir. Bu NASIL belgesi bunu nasıl yapacağınızı anlatacaktır.
+    </p><p>
+İlk başta, kahve makinasının güç kaynağını kontrol eden bir AÇMA/KAPAMA anahtarı, elektronik bir devre olarak gösterilecektir. Başka bir bölümde tam bir Turing Makinası (Turing Complete) gibi olan, akıllı kahve makinalarının nasıl yapılacağının sırları anlatılacaktır.
+    </p><p>
+Bu NASIL belgesi ilk olarak, linux-greek-users ileti listesindeki linux kahve yapabilir mi yapamaz mı tartışması üzerine yazıldı. Daha sonra internetteki <a class="ulink" href="http://magaz.hellug.gr/" target="_top">magaz</a> isimli dergimizde bir makale haline geldi. Merak edenleriniz için söyliyeyim, magaz Yunancadır ve eminim ki bakınca size de öyle gelecektir!
+    </p><p>
+İyi Eğlenceler.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Telif Hakkı</h3></div></dt><dd><p>
+Belgenin ingilizce orjinalinin Telif hakkı © 2004 Fotis Georgato'a, türkçe çevirisinin telif hakkı © 2005 Oğuz Yarımtepe'ye aittir. Aşağıdakileri yapmakta özgürsünüz:
+      <div class="itemizedlist"><ul type="disc"><li>
+Bu çalışmayı kopyalamak, dağıtmak, göstermek ve gerçekleştirmekte
+        </li><li>
+Bu işten türetilmiş işler yapmakta
+        </li><li>
+Yapılan çalışmayı ticari hale getirmekte
+        </li></ul></div>
+      </p><p>
+Aşağıdaki durumlarda atıfta bulunmalısınız. Orjinal yazar bilgilerini vermelisiniz. Benzer şekilde paylaşın. Bu belgeyi değiştirir, farklılaştırır veya bu belgeyi kullanarak bir şeyler yaparsanız, ortaya çıkan çalışmayı bu belgedekinin aynısı olan bir lisansla dağıtabilirsiniz.
+      </p><p>
+      <div class="itemizedlist"><ul type="disc"><li>
+Herhangi bir yeniden kullanımında ya da dağıtımında, bu çalışmanın lisans haklarını açık şekilde duyurmalısınız
+        </li><li>
+Bu durumlardan bazılarından, yazardan izin almanız durumunda, feragat edilebilir.
+        </li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Feragatname</h3></div></dt><dd><p>
+Bu belgede yazılanları kullanmak tamamen sizin sorumluluğunuzdadır. İçerikle ilgili oluşabilecek potansiyel herhangi bir sorumluluğu reddediyorum. İçeriğin, örneklerin ve/veya bu belgedeki diğer bilgilerin kullanımından doğacak risk tamamen size aittir.
+      </p><p>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır.
+      </p><p>
+Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+      </p><p>
+Temel bir yükleme yapmadan önce sistemizle ilgili yedeklemeleri düzenli zamana aralıklarında yapmanız şiddetle tavsiye edilir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Sürüm</h3></div></dt><dd><p>
+Bu Kahve NASIL belgesi artık Kahve Yapma NASIL (Coffee Making HOWTO) olarak anılmakta ve sürüm 1.0 a doğru yol almakta olup, şu adreste bir yerlerde gözükecektir:
+      </p><p>
+<a class="ulink" href="http://fotis.home.cern.ch/fotis/Coffee.html" target="_top">http://fotis.home.cern.ch/fotis/Coffee.html</a>
+      </p><p>
+Artık herkesin, Kahve Yapmanın *herhangi bir* Linux dağıtımıyla gelen standart bir özellik olduğunu bilmesinin zamanıdır. Yoksa SCO'nun bunun üzerinde de mi bir patent hakkı var?
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>Çeviriler</h3></div></dt><dd><p>
+Bu ve bundan önceki Kahve Yapma NASIL belgesinin sürümlerinin aşağıdaki dillerde çevirilerini kolaylıkla bulabilirsiniz:
+      </p><p>
+      <div class="itemizedlist"><ul type="disc"><li>Çince</li><li>Japonca</li><li>Rusça</li><li>Malay Dili</li><li>İtalyanca</li><li>Polonya Dili</li><li>Türkçe*</li></ul></div>
+      </p><p>
+ve umuyorum daha fazlası... (İspanyolca ve Portekizce, var mı kimse?)
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Tanıtım</h3></div></dt><dd><p><div class="itemizedlist"><ul type="disc"><li>Etiyopya: Kahvenin anavatanı olarak tanınır</li><li>Kahve, 1683 yılında Türklerin Viyana'ya olan başarısız bir akınının geride kimsenin istemediği garip kahverengi fasulya taneleri içeren çuvallar bırakmasına kadar, Orta Doğuda çok yaygındı: <a class="ulink" href="http://www.vienna.cc/ekaffeeh.htm/" target="_top">http://www.vienna.cc/ekaffeeh.htm/</a></li><li>
+1967'de Kostas Lialiambis, Linux makinasıyla kahve yapamadığını söylemeye cesaret eden biriydi
+      </li><li>
+Panagiotis Vrionis, yakın zamanda bana ilginç ve komik notlar verip topun dönmesini sağladı.
+      </li><li>
+Internetteki PEKÇOKları, katılım ve yorumlarınıza... Hepinize gerçekten teşekkürler. Her ne kadar hepinizin iletilerine cevap veremesem de.
+      </li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id6"></a>Bunu yazarken ne içersiniz?</h3></div></dt><dd><p>
+Aslında, en iyi fikrime göre, bu tamamen özgür bir doping kullanım işidir.
+      </p><p>
+Ama size arka fonda çalan müziğin sırrını verebilirim: Zampetas veya Mpithikotsis söylediği herahngi bir şarkı (buzuki veya benzeri).
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id7"></a>Geri Besleme</h3></div></dt><dd><p>
+Kendi yaptığınız DIY Kahve Makinası'nın online anlatımları için dümeni şu adrese kırınız: <a class="ulink" href="http://coffee.sf.net/" target="_top">http://coffee.sf.net/</a>
+      </p><p>
+Hala söylemek istediğiniz yorumlar varsa, bu günlerde iletilerin (mail) kaybolduğu düşünülürse, neden güzel şehrinizden, içerisinde şehirinizdeki en güzel kahve yerlerinden birini öneren bir kartpostal atmıyorsunuz?
+      </p><p>
+<pre class="literallayout">
+    Fotis Georgatos,
+    Aliartou 32,
+    TK 11142 Athens,
+    GREECE
+</pre>
+      </p><p>Son Söz</p><p>
+      <div class="itemizedlist"><ul type="disc"><li>Önerileriniz gözden kaçırılmayacaktır, bu aralar geziye çıkmaya çok meyilliyim, siz farkına varmadan birden etrafınızda olmuş olabilirim.</li><li>Evet, bir süre Amsterdam'da kaldım ve hatta orada 3 yıl yaşadım; Kahve Dükkanları alelade kafeler gibi sayılmazdı.</li><li>Süpriz: Ben aslında kahveyi üzerinde çukulata ve çay ile severim. ;)</li></ul></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kahve-nasil.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kahve-nasil.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/kahve-nasil-menu.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kahve Yapmak Nasıl </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Menü</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:24+03:00"><title> Menü Kütüphanesi ile derleme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-menus.html" title="Menü Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-menubasics.html" title="Temel Bilgiler"><link rel="next" href="../howto/ncurses-howto-menudriver.html" title="menu_driver: Menü sisteminin dolap beygiri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center"> Menü Kütüphanesi ile derleme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menubasics.html">Önceki</a> </td><th width="60%" align="center">Menü Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-menudriver.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-compilemenus"></a> Menü Kütüphanesi ile derleme</h3></div></dt><dd><p>
+Menü kütüphanesini kullanmak için <tt>menu.h</tt> başlık dosyası programa eklenmeli ve programı menü kütüphanesiyle ilintileyerek derlemek için de <tt>-lmenu -lncurses</tt> seçenekleri kullanılmalıdır.
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;menu.h&gt;
+.
+.
+.
+
+derleme ve bağlama: <b><tt>gcc </tt></b><i>program file</i> <b><tt>-lmenu -lncurses</tt></b>
+</pre> </td></tr></table></div>
+</p><div class="example"><p><a name="ncurses-howto-mmesi"></a><b>Örnek 5.23. Menülerin Temelleri</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+  "Choice 1",
+  "Choice 2",
+  "Choice 3",
+  "Choice 4",
+  "Exit",
+};
+
+int main()
+{ ITEM **my_items;
+  int c;
+  MENU *my_menu;
+  int n_choices, i;
+  ITEM *cur_item;
+
+
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
+  n_choices = ARRAY_SIZE(choices);
+  my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+
+  for(i = 0; i &lt; n_choices; ++i)
+          my_items[i] = new_item(choices[i], choices[i]);
+  my_items[n_choices] = (ITEM *)NULL;
+
+  my_menu = new_menu((ITEM **)my_items);
+  mvprintw(LINES - 2, 0, "F1 to Exit");
+  post_menu(my_menu);
+  refresh();
+
+  while((c = getch()) != KEY_F(1))
+  { switch(c)
+    { case KEY_DOWN:
+        menu_driver(my_menu, REQ_DOWN_ITEM);
+        break;
+      case KEY_UP:
+        menu_driver(my_menu, REQ_UP_ITEM);
+        break;
+    }
+  }
+
+  free_item(my_items[0]);
+  free_item(my_items[1]);
+  free_menu(my_menu);
+  endwin();
+}
+</pre> </td></tr></table></div></p></div><p>
+Bu program menü kütüphanesi kullanılarak bir menü oluşturmanın temel adımlarını göstermektedir. Öncelikle <tt>new_item()</tt> ile öğeleri oluşturup onları daha sonra <tt>new_menu()</tt> ile menüye ekleyerek menüyü ilklendirdik. Menüyü ekrana yazdırıp ekranı tazeledikten sonra ana işlem döngüsü başlamaktadır. Kullanıcı girdisini alarak buna karşılık gelen işlemi gerçekleştirmektedir. <tt>menu_driver()</tt> işlevi menü sisteminin dolap beygiridir. Bu işlevin ikinci parametresi menü ile ilgili ne yapılacağını söyler. Parametreye göre, <tt>menu_driver()</tt> karşılık gelen görevi yapmaktadır. Parametre değeri, bir menü gezinti isteği, bir ascii karakter veya bir tuş ile ilişkili <tt>KEY_MOUSE</tt> özel anahtarı olabilir.
+</p><p>
+<tt>menu_driver</tt> aşağıdaki istekleri kabul eder.
+</p><p>
+<pre class="literallayout">
+    REQ_LEFT_ITEM       Bir öğenin soluna hareket et
+    REQ_RIGHT_ITEM      Bir öğenin sağına hareket et
+    REQ_UP_ITEM         Bir öğenin üstüne hareket et
+    REQ_DOWN_ITEM       Bir öğenin altına hareket et
+    REQ_SCR_ULINE       Bir satır yukarı
+    REQ_SCR_DLINE       Bir satır aşağı
+    REQ_SCR_DPAGE       Bir sayfa aşağı
+    REQ_SCR_UPAGE       Bir sayfa yukarı
+    REQ_FIRST_ITEM      İlk öğeye hareket et
+    REQ_LAST_ITEM       Son öğeye hareket et
+    REQ_NEXT_ITEM       Sonraki öğeye hareket et
+    REQ_PREV_ITEM       Önceki öğeye hareket et
+    REQ_TOGGLE_ITEM     Bir öğeyi seç/seçimi kaldır
+    REQ_CLEAR_PATTERN   Menü örüntü belleğini sil
+    REQ_BACK_PATTERN    Örüntü belleğinden bir önceki karakteri sil
+    REQ_NEXT_MATCH      Örüntü eşine uygun bir sonraki öğeye git
+    REQ_PREV_MATCH      Örüntü eşine uygun bir önceki öğeye git
+</pre>
+</p><p>
+Seçeneklerin sayısından dolayı bunalmış hissetmeyin. Herbirini tek tek göreceğiz. Bu listedeki ilgi alanımız <tt>REQ_UP_ITEM</tt> ve <tt>REQ_DOWN_ITEM</tt> öğeleridir. Bu iki seçenek <tt>menu_driver</tt> işlevine gönderildiklerinde, o anki öğeyi sırasıyla bir öğe yukarı veya aşağı günceller.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menubasics.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-menus.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-menudriver.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Temel Bilgiler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> menu_driver: Menü sisteminin dolap beygiri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

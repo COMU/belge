@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:48+03:00"><title>Hatalarla başa çıkma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apt-howto.html" title="APT NASIL"><link rel="previous" href="../howto/apt-howto_sourcehandling.html" title="Kaynak paketlerle çalışma"><link rel="next" href="../howto/apt-howto_distros.html" title="Hangi Linux dağıtımları APT destekliyor?"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Hatalarla başa çıkma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apt-howto_sourcehandling.html">Önceki</a> </td><th width="60%" align="center">APT NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/apt-howto_distros.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apt-howto_erros"></a>Hatalarla başa çıkma</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_erros-comuns"></a>Genel hatalar</h3></div></dt><dd><p>
+Hatalı durumlar her zaman olabilir, hataların çoğu basit bir şekilde düzeltilebilecek türdendir. Aşağıda sıklıkla karşılaşılan hatalar ve çözüm yöntemlerinin bir listesi verilmiştir:
+      </p><p>
+        <div class="itemizedlist"><ul type="disc"><li>
+Eğer <b><tt>apt-get install paket_adı</tt></b> komutunun ardından aşağıdaki gibi bir çıktı aldıysanız:
+          <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Reading Package Lists... Done
+Building Dependency Tree... Done
+W: Couldn't stat source package list 'http://people.debian.org unstable/ Packages' (/var/state/apt/lists/people.debian.org_%7ekov_debian_unstable_Packages) - stat (2 No such file or directory)
+W: You may want to run apt-get update to correct these missing files
+E: Couldn't find package penguineyes
+</pre> </td></tr></table></div>
+          </p><p>
+<tt>/etc/apt/sources.list</tt> dosyasında yaptığınız son değişiklikten sonra <b><tt>apt-get update</tt></b> komutunu çalıştırmayı unutmuşsunuz demektir.
+          </p><p></p></li><li>
+Eğer hata aşağıdakine benzer ise:
+          <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+E: Could not open lock file /var/lib/dpkg/lock - open (13 Permission denied)
+E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
+</pre> </td></tr></table></div>
+          </p><p>
+<b><tt>apt-get</tt></b>'in <tt>source</tt> dışında bir yöntemini normal kullanıcı haklarıyla kullanmaya çalışıyorsunuzdur.
+          </p><p>
+Benzer bir hatayı, aynı anda birden fazla <b><tt>apt-get</tt></b> programını çalıştırmanız durumunda ya da <b><tt>dpkg</tt></b> programı işlem yaparken APT kullanmaya çalışmanız durumunda alabilirsiniz. Aynı anda kullanılabilecek tek yöntem
+ <tt>source</tt>'tır.
+          </p><p></p></li><li>
+Eğer kurulum işleminiz herhangi bir nedenle yarıda kesilmiş ve ardından hiç bir paketi kurma ve kaldırma işlemi yapamaz duruma gelmişseniz, aşağıdaki komutlarla APT'nin gerekli düzeltmeleri yapmasını sağlayabilirsiniz:
+          <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-get -f install</tt></b>
+<tt>#</tt> <b><tt>dpkg --configure -a</tt></b>
+</pre> </td></tr></table></div>
+          </p><p>
+Ve tekrar deneyin. Bazen yukarıdaki komutlardan ikincisini birden fazla defa tekrarlamanız gerekebilir. <tt>unstable</tt> dağıtımı kullanmaya başlayacak olan kullanıcıların öğrenmesi gereken ilk ders budur.
+          </p><p></p></li><li>
+Eğer <b><tt>apt-get update</tt></b> kullanımı sırasında <tt>"E: Dynamic MMap ran out of room"</tt> şeklinde bir hata ile karşılaşırsanız <tt>/etc/apt/apt.conf</tt> dosyasına şu satırı ekleyin:
+          <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+APT::Cache-Limit 10000000;
+</pre> </td></tr></table></div>
+          </p><p></p></li></ul></div>
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_help"></a>Nereden yardım bulabilirim?</h3></div></dt><dd><p>
+Debian paket yönetim sistemi hakkındaki ayrıntılı belgeleri inceleyebilirsiniz. Programların <tt>--help</tt> ve kılavuz (man) sayfaları da oldukça yararlı bilgiler içerir. Ayrıca <tt>/usr/share/doc</tt> dizini altındaki her programa ait belgeleri inceleyebilirsiniz, APT için bu dizin <tt>/usr/share/doc/apt</tt>'dir.
+      </p><p>
+Eğer aradığınız sorunun cevabını bu belgelerde de bulamazsanız cevabı Debian eposta listelerinde aramalısınız. Debian listeleri hakkında ayrıntılı bilgilere <a class="ulink" href="http://www.debian.org/" target="_top">http://www.debian.org/</a> adresinden ulaşabilirsiniz.
+      </p><p>
+Belirttiğimiz listeler Debian kullanıcıları içindir, diğer dağıtımları kullananlar, dağıtımlarının eposta listelerinde kendilerine uygun cevapları bulabilirler.
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apt-howto_sourcehandling.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apt-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/apt-howto_distros.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kaynak paketlerle çalışma </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hangi Linux dağıtımları APT destekliyor?</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-04-08T01:15:36Z"><title>Windows Makinalara Yazdırma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux_windows_printing.html" title="Debian ve Windows Paylaşımlı Yazdırma Nasıl"><link rel="previous" href="../howto/linux_windows_printing_baslarken.html" title="Başlarken"><link rel="next" href="../howto/linux_windows_printing_windows_ile_paylasim.html" title="Yazıcıları Windows Makinalarla Paylaşmak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Windows Makinalara Yazdırma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux_windows_printing_baslarken.html">Önceki</a> </td><th width="60%" align="center">Debian ve Windows Paylaşımlı Yazdırma Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux_windows_printing_windows_ile_paylasim.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux_windows_printing_windowsa-yazdirma"></a>Windows Makinalara Yazdırma</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_windowsa-baglanma"></a>Windows Makinalara Bağlanma</h3></div></dt><dd><p>
+SMB ve CIFS, Windows dosya ve yazıcı paylaşım protokolleridir. Bu protokolleri kullanan Windows makinalarla iletişim kurabilmek için SAMBA'yı kullanıyoruz. CUPS'u yapılandırmadan önce, Windows makinalara  <b><tt>smbclient</tt></b> ile bağlanabileceğimizden emin olmalıyız.
+    </p><p>
+Aşağıda bir Windows makinaya bağlantının nasıl yapılacağının bir örneği vardır:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+/usr/bin/smbclient -L rice -U fred
+
+added interface ip=10.6.7.234 bcast=10.6.7.255 nmask=255.255.255.0
+Got a positive name query response from 10.6.7.8 ( 10.6.7.8 )
+Password: (not shown)
+
+Sharename  Type  Comment
+PRINTER$   Disk
+INKJET     Printer
+STUFF      Disk
+IPC$       IPC    Remote Inter Process Communication
+</pre> </td></tr></table></div>
+    </p><p>
+Gösterilen komut Windows makinadaki <tt>rice</tt> isimli paylaşım listesini <tt>fred</tt> kullanıcı adıyla sorgulamaktadır. Sonuç da <tt>INKJET</tt> isimli yazıcıdır.
+    </p><p>
+Eğer Windows isimledirme servisi erişilemez durumdaysa o zaman Wİndows makinanın IP adresini <tt>-I</tt> seçeneği ile şu şekilde belirtmeniz gerekir:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/usr/bin/smbclient -I 10.6.7.8 -L rice -N
+</pre> </td></tr></table></div>
+    </p><p>
+Daha fazla bilgi için Samba belgesinin <b><tt>smbclient</tt></b> kullanımı ile ilgili kısmına bakınız.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_cups-ayarlar%C4%B1"></a>CUPS Yapılandırması</h3></div></dt><dd><p>
+Windows makinaya bağlı bir yazıcı bulduktan sonra CUPS'u yapılandırabilirsiniz. Öncelikle CUPS yüklemenizin smb sunucu uygulamasına sahip olup olmadığını aşağıdaki komut ile sınayın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ls -l /usr/lib/cups/backend/smb
+</pre> </td></tr></table></div>
+    </p><p>
+Eğer bu dosya yoksa aşağıdaki şekilde oluşturun:
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ln -s `which smbspool` /usr/lib/cups/backend/smb
+</pre> </td></tr></table></div>
+    </p><p>
+Aşağıda yukarıda açıklanan şekilde bir yazıcı kurulumu gösterilmiştir. Bu komutları çalıştırabilmeniz için root olmanız veya <b><tt>sudo</tt></b> komutunu kullanmanız gerekmektedir:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/usr/sbin/lpadmin -p RicePrinter -v smb://fred:mypass@rice/INKJET -P /root/inkjet.ppd
+/usr/bin/enable RicePrinter
+/usr/sbin/accept RicePrinter
+/usr/sbin/lpadmin -d RicePrinter
+</pre> </td></tr></table></div>
+    </p><p>
+Yukarıda da bahsedildiği gibi, bash kabuğunun <b><tt>enable</tt></b> olarak çağrılan yerleşik bir komutu vardır, bundan dolayı bash kullanıcıları yazıcıları etkin hale getirmek için bu komutun tam yolunu kullanmalıdır (<b><tt>/usr/bin/enable</tt></b>).
+    </p><p>
+<b><tt>lpadmin</tt></b> komutu, kullanıcı adı, parolası, netbios adı ve printer adını tek bir parametre olarak vererek Windows makinalarla paylaşımlı bir yazıcı kurar.
+    </p><p>
+Yazıcınız artık sınanmaya hazır. <b><tt>lp</tt></b> komutunu takip eden bir dosya adı ile veya bir uygulama içinden yazıcıya bir dosya gönderin.
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux_windows_printing_baslarken.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux_windows_printing.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux_windows_printing_windows_ile_paylasim.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Başlarken </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yazıcıları Windows Makinalarla Paylaşmak</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

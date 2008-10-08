@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-02-05T19:14:02+02:00"><title>Çözüm</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/c-dlopen-mini-howto.html" title="C++ dlopen mini NASIL"><link rel="previous" href="../howto/c-dlopen-mini-howto-theproblem.html" title="Sorun"><link rel="next" href="../howto/c-dlopen-mini-howto-source.html" title="Kaynak Kod"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Çözüm</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/c-dlopen-mini-howto-theproblem.html">Önceki</a> </td><th width="60%" align="center">C++ dlopen mini NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/c-dlopen-mini-howto-source.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="c-dlopen-mini-howto-thesolution"></a>Çözüm</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="c-dlopen-mini-howto-externC"></a><tt>extern "C"</tt></h3></div></dt><dd><p>
+C++, C bağlamaları (bindings) ile işlev bildirimi için özel bir anahtar kelimeye sahiptir: <tt>extern "C"</tt>. <tt>extern "C"</tt> olarak bildirilen bir işlev, C işlevinde olduğu gibi, işlev ismini sembol ismi olarak kullanır. Bu yüzden sadece üye olmayan işlevler <tt>extern</tt> "C" olarak bildirilebilir ve aşırı yüklenemez.
+      </p><p>
+Pek çok kısıtlamanın olmasının yanında <tt>extern</tt> "C" işlevleri çok kullanışlıdır çünkü bir C işlevi gibi <tt>dlopen</tt> kullanarak çalışma anında yüklenebilir.
+      </p><p>
+Bu, <tt>extern</tt> "C" olarak sınıflandırılan işlevlerin C++ kodu içermeyecekleri anlamına <i>gelmez</i>.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="c-dlopen-mini-howto-loadingfunctions"></a>İşlevlerin Yüklenmesi</h3></div></dt><dd><p>
+C++'da işlevler C'deki gibi <tt>dlsym</tt> ile yüklenir. Sembol isimlerinin cenderelenmesini engellemek için yüklemek istediğiniz işlevler <tt>extern "C"</tt> olarak sınıflandırılmalıdır.
+      </p><div class="example"><p><b>Örnek 7.34. Bir işlevin yüklenmesi</b></p><p>main.cpp:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;iostream&gt;
+#include &lt;dlfcn.h&gt;
+
+int main() {
+    using std::cout;
+    using std::cerr;
+
+    cout &lt;&lt; "C++ dlopen demo\n\n";
+
+    // open the library
+    cout &lt;&lt; "Opening hello.so...\n";
+    void* handle = dlopen("./hello.so", RTLD_LAZY);
+
+    if (!handle) {
+        cerr &lt;&lt; "Cannot open library: " &lt;&lt; dlerror() &lt;&lt; '\n';
+        return 1;
+    }
+
+    // sembolü yükle
+    cout &lt;&lt; "Loading symbol hello...\n";
+    typedef void (*hello_t)();
+
+    // hataları resetle
+    dlerror();
+    hello_t hello = (hello_t) dlsym(handle, "hello");
+    const char *dlsym_error = dlerror();
+    if (dlsym_error) {
+        cerr &lt;&lt; "Cannot load symbol 'hello': " &lt;&lt; dlsym_error &lt;&lt;
+            '\n';
+        dlclose(handle);
+        return 1;
+    }
+
+    // hesaplama yapmak için kullan
+    cout &lt;&lt; "Calling hello...\n";
+    hello();
+
+    // kütüphaneyi kapat
+    cout &lt;&lt; "Closing library...\n";
+    dlclose(handle);
+}
+</pre> </td></tr></table></div>
+</p><p>hello.cpp:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;iostream&gt;
+
+extern "C" void hello() {
+    std::cout &lt;&lt; "hello" &lt;&lt; '\n';
+}
+</pre> </td></tr></table></div>
+      </p></div><p>
+<tt>hello</tt> işlevi <tt>hello.cpp</tt> içinde <tt>extern "C"</tt> tanımlanmıştır; <tt>main.cpp</tt> içinde <tt>dlsym</tt>'in çağırılması ile yüklenmiştir. İşlev <tt>extern "C"</tt> olarak sınıflandırılmalıdır çünkü aksi taktirde sembol ismini bilemeyecektik.
+</p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+<tt>extern "C"</tt> tanımlamanın iki değişik biçimi vardır: yukarıdaki gibi <tt>extern "C"</tt> kullanımı ve küme parantezleri arasında <tt>extern "C" { &#8230; }</tt> biçiminde. İlki (satıriçi biçimi) harici ilintilemeli (extern linkage) ve C dili ilintilemeli bildirimdir; ikincisi sadece dil ilintilemesini etkiler. Bu yüzden aşağıdaki iki bildirim eşdeğerdir:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+extern "C" int foo;
+extern "C" void bar();
+</pre> </td></tr></table></div>
+</p><p>ve</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+extern "C" {
+     extern int foo;
+     extern void bar();
+}
+</pre> </td></tr></table></div>
+</p><p>
+<tt>extern</tt> ve <tt>extern</tt> olmayan <i>işlev</i> bildirimi arasında fark olmadığından değişken bildirimi yapmadığınız sürece sorun yoktur. <i>Değişken</i> tanımlarsanız şunu aklınızdan çıkarmayın
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+extern "C" int foo;
+</pre> </td></tr></table></div>
+</p><p>ile</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+extern "C" {
+    int foo;
+}
+</pre> </td></tr></table></div>
+</p><p>aynı şey <i>değildir</i>.
+</p><p>
+Daha ileri açıklamalar için 7. bölüme özellikle dikkat ederek [ISO14882] 7.5 bölümüne veya [STR2000], 9.2.4'e bakınız.
+</p><p>
+Harici (extern) değişkenlerle daha ileri işlemler için <a href="../howto/c-dlopen-mini-howto-seealso.html" title="Ayrıca bakınız"> Ayrıca bakınız</a> bölümündeki belgeleri inceleyiniz.
+</p></td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="c-dlopen-mini-howto-loadingclasses"></a>Sınıfların Yüklenmesi</h3></div></dt><dd><p>
+Bir sınıfı yüklemek biraz daha karmaşıktır çünkü sadece bir işlev göstericisi değil, sınıfın bir <i>örneği</i> gereklidir.
+</p><p>
+<tt>new</tt> kullanarak bir sınıfın örneğini yaratamayız çünkü sınıf çalıştırılabilir kod içinde tanımlı değildir ve (bazı durumlarda) ismini bile bilmeyiz.
+</p><p>
+Çözüm çokbiçimlilik ile gerçekleştirilir. Bir baz -<i>çalıştırılabilir kod</i> içinde sanal üyeler ile <i>arayüz</i> sınıfı- ve bir türemiş -<i>modül</i> içinde <i>gerçekleştirim</i> sınıfı- tanımlarız. Genel olarak arayüz sınıfı soyuttur (abstract - bir sınıf eğer saf sanal işlevi varsa soyuttur).
+</p><p>
+Sınıfların dinamik yüklenmesi genellikle uyumlu-eklentiler (plug-in) için kullanıldığından -ki açıkça tanımlanmış arayüzleri ortaya çıkarması gerekir- bir arayüz ve türemiş gerçekleştirim sınıfı tanımlamak zorunda oluruz.
+</p><p>
+Sonra, hala modül içindeyken, sınıf üretim işlevleri (<i>class factory functions</i>) olarak bilinen iki ek yardımcı işlev tanımlarız. Bu işlevlerden bir tanesi sınıfın bir örneğini yaratır ve bunun göstericisini geri döndürür. Diğer işlev üretim tarafından oluşturulmuş bir sınıf göstericisi alır ve onu yokeder. Bu iki işlev <tt>extern "C"</tt> olarak sınıflandırılır.
+</p><p>
+Sınıfı modülden kullanmak için <tt>dlsym</tt> kullanarak <a href="../howto/c-dlopen-mini-howto-thesolution.html#c-dlopen-mini-howto-loadingfunctions" title="İşlevlerin Yüklenmesi">hello işlevini yüklediğimiz gibi</a> iki üretim işlevini yükleriz; sonra, istediğimiz kadar örnek oluşturur ve yokederiz.
+</p><div class="example"><p><b>Örnek 7.35. Bir Sınıfın Yüklenmesi</b></p><p>
+Burada arayüz olarak çok bilinen <b><tt>polygon</tt></b> sınıfını ve gerçekleştirim olarak türemiş <b><tt>triangle</tt></b> sınıfını kullanıyoruz.
+</p><p>main.cpp:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include "polygon.hpp"
+#include &lt;iostream&gt;
+#include &lt;dlfcn.h&gt;
+
+int main() {
+    using std::cout;
+    using std::cerr;
+
+    // load the triangle library
+    void* triangle = dlopen("./triangle.so", RTLD_LAZY);
+    if (!triangle) {
+        cerr &lt;&lt; "Cannot load library: " &lt;&lt; dlerror() &lt;&lt; '\n';
+        return 1;
+    }
+
+    // hataları resetle
+    dlerror();
+
+    // sembolleri yükle
+    create_t* create_triangle = (create_t*) dlsym(triangle, "create");
+    const char* dlsym_error = dlerror();
+    if (dlsym_error) {
+        cerr &lt;&lt; "Cannot load symbol create: " &lt;&lt; dlsym_error &lt;&lt; '\n';
+        return 1;
+    }
+
+    destroy_t* destroy_triangle = (destroy_t*) dlsym(triangle, "destroy");
+    dlsym_error = dlerror();
+    if (dlsym_error) {
+        cerr &lt;&lt; "Cannot load symbol destroy: " &lt;&lt; dlsym_error &lt;&lt; '\n';
+        return 1;
+    }
+
+    // sınıfın bir örneğini yarat
+    polygon* poly = create_triangle();
+
+    // sınıfı kullan
+    poly-&gt;set_side_length(7);
+        cout &lt;&lt; "The area is: " &lt;&lt; poly-&gt;area() &lt;&lt; '\n';
+
+    // sınıfı yoket
+    destroy_triangle(poly);
+
+    // triangle kütüphanesini boşalt (unload)
+    dlclose(triangle);
+}
+</pre> </td></tr></table></div>
+</p><p>polygon.hpp:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#ifndef POLYGON_HPP
+#define POLYGON_HPP
+
+class polygon {
+protected:
+    double side_length_;
+
+public:
+    polygon()
+        : side_length_(0) {}
+
+    virtual ~polygon() {}
+
+    void set_side_length(double side_length) {
+        side_length_ = side_length;
+    }
+
+    virtual double area() const = 0;
+};
+
+// sınıf üretiminin türleri
+typedef polygon* create_t();
+typedef void destroy_t(polygon*);
+
+#endif
+</pre> </td></tr></table></div>
+</p><p>triangle.cpp:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include "polygon.hpp"
+#include &lt;cmath&gt;
+
+class triangle : public polygon {
+public:
+    virtual double area() const {
+        return side_length_ * side_length_ * sqrt(3) / 2;
+    }
+};
+
+
+// sınıf üretimi
+
+extern "C" polygon* create() {
+    return new triangle;
+}
+
+extern "C" void destroy(polygon* p) {
+    delete p;
+}
+</pre> </td></tr></table></div>
+</p></div><p>
+Sınıfları yüklerken dikkat edilmesi gereken bir kaç şey vardır:
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+<i>Hem</i> oluşturma <i>hem de</i> yoketme işlevi yapmalısınız; örneği çalıştırılabilir kodun içinden <tt>delete</tt> kullanarak yoketmemeli, herzaman onu modüle geri göndermelisiniz. Bunun sebebi C++'da <tt>new</tt> ve <tt>delete</tt> operasyonlarının aşırı yüklü olabilmesidir; bu, bellek sızıntısı ve parçalama arızasına (segmentation fault) yolaçan eşleşmeyen <tt>new</tt> ve <tt>delete</tt> çağırımına sebep olabilecektir. Modül ve çalıştırılabilir kodun bağlanması için farklı standart kütüphaneleri kullanılırsa yine aynısı geçerlidir.
+<p></p><p></p></li><li>
+Arayüz sınıfının yıkıcısı her durumda sanal olmalıdır. Bunun zorunlu olmadığı çok nadir durumlar olabilir, fakat risk almaya değmez, çünkü ek yük genellikle ihmal edilebilir.
+<p></p><p>
+Eğer baz sınıfın hiçbir yıkıcıya ihtiyacı yoksa yine de boş (ve sanal) bir yıkıcı tanımlayın; aksi taktirde er ya da geç sorunlarla karşılaşırsınız; bunu garanti ederim. Bu sorunlar hakkında daha fazla bilgi için comp.lang.c++ SSS <a href="http://www.parashift.com/c++-faq-lite/" target="_top">http://www.parashift.com/c++-faq-lite/</a>, bölüm 20'yi okuyabilirsiniz.
+</p><p></p></li></ul></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/c-dlopen-mini-howto-theproblem.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/c-dlopen-mini-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/c-dlopen-mini-howto-source.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Sorun </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kaynak Kod</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

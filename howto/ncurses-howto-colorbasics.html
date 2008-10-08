@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:20+03:00"><title>Temel bilgiler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-color.html" title="Renkler"><link rel="previous" href="../howto/ncurses-howto-color.html" title="Renkler"><link rel="next" href="../howto/ncurses-howto-changecolordefs.html" title="Renk Tanımlamalarını Değiştirmek"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Temel bilgiler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-color.html">Önceki</a> </td><th width="60%" align="center">Renkler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-changecolordefs.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-colorbasics"></a>Temel bilgiler</h3></div></dt><dd><p>
+Hayat renkler olmadan çok donuk gözükürdü. Curses kütüphanesi renkler üzerinde işlem yapmak için hoş bir mekanizmaya sahiptir. Basit bir program ile işlerin ayrıntılarına inelim.
+</p><div class="example"><p><a name="ncurses-howto-bsico"></a><b>Örnek 5.14. Basit Bir Renk Örneği </b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;
+
+void print_in_middle(WINDOW *win, int starty, int startx,
+                     int width, char *string);
+int main(int argc, char *argv[])
+{ initscr();                      /* curses kipi ilklendirmesi */
+  if(has_colors() == FALSE)
+  { endwin();
+    printf("Uçbiriminiz renkleri desteklemiyor\n");
+    exit(1);
+  }
+  start_color();                  /* Renk başlat */
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+
+  attron(COLOR_PAIR(1));
+  print_in_middle(stdscr, LINES / 2, 0, 0, "Keman !!! Renkli ...");
+  attroff(COLOR_PAIR(1));
+  getch();
+  endwin();
+}
+void print_in_middle(WINDOW *win, int starty, int startx,
+                     int width, char *string)
+{ int length, x, y;
+  float temp;
+
+  if(win == NULL)
+    win = stdscr;
+  getyx(win, y, x);
+  if(startx != 0)
+    x = startx;
+  if(starty != 0)
+    y = starty;
+  if(width == 0)
+    width = 80;
+
+  length = strlen(string);
+  temp = (width - length)/ 2;
+  x = startx + (int)temp;
+  mvwprintw(win, y, x, "%s", string);
+  refresh();
+}
+</pre> </td></tr></table></div></p></div><p>
+Görüdüğünüz üzere renkleri kullanabilmeniz için öncelikle <b><tt>start_color()</tt></b> işlevini çağırmalısınız. Bundan sonra değişik işlevler kullanarak uçbiriminizin renk yeteneklerini kullanabilirsiniz. Bir uçbirimin renk özniteliklerinin olup olmadığını anlamak için <b><tt>has_colors()</tt></b> işlevini kullanabilirsiniz. Eğer FALSE dönerse, uçbirimin renk desteği yoktur.
+</p><p>
+<tt>start_color()</tt> işlevi çağrıldığı anda Curses uçbirim tarafından desteklenen tüm renkleri ilklendirir. Bu renklere <b><tt>COLOR_BLACK</tt></b> v.b. gibi tanımlanmış sabitlerle erişilebilir. Aslında renkleri tam olarak kullanabilmek için çiftleri tanımlamalısınız. Renkler daima çiftler halinde kullanılır. Bunun anlamı <b><tt>init_pair()</tt></b> işlevini kullanarak artalan ve karakter rengi için bir renk çifti belirtmeniz demektir. Bundan sonra bu renk çifti <b><tt>COLOR_PAIR()</tt></b> ile normal bir öznitelik olarak kullanılabilir. İlk başta karmaşık gelebilir. Fakat bu zeki yaklaşım renk çiftleri üzerinde rahatça işlem yapabilmemizi sağlar. Kullanımına hayran olmak için, kabuk betiklerinden etkileşimli iletiler çıkaran "dialog" uygulamasının kaynak koduna bakmalısınız. Geliştiriciler ihtiyaç olabilecek her renk için artalan ve karakter rengi türevlerini tanımlamışlar ve başlangıçta ilklendirmişlerdir. Bu da halihazırda sabit olarak tanımlanmış çiftlere erişip görünüm özelliklerini ayarlamada kolaylık sağlamaktadır.
+</p><p>
+Aşağıdaki renkler <tt>curses.h</tt> başlık dosyasında tanımlanmıştır. Bunları pekçok renk işlevi için parametre olarak kullanabilirsiniz.
+</p><p>
+<pre class="literallayout">
+      COLOR_BLACK   0
+      COLOR_RED     1
+      COLOR_GREEN   2
+      COLOR_YELLOW  3
+      COLOR_BLUE    4
+      COLOR_MAGENTA 5
+      COLOR_CYAN    6
+      COLOR_WHITE   7
+</pre>
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-color.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-color.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-changecolordefs.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Renkler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Renk Tanımlamalarını Değiştirmek</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

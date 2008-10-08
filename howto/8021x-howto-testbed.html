@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-04-17T23:21:46+02:00"><title>Deneme Ağı</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/8021x-howto.html" title="802.1X Port Tabanlı Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/8021x-howto-authenticator.html" title="Kimlik Kanıtlayıcı: Kimlik Kanıtlayıcının Kurulması (Erişim Noktası)"><link rel="next" href="../howto/8021x-howto-dynWEP.html" title="Xsupplicant ve Sürücü desteği hakkında"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Deneme Ağı</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/8021x-howto-authenticator.html">Önceki</a> </td><th width="60%" align="center">802.1X Port Tabanlı Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/8021x-howto-dynWEP.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="8021x-howto-testbed"></a>Deneme Ağı</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-testcase"></a>Deneme Sistemi</h3></div></dt><dd><div class="figure"><p><a name="8021x-howto-testbedimg"></a><b>Şekil 3.7. Deneme Sistemi</b></p><div class="mediaobject"><img src="images/8021x/8021X-Testbed.png" align="center" width="500"><div class="caption"><p>Telsiz bir düğüm kimlik doğrulaması isteğinde bulunuyor.</p></div></div></div><p>
+Bizim deneme sistemimiz iki düğüm ve bir Erişim Noktasından (AP) oluşur. Bir düğüm İstemci (WN) gibi, diğeri RADIUS (AS) çalıştıran artalan Kimlik Kanıtlama Sunucusu gibi davranır. Erişim Noktası Kimlik Kanıtlayıcıdır. Açıklama için <a href="../howto/8021x-howto-testbed.html#8021x-howto-testbedimg" title="Şekil 3.7. Deneme Sistemi">Şekil 3.7</a>'ye bakınız
+  </p><p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/important.png"></td><th>Önemli</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Erişim Noktasının Kimlik Kanıtlama Sunucusuna erişebilmesi (ping) ve tam tersi son derece önemlidir!
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-startrad"></a>Bazı denemeler</h3></div></dt><dd><div class="procedure"><p><b>Yönerge 3.5. bazı denemeler</b></p><ol type="1"><li><p>
+RADIUS sunucu hata ayıklama kipinde başlatılır. Bu <i>çok miktarda</i> hata ayıklama bilgisi üretir. Önemli noktalar aşağıdadır:
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>
+# </tt><b><tt>radiusd -X</tt></b>
+Starting - reading configuration files ...
+reread_config:  radiusd.conf'u okuyor
+Config:   including file: /usr/local/etc/raddb/proxy.conf
+Config:   including file: /usr/local/etc/raddb/clients.conf
+Config:   including file: /usr/local/etc/raddb/snmp.conf
+Config:   including file: /usr/local/etc/raddb/eap.conf
+Config:   including file: /usr/local/etc/raddb/sql.conf
+......
+Module: Loaded MS-CHAP
+  mschap: use_mppe = yes
+  mschap: require_encryption = no
+  mschap: require_strong = no
+  mschap: with_ntdomain_hack = no
+  mschap: passwd = "(null)"
+  mschap: authtype = "MS-CHAP"
+  mschap: ntlm_auth = "(null)"
+Module: Instantiated mschap (mschap)
+......
+Module: Loaded eap
+  eap: default_eap_type = "peap" <a name="8021x-howto-rad_peap"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+  eap: timer_expire = 60
+  eap: ignore_unknown_eap_types = no
+  eap: cisco_accounting_username_bug = no
+rlm_eap: Loaded and initialized type md5
+  tls: rsa_key_exchange = no <a name="8021x-howto-rad_tls"></a><img src="../images/xsl/callouts/2.png" alt="2" border="0">
+  tls: dh_key_exchange = yes
+  tls: rsa_key_length = 512
+  tls: dh_key_length = 512
+  tls: verify_depth = 0
+  tls: CA_path = "(null)"
+  tls: pem_file_type = yes
+  tls: private_key_file = "/usr/local/etc/raddb/certs/cert-srv.pem"
+  tls: certificate_file = "/usr/local/etc/raddb/certs/cert-srv.pem"
+  tls: CA_file = "/usr/local/etc/raddb/certs/demoCA/cacert.pem"
+  tls: private_key_password = "SecretKeyPass77"
+  tls: dh_file = "/usr/local/etc/raddb/certs/dh"
+  tls: random_file = "/usr/local/etc/raddb/certs/random"
+  tls: fragment_size = 1024
+  tls: include_length = yes
+  tls: check_crl = no
+  tls: check_cert_cn = "(null)"
+rlm_eap: Loaded and initialized type tls
+  peap: default_eap_type = "mschapv2" <a name="8021x-howto-rad_mschapv2"></a><img src="../images/xsl/callouts/3.png" alt="3" border="0">
+  peap: copy_request_to_tunnel = no
+  peap: use_tunneled_reply = no
+  peap: proxy_tunneled_request_as_eap = yes
+rlm_eap: Loaded and initialized type peap
+  mschapv2: with_ntdomain_hack = no
+rlm_eap: Loaded and initialized type mschapv2
+Module: Instantiated eap (eap)
+......
+Module: Loaded files
+  files: usersfile = "/usr/local/etc/raddb/users" <a name="8021x-howto-rad_users"></a><img src="../images/xsl/callouts/4.png" alt="4" border="0">
+......
+Module: Instantiated radutmp (radutmp)
+Listening on authentication *:1812
+Listening on accounting *:1813
+İstekleri işlemek için hazır. <a name="8021x-howto-rad_finished"></a><img src="../images/xsl/callouts/5.png" alt="5" border="0">
+</pre> </td></tr></table></div>
+   </p><p>
+  <div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rad_peap"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>
+Varsayılan EAP türü PEAP'e ayarlanmıştır.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rad_tls"><img src="../images/xsl/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>
+RADIUS'un TLS ayarları burada ilklendirilir. Sertifika türü, yer ve parola burada listelenir.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rad_mschapv2"><img src="../images/xsl/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>
+PEAP tünelinin içinde MS-CHAPv2 kullanılır.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rad_users"><img src="../images/xsl/callouts/4.png" alt="4" border="0"></a> </td><td valign="top" align="left"><p>
+Kullanıcı adı/parola bilgisi <tt>users</tt> dosyasında bulunur.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rad_finished"><img src="../images/xsl/callouts/5.png" alt="5" border="0"></a> </td><td valign="top" align="left"><p>
+RADIUS sunucu başarılı bir şekilde başladı. Gelen istekler için bekliyor.
+    </p></td></tr></table></div>
+   </p><p>
+Radius sunucu istekleri işlemek için artık hazır!
+  </p><p>
+En ilginç çıktı yukarıda gösterilmiştir. Eğer en son satırın yerine her hangi bir hata iletisi alıyorsanız yapılandırmaya (yukarıda) dikkatli bir şekilde bakın.
+  </p></li><li><p>
+Şimdi İstemci kimlik doğrulaması için hazır. Xsupplicant'ı hata ayıklama kipinde başlatın. İki başlatma betiği tarafından üretilen çıktıyı göreceğimize dikkat edin: <tt>startup.sh</tt> ve <tt>startup2.sh</tt>.
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt># </tt><b><tt>xsupplicant -c /usr/local/etc/1x/1x.conf -i eth0 -d 6</tt></b>
+/etc/1x/startup.sh: işlem başlatılıyor
+/etc/1x/startup.sh: işlem tamam
+/etc/1x/startup2.sh: işlem başlatılıyor
+/etc/1x/startup2.sh: işlem tamam
+</pre> </td></tr></table></div>
+  </p></li><li><p>
+Aynı zamanda RADIUS sunucu da çok miktarda çıktı üretiyor olacak. Başlıca bilgiler aşağıda gösterilmiştir:
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">......
+rlm_eap: Request found, released from the list
+rlm_eap: EAP/peap
+rlm_eap: processing type peap
+rlm_eap_peap: Authenticate
+rlm_eap_tls: processing TLS <a name="8021x-howto-rpro_tls"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+eaptls_verify returned 7
+rlm_eap_tls: Done initial handshake
+eaptls_process returned 7
+rlm_eap_peap: EAPTLS_OK <a name="8021x-howto-rpro_peap"></a><img src="../images/xsl/callouts/2.png" alt="2" border="0">
+rlm_eap_peap: Session established.  Decoding tunneled attributes.
+rlm_eap_peap: Received EAP-TLV response.
+rlm_eap_peap: Tunneled data is valid.
+rlm_eap_peap: Success
+rlm_eap: Freeing handler
+modcall[authenticate]: module "eap" returns ok for request 8
+modcall: group authenticate returns ok for request 8
+Login OK: [testuser/&lt;no User-Password attribute&gt;] (from client testnet port 37 cli 0002a56fa08a)
+Sending Access-Accept of id 8 to 192.168.2.1:1032 <a name="8021x-howto-rpro_accept"></a><img src="../images/xsl/callouts/3.png" alt="3" border="0">
+      MS-MPPE-Recv-Key = 0xf21757b96f52ddaefe084c343778d0082c2c8e12ce18ae10a79c550ae61a5206 <a name="8021x-howto-rpro_reckey"></a><img src="../images/xsl/callouts/4.png" alt="4" border="0">
+      MS-MPPE-Send-Key = 0x5e1321e06a45f7ac9f78fb9d398cab5556bff6c9d003cdf8161683bfb7e7af18
+      EAP-Message = 0x030a0004
+      Message-Authenticator = 0x00000000000000000000000000000000
+      User-Name = "testuser"
+</pre> </td></tr></table></div>
+   </p><p>
+  <div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rpro_tls"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>
+TLS oturumu başlatılıyor. TLS el sıkışması yapılıyor.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rpro_peap"><img src="../images/xsl/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>
+TLS oturumu (PEAP-şifreli tünel) çalışıyor.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rpro_accept"><img src="../images/xsl/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>
+İstemcinin RADIUS sunucu tarafından başarıyla kimlik kanıtlaması yapılmıştır. "Access-Accept" iletisi gönderilir.
+    </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#8021x-howto-rpro_reckey"><img src="../images/xsl/callouts/4.png" alt="4" border="0"></a> </td><td valign="top" align="left"><p>
+<i>MS-MPPE-Recv-Key</i> [<a href="http://www.ietf.org/rfc/rfc2548.txt" target="_top">RFC2548</a> bölüm 2.4.3], Kimlik Kanıtlayıcıya (erişim noktası) yönelmiş, MPPE Protokolüyle [<a href="http://www.ietf.org/rfc/rfc3078.txt" target="_top">RFC3078</a>] şifrelenmiş Kimlik Kanıtlayıcı ve Kimlik Kanıtlama Sunucusu arasında paylaşılan sırrı anahtar olarak kullanan Ana Oturum Anahtarını (PMK) içerir. İstemci <a href="../howto/8021x-howto-intro.html#8021x-howto-Key" title="Anahtar Yönetimi"> Anahtar Yönetimi</a> bölümünde tanımlandığı gibi MK'den aynı PMK'yi türetir.
+    </p></td></tr></table></div>
+  </p></li><li><p>
+Kimlik Kanıtlayıcı (erişim noktası) buna benzer günlük kayıtları gösterebilir:
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+00:02:16 (Info): Station 0002a56fa08a Associated
+00:02:17 (Info): Station=0002a56fa08a User="testuser" EAP-Authenticated
+</pre> </td></tr></table></div>
+</p></li></ol></div><p>
+İşte bu! İstemicini artık Erişim Noktasını kullanması için kimlik doğrulaması yapılmış oldu!
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/8021x-howto-authenticator.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/8021x-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/8021x-howto-dynWEP.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kimlik Kanıtlayıcı: Kimlik Kanıtlayıcının Kurulması (Erişim Noktası) </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Xsupplicant ve Sürücü desteği hakkında</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

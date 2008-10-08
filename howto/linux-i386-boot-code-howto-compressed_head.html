@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>linux/arch/i386/boot/compressed/head.S</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-setup.html" title="linux/arch/i386/boot/setup.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-kernel_head.html" title="linux/arch/i386/kernel/head.S"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/arch/i386/boot/compressed/head.S</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-setup.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-compressed_head"></a>linux/arch/i386/boot/compressed/head.S</h2></div></dt><dd><p>
+Artık <tt>bvmlinux</tt> içindeyiz! <tt>misc.c:decompress_kernel()</tt>'in yardımıyla, çekirdek imgemiz <tt>linux/vmlinux</tt>'u elde etmek için <tt>piggy.o</tt>'yu açacağız.
+    </p><p>
+Bu dosya saf 32 bitlik açılış kodudur. Önceki iki dosyadan farklı olarak kaynak kodun içinde hiç <tt>.code16</tt> deyimi yoktur. Ayrıntılar için <a class="ulink" href="http://www.gnu.org/software/binutils/manual/gas-2.9.1/html_chapter/as_16.html#SEC205" target="_top">Using as: Writing 16-bit Code</a> belgesine başvurun.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-decompress_kernel"></a>Sıkıştırılmış Çekirdeğin Açılması</h3></div></dt><dd><p>
+Bölüt tanımlayıcılarındaki (bölüt seçicisi __KERNEL_CS ve __KERNEL_DS'ye tekabül eden) bölüt taban adresleri 0'a eşittir; bu yüzden, eğer bu iki adresten her ikisi de kullanıldıysa, mantıksal konum adresi (bölüt:konum biçiminde) kendi doğrusal adresine eşit olacaktır. <tt>zImage</tt> için, CS:EIP şimdi 10:1000 mantıksal adresinde (doğrusal 0x1000 adresi), <tt>bzImage</tt> ise 10:100000 (doğrusal 0x100000) adresindedir.
+      </p><p>
+Sayfalama etkinleştirilmediği için doğrusal adres fiziksel adres ile özdeştir. Adres konuları için IA-32 Manual (Vol.1. Ch.3.3. Memory Organization, and Vol.3. Ch.3. Protected-Mode Memory Management) ve <a class="ulink" href="http://www.xml.com/ldd/chapter/book/ch13.html#t1" target="_top">Linux Device Drivers: Memory Management in Linux</a> belgelerine bakınız.
+      </p><p>
+BX=0 ve ESI=INITSEG&lt;&lt;4 olması <tt>setup.S</tt>'den ileri gelir.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+.text
+///////////////////////////////////////////////////////////////////////////////
+startup_32()
+{
+  cld;
+  cli;
+  DS = ES = FS = GS = __KERNEL_DS;
+  SS:ESP = *stack_start;  // user_stack[] sonu, misc.c içinde tanımlı
+  // korumalı kip etkinleştirildikten sonra tüm bölüt kaydedicileri yeniden yüklnir
+
+  // A20'nin gerçekten etkin olup olmadığını kontrol et
+  EAX = 0;
+  do {
+1:  DS:[0] = ++EAX;
+  } while (DS:[0x100000]==EAX);
+
+  EFLAGS = 0;
+  clear BSS;                              // _edata'dan _end'e
+
+  struct moveparams mp;                   // subl $16,%esp
+  if (!decompress_kernel(&amp;mp, ESI)) {     // AX'deki değeri döndür
+    ESI'yi yığıttan geri yükle;
+    EBX = 0;
+    goto __KERNEL_CS:100000;
+    // bkz. linux/arch/i386/kernel/head.S:startup_32
+  }
+
+  /*
+  * Yüksek yüklediysek buraya geliriz.
+  * move-in-place rutinini aşağı 0x1000'e taşımamız gerekir
+  * ve sonra yığıttan aldığımız yazmaçlardaki
+  * tampon adresleri ile başlatırız.
+  */
+3:   move_rountine_start..move_routine_end 0x1000'e taşı;
+  // move_routine_start &amp; move_routine_end aşağıda tanımlanmıştır
+
+  // move_routine_start() parametrelerini hazırla
+  EBX = real mode pointer;        // ESI değeri setup.S'den geçer
+  ESI = mp.low_buffer_start;
+  ECX = mp.lcount;
+  EDX = mp.high_buffer_star;
+  EAX = mp.hcount;
+  EDI = 0x100000;
+  cli;                    // kesme almadığımızdan emin ol.
+  goto __KERNEL_CS:1000;  // move_routine_start();
+}
+
+/* Eğer yüksek yüklediysek, yerinde çözülmüş çekirdeği taşımak için
+ * yordam (şablon). Bu PIC kodu olmalı! */
+///////////////////////////////////////////////////////////////////////////////
+move_routine_start()
+{
+  mp.low_buffer_start'ı 0x100000'a taşı, mp.lcount bayt,
+    iki adımda: (lcount &gt;&gt; 2) kelime + (lcount &amp; 3) bayt;
+  move/append mp.high_buffer_start, ((mp.hcount + 3) &gt;&gt; 2) kelime
+  // 1 kelime == 4 bayt, 32 bitlik kod/veri anlamında.
+
+  ESI = EBX;              // gerçek kip gösterici, setup.S'deki gibi
+  EBX = 0;
+  goto __KERNEL_CS:100000;
+  // bkz. linux/arch/i386/kernel/head.S:startup_32()
+move_routine_end:
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>je 1b</tt> ve <tt>jnz 3f</tt>'nin anlamları için <a class="ulink" href="http://www.gnu.org/software/binutils/manual/gas-2.9.1/html_chapter/as_5.html#SEC48" target="_top">Using as: Local Symbol Names</a> belgesine başvurunuz.
+      </p><p>
+<tt>_edata</tt> ve <tt>_end</tt> tanımlamalarını bulamadınız mı? Sorun değil, onlar "dahili ilintileme betiği" içinde tanımlanmıştır. <tt>-T</tt> (<tt>--script=</tt>) seçeneği belirtilmeksizin kullanılırsa, <b><tt>ld</tt></b> bu yerleşik betiği <tt>compressed/bvmlinux</tt>'u ilintilemek için kullanır. Bu betiği görüntülemek için "<b><tt>ld --verbose</tt></b>" komutunu kullanınız ya da <a href="../howto/linux-i386-boot-code-howto-internel_lds.html" class="xref" title="B. Dahili İlintileme Betiği"> Dahili İlintileme Betiği</a> bölümüne bakınız.
+      </p><p>
+-T (--script=), -L (--library-path=) ve --verbose seçimlerinin tarifi için <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_2.html#SEC3" target="_top">Using LD, the GNU linker: Command Line Options</a> belgesine başvurunuz. Ayrıca "<b><tt>man ld</tt></b>" ve "<b><tt>info ld</tt></b>" de yardımcı olabilir.
+      </p><p>
+<tt>piggy.o</tt> çözüldü ve kontrol __KERNEL_CS:100000'ye geçirildi, örn. <tt>linux/arch/i386/kernel/head.S:startup_32()</tt>. Bakınız <a href="../howto/linux-i386-boot-code-howto-kernel_head.html" class="xref" title="linux/arch/i386/kernel/head.S"> linux/arch/i386/kernel/head.S</a>.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#define LOW_BUFFER_START      0x2000
+#define LOW_BUFFER_MAX       0x90000
+#define HEAP_SIZE             0x3000
+///////////////////////////////////////////////////////////////////////////////
+asmlinkage int decompress_kernel(struct moveparams *mv, void *rmode)
+|-- setup real_mode(=rmode), vidmem, vidport, lines and cols;
+|-- if (is_zImage) setup_normal_output_buffer() {
+|       output_data      = 0x100000;
+|       free_mem_end_ptr = real_mode;
+|   } else (is_bzImage) setup_output_buffer_if_we_run_high(mv) {
+|       output_data      = LOW_BUFFER_START;
+|       low_buffer_end   = MIN(real_mode, LOW_BUFFER_MAX) &amp; ~0xfff;
+|       low_buffer_size  = low_buffer_end - LOW_BUFFER_START;
+|       free_mem_end_ptr = &amp;end + HEAP_SIZE;
+|       // get mv-&gt;low_buffer_start and mv-&gt;high_buffer_start
+|       mv-&gt;low_buffer_start = LOW_BUFFER_START;
+|       /* To make this program work, we must have
+|        *   high_buffer_start &gt; &amp;end+HEAP_SIZE;
+|        * As we will move low_buffer from LOW_BUFFER_START to 0x100000
+|        *   (max low_buffer_size bytes) finally, we should have
+|        *   high_buffer_start &gt; 0x100000+low_buffer_size; */
+|       mv-&gt;high_buffer_start = high_buffer_start
+|           = MAX(&amp;end+HEAP_SIZE, 0x100000+low_buffer_size);
+|       mv-&gt;hcount =  0 if (0x100000+low_buffer_size &gt;  &amp;end+HEAP_SIZE);
+|                  = -1 if (0x100000+low_buffer_size &lt;= &amp;end+HEAP_SIZE);
+|       /* mv-&gt;hcount==0 : we need not move high_buffer later,
+|        *   as it is already at 0x100000+low_buffer_size.
+|        * Used by close_output_buffer_if_we_run_high() below. */
+|   }
+|-- makecrc();          // create crc_32_tab[]
+|   puts("Uncompressing Linux... ");
+|-- gunzip();
+|   puts("Ok, booting the kernel.\n");
+|-- if (is_bzImage) close_output_buffer_if_we_run_high(mv) {
+|       // get mv-&gt;lcount and mv-&gt;hcount
+|       if (bytes_out &gt; low_buffer_size) {
+|           mv-&gt;lcount = low_buffer_size;
+|           if (mv-&gt;hcount)
+|               mv-&gt;hcount = bytes_out - low_buffer_size;
+|       } else {
+|           mv-&gt;lcount = bytes_out;
+|           mv-&gt;hcount = 0;
+|       }
+|   }
+`-- return is_bzImage;  // return value in AX
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>end</tt> "dahili ilintileme betiği" içinde de tanımlanmıştır.
+      </p><p>
+<tt>decompress_kernel()</tt> bir <tt>asmlinkage</tt> değiştiricisine sahiptir. <tt>linux/include/linux/linkage.h</tt> dosyasında:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#ifdef __cplusplus
+#define CPP_ASMLINKAGE extern "C"
+#else
+#define CPP_ASMLINKAGE
+#endif
+
+#if defined __i386__
+#define asmlinkage CPP_ASMLINKAGE __attribute__((regparm(0)))
+#elif defined __ia64__
+#define asmlinkage CPP_ASMLINKAGE __attribute__((syscall_linkage))
+#else
+#define asmlinkage CPP_ASMLINKAGE
+#endif
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>asmlinkage</tt> makrosu derleyiciyi yığıttaki tüm işlev argümanlarını aktarması için (bazı eniyileştirme yöntemleri bunu değiştirmeye çalışsa bile) zorlayacaktır. Ayrıntılar için <a class="ulink" href="http://gcc.gnu.org/onlinedocs/gcc-3.3.2/gcc/Function-Attributes.html#Function%20Attributes" target="_top">Using the GNU Compiler Collection (GCC): Declaring Attributes of Functions</a> (regparm) ve <a class="ulink" href="http://kernelnewbies.org/faq/index.php3#asmlinkage" target="_top">Kernelnewbies FAQ: What is asmlinkage</a> belgelerine bakınız.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-gunzip"></a>gunzip()</h3></div></dt><dd><p>
+<tt>decompress_kernel()</tt> sadece <tt>bzImage</tt> için sıkıştırılmış çekirdek imgesini düşük (<tt>output_data</tt> ile gösterilen) ve yüksek (<tt>high_buffer_start</tt> ile gösterilen) tamponlara açmak için <tt>linux/lib/inflate.c</tt> dosyasında tanımlı <tt>gunzip() -&gt; inflate()</tt> çağrısını yapar.
+      </p><p>
+gzip dosya biçimi <a class="ulink" href="http://www.ietf.org/rfc/rfc1952.txt" target="_top">RFC 1952</a> içinde belirtilmiştir.
+      </p><p><div class="table"><p><b>Tablo 1.6. gzip dosya biçimi</b></p><table cellspacing="1" cellpadding="3" summary="gzip dosya biçimi" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Bileşen</th><th>Açılımı</th><th>Bayt sayısı</th><th>Yorumu</th></tr></thead><tbody><tr><td>ID1</td><td>IDentification 1 (1. belirteç)</td><td>1</td><td>31 (0x1f, \037)</td></tr><tr><td>ID2</td><td>IDentification 2 (2. belirteç)</td><td>1</td><td>139 (0x8b, \213)<sup>[<a name="id2" href="#ftn.id2">a</a>]</sup></td></tr><tr><td>CM</td><td>Compression Method (Sıkıştırm Yöntemi)</td><td>1</td><td>8 - "deflate" sıkıştırma yöntemini gösterir</td></tr><tr><td>FLG</td><td>FLaGs (Seçenekler)</td><td>1</td><td>çoğu durumda 0</td></tr><tr><td>MTIME</td><td>Modification TIME (Değişiklik zamanı)</td><td>4</td><td>özgün dosyanın değişiklik zamanı</td></tr><tr><td>XFL</td><td>eXtra FLags (ek seçenekler)</td><td>1</td><td>2 - sıkıştırıcı en yavaş algoritmayı<sup>[<a name="id2" href="#ftn.id2">b</a>]</sup> kullanır, azami sıkıştırma yapar</td></tr><tr><td>OS</td><td>Operating System (İşletim Sistemi)</td><td>1</td><td>3 - Unix</td></tr><tr><td>ek alanlar</td><td>-</td><td>-</td><td>değişken uzunluk, alan FLG ile belirtilir<sup>[<a name="id2" href="#ftn.id2">c</a>]</sup></td></tr><tr><td>sıkıştırılmış bloklar</td><td>-</td><td>-</td><td>değişken uzunluk</td></tr><tr><td>CRC32</td><td>-</td><td>4</td><td>sıkıştırılmamış verinin CRC değeri</td></tr><tr><td>ISIZE</td><td>Input SIZE (Girdi uzunluğu))</td><td>4</td><td>sıkıştırılmamış girdi verisi boyunun 2^32 ile bölümünden kalan</td></tr></tbody><tbody class="footnotes"><tr><td colspan="4"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id2" href="#id2">a</a>] </sup>ID2 değeri gzip 0.5 için 158 (0x9e, \236) olabilir;</p></td></tr></table></td></tr></table><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id2" href="#id2">b</a>] </sup>XFL değeri 4 olduğunda ise sıkıştırıcı en hızlı algoritmayı kullanacaktır.</p></td></tr></table></td></tr></table><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id2" href="#id2">c</a>] </sup>FLG biti 0 olduğunda FTEXT, herhangi bir ek alan belirtmez.</p></td></tr></table></td></tr></table></td></tr></tbody></table></div>
+      </p><p>
+Bu dosya biçimi bilgisini gzipli <tt>linux/vmlinux</tt>'un başlangıcını bulmak için kullanabiliriz.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+[root@localhost boot]# <b><tt>hexdump -C /boot/vmlinuz-2.4.20-28.9 | grep '1f 8b 08 00'</tt></b>
+00004c50  1f 8b 08 00 01 f6 e1 3f  02 03 ec 5d 7d 74 14 55  |.......?...]}t.U|
+[root@localhost boot]# <b><tt>hexdump -C /boot/vmlinuz-2.4.20-28.9 -s 0x4c40 -n 64</tt></b>
+00004c40  00 80 0b 00 00 fc 21 00  68 00 00 00 1e 01 11 00  |......!.h.......|
+00004c50  1f 8b 08 00 01 f6 e1 3f  02 03 ec 5d 7d 74 14 55  |.......?...]}t.U|
+00004c60  96 7f d5 a9 d0 1d 4d ac  56 93 35 ac 01 3a 9c 6a  |......M.V.5..:.j|
+00004c70  4d 46 5c d3 7b f8 48 36  c9 6c 84 f0 25 88 20 9f  |MF\.{.H6.l..%. .|
+00004c80
+[root@localhost boot]# <b><tt>hexdump -C /boot/vmlinuz-2.4.20-28.9 | tail -n 4</tt></b>
+00114d40  bd 77 66 da ce 6f 3d d6  33 5c 14 a2 9f 7e fa e9  |.wf..o=.3\...~..|
+00114d50  a7 9f 7e fa ff 57 3f 00  00 00 00 00 d8 bc ab ea  |..~..W?.........|
+00114d60  44 5d 76 d1 fd 03 33 58  c2 f0 00 51 27 00        |D]v...3X...Q'.|
+00114d6e
+</pre> </td></tr></table></div>
+      </p><p>
+Yukarıdaki örnekte gzipli dosyanın 0x4c50 adresinde başladığını görebiliriz. "1f 8b 08 00"den önceki dört byte <tt>input_len</tt>'dir (küçük sonlu olarak 0x0011011e) ve 0x4c50+0x0011011e=0x114d6e değeri <tt>bzImage</tt> (<tt>/boot/vmlinuz-2.4.20-28.9</tt>) dosyasının boyuna eşittir.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+static uch *inbuf;           /* girdi tamponu */
+static unsigned insize = 0;  /* inbuf içindeki geçerli baytlar*/
+static unsigned inptr = 0;   /* inbuf içinde işlenecek sonraki baytın indisi */
+///////////////////////////////////////////////////////////////////////////////
+static int gunzip(void)
+{
+  Girdi tamponunu {ID1, ID2, CM} için kontrol et, şöyle olmalı:
+          {0x1f, 0x8b, 0x08} (normal durum), veya
+          {0x1f, 0x9e, 0x08} (gzip 0.5 için);
+  FLG'yi (seçenek baytı) kontrol et, 1, 5, 6 ve 7. bitler atanmamalı;
+  Ignore {MTIME, XFL, OS};
+  FLG biti 2,3 ve 4'e karşılık gelen seçimlik yapıları yönet;
+  inflate();              // sıkıştırılmış blokları yönet
+  Validate {CRC32, ISIZE};
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>linux/arch/i386/boot/compressed/misc.c</tt> içinde tanımlı <tt>get_byte()</tt> ilk defa çağırıldığında, girdi tamponunu <tt>inbuf=input_data</tt> ve <tt>insize=input_len</tt> olacak şekilde ayarlamak için <tt>fill_inbuf()</tt> işlevini çağırır. <tt>input_data</tt> ve <tt>input_len</tt> sembolleri <tt>piggy.o</tt> ilintileme betiğinde tanımlanmıştır. Bakınız <a href="../howto/linux-i386-boot-code-howto-makefiles.html#linux-i386-boot-code-howto-i386_boot_compressed_makefile" class="xref" title="linux/arch/i386/boot/compressed/Makefile"> linux/arch/i386/boot/compressed/Makefile</a>.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-inflate"></a>inflate()</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+// misc.c içindeki bazı önemli tanımlamalar
+#define WSIZE 0x8000            /* Pencere boyutu en azından 32k olmalı,
+                                 * ve ikinin üssü olmalı */
+static uch window[WSIZE];       /* Kayan pencere tamponu */
+static unsigned outcnt = 0;     /* çıktı tamponundaki bayt sayısı */
+
+// linux/lib/inflate.c
+#define wp outcnt
+#define flush_output(w) (wp=(w),flush_window())
+STATIC unsigned long bb;        /* bit tamponu */
+STATIC unsigned bk;             /* bit tamponundaki bit sayısı */
+STATIC unsigned hufts;          /* belleği kullanımı izlemek*/
+static long free_mem_ptr = (long)&amp;end;
+///////////////////////////////////////////////////////////////////////////////
+STATIC int inflate()
+{
+  int e;                  /* son blok seçeneği */
+  int r;                  /* sonuç kod */
+  unsigned h;             /* struct huft'un azami belleği */
+  void *ptr;
+
+  wp = bb = bk = 0;
+
+  // sıkıştırılmış blokları birer birer şişir (inflate)
+  do {
+          hufts = 0;
+          gzip_mark() { ptr = free_mem_ptr; };
+          if ((r = inflate_block(&amp;e)) != 0) {
+                  gzip_release() { free_mem_ptr = ptr; };
+                  return r;
+          }
+          gzip_release() { free_mem_ptr = ptr; };
+          if (hufts &gt; h)
+          h = hufts;
+  } while (!e);
+
+  /* Çok fazla ileri bakmayı (lookahead) geri al. Sonraki okuma bayt hizalı
+   * olacak böylece son anlamlı bayttaki kullanılmayan bitleri çıkarabileceğiz.
+   */
+  while (bk &gt;= 8) {
+          bk -= 8;
+          inptr--;
+  }
+
+  /* çıktı penceresini (window[0..outcnt-1]) çıktı verisine (output_data) yaz,
+    * output_ptr/output_data, crc ve bytes_out'u da buna bağlı olarak güncelle
+    * ve outcnt'yi 0'a ayarla. */
+  flush_output(wp);
+
+  /* başarılı olduğunu döndür */
+  return 0;
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>free_mem_ptr</tt> dinamik bellek tahsisi için <tt>misc.c:malloc()</tt> içinde kullanılır. Sıkıştırılmış her bir bloğu şişirmeden önce, <tt>gzip_mark()</tt> <tt>free_mem_ptr</tt> değerini saklar. Şişirmeden sonra <tt>gzip_release()</tt> bu değeri geri yükleyecektir. Bu <tt>inflate_block()</tt> içinde ayırılan belleğin serbest bırakılma işlemidir.
+      </p><p>
+<a class="ulink" href="http://www.gzip.org" target="_top">Gzip</a> dosyaları sıkıştırmak için Lempel-Ziv (LZ77) kodlamasını kullanır. Sıkıştırılmış veri biçimi <a class="ulink" href="http://www.ietf.org/rfc/rfc1951.txt" target="_top">RFC 1951</a> içinde belirtilmiştir. <tt>inflate_block()</tt> bit düzeni olarak ele alınabilen sıkıştırılmış blokları şişirir.
+      </p><p>
+Sıkıştırılmış her bir bloğun veri yapısı anahatlarıyla şöyledir:
+      </p><p>
+<pre class="literallayout">
+BFINAL (1 bit)
+    0  - son blok değil
+    1  - son blok
+BTYPE  (2 bit)
+    00 - sıkıştırma yok
+        bayt sınırına kadar kalan bitler;
+        LEN      (2 bayt);
+        NLEN     (2 bayt, LEN'in tamamlayıcısı);
+        data     (LEN bayt);
+    01 - düzeltilmiş Huffman kodu ile sıkıştırılmış
+        {
+        literal  (7-9 bitleri, 256 hariç 0..287 kodunu temsil eder);
+                     // Bakınız RFC 1951, 3.2.6 paragrafındaki tablo.
+        length   (0-5 bitleri, literal &gt; 256 ise 3..258 arasında bir uzunluk gösterir);
+                     // Bkz. RFC 1951, 3.2.5 paragrafındaki 1. alfabe tablosu.
+        data     (literal &lt; 256 ise literal baytlarının verileri);
+        distance (literal == 257..285 ise 5 artı 0-13 ek bit,
+                         1..32768 arasında bir mesafe belirtir;
+                     /* Bakınız RFC 1951, 3.2.5 paragrafındaki 2. alfabe tablosu,
+                      * 3.2.6 paragrafındaki deyim değil*/
+                     /* Çıktı akımında "distance" bayt geri git
+                      * ve "length" baytı kopyala. */
+        }*           // çok sayıda örnek olabilir
+        literal  (7 bit, tümü 0, literal == 256, blok sonu belirtir);
+    10 - Dinamik Huffman koduyla sıkıştırılmış
+        HLIT     (5 bit, Literal/Length kodlarının sayısı - 257, 257-286);
+        HDIST    (5 bit, Distance kodlarının sayısı       - 1, 1-32);
+        HCLEN    (4 bit, Code Length kodlarının sayısı    - 4, 4 - 19);
+        Code Length dizisi    ((HCLEN+4)*3 bit)
+        /* Aşağıdaki 2 alfabe tablosu, önceki Code Length dizisinden üretilen
+         * Huffman kod çözme tablosu kullanılarık çözülecektir. */
+        Literal/Length alfabesi (HLIT+257 kod)
+        Distance alfabesi       (HDIST+1 kod)
+        // Kod çözme tabloları bu alfabe tablolarından oluşturur.
+        /* Aşağıdaki, farklı kod çözme tabloları kullanmak dışında düzeltilmiş
+         * Huffman kodları kısmı ile benzerlik gösterir. */
+        {
+        literal/length
+                 (değişken uzunluk, Literal/Length alfabesine bağımlı);
+        data     (literal &lt; 256 ise literal baytlarının verisi);
+        distance (literal == 257..285 ise değişken uzunlukta,
+                         Distance alfabesine bağımlı);
+        }*           // çok sayıda örnek olabilir
+        literal  (literal değeri 256, blok sonu anlamında);
+    11 - reserved (hata)
+</pre>
+      </p><p>
+Dikkat ederseniz Huffman kodları MSB'den başlarken, veri elemanları En-Değersiz-Bit'ten (Least-Significant Bit - LSB) başlayıp En-Değerli-Bit'e (Most-Significant Bit - MSB) kadar byte'ları paketler. Ayrıca <tt>literal</tt> değerleri 286-287 ve <tt>distance</tt> kodları 30-31'in asla oluşmayacağına dikkat edin.
+      </p><p>
+RFC 1951 ve yukarıdaki veri yapısı elinizdeyken <tt>inflate_block()</tt> işlevini anlamak çok da zor olmayacaktır. Huffman kodlaması ve alfabe tablosu üretimi için RFC 1951 içindeki ilgili paragraflara başvurunuz.
+      </p><p>
+Daha fazla ayrıntı için <tt>linux/lib/inflate.c</tt> belgesine, gzip kaynak koduna (bir çok yorum satırı var) ve ilgili başvuru materyallerine bakınız.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-chead_ref"></a>Kaynakça</h3></div></dt><dd><p>
+      <div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.gnu.org/software/binutils/manual/gas-2.9.1/" target="_top">Using as</a></li><li><a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/" target="_top">Using LD, the GNU linker</a></li><li><a class="ulink" href="http://developer.intel.com/design/pentium4/manuals/" target="_top">IA-32 Intel Architecture Software Developer's Manual</a></li><li><a class="ulink" href="http://www.gzip.org" target="_top"> The gzip home page</a></li><li><a class="ulink" href="http://freshmeat.net/projects/gzip" target="_top">gzip (freshmeat.net)</a></li><li><a class="ulink" href="http://www.ietf.org/rfc/rfc1951.txt" target="_top"> RFC 1951: DEFLATE Compressed Data Format Specification version 1.3</a></li><li><a class="ulink" href="http://www.ietf.org/rfc/rfc1952.txt" target="_top">RFC 1952: GZIP file format specification version 4.3</a></li></ul></div>
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-setup.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/arch/i386/boot/setup.S </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> linux/arch/i386/kernel/head.S</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

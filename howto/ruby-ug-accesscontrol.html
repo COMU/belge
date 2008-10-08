@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Erişim Denetimi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-redefinemethods.html" title="Yöntemleri Yeniden Tanımlama"><link rel="next" href="../howto/ruby-ug-smethots.html" title="Tekil Yöntemler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Erişim Denetimi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-redefinemethods.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-smethots.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-accesscontrol"></a>Erişim Denetimi</h2></div></dt><dd><p>
+Daha önce Ruby'nin işlevlere değil sadece yöntemlere sahip olduğunu söylemiştik.
+Ancak sadece tek bir tür yöntem yoktur. Bu bölümde <span class="wordasword"><i>erişim yöntemleri</i></span>'nden bahsedeceğiz.
+  </p><p>
+Bir yöntemi, bir sınıf tanımlamasının içinde değil de, en üstte tanımladığımızı farz edelim.
+Bunun C gibi daha geleneksel bir dildeki <tt>işlev</tt>lerle aynı işi yapan bir yöntem olduğunu düşünürüz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> def square(n)</tt>
+    | <tt class="empinput">   n * n</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> square(5)</tt>
+ <tt class="empoutput">   25</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Yeni yöntemimiz hiç bir sınıfa bağlı değil gibi gözüküyor, ama aslında Ruby bu yöntemi tüm sınıfların süper sınıfı olan <b><tt>Object</tt></b> sınıfına verir. Sonuç olarak her nesne bu yöntemi nasıl kullanacağını bilir. Bu durum doğru gibi gözükebilir ama burada küçük bir nokta vardır: bu yöntem her sınıfın <tt>private</tt> yöntemidir. Bunun ne anlama geldiğinden bahsedeceğiz fakat bu durumun sonuçlarından bir tanesi de aşağıdaki gibi sadece işlev tarzında çağırabilmemizdir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Foo</tt>
+    | <tt class="empinput">   def dorduncu_kuvvet(x)</tt>
+    | <tt class="empinput">     square(x) * square(x)</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> Foo.new.dorduncu_kuvvet 10</tt>
+  10000
+</pre> </td></tr></table></div>
+  </p><p>
+Bir nesnenin, yöntemini açıkça çağırmasına izin verilmez:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> "fish".square(5)</tt>
+<tt class="empoutput">ERR: (eval):1: private method `square' called for "fish":String</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bu durum daha geleneksel bir dildeki gibi işlev yazmamızı sağlarken, Ruby'nin saf 'nesneye yönelik' yapısını korumasına yardımcı olur (işlevler halen nesnelerin yöntemleridir, sadece alıcı üstü kapalı olarak <b><tt>self</tt></b>'tir.)
+  </p><p>
+Önceki bölümlerde de vurguladığımız gibi nesneye yönelik yazılım geliştirmenin
+genel mantığı, <tt>belirtim </tt> ile  <tt>gerçekleştirimi</tt> birbirinden ayırmak, ya da bir nesnenin hangi görevleri yapmak istediği ve bunu nasıl yapabileceğiyle ilgilenmektir.
+  </p><p>
+Bir nesnenin dahili işleri genelde kullanıcıdan saklanmalı, kullanıcı yalnızca
+neyin gidip geldiğiyle ilgilenmeli ve nesnenin kendi içinde neyi nasıl yaptığını bildiğine dair güvenmelidir.
+  </p><p>
+Genelde nesnenin dış dünya tarafından görülmeyen ancak dahili olarak
+kullandığı yöntemlere sahip olması yararlı bir şeydir (ve bu durum kullacının nesneleri görme biçimi değiştirilmeksizin yazılımcının isteğine göre değiştirebilir).
+  </p><p>
+Aşağıdaki basit örnekte <b><tt>motor</tt></b> sınıfının görünmediğini ama dahili olarak çalıştığını varsayalım.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Deneme</tt>
+    | <tt class="empinput">   def iki_kati(a)</tt>
+    | <tt class="empinput">     print a," kere iki ",motor(a),"\n"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput">   def motor(b)</tt>
+    | <tt class="empinput">     b*2</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput">   private:motor  # motoru kullanıcılardan saklar</tt>
+    | <tt class="empinput"> end</tt>
+ <tt class="empinput">   Deneme</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> deneme = Deneme.new</tt>
+   <tt class="empoutput">#&lt;Deneme:0x4017181c&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> deneme.motor(6)</tt>
+<tt class="empoutput">ERR: (eval):1: private method motor' called for #&lt;Deneme:0x4017181c&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> deneme.iki_kati(6)</tt>
+6 kere iki 12.
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>deneme.motor(6)</tt></b>'nın 12 değerini döndürmesini umuyorduk ancak
+bir <tt>Deneme</tt> nesnesi gibi davrandığımızda <b><tt>motor</tt></b>'un erişilemez olduğunu gördük. Yalnızca <b><tt>iki_kati</tt></b> gibi diğer <b><tt>Deneme</tt></b> yöntemleri <b><tt>motor</tt></b>'a ulaşma hakkına sahiptir. Böylece öncelikle <b><tt>iki_kati</tt></b> yöntemini içeren genel arayüze gitmek zorunda bırakıldık. Yazılımcı, kullancının <b><tt>Deneme</tt></b> nesnelerinin birbirini nasıl etkilediğine bakmaksızın <b><tt>motor</tt></b> yöntemini (bu örnekte muhtemelen başarım açısından
+<b><tt>b*2</tt></b>'yi <b><tt>b+b</tt></b> ile) değiştirebilir.
+Bu örnek erişim denetimlerini anlatmak için tabii ki çok basit bir örnektir ancak
+daha karmaşık ve ilginç sınıflar üretmeye başlayınca erişim denetiminin ne
+kadar yararlı bir kavram olduğunu anlayacaksınız.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-redefinemethods.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-smethots.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yöntemleri Yeniden Tanımlama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Tekil Yöntemler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

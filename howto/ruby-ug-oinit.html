@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Nesnenin İlklendirilmesi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-accessors.html" title="Erişgeçler"><link rel="next" href="../howto/ruby-ug-misc.html" title="Ivır Zıvır"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Nesnenin İlklendirilmesi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-accessors.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-misc.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-oinit"></a>Nesnenin İlklendirilmesi</h2></div></dt><dd><p>
+Geçen bölümdeki Meyve sınıfı, biri meyvenin çeşidini diğeri de niteliğini açıklayan iki örnek değişkene sahipti. Bunu yapmamızın nedeni bir kaç meyve için karakteristiğin önemli olmamasıydı. Genel bir <b><tt>inspect</tt></b> yöntemi oluşturmaktı.
+Ruby örnek değişkenlerin her zaman hazırlanmış olduğunu garanti eden bir yol sunuyor.
+  </p><h4><a name="id1427"></a><tt>initialize</tt> yöntemi</h4><p>
+Ruby yeni bir nesne yaratıldığı zaman <b><tt>initialize</tt></b> denen bir yöntem arar ve çalıştırır. Yapabileceğimiz basit şeylerden biri her örnek değişkene öntanımlı bir <b><tt>initialize</tt></b> yöntemi koymak ve böylece <b><tt>inspect</tt></b> yöntemine söyleyebilecek bir şeyler sağlamaktır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def initialize</tt>
+    | <tt class="empinput">     @cesit = "elma"</tt>
+    | <tt class="empinput">     @nitelik = "olgun"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f4 = Meyve.new</tt>
+   <tt class="empoutput">"olgun bir elma"</tt>
+</pre> </td></tr></table></div>
+  </p><h4><a name="id1427"></a>Öntanımlı değerlerin değiştirilmesi</h4><p>
+Bazen öntanımlı değerlerin pek de anlamlı olmadığı zamanlar olabilir. Öntanımlı bir meyve çeşidi gibi birşey olabilir mi? Her meyvenin yaratıldığı zaman kendi çeşidini belirlemesi daha tercih edilebilir bir durumdur. Bunu yapmak için <b><tt>initialize</tt></b> yöntemine bir argüman ekleriz. Burada bahsetmeyeceğimiz nedenlerden dolayı <b><tt>new</tt></b>'e verdiğiniz her argüman <b><tt>initialize</tt></b> yöntemi tarafından alınmış olur.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def initialize( k )</tt>
+    | <tt class="empinput">     @cesit = k</tt>
+    | <tt class="empinput">     @nitelik = "olgun"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f5 = Meyve.new "mango"</tt>
+   <tt class="empoutput">"olgun bir mango"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f6 = Meyve.new</tt>
+<tt class="empoutput">ERR: (eval):1:in `initialize': wrong # of arguments(0 for 1)</tt>
+</pre> </td></tr></table></div>
+  </p><h4><a name="id1427"></a>Esnek ilklendirme</h4><p>
+Yukarıda gördüğümüz gibi bir argümanı <b><tt>initialize</tt></b> yöntemi ile ilişkilendirirseniz boş değer vermeniz durumunda hatayla karşılaşırsınız.
+Daha düşünceli davranmak istersek, değer verildiği zaman o değeri kullanabilir, verilmediği zamansa öntanımlı bir değer atayabiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def initialize( k="elma" )</tt>
+    | <tt class="empinput">     @cesit = k</tt>
+    | <tt class="empinput">     @nitelik = "olgun"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f5 = Meyve.new "mango"</tt>
+   <tt class="empoutput">"olgun bir mango"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f6 = Meyve.new</tt>
+   <tt class="empoutput">"olgun bir elma"</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Öntanımlı değerleri sadece <b><tt>initialize</tt></b> için değil tüm yöntemler için uygulayabilirsiniz.
+  </p><p>
+Bazen bir nesneyi hazırlamak için birçok yol hazırlamak yararlı olabilir. Bu kılavuzun kapsamının dışında olmasına rağmen Ruby, yöntemleri aşırı yüklemeyi sağlayan nesne yansıtmaya (<i>object reflection</i>) ve değişken uzunluklu argüman listesine izin verir.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-accessors.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-misc.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Erişgeçler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Ivır Zıvır</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

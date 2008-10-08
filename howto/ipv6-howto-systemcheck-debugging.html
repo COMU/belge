@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:25+03:00"><title>IPv6'ya hazır deneme/hata ayıklama uygulamaları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-systemcheck.html" title="Sistemin IPv6 Kullanımına Hazırlanması"><link rel="previous" href="../howto/ipv6-howto-systemcheck-nettools.html" title="IPv6'ya hazır ağ yapılandırma araçları"><link rel="next" href="../howto/ipv6-howto-systemcheck-progs.html" title="IPv6'ya hazır programlar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">IPv6'ya hazır deneme/hata ayıklama uygulamaları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-systemcheck-nettools.html">Önceki</a> </td><th width="60%" align="center">Sistemin IPv6 Kullanımına Hazırlanması</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-systemcheck-progs.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-systemcheck-debugging"></a>IPv6'ya hazır deneme/hata ayıklama uygulamaları</h3></div></dt><dd><p>
+Sisteminizi IPv6'ya hazırladıktan sonra onu ağ iletişiminde kullanmak isteyeceksiniz. Bunun için ilk olarak bir dinleme (sniffer) programı yardımıyla IPv6 paketlerini sorgulamayı öğrenmelisiniz. Bunu, hata ayıklama/sorun çözme konularında çok zaman kazandırıcı olduğundan şiddetle öneriyorum.
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ipv6-howto-systemcheck-ping6"></a>IPv6 <tt>ping6</tt></h4></div></dt><dd><p>
+Bu program normal olarak <tt>iputils</tt> paketine dahildir. Basitçe <tt>ICMPv6 echo-request</tt> paketlerini gönderip <tt>ICMPv6 echo-reply</tt> paketlerini alarak aktarım denemeleri yapar.
+  </p><p>
+Kullanımı:
+  </p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>ping6 </tt></b><i>ipv6adreslikonakismi</i>
+<b><tt>ping6 </tt></b><i>ipv6adresi</i>
+<b><tt>ping6 </tt></b>[<b><tt>-I </tt></b><i>aygıt</i>] <i>yerel-ipv6adresi</i>
+</pre> </td></tr></table></div>
+  </p><p>Örnek:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ping6 -c 1 ::1</tt></b>
+PING ::1(::1) from ::1 : 56 data bytes
+64 bytes from ::1: icmp_seq=0 hops=64 time=292 usec
+--- ::1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max/mdev = 0.292/0.292/0.292/0.000 ms
+</pre> </td></tr></table></div>
+  </p><p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/tip.png"></td><th>İpucu</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+<b><tt>ping6</tt></b> soket'e alt seviye (raw) erişime, dolayısıyla root yetkilerine ihtiyaç duyar. Bu nedenle eğer root olmayan kullanıcılar eğer <b><tt>ping6</tt></b> komutunu kullanamıyorlarsa aşağıdaki iki sorundan birisi var demektir:
+  </p><p><div class="itemizedlist"><ul type="disc"><li><b><tt>ping6</tt></b> kullanıcının dosya arama yollarında (path) değildir (<b><tt>ping6</tt></b> genellikle <tt>/usr/sbin</tt> dizininde olduğundan kullanıcının dosya arama yollarında yeralmaması büyük olasılıktır, bu dizin kullanıcının yoluna eklenebilir ama tavsiye edilmez).
+  </li><li><b><tt>ping6</tt></b>'nın düzgün çalışmamasının sebebi genellikle yeterli izinlere sahip olmamasından kaynaklanır; çözümü: <b><tt>chmod u+s /usr/sbin/ping6</tt></b></li></ul></div></p></td></tr></table></div></p><div class="sect4"><div> <h5 class="title"><a name="id113"></a>IPv6 ping için arabirimin belirtilmesi</h5></div><p>
+IPv6 ping için yerel-bağlantı adresinin kullanılması durumunda çekirdek hangi fiziksel veya mantıksal arabirimi kullanarak paketleri göndereceğini bilmediğinden aşağıdaki gibi bir hata ortaya çıkar:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ping6 fe80::212:34ff:fe12:3456</tt></b>
+connect: Invalid argument
+</pre> </td></tr></table></div>
+  </p><p>
+Böyle bir durumda arabirimi aşağıdaki gibi belirtebilirsiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ping6 -I eth0 -c 1 fe80::2e0:18ff:fe90:9205</tt></b>
+PING fe80::212:23ff:fe12:3456(fe80::212:23ff:fe12:3456) from fe80::212:34ff:fe12:3478 eth0: 56 data bytes
+64 bytes from fe80::212:23ff:fe12:3456: icmp_seq=0 hops=64 time=445 usec
+--- fe80::2e0:18ff:fe90:9205 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss round-trip min/avg/max/mdev = 0.445/0.445/0.445/0.000 ms
+</pre> </td></tr></table></div>
+  </p></div><div class="sect4"><div> <h5 class="title"><a name="id213"></a>Çoğa gönderim adreslerinde <tt>ping6</tt> kullanımı</h5></div><p>
+Bir bağlantıdaki etkin IPv6 istemcilerini sınamanın bir yolu ağdaki tüm düğümler için <b><tt>ping6</tt></b> kullanmaktır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ping6 -I eth0 ff02::1</tt></b>
+PING ff02::1(ff02::1) from fe80:::2ab:cdff:feef:0123 eth0: 56 data bytes
+64 bytes from ::1: icmp_seq=1 ttl=64 time=0.104 ms
+64 bytes from fe80::212:34ff:fe12:3450: icmp_seq=1 ttl=64 time=0.549 ms (DUP!)
+</pre> </td></tr></table></div>
+  </p><p>
+IPv4'de çoğa gönderim adreslerine <b><tt>ping</tt></b> cevabı gönderilmesi iptal edilebilirken bu işlemi IPv6'da sadece yerel güvenlik duvarı ile yapmak mümkündür.
+  </p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id23"></a>IPv6 <tt>traceroute6</tt></h4></div></dt><dd><p>
+Bu program normal olarak <tt>iputils</tt> paketine dahildir. IPv4'de kullanılan <b><tt>traceroute</tt></b> programına benzer. Aşağıda örnek bir kullanımı bulunmaktadır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>traceroute6 www.6bone.net</tt></b>
+traceroute to 6bone.net (3ffe:b00:c18:1::10) from 3ffe:ffff:0000:f101::2, 30 hops max, 16 byte packets
+ 1 localipv6gateway (3ffe:ffff:0000:f101::1) 1.354 ms 1.566 ms 0.407 ms
+ 2 swi6T1-T0.ipv6.switch.ch (3ffe:2000:0:400::1) 90.431 ms 91.956 ms 92.377 ms
+ 3 3ffe:2000:0:1::132 (3ffe:2000:0:1::132) 118.945 ms 107.982 ms 114.557 ms
+ 4 3ffe:c00:8023:2b::2 (3ffe:c00:8023:2b::2) 968.468 ms 993.392 ms 973.441 ms
+ 5 3ffe:2e00:e:c::3 (3ffe:2e00:e:c::3) 507.784 ms 505.549 ms 508.928 ms
+ 6 www.6bone.net (3ffe:b00:c18:1::10) 1265.85 ms * 1304.74 ms
+</pre> </td></tr></table></div>
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+IPv4 ile kullanılan hem <tt>ICMPv4 echo-request</tt> paketlerini hem de UDP paketlerini kullanabilen <b><tt>traceroute</tt></b>'un son sürümlerinin aksine, güncel <b><tt>traceroute6</tt></b> sadece UDP paketlerini gönderebilmektedir. Bildiğiniz gibi güvenlik duvarları veya yönlendiriciler için <tt>ICMP echo-request</tt> paketleri UDP paketlerine göre daha fazla kabul edilen paketlerdir.
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a>IPv6 <tt>tracepath6</tt></h4></div></dt><dd><p>
+Bu program normal olarak <tt>iputils</tt> paketine dahildir. <b><tt>traceroute6</tt></b> programına benzer şekilde verilen bir hedefe ulaşmak için gerekli MTU'yu hesaplayarak yolu izler. Aşağıda kullanımına bir örnek verilmiştir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>tracepath6 www.6bone.net</tt></b>
+ 1?: [LOCALHOST] pmtu 1480
+ 1: 3ffe:401::2c0:33ff:fe02:14 150.705ms
+ 2: 3ffe:b00:c18::5 267.864ms
+ 3: 3ffe:b00:c18::5 asymm 2 266.145ms pmtu 1280
+ 3: 3ffe:3900:5::2 asymm 4 346.632ms
+ 4: 3ffe:28ff:ffff:4::3 asymm 5 365.965ms
+ 5: 3ffe:1cff:0:ee::2 asymm 4 534.704ms
+ 6: 3ffe:3800::1:1 asymm 4 578.126ms !N
+Resume: pmtu 1280
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id43"></a>IPv6 <tt>tcpdump</tt></h4></div></dt><dd><p>
+Linux'da paket yakalamak için kullanılan en önemli araç <b><tt>tcpdump</tt></b>'tır. Aşağıda kullanımıyla ilgili örnekler bulacaksınız. IPv6 desteği 3.6 sürümünden itibaren gömülü olarak gelmektedir.
+  </p><p>
+tcpdump gürültüyü (noise) enngellemek için bazı ifadeler kullanır:
+  </p><p><div class="itemizedlist"><ul type="disc"><li><tt>icmp6</tt>: doğal ICMPv6 trafiğini filtreler
+  </li><li><tt>ip6</tt>: doğal IPv6 trafiğini filtreler (ICMPv6 dahil)
+  </li><li><tt>proto ipv6</tt>: tünellenmiş IPv6-in-IPv4 trafiğini filitreler
+  </li><li><tt>not port ssh</tt>: uzak SSH oturumu için akan SSH paketlerini gizler
+  </li></ul></div></p><p>
+Daha çok ICMPv6 paketlerini yakalamakta ve paketler hakkında daha fazla bilgi edinmeyi sağlamakta yararlı olan bazı komut satırı seçenekleri de mevcuttur:
+  </p><p><div class="itemizedlist"><ul type="disc"><li><tt>-s 512</tt>: paket yakalamak için kullanılan kopma (snap) uzunluğunu 512 bayta çıkartır.
+  </li><li><tt>-vv</tt>: oldukça ayrıntılı bilgi verilir.
+<tt>-n</tt>: adresleri isme çevirmez, eğer ters DNS çözümlemesi iyi çalışmıyorsa faydalıdır.
+  </li></ul></div></p><div class="example"><p><b>Örnek 4.1. <tt>3ffe:ffff:100:f101::1</tt> adresine yerel bir bağlantı üzerinden IPv6 ping</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>tcpdump -t -n -i eth0 -s 512 -vv ip6 or proto ipv6</tt></b>
+tcpdump: listening on eth0
+3ffe:ffff:100:f101:2e0:18ff:fe90:9205 &gt; 3ffe:ffff:100:f101::1: icmp6: echo request (len 64, hlim 64)
+3ffe:ffff:100:f101::1 &gt; 3ffe:ffff:100:f101:2e0:18ff:fe90:9205: icmp6: echo reply (len 64, hlim 64)
+</pre> </td></tr></table></div>
+  </p></div><div class="example"><p><b>Örnek 4.2. <tt>3ffe:ffff:100:f101::1</tt> adresine IPv6-in-IPv4 tüneli üzerinden yönlendirilmiş IPv6 ping</b></p><p>
+1.2.3.4 ve 5.6.7.8 adresleri tünelin iki ucunu göstermektedir (elbette adresler örnektir)
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>tcpdump -t -n -i ppp0 -s 512 -vv ip6 or proto ipv6</tt></b>
+tcpdump: listening on ppp0
+1.2.3.4 &gt; 5.6.7.8: 2002:ffff:f5f8::1 &gt; 3ffe:ffff:100::1: icmp6: echo request (len 64, hlim 64) (DF) (ttl 64, id 0, len 124)
+5.6.7.8 &gt; 1.2.3.4: 3ffe:ffff:100::1 &gt; 2002:ffff:f5f8::1: icmp6: echo reply (len 64, hlim 61) (ttl 23, id 29887, len 124)
+1.2.3.4 &gt; 5.6.7.8: 2002:ffff:f5f8::1 &gt; 3ffe:ffff:100::1: icmp6: echo request (len 64, hlim 64) (DF) (ttl 64, id 0, len 124)
+5.6.7.8 &gt; 1.2.3.4: 3ffe:ffff:100::1 &gt; 2002:ffff:f5f8::1: icmp6: echo reply (len 64, hlim 61) (ttl 23, id 29919, len 124)
+</pre> </td></tr></table></div>
+  </p></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-systemcheck-nettools.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-systemcheck.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-systemcheck-progs.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">IPv6'ya hazır ağ yapılandırma araçları </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> IPv6'ya hazır programlar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

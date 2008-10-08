@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:slagell@ruby-lang.org">
+  <TITLE>Basit Örneklere Dönüş</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="diziler.html">
+ <img border=0 src="a2l.gif" alt="diziler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="kontrol.html">
+ <img border=0 src="a2r.gif" alt="Kontrol Yapıları"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Basit Örneklere Dönüş</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Şimdi eski örneklere tekrar göz atalım.</p>
+<p>Aşağıdakini daha önce <a href="basit_ornekler.html">örnekler</a> kısmında görmüştük.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+print fact(ARGV[0].to_i), "\n"</font></pre></td></tr></table>
+<p>Bu bizim ilk örneğimiz olduğu için her satırı teker teker açıklayalım.</p>
+<h3><a name="label:0" id="label:0">Faktöriyeller</a></h3><!-- RDLabel: "Faktöriyeller" -->
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">def fact(n)</font></pre></td></tr></table>
+<p>
+İlk satırda bir fonksiyon (ya da daha özel olarak bir <em>metot</em>; metodun ne olduğunu ilerki kısımlarda göreceğiz) tanımlamak için <code>def</code> deyimini kullanıyoruz. Burada fonksiyonumuz <code>fact</code>'ın <code>n</code> adında tek bir argüman aldığını görüyoruz.
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">if n == 0</font></pre></td></tr></table>
+<p><code>if</code> bir kontrol deyimidir. Eğer koşul sağlanıyorsa onu takip eden kod değerlendirilir, aksi taktide <code>else</code> kısmına geçilir. </p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">1</font></pre></td></tr></table>
+<p>Eğer koşul sağlandıysa <code>if</code>'in değeri 1 olacaktır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">else</font></pre></td></tr></table>
+<p>Eğer koşul tutulmadıysa, buradan <code>end</code>'e kadar olan kısım değerlendirilecektir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">n * fact(n-1)</font></pre></td></tr></table>
+<p>Eğer koşul sağlanmamışsa sonuç <code>n</code> kere <code>fact(n-1)</code> olacaktır. </p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">end</font></pre></td></tr></table>
+<p>İlk <code>end</code>, <code>if</code> deyimini kapatmak için kullanılır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">end</font></pre></td></tr></table>
+<p>İkinci <code>end</code>,<code>def</code> ifadesini kapatır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">print fact(ARGV[0].to_i), "\n"</font></pre></td></tr></table>
+<p>Bu bizim komut satırından <code>fact()</code> fonksiyonunu çalıştırmamızı ve sonuçları ekranda görmemizi sağlar. </p>
+<p><code>ARGV</code> komut satırı argümanlarını içeren özel bir dizidir. <code>ARGV</code> dizisinin tüm elemanları dizgiler olduğu için, <code>to_i</code> metoduyla tamsayıya dönüştürmek zorundayız. Ruby Perl'deki gibi dizgileri tamsayılara otomatik olarak dönüştürmez. </p>
+<p>Hmmm... Eğer bu programa negatif bir sayı girersek ne olur? Problemi görebildiniz mi? Peki düzeltebilir misiniz?
+</p>
+<h3><a name="label:1" id="label:1">Strings</a></h3><!-- RDLabel: "Strings" -->
+<p>Şimdi önceki bölümdeki bulmaca <a href="dizgiler.html">örneğimizi</a> tekrar inceleyelim. Bu sefer biraz daha uzun, kolaylık açısından satırları numaralandırdık.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">01 kelimeler = ['kestane', 'gurgen', 'palamut']
+02 gizli_kelime = kelimeler[rand(3)]
+03
+04 print "tahmin? "
+05 while tahmin = STDIN.gets
+06   tahmin.chop!
+07   if tahmin == gizli_kelime
+08     print "kazandin\n"
+09     break
+10   else
+11     print "kaybettin.\n"
+12   end
+13   print "tahmin? "
+14 end
+15 print "kelime: ", gizli_kelime, ".\n"</font></pre></td></tr></table>
+<p>Bu programda yeni bir kontrol yapısı gördük: <code>while</code>. Verilen koşul doğru olduğu sürece <code>while</code> ve <code>end</code> arasındaki kod tekrar tekrar çalıştırılacaktır.</p>
+<p>
+2. satırdaki <code>rand(3)</code> fonksiyonu 0 ile 2 arasında rastgele sayı üretir. Bu rastgele sayı <code>kelimeler</code> dizisinin elemanlarından birini çıkarmak için kullanılır.
+</p>
+<p>
+5. satırda <code>STDIN.gets</code> metoduyla standart girdiden bir satır okuduk. Eğer satırı alırken <em>EOF</em> (end of file) meydana gelirse <code>gets</code>, <code>nil</code> değerini döndürecektir.<code> while</code> ile ilişkilendirilmiş kod <code>^D</code> (ya da <em>DOS</em> altında <code>^Z</code>) görene kadar tekrarlanacaktır.</p>
+<p>
+6. satırdaki <code>tahmin.chop!</code>, <code>tahmin</code> değişkeninin sonundaki yeni satır (<em>newline</em>) karakterini temizlemeye yarar.
+
+</p>
+<p>
+15. satırda gizli kelimeyi yazdırıyoruz. Bunu üç argümanla birlikte bir yazdırma deyimi olarak kullandık (birbiri ardına yazdırılarak) ancak bunu daha efektif hale getirmek <code>gizli_kelime</code> yerine <code>#(gizli_kelime)</code> meotdu tanımlayarak bir tek arg�man alan birşey yazabilirdik:
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">print "kelime: #{gizli_kelime}.\n" </font></pre></td></tr></table>
+<h3><a name="label:2" id="label:2">Düzenli ifadeler</a></h3><!-- RDLabel: "Düzenli ifadeler" -->
+<p>Sonunda programımızı <a href="duzenli_ifadeler.html">düzenli ifadelerle</a> inceleme sırası geldi.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">01 st = "\033[7m"
+02 en = "\033[m"
+03
+04 while TRUE
+05   print "str&gt; "
+06   STDOUT.flush
+07   str = gets
+08   break if not str
+09   str.chop!
+10   print "pat&gt; "
+11   STDOUT.flush
+12   re = gets
+13   break if not re
+14   re.chop!
+15   str.gsub! re, "#{st}\\&amp;#{en}"
+16   print str, "\n"
+17 end
+18 print "\n"</font></pre></td></tr></table>
+<p>
+4. satırda <code>while</code>'ın koşulu sonsuz döngüyü sağlamak için <code>true</code> yapılmıştır. Ancak döngüden çıkabilmek için 8. ve 13. satırlarda <code>break</code> kullandık. Bu iki <code>break</code> aynı zamanda <code>if</code> deyiminin niteleyicilerinden biridir. Bir <code>if</code> niteleyicisi  sadece ve sadece koşul sağlandığı zaman sol elindeki deyimi çalıştırır.
+
+</p>
+<p><code>chop!</code> için (9. ve 14 satıra bakın) hakkında söylenecek çok şey var. Ruby'de geleneksel olarak metot isimlerinin sonuna <code>'!'</code> ya da <code>'?'</code> ekleriz. Ünlem işareti (<em>! gurgenen "bang!" diye söylenir</em>) potansiyel olarak yıkıcı bir görev görür, daha da açmak gerekirse; dokunduğu değeri değiştiren bir şeydir. <code>chop!</code> bir dizgiye direkt etki eder ancak ünlem işareti olmayan bir <code>chop</code>, bir kopya üzerinde çalışır. Aşağıda ikisi arasındaki fark görülüyor:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> s1 = "forth"</b></font>
+  "forth"
+ruby&gt;<font color="#ffff00"><b> s1.chop!       # Bu s1'i degistirir.</b></font>
+  "fort"
+ruby&gt;<font color="#ffff00"><b> s2 = s1.chop   # s2'nin değiştirilmiş bir kopyasını koyar. </b></font>
+  "for"
+ruby&gt;<font color="#ffff00"><b> s1             # ... s1'e dokunmaz. 
+
+</b></font>
+  "fort"</font></pre></td></tr></table>
+<p>İlerde sonunda soru işareti olan metot isimleriyle karşılaşacaksınız ( <code>?</code> genelde "huh?" şeklinde telaffuz edilir). Bu <code>true</code> ya da <code>false</code> döndüren bir 'doğrulama' metodudur.</p>
+<p>
+15. satırda dikkat edilmesi gereken önemli bir uyarı yer almaktadır. Öncelikle <code>gsub!</code>'ın başka bir sözde 'yıkıcı' metot olduğuna dikkat edelim. <code>re</code>'ye uyan her ne varsa <code>str</code>'nin yerine koyar (<em>sub</em> değiştirmek, <em>g</em> ise globalden gelir); verilen sadece ilk bulduğunu değil, dizgideki tüm eşleştirilen kısımları değiştirir. çok iyi, çok güzel; fakat eşleştirilen kısımları neyle değiştireceğiz? 1. ve 2 satırda st ve en adlı iki dizgi tanımladık. 15. satırdaysa bunları, olduğu gibi yorumlandıklarından emin olmak için <code>#{}</code> arasına yazdık (<code>names</code> değişkeninin yazdırıldığını görmeyiz). Hemen arkasından <code>"\\&"</code> kodunu görüyoruz. Bu küçük bir hiledir. Yer değiştirilen dizgi çift tırnak arasında olduğu için bir çift ters bölü işareti tek bir taneymiş gibi yorumlanır. Böylece <code>gsub!</code>'ın göreceği şey "<code>\&</code>" olur ve bu da ilk konumda ne eşleştirildiyse onu referans eden özel bir koda dönüştürülür.
+
+</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="diziler.html">
+ <img border=0 src="a2l.gif" alt="diziler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="kontrol.html">
+ <img border=0 src="a2r.gif" alt="Kontrol Yapıları"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

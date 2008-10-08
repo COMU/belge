@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:55:49+03:00"><title>Süreçlerarası İletişim</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/rtlinux-howto.html" title="RTLinux NASIL"><link rel="previous" href="../howto/rtlinux-howto-compile.html" title="Derleme ve Çalıştırma"><link rel="next" href="../howto/rtlinux-howto-whatisnext.html" title="Sonrası"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Süreçlerarası İletişim</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/rtlinux-howto-compile.html">Önceki</a> </td><th width="60%" align="center">RTLinux NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/rtlinux-howto-whatisnext.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="rtlinux-howto-interprocess"></a>Süreçlerarası İletişim</h2></div></dt><dd><p>
+Önceki bölümlerde gördüğümüz örnek program bir gerçek zamanlı süreç olarak bilinen süreçtir. Bir uygulama programının her bir parçası gerçek zamanlı olmak zorunda değildir. Programın sadece hassas zaman kısıtlamaları gerektiren bölümleri bir gerçek zamanlı süreç gibi yazılmalıdır. Diğer bölümleri kullanıcı seviyesinde yazılıp çalıştırılabilir. Kullanıcı seviyesinde çalışan süreçleri yazmak, çalıştırmak ve hatalarını ayıklamak gerçek zamanlı evrelerden çoğunlukla daha kolaydır. Fakat tam bu noktada, kullanıcı seviyesindeki Linux süreçleri ile gerçek zamanlı evreler arasında iletişimi sağlayacak bir yöntem ihtiyacı ortaya çıkar.
+</p><p>
+Süreçlerarası iletişimin çeşitli yolları vardır. Biz en önemli ve en ortak iletişim yolundan, gerçek zamanlı FIFO'dan bahsedeceğiz.
+</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="rtlinux-howto-realtimefifo"></a>Gerçek Zamanlı FIFO</h3></div></dt><dd><p>
+Gerçek zamanlı FIFOlar tek yönlü kuyruklardır (First In First Out - ilk giren ilk çıkar). Yani bir süreç FIFOnun bir ucunda veri yazarken diğer süreçler FIFOnun diğer ucundan bilgileri okuyabilir. Genellikle bu süreçlerin bir tanesi gerçek zamanlı evre, diğeri kullanıcı seviyesindeki süreçtir.
+</p><p>
+Gerçek zamanlı FIFOlar aslında, ana numarası 150 olan karakter aygıtlarıdır (/dev/rtf*). Gerçek zamanlı evreler kullanacakları FIFO'ları belirtmek için bir tamsayı kullanır (örneğin,  <tt>/dev/rtf2</tt> için 2). FIFOların numaraları için bir sınır vardır. FIFOlarla çalışmak için  <tt>rtf_create(), rtf_destroy(), rtf_get(), rtf_put()</tt> vb işlevler vardır.
+</p><p>
+Diğer taraftan, Linux kullanıcı süreci gerçek zamanlı FIFOları normal karakter aygıtları gibi görür. Bu yüzden <tt>open(), close(), read()</tt> ve <tt>write()</tt> gibi işlevler bu aygıtlarda kullanılabilir.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="rtlinux-howto-fifoprog"></a>FIFO Kullanan Bir Uygulama</h3></div></dt><dd><p>
+İlk olarak, PC hoparlöründen müzik çalan (sadece iki notalı) basit bir C programını (dosya adı pcaudio.c olan) göz önüne alalım. Şimdi, nota çalmak için sadece <tt>/dev/rtf3</tt> karakter aygıtına yazmamız gerektiğini varsayalım. (Sonra, bir gerçek zamanlı sürecin FIFOdan (<tt>/dev/rtf3</tt>) okumasını ve PC hoparlörüne göndermesini göreceğiz)
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+
+#define DELAY 30000
+
+void make_tone1(int fd)
+{
+        static char buf = 0;
+        write (fd, &amp;buf, 1);
+}
+
+void make_tone2(int fd)
+{
+        static char buf = 0xff;
+        write (fd, &amp;buf, 1);
+}
+
+main()
+{
+        int i, fd = open ("/dev/rtf3", O_WRONLY);
+        while (1)
+        {
+                for (i=0;i&lt;DELAY;i++);
+                make_tone1(fd);
+                for (i=0;i&lt;DELAY;i++);
+                make_tone2(fd);
+        }
+}</pre> </td></tr></table></div>
+</p><p>
+Şimdi, yukarda görünen program (<tt>pcaudio.c</tt>) derlenir ve çalıştırılırsa, bir kare dalgaya uygun düzenli pıtırtılar oluşturmalı. Fakat bundan önce '<tt>/dev/rtf3</tt>'ten okumak için bir modüle ve uygun veriyi PC hoparlörüne göndermeye ihtiyacımız var. Bu gerçek zamanlı programı rtlinux kaynak ağacında (<tt>/usr/src/rtlinux/examples/sound/</tt>) bulabilirsiniz. sound.o modülünü '<b><tt>insmod</tt></b>' komutunu kullanarak çekirdeğe ekleyin.
+</p><p>
+Aygıttan okumak için modülü ekledikten sonra, programımızı artık çalıştırabiliriz ('gcc' kullanarak derleyin) ve sonra oluşan 'a.out'u çalıştırın. Bu şekilde süreç, sistemde başka süreç olmadığı  zaman (zamanın tükenmesi) biraz daha düzenli tonlar üretir. Fakat diğer konsolda X sunucusu  başlatıldığı zaman tonda sessizlik daha uzun süreli olmaya başlar. Sonunda bir 'find' komutu çalıştırıldığı zaman (<tt>/usr</tt> dizininde bir dosya için) örnek ses tamamen bozulur. Bunun ardındaki sebep, veriyi gerçek zamanlı olmayan FIFO üstünde yazmamızdır.
+</p><p>
+Seste herhangi bir karışıklık meydana gelmesin diye biz şimdi bu süreç gerçek zamanlı nasıl çalışır, onu göreceğiz. Önce yukarıdaki programı bir gerçek zamanlı programa dönüştürelim. (Dosya adı <tt>rtaudio.c</tt>)
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;rtl.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;rtl_fifo.h&gt;
+#include &lt;time.h&gt;
+
+#define FIFO_NO 3
+#define DELAY 30000
+pthread_t thread;
+
+void * sound_thread(int fd)
+{
+        int i;
+        static char buf = 0;
+        while (1)
+        {
+                for(i=0; i&lt;DELAY; i++);
+                buf = 0xff;
+                rtf_put(FIFO_NO, &amp;buf, 1);
+
+                for(i=0;i&lt;DELAY;i++);
+                buf = 0x0;
+                rtf_put(FIFO_NO, &amp;buf, 1);
+        }
+        return 0;
+}
+
+int init_module(void)
+{
+        return pthread_create(&amp;thread, NULL, sound_thread, NULL);
+}
+
+void cleanup_module(void)
+{
+        pthread_delete_np(thread);
+}
+</pre> </td></tr></table></div>
+</p><p>
+Eğer hala yapmadıysanız <b><tt>sound.o</tt></b> modülünü çekirdeğe ekleyin. Yukarıdaki programı bir Makefile yazarak (daha önce söylediğimiz gibi) derleyin, böylece <b><tt>rtaudio.o</tt></b> modülü üretilir. Bu modülü eklemeden önce birkaç şey daha lazım. Yukarıdaki programın sonsuz döngü içinde çalıştığına dikkat edelim. Evreyi uyutmak ya da sonlandırmak için kodumuz olmadığı için evre çalışmasını durdurmayacaktır. Bu yolla sizin PC hoparlörünüz bu tonu üretmeye devam edecek ve siz başka bir şeyler yapmak için bilgisayarınızı yeniden başlatmak zorunda kalacaksınız.
+</p><p>
+Bu yüzden evrenin kendi kendine tonlar arasında gecikme yapmayı soran küçük bir kod değişikliği (sadece <tt>sound_thread()</tt> işlevinde) yapalım.
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+void * sound_thread(int fd)
+{
+        static char buf = 0;
+        pthread_make_periodic_np (pthread_self(), gethrtime(), 500000000);
+
+        while (1)
+        {
+                pthread_wait_np();
+                buf = (int)buf^0xff;
+                rtf_put(FIFO_NO, &amp;buf, 1);
+        }
+        return 0;
+
+}
+</pre> </td></tr></table></div>
+</p><p>
+Artık 'rmmod' komutu ile modülü yalnızca kaldırarak süreci sonlandırabiliriz.
+</p><p>
+Burada süreçlerarası iletişim için gerçek zamanlı FIFOların nasıl kullanılacağını gördük. Ayrıca RTLinux'a olan gerçek ihtiyaç yukarıdaki örnekten anlaşılabilir.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/rtlinux-howto-compile.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/rtlinux-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/rtlinux-howto-whatisnext.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Derleme ve Çalıştırma </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sonrası</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

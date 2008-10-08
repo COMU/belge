@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:24+03:00"><title>acl_rcpt_to</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-final.html" title="Tamamlanmış ACL'ler"><link rel="previous" href="../howto/spam-filtering-acl_mail_from_final.html" title="acl_mail_from"><link rel="next" href="../howto/spam-filtering-acl_data_final.html" title="acl_data"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">acl_rcpt_to</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_mail_from_final.html">Önceki</a> </td><th width="60%" align="center">Tamamlanmış ACL'ler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-acl_data_final.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-acl_rcpt_to_final"></a><tt>acl_rcpt_to</tt></h3></div></dt><dd><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Bu erişim denetim listesi gelen bir SMTP aktarımında RCPT
+# komutu için kullanılır. Bu sınamalar alıcı adresi kabul
+# ya da red edilinceye kadar sırayla yapılır.
+
+acl_rcpt_to:
+
+  # Posta yerel SMTP üzerinden alınmışsa (yani, TCP/IP bağlantısı
+  # ile gelmiyorsa) kabul et. Bunu boş bir konak alanını
+  # sınayarak yapacağız. Ayrıca, postalarını rölelediğimiz
+  # konaklardan gelen postaları da kabul edeceğiz.
+  #
+  # Alıcı doğrulamasını burada atlıyoruz, çünkü çoğu durumda
+  # istemciler kullanıcıların posta istemcileridir ve SMTP
+  # hata iletileri ile ne yapacaklarını bilmezler.
+  #
+  accept
+    hosts       = : +relay_from_hosts
+
+
+  # İleti, kimlik kanıtlaması yapılan bir bağlantı üzerinden
+  # geliyorsa kabul ediyoruz. Yine, bu iletiler kullanıcıların posta
+  # istemcilerinden geldiklerinden alıcı doğrulaması yapmıyoruz.
+  #
+  accept
+    authenticated = *
+
+
+  # Yerel kısım @  %  / | ! karakterlerinden birini içeriyorsa,
+  # iletiyi reddediyoruz. Bunlar normal yerel kısımlarda çok nadir
+  # görülür, çoğunlukla röleleme sınırlamalarını aşmaya çalışanlarca
+  # kullanılır.
+  #
+  # Ayrıca, yerel kısım bir nokta ile başlıyorsa da reddediyoruz.
+  # Boş bileşenler RFC 2822'de kuraldışıdır, fakat Exim bu yaygın
+  # olduğundan bunlara izin verir. Buna rağmen, bir nokta ile
+  # başlayan bir yerel kısım bir dosya ismi olarak kullanılmışsa
+  # (örneğin, bir posta listesi), sorunlara yol açabilir.
+  #
+  deny
+    local_parts = ^.*[@%!/|] : ^\\.
+
+
+  # Eğer $acl_m0'da kayıtlı bir sebep varsa, göndericiyi 20 saniye
+  # beklettikten sonra reddediyoruz.
+  #
+  deny
+    message     = $acl_m0
+    log_message = $acl_m1
+    condition   = ${if and {{def:acl_m0}{def:acl_m1}} {true}}
+    delay       = 20s
+
+
+  # Alıcı adres bizim postalarını kabul ettiğimiz alanlardan birine
+  # ait değilse, göndericiyi 20s beklettikten sonra reddediyoruz.
+  #
+  deny
+    message     = relay not permitted
+    !domains    = +local_domains : +relay_to_domains
+    delay       = 20s
+
+
+  # Alıcı adres bizim postalarını kabul ettiğimiz alanlardan birine
+  # ait fakat geçersizse, göndericiyi beklettikten sonra reddediyoruz.
+  #
+  deny
+    message     = unknown user
+    !verify     = recipient/callout=20s,defer_ok,use_sender
+    delay       = ${if def:sender_address {1m}{0s}}
+
+
+
+  # Zarf göndericisi adresi boş fakat postanın birden fazla alıcısı
+  # varsa, bağlantıyı kesiyoruz. Meşru teslimat durum bildirimleri
+  # asla bir defada birden fazla alıcıya gönderilmez.
+  #
+  drop
+    message      = Legitimate bounces are never sent to more than one \
+                   recipient.
+    senders      = : postmaster@*
+    condition    = $recipients_count
+    delay        = 5m
+
+
+  # --------------------------------------------------------------------
+  # Kullanıcı verilerini ve ayarlarını (Spamassasin gibi) destekleyebilmek
+  # için gelen her iletinin alıcı sayısını bir ile sınırlayalım.
+  #
+  # BİLGİ: Çok sayıda kullanıcınıza gönderilmiş bir postanın yerine
+  #        ulaşması her alıcı için 30 dakika veya daha fazla olmak
+  #        üzere katlanarak gecikecektir. Bu, özellikle zamanın kritik
+  #        önemde olduğu durumlarda sorunlara yol açacaktır.
+  #
+  #defer
+  #  message      = We only accept one recipient at a time - please try later.
+  #  condition    = $recipients_count
+  # --------------------------------------------------------------------
+
+
+  # Gönderici konak alıcının ev dizinindeki ".forwarders" dosyasındaysa
+  # postayı kabul edeceğiz. Geçici olarak $acl_m9 değişkenine bu dosyayı
+  # atayacağız. Konak listedeyse, $acl_m0'a bir değer yerleştirip $acl_m1'i
+  # temizleyeceğiz, böylece daha sonra bu postayı reddetmeyeceğiz.
+  #
+  accept
+    domains     = +local_domains
+    set acl_m9  = /home/${extract{1}{=}{${lc:$local_part}}}/.forwarders
+    hosts       = ${if exists {$acl_m9}{$acl_m9}}
+    set acl_m0  = accept
+    set acl_m1  =
+
+
+  # Gönderici konak genel akliste içindeyse postayı kabul edeceğiz.
+  # Geçici olarak $acl_m9 değişkenine bu dosyayı atayacağız.
+  # Konak listedeyse, $acl_m0'a bir değer yerleştirip $acl_m1'i
+  # temizleyeceğiz, böylece daha sonra bu postayı reddetmeyeceğiz.
+  #
+  accept
+    set acl_m9  = /etc/mail/whitelist-hosts
+    hosts       = ${if exists {$acl_m9}{$acl_m9}}
+    set acl_m0  = accept
+    set acl_m1  =
+
+
+  # --------------------------------------------------------------------
+  # Zarf Gönderici İmlemesinin Sınanması.
+  # Bu kısım öntanımlı olarak iptal edilmiştir, çünkü 'transports' ve
+  # 'routers' bölümlerindeki yapılandırmanın da değiştirilmesi gerekir.
+  #
+  # Kendine özgü imlemesini içeriyorsa, alıcı adresini kabul ediyoruz.
+  # Bu, teslimatın, daha önce bizden gönderilmiş bir postanın teslimat
+  # durum bildirimi olduğunu gösterir.
+  #
+  #accept
+  #  domains     = +local_domains
+  #  condition   = ${if and {{match{${lc:$local_part}}{^(.*)=(.*)}}\
+  #                          {eq{${hash_8:${hmac{md5}{SECRET}{$1}}}}{$2}}}\
+  #                         {true}{false}}
+  #
+  # Aksi takdirde, posta boş gönderici adresli ise ama alıcı, imlemeli zarf
+  # gönderici adresi şemasını seçenlerden biri ise postayı reddediyoruz.
+  #
+  #deny
+  #  message     = This address does not match a valid, signed \
+  #                return path from here.\n\
+  #                You are responding to a forged sender address.
+  #  log_message = bogus bounce.
+  #  senders     = : postmaster@*
+  #  domains     = +local_domains
+  #  set acl_m9  = /home/${extract{1}{=}{${lc:$local_part}}}/.return-path-sign
+  #  condition   = ${if exists {$acl_m9}{true}}
+  # --------------------------------------------------------------------
+
+
+  # --------------------------------------------------------------------
+  # Eğer gönderici adresi boşsa, bir posta kutusu olmayan kullanıcılara
+  # (örn, postmaster, webmaster, v.s.) gelen postayı reddediyoruz.
+  # Bu kullanıcılar posta göndermezler, dolayısıyla onlara bir posta
+  # (teslimat durum bildirimi) dönemez.
+  #
+  # BİLGİ: Bu kısım öntanımlı olarak iptal edilmiştir, çünkü uygulanacak
+  #        kural yerel postanın teslimat biçimine özeldir. Bu sınamayı
+  #        etkinleştirmek isterseniz, aşağıdaki kurallardan size uygun
+  #        olan birini (ama sadece birini) devreye sokun.
+  #
+  #deny
+  #  message     = This address never sends outgoing mail. \
+  #                You are responding to a forged sender address.
+  #  log_message = bogus bounce for system user &lt;$local_part@$domain&gt;
+  #  senders     = : postmaster@*
+  #  domains     = +local_domains
+  #  set acl_m9  = ${extract{1}{=}{${lc:$local_part}}}
+  #
+  # --- Alıcıların yerel hesapları varsa, bu iki satırı devreye alın:
+  #  set acl_m9  = ${extract{2}{:}{${lookup passwd {$acl_m9}{$value}}}{0}}
+  #  !condition  = ${if and {{&gt;={$acl_m9}{500}} {&lt;${acl_m9}{60000}}} {true}}
+  #
+  # --- Posta teslimatını Cyrus yapıyorsa bu satırı devreye alın:
+  #  condition  = ${run {/usr/sbin/mbpath -q -s user.$acl_m9} {true}}
+  # --------------------------------------------------------------------
+
+
+
+  # Gönderici adresinin alanadı için varsa, SPF kayıtlarını sorgulayalım.
+  # Gönderici konak bu alanadı için yetkilendirilmişse teslimatı kabul
+  # yoksa red edeceğiz.
+  #
+  deny
+    message     = [SPF] $sender_host_address is not allowed to send mail \
+                  from $sender_address_domain
+    log_message = SPF check failed.
+    spf         = fail
+
+
+  # İleti başlığına bir SPF-Received: satırı ekleyelim.
+  warn
+    message     = $spf_received
+
+
+  # --------------------------------------------------------------------
+  # Belli bir sunucu/gönderici/alıcı üçlüsü için grilisteleme durumunu
+  # sınayacağız. Bu satırları devreye almadan önce "greylistd"'yi
+  # kurmuş olmanız gerekir.
+  # Bkz:  http://packages.debian.org/unstable/main/greylistd
+  #
+  # Grilisteleme iletilerini bir boş gönderici için yapmıyoruz, çünkü
+  # boş gönderici adresli varlık doğrulaması işimize yaramaz (gerçek
+  # göndericinin varlığını sınamak için bir konağa posta gönderemeyiz).
+  #
+  #defer
+  #  message     = $sender_host_address is not yet authorized to deliver mail \
+  #                from &lt;$sender_address&gt; to &lt;$local_part@$domain&gt;. \
+  #                Please try later.
+  #  log_message = greylisted.
+  #  domains     = +local_domains : +relay_to_domains
+  #  !senders    = : postmaster@*
+  #  set acl_m9  = $sender_host_address $sender_address $local_part@$domain
+  #  set acl_m9  = ${readsocket{/var/run/greylistd/socket}{$acl_m9}{5s}{}{}}
+  #  condition   = ${if eq {$acl_m9}{grey}{true}{false}}
+  #  delay       = 20s
+  # --------------------------------------------------------------------
+
+  # Alıcıyı kabul ediyoruz.
+  accept
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_mail_from_final.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-final.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-acl_data_final.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">acl_mail_from </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> acl_data</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

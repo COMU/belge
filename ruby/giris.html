@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Giriş</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ruby_nedir.html">
+ <img border=0 src="a2l.gif" alt="Ruby Nedir?"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="basit_ornekler.html">
+ <img border=0 src="a2r.gif" alt="Basit Örnekler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Giriş</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Öncelikle sisteminizde Ruby'nin kurulu olup olmadığına bakalım. Kabuk istemcisinden (burada <code>"%"</code> ile temsil edilmiştir o yüzden <code>%</code> yazmanıza gerek yok) aşağıdaki kodu yazalım:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby -v</font></pre></td></tr></table>
+<p>(<code>-v</code> ruby'nin hangi versiyonu olduğunu yazmasını sağlar), ve sonra da <em>Enter</em> tuşuna basalım. Eğer sisteminizde Ruby kuruluysa aşağıdaki gibi bir mesaj görmeniz gerekecek:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby -v
+ruby 1.6.6 (2001-12-26) [i586-linux]</font></pre></td></tr></table>
+<p>Eğer Ruby yüklü değilse, sistem yöneticinizle görüşebilir ya da <a href="http://www.cs.iastate.edu/~slagell/ruby/install.shtml">kendiniz yapabilirsiniz</a>.
+</p>
+<p>Artık Ruby'le oynamaya başlayabiliriz. <code>-e</code> seçeneği ile Ruby programlarını direkt komut satırına yerleştirebilirsiniz:
+ </p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby -e 'print "merhaba dunya\n"'
+merhaba dunya</font></pre></td></tr></table>
+<p>Daha konvansiyonel olarak bir Ruby programı bir dosyaya yazılabilir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% cat &gt; test.rb
+print "merhaba dunya\n"
+^D
+% cat test.rb
+print "merhaba dunya\n"
+% ruby test.rb
+merhaba dunya</font></pre></td></tr></table>
+<p><code>^D</code> control-D'yi ifade eder. Yukarıdakiler sadece UNIX ve türevleri için geçerlidir. Eğer DOS kullanıyorsanız şunu deneyin:
+
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">C:\ruby&gt; copy con: test.rb
+print "merhaba dunya\n"
+^Z
+C:\ruby&gt; type test.rb
+print "merhaba dunya\n"
+C:\ruby&gt; ruby test.rb
+merhaba dunya</font></pre></td></tr></table>
+<p>Daha kapsamlı programlar yazarken, muthemelen gerçek bir metin editörüne ithiyaç duyacaksınız!
+</p>
+<p>
+Bazen şaşırtıcı biçimde karmaşık ve kullanışlı programlar komut satırına sığabilecek minyatür programlarla yapılabilmektedir. Örneğin aşağıdaki program, çalışılan dizindeki tüm C kaynak ve başlık dosyalarında bulunan <code>foo</code>'ları <code>bar</code> ile değiştirir ve orjinal dosyaların ".bak" uzantısıyla yedeklerini alır:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby -i.bak -pe 'sub "foo", "bar"' *.[ch]</font></pre></td></tr></table>
+<p>Bu program UNIX'in <em>cat</em> komutu gibi çalışır (ama <em>cat</em>'ten daha yavaş çalışır)::</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby -pe 0 file</font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ruby_nedir.html">
+ <img border=0 src="a2l.gif" alt="Ruby Nedir?"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="basit_ornekler.html">
+ <img border=0 src="a2r.gif" alt="Basit Örnekler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

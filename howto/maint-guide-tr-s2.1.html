@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:16+03:00"><title>Oluşturacağınız paketi seçin</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s2.html" title="İlk adımlar"><link rel="previous" href="../howto/maint-guide-tr-s2.html" title="İlk adımlar"><link rel="next" href="../howto/maint-guide-tr-s2.2.html" title="Programı edinin ve deneyin"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Oluşturacağınız paketi seçin</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s2.html">Önceki</a> </td><th width="60%" align="center">İlk adımlar</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s2.2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s2.1"></a>Oluşturacağınız paketi seçin</h3></div></dt><dd><p>
+Muhtemelen oluşturmak istediğiniz paketi seçmişsinizdir. Yapmanız gereken ilk şey paketin hali hazırdaki dağıtımda olup olmadığına bakmaktır. Eğer `kararlı' (stable) dağıtımı kullanıyorsanız, belki de en iyisi paket arama sayfasına (<a class="ulink" href="http://www.debian.org/distrib/packages" target="_top">http://www.debian.org/distrib/packages</a>) gitmenizdir. Eğer şu anki `kararsız' (unstable) dağıtımı kullanıyorsanız, şu komutları kullanın:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">dpkg -s program
+dpkg -l '*program*'
+</pre> </td></tr></table></div>
+      </p><p>
+Eğer paket halihazırda mevcutsa, o zaman onu yükleyin! <tt>:-)</tt> Eğer öksüz durumuna (orphaned) düştüyse - eğer paket bakımcısı "Debian QA Group"'a geçmişse - onu oradan almalısınız. <a class="ulink" href="http://www.debian.org/devel/wnpp/orphaned" target="_top">Öksüz paketler listesine</a> ve <a class="ulink" href="http://www.debian.org/devel/wnpp/rfa_bypackage" target="_top">sahiplenilmeyi (evlat edinilme) bekleyen paketler listesine</a> paketin gerçekten de sahiplenilmek için boşta olup olmadığına bakın.
+      </p><p>
+Eğer bir paketi sahiplenebilecekseniz, kaynak kodlarını edinin (<b><tt>apt-get source </tt></b><i><tt>paketadı</tt></i> gibi bir şeyle) ve inceleyin. Bu belge ne yazık ki paketlerin sahiplenilmesiyle ilgili ayrıntılı bilgi içermemektedir. Ne mutlu ki, paketin nasıl çalıştığı ile ilgili zor zamanlar geçirmenize gerek kalmayacaktır, çünkü birileri başlangıç ayarlarını sizin için yapmıştır. Okumaya devam edin, yine de, aşağıdaki pek çok tavsiye sizin durumunuz için uygulanabilir olacaktır.
+      </p><p>
+Eğer paket yeniyse ve siz de onu Debian içerisinde görmeye karar verdiyseniz, aşağıdaki şekilde ilerleyin:
+      </p><p><div class="itemizedlist"><ul type="disc"><li>
+<a class="ulink" href="http://www.de.debian.org/devel/wnpp/being_packaged" target="_top">Üzerinde çalışılan paketler listesini</a> paket üzerinde herhangi biri çalışıyor mu diye kontrol edin. Eğer halihazırda birileri çalışıyorsa, ihtiyaç duyarsanız onlarla iletişime geçin. Ya da henüz bir paket bakımcısı atanmamış başka bir paket bulun.
+        <p></p><p></p></li><li>
+Programların bir lisansı olmalıdır ve mümkünse lisans <a class="ulink" href="http://www.debian.org/social_contract#guidelines" target="_top">Debian Özgür Yazılım Anahatları</a>nda belirtildiği gibi özgür (free) olsun. Eğer bu kurallardan herhangi birini sağlamazsa, fakat herhangi bir şekilde dağıtılabiliyorsa, `contrib' veya `non-free' bölümlerine dahil edilebilir. Eğer nereye ait olduğundan emin değilseniz, lisans metnini <span class="email">&lt;debian-legal (at) lists.debian.org&gt;</span> adresine postalayarak yardım isteyiniz.
+        <p></p><p></p></li><li>
+Programlar kesinlikle setuid root çalışmamalıdır, hatta daha iyisi setuid veya setgid'e herhangi bir şey için ihtiyaç duymamalıdır.
+        <p></p><p></p></li><li>
+Program bir artalan süreci (deamon) veya <tt>*/sbin</tt> dizinleri altına giden bir program ya da root olarak bir port açan bir program olmamalıdır.
+        <p></p><p></p></li><li>
+Program ikilik çalışabilir halde olmalıdır, kütüphaneler idare etmek için daha zordur.
+        <p></p><p></p></li><li>
+İyi şekilde belgelendirilmiş ve/veya kodu anlaşılabilir olmalıdır. (örn. kafa karıştırıcı olmamalı)
+        <p></p><p></p></li><li>
+Programın yazar/yazarlarıyle iletişim kurarak paketlenmesi konusunda bir anlaşma sağlamalısınız. Herhangi bir, programa özgü hata durumunda, yazar/yazarlar ile görüş alışverişinde bulunmak önemlidir, dolayısıyla geliştirilmesi durmuş yazılım parçalarını paketlemeye çalışmayın.
+        <p></p><p></p></li><li>
+Ve en sonuncu fakat en önemsiz olmayanı, uygulamanın çalıştığını bilmeli, bir kaç kere denemelisiniz.
+        <p></p><p></p></li></ul></div>
+      </p><p>
+Elbette ki, bunlar sadece güvenlik ölçekleridir ve sizleri setuid hayalet programında bir hata yapmanız durumunda öfkeli kullanıcılardan korumayı amaçlamaktadır... Paketleme konusunda biraz daha tecrübe kazandıktan sonra, bu tür paketler yapabileceksiniz, fakat tecrübeli geliştiriciler bile şüpheye düştükleri zaman debian akıl hocaları listesine (debian-mentors mailing list) başvurmaktadır. Oradaki insanlar da memnuniyetle yardım edeceklerdir.
+      </p><p>
+Bunlar hakkına daha ayrıntılı bilgi için, Geliştiricilerin Başvuru Kılavuzuna (Developer's Reference) bakınız.
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s2.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-s2.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s2.2.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">İlk adımlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Programı edinin ve deneyin</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

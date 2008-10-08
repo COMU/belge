@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Modüller</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-smethots.html" title="Tekil Yöntemler"><link rel="next" href="../howto/ruby-ug-pobjects.html" title="Yordam Nesneleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Modüller</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-smethots.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-pobjects.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-modules"></a>Modüller</h2></div></dt><dd><p>
+Ruby'de modüller sınıflara benzer özellikler gösterirler:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>Modülün örneği yoktur.</li><li>Modülün alt sınıfı yoktur.</li><li>Modül <b><tt>module ... end</tt></b> şeklinde tanımlanır.</li></ul></div></p><p>
+Aslında modülün Module sınıfı, sınıfın Class sınıfının bir süper sınıfıdır. Anladınız mı? Hayır? O zaman devam edelim.
+  </p><p>
+İki tip modül kullanımı bulunur. Bir tanesi ilişkili yöntemleri ve sabitleri merkezi bir yerde toplar. Ruby'nin standart kitaplığındaki <b><tt>Math</tt></b> modülü böyle bir rol oynar:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> Math.sqrt(2)</tt>
+   <tt class="empoutput">1.41421</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> Math::PI</tt>
+   <tt class="empoutput">3.14159</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>::</tt></b> işleci Ruby yorumlayıcısına bir sabit için hangi modülü yükleyeceğini söyler. (örneğin <b><tt>Math</tt></b> için bir anlam ihtiva eden birşey <b><tt>PI</tt></b> için başka bir anlama gelebilir). Eğer bir yöntem ya da sabitin, <b><tt>::</tt></b> kullanmadan doğrudan modüle başvurmasını istiyorsak
+bu modülü <b><tt>include</tt></b> ile ekleyebiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> include Math</tt>
+   <tt class="empoutput">Object</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> sqrt(2)</tt>
+   <tt class="empoutput">1.41421</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> PI</tt>
+   <tt class="empoutput">3.14159</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Diğer bir kullanım da <span class="wordasword"><i>karışım</i></span> (mixin) olarak adlandırılır. Bazı nesneye yönelik yazılım geliştirme dili, C++ da dahil, birden fazla süper sınıftan miras almamızı sağlayan <tt>çoklu miras</tt> kavramına izin verir. Bunun gerçek dünyadaki örneği çalar saatler olabilir. Çalar saatleri hem <tt>saat</tt> sınıfına hem de <tt>alarm</tt> sınıfına sokabilirsiniz.
+  </p><p>
+Ruby direkt olarak gerçek çoklu mirası desteklemez ancak <b><tt>karışım</tt></b> tekniği iyi bir alternatiftir. Modüllerin örneklenemeyeceğini ve alt sınıflanamayacağını hatırlayın, ancak bir modülü  bir sınıf tanımlamasının içine <b><tt>include</tt></b> ile eklersek bu yöntemi sınıfa 'karıştırmış' ya da eklemiş oluruz.
+  </p><p>
+Karışım stratejisi, ek olarak sınıfımıza hangi özellikleri istediğimizi belirtmenin başka bir yoludur. Örneğin eğer bir sınıfın çalışan bir <b><tt>each</tt></b> yöntemi varsa- bunu <tt>Enumerable</tt> standart kütüphanesine eklemek size <b><tt>sort</tt></b> ve <b><tt>find</tt></b> yöntemlerini bedava verir.
+  </p><p>
+Modüllerin bu kullanımı işlevel bir çoklu miras kullanımı sağlarken- aynı zamanda
+basit bir ağaç yapısıyla sınıf akrabalıklarını temsil eder, böylece dil gerçekleştirimini basitleştirir (benzer bir dil gerçekleştirimi Java tasarımcıları tarafından da yapılmıştı).
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-smethots.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-pobjects.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Tekil Yöntemler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yordam Nesneleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

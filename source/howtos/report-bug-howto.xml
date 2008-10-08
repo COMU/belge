@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="report-bug-howto" lang="tr">
+<articleinfo>
+<title>Etkin Hata Raporu NASIL</title>
+  <authorgroup><author role="translator">
+    <firstname>Necdet Yücel</firstname>
+    <affiliation>
+      <address><email>nyucel@comu.edu.tr</email></address>
+    </affiliation>
+  </author><author>
+	  <firstname>Simon</firstname>
+	  <surname>Tatham</surname>
+    <affiliation>
+	    <address><email>anakin@pobox.com</email></address>
+    </affiliation>
+  </author></authorgroup>
+  <revhistory>
+    <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+    <revision>
+      <revnumber>1.0</revnumber>
+      <date>6 Ekim 2008</date>
+      <authorinitials>ny</authorinitials>
+      <revremark>İlk çeviri</revremark>
+    </revision>
+  </revhistory><revhistory>
+   <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+      <revision>
+	<revnumber>18:03:28Z</revnumber>
+	<date>2008-09-08</date>
+        <authorinitials>st</authorinitials>
+       
+      </revision>
+    </revhistory>
+  <legalnotice><title>Yasal Açıklamalar</title><para>
+	Bu belgenin, <emphasis>Etkin Hata Raporu NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 1999-2008 <emphasis>Simon Tatham</emphasis>'a</emphasis> aittir. Bu belgeyi, Open Content Lisansının koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.opencontent.org/opl.shtml"/> adresinde bulabilirsiniz.
+  </para>
+  <para>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </para>
+  </legalnotice>
+    
+  <abstract><para>Bu belge bir yazılımın hatasını etkin bir şekilde raporlamak için izlenmesi gerekenleri açıklamaktadır.</para>
+	  </abstract>
+</articleinfo>
+
+<bridgehead renderas='sect2'>Çeviriler</bridgehead>
+<para>
+	Çeviriler:
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">Almanca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">Çekce</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">Çince</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-da.html">Danca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">Fransızca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-nl.html">Hollandaca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-it.html">İtalyanca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">İspanyolca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-pl.html">Lehçe</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-hu.html">Macarca</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-br.html">Portekizce</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-ru.html">Rusça</ulink>,
+	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-tw.html">Tayvanca</ulink>,
+	<ulink url="http://docs.comu.edu.tr/howto/report-bug-howto.html">Türkçe</ulink>.
+	Belgenin ingilizce orjinaline <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs.html">buradan</ulink> ulaşabilirsiniz. 
+  </para>
+
+<sect1 id="report-bug-howto-intro"><title>Giriş</title>
+	<para>Kamuya açık bir program yazan herkes en azından bir kötü hata raporu alacaktır; hiç bir şey söylemeyen raporlar ("çalışmıyor"), anlamsız raporlar, yeterli bilgi içemeyen raporlar, <emphasis>hatalı</emphasis> bilgi veren raporlar. Aslında kullanıcı hatalarından, başka programların hatalarından veya ağ problemlerinden kaynaklanan hataların raporları.</para>
+	<para>Teknik desteğin korkutucu bir iş olarak görülmesinin nedeni kötü hata raporlarıdır. Yine de bütün hata bildirimleri işe yaramaz değildir: Ben boş zamanlarımda özgür yazılımlara destek veriyorum ve bazen fevkalade açık, yardımcı ve <emphasis>bilgilendirici</emphasis> hata raporları alıyorum.</para>
+	<para>Bu belgede bir hata raporunu iyi yapan şeyleri anlatmaya çalışacağım. İdealde dünyadaki herkesin birine hata raporu göndermeden önce bu belgeyi okumasını isterim. <emphasis>Bana</emphasis> hata raporlayan herkesin mutlaka okumasını rica ediyorum.</para>
+	<para>Kısaca, bir hata raporunun amacı programcının yazdığı programın zayıflıklarından haberdar olmasını sağlamaktır. Hatanın nasıl oluştuğunu kişisel olarak gösterebileceğiniz gibi dikkatli ve detaylı yönlendirmelerle de tarif edebilirsiniz. Eğer programcı hatayı tekrarlayabilirse nedenini anlamak için ilave bilgiler toplayacaktır. Bunu yapamazsa gerekli bilgileri sizin toplamanızı isteyecektir.</para>
+	<para>Hata raporlarında nelerin gerçek ("Bilgisayarımdaydım ve şunlar oldu"), nelerin tahminleriniz ("Problemin bu olduğunu <emphasis>düşünüyorum</emphasis>") olduğunu olabildiğince açık bir şekilde belirtin. İsterseniz tahminlerinizi yazmayabilirsiniz ama gerçekleri saklamayın.</para>
+	<para>Bir hatayı rapor ettiğinizde bunu o hatanın giderilmesi için yaparsınız. Programcıya sövmenin ya da kasten yardımcı olmamanın anlamı yoktur: karşılaştığınız şey gerçekten onların hatası olabilir, onlara kızmakta da haklı olabilirsiniz ama onlara ihtiyaç duydukları bilgileri sağlarsanız hata daha hızlı onarılacaktır. Ayrıca kullandığınız program bir özgür yazılım ise yazarı bu programı nezaketinden sürdürüyor demektir. Eğer çok fazla kişi kaba davranırsa bu iyiliklerini devam ettirmeyebilirler.</para>
+</sect1>
+<sect1 id="report-bug-howto-doesntwork"><title>"Çalışmıyor"</title>
+	<para>Programcının temel zeka seviyesine sahip olduğunu kabul edin: eğer program hiç çalışmıyor olsaydı muhtemelen bu durumun farkında olurlardı. Farkında olmadıklarına göre program onlar için çalışıyor olmalıdır. Bu yüzden ya onlardan farklı bir şey yapıyorsunuzdur ya da ortamınız onlarınkinden farklıdır. Onlara ihtiyaç duydukları bilgiyi ulaştırmak hata raporlamanın temel nedenidir. Fazla bilgi her zaman eksik bilgiden iyidir.</para>
+	<para>Bir çok program, özellikle özgür yazılım olanlar, bilinen hatalarını yayınlar. Eğer böyle bir liste bulabilmişseniz karşılaştığınız hatanın daha önceden bilinip bilinmediğini öğrenmek için onu okusanız iyi edersiniz. Eğer zaten bilinen bir hata ise onu tekrar rapor etmek muhtemelen iyi bir fikir olmayacaktır, ama eğer hata listesindekinden daha fazla bilgiye sahipseniz programcıya yine de ulaşmak isteyebilirsiniz. Daha önce sahip olmadıkları bir bilgiyi onlara ulaştırmanız hatanın daha çabuk düzeltilmesini sağlayabilir.</para>
+	<para>Bu belge ipuçları ile doludur ama hiç biri mutlak birer kural değildir. Her programcının hoşuna giden başka hata raporlama yöntemleri vardır. Eğer program ile birlikte gelen bir hata raporlama kılavuzu varsa onu okuyun. Kılavuzda yazanlar bu belge ile çelişkiler içeriyorsa bile onun dediklerini yapın!</para>
+	<para>Şayet bir hata raporlamadan sadece programı kullanmakla ilgili bir soru soracaksanız, sorunuzun cevabı için nereye baktığını belirtmelisiniz. ("4 ve 5.2 bölümlerini okudum ama bunun mümkün olduğuna dair bir bilgiye rastlamadım.") Bu, programcının kullanıcıların cevabı nerede bulmayı umduklarını bilmesine yardımcı olur, böylece programın belgelendirmesini daha kolay kullanılır yapabilirler.</para>
+</sect1>
+<sect1 id="report-bug-howto-showme"><title>"Hatayı Göster"</title>
+	<para>Bir programın hatasını bildirmenin en iyi yolu onu programcıya göstermektir. Programcıyı bilgisayarınızın önüne getirin, programı çalıştırın ve nerede hata olduğunu gösterin. Sizin bilgisayarınızı başlattığınızı, programı çalıştırdığınızı, programla nasıl etkileişim kurduğunuzu ve sizin girdilerinize nasıl cevap vermediğini görmelerini sağlayın.</para>
+	<para>Programcılar programlarını avuçlarının içi gibi bilirler. Hangi parçalara güvendiklerini, hangilerinde hatalar olabileceğini iyi bilirler. Neyi izlemeleri gerektiğini sezgileriyle bilirler. Yazılım açıkça hatalı bir şeyler yapana kadar onlar kendilerine bir ipucu verebilecek <emphasis>gizli</emphasis> bir hatayı farkedebilirler. Bilgisayarınızda deneme çalıştırması yapılırken her şeyi gözlemleyebilirler ve işlerine yarayacak btleri ayırt edebilirler.</para>
+	<para>Bu bile yeterli olmayabilir. Daha fazlabilgiye ihtiyaçları olduğuna karar verebilirler ve sizden aynı şeyleri tekrralamanızı isteyebilirler. Hatayı istedikleri kadar tekrarlayabilmeleri için sizden yöntem hakkında konuşmanızı isteyebilirler. İzlediğiniz adımların bazılarını değiştirerek denemeler yapabilirler; bu sayade hatanın sadece tek bir durumda mı yoksa birbirine yakın bir kaç durumda mı oluştuğunu anlayabilirler. Eğer şansınız yoksa bir kaç saat geliştirme araçlarıyla birlikte oturup <emphasis>gerçekten</emphasis> araştırma yapmaları gerekebilir. Ama en önemlisi hata oluşurken programcının onu bilgisayarda görmesidir. Bir kere hatayı oluşurken gördüklerinde genellikle onu düzeltmeye başlayabilirler.</para>
+</sect1>
+<sect1 id="report-bug-howto-showmyself"><title>"Hatayı Nasıl Görebileceğimi Göster"</title>
+	<para>Çağımız internet çağı. Çağımız iletişim çağı. Bir tuşla yazılımımı Rusyaya gönderebildiğim ve aynı kolaylıkla yorumları alabildiğim bir çağda yaşıyoruz. Ama karşı taraf eğer programımla ilgili bir problem yaşıyorsa hata ile karşılaştığında onun yanında olamıyorum. "Hatayı göster" eğer yapabiliyorsanız iyidir ama genellikle yapamazsınız.</para>
+	<para>Yanınızda bulunamayacak birine hata raporu gönderiyorsanız amacınız hatanın nasıl tekrarlanabileceğini tarif etmek olmalıdır. Programcı yazılımın elindeki kopyasını çalıştırıp, sizinle aynı şeyleri yaparak, aynı şekilde hatayla karşılaşmalıdır. Bir kere kendi gözleriyle hatayı gördüğünde artık onunla ilgilenebilir.</para>
+	<para>Bunun için tam olarak neler yaptığınızı anlatın. Eğer program bir grafik programı ise hangi düğmelere hangi sırayla tıkladığınızı söyleyin. Eğer komut satırından çalıştırılan bir program ise tam olarak hangi komutu çalıştırdığınızı gösterin. Mümkün olan her yerde hangi komutları çalıştırdığınızı ve bilgisayarın hangi çıktıları verdiğini göstermek için oturumun kelimesi kelimesine dökümünü sunun.</para>
+	<para>Programcıya düşünebildiğiniz bütün girdileri verin. Eğer program girdileri bir dosyadan okuyorsa bu dosyanın da bir kopyasını göndermeniz gerekebilir. Eğer program ağdan başka bir bilgisayarla konuşuyorsa, bu bilgisayarın bir kopyasını gönderemeyeceğinizden, en azından nasıl bir bilgisayar olduğunu ve (eğer yapabilirseniz) üzerindeki yazılımları bildirmelisiniz.</para>
+</sect1>
+<sect1 id="report-bug-howto-worksforme"><title>"Bende çalışıyor. O halde sorun ne?"</title>
+	<para>Eğer programcıya uzun bir girdiler ve yapılanlar listesi vermenize rağmen programcı kendi bilgisayarında aynı işlemleri yaptığında bir hata ile karşılaşmazsa ona yeterli bilgi vermemiş olursunuz. Belkide hata her bilgisayarda ortaya çıkmıyordur; sizin sisteminizle programcınınki bir açıdan farklı olabilir. Belkide programın ne yapması için tasarlandığını yanlış anladınız; tamamen aynı şeye bakıyor olmanıza rağmen siz onun hatalı olduğunu programcı ise doğru olduğunu düşünüyor olabilir.</para>
+	<para>Bu yüzden ne olduğunu da tanımlamayın. Ne gördüğünüzü tam olarak söyleyin. Gördüğünüz şeyin neden hatalı olduğunu düşündüğünüzü söyleyin; hatta daha da iyisi tam olarak ne görmeyi umduğunuzu söyleyin. Eğer "ve sonra hata verdi" derseniz çok öenmli bilgileri eksik bırakmış olursunuz.</para>
+	<para>Eğer hata mesajıyla karşılaşırsanız bunların neler olduğunu dikkatlice ve kesin olarak programcıya söyleyin. Bu çok önemlidir! Bu aşamada programcı hatayı düzeltmeye çalışmaz: onu tespit etmeye çalışır. Programcını neyin ters gittiğini bilmesi gerekir ve bu hata mesajları bilgisayarınızın bunu söylememek için yapabileceği en iyi şeydir. Eğer hatırlamanız için başka yolunuz yoksa hata mesajlarını not edin. Hata mesajının ne olduğunu bildiremeyecekseniz programın bir hata verdiğini söylemeniz bir işe yaramayacaktır.</para>
+	<para>Özellikle hata mesajının bir numarası varsa bunu programcıya bildirmeniz gerekir. Sizin onlarda bir anlam bulamamanız programcının da bulamayacağı anlamına gelmez. Bu sayılarda programcının edinebileceği tüm bilgiler mevcuttur, çok öenmli ipuçları barındırıyor olabilirler. Hata mesajları bilgisayarların hataları kelimelerle ifade etmesi zor olduğu için oradadırlar. İhtiyacınız olan bilgiyi en iyi yapabildikleri şekilde size verirler.</para>
+	<para>Bu aşamada programcı verimli bir araştırma yapabilir. Neyin meydana geldiğini bilmedikleri gibi hatayı görecek kadar da yakınınıza gelemiyor olmalarına rağmen hatayı bulmak için ipuçlarını araştırıyorlardır. Hata mesajları anlaşılmaz sayı dizileri, hatta açıklanmamış sırlar gibidirler ama bir cinayet senaryosundaki parmak izleri kadar önemlidirler. Onları saklayın!</para>
+	<para>Eğer Unix kullanıyorsanız program bir bellek dökümü (core dump) üretmiş olabilir. Bunlar özellikle faydalı ipuçları olduğundan onları silmeyin. Diğer yandan, programcıların çoğu bir uyarı olmadan çok büyük bellek döküm dosyalarını eposta ile almaktan hoşlanmaz, bu yüzden bu dosyaları eposta ile göndereden önce haber verin. Bellek döküm dosyalarının programın tüm aşamalarının bir kaydı olduğunu da unutmayın: içinde bir "sırrınız" (belki program kişisel bir mesajınızı içeriyor veya gizli bir bilginizi barındırıyor olabilir) bulunabilir.</para>
+</sect1>
+<sect1 id="report-bug-howto-sothenitried"><title>"Müdahale Etmeden Önce"</title>
+	<para>Bir hata ortaya çıktığında yapabileceğiniz bir çok şey vardır. Bunların bir çoğu hatayı daha da kötüleştirir.Bir okul arkadaşım tüm Word belgelerini yanlışlıkla sildikten sonra bir uzmana haber vermeden önce Word'ü yeniden kurmayı denemiş, hatta <command>Defrag</command> programını çalıştırmıştı. Yaptıkları dosyalarını kurtarmasın ayardım etmediği gibi diskini de talan ettiğinden dünyadaki hiç bir geri alma programının dosyalarını geri getirmesine de imkan bırakmamıştı. Eğer hiç bir şey yapmamış olsaydı bunun için bişr şansı olacaktı.</para>
+	<para>Bunun gibi kullanıcılar köşeye sıkışmış bir firavun faresi gibidirler: sırtları duvara dayalıdır ve kesinlikle öleceklerini görmektedirler, çılgınca saldırırlar çünkü herhangi bir şey yapmak hiç bir şey yapmamaktan daha iyidir. Bu bilgisayar hataları karşısında izlenmesi gereken biryöntem değildir.</para>
+	<para>Bir firavun faresi yerine bir antilop olun. Bir antilop beklenmedik ya da korkutucu birşeyle karşılaştığında donar kalır. Tamamen hareketsiz kalarak ilgiyi üzerine çekmemeye çalışır. Durup düşünerek kurtulmaya çalışması yapabileceği en iyi şeydir. (Eğer bir antilopun teknik servis hattı olsa bu aşamada onu arıyor olurdu.) Daha sonra, yapabileceği en güvenli şeyin ne olduğuna karar verrse onu yapar.</para>
+	<para>Bir şey ters gittiğinde hemen bir şey yapmayı durdurun. Hiç bir tuşa dokunmayın. Ekrana bakın ve sıra dışı herşeyi hatırlamak için not alın. Ardından ihtiyatlı birşekilde "Tamam" veya "İptal" tuşalarından güvenli görünenine basın. Böyle bir refleks geliştirmeye çalışın; bilgisayarınızda beklenmedik bir şey olursa donun.</para>
+	<para>Eğer programin hakkından gelmek için hatalı programı kapattıysanız ya da bilgisayarınızı yeniden başlattıysanız yapabileceğiniz en iyi şey hatanın yeniden oluşmasını sağlamaktır. Programcılar tekrarlayabildikleri hatalardan hoşlanırlar. Mutlu programcılar hataları daha hızlı ve verimli çözerler.</para>
+</sect1>
+<sect1 id="report-bug-howto-tachyon"><title>"Takyon Modülasyonunun Yanlışlıkla Polarize Edildiğini Düşünüyorum."</title>
+	<para>Sadece programcı olmayanlar kötü hata raporları göndermezler. Benim gördüğüm en kötü raporların bazıları programcılardan hatta iyi programcılardan gelmiştir.</para>
+	<para>Bir keresinde kendi yazdığı kodun hatalarını bulup onları düzeltmeye çalışan bir programcıyla çalışmıştım. Bir hata bulduğu ama çözemediği her defasında gelip benden yardım isterdi. "Problem ne?" diye sorduğumda neyin düzeltilmesi gerektiği hakkındaki fikrini söylerdi.</para>
+	<para>Bu onun düşüncesi haklı olduğunda işe yarardı. Bu durumlarda zaten işin yarısını yapmış geri kalanını bitirmek için yardım istiyor olduğundan çalışma verimli ve yararlı olurdu.</para>
+	<para>Ama genellikle yanılıyor olurdu. Böyle olduğunda bir süre programın bir kısmın neden hatalı veri ürettiğini bulmak için çalışır, daha sonra birden öyle olmadığını keşfeder ve gerçek problemimiz bir kenarda duruken biz yarım saat içinde harika bir kod parçası yazmış olurduk.</para>
+	<para>Eminim bunu bir hekime yapmıyordur: "Doktor, Hydroyoyodyne için bir reçeteye ihtiyacım var." İnsanlar bir hekime bunu söylemeyeceklerini bilirler: belirtileri tanımlar gerçek rahatsızlıklarınızı, ağrılarınızı, acılarınızı, vücudunuzdaki izleri veya ateşi anlatır ve doktorun teşhis koymasını ve bunun için ne yapılacağına karar vermesini beklersiniz. Aksi halde doktor sizi hastalık hastası veya kaçık olarak gördüğünden dışarı çıkartır ve bunda da oldukça haklı olur.</para>
+	<para>Programcılarda da durum aynıdır. Kendi tanılarımız bazen yardımcı olabilir ama belirtiler mutlaka anlatılmalıdır. Kendi tanılarımız belirtilere alternatif olabilecek şeyler değildir. Benzer şekilde problemi çözen bir yama göndermek yararlı bir katkıdır ama bir hata raporunun yerini tutmaz.</para>
+	<para>Bir programcı sizden ilave bilgiler istediğinde iletişimi kesmeyin! Bana hata raporu gönderen birinden çalışmayacağını bildiğim bir komutu denemesini istemiştim. Bu komutu denemesini istememin nedeni iki hata mesajından hangisini vereceğini öğrenmek istememdi. Hangi hata mesajının alındığını bilmem benim için önemli bir ipucu olacaktı. Ama hata raporunu gönderen gerçekten denemedi bile - bana sadece "Hayır, çalışmadı" yazan bir eposta gönderdi. Komutu gerçekten denemesi için ikna etmem biraz zaman aldı.</para>
+	<para>Kendi aklınızı kullanıp programcıya yardımcı olmanız iyi bir şeydir. Tahmininiz hatalı bile olsa programcı en azından onun hayatını kolaylaştırmaya çalıştığınız için minnettar olacaktır. Ama yine de belirtileri bildirin, bunu yapmazsanız hayatlarını çok fazla zorlaştırırsınız. </para>
+</sect1>
+<sect1 id="report-bug-howto-funny"><title>"Şaka gibi, az önce olmuştu."</title>
+	<para>Bir programcıya "arada bir olan hata" diyin ve suratının aldığı şekli seyredin. Basit bir seri işlem sonucu hatayı oluşturabildiğiniz problemler kolay problemlerdir. Programcı yapması gerekenleri kapalı bir test ortamında tekrar ederek ne olduğunu bütün detaylarıyla görebilir. Problemlerin çoğunda bu yöntemi takip etmek mümkün değildir: haftada bir veya ayda bir hata veren programlar vardır ya da programcının önünde denediğinizde hiç hata vermeyen ama tek başınızayken her zaman hata verenler vardır.</para>
+	<para>Arada bir olan hataların önemli bir kısmı aslında arada bir olmaz. Çoğunda bir mantık vardır. Bazıları makinenin hafızası dolduğunda, bazıları başka bir program kritik bir dosyayı uygunsuz bir zamanda değiştirmek istediğinde hatta bazıları saatin ilk yarısında oluşur (bunlardan birini gerçekten gördüm).</para>
+	<para>Şayet siz hatayı tekrarlayabiliyorsanız ama programcı bunu yapamıyorsa sizin bilgisayarınızın programcınınkinden bir yönden farklı olma ihtimali yüksektir. Hata bundan kaynaklanıyor olabilir. Programlarından birinin sol köşesi bukleli görünüyordu, ama bu problem sadece 800x600 çözünürlükte meydana geliyordu, benim 1024x768 monitörümde problem yoktu.</para>
+	<para>Programcı problem hakkında bulabileceğiniz herşeyi bilmek isteyecektir. Örneğin başka bir bilgisayarda deneyin aynı şeyi. İki ya da üç kez deneyin, ne kadar sıklıkla oluştuğunu görün. Sadece ciddi işlerinizi yaparken hata oluşuyor ama başkasına göstermek istediğinizde oluşmuyorsa belkide uzun çalışma zamanları ya da büyük dosyalar hatanın kaynağı olabilir. Hata oluştuğunda neler yaptığınızı olabildiğince fazla ayrıntıyla hatırlamaya çalışın, eğer bir şablon varsa onu da belirtin. Sağlayabileceğiniz herşeyin yardımı olacaktır. Sadece olasılıktan ibaret bile olsa ("Emacs çalışırken daha fazla çökme oluyor sanki" gibi), hatanın kaynağı hakkında doğrudan bilgi vermese bile programcının hatayı tekrarlamasına yardımcı olabilir.</para>
+	<para>En önemlisi programcı gerçekten arada bir olan bir hatayla mı karşılaştığını yoksa bunun makineye özel bir hata mı olduğunu bilmek isteyecektir. Bilgisayarınız hakkında çokça bilgiye sahip olmak isteyeceklerdir, bu sayede kendi bilgisayarlarından ne kadar farklı olduğunu anlayabilirler. Bir çok detay programdan programa değişebilir ama her program için değişmeden bildirmeniz gereken şey sürüm numarasıdır; programın kendisinin sürüm numarası, işletim sisteminin sürüm numarası ve problemin bağlı olabileceği diğer programların sürüm numaraları.</para>
+</sect1>
+
+<sect1 id="report-bug-howto-windows"><title>"Diskimi Windowsa yükledim..."</title>
+	<para>Açıkça yazmak bir hata raporunun olmazsa olmazlarındandır. Eğer programcı ne demek istediğinizi anlayamıyorsa bu hiç bir şey dememenizle aynı anlama gelir.</para>
+	<para>Dünyanın her yanından hata raporları alıyorum. Bunların bir çoğu anadili İngilizce olmayan insanlardan geliyor ve bunlarında çoğu zayıf ingilizcelerinden dolayı özürlerle dolu oluyor. Genellikle bu özürleri içeren hata raporları çok açık ve yararlı oluyor. En anlaşılmaz hata raporları ana dili İngilizce olanlardan geliyor çünkü onlar açık ve kesin olmak için çaba sarfetmeseler bile anlaşılacaklarını düşünüyorlar.		
+	<itemizedlist><listitem><emphasis>Kesin olun.</emphasis> Eğer birşeyi iki farklı şekilde yapabiliyorsanız hangisini seçtiğinizi belirtin. "Yüklemeyi seçtim" iki anlama gelebilir: "Yükle tuşuna tıkladım" veya "Alt+Lye bastım". Hangisini yaptığınızı söyleyin. Bazen aradaki fark önemli olabilir.</listitem>
+	<listitem> <emphasis>Fazlasını verin</emphasis>. Yetersiz bilgi vermektense fazlasını verin. Eğer gereğinden fazlasını yazarsanız programcı bunların bir kısmını görmezden gelebilir ama eğer gerekenden azını söylerseniz size sorularla dönmek zorunda kalacaktır. Aldığım bir hata raporu tek bir cümleden oluşuyordu; her soru soruşumda yeni bir cümleyle karşılık alıyordum. Yeterince bilgi toplamam haftalarımı aldı çünkü her seferinde tek bir cümlelik bilgi dönüyordu.</listitem>
+	<listitem> <emphasis>Zamirleri dikkatli kullanın</emphasis>. Ne kastettiğiniz kesin değilse "o" veya "pencere" gibi kelimeleri kullanmayın. Şunu düşünün: "FooApp programını başlattım. Onu kapatmak istediğim ve o çöktü". Kullanıcının neyi kapatmaya çalıştığı açık değil. Sadece uyarı penceresi mi yoksa tüm FooApp programı mı kapatılmaya çalışılmış? Arada fark vardır. Bunun yerine şöyle yazmalısınız: "FooApp programını başlattım ve bir uyarı penceresi karşıma çıktı. Bu uyarıyı kapatmak istediğimde FooApp programı çöktü." Bu daha uzun ama aynı zamanda daha açıklayıcı ve yanlış anlaması daha zor bir tarzdır.</listitem>
+	<listitem><emphasis>Ne yazdığınızı okuyun</emphasis>. Yazdığınız hata raporunu kendi kendinize okuyun ve açık olup olmadığını görün. Eğer hatanın tekrarlanması için adımlar yazmışsanız bir adımı kaçırmadığınızdan emin olmak için yazdığınız sırayla onları takip edin.</listitem> 
+</itemizedlist></para>
+</sect1>
+
+<sect1 id="report-bug-howto-summary"><title>Özet</title>
+	<para><itemizedlist>
+	<listitem>Bir hata raporunun ilk hedefi programcının hatayı kendi gözleriyle görmesini sağlamaktır. Eğer hatayı onların önünde tekrarlayamayacaksanız bunu kendi başlarına yapabilmeleri için yeterli bilgiyi verin.</listitem>
+	<listitem>İlk hedefe ulaşılamazsa ve programcı hatayı kendisi göremezse, hata raporunun ikinci hedefi neyin kötü gittiğini tarif etmektir. Her şeyi ayrıntılarıyla tarif edin. Ne gördüğünüzü ve ne görmeyi beklediğinizi belirtin. Hata mesajları yazın, özellikle numarası olanları.</listitem>
+	<listitem>Bilgisayarını beklenmedik bir şey yaparsa <emphasis>donun</emphasis>. Sakinleşene kadar tehlikeli olabileceğini düşündüğünüz birşey yapmayın.</listitem>
+	<listitem>Eğer yapabileceğinizi düşünüyorsanız karşılaştığını hatayı teşhiş etmeye çalışın ama yapsanız bile belirtileri yine de raporlamalısınız.</listitem>
+	<listitem>Programcının ihtiyacı olması durumunda yeni bilgileri sağlamaya hazır olun. İhtiyaçları olmasa sizden ilave bilgiler istemezler. Kasten beceriksizmiş gibi yapmazlar. Sürüm numaralarını mutlaka verin çünkü büyük ihtimalle ihtiyaç duyacaklardır.</listitem>
+	<listitem>Açıkça yazın. Ne kasdediyorsanız onu söyleyin ve yanlış yorumlanamayacağından emin olun.</listitem>
+	<listitem>Hepsinden önce, <emphasis>kesin</emphasis> olun. Programcılar kesinlikten hoşlanırlar.</listitem> 
+</itemizedlist>	</para>
+</sect1>
+</article>

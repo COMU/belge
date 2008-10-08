@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="freeradius-sql-howto" lang="tr">
+  <articleinfo>
+	  <title>FreeRADIUS ile SQL NASIL</title>
+    <author role="translator">
+      <firstname>Necdet</firstname>
+      <surname>Yücel</surname>
+      <affiliation>
+        <address><email>nyucel@comu.edu.tr</email></address>
+      </affiliation>
+    </author><author>
+      <firstname>FreeRADIUS Wiki</firstname>
+      <surname></surname>
+      <affiliation>
+	      <address>http://wiki.freeradius.org/SQL_HOWTO</address>
+      </affiliation>
+    </author>
+    <revhistory>
+	    <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>Nisan 2008</date>
+		    <authorinitials>ny</authorinitials>
+		    <revremark>İlk çeviri</revremark>
+	    </revision>
+    </revhistory><revhistory>
+	    <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>2007-07-30</date>
+	    </revision>
+    </revhistory>
+    <copyright>
+	    <year>2008</year>
+	    <holder>Necdet Yücel (Türkçe Çeviri) <email>nyucel@comu.edu.tr</email></holder>
+</copyright>
+    <legalnotice><title>Yasal Açıklamalar</title><para>
+		    Bu belgenin, <emphasis>FreeRADIUS ile SQL NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis> aittir, özgün İngilizce sürümüne <ulink url="http://wiki.freeradius.org/SQL_HOWTO"/> adresinden ulaşılabilir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+	    </para>
+	    <para>
+		    BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+	    </para>
+	    <para>
+		    İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+	    </para>
+	    <para>
+		    Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+	    </para>
+  </legalnotice>  
+  <abstract>
+	    <para>FreeRADIUS bir çok SQL sunucu ile birlikte çalışabilir olmasına rağmen internette bulunan yapılandırma rehberlerinin bir kısmı oldukça eski, bir kısmı hatalı, bazıları ise hem hatalı hem de eskidir. Bu NASIL belgesi hatalı bilgilendirmeleri düzeltmeye çalışacaktır. 
+      </para>
+    </abstract>
+  </articleinfo>
+
+  <sect1 id="freeradius-sql-howto-system">
+    <title>Sistem</title>
+    <para>Buradaki açıklamalar Freeradius 1.1.7 için verilmiş ve openSUSE 10.2 üzerinde test edilmiştir.</para>
+    </sect1>
+    <sect1 id="freeradius-sql-howto-before">
+	<title>Başlamadan Önce</title>
+	<para>Devam etmeden önce FreeRADIUS sunucusunun kurulu ve ağınıza uygun yapılandırıldığından, SQL sunucunuzun (MySQL, Postgresql, vb.) kurulu ve çalışır durumda olduğundan ve Ağ Erişim Noktalarının (AEN) istekleri RADIUS sunucunuza gönderecek şekilde yapılandırıldığından emin olun.</para>
+    </sect1>
+    <sect1 id="freeradius-sql-howto-getting-started">
+  <title>Hazırlık</title>
+  <para>İlk olarak FreeRADIUS'u sisteminize kurmanız gereklidir. Önde gelen açık kaynak kodlu RADIUS sunucusu olan FreeRADIUS bazı işletim sitemlerinde standart paket olarak bulunurken, diğer bir çoğu için de ikilik paketleri mevcuttur. İkilik paketlerden (rpm, deb, pisi) kurulum en kolayıdır ama daha az bilinen bir işletim sistemi kullanıyorsanız kendi paketlerinizi oluşturabilirsiniz.</para>
+  </sect1>
+  <sect1 id="freeradius-sql-howto-configuration">
+    <title>Temel Yapılandırma</title>
+    <para>FreeRADIUS'un düzgün kurulu olduğunu ve çalıştığını test etmek için en iyisi standart metin dosyalarını kullanan basit bir yapılandırma ile başlamaktır.</para><para>
+	    <itemizedlist><listitem><filename>/etc/raddb/clients.conf</filename> dosyasını düzenleyerek AEN'lerin detaylarını girin. Örnekler de olduğundan kolayca yapabilirsiniz. Bu dosyada deneme amaçlı önceden yapılandırılmış bir 'localhost' AEN bulunmaktadır (bu sayede <command>radtest</command>'i kullanabilirsiniz).
+      </listitem><listitem>
+	      <filename>/etc/raddb/users</filename> dosyasını düzenleyerek örnek bir deneme hesabı açın. Dosyada bunu nasıl yapacağınız anlatılmaktadır.
+      </listitem><listitem>
+	      <filename>/etc/raddb/radiusd.conf</filename> dosyasını düzenleyerek gerekli değişiklikleri yapın. Radius sunucunuzu yeniliyorsanız 1645 numaralı öntanımlı portu değiştirmek isteyebilirsiniz.      </listitem></itemizedlist>
+      </para><para>
+	      Bu noktada <command>/usr/sbin/radiusd</command> komutunu çalıştırabilir olmalısınız. Bunu hata ayıklama modunda yaparsanız neler olup bittiğini görebilirsiniz: 
+      </para><para><screen># <command>/usr/sbin/radiusd -X</command></screen></para>
+      <para>
+Ekrana bir çok bilgi yazıldıktan sonra, istekleri kabul etmeye hazır olduğunu belirten bir mesaj görmelisiniz. Eğer hata alırsanız HATA MESAJLARINI OKUYUN, belgeleri kontrol edin ve tekrar deneyin.</para>
+<para>Artık FreeRadius'u kullanabilir olmalısınız. Komut satırından hesabınızı denemek için <command>radtest</command>'i şöyle kullanabilirsiz:</para>
+<para><screen># radtest username password servername port secret</screen></para>
+<para>
+Yani eğer, <filename>clients.conf</filename> dosyasında 'radius.domain.com' sunucusu için test kullanıcı adı 'fred', parola 'wilma', port 1645 kullanacaksanız ve localhost (ya da localhost'a karşılık gelen IP) için 'mysecret' sırrını belirlemişseniz çalıştıracağınız komut şöyle olmalı:</para>
+<para><screen># radtest fred wilma radius.domain.com 1645 mysecret</screen></para>
+<para>Çıktı olarak aşağıdakine benzer bir çıktı almalısınız:</para>
+<para><screen>Sending Access-Request of id 226 to 127.0.0.1:1645
+	User-Name = 'fred'
+	User-Password = '\304\2323\326B\017\376\322?K\332\350Z;}'
+	NAS-IP-Address = radius.domain.com
+	NAS-Port = 1645
+	
+rad_recv : Access-Accept packet from host 127.0.0.1:1645,id=226, length=56
+	Framed-IP-Address = 80.84.161.1
+	Framed-Protocol = PPP
+	Service-Type = Framed-User
+	Framed-Compression = Van-Jacobson-TCP-IP
+	Framed-IP- Netmask = 255.255.255.255
+</screen></para>
+<para>Bu aşamada 'Access Accept' cevabı almalısınız. Eğer alamıyorsanız daha ileri gitmeden geriye dönerek herşeyi kontrol edin. Belgelendirmeyi okuyun, HATA MESAJLARINI OKUYUN!</para>
+<para>Eğer elinizde bir Windows PC varsa test paketlerini göndermek için radtest yerine (MasterSoft'dan indirirebileceğiniz) NTradPing programını kullanmak isteyebilirsiniz. Eğer böyle yaparsanız ya da başka bir makinadan test yapmak isterseniz bu makinanın da <filename>clients.conf</filename> dosyasında AEN listesinde yeralması gerektiğini unutmayın. Bu noktada metin dosyasıyla kimlik kanıtlaması yapan bir FreeRadius'unuz olmalı.</para>
+    </sect1>
+    <sect1 id="freeradius-sql-howto-setting-sql">
+	    <title>RADIUS Veritabanının Oluşturulması</title>
+	    <para>İlk olarak, SQL'de yeni boş bir 'radius' veritabanı ve bu veritabanına erişime yetkili bir kullanıcı yaratmalısınız. Veritabanı ve kullanıcı adı için elbette istediğiniz isimlendirmeyi yapabilirsiniz ama isimleri 'radius' ile ilişkilendirmek işleri basitleştirebilir.
+	    </para><para>Sıradaki adım, veritabanı için şemanın yaratılmasıdır. İşletim sisteminizin doc dizininde <filename>docs/examples/</filename> altında (veya FreeRADIUS'un kaynak kodunu açtığınız dizinde) her SQL tipi için birer örnek SQL betiği bulunmaktadır. Bu betikler SUSE'de <filename>/usr/share/doc/packages/freeradius/</filename> klasöründe bulunmaktadır.
+    </para>
+    <sect2 id="freeradius-sql-howto-setting-sql-mysql">
+	    <title>MySQL Veritabanının Yaratılması</title>
+      <para>
+	      <screen>mysql -uroot -p
+      CREATE DATABASE radius;
+      GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "radpass";
+      exit</screen></para>
+<para><warning> "radpass" yerine daha güvenli bir parola kullanın.</warning>
+      </para><para>
+	      <screen>cd /usr/share/doc/packages/freeradius/doc/examples/
+mysql -uroot -p radius &lt;ed mysql.sql
+</screen>
+      </para>
+    </sect2>
+    <sect2 id="freeradius-sql-howto-setting-sql-postgresql">
+	    <title>PostgreSQL Veritabanının Yaratılması</title>
+	    <para>
+		    <screen>su - postgres
+createuser radius --no-superuser --no-createdb --no-createrole -P
+createdb radius --owner=radius
+exit</screen></para>
+<para><warning><command>createuser</command> komutunu çalıştırdığınızda sorulan parolayı güvenli bir şekilde seçin.</warning>
+	    </para><para>
+		    <screen>cd /usr/share/doc/packages/freeradius/doc/examples/
+psql -U radius radius &lt; postgresql.sql</screen>
+	    </para>
+    </sect2>  </sect1>
+<sect1 id="freeradius-sql-howto-configure-freeradius">
+	<title>FreeRadius'un SQL Kullanması İçin Yapılandırılması</title>
+	<para>Tercihinize göre <filename>/etc/raddb/sql.conf</filename> veya <filename>/etc/raddb/postgresql.conf</filename> dosyalarından birini düzenleyerek SQL sunucunuzun adresini, RADIUS veritabanına bağlanmak için gerekli kullanıcı adı ve parolayı girin. Eğer öntanımlı şemayı kullandıysanız veritabanı ve tablo ismlerini olduğu gibi bırakmalısınız. Deneme ve hata ayıklama için isterseniz sqltrace seçeneğini aktif hale getirebilirsiniz. Bu durumda FreeRadius tüm SQL komutlarını hata ayıklamak için çıktı olarak verecektir.</para>
+	<para>Eğer PostgreSQL kullanıyorsanız <filename>/etc/raddb/radiusd.conf</filename> dosyasındaki:</para>
+	<screen>$INCLUDE  ${confdir}/sql.conf</screen>
+	<para>satırını aşağıdaki gibi değiştirin</para>
+	<screen>$INCLUDE  ${confdir}/postgresql.conf</screen>
+	<para>Ben alt satırdaki User-Name'i içeren satırı da silmiştim. Eğer burada ne olup bittiğini görmek isterseniz <filename>radiusd.conf</filename> dosyasındaki bütün kayıt seçeneklerini aktif edip radiusd'yi hata ayıklama (-X) modunda çalıştırın. User-Name kullandığınızda veritabanına "user@domain" şeklinde kaydedilirken, Stripped-User-Name kullandığınızda sadece "user" olarak kaydedilir. İkincisini kullandığımda alanlarım da çalıştı (sunucuda bütün kullanıcı isimleri tekil olduğundan alan adlarını ayırıp kullandım). Elbette diğer SQL seçeneklerini (veritabanı bağlantı ayrıntıları gibi) de uygun şekilde ayarlamanız gerekir.</para>
+	<para><filename>/etc/raddb/radiusd.conf</filename> dosyasının sonlarında yer alan authorize{} bölümüne sql için gerekli satırı eklemelisiniz. Bu eklemenin en iyi yeri 'files' bölümünden hemen sonrasıdır. Aslında eğer sadece SQL kullanacak ve metin dosyalarına geri dönmeyecekseniz en iyisi 'files' girdisini silmek veya yorum haline getirmektir.</para>
+	<para>FreeRADIUS'un hesap kayıtlarını da veritabanında tutmasını isterseniz accounting{} bölümüne de 'sql' ile ilgili satırı eklemeniz gerekir.</para>
+	<para>Eşzamanlı kullanım (Simultaneous-Use) denetimi yapmak için de session{} bölümüne 'sql' eklenmelidir.</para>
+	<para>Tüm kimlik denetimi denemelerini veritabanına kaydetmek için post-auth{} bölümüne 'sql' eklenmelidir.</para>
+	<warning>Yapılandırma dosyasında bunlardan başka hiç bir satırı yorumları okuyup anlamadan silmemeli veya değiştirmemelisiniz!</warning>
+	<para><filename>radiusd.conf</filename> dosyanız aşağıdakine benzer olmalıdır:</para>
+	<screen>authorise {
+	preprocess
+	chap
+	mschap
+	suffix
+	eap
+	# We leave "files" enabled to allow creation of test users in /etc/raddb/users
+	files
+	sql
+	pap
+}
+
+accounting {
+	# We leave "detail" enabled to _additionally_ log accounting to /var/log/radius/radacct
+	detail
+	sql
+}</screen>
+  </sect1>
+  <sect1 id="freeradius-sql-howto-populating-sql">
+	  <title>SQL'in Kullanıma Hazır Hale Getirilmesi</title>
+	  <para>Veritabanını denemek için sahte veriler oluşturmamız gerekir. Bunun için aşağıdaki adımları takip etmelisiniz:</para>
+    <itemizedlist>
+	    <listitem>usergroup tablosuna, grup adlarına karşılık gelen kullanıcılar eklenmelidir.</listitem>
+	    <listitem>radcheck tablosuna, her kullanıcı için 'Cleartext-Password' özelliğinde bir parola girilmelidir.</listitem>
+	    <listitem>radreply tablosuna, her kullanıcı adı için kendisine has özellikli bir radius cevap mesajı girilmelidir.</listitem>
+	    <listitem>radgroupreply tablosuna, tüm grup üyelerine geri döndürülecek özellikler girilmelidir.</listitem>
+    </itemizedlist>
+    <para>Aşağıda MySQL veritabanından örnek 'radius' tabloları verilmiştir. PostgreSQL için küçük değişiklikler olsa da tam olarak aynı içerik kullanılmaktadır.</para>
+    <para>Bu örnekte üç farklı kullanıcı tipi vardır. Kullanıcılardan birinin (fredf) IP adresi AEN tarafından dinamik olarak atanırken, ikincisi (barney) statik bir IP adresi kullanmaktadır. Üçüncüsü kullanıcı (dialrouter) ise çevirmeli ağ ile yönlendiricisi bağlantısını temsil etmektedir:</para>
+    <literallayout>mysql> select * from usergroup;
++----+---------------+-----------+
+| id | UserName      | GroupName |
++----+---------------+-----------+
+|  1 | fredf         | dynamic   |
+|  2 | barney        | static    |
+|  2 | dialrouter    | netdial   |
++----+---------------+-----------+
+3 rows in set (0.01 sec)
+    
+mysql> select * from radcheck;
++----+----------------+--------------------+------------------+------+
+| id | UserName       | Attribute          | Value            | Op   | 
++----+----------------+--------------------+------------------+------+
+|  1 | fredf          | Cleartext-Password | wilma            | :=   |
+|  2 | barney         | Cleartext-Password | betty            | :=   |
+|  2 | dialrouter     | Cleartext-Password | dialup           | :=   |
++----+----------------+--------------------+------------------+------+
+3 rows in set (0.01 sec)
+    
+mysql> select * from radreply;
+    
++----+------------+-------------------+---------------------------------+------+
+| id | UserName   | Attribute         | Value                           | Op   |
++----+------------+-------------------+---------------------------------+------+
+|  1 | barney     | Framed-IP-Address | 1.2.3.4                         | :=   |
+|  2 | dialrouter | Framed-IP-Address | 2.3.4.1                         | :=   |
+|  3 | dialrouter | Framed-IP-Netmask | 255.255.255.255                 | :=   |
+|  4 | dialrouter | Framed-Routing    | Broadcast-Listen                | :=   |
+|  5 | dialrouter | Framed-Route      | 2.3.4.0 255.255.255.248         | :=   |
+|  6 | dialrouter | Idle-Timeout      | 900                             | :=   |
++----+------------+-------------------+---------------------------------+------+
+6 rows in set (0.01 sec)
+    
+mysql> select * from radgroupreply;
++----+-----------+--------------------+---------------------+------+
+| id | GroupName | Attribute          | Value               | Op   |
++----+-----------+--------------------+---------------------+------+
+| 34 | dynamic   | Framed-Compression | Van-Jacobsen-TCP-IP | :=   |
+| 33 | dynamic   | Framed-Protocol    | PPP                 | :=   |
+| 32 | dynamic   | Service-Type       | Framed-User         | :=   |
+| 35 | dynamic   | Framed-MTU         | 1500                | :=   |
+| 37 | static    | Framed-Protocol    | PPP                 | :=   |
+| 38 | static    | Service-Type       | Framed-User         | :=   |
+| 39 | static    | Framed-Compression | Van-Jacobsen-TCP-IP | :=   |
+| 41 | netdial   | Service-Type       | Framed-User         | :=   |
+| 42 | netdial   | Framed-Protocol    | PPP                 | :=   |
++----+-----------+--------------------+---------------------+------+
+12 rows in set (0.01 sec)</literallayout>
+<para>Bu örnekte 'barney' kullanıcısı statik IP adresini alması için sadece radreply'ın IP adresiyle ilgili bir özelliğine ihtiyaç duymaktadır. Diğer özellikler radgroupreply tarafından 'static' bölümünde sağlandığından burada başka bir özelliğe ihtiyacı yoktur.</para>
+<para>'fred' kullanıcısı IP adresini dinamik olarak AEN'dan aldığından radreply bölümünde bir girdiye ihtiyaç duymaz. Bu yüzden bütün 'dynamic' grup girdilerini SADECE radgroupreply bölümden alacaktır.</para>
+<para>'dialrouter' çevirmeli ağ yönlendiricisi olduğundan ve statik IP adresine ihtiyaç duyduğundan route ve mask özellikleri gereklidir. Bunlar için de ilave girdiler yapılmalıdır.</para>
+<para>'dialrouter' ilave olarak bir idle-timeout özelliğine sahip olduğundan aktif olmadığında yönlendirici tarafından bağlantısı kesilebilir. Bu özelliği isterseniz diğer kullanıcılara da verebilirsiniz. Başka özellikler eklemek sizin isteğinize bağlıdır.</para>
+<para>Operatör ('op') değerlerinin birçok tabloda kullanıldığına dikkat edin. Parola kontrol özelliği  := ile birlikte KULLANILMALIDIR. Geri dönen özelliklerin çoğu bir := operatorü içermelidir. Aynı tipte birden fazla değer (örneğin çoklu Cisco- AVpair's) döndürüyorsanız += operatörü kullanılmalıdır, aksi halde sadece ilki döndürülecektir.</para>
+<para>Eğer kullanıcı adlarındaki bütün alan adlarını ayırıyorsanız, SQL tablolarına yazdığınız kullanıcı adlarına alan adlarını EKLEMEYİN. Bu ayırma işlemi veritabanı kontrol edilmeden önce yapılmalıdır. Bu yüzden name@domain kullanıcı adı, eğer ayırma işlemini yapıyorsanız ASLA veritabanındaki 'name' kullanıcısıyla eşleşmeyecektir. Bir kere bu olmadan çalıştırdıktan sonra eğer daha karmaşık alan kontrolleri isterseniz geriye dönüp alan adlarını ayırmamak (veritabanında kullanıcı isimlerini name@domain şeklinde tutmak) üzerine çalışabilirsiniz.</para>
+  </sect1>
+  <sect1 id="freeradius-sql-howto-test">
+    <title>Test</title>
+    <para>radiusd'yi yeniden hata ayıklama modunda çalıştırın (radiusd -X). Gördüğünüz çıktılar size veritabanına bağlanıldığını göstermelidir. Test için radtest (veya NTradPing) kullanabilirsiniz. Kullanıcı kimlik kanıtlamasını yapabilmeli ve çıktılarda FreeRADIUS'un SQL ile okuştuğunu görmelisiniz.
+    </para>
+    <para>Tebrikler. Başardınız!</para></sect1>
+<sect1 id="freeradius-sql-howto-additional">
+	<title>Ek İşlemler</title>
+	<itemizedlist>
+		<listitem>radcheck ile şifrelenmiş parolaları kullanmak için 'Cleartext-Password' yerine 'Crypt-Password' kullanılmalı ve değer alanına şifrelenmiş parolalar (UNIX'in şifrelenmiş parolaları) girilmelidir.</listitem>
+		<listitem>NTradPing, test accounting (stop gibi) paketlerini göndermek için acct-session-time isimli argümana ihtiyaç duyar. Stop paketini göndermek için 'Additional RADIUS Attributes' kutusuna 'Acct-Session-Time=99999' gibi bir değer girmelisiniz.</listitem>
+		<listitem>Eğer Cisco ağ erişim noktanız varsa cisco-vsa-hack'i ayarlayın.</listitem>
+		<listitem>Bir yedek RADIS sunucu çalıştırıyor ve veritabanı yedeğini bu sunucu üzerine almak mı istiyorsunuz? Ben Colin Bloch'un yönergelerini <ulink url="http://www.ls-l.net/mysql/"/> takip ettim ve iki MySQL sunucum arasında bir yedekleme sağladım. Gerçekten basit bir iş. MySQL belgelerinde daha ayrıntılı bilgiler bulabilirsiniz.</listitem>
+    </itemizedlist>
+    <para>Eğer İKİ MySQL SUNUCUSU çalıştırıyorsanız ve FreeRadius'un bunlar arasında geçiş yapmasını istiyorsanız sql.conf dosyasınızdan bir kopya daha alarak ikinci kopyayı yedek sunucunuza bağlanarak yansıma yapacak şekilde düzenleyin. Daha sonra bu dosyaları sql1.conf ve sql2.conf gibi isimlendirin. radiusd.conf dosyasında sql.conf geçen satırı sql1.conf ve sql2.conf geçecek şekilde çoklayın. 'authorize' bölümünde 'sql' girdisini aşağıdaki grubu içerecek şekilde değiştirin:
+	</para>
+	<literallayout> group {
+   sql1 {
+      fail  = 1
+      notfound = return
+      noop  = 2
+      ok  = return
+      updated = 3
+      reject = return
+      userlock = 4
+      invalid = 5
+      handled = 6
+   }
+   sql2 {
+      fail  = 1
+      notfound = return
+      noop  = 2
+      ok  = return
+      updated = 3
+      reject = return
+      userlock = 4
+      invalid = 5
+      handled = 6
+   }
+   }</literallayout><para>FreeRadius ikinci MySQL sunucuna geçiş yapar ve accounting (radacct) tablosunu güncellemeye çalışırsa yansılama ayarlamasında ve veritabanı bütünlüğünde istemediğiniz şeyler olabilir.</para></sect1>
+
+<sect1 id="freeradius-sql-howto-debian">
+	<title>Debian GNU/Linux için Özel Durumlar</title>
+	<note>Bu bölüm çevirmen tarafından eklenmiştir.</note>
+	<para>Yukarıda anlatılanlar bir çok linux dağıtımı için geçerli olsa da Debian için geçerli bazı özel durumlar vardır:</para>
+	<itemizedlist>
+		<listitem>FreeRADIUS için debian depolarında bulunan paketlerin EAP/TLS/TTLS/PEAP desteği yoktur. Debian için EAP/TLS/TTLS/PEAP desteği olan freeradius paketi hazırlanması için <ulink url="http://www.linuxinsight.com/building-debian-freeradius-package-with-eap-tls-ttls-peap-support.html">bu adrese</ulink> bakabilirsiniz.</listitem>
+		<listitem>Debian'da FreeRADIUS için yapılandırma dosyaları <filename>/etc/freeradius</filename> klasöründe bulunmaktadır.</listitem>
+		<listitem>Debian'da SQL şemaları <filename>/usr/share/doc/freeradius/examples</filename> klasöründe sıkıştırılmış olarak bulunmaktadır.</listitem>
+		<listitem>Debian depolarında bulunan PostgreSQL paketlerindeki yapılandırma dosyaları diğer dağıtımlardan farklılık gösterdiğinden bu adresde yazanları okumadan başlarsanız aşağıdaki hatayla karşılaşabilirsiniz:
+			<screen>psql: FATAL:  Ident authentication failed for user "radius"</screen>
+		</listitem>
+    </itemizedlist>
+
+
+
+
+</sect1>
+</article>

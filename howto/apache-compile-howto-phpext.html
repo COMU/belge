@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:31+03:00"><title>PHP Eklentileri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apache-compile-howto.html" title="Apache Derleme NASIL"><link rel="previous" href="../howto/apache-compile-howto-php.html" title="mod_php Ön Gereksinimleri"><link rel="next" href="../howto/apache-compile-howto-tomcat.html" title="Jakarta Tomcat"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">PHP Eklentileri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apache-compile-howto-php.html">Önceki</a> </td><th width="60%" align="center">Apache Derleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/apache-compile-howto-tomcat.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apache-compile-howto-phpext"></a>PHP Eklentileri</h2></div></dt><dd><p>
+PHP için mevcut <tt>php.ini</tt>'nize eklenebilecek birçok farklı eklenti vardır.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>APC (Alternatif PHP Önbelleği)</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>APC nedir?</h4></div></dt><dd><table border="0" width="100%" cellspacing="0" cellpadding="0" class="blockquote" summary="Block quote"><tr><td width="10%" valign="top"> </td><td width="80%" valign="top"><p>
+APC, alternatif PHP önbelleğidir. PHP betiklerini derlemek ve önbelleklemek için özgür, açık ve sağlam bir çalışma ortamı sağlamak adına tasarlandı. APC, yükü ağır olan sitelerde betiklerin çözümlenmesi ve derlenmesinden neredeyse tamamen kurtularak derlenmiş bir durumda önbelleklenmesi için imkan sunarak PHP'nin başarımının arttırılmasını sağlayacak bir yol olarak düşünüldü. Bu işlevselliği sağlayan ticari ürünler var; ama onlar ne açık-kaynaklı ne de ücretsiz. Amacımız daha fazla esnekliğe izin verecek bir gerçekleştirim sağlayarak oyun alanını düzleştirmekti ve şu an evrensel erişilebilirlik. Biz, ayrıca önbelleğin kendi işlerinde ve PHP'ninkilerde görünebilirlik sağlamasını istedik, dolayısıyla önbellek hata tespiti ve bakımını sağlayan iç hata tespit araçlarını tedarik etmek için zaman harcandı. Böylece APC ortaya çıktı. PHP'nin yeni sürümüyle kolayca büyüyebilen bir ürün geliştirmeye giriştiğimizde onu hem PHP içine derlenebilecek hem de modül olarak bir parça gibi sonradan eklenebilecek bir <b><tt>zend</tt></b> eklentisi olarak yazdık. PHP ile olduğu gibi, ticari ve ticari olmayan kullanım için tamamen ücretsiz olarak mevcut, PHP'nin kendisi gibi aynı şartlar altında. APC PHP 4.0.3, 4.0.3pl1 ve 4.0.4 altında denendi. Şu an Linux ve FreeBSD altında derlenebiliyor. Diğer işletim sistemlerine/PHP sürümlerine olan uyarlamalar için yamalar kabul edilmektedir.</p></td><td width="10%" valign="top"> </td></tr><tr><td colspan="2" align="right" valign="top">--<span class="attribution">www.apc.communityconnect.com/</span></td><td width="10%" valign="top"> </td></tr></table><p>
+Yazar APC ile bazı başarım testleri yaptı ve o gerçek bir sürprizdi. Bir döngüde MySQL sorguları (toplam 10 sorgu) olan bir PHP-web sayfası % 50 daha hızlıydı.
+        </p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Eğer sistemde PHP kodlayan başka kullanıcılar varsa APC ile rahat etmemiş olabilirler; çünkü önbelleği sıfırlamadığınız veya Apache'yi tekrar başlatmadığınız müddetçe değişikliklerin tümü yok sayılır. Diğer yönden, her çalıştırma öncesi hız harcamasına neden olmadan APC, PHP betiklerinizi daha yeni bir sürüm için kontrol eder.
+        </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>Kaynak paketini indirin</h4></div></dt><dd><p>Adres: <a class="ulink" href="http://apc.communityconnect.com/sources/apc-cvs.tar.gz" target="_top">http://apc.communityconnect.com/sources/apc-cvs.tar.gz</a></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a>Derleme ve Kurulum</h4></div></dt><dd><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>cd /usr/local</tt></b>
+
+$ <b><tt>tar -xvzf apc-cvs.tar.gz</tt></b>
+
+$ <b><tt>cd apc</tt></b>
+
+$ <b><tt>./configure --enable-apc --with-php-config=/usr/local/bin/php-config</tt></b>
+
+$ <b><tt>make</tt></b>
+# <b><tt>make install</tt></b>
+
+# <b><tt>cp modules/php_apc.so /usr/local/lib/php/extensions</tt></b>
+
+# <b><tt>echo 'zend_extension="/usr/local/lib/php/extensions/php_apc.so"' \
+&gt;&gt; /usr/local/lib/php.ini</tt></b>
+# <b><tt>echo "apc.mode = shm" &gt;&gt; /usr/local/lib/php.ini</tt></b>
+</pre> </td></tr></table></div>
+        </p><p>
+Restart your Apache-Webserver. Try it out, create a php-file with the following content:
+        </p><div class="example"><p><b>Örnek 1.8. <tt>apctest.php</tt></b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;?php
+apcinfo();
+?&gt;
+</pre> </td></tr></table></div>
+        </p></div></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Zend-Optimizer (APC Önbelleği ile birlikte KULLANMAYIN!)</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id12"></a>Zend-optimizer nedir?</h4></div></dt><dd><table border="0" width="100%" cellspacing="0" cellpadding="0" class="blockquote" summary="Block quote"><tr><td width="10%" valign="top"> </td><td width="80%" valign="top"><p>Zend Optimizer Zend Motorunda bulunan standart Zend çalışma-zamanı derleyicisi tarafından üretilen ara kod üzerinden gider ve daha hızlı çalıştırma için iyileme yapar.</p></td><td width="10%" valign="top"> </td></tr><tr><td colspan="2" align="right" valign="top">--<span class="attribution">www.zend.com</span></td><td width="10%" valign="top"> </td></tr></table><p>
+Zend-Optimizer kapalı kaynak kodlu bir serbest yazılım ürünüdür. APC denemesi için kullanılan aynı deneme kodunda, APC'siz PHP'de % 5 civarında hız azalması vardı.
+        </p><p>
+Kendi kodunuzda bazı gelişmelerin olup olmadığını görmek için kendi denemenizi kendiniz yapmalısınız, Zend-Optimizer'ı APC ile birlikte KULLANMADIĞINIZDAN emin olun, aksi halde bütün kurulumunuz çalışmayacaktır.
+        </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id22"></a>İkili kodu indirin</h4></div></dt><dd><p>Adres: <a class="ulink" href="https://www.zend.com/store/free_download.php?pid=13" target="_top">https://www.zend.com/store/free_download.php?pid=13</a></p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/tip.png"></td><th>zend.com'da kayıt olun</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+zend.com'da indirme-sayfasına erişmek için kayıt olmalısınız.
+        </p></td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id32"></a>Kurulum</h4></div></dt><dd><p>
+Derlenecek bir şey yok, bu ürün kapalı kaynak kodlu ve farklı platformlar için sadece ikili kodda mevcut. Dosya adı platforma göre çeşitlilik gösterir, örnek IA32 üzerinde Linux için.
+        </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>cd /usr/local</tt></b>
+
+$ <b><tt>tar -xvzf ZendOptimizer-2.1.0-Linux_glibc21-i386.tar.gz</tt></b>
+
+$ <b><tt>cd ZendOptimizer-2.1.0-Linux_glibc21-i386</tt></b>
+
+# <b><tt>./install.sh</tt></b>
+</pre> </td></tr></table></div>
+        </p><p>
+Kurulum betiğinde açıklamalar mevcut, eğer Apache ve PHP'yi bu belgede tanımlandığı gibi derlediyseniz yol (path) isimleri hakkındaki tüm sorular için ENTER'a basabilirsiniz.
+        </p></dd></div></dl></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apache-compile-howto-php.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apache-compile-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/apache-compile-howto-tomcat.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">mod_php Ön Gereksinimleri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Jakarta Tomcat</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

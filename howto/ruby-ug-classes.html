@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:01+03:00"><title>Sınıflar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-methots.html" title="Yöntemler"><link rel="next" href="../howto/ruby-ug-inheritance.html" title="Miras"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sınıflar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-methots.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-inheritance.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-classes"></a>Sınıflar</h2></div></dt><dd><p>
+Gerçek dünya sınıflandırabileceğimiz nesnelerle doludur. Örneğin küçük bir çocuk bir köpek gördüğünde, cinsine bakmaksızın "hav hav" demesi gibi biz de dünyadaki nesneleri kategorize ederiz.
+  </p><p>
+Nesneye yönelik terminolojide, "köpek" gibi nesnelerin kategorize edilmiş haline <b><tt>sınıf</tt></b>, sınıfın özelleştirilmiş nesnelerinde <b><tt>örnek</tt></b> (instance) denir.
+  </p><p>
+Genelde Ruby'de ya da herhangi başka bir nesneye yönelik yazılım geliştirme dilinde nesne yapmak için önce sınıfın karakteristikleri tanımlanır sonra da bir örnek tanımlanır. Bu süreci görebilmek için <b><tt>Kopek</tt></b> adında ilk basit sınıfımızı tanımlıyoruz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Kopek</tt>
+    | <tt class="empinput">   def speak</tt>
+    | <tt class="empinput">     print "Hav Hav\n"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Sınıf tanımlaması <b><tt>class</tt></b> ile <b><tt>end</tt></b> arasında yapılmaktadır. Bu alanda bulunan <b><tt>def</tt></b>, önceki bölümlerde açıkladığımız gibi sınıfa bazı özel davranışlar kazandıran <tt>yöntem</tt>leri tanımlamak için kullanılır.
+  </p><p>
+Artık bir <b><tt>Kopek</tt></b> sınıfı tanımladık, öyleyse şimdi bir köpek yapabiliriz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> kucu = Kopek.new</tt>
+   <tt class="empoutput">#&lt;Kopek:0xbcb90&gt;</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>Kopek</tt></b> sınıfından yeni bir örnek yarattık ve <b><tt>kucu</tt></b> adını verdik. <b><tt>new</tt></b> yöntemi her sınıf için yeni bir örnek yapmaya yarar. <b><tt>kucu</tt></b> sınıf tanımımıza göre bir <b><tt>Kopek</tt></b> olduğu için, bir köpekte olmasına karar verdiğimiz tüm özellikleri taşır. <b><tt>Kopek</tt></b> sınıfımız çok basit olduğu için <b><tt>kucu</tt></b>'dan yapmasını istediğimiz küçük bir hile var.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> kucu.konus</tt>
+Hav Hav
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bir sınıftan yeni bir örnek yaratmak bazen <tt>örnekleme</tt> olarak adlandırılır. Köpeğimizin havlamasını test etmek için öncelikle bir köpeğimizin olması lazım, <b><tt>Kopek</tt></b> sınıfından bizim için havlamasını isteyemeyiz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> Kopek.konus</tt>
+<tt class="empoutput">ERR: (eval):1: undefined method `konus' for Kopek:class</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Diğer taraftan, duygusal olarak bağlanmamış bir köpeğin sesini duymak istersek,
+geçici bir köpek yaratabilir ve kaybolmadan önce bizim için küçük bir ses çıkarmasını isteyebiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> (Kopek.new).konus</tt>   # ya da daha genel olarak, Kopek.new.konus
+Hav Hav
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+"Bekle" diyebilirsiniz, "bu kerata nereye kayboldu böyle?" Bu doğru: eğer ona bir isim vermezseniz (<b><tt>kucu</tt></b>'da yaptığımız gibi) Ruby'nin otomatik çöp toplama mekanizması devreye girer ve bunun istenmeyen aylak bir köpek olduğuna karar verir ve merhametsizce yok eder. Gerçekten, sorun yok; biliyorsunuz ki tüm köpekleri istediğimizi söyleyebiliriz.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-methots.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-inheritance.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yöntemler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Miras</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

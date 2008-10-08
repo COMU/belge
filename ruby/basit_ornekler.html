@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Basit örnekler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="giris.html">
+ <img border=0 src="a2l.gif" alt="Giriş"><br>Onceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="dizgiler.html">
+ <img border=0 src="a2r.gif" alt="dizgiler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Basit Örnekler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Şimdi faktöriyel hesabı yapan basit bir fonksiyon yazalım. <code>n</code> faktöriyelin matematiksel tanımı aşağıdaki gibidir:
+
+</p>
+<pre>n! = 1                (n==0 ise)
+   = n * (n-1)!       (aksi taktirde)</pre>
+<p>Ruby'de bunu aşağıdaki gibi yazabiliriz:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end</font></pre></td></tr></table>
+<p>Tekrarlanan <code>end</code> deyiminin varlığını fark etmiş olmalısınız. Sırf bu yüzden Ruby "Angol benzeri" olarak anılır. (Aslında Ruby'nin syntax'ı Eiffel dilini daha çok andırmaktadır.) Ayrıca <code>return</code> deyiminin eksikliğini de hissetmiş olmalısınız. Bu deyim Ruby için gereksizdir çünki bir Ruby fonksiyonu değerlendirdiği en son şeyi geri döndürür. <code>return</code> deyimi kullanılabilir ancak gereksizdir.
+</p>
+<p>Şimdi faktöriyel fonksiyonumuzu deneyelim. Ekleyeceğimiz bir satır, bize çalışan bir program sunacaktır:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black"># Bir sayının farktöriyelini bulan program
+#fact.rb olarak kaydedin.
+
+def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+
+print fact(ARGV[0].to_i), "\n"</font></pre></td></tr></table>
+<p>Burada <code>ARGV</code> komut satırı argümanlarını içeren bir dizidir ve <code>to_i</code> alınan bir karakteri tamsayıya çevirmeye yarar.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby fact.rb 1
+1
+% ruby fact.rb 5
+120</font></pre></td></tr></table>
+<p>Acaba argüman olarak 40 versek çalışır mı? Muhtemelen hesap makineniz taşma hatası verecektir...
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby fact.rb 40
+815915283247897734345611269596115894272000000000</font></pre></td></tr></table>
+<p>Bu argüman çalışır, üstelik Ruby makinenizin belleğinin izin verdiği kadar tamsayıyla çalışabilir. 400! Aşağıdaki gibi bir çıktı alacaksınız:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby fact.rb 400
+64034522846623895262347970319503005850702583026002959458684
+44594280239716918683143627847864746326467629435057503585681
+08482981628835174352289619886468029979373416541508381624264
+61942352307046244325015114448670890662773914918117331955996
+44070954967134529047702032243491121079759328079510154537266
+72516278778900093497637657103263503315339653498683868313393
+52024373788157786791506311858702618270169819740062983025308
+59129834616227230455833952075961150530223608681043329725519
+48526744322324386699484224042325998055516106359423769613992 
+31917134063858996537970147827206606320217379472010321356624 
+61380907794230459736069956759583609615871512991382228657857 
+95493616176544804532220078258184008484364155912294542753848 
+03558374518022675900061399560145595206127211192918105032491 
+00800000000000000000000000000000000000000000000000000000000 
+0000000000000000000000000000000000000000000</font></pre></td></tr></table>
+<p>Sonucun doğruluğunu kontrol edemeyiz ama öyle olması gerekiyor ^o~</p>
+<h2><a name="label:0" id="label:0">Girdi/Değerlendirme döngüsü</a></h2><!-- RDLabel: "The input/evaluation loop" -->
+<p>Eğer Ruby'yi hiçbir argüman olmadan çağırırsanız, komutları standart girdi olarak alır ve girdinin sonunda komutları çalıştırır:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby
+print "merhaba dunya\n"
+print "hoscakal dunya\n"
+^D
+merhaba dunya
+hoscakal dunya</font></pre></td></tr></table>
+<p>
+Ruby ayrıca, kodu yazar yazmaz sonucu da gösteren, klavyeden interaftif bir döngüye girerek kod Ruby kodu yazmanızı sağlayan 
+<code>eval.rb</code> adında bir programla gelir. Bu kılavuz boyunca birçok yerde bun kullanacağız. </p>
+<p>
+Eğer bir ANSI-türevi terminale sahipseniz (eğer herhangi bir UNIX türevi kullanıyorsanız öyledir; eğer DOS altındaysanız 
+<code>ANSI.SYS</code> ya da <code>ANSI.COM</code>'u yüklemeniz gerekecek), uyarı raporları, renk aydınlatması ve 
+sanal destek içeren <a href="eval.rb">geliştirilmiş <code>eval.rb</code></a> kullanmalısınız. Aksi takdirde, 
+Ruby sürümünüzün <code>sample</code> dizinindeki ANSI-olmayan veriyonuna bakabilirsiniz. Aşağıda kısa bir <code>eval.rb</code> 
+örneği var:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby eval.rb
+ruby&gt;<font color="#ffff00"><b> print "Merhaba, dunya.\n"</b></font>
+Merhaba, dunya.
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> exit</b></font></font></pre></td></tr></table>
+<p><code>merhaba dunya</code> <code>print</code> tarafından üretilmiştir. 
+Sonraki satırda bulunan <code>nil</code>, son değerlendirilen şeyi döndürür; Ruby'de <code>durumlar</code> ile <code>ifadeler</code> arasında 
+bir ayrım yoktur, bu yüzden bir parça kodu değerlendirmekle çalıştırmak aynı şeydir.
+Burada <code>nil</code> <code>print</code>'in anlamlı bir değer döndürmediğini belirtiyor. Bu interaktif döngüden 
+<code>exit</code> ile çıkabileceğimizi unutmayın, tabii ki <code>D^</code> de hala geçerlidir.</p>
+<p>Bu kılavuz boyunca, "<code>ruby&gt;</code>" bizim küçük yararlı <code>eval.rb</code> programımız için 
+girdi istemcisini destekler.</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="giris.html">
+ <img border=0 src="a2l.gif" alt="Giriş"><br>Onceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="dizgiler.html">
+ <img border=0 src="a2r.gif" alt="dizgiler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

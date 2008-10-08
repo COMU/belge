@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Erişgeçler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-ensure.html" title="Hata İşleme: ensure deyimi"><link rel="next" href="../howto/ruby-ug-oinit.html" title="Nesnenin İlklendirilmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Erişgeçler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-ensure.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-oinit.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-accessors"></a>Erişgeçler</h2></div></dt><dd><p>
+Geçtiğimiz bölümlerde örnek değişkenlerden kısaca bahsettik ancak henüz işimiz bitmedi.
+Bir nesnenin örnek değişkenleri onun kendisine ait olan ve aynı sınıfa ait diğer nesnelerden ayıran öznitelikleridir.
+  </p><p>
+Bu öznitelikleri okuyabilmek ve yazabilmek önemlidir; bu yüzden <span class="wordasword"><i>öznitelik erişgeçleri</i></span> denilen yöntemi kullanırız. Bir kaç dakika sonra erişgeç yöntemlerini her zaman açıkça yazmak zorunda olmadığımızı göreceksiniz ancak şimdilik tüm devinimlere bakalım. Erişgeçler iki çeşittir: <i>yazıcılar</i> ve <i>okuyucular</i>.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def cesit_ata(k)  # bir yazıcı</tt>
+    | <tt class="empinput">     @kind = k</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput">   def ne_cesit     # bir okuyucu</tt>
+    | <tt class="empinput">     @kind</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f1 = Meyve.new</tt>
+   <tt class="empoutput">#&lt;Meyve:0xfd7e7c8c&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f1.cesit_ata("seftali")</tt>  # yazıcıyı kullan
+   <tt class="empoutput">"seftali"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f1.ne_cesit</tt>           # okuyucuyu kullan
+   <tt class="empoutput">"seftali"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> f1</tt>                    # nesneyi yokla
+   <tt class="empoutput">#&lt;Meyve:0xfd7e7c8c @kind="seftali"&gt;</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Yeterince basit; baktığımız meyve hakkında istediğimiz bilgiyi yerleştirebilir ya da erişebiliriz. Ama yöntem isimlerimiz biraz uzun. Aşağıdaki daha kısa ve daha uzlaşımsal:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def cesidi=(k)</tt>
+    | <tt class="empinput">     @cesidi = k</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput">   def cesidi</tt>
+    | <tt class="empinput">     @cesidi</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve = Meyve.new</tt>
+   <tt class="empoutput">#&lt;Meyve:0xfd7e7c8c&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve.cesidi = "muz"</tt>
+   <tt class="empoutput">"muz"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve.cesidi</tt>
+   <tt class="empoutput">"muz"</tt>
+</pre> </td></tr></table></div>
+  </p><h4><a name="ruby-ug-inspect"></a><tt>inspect</tt> yöntemi</h4><p>
+Küçük bir uzlaşma sağlanmıştır. Bir nesneye doğrudan ulaşmak istediğimizde <b><tt>#&lt;birNesne:0x83678&gt;</tt></b> gibi şifreye benzer birşeyle karşılaştığımıza dikkat edin. Bu öntanımlı bir davranıştır ve istediğiniz gibi değiştirebilirsiniz. Yapmanız gerek tek şey <b><tt>inspect</tt></b> yöntemini eklemektir. <b><tt>inspect</tt></b> yöntemi, nesneyi birkaç ya da bütün örnek değişkenleri de içeren ve mantıklı bir şekilde tanıtan bir yöntemdir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def inspect</tt>
+    | <tt class="empinput">     @kind + "bir meyve çeşididir"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">meyve</tt>
+   <tt class="empoutput">"muz bir meyve çeşididir"</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Benzer bir yöntem de ekrana bir nesne yazdıracağımız zaman kullandığımız <b><tt>to_s</tt></b> (dizgeye dönüştürür) yöntemidir. Genel olarak <b><tt>inspect</tt></b> yöntemini yazılım geliştirirken ve hata ayıklarken kullandığınız bir araç olarak, <b><tt>to_s</tt></b>'yi de  yazılımın çıktısını düzeltmek için kullandığımız  bir yol düşünebilirsiniz.
+  </p><p>
+<b><tt>eval.rb</tt></b> sonuçları görüntülemek için her zaman <b><tt>inspect</tt></b> yöntemini kullanır.
+  </p><p>
+<b><tt>p</tt></b> yöntemini, yazılımlarınızdan hata ayıklama çıktısı almak için kullanabilirsiniz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># Bu iki satır eşdeğerdir:
+p birNesne
+print birNesne.inspect, "\n"
+</pre> </td></tr></table></div>
+  </p><h3><a name="id1426"></a>Erişgeçleri kolay hale getirmek</h3><p>
+Her örneğin bir erişim yöntemine ihtiyacı olmasına rağmen, Ruby standart tarzlar için daha elverişli bir yol sunar.
+  </p><p>
+<div class="table"><p><b>Tablo 4.4. </b></p><table cellspacing="1" cellpadding="3" width="100%" border="1"><colgroup><col></colgroup><tbody><tr><td align="left"><i> Kısayol</i></td><td align="left"><i> Etkisi</i></td></tr><tr><td align="left"><b><tt> attr_reader :v </tt></b></td><td align="left"><b><tt> def v; @v; end </tt></b></td></tr><tr><td align="left"><b><tt> attr_writer :v </tt></b></td><td align="left"><b><tt> def v=(value); @v=value; end </tt></b></td></tr><tr><td align="left"><b><tt> attr_accessor :v </tt></b></td><td align="left"><b><tt> attr_reader :v; attr_writer :v </tt></b></td></tr><tr><td align="left"><b><tt> attr_accessor :v, :w </tt></b></td><td align="left"><b><tt> attr_accessor :v; attr_accessor :w </tt></b></td></tr></tbody></table></div>
+  </p><p>
+Şimdi bunun avantajlarından faydalanalım ve bilgimizi tazeleyelim. Öncelikle otomatik olarak oluşturulmuş bir okuyucu ve yazıcı olup olmadığına bakarız ve yeni bilgiyi
+<b><tt>inspect</tt></b>'in içine dahil ederiz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   attr_accessor :nitelik</tt>
+    | <tt class="empinput">   def inspect</tt>
+    | <tt class="empinput">     "#{@nitelik} bir #{@cesit}"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve.nitelik = "olgun"</tt>
+   <tt class="empoutput">"olgun"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve</tt>
+   <tt class="empoutput">"olgun bir muz"</tt>
+</pre> </td></tr></table></div>
+  </p><h4><a name="id1426"></a>Meyveyle biraz daha eğlence</h4><p>
+Eğer kimse olgunlaşmış meyvemizi yemezse, parasını almak için beklemeliyiz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Meyve</tt>
+    | <tt class="empinput">   def durumu</tt>
+    | <tt class="empinput">     @nitelik = "çürük"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve</tt>
+   <tt class="empoutput">"olgun bir muz"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve.durumu</tt>
+   <tt class="empoutput">"curuk"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> meyve</tt>
+   <tt class="empoutput">"çürük bir muz"</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Ancak buralarda oynarken, küçük bir sorunla karşılaştık. Üçüncü bir meyve yaratmaya çalıştığımızda ne olur? Örnek değişkenlerin onlara değer atanmadan var olmadıklarını hatırlayın.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> f3 = Meyve.new</tt>
+<tt class="empoutput">ERR: failed to convert nil into String</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Burada yakınılan <b><tt>inspect</tt></b> yöntemidir ve geçerli bir sebebimiz var.
+<b><tt>f3</tt></b>'e özellik atamadan bir meyvenin çeşidi ve niteliği hakkında bir rapor istedik. Eğer istersek,  <b><tt>inspect</tt></b> yönteminin <b><tt>defined?</tt></b> yöntemini de kullanarak sadece tanımlanmış meyveleri rapor etmesini sağlayabiliriz ancak bu iş hala kullanışsız olur, çünkü her meyvenin
+bir çeşidi ve niteliği olduğuna göre bu ikisinin her zaman tanımlı olduğundan emin olmamız gerekir. Bu ileriki bölümün konusudur.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-ensure.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-oinit.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Hata İşleme: ensure deyimi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Nesnenin İlklendirilmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

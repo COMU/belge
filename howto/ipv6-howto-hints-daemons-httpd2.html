@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:28+03:00"><title>Apache2 (httpd2)</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-hints-daemons.html" title="IPv6 uyumlu Artalan Süreçleri İçin İpuçları"><link rel="previous" href="../howto/ipv6-howto-hints-daemons-xinetd.html" title="Internet süper artalan süreci (xinetd)"><link rel="next" href="../howto/ipv6-howto-hints-daemons-radvd.html" title="Rota Bilgilendirme Sunucusu (radvd)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Apache2 (httpd2)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-xinetd.html">Önceki</a> </td><th width="60%" align="center">IPv6 uyumlu Artalan Süreçleri İçin İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-radvd.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-hints-daemons-httpd2"></a>Apache2 (httpd2)</h3></div></dt><dd><p>
+Apache IPv6'yı 2.0.14 sürümünden itibaren doğal olarak desteklemektedir. Daha eski olan 1.3.x serisi için yamalar bulunmasına rağmen güncel olmadıklarından kullanılmamalıdırlar. Yamalar için: <a href="ftp://ftp.kame.net/pub/kame/misc/" target="_top">KAME / Misc</a> .
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a>IPv6 Adreslerinde Dinlemek</h4></div></dt><dd><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+2.0.28'den önceki sürümlerde sanal konak sorunları mevcuttur (2.0.28 için bir yama bulunmaktadır). Eski sürümlerin güvenlik sorunları olabileceği düşünülerek her zaman son sürüm kullanılmalıdır.
+  </p></td></tr></table></div>
+  </p><p><div class="variablelist"><dl><dt><span class="term">Sadece IPv6 adreslerinden dinleyen sanal konak</span></dt><dd>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Listen [3ffe:ffff:100::1]:80
+&lt;VirtualHost [3ffe:ffff:100::1]:80&gt;
+        ServerName ipv6only.alanadı.dom
+        # ...diğer satırlar
+&lt;/VirtualHost&gt;
+</pre> </td></tr></table></div>
+  <p></p><p></p></dd><dt><span class="term">IPv6 ve IPv4 adreslerinden dinleyen sanal konak</span></dt><dd>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Listen [3ffe:ffff:100::2]:80
+Listen 1.2.3.4:80
+&lt;VirtualHost [3ffe:ffff:100::2]:80 1.2.3.4:80&gt;
+        ServerName ipv6veipv4.alanadı.dom
+        # ...diğer satırlar
+&lt;/VirtualHost&gt;
+</pre> </td></tr></table></div>
+  <p></p><p>
+Apache yeniden başlatıldığında aşağıdakine benzer bir sonuç alınmalıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>netstat -lnptu |grep "httpd2\W*$"</tt></b>
+tcp 0 0 1.2.3.4:80          0.0.0.0:* LISTEN 12345/httpd2
+tcp 0 0 3ffe:ffff:100::1:80 :::*      LISTEN 12345/httpd2
+tcp 0 0 3ffe:ffff:100::2:80 :::*      LISTEN 12345/httpd2
+</pre> </td></tr></table></div>
+  </p><p>
+Basit sınamalar için telnet örneği kullanılabilir.
+  </p><p></p></dd><dt><span class="term">Ek bilgiler</span></dt><dd>
+Apache2 veri sunmayı hızlandıran <tt>sendfile</tt> isimli bir yöntemi desteklemektedir. Bazı NIC sürücüleri çevrimiçi sağlamayı (checksumming) da desteklemektedirler. Böyle durumlar bağlantı sorunlarına ve geçersiz TCP sağlamalarına neden olmabildiğinden <tt>sendfile</tt> özelliği, Apache ya yeniden <tt>--without-sendfile</tt> seçeneğiyle derlenerek ya da yapılandırma dosyasında <tt>EnableSendfile off</tt> yapılarak etkisiz duruma getirilmelidir.
+  <p></p><p></p></dd></dl></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-xinetd.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-hints-daemons.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-radvd.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Internet süper artalan süreci (xinetd) </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Rota Bilgilendirme Sunucusu (radvd)</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

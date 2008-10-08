@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:23+03:00"><title>İmleme Sınama ACL'si</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-sign.html" title="Zarf Gönderici İmlerinin Eklenmesi"><link rel="previous" href="../howto/spam-filtering-exim-sign-router-redirect.html" title="Gelen teslimatlar için redirect yönlendiricisi oluşturmak"><link rel="next" href="../howto/spam-filtering-exim-bounces.html" title="Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">İmleme Sınama ACL'si</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sign-router-redirect.html">Önceki</a> </td><th width="60%" align="center">Zarf Gönderici İmlerinin Eklenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-bounces.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-sign-acl"></a>İmleme Sınama ACL'si</h3></div></dt><dd><p>
+Bu şemanın son parçası, Exim'e imli olarak geçerli alıcı adreslere gelen teslimatların daima kabul edileceğini ve boş gönderici adresli diğer teslimatların ise eğer alıcı bu şemayı seçmişse reddedileceğini belirtmektir. Böyle durumlarda grilisteleme yapılmamalıdır.
+      </p><p>
+Aşağıdaki satırları <a href="../howto/spam-filtering-acl_rcpt_to_final.html" class="xref" title="acl_rcpt_to"> acl_rcpt_to</a> ACL'sinde olası bir SPF, grilisteleme ve/veya sonuncu <tt>accept</tt> deyiminin öncesine yerleştirin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Kendine özgü imlemesini içeriyorsa, alıcı adresini kabul ediyoruz.
+  # Bu, teslimatın, daha önce bizden gönderilmiş bir postanın teslimat
+  # durum bildirimi olduğunu gösterir.
+  #
+  accept
+    domains     = +local_domains
+    condition   = ${if and {{match{${lc:$local_part}}{^(.*)=(.*)}}\
+                            {eq{${hash_8:${hmac{md5}{SECRET}{$1}}}}{$2}}}\
+                           {true}{false}}
+
+  # Aksi takdirde, posta boş gönderici adresli ise ama alıcı, imlemeli zarf
+  # gönderici adresi şemasını seçenlerden biri ise postayı reddediyoruz.
+  #
+  deny
+    message     = This address does not match a valid, signed \
+                  return path from here.\n\
+                  You are responding to a forged sender address.
+    log_message = bogus bounce.
+    senders     = : postmaster@*
+    domains     = +local_domains
+    set acl_m9  = /home/${extract{1}{=}{${lc:$local_part}}}/.return-path-sign
+    condition   = ${if exists {$acl_m9}{true}}
+
+</pre> </td></tr></table></div>
+      </p><p>
+Postayı gönderirken iletinin başlığındaki adreslere (örneğin, gönderdiğiniz postanın <tt>From:</tt> alanındaki adrese) varlık doğrulaması yapan  konakların varlığını bu noktada dikkate almak gerekir. Buradaki <tt>deny</tt> deyimi normal olarak böyle bir doğrulatma çabasına olumsuz yanıt verecektir.
+      </p><p>
+Bunun olmaması için, <tt>deny</tt> deyimini <tt>warn</tt> deyimi haline getirmek, red iletisini <tt>$acl_m0</tt> değişkeninde saklayıp asıl reddi <b><tt>DATA</tt></b> komutundan sonra yapmak isteyebilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Aksi takdirde, posta boş gönderici adresli ise ama alıcı, imlemeli zarf
+  # gönderici adresi şemasını seçenlerden biri ise, red iletisini $acl_m0
+  # ve günlük iletisini $acl_m1 değişkenine kaydedip, bunları daha sonra
+  # postayı reddederken kullanacağız. Red sırasında göndericinin oyalanıp
+  # oyalanmayacağına bunların varlığına bakarak karar vereceğiz.
+  #
+  warn
+    senders     = : postmaster@*
+    domains     = +local_domains
+    set acl_m9  = /home/${extract{1}{=}{${lc:$local_part}}}/.return-path-sign
+    condition   = ${if exists {$acl_m9}{true}}
+    set acl_m0  = The recipient address &lt;$local_part@$domain&gt; does not \
+                  match a valid, signed return path from here.\n\
+                  You are responding to a forged sender address.
+    set acl_m1  = bogus bounce for &lt;$local_part@$domain&gt;.
+</pre> </td></tr></table></div>
+      </p><p>
+Ayrıca, alıcı giden postasında imlemeli zarf gönderici adresi kullanmayı seçmiş bile olsa, bazı konaklardan gelen postaların zarf gönderici adresi boş olsa bile sınama dışı tutulmasını isteyebilir. Bilhassa eposta listelerinin sunucuları buna en iyi örnektir, bu konuda daha ayrıntılı bilgi için <a href="../howto/spam-filtering-collateral.html#spam-filtering-signedsender" class="xref" title="Zarf Gönderici İmleri"> Zarf Gönderici İmleri</a> bölümüne bakınız.
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sign-router-redirect.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-sign.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-bounces.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Gelen teslimatlar için redirect yönlendiricisi oluşturmak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

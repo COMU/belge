@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:52:23+03:00"><title>Yazılım</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kahve-nasil.html" title="Kahve Yapmak Nasıl"><link rel="previous" href="../howto/kahve-nasil-donanim.html" title="Donanım"><link rel="next" href="../howto/kahve-nasil-turing-makinasi.html" title="Tam bir Turing Kahve Makinasını Oluşturmak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yazılım</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kahve-nasil-donanim.html">Önceki</a> </td><th width="60%" align="center">Kahve Yapmak Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kahve-nasil-turing-makinasi.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="kahve-nasil-yazilim"></a>Yazılım</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Programlama</h3></div></dt><dd><p>
+Aşağıdaki işlemleri yapan çalıştırılabilir bir program oluşturmalısınız:
+      </p><p>
+      <div class="itemizedlist"><ul type="disc"><li><b><tt>ioperm</tt></b> ile çekirdeği çağırarak, Girdi/Çıktı adres uzayı için izin alınız: örn, <b><tt>operm(BASE, range ,1);</tt></b></li><li>
+Paralel portta 0-5v oluşturmak için dışarı bir istekte bulununuz: örn, <b><tt>outb(1, BASE);</tt></b></li><li>
+Kahve yapılana kadar yeterince bekleyiniz. Bu zaman dilimini komut satırına bakarak geçirmek güzel olabilir.
+      </li><li>
+Daha sonra kahve makinasını kapatılacaktır: <b><tt>outb(0 , BASE);</tt></b></li><li>
+Sonlanmadan önce <b><tt>ioperm(BASE, range, 0);</tt></b> ile paralel porta geri dönüş yapılmalıdır.
+      </li></ul></div>
+      </p><p>
+<tt>BASE</tt> değerini <tt>/dev/lp0</tt> için <tt>BASE = 0x3bc</tt> olarak, <tt>/dev/lp1</tt> için <tt>0x378</tt> ve <tt>/dev/lp2</tt> için <tt>0x278</tt> olarak ve bu şekilde 8 farklı durum için düşünerek değiştiriniz.
+      </p><p>
+Programınızı setuid olarak ayarlamanız güzel olurdu, böylece herkes kahve içebilir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Aygıt sürücüsü</h3></div></dt><dd><p>
+Bir aygıt sürücüsü yazmak için yalnızca <a class="ulink" href="http://en.tldp.org/LDP/khg/HyperNews/get/khg.html" target="_top">http://en.tldp.org/LDP/khg/HyperNews/get/khg.html</a> adresindeki belgeyi (kernel hacker's guide) okuyun, bunu aynı zamanda kullanıcı uzayında da yapabilirsiniz. Lütfen bunu bir modül olarak derleyin ki bizlerde her kernel güncellemesinde, kernel derlemek zorunda kalmayalım. Daha sonra şunu yazın:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>echo cappuccino &gt;/dev/coffee</tt></b></pre> </td></tr></table></div>
+      </p><p>
+Ve sonra bir dakika içinde sıcak kahveniz olacaktır! Sadece root'un kahve yapmasını isteyip istememenize göre, <tt>/dev/coffee</tt> aygıtına uygun erişim yetkilerini veriniz.
+      </p><p>
+Bu yöntemin getirisi, paraler port veya benzeri bir yerden gelen ACK'ı kullanarak kahve makinasından bir geri besleme sağlamasıdır, böylece akıllı kahve makinaları, hazır olduklarında bir kesme gönderebilirler.
+      </p><p>
+Alessandro Rubini ve Jonathan Corbet'in muhteşem <a class="ulink" href="http://www.xml.com/ldd/chapter/book/index.html" target="_top">Linux Aygıt Sürücüleri</a>'ni okuyup <a class="ulink" href="http://lxr.linux.no/source/" target="_top">Çapraz Lİnux Referansı</a>'ndaki kodları çalıştıktan sonra bunu kendiniz yapmaya çalışın.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Internet ile bağlantı</h3></div></dt><dd><p>
+Eğer kontrol programını C ile yazdıysanız (yukarıyı inceleyiniz), sadece bir CGI betiği yazarak kahve makinasını AÇIK veya KAPALI konuma getirmeli veya daha karmaşık komutlar göndermelisiniz. Güzel web sayfaları hazırlayarak, nasıl kahve yapılacağını ve <b><tt>apache</tt></b> sunucusuna nasıl konulacağını anlatmalısınız.
+      </p><p>
+LAMP teknolojisi, (<b><tt>L</tt></b>inux, <b><tt>A</tt></b>pache, <b><tt>M</tt></b>ySQL, [<b><tt>P</tt></b>erl|Python|PHP]), kullanıcı ayarlı mükemmel bir kahve sisteminin yapılmasında yardımcı olacaktır.
+      </p><p>
+Gelecekte bir gün, programlar daha karmaşık hal aldığında, akış-tabanlı programlamaya (Flow-Based Programming) geçmek istebilirsiniz: <a class="ulink" href="http://www.jpaulmorrison.com/fbp/" target="_top">http://www.jpaulmorrison.com/fbp/</a>. Büyük bir kahve makinası için ne büyük bir tesadüf!
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kahve-nasil-donanim.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kahve-nasil.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/kahve-nasil-turing-makinasi.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Donanım </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Tam bir Turing Kahve Makinasını Oluşturmak</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:22+03:00"><title>AntiVirüs Yazılımlarının Eklenmesi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim.html" title="A. Exim Gerçeklenimi"><link rel="previous" href="../howto/spam-filtering-exim-mime.html" title="MIME ve Dosya türü Sınamalarının Eklenmesi"><link rel="next" href="../howto/spam-filtering-exim-sa.html" title="SpamAssassin'in Eklenmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">AntiVirüs Yazılımlarının Eklenmesi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-mime.html">Önceki</a> </td><th width="60%" align="center">A. Exim Gerçeklenimi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sa.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="spam-filtering-exim-av"></a>AntiVirüs Yazılımlarının Eklenmesi</h2></div></dt><dd><p>
+Exiscan-ACL yaması bazı virüs tarayıcılarının doğrudan eklemlenebilmesine, bir kısmının da <tt>cmdline</tt> arkayüzü vasıtasıyla komut satırından çalıştırılmasına imkan tanır.
+    </p><p>
+Bu özelliği kullanabilmek için Exim yapılandırma dosyanızın <a class="link" href="../howto/spam-filtering-exim-options.html" title="Seçenekler ve Ayarlar">ana bölümünde</a> hangi virüs tarayıcısını kullanacağınızı, tarayıcıya aktarılacak seçeneklerle birlikte belirtmelisiniz. Bununla ilgili sözdizimi şöyledir:
+    </p><p>
+<pre class="literallayout">
+    av_scanner = <i>tarayıcı-türü</i>:<i>seçenek1</i>:<i>seçenek</i>:...
+</pre>
+    </p><p>
+Örneğin:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+av_scanner = sophie:/var/run/sophie
+av_scanner = kavdaemon:/opt/AVP/AvpCtl
+av_scanner = clamd:127.0.0.1 1234
+av_scanner = clamd:/opt/clamd/socket
+av_scanner = cmdline:/path/to/sweep -all -rec -archive %s:found:'(.+)'
+...
+</pre> </td></tr></table></div>
+    </p><p>
+DATA ACL'de asıl taramayı gerçekleştirmek için <tt>malware</tt> koşulunu kullanabilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  deny
+    message  = This message contains a virus ($malware_name)
+    demime   = *
+    malware  = */defer_ok
+</pre> </td></tr></table></div>
+    </p><p>
+Paketle gelen <tt>exiscan-acl-spec.txt</tt> dosyasında ayrıntılı kullanım bilgilerini bulabilirsiniz.
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-mime.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sa.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">MIME ve Dosya türü Sınamalarının Eklenmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SpamAssassin'in Eklenmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

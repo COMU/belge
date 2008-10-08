@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:04+03:00"><title>B. Dahili İlintileme Betiği</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-kbuild.html" title="A. Çekirdek Derleme ve Kurulum Örneği"><link rel="next" href="../howto/linux-i386-boot-code-howto-bootloader.html" title="C. GRUB ve LILO"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">B. Dahili İlintileme Betiği</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kbuild.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-bootloader.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><div class="appendix"> <div class="titlepage"><div> <h2 class="title"><a name="linux-i386-boot-code-howto-internel_lds"></a>B. Dahili İlintileme Betiği</h2></div></div><p>
+<tt>-T</tt> (<tt>--script=</tt>) seçeneği olmadan, hedefleri ilintilemek için <b><tt>ld</tt></b> bu yerleşik betiği kullanacaktır:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+[root@localhost linux]# <b><tt>ld --verbose</tt></b>
+GNU ld version 2.13.90.0.18 20030206
+  Desteklenen öykünümler:
+   elf_i386
+   i386linux
+iç ilintileme betiği kullanılıyor:
+==================================================
+/* -z combreloc için betik: yeniden yerleştirme (reloc) bölümlerini
+ * birleştirir ve sıralar */
+OUTPUT_FORMAT("elf32-i386", "elf32-i386",
+              "elf32-i386")
+OUTPUT_ARCH(i386)
+ENTRY(_start)
+SEARCH_DIR("/usr/i386-redhat-linux/lib"); SEARCH_DIR("/usr/lib"); SEARCH_DIR("/u
+sr/local/lib"); SEARCH_DIR("/lib");
+/* "elf" için bunlardan herhangi birine ihtiyacımız var mı?
+   __DYNAMIC = 0;    */
+SECTIONS
+{
+  /* Salt okunur bölümler, metin bölütü üzerinde birleştirilmiş:*/
+  . = 0x08048000 + SIZEOF_HEADERS;
+  .interp         : { *(.interp) }
+  .hash           : { *(.hash) }
+  .dynsym         : { *(.dynsym) }
+  .dynstr         : { *(.dynstr) }
+  .gnu.version    : { *(.gnu.version) }
+  .gnu.version_d  : { *(.gnu.version_d) }
+  .gnu.version_r  : { *(.gnu.version_r) }
+  .rel.dyn        :
+    {
+      *(.rel.init)
+      *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
+      *(.rel.fini)
+      *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
+      *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
+      *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
+      *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
+      *(.rel.ctors)
+      *(.rel.dtors)
+      *(.rel.got)
+      *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
+    }
+  .rela.dyn       :
+    {
+      *(.rela.init)
+      *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
+      *(.rela.fini)
+      *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
+      *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
+      *(.rela.tdata .rela.tdata.* .rela.gnu.linkonce.td.*)
+      *(.rela.tbss .rela.tbss.* .rela.gnu.linkonce.tb.*)
+      *(.rela.ctors)
+      *(.rela.dtors)
+      *(.rela.got)
+      *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
+    }
+  .rel.plt        : { *(.rel.plt) }
+  .rela.plt       : { *(.rela.plt) }
+  .init           :
+  {
+    KEEP (*(.init))
+  } =0x90909090
+  .plt            : { *(.plt) }
+  .text           :
+  {
+    *(.text .stub .text.* .gnu.linkonce.t.*)
+    /* .gnu.warning bölümleri özellikle elf32.em. tarafından yönetilir */
+    *(.gnu.warning)
+  } =0x90909090
+  .fini           :
+  {
+    KEEP (*(.fini))
+  } =0x90909090
+  PROVIDE (__etext = .);
+  PROVIDE (_etext = .);
+  PROVIDE (etext = .);
+  .rodata         : { *(.rodata .rodata.* .gnu.linkonce.r.*) }
+  .rodata1        : { *(.rodata1) }
+  .eh_frame_hdr : { *(.eh_frame_hdr) }
+  .eh_frame       : ONLY_IF_RO { KEEP (*(.eh_frame)) }
+  .gcc_except_table   : ONLY_IF_RO { *(.gcc_except_table) }
+  /* Veri bölütü için adresi ayarla.  Bir sonraki sayfa yukarıda sayfadaki
+     aynı adrese kadar ayarlamak istiyoruz. */
+  . = ALIGN (0x1000) - ((0x1000 - .) &amp; (0x1000 - 1)); . = DATA_SEGMENT_ALIGN
+(0x1000, 0x1000);
+  /*  aşağıdaki *_array_* bölümünü desteklemeyen araçların (tools)
+     geriye dönük uyumluluğu için, glibc'mizin crt dosyaları başvurdukları
+     sembollerin zayıf tanımlamalarını içerir. Kesinlikle zorunlu
+     olmadıkça onları kullanmak istemiyoruz, çünkü bize boş bölümler
+     getirirler; aşağıdaki PROVIDE'dan faklı olarak.
+     Bu yüzden crt dosyalarından olan bölümleri çıkartırız. */
+  /DISCARD/ : {
+      */crti.o(.init_array .fini_array .preinit_array)
+      */crtn.o(.init_array .fini_array .preinit_array)
+  }
+  /* __preinit_array_start etiketinin uygun bir şekilde hizalandığından emin
+     olun. Bunun yerine etiket tanımlamasını bölümün içine taşıyabilirdik fakat
+     bağlayıcı ozaman boş olsa bile bölümü oluşturacaktı ki bu iyi değildir. */
+  . = ALIGN(32 / 8);
+  PROVIDE (__preinit_array_start = .);
+  .preinit_array     : { *(.preinit_array) }
+  PROVIDE (__preinit_array_end = .);
+  PROVIDE (__init_array_start = .);
+  .init_array     : { *(.init_array) }
+  PROVIDE (__init_array_end = .);
+  PROVIDE (__fini_array_start = .);
+  .fini_array     : { *(.fini_array) }
+  PROVIDE (__fini_array_end = .);
+  .data           :
+  {
+    *(.data .data.* .gnu.linkonce.d.*)
+    SORT(CONSTRUCTORS)
+  }
+  .data1          : { *(.data1) }
+  .tdata          : { *(.tdata .tdata.* .gnu.linkonce.td.*) }
+  .tbss           : { *(.tbss .tbss.* .gnu.linkonce.tb.*) *(.tcommon) }
+  .eh_frame       : ONLY_IF_RW { KEEP (*(.eh_frame)) }
+  .gcc_except_table   : ONLY_IF_RW { *(.gcc_except_table) }
+  .dynamic        : { *(.dynamic) }
+  .ctors          :
+  {
+    /* yapıcıların başlangıcını bulmak için gcc crtbegin.o'yu
+       kullanır, böylece biz bunun ilk olduğunu anlarız.
+       Bu bir joker karakter (wildcard) olduğundan, kullanıcının
+       crtbegin.o'ya karşı ilintilememesinin bir önemi yoktur.
+       bağlayıcı bir joker karakteri eşleştirmek için bir dosya
+       aramayacaktır. Joker karakter ayrıca crtbegin.o'nun hangi
+       dizinde bulunduğunun önemli olmadığı anlamına gelir. */
+    KEEP (*crtbegin.o(.ctors))
+    /* yapıcıların (ctors) sıralanmasının bitişine kadar,
+       crtend.o dosyasından .ctor bölümünü dahil etmek istemiyoruz.
+       crtend dosyasındaki .ctor bölümü yapıcıların sonu işaretini
+       (end of ctors marker ) içerir ve bu sonuncu olmalıdır. */
+    KEEP (*(EXCLUDE_FILE (*crtend.o ) .ctors))
+    KEEP (*(SORT(.ctors.*)))
+    KEEP (*(.ctors))
+  }
+  .dtors          :
+  {
+    KEEP (*crtbegin.o(.dtors))
+    KEEP (*(EXCLUDE_FILE (*crtend.o ) .dtors))
+    KEEP (*(SORT(.dtors.*)))
+    KEEP (*(.dtors))
+  }
+  .jcr            : { KEEP (*(.jcr)) }
+  .got            : { *(.got.plt) *(.got) }
+  _edata = .;
+  PROVIDE (edata = .);
+  __bss_start = .;
+  .bss            :
+  {
+   *(.dynbss)
+   *(.bss .bss.* .gnu.linkonce.b.*)
+   *(COMMON)
+   /* .bss bölümlerinin _end'e kadar olan boşlukları kullandığından emin olmak
+      için buraya hizala. Herhangi bir girdi olmadığından dolayı .bss bölümleri
+      görünmese bile hizalamanın doğru olduğundan emin olmak için .bss'den sonra
+      hizala.  */
+   . = ALIGN(32 / 8);
+  }
+  . = ALIGN(32 / 8);
+  _end = .;
+  PROVIDE (end = .);
+  . = DATA_SEGMENT_END (.);
+  /* Stabs hata ayıklama bölümleri.  */
+  .stab          0 : { *(.stab) }
+  .stabstr       0 : { *(.stabstr) }
+  .stab.excl     0 : { *(.stab.excl) }
+  .stab.exclstr  0 : { *(.stab.exclstr) }
+  .stab.index    0 : { *(.stab.index) }
+  .stab.indexstr 0 : { *(.stab.indexstr) }
+  .comment       0 : { *(.comment) }
+  /* DWARF hata ayıklama bölümleri.
+     DWARF hata ayıklama bölümlerindeki semboller
+     bölümün başına bağıldır, bu yüzden onları 0'dan başlatırız.*/
+  /* DWARF 1 */
+  .debug          0 : { *(.debug) }
+  .line           0 : { *(.line) }
+  /* GNU DWARF 1 eklentileri (extensions) */
+  .debug_srcinfo  0 : { *(.debug_srcinfo) }
+  .debug_sfnames  0 : { *(.debug_sfnames) }
+  /* DWARF 1.1 and DWARF 2 */
+  .debug_aranges  0 : { *(.debug_aranges) }
+  .debug_pubnames 0 : { *(.debug_pubnames) }
+  /* DWARF 2 */
+  .debug_info     0 : { *(.debug_info .gnu.linkonce.wi.*) }
+  .debug_abbrev   0 : { *(.debug_abbrev) }
+  .debug_line     0 : { *(.debug_line) }
+  .debug_frame    0 : { *(.debug_frame) }
+  .debug_str      0 : { *(.debug_str) }
+  .debug_loc      0 : { *(.debug_loc) }
+  .debug_macinfo  0 : { *(.debug_macinfo) }
+  /* SGI/MIPS DWARF 2 eklentileri */
+  .debug_weaknames 0 : { *(.debug_weaknames) }
+  .debug_funcnames 0 : { *(.debug_funcnames) }
+  .debug_typenames 0 : { *(.debug_typenames) }
+  .debug_varnames  0 : { *(.debug_varnames) }
+}
+
+
+==================================================
+[root@localhost linux]#
+</pre> </td></tr></table></div></p></div><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kbuild.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-bootloader.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">A. Çekirdek Derleme ve Kurulum Örneği </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> C. GRUB ve LILO</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

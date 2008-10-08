@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:26+03:00"><title>Form Pencereleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-playfields.html" title="Alanlar ile Oynamak"><link rel="next" href="../howto/ncurses-howto-filedvalidate.html" title="Alan Doğrulama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Form Pencereleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-playfields.html">Önceki</a> </td><th width="60%" align="center">Form Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-filedvalidate.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-formwindows"></a>Form Pencereleri</h3></div></dt><dd><p>
+Form penceresi mantığı menü pencerelerinkine oldukça benzemektedir. Her bir form bir ana pencere ve alt pencere ile ilişiklendirilir. Ana pencere başlık, etiket, çerçeve veya kullanıcı her ne istiyorsa gösterir. Alt pencere ise tüm alanları içerir ve onları konumlarına göre gösterir. Bu durum hoş görüntüler üzerinde esnek şekilde değişiklik yapma imkanı verir.
+</p><p>
+Menü pencerelerine çok benzediğinden oldukça açıklamalı bir örnek sunuyorum. İşlevler aynıdır ve aynı şekilde çalışır.
+</p><div class="example"><p><a name="ncurses-howto-ffowi"></a><b>Örnek 5.33. Form Pencereleri Örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;form.h&gt;
+
+void print_in_middle(WINDOW *win, int starty, int startx, int width,
+     char *string, chtype color);
+
+int main()
+{
+  FIELD *field[3];
+  FORM  *my_form;
+  WINDOW *my_form_win;
+  int ch, rows, cols;
+
+  /* Curses kipi ilklendir */
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
+  /* Renk çiftlerini ilklendir */
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+
+  /* Alanları ilklendir */
+  field[0] = new_field(1, 10, 6, 1, 0, 0);
+  field[1] = new_field(1, 10, 8, 1, 0, 0);
+  field[2] = NULL;
+
+  /* alan seçeneklerini ayarla */
+  set_field_back(field[0], A_UNDERLINE);
+  field_opts_off(field[0], O_AUTOSKIP); /* Bu alan dolduğunda */
+                                        /* sonraki alana geçme */
+  set_field_back(field[1], A_UNDERLINE);
+  field_opts_off(field[1], O_AUTOSKIP);
+
+  /* Formu oluştur ve ekrana yaz */
+  my_form = new_form(field);
+
+  /* Form için gerekli alanı hesapla */
+  scale_form(my_form, &amp;rows, &amp;cols);
+
+  /* Form ile ilişiklendirilecek pencereyi oluştur */
+  my_form_win = newwin(rows + 4, cols + 4, 4, 4);
+  keypad(my_form_win, TRUE);
+
+  /* Ana pencereyi ve alt pencereyi ata */
+  set_form_win(my_form, my_form_win);
+  set_form_sub(my_form, derwin(my_form_win, rows, cols, 2, 2));
+
+  /* Ana pencere etrafında bir çerçeve çiz ve başlık yaz */
+  box(my_form_win, 0, 0);
+  print_in_middle(my_form_win, 1, 0, cols + 4,
+    "Benim Formum", COLOR_PAIR(1));
+
+  post_form(my_form);
+  wrefresh(my_form_win);
+
+  mvprintw(LINES - 2, 0,
+    "YUKARI ve AŞAĞI ok tuşlarıyla alanlar arasında geçiş yapın");
+  refresh();
+
+  /* Kullanıcı istekleri için döngü */
+  while((ch = wgetch(my_form_win)) != KEY_F(1))
+  { switch(ch)
+    { case KEY_DOWN:
+        /* sonraki alana git */
+        form_driver(my_form, REQ_NEXT_FIELD);
+        /* O anki önbelleğin sonuna git */
+        /* Son karakterde döngüden çık */
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      case KEY_UP:
+        /* Önceki alana git */
+        form_driver(my_form, REQ_PREV_FIELD);
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      default:
+        /* Eğer bu normak bir karakterse */
+        /* Ekrana yazılır                                */
+        form_driver(my_form, ch);
+        break;
+    }
+  }
+
+  /* Ekrandan sil ve ayrılan bellek alanını geri ver */
+  unpost_form(my_form);
+  free_form(my_form);
+  free_field(field[0]);
+  free_field(field[1]);
+
+  endwin();
+  return 0;
+}
+
+void print_in_middle(WINDOW *win, int starty, int startx, int width,
+     char *string, chtype color)
+{ int length, x, y;
+  float temp;
+
+  if(win == NULL)
+    win = stdscr;
+  getyx(win, y, x);
+  if(startx != 0)
+    x = startx;
+  if(starty != 0)
+    y = starty;
+  if(width == 0)
+    width = 80;
+
+  length = strlen(string);
+  temp = (width - length)/ 2;
+  x = startx + (int)temp;
+  wattron(win, color);
+  mvwprintw(win, y, x, "%s", string);
+  wattroff(win, color);
+  refresh();
+}
+</pre> </td></tr></table></div></p></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-playfields.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-forms.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-filedvalidate.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Alanlar ile Oynamak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Alan Doğrulama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

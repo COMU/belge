@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:55:13+03:00"><title>Başlangıç</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/partition-rescue.html" title="Disk Bölümü Kurtarmak NASIL"><link rel="previous" href="../howto/partition-rescue.html" title="Disk Bölümü Kurtarmak NASIL"><link rel="next" href="../howto/partition-rescue-s2.html" title="Teknik Bilgi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Başlangıç</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/partition-rescue.html">Önceki</a> </td><th width="60%" align="center">Disk Bölümü Kurtarmak NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/partition-rescue-s2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="partition-rescue-s1"></a>Başlangıç</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Sorunlar</h3></div></dt><dd><p>
+Bu NASIL belgesi sadece "disk bölümleme tablosu kaybı" sorunuyla ilgilidir. Bu durum:
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+bilgisayarınıza "işletim sistemi yok" iletisine benzer bir ileti ile karşılaşıp erişemediğinizde,
+<p></p><p></p></li><li>
+bilgisayarınıza yeni bir sistem yükleyip (mesela MS Windows) Linux'u kaybettiğinizde veya windows bütün disk kapasitesini kullanır duruma geldiğinde,
+<p></p><p></p></li><li>
+fdisk ile yanlış diski bölümlediğinizde
+<p></p><p></p></li></ul></div>
+</p><p>
+meydana gelebilir.
+</p><p>
+Burada, eğer yapılması gereken doğru şeyleri bilip uygularsanız Linux'unuzu genellikle bu gibi durumlardan kurtarabileceğinizi öğreneceksiniz. MS Windows'u da kurtarabilirsiniz, ama bu biraz şansa kalmış.
+</p><p>
+Öncelikle kurtarma işlemini kolaylaştırmak için sorunla karşılaşmamak için <i>önce</i> neler yapabileceğinizi ve sorunla karşılaştıktan <i>sonra</i> yapmanız gerekenleri göreceğiz. Diski silinmekten kurtarmak için yapılması gereken çok az şey vardır, bu genellikle MS Windows ve Linux tarafından otomatik olarak yapılır. Hatalı programların yüklenmesinin veya kullanıcı hatalarını önlemenin bir yolu yoktur tabi, ama siz zaten dikkatli bir kullanıcısınız değil mi?
+</p><p>
+Bu durum ayrıca MSDOS/Windows fdisk kullanımı ile de oluşabilir. Bu programdan olabildiğince sakının, ama büyük ihtimal kullanmaya devam edeceksinizdir.
+</p><p>
+Ben kurtarma işini defalarca yaptım, kendi bilgisayarımda ve arkadaşların bilgisayarlarında, ve çoğunlukla Linux'u eski biçimine getirdim, ama Windows'u sadece bir kaç kere kurtarabildim, o yüzden windows'u geri almayı planlıyorsanız size iyi şanslar dilerim!
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Şimdi ne yapmalı?</h3></div></dt><dd><p>
+Henüz bir problemle karşılaşmadıysanız, bu belgeyi sadece meraktan okuyor, veya sadece bilgi topluyorsanız ve bir Linux sistemi üzerinde çalışıyorsanız, tam olarak şunları yapın:
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+root kullanıcısı olarak bir konsol veya xterm açın
+<p></p><p></p></li><li>
+<b><tt>/sbin/fdisk -l</tt></b> girin (son karakter liman'ın l'si). Sonra da <b><tt>fdisk -u -l</tt></b>
+<p></p><p></p></li></ul></div></p><p>
+Bilgisayarınızda bulunan bütün disklerdeki bölümleri gösteren tablolarla karşılaşacaksınız. İkinci komutumuz aynı tabloyu silindir cinsinden değil sektör cinsinden birimlerle gösterir, bazen lazım olabiliyor.
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+Bunları bir kenara not edin veya yazdırın:
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/sbin/fdisk -l | lpr
+/sbin/fdisk -u -l | lpr
+</pre> </td></tr></table></div>
+</p><p>
+ve ilerde kullanmak için güvenli bir yerde saklayın.
+</p><p></p></li></ul></div></p><p>
+Sistem yöneticisi değilseniz, sorun hakkında tasalanmanıza gerek yok ve bu belgeyi okumayı bırakabilirsiniz.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Şu an bilmeniz gerekenler</h3></div></dt><dd><p>
+<i>Bilmelisiniz</i> ki, diskinizle ilgili olası önemli bir sorunda, en azından neler olduğunu anlayana kadar derhal diski <i>yazma</i> modunda kullanmayı bırakmanız gerekir, diskteki bilgi çabucak bozulabilir niteliktedir...
+</p><p>
+Eğer bir gün, bir sabah uyandığınızda, bilgisayarınız "can't load, no system installed" ("yüklenemiyor, işletim sistemi yok") şeklinde açılırsa <i>herşeyi tekrar yüklemeye başlamamalısınız.</i>
+</p><p>
+Eğer bilgisayarınıza MS Windows yüklü ise tüm verilerinizi kurtarabileceğinizi garanti edemem, ama muhtemelen tüm Linux bilgilerinizi kurtarabilirsiniz. Bazı MS Windows virüsleri diskin ilk silindirini olduğu gibi siler (diskin başlangıç kısımlarını), bu yüzden yukarıdaki durum Linux bölümünüz diskin baş tarafında değil ise daha garanti sonuç verir. Ama bu tür bir virüse rastlamadım ve pek emin değilim. Siz yine de kurtarmayı deneyin.
+</p><p>
+Ayrıca bilmelisiniz ki, size bütün bu bilgiyi sadece bu amaçla veriyorum - bilgi olması amacıyla. Ne ben, ne de başka birisi bu bilgiyi kullanırken karşılaşacağınız sorunlardan sorumlu tutulamaz, tek sorumlu sizsiniz. Bazı şeyler için söz verebilecek durumda olmak için bile çok fazla sistem var ve size sadece bol şans ve sizin de benim gibi verilerinizi başarıyla kurtarmanızı dileyebilirim.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/partition-rescue.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/partition-rescue.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/partition-rescue-s2.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Disk Bölümü Kurtarmak NASIL </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Teknik Bilgi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

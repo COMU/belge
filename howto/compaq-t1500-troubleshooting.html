@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-04-18T02:17:41+02:00"><title>Hata Giderme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/compaq-t1500.html" title="Compaq T1500 Linux NASIL"><link rel="previous" href="../howto/compaq-t1500-xfree86.html" title="XFree86"><link rel="next" href="../howto/compaq-t1500-pending.html" title="Çözüm Bekleyen Projeler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Hata Giderme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/compaq-t1500-xfree86.html">Önceki</a> </td><th width="60%" align="center">Compaq T1500 Linux NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/compaq-t1500-pending.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="compaq-t1500-troubleshooting"></a>Hata Giderme</h2></div></dt><dd><p>
+Sunucu kayıt dosyası (<tt>/var/log/messages</tt>) bilgisayarı başlatma sürecinde olanlar hakkında ipuçlarını ve TFTP transferleri ve NFS bağlamaları gibi bilgileri içerir. Eğer yoksa <tt>/etc/syslogd.conf</tt> dosyasına aşağıdaki satırı ekleyin ve <b><tt>syslog</tt></b>'u yeniden başlatın:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+*.* /var/log/messages
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>tcpdump</tt></b> hangi paketlerin transfer edildiğini ve NFS dosya isimlerini görmenize izin verir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+tcpdump -i eth0 -s 500 host box
+</pre> </td></tr></table></div>
+  </p><p>
+syslog içindeki kayıtlarınız aşağıdakine benzemelidir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Jul 24 21:37:00 bookcase dhcpd: DHCPDISCOVER from 00:80:64:10:1d:1c via eth0
+Jul 24 21:37:00 bookcase dhcpd: DHCPOFFER on 192.168.1.52 to 00:80:64:10:1d:1c    via eth0
+Jul 24 21:37:04 bookcase dhcpd: DHCPREQUEST for 192.168.1.52 from 00:80:64:10:1d:1c    via eth0
+Jul 24 21:37:04 bookcase dhcpd: DHCPACK on 192.168.1.52 to 00:80:64:10:1d:1c    via eth0
+Jul 24 21:37:04 bookcase tftpd[5003]: tftpd: trying to get file: /exports/T1500/tftpboot/vmlinux
+Jul 24 21:37:24 bookcase mountd[4853]: authenticated mount request from box:600
+</pre> </td></tr></table></div>
+  </p><p>
+tcpdump çıktınız da aşağıdaki gibi olmalıdır (boşta iken):
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+17:31:41.450000 box.8022008 &gt; bookcase.nfs: 116 lookup fh Unknown/1 "initctl"
+17:31:41.450000 bookcase.nfs &gt; box.8022008: reply ok 128 lookup fh Unknown/1
+</pre> </td></tr></table></div>
+  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="compaq-t1500-nfsnull"></a>Kesintili çekirdek aktarım problemi (NFS null)</h3></div></dt><dd><p>
+T1500 yeniden açıldığında çekirdeği tftp ile alamamasından kaynaklanan arada sırada açılmamasına neden olan bilinen bir sorun vardır. Böyle bir şey olduğunda tcpdump çıktısı aşağıdaki gibi olur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+12:04:38.506153 box.2049 &gt; bookcase.house.tftp: 39 RRQ "/exports/T1500/tftpboot/vmlinux"
+12:04:38.556153 bookcase.house.1199 &gt; box.2049: udp 516
+12:04:38.556153 box.2049 &gt; bookcase.house.1199: udp 4
+12:04:38.556153 bookcase.house.196610 &gt; box.nfs: 516 null
+12:04:38.556153 box.2049 &gt; bookcase.house.1199:    udp 4
+12:04:38.556153 bookcase.house.196611 &gt; box.nfs: 516 null
+12:04:38.556153 box.2049 &gt; bookcase.house.1199: udp 4
+12:04:38.556153 bookcase.house.196612 &gt; box.nfs: 516 null
+12:04:38.556153 box.2049 &gt; bookcase.house.1199:    udp 4
+12:04:38.566153 bookcase.house.196613 &gt; box.nfs: 516 null
+12:04:38.566153 box.2049 &gt; bookcase.house.1199: udp 4
+12:04:38.566153 bookcase.house.196614 &gt; box.nfs: 516 null
+12:04:38.566153 box.2049 &gt; bookcase.house.1199:    udp 4
+12:04:38.566153 bookcase.house.196615 &gt; box.nfs: 516 null
+</pre> </td></tr></table></div>
+  </p><p>
+Syslog'da tftp'nin çekirdeği gönderdiğini ama paket değişiminin yapılmadığını gösteren bir girdi göreceksiniz. ARP istekleri yanıtlanmayacaktır.
+  </p><p>
+Bu sorunu çözebilmek için eğer bağlı değilse, T1500'e bir ekran, klavye ve PS/2 fare bağlayın.
+T1500'ü yeniden başlatarak ilk bip sesini duyduğunuzda 'L' tuşuna basın. Bu T1500'ün yerel olarak açılmasını sağlar, (Start-&gt;System) menüsünden açılış seçeneğini 'Local' olarak değiştirin ve yeniden başlatın. Yeniden açıldıktan sonra açılış seçeneğini 'Network' olarak değiştirin.
+  </p><p>
+Eğer bu sıkça oluyorsa tiggers-magic-tftpd programını deneyin. Bu programı bu belgenin ev adresinde bulabilirsiniz. Çalışması için python gereklidir ve yukarıdaki sorunu çözdüğü raporlanmıştır. Sizin için de işe yararsa bunu bilmek isterim!
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="compaq-t1500-dhcp-offer"></a>T1500 DHCP OFFER'ı gözardı edip yeniden soruyor</h3></div></dt><dd><p>Bu bir BIOS hatası; 'root-path' seçeneğine ihtiyacı olmayan kendi çekirdeğinizle açsanız bile tüm DHCP paketleri bir 'root-path' seçeneği içermelidir.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/compaq-t1500-xfree86.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/compaq-t1500.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/compaq-t1500-pending.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">XFree86 </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Çözüm Bekleyen Projeler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

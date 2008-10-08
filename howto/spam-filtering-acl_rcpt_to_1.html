@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:20+03:00"><title>acl_rcpt_to</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-firstpass.html" title="ACL'lerin Hazırlanması - İlk Aşama"><link rel="previous" href="../howto/spam-filtering-acl_mail_from_1.html" title="acl_mail_from"><link rel="next" href="../howto/spam-filtering-acl_data_1.html" title="acl_data"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">acl_rcpt_to</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_mail_from_1.html">Önceki</a> </td><th width="60%" align="center">ACL'lerin Hazırlanması - İlk Aşama</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-acl_data_1.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-acl_rcpt_to_1"></a><tt>acl_rcpt_to</tt></h3></div></dt><dd><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Bu erişim denetim listesi gelen bir SMTP aktarımında RCPT
+# komutu için kullanılır. Bu sınamalar alıcı adresi kabul
+# ya da red edilinceye kadar sırayla yapılır.
+
+acl_rcpt_to:
+
+  # Posta yerel SMTP üzerinden alınmışsa (yani, TCP/IP bağlantısı
+  # ile gelmiyorsa) kabul et. Bunu boş bir konak alanını
+  # sınayarak yapacağız. Ayrıca, postalarını rölelediğimiz
+  # konaklardan gelen postaları da kabul edeceğiz.
+  #
+  # Alıcı doğrulamasını burada atlıyoruz, çünkü çoğu durumda
+  # istemciler kullanıcıların posta istemcileridir ve SMTP
+  # hata iletileri ile ne yapacaklarını bilmezler.
+  #
+  accept
+    hosts       = : +relay_from_hosts
+
+
+  # İleti, kimlik kanıtlaması yapılan bir bağlantı üzerinden
+  # geliyorsa kabul ediyoruz. Yine, bu iletiler kullanıcıların posta
+  # istemcilerinden geldiklerinden alıcı doğrulaması yapmıyoruz.
+  #
+  accept
+    authenticated = *
+
+
+  ######################################################################
+  # DNS sınamaları
+  ######################################################################
+  #
+  # Bu sınamaların sonuçları arabelleğe alınır, böylece çok sayıda alıcı
+  # olduğunda çok sayıda DNS sorgusu yapılmasına gerek kalmaz.
+  #
+
+  # Eğer bağlanan konak seçtiğimiz birkaç DNS karalistesinde kayıtlı
+  # ise iletiyi reddediyoruz. Bu listeleri seçerken dikkatli olun,
+  # çoğu yanlış olumlama yapar ve/veya kara listeden silme konusunda
+  # kuralları iyi belirlenmemiştir.
+  #
+  deny
+    dnslists    = dnsbl.sorbs.net : \
+                  dnsbl.njabl.org : \
+                  cbl.abuseat.org : \
+                  bl.spamcop.net
+    message     = $sender_host_address is listed in $dnslist_domain\
+                  ${if def:dnslist_text { ($dnslist_text)}}
+
+
+  # Eğer gönderici konağın ters DNS sorgusu başarısız olursa
+  # (rDNS kaydı yoksa veya sonuçlar normal DNS sorgusuyla eşleşmiyorsa)
+  # iletiyi reddediyoruz.
+  #
+  deny
+    message     = Reverse DNS lookup failed for host $sender_host_address.
+    !verify     = reverse_host_lookup
+
+
+
+  ######################################################################
+  # Selamlaşma sınamaları
+  ######################################################################
+
+  # Bağlanan konak selamlaşma sırasında bir IP adresi belirtmişse,
+  # postayı reddediyoruz.
+  #
+  deny
+    message     = Message was delivered by ratware
+    log_message = remote host used IP address in HELO/EHLO greeting
+    condition   = ${if isip {$sender_helo_name}{true}{false}}
+
+
+  # Bağlanan konak selamlaşma sırasında bizim isimlerimizden birini
+  # kullanmışsa reddediyoruz.
+  #
+  deny
+    message     = Message was delivered by ratware
+    log_message = remote host used our name in HELO/EHLO greeting.
+    condition   = ${if match_domain{$sender_helo_name}\
+                  {$primary_hostname:+local_domains:+relay_to_domains}\
+                  {true}{false}}
+
+
+  # Bağlanan konak selamlaşma sırasında kendini tanıtmamışsa
+  # reddediyoruz.
+  #
+  deny
+    message     = Message was delivered by ratware
+    log_message = remote host did not present HELO/EHLO greeting.
+    condition   = ${if def:sender_helo_name {false}{true}}
+
+
+  # HELO doğrulaması başarısız olmuşsa, ileti başlığına bir
+  # X-HELO-Warning: satırı ekliyoruz.
+  #
+  warn
+    message     = X-HELO-Warning: Remote host $sender_host_address \
+                  ${if def:sender_host_name {($sender_host_name) }}\
+                  incorrectly presented itself as $sender_helo_name
+    log_message = remote host presented unverifiable HELO/EHLO greeting.
+    !verify     = helo
+
+
+
+  ######################################################################
+  # Gönderici adresi sınamaları
+  ######################################################################
+
+  # Gönderici adresini doğrulatamazsak iletiyi reddedeceğiz.
+  #
+  # "callout" seçeneğini isterseniz silebilirsiniz. Özellikle, postanızı
+  # doğrudan değil de göstermelik sunucu (smarthost) olarak
+  # gönderiyorsanız, bu seçenek anlamsız olacaktır.
+  #
+  # Başarısız varlık doğrulamalarının ayrıntıları genelde 550 yanıtları
+  # içerir; bunları yoksaymak için "sender/callout" dizgesini
+  # "sender/callout,no_details" olarak değiştirebilirsiniz.
+  #
+  deny
+    message     = &lt;$sender_address&gt; does not appear to be a \
+                  valid sender address.
+    !verify     = sender/callout
+
+
+
+  ######################################################################
+  # Alıcı adresi sınamaları
+  ######################################################################
+
+  # Yerel kısım @  %  / | ! karakterlerinden birini içeriyorsa,
+  # iletiyi reddediyoruz. Bunlar normal yerel kısımlarda çok nadir
+  # görülür, çoğunlukla röleleme sınırlamalarını aşmaya çalışanlarca
+  # kullanılır.
+  #
+  # Ayrıca, yerel kısım bir nokta ile başlıyorsa da reddediyoruz.
+  # Boş bileşenler RFC 2822'de kuraldışıdır, fakat Exim bu yaygın
+  # olduğundan bunlara izin verir. Buna rağmen, bir nokta ile
+  # başlayan bir yerel kısım bir dosya ismi olarak kullanılmışsa
+  # (örneğin, bir posta listesi), sorunlara yol açabilir.
+  #
+  deny
+    local_parts = ^.*[@%!/|] : ^\\.
+
+
+  # Zarf göndericisi adresi boş olduğu halde iletinin birden fazla alıcısı
+  # varsa, bağlantıyı kesiyoruz. Meşru teslimat durum bildirimleri asla
+  # birden fazla adrese gönderilmez.
+  #
+  drop
+    message      = Legitimate bounces are never sent to more than one \
+                   recipient.
+    senders      = : postmaster@*
+    condition    = $recipients_count
+
+
+  # Alıcı adres bizim postalarını kabul ettiğimiz alanlardan birine
+  # ait değilse, iletiyi reddediyoruz.
+  #
+  deny
+    message     = relay not permitted
+    !domains    = +local_domains : +relay_to_domains
+
+
+  # Alıcının geçerli bir posta kutusu yoksa iletiyi reddediyoruz.
+  # Eğer posta kutuları sistemimizde bulunmuyorsa (alıcı alanadı
+  # için yedek posta alıcısı isek), bir varlık sınaması yaparız;
+  # ama hedef sunucu yanıt vermezse postayı mecburen kabul edeceğiz.
+  #
+  deny
+    message     = unknown user
+    !verify     = recipient/callout=20s,defer_ok
+
+
+  # Aksi takdirde, alıcı adres geçerlidir.
+  #
+  accept
+
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_mail_from_1.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-firstpass.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-acl_data_1.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">acl_mail_from </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> acl_data</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

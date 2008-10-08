@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Redefinition of methods</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="miras.html">
+ <img border=0 src="a2l.gif" alt="Mİras"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisim_kontrolu.html">
+ <img border=0 src="a2r.gif" alt="Erişim Kontrolü"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Metotları Yeniden Tanımlamak</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Bir alt sınıfın davanışlarını, süper sınıfın metotlarını yeniden tanımlayarak değiştirebiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Insan</b></font>
+    |<font color="#ffff00"><b>   def kimlik</b></font>
+    |<font color="#ffff00"><b>     print "Bir kişiyim.\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b>   def tren_bileti(yas)</b></font>
+    |<font color="#ffff00"><b>     if yas &lt; 12</b></font>
+    |<font color="#ffff00"><b>       print "İndirimli ücret.\n";</b></font>
+    |<font color="#ffff00"><b>     else</b></font>
+    |<font color="#ffff00"><b>       print "Normal ücret.\n";</b></font>
+    |<font color="#ffff00"><b>     end</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> Insan.new.kimlik</b></font>
+Bir kişiyim.
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> class Ogrenci1&lt;Insan</b></font>
+    |<font color="#ffff00"><b>   def kimlik</b></font>
+    |<font color="#ffff00"><b>     print "Öğrenciyim.\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> Ogrenci1.new.kimlik</b></font>
+Öğrenciyim.
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Örneğin süper sınıfın <code>kimlik</code> metodunu tamamen yeniden tanımlamak yerine geliştirmek istediğimizi düşünelim. Bunun için <code>super</code>'i kullanıyoruz.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Ogrenci2&lt;Insan</b></font>
+    |<font color="#ffff00"><b>   def kimlik</b></font>
+    |<font color="#ffff00"><b>     super</b></font>
+    |<font color="#ffff00"><b>     print "Ben de bir öğrenciyim.\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> Ogrenci2.new.kimlik</b></font>
+Bir kişiyim.
+Ben de bir öğrenciyim.
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p><code>super</code> bizim orijinal metoda argüman geçmemize izin verir. Bazen iki tür insan olduğunu söylerler...</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Sahtekar&lt;Insan</b></font>
+    |<font color="#ffff00"><b>   def tren_bileti(yas)</b></font>
+    |<font color="#ffff00"><b>     super(11) # ucuz bilet istiyoruz.</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> Sahtekar.new.tren_bileti(25)</b></font>
+İndirimli ücret. 
+<font color="#50ffff"><b>   nil</b></font>
+<font color="#50ffff"><b></b></font>
+ruby&gt;<font color="#ffff00"><b> class Durust&lt;Insan</b></font>
+    |<font color="#ffff00"><b>   def tren_bileti(yas)</b></font>
+    |<font color="#ffff00"><b>     super(yas) # verilen argümanı geçelim</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> Durust.new.tren_bileti(25)</b></font>
+Normal ücret. 
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="miras.html">
+ <img border=0 src="a2l.gif" alt="Mİras"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisim_kontrolu.html">
+ <img border=0 src="a2r.gif" alt="Erişim Kontrolü"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

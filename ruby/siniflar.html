@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Sınıflar</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="metotlar.html">
+ <img border=0 src="a2l.gif" alt="metotlar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="miras.html">
+ <img border=0 src="a2r.gif" alt="Miras"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Sınıflar</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Gerçek dünya sınıflandırabileceğimiz nesnelerle doludur. Örneğin küçük bir çocuk bir köpek gördüğünde, cinsine bakmaksızın "hav hav" demesi gibi biz de dünyadaki nesneleri kategorize ederiz.</p>
+<p>Nesneye yönelik terminolojide, "köpek" gibi nesnelerin kategorize edilmiş haline sınıf, sınıfın özelleştirilmiş nesnelerinde örnek (instance) denir.
+
+</p>
+<p>Genelde Ruby'de ya da herhangi başka bir nesneye yönelik programlama dilinde nesne yapmak için önce sınıfın karakteristikleri tanımlanır sonra da bir örnek tanımlanır. Bu süreci görebilmek için Kopekadında ilk basit sınıfımızı tanımlıyoruz:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Kopek</b></font>
+    |<font color="#ffff00"><b>   def konus</b></font>
+    |<font color="#ffff00"><b>     print "Hav Hav\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>
+Sınıf tanımlaması <code>class</code> ile <code>end</code> arasında yapılmaktadır. Bu alanda bulunan <code>def</code>, önceki bölümlerde açıkladığımız gibi sınıfa bazı özel davranışlar kazandıran metodları tanımlamak için kullanılır.
+</p>
+<p>Artık bir <code>Kopek</code> sınıfı tanımladık, öyleyse şimdi bir köpek yapabiliriz:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> pochi = Kopek.new</b></font>
+<font color="#50ffff"><b>   #&lt;Kopek:0xbcb90&gt;</b></font></font></pre></td></tr></table>
+<p><code>Kopek</code> sınıfından yeni bir örnek yarattık ve <code>pochi</code> adını verdik. <code>new</code> metodu her sınıf için yeni bir örnek yapmaya yarar. <code>pochi</code> sınıf tanımımıza göre bir <code>Kopek</code> olduğu için, bir köpekte olmasına karar verdiğimiz tüm özellikleri taşır. <code>Kopek</code> sınıfımız çok basit olduğu için <code>pochi</code>'den yapmasını istediğimiz küçük bir hile var.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> pochi.konus</b></font>
+Hav Hav
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Bir sınıftan yeni bir örnek yaratmak bazen, <em>örnekleme</em> olarak adlandırılır. Köpeğimizin havlamasını test etmek için öncelikle bir köpeğimizin olması lazım, <code>Kopek</code> sınıfından bizim için havlamasını isteyemeyiz.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> Kopek.konus</b></font>
+<font color="#50ffff"><b>ERR: (eval):1: undefined method `konus' for Kopek:class</b></font></font></pre></td></tr></table>
+<p>Bunun <em>sandiviç kavramını</em> yemeye çalışmaktan bir farkı yoktur.</p>
+<p>Diğer taraftan, duygusal olarak bağlanmamış bir köpeğin sesini duymak istersek, geçici bir köpek yaratabilir ve kaybolmadan önce bizim için küçük bir ses çıkarmasını isteyebiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> (Kopek.new).konus   # daha genel olarak, Kopek.new.konus</b></font>
+Hav Hav
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>"<em>Bekle,</em>" diyebilirsiniz, "<em>bu kerata nereye kayboldu böyle?</em>" Bu doğru: eğer ona bir isim vermezseniz (<code>pochi</code>'de yaptığımız gibi) Ruby'nin otomatik çöp toplama mekanizması devreye girer ve bunun istenmeyen aylak bir köpek olduğuna karar verir ve merhametsizce yok eder. Gerçekten, sorun yok; biliyorsunuz ki tüm köpekleri istediğimizi söyleyebiliriz. </p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="metotlar.html">
+ <img border=0 src="a2l.gif" alt="metotlar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="miras.html">
+ <img border=0 src="a2r.gif" alt="Miras"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

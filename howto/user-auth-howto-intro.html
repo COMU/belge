@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-26T10:51:11+03:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/user-auth-howto.html" title="Kullanıcı Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/user-auth-howto.html" title="Kullanıcı Kimlik Kanıtlama NASIL"><link rel="next" href="../howto/user-auth-howto-userinfo.html" title="Sisteminizde Kullanıcı Bilgileri Nasıl Saklanır"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/user-auth-howto.html">Önceki</a> </td><th width="60%" align="center">Kullanıcı Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/user-auth-howto-userinfo.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="user-auth-howto-intro"></a>Giriş</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Bu belge nasıl oluştu</h3></div></dt><dd><p>
+   Ev ağıma (çoğu gereksiz :)) yeni ağ servisleri eklemeye çalıştığımda bir takım kimlik doğrulama problemleriyle karşılaştığımdan Linux sistemlerinde kimlik doğrulamanın NASIL yapılacağını anlatan bu belgeyi bitirme projem olarak hazırlamaya karar verdim. Umarım bu belge sistem yönetiminin genellikle unutulan ama önemli bu yönünü anlamanıza yardımcı olur.
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Yeni Sürümler</h3></div></dt><dd><p>
+  Kendime bir alan alıp çalıştırıncaya kadar bu belgenin son sürümüne <a href="http://www.tldp.org" target="_top">http://www.tldp.org/</a> adresinden erişilebilirsiniz.
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Geri Besleme</h3></div></dt><dd><p>
+Yorumları, düzeltmeleri ve önerileri <span class="email">&lt;petehern (at) yahoo.com&gt;</span> adresine gönderebilirsiniz.
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>Lisans</h3></div></dt><dd><p>Telif Hakkı © 2000 Peter Hernberg, Özgün Belge</p><p>Telif Hakkı © 2005 Necdet Yücel, Türkçe Çeviri</p><p>
+  Aşağıdaki kısıtlamalara uyduğunuz sürece bu belgeyi kısmen ya da tamamen kopyalayabilirsiniz.:
+    </p><p>
+  <div class="itemizedlist"><ul type="disc"><li>
+Belgenin tamamen veya kısmen kopyalarında yukarıdaki telif hakkı bilgisi ve bu izin notu korunmalıdır.
+   <p></p><p></p></li><li>
+   Bu belgeden türetilecek belgeler ve belgenin çevirileri için önceden izin alınmalıdır. Türkçe çevir yazara bildirilmiştir.
+   <p></p><p></p></li><li>
+   Bu çalışmayı kısmen yayınlarsanız tam sürümünü nasıl edinecekleri bilgisini eklemelisiniz.
+   <p></p><p></p></li><li>
+Küçük bölümler nereden alıntılandığının yazılması halinde tanıtım veya eleştiri için izin almadan kullanılabilir.
+Akademik kullanımlar için istisnalar sağlanabilir: yazara yazın ve sorun.
+Bu kısıtlamalar öğrencileri ve eğitmenleri kısıtlamak için değil yazarı korumak için getirilmiştir.
+Bu belgedeki tüm kaynak kodlar (belgenin hazırlandığı SGML hariç) GNU Genel Kamu Lisans'ı ile lisanslanmıştır. Bu lisansa anonim ftp ile GNU arşivlerinden ulaşabilirsiniz.
+   <p></p><p></p></li></ul></div>
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Teşekkürler</h3></div></dt><dd><p>
+Beni 18 yaşıma kadar getiren aileme teşekkür ederim.
+Debian geliştiricilerine hazırladıkları güzel dağıtım için teşekkür ederim.
+ 
+Thanks to <a href="http://www.cgr.org/" target="_top">CGR</a> for paying me to be a geek. 
+Sandy Harris'e yararlı önerileri için teşekkür ederim.
+Son olarak onsuz nasıl yaşayacağımı bilmediğim ramen noodles'ı yaratanlara teşekkür ederim.
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id6"></a>Okuyucu Hakkındaki Kabuller</h3></div></dt><dd><p>
+Bu belgenin hedefine ulaşabilmesi için okuyucunun komut satırından komut çalıştırmakla ve yapılandırma dosyalarını düzenlemekle bir problemi olmadığı kabul edilmiştir.
+   </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/user-auth-howto.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/user-auth-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/user-auth-howto-userinfo.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kullanıcı Kimlik Kanıtlama NASIL </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sisteminizde Kullanıcı Bilgileri Nasıl Saklanır</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

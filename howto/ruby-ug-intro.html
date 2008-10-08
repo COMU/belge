@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:00+03:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-whatis.html" title="Ruby Nedir?"><link rel="next" href="../howto/ruby-ug-examples.html" title="Basit Örnekler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-whatis.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-examples.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-intro"></a>Giriş</h2></div></dt><dd><p>
+Öncelikle sisteminizde Ruby'nin kurulu olup olmadığına bakalım.
+Kabuk istemcisinden (burada "<b><tt>$</tt></b>" ile temsil edilmiştir o yüzden <b><tt>$</tt></b> işaretini yazmanıza gerek yok) aşağıdaki kodu yazalım:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>ruby -v</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+(<b><tt>-v</tt></b> ruby'nin sürüm bilgilerini yazmasını sağlar),
+ve sonra da <tt>Enter</tt> tuşuna basalım.  Eğer sisteminizde Ruby kuruluysa aşağıdakine benzer bir satır görmeniz gerekecek:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ruby 1.6.6 (2001-12-26) [i586-linux]
+</pre> </td></tr></table></div>
+  </p><p>
+Eğer Ruby yüklü değilse, sistem yöneticinizle görüşebilir ya da kendiniz kurabilirsiniz.
+  </p><p>
+Artık Ruby ile oynamaya başlayabiliriz. <b><tt>-e</tt></b> seçeneği ile Ruby yazılımlarını doğrudan komut satırına yerleştirebilirsiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>ruby -e 'print "merhaba dunya\n"'</tt></b>
+merhaba dunya
+</pre> </td></tr></table></div>
+  </p><p>
+Daha uzlaşımsal olarak bir Ruby yazılımı bir dosyada saklanabilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>cat &gt; test.rb</tt></b>
+print "merhaba dunya\n"
+^D
+$ <b><tt>cat test.rb</tt></b>
+print "merhaba dunya\n"
+$ <b><tt>ruby test.rb</tt></b>
+merhaba dunya
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>^D</tt></b>, <tt>control-D</tt>'yi ifade eder. Yukarıdakiler sadece UNIX ve türevleri için geçerlidir. Eğer DOS kullanıyorsanız şunu deneyin:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">C:\<tt>ruby&gt; </tt> copy con: test.rb
+print "merhaba dunya\n"
+^Z
+C:\<tt>ruby&gt; </tt> type test.rb
+print "merhaba dunya\n"
+C:\<tt>ruby&gt; </tt> ruby test.rb
+merhaba dunya
+</pre> </td></tr></table></div>
+  </p><p>
+Daha kapsamlı yazılımlar geliştirirken, muhtemelen gerçek bir metin düzenleyiciye ihtiyaç duyacaksınız!
+  </p><p>
+Bazen şaşırtıcı biçimde karmaşık ve kullanışlı yazılımlar komut satırına sığabilecek minyatür yazılımlarla yapılabilmektedir. Örneğin aşağıdaki yazılım, çalışılan dizindeki tüm C kaynak ve başlık dosyalarında bulunan <b><tt>foo</tt></b>'ları <b><tt>bar</tt></b> ile değiştirir ve orjinal dosyaların <tt>.bak</tt> uzantısıyla yedeklerini alır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">% <b><tt>ruby -i.bak -pe 'sub "foo", "bar"' *.[ch]</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Bu yazılım UNIX'in <b><tt>cat</tt></b> komutu gibi çalışır (ama <b><tt>cat</tt></b>'ten daha yavaş çalışır):
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>ruby -pe 0 file</tt></b>
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-whatis.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-examples.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Ruby Nedir? </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Basit Örnekler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

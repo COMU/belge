@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-05-24T22:55:54+03:00"><title>Yapılandırma Araçları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/config-howto.html" title="Yapılandırma NASIL"><link rel="previous" href="../howto/config-howto-intro.html" title="Giriş"><link rel="next" href="../howto/config-howto-others.html" title="Diğerleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yapılandırma Araçları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/config-howto-intro.html">Önceki</a> </td><th width="60%" align="center">Yapılandırma NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/config-howto-others.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="config-howto-configtools"></a>Yapılandırma Araçları</h2></div></dt><dd><p>Bu belge temel olarak iki bölümden oluşmaktadır. Birinci bölüm büyük sabit diskleri olan ve grafik arayüz çalıştıran
+bilgisayarlar için, ikinci bölüm ise kısıtlı kaynakları olan ve komut satırından çalışmak zorunda olduğunuz bilgisayarlar içindir.</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-controlcenter"></a>Kontrol Merkezi</h3></div></dt><dd><p>Elbette çalışan bir grafik arayüzünüz varsa herşeyi yapılandırmak oldukça kolay olacaktır.
+8.0 sürümünden itibaren Mandrake-Linux <i>drakconf</i> paketiyle birlikte gelmektedir.
+Diğer dağıtımların da kendi kontrol merkezleri vardır.
+Bu sihirbaz ile aşağıdakileri ayarlamanız mümkündür:
+<div class="itemizedlist"><ul type="disc"><li>Kullanıcılar</li><li>Önyükleyici</li><li>Disk yönetimi</li><li>Görüntü</li><li>Güvenlik duvarı</li><li>Ağ</li><li>Kılavye</li><li>Fare</li><li>Yazıcı</li><li>Servisler</li></ul></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-display"></a>Görüntü</h3></div></dt><dd><p>Aşağıdaki iki adımla X sunucu yapılandırmasını değiştirebilirsiniz.</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="config-howto-step1"></a>Birinci Adım</h4></div></dt><dd><p>Linux işletim sistemi Kullanıcı Grafik Arayüzü (GUI) olarak X windows system'ın özgür bir sürümü olan,
+X.org sitesinin üyeleri ve IBM'in katkılarıyla geliştirilen, XFree'yi kullanmaktadır.
+Günümüzde X sunucu yapılandırması nerdeyse otomatik hale geldiğinden eğer şanslıysanız Linux kurulumundan sonra bakinayı
+yeniden başlatabilmeniz için ilave birşey yapmanıza gerek kalmaz.
+Yine de eğer olursa, bir çok paketin kurulmasına karşın X sunucusunu başlatamadığınızı söyleyen bir mesajla karşılaşırsınız.
+Bunun nedeni monitörünüzün veya ekran kartınızın doğru algılanamamasıdır. 
+Tek yapabileceğiniz, Özet kısmına kadar tüm kurulumu güncellemektir.  
+Burada grafik arayüz ayarlarınızı değiştirebilirsiniz ama çok dikkatli olun. Şansınız yaver giderse size sorulduğunda
+yeniden başlatıldığında X sunucusunun otomatik olarak başlatılması seçeneğini pasif hale getirin.
+Böylece bilgisayarınızı metin modunda açabilirsiniz, eğer X sunucusunu başlatmak isterseniz bunu <b><tt>startx</tt></b> komutunu kullanarak yapabilirsiniz. 
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="config-howto-step2"></a>İkinci Adım</h4></div></dt><dd><p>Eğer X sunucusu hala çalışmamışsa <b><tt>XFdrake</tt></b> komutunu deneyin.
+Mevcut ayarlarınızı en düşük olanlarla değiştirmenize izin verecektir:</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Monitor:		SVGA (not interlaced) 1024 x 768
+Frequency:		60 Hz
+Graphic card:		VGA standard
+Resolution:		640 x 480
+Colours dept.:		8 bpp
+</pre> </td></tr></table></div><p>Bu değerleri frekans hızını geçmeyecek şekilde aşama aşama yükseltebilirsiniz. 
+Dikkatli olun mönitörünüze zarar verebilirsiniz!
+Hazır olduğunuzda <b><tt>XFdrake</tt></b>'i çalıştırmayı tekrar deneyin ve açılışta XFree'yi başlatmayı seçin. 
+Bu benim için her zaman çalıştığından önce bu değerleri not almanızı öneririm.</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-keyboard"></a>Klavye</h3></div></dt><dd><p>Komut satırından yazarak çalışıyorsanız klavyenizin düzgün ayarlanmış olması elbette çok önemlidir.
+Bir çok ülke ve klavye türü için uygun klavye haritaları hali hazırda mevcuttur.
+Bu sayede <b><tt>loadkeys</tt></b> komutunu ülkenizi simgeleyen iki harf ile birlikte kullanabilirsiniz.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-users"></a>Kullanıcılar</h3></div></dt><dd><p>Özellikle otomatik oturum açmak istiyorsanız mutlaka bir kullanıcı eklemelisiniz.
+Bunun için <b><tt>adduser</tt></b> komutunu kullanabilirsiniz. Kullanıcıyı yarattıktan sonra 
+<b><tt>passwd -n</tt></b> ile kullanıcının parolasını ve adını atamalısınız.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-mouse"></a>Fare</h3></div></dt><dd><p>Eğer sadece komut satırından çalışacaksanız farenizi yapılandırmanız gerekmez.
+Bununla birlikte, bir grafik arayüz kullanıyorsanız hatalı ayarları değiştirmek için farenizi kullanamazsınız. 
+Bir konsol açın ve root olarak <b><tt>mousedrake</tt></b> komutunu çalıştırın.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-printer"></a>Yazıcı</h3></div></dt><dd><p>Son olarak, eğer yazıcınızı yapılandırmak isterseniz CUPS sürücüsünü yüklemeniz gerekir. Bunu <b><tt>printerdrake</tt></b> ile yapabilirsiniz.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-bootloader"></a>Önyükleyici</h3></div></dt><dd><p>Açılış sırasında çekirdeği belleğe yükleyen programa önyükleyici denmektedir.
+Linux dağıtımları ile gelen önyükleyiciler LILO ve GRUB'dur.
+LILO yapılandırmanızı değiştirmek isterseniz <tt>/etc/lilo.conf</tt> dosyasını istediğiniz bir editörle açarak düzenlemeniz gerekir.
+Bu dosyada her satırın aşağıdaki gibi anlamı vardır.</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">boot=/dev/hda              LILO'yu MBR'ye yükle
+prompt                     Eğer başka bir bölümü seçmek isterseniz
+timeout=50                 Açılmadan önce beş saniye bekler
+default=linux              Zaman dolduktan sonra ne ile açılacağını belirler 
+
+image=/boot/vmlinuz-x.x.x
+  label=Linux              Bölüme verdiğimiz isim
+  read-only                Salt-okunur bir kök ile başlar
+  root=/dev/hda3           Kök dosya sisteminin yeri
+
+other=/dev/hdaX            Windows'un yüklendiği bölüm
+  label=windows
+</pre> </td></tr></table></div><p>GRUB da benzer disk ve bölüm yapılandırmalarına sahiptir.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="config-howto-firewall"></a>Güvenlik Duvarı</h3></div></dt><dd><p>Eğer sisteminiz internete veya büyük kamusal bir ağa bağlıysa yetkisiz erişimi önlemek için güvenlik duvarını aktif edin.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/config-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/config-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/config-howto-others.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Diğerleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

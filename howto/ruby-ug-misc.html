@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Ivır Zıvır</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-oinit.html" title="Nesnenin İlklendirilmesi"><link rel="next" href="../howto/ruby-ug-about.html" title="Kılavuz Hakkında"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Ivır Zıvır</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-oinit.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-about.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-misc"></a>Ivır Zıvır</h2></div></dt><dd><p>
+Bu bölüm pratik bir kaç konuyu kapsar.
+  </p><h4><a name="id1428"></a>Deyim sınırlayıcılar</h4><p>
+Bazı diller deyimleri sonlandırmak için, noktalı virgül <b><tt>;</tt></b> gibi  noktalama işaretleri gerektirir. Ruby bunun yerine <b><tt>sh</tt></b> ve <b><tt>csh</tt></b>'ın geleneğini takip eder. Birden fazla deyim noktalı virgülle ayrılmalıdır ancak bir satırın sonuna noktalı virgül koymanız gerekmez, satırsonu karakteri bir noktalı virgülmüş gibi davranır. Eğer bir satır tersbölü (<b><tt>\</tt></b>) ile biterse o zaman onu takip eden satırsonu karakteri dikkate alınmaz, bu da çok sayıda satıra bölünmüş tek bir satır oluşturmanızı sağlar.
+  </p><h4><a name="id1428"></a>Yorum Satırları</h4><p>
+Niçin yorum yazmalıyız? İyi yazılmış bir kodun kendi kendini belgelemesi yanında başkalarının da çiziktirdiğimiz koda bakabileceği ihtimalini göz ardı etmemeliyiz. Öte yandan siz ve kendiziniz iki gün önceki sizle farklı kişilersiniz; hangimiz bir bölüm sonra durup, "bunu yazdığımı hatırlıyorum, ama ne cehennemi kastettim!" dememişizdir ki?
+  </p><p>
+Bazı deneyimli yazılımcılar, güncelliğini yitirmiş ve tutarsız yorumların hiç yorum yazmamaktan daha kötü olduğuna dikkat çekerler. Tabii ki yorumlar okunabilir bir kodun vekili olmamalıdırlar; eğer kodunuz yeterince açık değilse muhtemelen yanlışlarla doludur. Ruby'yi öğrenirken yorum yazmaya sık sık ihtiyacınız olacak-ancak daha iyi duruma geldiğiniz zaman basit, şık ve okunabilir kodlar yazmaya başladığınızda  daha az yorum satırına ihtiyaç duyacaksınız.
+  </p><p>
+Ruby yorum satırını belirtmek için <b><tt>#</tt></b> işareti kullanarak
+betik dillerinin izlediği geleneksel yolu izler. <b><tt>#</tt></b> ile başlayan her satır yorumlayıcı tarafından gözardı edilir.
+  </p><p>
+Ayrıca büyük yorum bloklarını mümkün kılmak için Ruby yorumlayıcısı "<b><tt>=begin</tt></b>" ve "<b><tt>=end</tt></b>" arasındaki satırları da gözardı eder.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">#!/usr/bin/env ruby
+
+=begin
+**********************************************************************
+  Bu bir yorum öbeği. Daha sonra kodunuzu okuyanların (kendiniz de dahil)
+  rahatlıla kodunuzu anlayabilmeleri için bir şeyler yazabilirsiniz.
+  Yorumlayıcı bu öbeği görmezden gelir. Her satır başında '#' işaretine
+  ihtiyacımız yok.
+**********************************************************************
+=end
+</pre> </td></tr></table></div>
+  </p><h4><a name="id1428"></a>Kodunuzu düzenlemek</h4><p>
+Ruby yorumlayıcısı kodları okuduğu gibi işletir. Derleme aşaması gibi bir şey söz konusu
+değildir; eğer birşey henüz okunmamışsa basitçe <i>tanımsızdır</i>.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#sonuç bir tanımsız yöntem ("undefined method") hatası olacaktır:
+
+print successor(3),"\n"
+
+def successor(x)
+  x + 1
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Bu, ilk bakışta öyle gibi gözükse de, kodunuzu baştan aşağı bir tasarım harikasına
+dönüştürmeniz için zorlamaz. Yorumlayıcı, bir yöntem tanımlamasıyla karşılaştığında tanımlanmamış  başvuruları da rahatlıkla ekleyebilir ve yöntem çağrıldığında tanımlı olabileceğinden emin olabilirsiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# fahrenhaytı santigrata çevirir,
+# iki adımdan olusur.
+
+def f_to_c(f)
+  scale(f - 32.0)
+end
+
+def scale(x)
+  x * 5.0 / 9.0
+end
+
+printf "%.1f iyi bir sıcaklık.\n", f_to_c(72.3)
+</pre> </td></tr></table></div>
+  </p><p>
+Perl ya da Java'da alıştığınızdan daha az elverişli olsa da prototip yazmadan C yazmaktan daha az kısıtlayıcıdır. Bir kaynak kodunun altındaki kodu en üste koymak her zaman çalışır. Üstelik başlangıçta göründüğünden daha az can sıkıcıdır. Tanımlamak istediğiniz davranışı yaptırmak için en ağrısız ve uygun yol dosyanın başında bir <b><tt>main</tt></b> işlevi tanımlamak ve en altta çağırmaktır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#!/usr/bin/env ruby
+
+def main
+  # Ana mantığı burada açıklayın...
+end
+
+# ... destek kodunu buraya koyun ...
+
+main # ... burada çalıştırmaya başlayın.
+</pre> </td></tr></table></div>
+  </p><p>
+Bu yöntem ayrıca Ruby'nin karmaşık yazılımları, okunabilir, tekrar kullanılabilir ve mantıksal ilişkilendirilmiş parçalara bölünmesini desteklemesine yardımcı olur.
+Daha önce modüllere ulaşmak için <b><tt>include</tt></b> özelliğinin kullanımını görmüştük. Ayrıca <b><tt>load</tt></b> ve <b><tt>require</tt></b> özellikleri de yararlı olabilir. <b><tt>load</tt></b> başvurduğu dosya kopyalanıp yapıştırılmış gibi işlev görür (C'deki #include ön işlemcisine benzer). <b><tt>require</tt></b> biraz daha yetenekli bir özelliktir: kodun bir kere ve ihtiyaç duyulduğu zaman yüklenmesini sağlar.
+<b><tt>load</tt></b> ve <b><tt>require</tt></b> arasındaki diğer farklılıklar için Ruby SSS'a bakın.
+ </p><h4><a name="id1428"></a>İşte bu kadar!</h4><p>
+Bu kılavuz Ruby'de yazılım geliştirmeye başlamanıza yetecek kadar bilgi içerir. Eğer başka sorularınız olursa  <a class="ulink" href="http://www.ruby-lang.org/en/man-1.4/" target="_top">Ruby Başvuru Kılavuzu</a>na göz atabilirsiniz. <a class="ulink" href="http://dev.rubycentral.com/faq/rubyfaq.html" target="_top">Ruby SSS</a> ve
+<a class="ulink" href="http://dev.rubycentral.com/ref/" target="_top">Ruby Başvuru Kütüphanesi</a> de yararlı kaynaklardan bir kaç tanesidir.
+  </p><p>
+Şansınız bol olsun, iyi kodlamalar!
+   </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-oinit.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-about.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Nesnenin İlklendirilmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kılavuz Hakkında</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

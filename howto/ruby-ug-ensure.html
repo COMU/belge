@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Hata İşleme: ensure deyimi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-rescue.html" title="Hata İşleme: rescue deyimi"><link rel="next" href="../howto/ruby-ug-accessors.html" title="Erişgeçler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Hata İşleme: ensure deyimi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-rescue.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-accessors.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-ensure"></a>Hata İşleme: <tt>ensure</tt> deyimi</h2></div></dt><dd><p>
+Bazen bir yöntem işini bitirdikten sonra temizlik yapılması gerekebilir. Örneğin açılmış olan bir dosyanın kapatılması ya da bir veri için ayrılan bellek gözesinin boşaltılması gerekebilir. Eğer her yöntem için her zaman tek bir çıkış noktası olsaydı temizleme kodumuzu tek bir yere koyardık ve çalıştırılacağından emin olurduk. Ancak yöntem bir çok yere geri dönebilir ve temizlik kodumuz beklenmeyen istisnalardan dolayı atlanabilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yaziliyor...
+  file.close
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Ayrıca eğer kodun dosyaya yazdığımız kısmında bir istisna meydana gelirse o zaman dosya açık bırakılabilir. Ve böyle bir fazlalığa gitmek istemeyiz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yazılıyor ...
+  file.close
+rescue
+  file.close
+  fail # istisna yakalanıyor
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Bu hantal bir yöntemdir; her <b><tt>return</tt></b> ve <b><tt>break</tt></b> ile ilgilenmek zorunda kalınca işler çığrından çıkar.
+  </p><p>
+Bu yüzden "<b><tt>begin...rescue...end</tt></b>" şemasına <b><tt>ensure</tt></b> adında başka bir anahtar kelime daha ekleriz. <b><tt>ensure</tt></b> kodu <b><tt>begin</tt></b> kodunun başarılı olup olmadığına bakmaksızın çalıştırılır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yazılıyor ...
+rescue
+  # ... istisnalar yakalanıyor...
+ensure
+  file.close   # ...her zaman yapılması gerekir
+end
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>ensure</tt></b> kodunu <b><tt>rescue</tt></b> olmadan da kullanmak mümkündür ya da tam tersi; ancak aynı <b><tt>begin...end </tt></b> bloğunda birlikte kullanılıyorlarsa <b><tt>rescue</tt></b>, <b><tt>ensure</tt></b>'den önce gelmelidir.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-rescue.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-accessors.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Hata İşleme: rescue deyimi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Erişgeçler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>linux/arch/i386/kernel/head.S</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-compressed_head.html" title="linux/arch/i386/boot/compressed/head.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-init_main.html" title="linux/init/main.c"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/arch/i386/kernel/head.S</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-init_main.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-kernel_head"></a>linux/arch/i386/kernel/head.S</h2></div></dt><dd><p>
+Sonunda çekirdek imgesi <tt>linux/vmlinux</tt> yerini aldı. İki girdiye ihtiyaç var:
+    </p><p><div class="itemizedlist"><ul type="disc"><li>
+16 bitlik gerçek kip kodunun yerini göstermek için <tt>ESI</tt>; INITSEG&lt;&lt;4 durumu;
+        </li><li>
+Hangi işlemcinin çalıştığını belirtmek için <tt>BX</tt>, 0 BSP anlamına gelir, diğer değerler AP için.
+        </li></ul></div>
+    </p><p>
+ESI, daha sonra <tt>empty_zero_page</tt>'e kopyalanacak 16 bitlik gerçek kip kodundaki parametre alanını gösterir. ESI sadece BSP için geçerlidir.
+    </p><p>
+BSP (BootStrap Processor) ve APler (Application Processors) Intel terminolojileridir. Çoklu işlemci (MP) ilklendirme işlemleri hakkında bakınız: IA-32 Manual (Vol.3. Ch.7.5. Multiple-Processor (MP) Initialization) ve <a class="ulink" href="http://www.intel.com/design/pentium/datashts/242016.htm" target="_top">MultiProcessor Specification</a>.
+    </p><p>
+Yazılım açısından bakıldığında, çok işlemcili bir sistemde, BSP ve APler fiziksel belleği paylaşırlar, fakat kendi yazmaç kümelerini kullanırlar. BSP ilk olarak çekirdek kodunu çalıştırır, işletim sistemi çalıştırma ortamını kurar ve APleri de onun üzerinde çalışması için tetikler. AP BSP onu uyarıncaya kadar uyku kipinde kalır.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-enable_paging"></a>Sayfalamayı Etkinleştir</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+.text
+///////////////////////////////////////////////////////////////////////////////
+startup_32()
+{
+  /* bölütleri bilinen değerlere ata */
+  cld;
+  DS = ES = FS = GS = __KERNEL_DS;
+
+#ifdef CONFIG_SMP
+#define cr4_bits mmu_cr4_features-__PAGE_OFFSET
+  /* long mmu_cr4_features linux/arch/i386/kernel/setup.c içinde tanımlı
+    * __PAGE_OFFSET = 0xC0000000, örn. 3G */
+
+  // CR4 desteği ile ApP (&gt; Intel 486) CR'ü BSP'den kopyalayacak
+  if (BX &amp;&amp; cr4_bits) {
+    // sayfalama seçeneklerini aç (turn on) (PSE, PAE, ...)
+    CR4 |= cr4_bits;
+  } else
+#endif
+  {
+    /* sayfa tablolarını (pg0..empty_zero_page-1) sadece BSP ilklendirir
+      *   .org 0x2000'de pg0
+      *   .org 0x4000'de empty_zero_page
+      *   toplam (0x4000-0x2000)/4 = 0x0800 girdi */
+    pg0 = {
+      0x00000007,             // 7 = PRESENT + RW + USER
+      0x00001007,             // 0x1000 = 4096 = 4K
+      0x00002007,
+      ...
+    pg1:    0x00400007,
+      ...
+      0x007FF007              // toplam 8M
+    empty_zero_page:
+    };
+  }
+</pre> </td></tr></table></div>
+      </p><p>
+Bir çekirdek sembolüne başvuracağımız zaman neden <tt>-__PAGE_OFFSET</tt> eklemek zorundayız, örneğin <tt>pg0</tt> gibi?
+      </p><p>
+<tt>linux/arch/i386/vmlinux.lds</tt> içinde şunlar bulunur:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+  . = 0xC0000000 + 0x100000;
+  _text = .;                    /* Metin ve salt-okunur veri */
+  .text : {
+        *(.text)
+...
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>linux/vmlinux</tt> için bağlanacak ilk dosya olan <tt>linux/arch/i386/kernel/head.o</tt> içinde, <tt>pg0 .text</tt> bölümü 0x2000 konumunda olduğu için, çıktı bölümü <tt>.text </tt> içinde 0x2000 konumunda olacaktır. Böylece ilintilendikten sonra 0xC0000000+0x100000+0x2000 adresinde olacaktır.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+[root@localhost boot]# <b><tt>nm --defined /boot/vmlinux-2.4.20-28.9 | \</tt></b>
+<b><tt>grep 'startup_32\|mmu_cr4_features\|pg0\|\&lt;empty_zero_page\&gt;' | sort</tt></b>
+c0100000 t startup_32
+c0102000 T pg0
+c0104000 T empty_zero_page
+c0376404 B mmu_cr4_features
+</pre> </td></tr></table></div>
+      </p><p>
+Korumalı kipte sayfalama etkinleştirilmeden, doğrusal adres doğrudan fiziksel adrese eşlenecektir. "<tt>movl $pg0-__PAGE_OFFSET,%edi</tt>" <tt>pg0</tt>'ın fiziksel adresine eşit olan <tt>EDI=0x102000</tt> değerini atayacaktır (<tt>linux/vmlinux</tt> 0x100000 adresine yerleştirildiği için). <tt>-PAGE_OFFSET</tt> şeması olmadan, yanlış ve muhtemelen RAM alanının ötesinde olacak 0xC0102000 fiziksel adresine erişecektir.
+      </p><p>
+<tt>mmu_cr4_features .bss</tt> bölümü içindedir ve yukarıdaki örnekte 0x376404 fiziksel adresine yerleştirilmiştir.
+      </p><p>
+Sayfa tablosu ilklendirildikten sonra sayfalama etkinleştirilebilir.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+  // sayfa dizini temel göstericisini ata, fiziksel adres
+  CR3 = swapper_pg_dir - __PAGE_OFFSET;
+  // sayfalama etkin!
+  CR0 |= 0x80000000;      // PG bitini ayarla
+  goto 1f;                // flush prefetch-queue
+1:
+  EAX = &amp;1f;          // sonraki komutu takip eden adres
+  goto *(EAX);            // EIP'yi yeniden konumla
+1:
+  SS:ESP = *stack_start;
+</pre> </td></tr></table></div>
+      </p><p>
+Sayfa dizini <tt>swapper_pg_dir</tt> (<a href="../howto/linux-i386-boot-code-howto-kernel_head.html#linux-i386-boot-code-howto-khead_misc" class="xref" title="Muhtelif"> Muhtelif</a> bölümündeki tanımlamalara bakınız), sayfa tabloları <tt>pg0</tt> ve <tt>pg1</tt> ile birlikte, doğrusal 0..8M-1 ve 3G..3G+8M-1 adreslerinin her ikisinin de 0..8M-1 fiziksel adresine eşlendiğini belirtir. Artık çekirdek sembollerine "<tt>-__PAGE_OFFSET</tt>" olmadan erişebiliriz. Çünkü çekirdek alanı (&gt;=3G doğrusal adresinde bulunur) sayfalama etkinleştirildikten sonra doğru bir şekilde kendi fiziksel adresine eşlenecektir.
+      </p><p>
+"<tt>lss stack_start,%esp</tt>" (<tt>SS:ESP = *stack_start</tt>) yeni bir yığıt kuran "<tt>-PAGE_OFFSET</tt>" olmadan bir sembole başvuran ilk örnektir. BSP için, yığıt <tt>init_task_union</tt>'ın sonundadır. AP için, <tt>stack_start.esp</tt> <tt>linux/arch/i386/kernel/smpboot.c:do_boot_cpu()</tt> tarafından <a href="../howto/linux-i386-boot-code-howto-smpboot.html#linux-i386-boot-code-howto-smp_init" class="xref" title="smp_init()"> smp_init()</a> içinde "<tt>(void *) (1024 + PAGE_SIZE + (char *)idle)</tt>" olacak şekilde yeniden tanımlanmıştır.
+      </p><p>
+Sayfalama mekanizmaları ve veri yapıları için bakınız: IA-32 Manual Vol.3. (Ch.3.7. Page Translation Using 32-Bit Physical Addressing, Ch.9.8.3. Initializing Paging, Ch.9.9.1. Switching to Protected Mode ve Ch.18.26.3. Enabling and Disabling Paging).
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="get_kernel_para"></a>Çekirdek Parametrelerini Al</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#define OLD_CL_MAGIC_ADDR       0x90020
+#define OLD_CL_MAGIC            0xA33F
+#define OLD_CL_BASE_ADDR        0x90000
+#define OLD_CL_OFFSET           0x90022
+#define NEW_CL_POINTER          0x228   /* Gerçek kip veriye göreli */
+
+#ifdef CONFIG_SMP
+  if (BX) {
+    EFLAGS = 0;             // AP EFLAGS'leri temizler
+  } else
+#endif
+  {
+    // İlk CPU BSS'yi temizler
+    clear BSS;              // örn. __bss_start .. _end
+    setup_idt() {
+      /* idt_table[256]; arch/i386/kernel/traps.c içinde tanımlı
+        *   .data.idt bölümüne yerleştirilmiş
+      EAX = __KERNEL_CS &lt;&lt; 16 + ignore_int;
+      DX = 0x8E00;    // kesme kapısı, dpl = 0, mevcut
+      idt_table[0..255] = {EAX, EDX};
+    }
+    EFLAGS = 0;
+    /*
+      * Önyükleme parametrelerini yolun dışına kopyala (ayak altından al).
+      * _empty_zero_page'in ilk 2kB'lık bölümü önyükleme parametreleri için,
+      * ikinci 2kB'lık bölümü komut satırı içindir.
+      */
+    taşı *ESI (gerçek kip başlık)'dan empty_zero_page'e, 2KB;
+    temizle empty_zero_page+2K, 2KB;
+    ESI = empty_zero_page[NEW_CL_POINTER];
+    if (!ESI) {             // 32 bitlik komut satırı göstericisi
+      if (OLD_CL_MAGIC==(uint16)[OLD_CL_MAGIC_ADDR]) {
+        ESI = [OLD_CL_BASE_ADDR]
+              + (uint16)[OLD_CL_OFFSET];
+        taşı *ESI'dan empty_zero_page+2K'ya, 2KB;
+      }
+    } else {                // 2.02+'da geçerli
+      taşı *ESI'dan empty_zero_page'e, 2KB;
+    }
+  }
+}
+</pre> </td></tr></table></div>
+      </p><p>
+BSP için çekirdek parametreleri <tt>ESI</tt> tarafından gösterilen bellekten <tt>empty_zero_page</tt>'e  kopyalanır. Eğer uygulanabilir ise çekirdek komut satırı <tt>empty_zero_page+2K</tt>'ya kopyalanacaktır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-check_cpu_type"></a>İşlemci Türünü Kontrol Et</h3></div></dt><dd><p>
+İşlemci türünün ve işlemci içeriğinin nasıl belirlendiği konusunda bakınız: IA-32 Manual Vol.1. (Ch.13. Processor Identification and Feature Determination).
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+struct cpuinfo_x86;                  // bakınız: include/asm-i386/processor.h
+struct cpuinfo_x86 boot_cpu_data;    // bakınız: arch/i386/kernel/setup.c
+
+#define CPU_PARAMS      SYMBOL_NAME(boot_cpu_data)
+#define X86             CPU_PARAMS+0
+#define X86_VENDOR      CPU_PARAMS+1
+#define X86_MODEL       CPU_PARAMS+2
+#define X86_MASK        CPU_PARAMS+3
+#define X86_HARD_MATH   CPU_PARAMS+6
+#define X86_CPUID       CPU_PARAMS+8
+#define X86_CAPABILITY  CPU_PARAMS+12
+#define X86_VENDOR_ID   CPU_PARAMS+28
+
+checkCPUtype:
+{
+  X86_CPUID = -1;                 // CPUID yok
+
+  X86 = 3;                        // en azından 386
+  save original EFLAGS to ECX;
+  flip AC bit (0x40000) in EFLAGS;
+  if (AC bit not changed) goto is386;
+
+  X86 = 4;                        // en azından 486
+  flip ID bit (0X200000) in EFLAGS;
+  restore original EFLAGS;        //  AC ve ID seçenekleri için
+  if (ID bit değişemez) goto is486;
+
+  // işlemci bilgilerini al
+  CPUID(EAX=0);
+  X86_CPUID = EAX;
+  X86_VENDOR_ID = {EBX, EDX, ECX};
+  if (!EAX) goto is486;
+
+  CPUID(EAX=1);
+  CL = AL;
+  X86 = AH &amp; 0x0f;                // aile
+  X86_MODEL = (AL &amp; 0xf0) &gt;&gt; 4;   // model
+  X86_MASK = CL &amp; 0x0f;           // adımlama kimliği (stepping id)
+  X86_CAPABILITY = EDX;               // özellik
+</pre> </td></tr></table></div>
+      </p><p>
+x87 aritmetik işlemcisinin ayarlanışı için bakınız: IA-32 Manual Vol.3. (Ch.9.2. x87 FPU Initialization, and Ch.18.14. x87 FPU).
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+is486:
+  // PG, PE, ET'yi kaydet AM, WP, NE, MP'yi ise ayarla
+  EAX = (CR0 &amp; 0x80000011) | 0x50022;
+  goto 2f;                   // "is386:" işlemeyi atla
+is386:
+  orjinal EFLAGS'ları ECX'den yeniden al;
+  // PG, PE, ET'yi kaydet MP'yi ayarla
+  EAX = (CR0 &amp; 0x80000011) | 0x02;
+
+  /* ET: Eklenti Türü (Extension Type) (CR0'ın 4 biti).
+    * Intel 386 ve Intel 486 işlemcilerde bu seçenek atandığı (set) zaman
+    * Intel 387 DX aritmetik işlemcisi komutlarının desteklendiğini gösterir.
+    * Pentium 4, Intel Xeon ve P6 ailesi işlemcilerde ise
+    * bu seçenek sabit 1 olur.
+    *     -- IA-32 Manual Vol.3. Ch.2.5. Control Registers (p.2-14) */
+
+2:
+  CR0 = EAX;
+  check_x87() {
+    /* Doğru olması için ET'ye bağımlıyız.
+     * Bu 287/387 için sınar. */
+    X86_HARD_MATH = 0;
+    clts;                   // CR0.TS = 0;
+    fninit;                 // Init FPU;
+    fstsw AX;               // AX = ST(0);
+    if (AL) {
+      CR0 ^= 0x04;    // yardımcı işlemci (coprocessor) yok, EM'i ata
+    } else {
+      ALIGN
+1:    X86_HARD_MATH = 1;
+      /* IA-32 Manual Vol.3. Ch.18.14.7.14. FSETPM komutu
+        * 287 işlemcisinin korumalı kipte olduğunu söyler
+        * 387 tarafından dikkate alınmaz*/
+      fsetpm;
+    }
+  }
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>linux/include/linux/linkage.h</tt> içinde tanımlanan ALIGN makrosu, 16-byte hizalama ve 0x90 değeri doldurma (NOP için opcode) belirtir. <tt>.align</tt> talimatının anlamı için ayrıca <a class="ulink" href="http://www.gnu.org/software/binutils/manual/gas-2.9.1/html_chapter/as_7.html#SEC70" target="_top">Using as: Assembler Directives</a> belgesine bakınız.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-go_start_kernel"></a>Çekirdeği Başlat</h3></div></dt><dd><p>
+ <div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+  ready:  .byte 0;        // global değişken
+{
+  ready++;                // kaç işlemci hazır
+  lgdt gdt_descr;         // yeni betimleme tablosunu güvenli yerde kullan
+  lidt idt_descr;
+  goto __KERNEL_CS:$1f;   // "lgdt"den sonra bölüt yazmaçlarını yeniden yükle
+1:
+  DS = ES = FS = GS = __KERNEL_DS;
+#ifdef CONFIG_SMP
+  SS = __KERNEL_DS;       // sadece bölütü yeniden yükle
+#else
+  SS:ESP = *stack_start;  /* init_task_union'ın sonu,
+                           * linux/arch/i386/kernel/init_task.c'de tanımlı */
+#endif
+  EAX = 0;
+  lldt AX;
+  cld;
+
+#ifdef CONFIG_SMP
+  if (1!=ready) {         // ilk işlemci değil
+    initialize_secondary();
+    // bakınız: linux/arch/i386/kernel/smpboot.c
+  } else
+#endif
+  {
+    start_kernel(); // bakınız: linux/init/main.c
+  }
+L6:
+  goto L6;
+}
+</pre> </td></tr></table></div>
+      </p><p>
+İlk işlemci (BSP) <tt>linux/init/main.c:start_kernel()</tt>'i çağıracak ve diğerleri (AP) <tt>linux/arch/i386/kernel/smpboot.c:initialize_secondary()</tt>'yi çağıracak. <a href="../howto/linux-i386-boot-code-howto-init_main.html" class="xref" title="linux/init/main.c"> linux/init/main.c</a> içinde <tt>start_kernel()</tt>'e ve <a href="../howto/linux-i386-boot-code-howto-smpboot.html#linux-i386-boot-code-howto-initialize_secondary" class="xref" title="initialize_secondary()"> initialize_secondary()</a> içindeki <tt>initialize_secondary()</tt>'e bakınız.
+      </p><p>
+<tt>init_task_union</tt> ilk süreç olan "idle" süreci (pid=0) için görev yapısı olmak üzere oluşur. "idle" sürecinin yığıtı <tt>init_task_union</tt>'ın sonundan itibaren gelişir. Aşağıdaki kod <tt>init_task_union</tt> ile ilgilidir.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+ENTRY(stack_start)
+  .long init_task_union+8192;
+  .long __KERNEL_DS;
+
+#ifndef INIT_TASK_SIZE
+# define INIT_TASK_SIZE 2048*sizeof(long)
+#endif
+
+union task_union {
+  struct task_struct task;
+  unsigned long stack[INIT_TASK_SIZE/sizeof(long)];
+};
+
+/* INIT_TASK ilk görev tablosunu kurmak için kullanıldı,
+ * riski göze alarak kullanın! Base=0, limit=0x1fffff (=2MB) */
+union task_union init_task_union
+  __attribute__((__section__(".data.init_task"))) =
+    { INIT_TASK(init_task_union.task) };
+</pre> </td></tr></table></div>
+      </p><p>
+<i>init_task_union</i> BSP "idle" süreci içindir. <a href="../howto/linux-i386-boot-code-howto-init_main.html#linux-i386-boot-code-howto-init_proc" class="xref" title="init()"> init()</a> bölümünde değinilen "init" süreciyle karıştırmayın.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-khead_misc"></a>Muhtelif</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+// öntanımlı kesme yöneticisi ("handler")
+ignore_int() { printk("Unknown interrupt\n"); iret; }
+
+/*
+ * Kesme belirtici tablosu 256 idt için odaya (room) sahiptir,
+ * global belirtici tablosu sahip olabileceğimiz
+ * görev sayısına bağımlıdır...
+ */
+#define IDT_ENTRIES     256
+#define GDT_ENTRIES     (__TSS(NR_CPUS))
+
+.globl SYMBOL_NAME(idt)
+.globl SYMBOL_NAME(gdt)
+
+  ALIGN
+  .word 0
+idt_descr:
+  .word IDT_ENTRIES*8-1           # idt 256 girdi içerir
+SYMBOL_NAME(idt):
+  .long SYMBOL_NAME(idt_table)
+
+  .word 0
+gdt_descr:
+  .word GDT_ENTRIES*8-1
+SYMBOL_NAME(gdt):
+  .long SYMBOL_NAME(gdt_table)
+
+/*
+ * Bu, 0-8M'de (önyükleme amaçları için) bir kimlik eşleşmesi ve
+ * PAGE_OFFSET sanal adresinde başka bir 0-8M eşleşmesi oluşturmak
+ * üzere ilklendirilir.
+ */
+.org 0x1000
+ENTRY(swapper_pg_dir)   // "ENTRY" linux/include/linux/linkage.h'da tanımlı
+  .long 0x00102007
+  .long 0x00103007
+  .fill BOOT_USER_PGD_PTRS-2,4,0
+  /* öntanımlı: 766 girdi */
+  .long 0x00102007
+  .long 0x00103007
+  /* öntanımlı: 254 girdi */
+  .fill BOOT_KERNEL_PGD_PTRS-2,4,0
+
+/*
+ * Sayfa tablolarının burada sadece 8MB'ı ilklendirilir
+ * - sonuncu sayfa tabloları bellek boyutuna bağlı
+ * olarak daha sonra ayarlanır.
+ */
+.org 0x2000
+ENTRY(pg0)
+
+.org 0x3000
+ENTRY(pg1)
+
+/*
+ * empty_zero_page hemen sayfa tablosunu takip etmelidir !
+ * (İlklendirme döngüsü empty_zero_page'e kadar sayar)
+ */
+.org 0x4000
+ENTRY(empty_zero_page)
+
+/*
+ * normal "text" bölütünün gerçek başlangıcı
+ */
+.org 0x5000
+ENTRY(stext)
+ENTRY(_stext)
+
+///////////////////////////////////////////////////////////////////////////////
+/*
+ * Bu veri bölümünü başlatır. Dikkat ederseniz yukarıda tümü
+ * text bölümündedir çünkü bu bizim başka bir şekilde
+ * gideremeyeceğimiz hizalama gereksinimidir.
+ */
+.data
+
+ALIGN
+/*
+ * Tipik olarak 140 "quadwords" içerir; NR_CPUS'a bağlı olarak.
+ *
+ * DİKKAT! Herhangi bir şeyi değiştirirseniz, bunun head.S'deki
+ * gdt belirticisiyle eşleştiğinden emin olun.
+ */
+ENTRY(gdt_table)
+  .quad 0x0000000000000000        /* NULL belirtici */
+  .quad 0x0000000000000000        /* kullanılmadı */
+  .quad 0x00cf9a000000ffff        /* 0x10 kernel 4GB code at 0x00000000 */
+  .quad 0x00cf92000000ffff        /* 0x18 kernel 4GB data at 0x00000000 */
+  .quad 0x00cffa000000ffff        /* 0x23 user   4GB code at 0x00000000 */
+  .quad 0x00cff2000000ffff        /* 0x2b user   4GB data at 0x00000000 */
+  .quad 0x0000000000000000        /* kullanılmadı */
+  .quad 0x0000000000000000        /* kullanılmadı */
+  /*
+    * APM bölütleri bayt taneciklilik özelliğine sahiptir ve
+    * tabanları ile sınırları çalışma zamanında atanır.
+    */
+  .quad 0x0040920000000000        /* 0x40 kötü BIOS'lar için APM ataması */
+  .quad 0x00409a0000000000        /* 0x48 APM CS    kod */
+  .quad 0x00009a0000000000        /* 0x50 APM CS 16 kod (16 bit) */
+  .quad 0x0040920000000000        /* 0x58 APM DS    veri */
+  .fill NR_CPUS*4,8,0             /* TSS'ler ve LDT'ler için boşluk */
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>idt_descr</tt> ve <tt>gdt_table</tt>'dan önce olan <tt>ALIGN</tt> makrosu performans ile ilgilidir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-khead_ref"></a>Kaynakça</h3></div></dt><dd><p>
+      <div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://developer.intel.com/design/pentium4/manuals/" target="_top">IA-32 Intel Architecture Software Developer's Manual</a></li><li><a class="ulink" href="http://www.intel.com/design/pentium/datashts/242016.htm" target="_top">MultiProcessor Specification</a></li><li><a class="ulink" href="http://www.gnu.org/software/binutils/manual/gas-2.9.1/" target="_top">Using as</a></li><li><a class="ulink" href="http://www.gnu.org/software/binutils/manual/" target="_top">GNU Binary Utilities</a></li></ul></div>
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-init_main.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/arch/i386/boot/compressed/head.S </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> linux/init/main.c</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

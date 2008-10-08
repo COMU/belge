@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:46:55+03:00"><title>Kurulum Programını Çalıştırın</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO.html" title="Fedora Core 3 Üzerine Oracle 9i Kurulumu NASIL"><link rel="previous" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO-sect_06.html" title="GCC 2.9 Compat kitaplıklarının kurulumu"><link rel="next" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO-sect_08.html" title="Başlangıç Betiğinin Yaratılması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kurulum Programını Çalıştırın</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO-sect_06.html">Önceki</a> </td><th width="60%" align="center">Fedora Core 3 Üzerine Oracle 9i Kurulumu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO-sect_08.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="Oracle-9i-Fedora-3-Install-HOWTO-sect_07"></a>Kurulum Programını Çalıştırın</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_01"></a>libwait.c yamasını uygulayın</h3></div></dt><dd><p>Kurulum programını çalıştırmadan önce, tuhaf hatalar almamak için aşağıdakileri yapın:</p><div class="itemizedlist"><ul type="disc"><li><tt>/home/oracle</tt> dizininde aşağıdaki gibi bir <tt>libwait.c</tt> dosyası oluşturun ve derleyin:<p></p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+/*
+gcc -O2 -shared -o $HOME/libcwait.so -fpic $HOME/libcwait.c
+*/
+#include
+#include
+#include
+Deploying Oracle 9i on Red Hat Enterprise Linux AS 3
+Page 11
+#include
+pid_t
+__libc_wait (int *status)
+{
+int res;
+asm volatile ("pushl %%ebx\n\t"
+"movl %2, %%ebx\n\t"
+"movl %1, %%eax\n\t"
+"int $0x80\n\t"
+"popl %%ebx"
+: "=a" (res)
+: "i" (__NR_wait4), "0" (WAIT_ANY), "c" (status), "d" (0), "S" (0));
+return res;
+}
+</pre> </td></tr></table></div><div class="cmdsynopsis"><p><tt>gcc <tt>-shared -o</tt> <tt>libcwait.so libcwait.c</tt> <tt>-fpic -O</tt></tt> </p></div><p></p></li><li>Bu kitaplığı veritabanı kullanıcısının ortam değişkenleri arasına ekleyin:<p></p><div class="cmdsynopsis"><p><tt>export <i><tt>LD_PRELOAD</tt></i>=<tt>/home/oracle/libcwait.so</tt></tt> </p></div><p>Daha önce <tt>.bash_profile</tt> dosyasına benzer bir satır eklemiştik.</p><p></p></li></ul></div></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_02"></a>Kurulum pencerelerinin açılacağı terminalin yapılandırılması</h3></div></dt><dd><p>Aşağıdaki komutları oracle kullanıcısı olarak çalıştırın:</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+oracle@9iserver ~&gt; xhost +localhost
+oracle@9iserver ~&gt; export DISPLAY=localhost:0.0
+</pre> </td></tr></table></div><p>Artık kendi masaüstünüzden bağlanabileceğiniz gibi kurulum programını uzaktan da çalıştırabilirsiniz,
+örneğin Windows masaüstünden VNC ile bağlanarak kurulum programını çalıştırabilirsiniz.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_03"></a>Kurulumun başlatılması</h3></div></dt><dd><p>Grafik kurulum uygulamasını başlatın:</p><div class="cmdsynopsis"><p><tt>/path/to/oracle/Disk1/runInstaller</tt> </p></div><p>Buradan sonra Grafik kurulumu takip edin (eğer standart veritabanını seçmemişseniz).  
+Kurulum sürecinin buradan sonrası açıktır.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_04"></a>nodeinfo'nun düzeltilmesi</h3></div></dt><dd><p>Kurulum buradan sonra bir ilintileme hatası vermeden devam etmelidir ama sonunda aşağıdaki gibi bir hata ile karşılaşacaksınız:</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Parameter "nodeinfo" = NO_VALUE
+Agent Service Failed
+</pre> </td></tr></table></div><p>Bunu düzeltmek için kurulum bittikten sonra sihirbazı başlatmak için aşağıdaki komutu çalıştırın:</p><div class="cmdsynopsis"><p><tt>netca &amp;</tt> </p></div><p>Şimdi <i><tt>$ORACLE_HOME</tt></i> dizinine geçerek <b><tt>./lsnrctl <tr>start</tr></tt></b> komutunu çalıştırın.</p><p>Sürecin çalışıp çalışmadığını kontrol edin:</p><div class="cmdsynopsis"><p><tt>ps <tt>afx</tt> | grep <tr>LISTEN</tr></tt> </p></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO-sect_06.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO-sect_08.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">GCC 2.9 Compat kitaplıklarının kurulumu </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Başlangıç Betiğinin Yaratılması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

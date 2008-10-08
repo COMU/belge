@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Diziler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="duzenli_ifadeler.html">
+ <img border=0 src="a2l.gif" alt="Düzenli İfadeler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="orneklere_donus.html">
+ <img border=0 src="a2r.gif" alt="Basit örneklere dönüş"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Diziler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Ruby'de köşeli parantezler <code>[]</code> arasına, elemanları yazarak ve virgüller yardımıyla ayırarak bir dizi oluşturabilirsiniz. Ruby'de diziler farklı veri tiplerini ayırd edebilecek niteliktedir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> ary = [1, 2, "3"]</b></font>
+<font color="#50ffff"><b>   [1, 2, "3"]</b></font></font></pre></td></tr></table>
+<p>Diziler de aynı stringler gibi birleştirilebilir ya da tekrar edilebilir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> ary + ["foo", "bar"]</b></font>
+<font color="#50ffff"><b>   [1, 2, "3", "foo", "bar"]</b></font>
+ruby&gt;<font color="#ffff00"><b> ary * 2</b></font>
+<font color="#50ffff"><b>   [1, 2, "3", 1, 2, "3"]</b></font></font></pre></td></tr></table>
+<p>Dizinin herhangi bir elemanına ulaşmak için indeks numaralarını kullanabiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> ary[0]</b></font>
+<font color="#50ffff"><b>   1</b></font>
+ruby&gt;<font color="#ffff00"><b> ary[0,2]</b></font>
+<font color="#50ffff"><b>   [1, 2]</b></font>
+ruby&gt;<font color="#ffff00"><b> ary[0..1]</b></font>
+<font color="#50ffff"><b>   [1, 2]</b></font>
+ruby&gt;<font color="#ffff00"><b> ary[-2]</b></font>
+<font color="#50ffff"><b>   2</b></font>
+ruby&gt;<font color="#ffff00"><b> ary[-2,2]</b></font>
+<font color="#50ffff"><b>   [2, "3"]</b></font>
+ruby&gt;<font color="#ffff00"><b> ary[-2..-1]</b></font>
+<font color="#50ffff"><b>   [2, "3"]</b></font></font></pre></td></tr></table>
+<p>(Negatif indeks numarası dizinin sonundan başlanmasını sağlar.)</p>
+<p>Diziler <code>join</code> ve <code>split</code> kullanılarak stringlere dönüştürülebilirler ya da stringlerden dizilere dönüşebirler.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> str = ary.join(":")</b></font>
+<font color="#50ffff"><b>   "1:2:3"</b></font>
+ruby&gt;<font color="#ffff00"><b> str.split(":")</b></font>
+<font color="#50ffff"><b>   ["1", "2", "3"]</b></font></font></pre></td></tr></table>
+<h2><a name="label:0" id="label:0">Hash'ler</a></h2><!-- RDLabel: "Hashes" -->
+<p>
+
+Hashler elemanlarına indeksler yerine herhangi bir değer olabilen <em>anahtarlar</em> yardımıyla erişilebilen özelleştirilmiş dizilerdir. Diziler bazen <code>hash</code> ya da <code>dictionary</code> olarak adlandırılırlar; biz ruby dünyasında hash deyimini tercih ederiz. Bir <code>hash</code> (<code>{}</code>) parantezleri arasına yazılarak oluşturulabilir. Dizilerde herhangi bir elemana ulaşmak için indeksleri kullandığımız gibi hash'lerde de elamana ulaşmak için anahtarları kullanırız.
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> h = {1 =&gt; 2, "2" =&gt; "4"}</b></font>
+<font color="#50ffff"><b>   {1=&gt;2, "2"=&gt;"4"}</b></font>
+ruby&gt;<font color="#ffff00"><b> h[1]</b></font>
+<font color="#50ffff"><b>   2</b></font>
+ruby&gt;<font color="#ffff00"><b> h["2"]</b></font>
+<font color="#50ffff"><b>   "4"</b></font>
+ruby&gt;<font color="#ffff00"><b> h[5]</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> h[5] = 10     # deger ekleniyor</b></font>
+<font color="#50ffff"><b>   10</b></font>
+ruby&gt;<font color="#ffff00"><b> h</b></font>
+<font color="#50ffff"><b>   {5=&gt;10, 1=&gt;2, "2"=&gt;"4"}</b></font>
+ruby&gt;<font color="#ffff00"><b> h.delete 1   # deger siliniyor</b></font>
+<font color="#50ffff"><b>   2</b></font>
+ruby&gt;<font color="#ffff00"><b> h[1]</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> h</b></font>
+<font color="#50ffff"><b>   {5=&gt;10, "2"=&gt;"4"}</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="duzenli_ifadeler.html">
+ <img border=0 src="a2l.gif" alt="Düzenli İfadeler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="orneklere_donus.html">
+ <img border=0 src="a2r.gif" alt="Basit örneklere dönüş"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

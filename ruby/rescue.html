@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>İstisna işlemleri: rescue</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="sabitler.html">
+ <img border=0 src="a2l.gif" alt="Sınıf sabitleri"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ensure.html">
+ <img border=0 src="a2r.gif" alt="İstisna işlemleri: ensure"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">İstisna işlemleri: rescue</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Çalıştırılan bir program beklenmeyen sorunlar doğurabilir. Okunmaya çalışılan bir dosya mevcut olmayabilir ya da veri kaydetmemek istediğimiz disk dolu olabilir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> dosya = open("bir_dosya")</b></font>
+<font color="#50ffff"><b>ERR: (eval):1:in `open': No such dosya or directory - bir_dosya</b></font></font></pre></td></tr></table>
+<p>Güçlü bir program bu gibi durumları hassasiyetle yakalayacaktır. C programcılarından, hata doğurabilecek her sistem çağrısının sonucunu kontrol etmeleri ve anında ne yapılacağına ilişkib karar vermeleri beklenir:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#d8d8e0"><tr><td><pre><font color="black">FILE *dosya = fopen("bir_dosya", "r");
+if (dosya == NULL) {
+  fprintf( stderr, "Dosya bulunamadi.\n" );
+  exit(1);
+}
+okunan_bytelar = fread( buf, 1, istenen_bytelar, dosya );
+if (okunan_bytelar != istenen_bytelar ) {
+  /* daha fazla hata yakalaması yap ... */
+}
+...</font></pre></td></tr></table>
+<p>Bu programcıları dikkatsizliğe ve ihmalciliğe iten, üstelik hataları tam olarak yakalayamayan bir program yazmanıza yol açan sıkıcı bir uygulamadır. Öte yandan, işi doğru düzgün yapmak, yakalanabilecek bir çok hata olduğu için programın okunabilirliğini oldukça zorlaştıracaktır.</p>
+<p>Bir çok modern dilde olduğu gibi Ruby'de de, programcıyı ya da sonradan kodumuzu okuyan kişileri sıkıntıya sokmadan, sürprizleri bloklarca koddan bölümlenmiş bir yolla yakalayabiliriz. <code>begin</code> ile işaretlenmiş kod bloğu bir istisnayla karşılaşana dek çalıştırılır, hata durumunda kontrolü <code>rescue</code> ile işaretlenmiş kod bloğuna verir. Eğer hiçbir istisnayla karşılaşılmazsa <code>rescue</code> kodu kullanılmaz. Aşağıdaki metot bir text dosyasının ilk satırını döndürür, bir istisna ile karşılaşırsa da <code>nil</code> değerini döndürür:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">def ilk_satir( dosyaname )
+  begin
+    dosya = open("bir_dosya")
+    info = dosya.gets
+    dosya.close
+    info  # Son değerlendirilen şey return değeri
+  rescue
+    nil   # Dosyayı okuyamadı mı? o halde bir dizgi döndürme
+  end
+end</font></pre></td></tr></table>
+<p>Bir problemle yaratıcı bir biçimde ilgilenmek istediğimiz zamanlar olacaktır. Örneğin dosyaya erişmek mümkün değilse standart girdi yerine başka bir şey kullanmak isteyebiliriz:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">begin
+  dosya = open("bir_dosya")
+rescue
+  dosya = STDIN
+end
+
+begin
+  # ... girdiyi işlet ...
+rescue
+  # ... ve burada diğer istisnalarla ilgilen.
+end</font></pre></td></tr></table>
+<p><code>begin</code> kodunu tekrar çalıştırmak için <code>rescue</code>'nun içinde <code>retry</code>'ı kullanabiliriz. Bu bize önceki örneğimizi daha kısa şekilde yazmamıza izin verir:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">fname = "bir_dosya"
+begin
+  dosya = open(fname)
+  # ... girdiyi işlet ...
+rescue
+  fname = "STDIN"
+  retry
+end</font></pre></td></tr></table>
+<p>Ancak burada bir kusur bulunmaktadır. Hiç olmayan bir dosya bu kodun sonsuz bir döngüde kendisini tekrar etmesini sağlayacaktır. <code>retry</code>'ı kullanırken bu tür durumlara dikkat etmelisiniz.
+
+</p>
+<p>Her Ruby kütüphanesi, sizin de kendi kodunuzda yapabileceğiniz gibi, herhangi bir hata karşısında bir istisna (<i>exception</i>) doğurur. Bir istisnayı çıkarmak için <code>raise</code> kullanılır. <code>raise</code> tek argüman olarak istisnayı açıklayan bir dizgi alır. Bu argüman seçeneğe bağlıdır ancak atlanmaması gereken bir husustur. Özel değişkenlerden olan <code>$!</code> ile sonradan ulaşılabilir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> raise "test error"</b></font>
+<font color="#50ffff"><b>   test error</b></font>
+ruby&gt;<font color="#ffff00"><b> begin</b></font>
+    |<font color="#ffff00"><b>   raise "test2"</b></font>
+    |<font color="#ffff00"><b> rescue</b></font>
+    |<font color="#ffff00"><b>   print "Bir hata oluştu: ",$!, "\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+Bir hata oluştu: test2
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="sabitler.html">
+ <img border=0 src="a2l.gif" alt="Sınıf sabitleri"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ensure.html">
+ <img border=0 src="a2r.gif" alt="İstisna işlemleri: ensure"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

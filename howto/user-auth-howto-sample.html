@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-26T10:51:12+03:00"><title>Tümünü birden denemek</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/user-auth-howto.html" title="Kullanıcı Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/user-auth-howto-secure.html" title="Kullanıcı Kimlik Denetimini Güvenli Hale Getirmek"><link rel="next" href="../howto/user-auth-howto-res.html" title="Kaynaklar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Tümünü birden denemek</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/user-auth-howto-secure.html">Önceki</a> </td><th width="60%" align="center">Kullanıcı Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/user-auth-howto-res.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="user-auth-howto-sample"></a>Tümünü birden denemek</h2></div></dt><dd><p>
+Bu bölümde bir önceki bölümde anlatılanların anlaşılmasına yardımcı olacak basit bir örnek vereceğim.
+  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Apache + mod_auth_pam</h3></div></dt><dd><p>
+Örneğimizde PAM kullanarak web sunucunuzun kullanıcılarının kimlik denetimini yapmak üzere bir Apache modülü olan mod_auth_pam'i kurup yapılandıracağız. Örneğin hedefine ulaşabilmesi için kurulu bir Apache'niz olduğunu kabul edeceğim. Eğer kurulu değilse dağıtımınızın kurulum paketlerinden yararlanabilirsiniz.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Örnek</h3></div></dt><dd><p>
+Kullanıcılarımızın kimlik denetimini PAM ile yapabilmek için hedefimiz web sunucumuzda kısıtlı bir <tt>aile/</tt>
+dizini yapılandırmak olacak.
+Bu dizin özel aile bilgileri içerecek ve sadece aile grubu üyeleri tarafından erişilebilir olacak.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>mod_auth_pam kurulumu</h3></div></dt><dd><p>
+İlk olarak <a href="http://pam.sourceforge.net/mod_auth_pam/" target="_top">mod_auth_pam</a> paketini indirmek isteyeceksiniz. 
+Aşağıdaki komutlarla (root olarak) mod_auth_pam derlenebilir:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"><tt>~#</tt> <b><tt>tar xzf mod_auth_pam.tar.gz</tt></b>
+<tt>~#</tt> <b><tt>cd mod_auth_pam-1.0a</tt></b>
+<tt>~/mod_auth_pam-1.0a#</tt> <b><tt>make</tt></b>
+<tt>~/mod_auth_pam-1.0a#</tt> <b><tt>make install</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+mod_auth_pam modülünü yüklerken bir hata ile karşılaşırsanız dağıtımınızın apache-dev paketini kurup kurmadığınızı kontrol edin. mod_auth_pam kurulduktan sonra apache'yi yeniden başlatmanız gerekir. Bunu aşağıdaki komutla (yine root olarak) yapabilirsiniz:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"><tt>~#</tt> <b><tt>/etc/init.d/apache restart</tt></b>
+</pre> </td></tr></table></div>
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>PAM Yapılandırması</h3></div></dt><dd><p>
+Apache için PAM yapılandırması <tt>/etc/pam.d/httpd</tt> dizininde saklanır.
+Öntanımlı yapılandırma (mod_auth_pam kurulumunda yapılan yapılandırma) güvenlidir ama birçok sistemde kurulu 
+olmayabilen <tt>pam_pwdb.so</tt> modülünü kullanır. (Ayrıca, sıfırdan yapılandırmak eğlencelidir!)
+Bu nedenle <tt>/etc/pam.d/httpd</tt> dosyasını silin ve yeni bir tanesiyle başlayın.
+    </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id14"></a>PAM'in nasıl yapılandırılacağına karar vermek</h4></div></dt><dd><p>
+Eğer PAM Apache'nin kimlik kanıtlama isteklerine yanıt verecek şekilde yapılandırılacaksa  
+PAM'in tam olarak neyi kontrol etmesine ihtiyacımız olduğunu bilmeliyiz.
+İlk olarak PAM kullanıcının parolasının standart unix parola veritabanındaki parola ile aynı olup olmadığını 
+kontrol etmelidir. Bu 'auth' türüne ve <tt>pam_unix.so</tt> modülüne benzer.
+Modülün kontrol türünü 'required' olarak atayacağız. Bu sayede doğru parola girilmez ise kimlik denetimi başarısız olacaktır.
+<tt>/etc/pam.d/httpd</tt> dosyamızın ilk satırı aşağıdaki gibi olmalıdır:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">auth       required        pam_unix.so
+</pre> </td></tr></table></div>
+    </p><p>
+İkinci olarak, kullanıcı hesabının geçerli olduğundan (yani parolasının süresinin geçmediğinden veya bunun 
+gibi bir uyumsuzluk olmadığından) emin olmalıyız.    
+Bu 'account' türüdür ve <tt>pam_unix.so</tt> modülü ile sağlanır.
+Yine bu modülün kontrol türünü 'required' olarak atayacağız.
+Bu satırı da ekledikten sonra <tt>/etc/pam.d/httpd</tt> yapılandırma dosyamız aşağıdaki hale gelir:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">auth       required        pam_unix.so
+account    required        pam_unix.so
+</pre> </td></tr></table></div>
+    </p><p>
+Çok karışık değildir ama görevini yapar. PAM servislerini nasıl yapılandıracağınızı öğrenmek için iyi bir başlangıç olabilir.
+     </p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Apache'nin Yapılandırılması</h3></div></dt><dd><p>
+Artık PAM apache isteklerinin kimlik denetimini yapacak şekilde yapılandırıldı. Bundan sonra apache'yi
+<tt>aile/</tt> dizinine erişimi kısıtlaması için PAM kimlik kanıtlamasını kullanacak şekilde yapılandıracağız.
+Bunu yapabilmek için, aşağıdaki satırları <tt>httpd.conf</tt> dosyanıza (genellikle <tt>/etc/apache/</tt> ya da <tt>/etc/httpd</tt> dizininde bulunur) ekleyin:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">&lt;Directory /var/www/family&gt;
+AuthPAM_Enabled on
+AllowOverride None
+AuthName "Aile Sirlari"
+AuthType "basic"
+require group aile
+&lt;/Directory&gt;
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>/var/www/</tt> ifadesini web sunucunuzun kök dizini ile değiştirmelisiniz. Bu dizin bazen <tt>/home/httpd/</tt> olabilmektedir. Her nerede olursa olsun, <tt>aile</tt> dizinini oluşturmalısınız.
+    </p><p>
+Kurulumu denetlemeden önce Apache yapılandırmasına yukarıda eklediklerinizi açıklayayım. 
+&lt;Directory&gt; ifadesi yapılandırmanın sadece bu dizin için geçerli olması için kullanılır.
+Bu ifadenin içinde PAM kimlik denetimini etkinleştirdik (&#8592;AuthPAM_enabled on&#8594;), başka bir yapılandırmanın
+önceliği olmasını engelledik (&#8592;AllowOverride none&#8594;), bu kimlik denetim alanını &#8592;Aile Sirlari&#8594;
+olarak adlandırdık (&#8592;AuthName 'Aile Sirlari'&#8594;), http kimlik kanıtlamasını (PAM değil)
+öntanımlı olarak atadık (&#8592;AuthType 'basic'&#8594;) ve gerekli kullanıcı grubu olarak aile'yi atadık (&#8592;require group aile&#8594;).
+     </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id6"></a>Kurulumun Denetlenmesi</h3></div></dt><dd><p>
+Herşeyi gerektiği gibi kurduk, artık kutlama zamanıdır.
+Tercih ettiğiniz web tarayıcısını çalıştırın ve http://sizin-alaniniz/aile/ adresini (sizin-alaniniz yerine alanınızın adını yazın) açın.
+Tebrikler, başardınız!
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/user-auth-howto-secure.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/user-auth-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/user-auth-howto-res.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kullanıcı Kimlik Denetimini Güvenli Hale Getirmek </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kaynaklar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

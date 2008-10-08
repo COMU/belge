@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T01:01:26+03:00"><title>Son Adımlar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/encrypted-rootfs-howto.html" title="Şifrelenmiş Kök Dosya Sistemi NASIL"><link rel="previous" href="../howto/encrypted-rootfs-howto-setup-boot-device.html" title="Önyükleme Aygıtının Ayarlanması"><link rel="next" href="../howto/encrypted-rootfs-howto-about.html" title="Belge Hakkında"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Son Adımlar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/encrypted-rootfs-howto-setup-boot-device.html">Önceki</a> </td><th width="60%" align="center">Şifrelenmiş Kök Dosya Sistemi NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/encrypted-rootfs-howto-about.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="encrypted-rootfs-howto-final-steps"></a>Son Adımlar</h2></div></dt><dd><p>
+Kafesin içinde iken, <tt>/etc/fstab</tt> dosyasını aşağıdaki satırı içerecek şekilde düzenleyin:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/dev/loop0      /               ext3    defaults       0       1</pre> </td></tr></table></div>
+    </p><p>
+<tt>/etc/mtab</tt> dosyasını silip kafesten çıkın. Son olarak, <b><tt>umount -d /mnt/efs</tt></b> komutunu çalıştırın ve sisteminizi yeniden başlatın. Eğer ters giden bir şey olursa hala <tt>LILO:</tt> komut satırında <b><tt>Linux root=/dev/hda3</tt></b> yazarak sisteminizi başlatabilirsiniz.
+    </p><p>
+Herşey yolunda gitmişse diskinizi yeniden bölümlendirerek hda4'ün yanı sıra hda3'ü de şifreleyebilirsiniz. Aşağıdaki betiklerde hda3'ü takas alanı ve hda4'ü <tt>/home</tt> dizini olduğunu kabul ediyoruz. Önce bu iki disk bölümü ilklendirilmelidir:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>shred -n 1 -v /dev/hda3</tt></b>
+# <b><tt>shred -n 1 -v /dev/hda4</tt></b>
+# <b><tt>losetup -e aes256 -S xxxxxx /dev/loop1 /dev/hda3</tt></b>
+# <b><tt>losetup -e aes256 -S xxxxxx /dev/loop2 /dev/hda4</tt></b>
+# <b><tt>mkswap /dev/loop1</tt></b>
+# <b><tt>mke2fs -j /dev/loop2</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Bir başlatma betiği yazın ve <tt>fstab</tt> dosyasını güncelleyin:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>cat &gt; /etc/init.d/loop &lt;&lt; "EOF"
+#!/bin/sh
+
+if [ "`/usr/bin/md5sum /dev/hda1`" != \
+     "5671cebdb3bed87c3b3c345f0101d016  /dev/hda1" ]
+then
+    echo -n "WARNING! hda1 integrity verification FAILED - press enter."
+    read
+fi
+
+echo "1st password chosen above" | \
+    /sbin/losetup -p 0 -e aes256 -S xxxxxx /dev/loop1 /dev/hda3
+
+echo "2nd password chosen above" | \
+    /sbin/losetup -p 0 -e aes256 -S xxxxxx /dev/loop2 /dev/hda4
+
+/sbin/swapon /dev/loop1
+
+for i in `seq 0 63`
+do
+    echo -n -e "\33[10;10]\33[11;10]" &gt; /dev/tty$i
+done
+
+EOF</tt></b>
+
+# <b><tt>chmod 700 /etc/init.d/loop</tt></b>
+# <b><tt>ln -s ../init.d/loop /etc/rcS.d/S00loop</tt></b>
+# <b><tt>vi /etc/fstab</tt></b>
+...
+/dev/loop2      /home           ext3    defaults       0       2
+</pre> </td></tr></table></div>
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/encrypted-rootfs-howto-setup-boot-device.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/encrypted-rootfs-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/encrypted-rootfs-howto-about.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Önyükleme Aygıtının Ayarlanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Belge Hakkında</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

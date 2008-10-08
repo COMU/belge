@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:52:23+03:00"><title>Tam bir Turing Kahve Makinasını Oluşturmak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kahve-nasil.html" title="Kahve Yapmak Nasıl"><link rel="previous" href="../howto/kahve-nasil-yazilim.html" title="Yazılım"><link rel="next" href="../howto/kahve-nasil-yuksek-doz.html" title="Aşırı doz belirtileri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Tam bir Turing Kahve Makinasını Oluşturmak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kahve-nasil-yazilim.html">Önceki</a> </td><th width="60%" align="center">Kahve Yapmak Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kahve-nasil-yuksek-doz.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="kahve-nasil-turing-makinasi"></a>Tam bir Turing Kahve Makinasını Oluşturmak</h2></div></dt><dd><p>
+Erkeklerin erkek olduğu ve kendi kahve makinalarını yaptıkları eski günlerin özlemini duyar mısınız?
+    </p><p>
+Bu bölüm akıllı, zeki bir kahve makinası oluşturmakla ilgili olucaktır. von Neuman mimarisinde bir bilgisayar tasarımı olucak, CPU, ROM/RAM ve I/O'dan oluşacak, genel kullanıma açık olacaktır, ki bunlar <a class="ulink" href="http://www.wordiq.com/definition/Turing_machine" target="_top">Turing Makinası</a> olarak da bilinmektedir.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Uygun bir assembly dili</h3></div></dt><dd><p>
+CISC veya RISC gibi diğer popüler sistemlerin tersine, bizim makinamız MISC olacaktır: Mono-Instruction Set Computer!
+      </p><p>
+Ne yazık ki, bizim işlemcimiz sadece bir komut algılayabilecek ve sizin 3GHz Pentium 4 işlemcinizin gerçekleştirdiği herhangi bir eylemi yeterli zaman ve bellek verilirse gerçekleştirebilecek, ya da simüle edecektir; hesaplanabilir bir problemi aşağıdaki gibi kodlar çalıştırarak çözebilecektir:
+      </p><p>
+<pre class="literallayout">
+    SBN     $mem1, $addr1
+    SBN     $mem2, $addr2
+    SBN     $mem3, $addr3
+    SBN     $mem4, $addr4
+    SBN     $mem5, $addr5
+    SBN     $mem6, $addr6
+    [...]
+</pre>
+      </p><p>
+Sihirli <tt>SBN $mem, $addr</tt> (Subtract and Branch if Negative) komutu, <tt>$mem</tt> bellek gözündeki veriyi almakta, sayiların tutulduğu akümülatörden bu değeri çıkarmakta (A, bu mimarideki tek yazmaçtır), daha sonra bunu <tt>$mem</tt> bellek gözünde ve akümülatörde saklamaktadır: <tt>[mem] &lt;= A &lt;= A-[mem]</tt>. Eğer sonuç negatifse, sadece o zaman, <tt>$addr</tt> ile belirtilen tasarım adresine dallanmaktadır. Eğer <tt>$addr</tt> bir sonraki komutu işaret ediyorsa o zaman koşullu bir dallanma yapılmamış olur. Şimdi, elinizdeki bu komutla, çıkarma, toplama, bellek adresini sıfırlama, baytları çevirme, çarpma, kıyaslama ve benzerlerini gerçekleyebilirsiniz. En güzeli ise, optimize edecek bir derleyici tasarlayabilirsiniz.
+      </p><p>
+Bu gerçek bir Turing Makinası problemi için harika bir sistemdir, artı orjinal Turing Makinası'na göre de kodlaması daha kolaydır!
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Donanım ve arayüz</h3></div></dt><dd><p>
+Yenilikçi MIPS işlemcinizin en iyi tarafı, komutlarınızın opkod kısımlarını saklamak için 0 bite ihtiyaç duymanızdır. Bu da işlemcinizi çok çok daha basit hale getirir: Her seferinde bir iki değişkeni okumanız gerekecektir. İşlemcinizin yapabildiklerini, <tt>SBN</tt> komutunun işlediği değişken sayısını 3 veya 4'e çıkararak geliştirmek isteyebilirsiniz, böylece artık doğrudan bellekten veri okuyup, belleğe yazabilecektir. Bu, okuyucuya bırakılan bir denemedir, yüce <a class="ulink" href="http://www.google.com/" target="_top">google</a>'a bir sorun.
+      </p><p>
+İşlemci diyagramı şu şekilde gözükür:
+      </p><p>
+<pre class="literallayout">
+    &lt;========= ADDRESS BUS ==============&gt;
+            =                =
+            =  +---------+   =
+            =  | CONTROL |   =
+        +---------+  +-----------------+
+        | ALU &amp; A |  | Program Counter |
+        +---------+  +-----------------+
+            =  |  LOGIC  |   =
+            =  +---------+   =
+            =                =
+    &lt;=========== DATA BUS ===============&gt;
+</pre>
+      </p><p>
+Şimdi tek yapmanız gereken bir kaç bellek çipini bir araya getirmek, mesela eski 386 bilgisayarınızın RAM'ini ve ALU birimini ve biraz da yapıştırıcı kullanabilirsiniz. Anahtar (latch) ve mantık devreleri için TTL veya CMOS kullanabilirsiniz; ben bir CMOS adamıyım, tabii bu tamamen sizin zevkinize kalmıştır. 8, 16, 32, 64 bit veya herhangi bir bitlikte sistemi ihtiyacınıza göre tasarlayabilirsiniz. Çok büyük kelime genişliklerinin olması durumuna karşı, önceden programlanmış bir 27128 EPROMS'u bir ALU ile beraber kullanmayı, bulunması daha zor olan 74x181s'a tercih ederim. Elde bitini (carry propogation bit) de kontrol etmeyi unutmayın.
+      </p><p>
+Bütün bu sistemin doğası sadece girdi/çıktı için bellek adreslemesine izin verir, çift yönlü tasarım için daha özel koşullara ihtiyaç duyari, fakat bu ihtiyaçlar, eski nesil sistemlerden daha acayip değildir. <a class="ulink" href="http://www.sandroid.org/Apollo/" target="_top">AGC</a>, Apollo 11'i aya gönderen bilgisayardı ve bu tür sistemler kullanmaktaydı, onun için böylesi bir durumda yeterli olmalıdır.
+      </p><p>
+Veri yolunun tam olarak adres yolu kadar geniş olması gerektiğini unutmayınız, ki bu da byte kavramının 8 bitlik kahve makinalarına uygulanabilirliğini ortaya koyuyor ki, bir özellikten çok bir hata olarak anlayacaksınız. 8 veya 16 bitlik yollara sahip bir kahve makinasıyla nasıl kahveler yapabileceğinizi düşündükçe şaşıracaksınız. Bu, basit işler için tasarlanmış, gerçekten de genel amaçlı bir donanımdır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Yazılım</h3></div></dt><dd><p>
+Böylesi saf bir sistem, gömülü sistem kontrolünde çok ünlü olan <a class="ulink" href="http://www.wordiq.com/definition/Forth_programming_language" target="_top">FORTH</a> ile çok iyi uyuşacaktır. En temel gereksiniminiz, bir yığın yapısının olmasıdır, bu da bir bellek havuzuna bağlı bir sayaç ile tasarlanabilir.
+      </p><p>
+Eğer gerçekten de ciddi bir kahve geliştirme platformu tasarlamak istiyorsanız, C'nin taşınabilirliği gerçekten de bu zamanlarda bir zorunluluk olmuş durumdadır. Yapabileceklerinizden birisi, gcc, lcc veya sdcc'yi kırarak, özel olarak tasarlanmış MISC kodunda ince ayar yapmaktır. Belki ilerde siz de C diline benzer bir dil yazmak isteyebilirsiniz, D yi kullanmayı düşünmeyin - zaten alındı - bunun için de derleyicinizle aynı hatayı yapmayın ve lütfen şu adrese gidip bilgileri okuyunuz: <a class="ulink" href="http://www.gnu.org/software/gcc/projects/beginner.html" target="_top">http://www.gnu.org/software/gcc/projects/beginner.html</a>
+      </p><p>
+Kendi derleyicinizi yazmayı düşünmeniz halinde, flex, yacc ve ilgili konuları okuyunuz. Özellikle, Noam Chomsky'nin diller üzerindeki sınıflandırmasına hayran olacaksınız:
+      </p><p><div class="itemizedlist"><ul type="disc"><li>Düzenli gramerler (Düzenli ifadelerin (regular expression) soyutlanması)</li><li>İçerikten bağımsız grameler (BNF açıklamalı herhangi bir dil buna girer)</li></ul></div></p><p>
+Şimdilik bu kadar. <a class="ulink" href="http://www.wordiq.com/definition/Computability_theory" target="_top">Hesaplanbilirlik Teorisi</a>ni okuyarak devam edebilirsiniz.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>Turing Makinası üzerine küçük bir eleştiri</h3></div></dt><dd><p>
+Turing Makinası, çalışma şeklinden dolayı (şu linke bakınız bunu için: <a class="ulink" href="http://plato.stanford.edu/entries/turing-machine/" target="_top">http://plato.stanford.edu/entries/turing-machine/</a>), programlanması ve gün sonunda da hataların bulunması konusunda oldukça zor bir cihazdır. Bunun sebebi aşağıdaki parametrelere bağımlı, sıralı bir işlem yapısına sahip olmasındandır:
+      </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">Makinanın bulunduğu durum</div></li><li><div class="listitem">Bulunduğu daire içerisinde aradığı sembol ya da sayı, ve</div></li><li><div class="listitem">Komut tablosu</div></li></ol></div></p><p>
+Turing Makinasının (TM) en temel çağdaş sorunlarından biri, ardışıl yapısıdır, kendi yapısıyla yalnızca belli tipteki problemleri çözebilirsiniz. TM'ler seri depolama aygıtları (teypler) ve veri referansları için indeksler kullanmayan problemlerin çözümü için uygundur. Bu Kahve Makinası (KM) için bir tezattır, çünkü rastgele erişimli isteklere de cevap verebilmektedir (basitlikten çok da uzaklaşmayarak).
+      </p><p>
+Buna ek olarak, TM'ler 3. maddenin çok yüksek ve gereksiz karmaşıklığını, 1. ve 2. maddeleri basit tutarak lehlerine sağlamaktadır. Ve eğer, komut (instruction) tablosundakilerin karman çorman olduğunu düşünüyorsanız, Turing Makinası için bir derleyici yazmaya ne dersiniz? Kolay programlanamayan ve de hataları ayıklanmayan bir sistem, en azından bir bilgisayar mühendisi için sorgulanması gereken bir sistemdir. Mesela kahve makinasını Turing Makinası olarak simüle etmeye çalışın ya da tam tersi. Hey, eğer hala kabul etmiyorsanız, bana kodu gösterin.
+      </p><p>
+Alt Satır: Kahve Makinası (KM), von Neuman mimarisinin iyi bir modelidir, O(1) karmaşıklığına sahiptir.
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kahve-nasil-yazilim.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kahve-nasil.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/kahve-nasil-yuksek-doz.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yazılım </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Aşırı doz belirtileri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

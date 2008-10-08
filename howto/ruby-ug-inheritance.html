@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Miras</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-classes.html" title="Sınıflar"><link rel="next" href="../howto/ruby-ug-redefinemethods.html" title="Yöntemleri Yeniden Tanımlama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Miras</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-classes.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-redefinemethods.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-inheritance"></a>Miras</h2></div></dt><dd><p>
+Gerçek hayatta yaptığımız sınıflandırmalar son derece hiyerarşiktir. Örneğin bütün kedilerin memeli olduğunu ve bütün memelilerin hayvan olduğunu biliriz. Küçük sınıflar mensup oldukları büyük sınıfların karakteristik özelliklerini miras alırlar. Eğer bütün memeliler nefes alabiliyorsa, bütün kediler de nefes alabiliyor demektir.
+  </p><p>
+Bu durumu Ruby'de aşağıdaki gibi açıklayabiliriz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Memeli</tt>
+    | <tt class="empinput">   def nefes</tt>
+    | <tt class="empinput">     print "nefes al, nefes ver\n"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> class Kedi&lt;Memeli</tt>
+    | <tt class="empinput">   def konus</tt>
+    | <tt class="empinput">     print "Miyauvvvv\n"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Örneğin bir <b><tt>Kedi</tt></b>'nin nasıl nefes alması gerektiğini belirtmediğimizi farz edelim. Bu durumda her kedi <b><tt>Kedi</tt></b> sınıfı <b><tt>Memeli</tt></b> sınıfının bir alt sınıfı olarak tanımlanmışsa, bu davranışı <b><tt>Memeli</tt></b> sınıfından miras olarak alacaktır. (Nesneye yönelik terminolojide küçük sınıf <tt>alt sınıf</tt> , büyük sınıfsa <tt>süper sınıf</tt> olarak isimlendirilir.) Programcının bakış açısına göre, kediler nefes alma yeteneğini bağımsız olarak almıştır, eğer bir <b><tt>konuşma</tt></b> yöntemi de eklersek, artık kedilerimiz hem nefes alabilme hem de konuşabilme yeteneğine sahip olurlar.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> pisi = Kedi.new</tt>
+   <tt class="empoutput">#&lt;Kedi:0xbd80e8&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> pisi.nefes</tt>
+nefes al, nefes ver
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> pisi.konus</tt>
+Miyauvvvv
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bazen süper sınıfta olması gereken ancak alt sınıf tarafından miras alınması istenmeyen bir özellik olabilir. Örneğin genel olarak kuşların uçmayı bildiğini ancak penguenlerin, kuşların uçamayan bir alt sınıfı olduğunu kabul edelim.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class Kus</tt>
+    | <tt class="empinput">   def gagala</tt>
+    | <tt class="empinput">     print "Tüylerimi temizliyorum."</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput">   def uc</tt>
+    | <tt class="empinput">     print "Uçuyorum."</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> class Penguen&lt;Kus</tt>
+    | <tt class="empinput">   def uc</tt>
+    | <tt class="empinput">     fail "Üzgünüm, yüzmeyi tercih ederim."</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Her yeni sınıfın her özelliğini ayrı ayrı tanımlamak yerine, sadece her alt sınıfla
+onun süper sınıfı arasındaki farklılıkları eklemek ya da yaniden tanımlamak daha iyidir.
+Miras'ın bu kullanımına bazen <span class="wordasword"><i>farksal yazılım geliştirme</i></span> denir. Bu nesneye yönelik yazılım geliştirmenin en yararlı özelliklerinden biridir.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-classes.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-redefinemethods.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Sınıflar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yöntemleri Yeniden Tanımlama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

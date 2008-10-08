@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:45:22+03:00"><title>Sembolik makina diline ihtiyacınız var mı?</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/assembly-howto.html" title="Linux Makina Dili NASIL"><link rel="previous" href="../howto/assembly-howto-s-intro.html" title="Giriş"><link rel="next" href="../howto/assembly-howto-s-assem.html" title="Çeviriciler (Assemblers)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sembolik makina diline ihtiyacınız var mı?</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/assembly-howto-s-intro.html">Önceki</a> </td><th width="60%" align="center">Linux Makina Dili NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/assembly-howto-s-assem.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="assembly-howto-s-doyou"></a>Sembolik makina diline ihtiyacınız var mı?</h2></div></dt><dd><p>
+Aslında, her ne yapıyorsanız bölmek istemem, ama burada zor kazanılmış tecrübelerin sonucu olarak bazı tavsiyelerde bulunacağım.
+</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Artılar ve Eksiler</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>Sembolik makina dilinin (Assembly) avantajları</h4></div></dt><dd><p>
+Sembolik makina dili (Assembly) pekçok düşük seviyeli şeyi ifade edebilir:
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+makinaya bağlı yazmaç ve Giriş/Çıkışlara (I/O) erileşilirsiniz
+<p></p><p></p></li><li>
+çoklu yazılım parçalarının ya da donanım aygıtlarının ölümcül kilitlenmesini içeren kritik bölümlere özgü kod davranışlarını kontrol edebilirsiniz.
+<p></p><p></p></li><li>
+alışıldık derleyicinizin herkesçe kabul görmüş kurallarını kırabilirsiniz, ki bu da bazı eniyilemelere izin vermektedir (bellek tahsisiyle, evrelerle (threading), çağrı kurallarıyla ilgili kuralları geçici olarak kırmak gibi).
+<p></p><p></p></li><li>
+kod parçaları arasında, uygun olmayan (örn. değişik derleyiciler tarafından üretilen veya düşük seviye arayüzlerle ayrılan) kurallar kullanarak arayüzler tasarlayabilirsiniz.
+<p></p><p></p></li><li>
+işlemcinizin alışılmadık programlama kiplerine erişebilirsiniz (örn. açılış arayüzü için 16 bitlik kip, aygıt yazılımları, Intel bilgisayarlardaki kalıtsal kodlar).
+<p></p><p></p></li><li>
+kötü ve eniyileme yapmayan derleyicilerle uyumlu çalışacak sıkı döngüler için oldukça hızlı kodlar üretebilirsiniz. (Ancak, eniyileme yapabilen özgür derleyiciler var!)
+<p></p><p></p></li><li>
+her ne kadar başka herhangi birininkine ait olmayacak olsa da, size özel aygıt ayarlarınız için el ile eniyilenmiş mükemmel bir kod üretebilirsiniz
+<p></p><p></p></li><li>
+yeni dilinizin eniyileme yapabilen derleyicisi için bir kod yazabilirsiniz (bu, çok azımızın yapacağı ve hatta pek de sıklıkla yapmayacağı bir iştir).
+<p></p><p></p></li><li>
+örn. kendi kodunuzu tamamiyle kontrol altına alabilirsiniz
+<p></p><p></p></li></ul></div>
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>Sembolik makina dilinin (Assembly) dezavantajları</h4></div></dt><dd><p>
+Sembolik makina dili, oldukça düşük seviyeli bir dildir (bundan daha aşağıda ikilik komutları el ile kodlamak bulunmaktadır). Bu da şu manalara gelmektedir:
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+ilk başlarda yazmak, oldukça uzun ve can sıkıcıdır
+</li><li>
+hata yapmaya oldukça meyillidir
+</li><li>
+hatalarınızı takip etmek oldukça zor olabilir
+</li><li>
+kodunuzu anlamak ve değiştirmek oldukça zordur, örn. bakımını yapmak
+</li><li>
+sonuç, şu anda veya gelecekte var olacak mimarilere taşınabilir değildir
+</li><li>
+kodunuz aynı mimarinin sadece belli bir gerçekleştirimi için eniyilenecektir: mesela, Intel uyumlu platformlar arasında, herbir CPU tasarımı ve türevi (işlemci birimlerinin nispi gecikme süresi, üretilen iş (through-output) ve kapasitesi, önbellekler (cache), RAM, taşıt (bus), diskler, FPU, MMX, 3DNOW, SIMD uzantılarının varlıkları, v.b.) tamamiyle farklı eniyileme tekniklerini ifade etmektedir.
+İşlemci (CPU) tasarımları halihazırda şunları içermektedir: Intel 386, 486, Pentium, PPro, PII, PIII, PIV; Cyrix 5x86, 6x86, M2; AMD K5, K6 (K6-2, K6-III), K7 (Athlon, Duron). Yeni tasarımlar yukarılara doğru tırmanmayı sürdürmektedir, dolayısıyle ne bu listenin ne de kodunuzun güncel kalacağını ummayın.
+<p></p><p></p></li><li>
+çok az bir ayrıntı üzerinde fazlaca zaman harcarsınız, hızlanmanın  büyük kısmını oluşturan küçük ve geniş algoritmik tasarımlar üzerine odaklanamazsınız (örn. liste/diziler üzerinde değişikler yapan hızlı ve ilkel nesneler oluşturmak için çokça zaman harcayabilirsiniz; oysa sadece hesaba dayalı bir adresleme (hash) tablosu veya başka bir yaklaşımda ikilik ağaç ya da pekçok CPU kümesine dağıtılmış olan yüksek seviyeli bir yapı programınızı çok daha hızlandırırdı).
+<p></p><p></p></li><li>
+algoritmik tasarımınızdaki ufak bir değiliklik var olan sembolik makina kodunuzu tamamiyle geçersiz hale getirebilir. Bu durumda ya tamamen tekrar yazmaya (yazabilemeye) hazırsınızdır veya belirli bir algoritmik tasarımı yapmaktan sıkılmışsınızdır.
+<p></p><p></p></li><li>
+Standart karşılaştırmalı değerlendirmeden (benchmark) uzak olmayan kod üzerinde, eniyileme yapan ticari derleyiciler elle kodlanmış sembolik makina dili gerçekleştirirler (aslında, RISC mimarisine göre bu durum x86 mimarisi üzerinde daha az geçerlidir ve belki de geniş bir şekilde bulunan/kullanılan derleyiciler için de daha az doğrudur; herneyse, tipik bir C kodu için GCC oldukça iyidir);
+<p></p><p></p></li><li>
+Ve her durumda, <a class="ulink" href="news:comp.compilers" target="_top">comp.compilers</a>'da bulunan yönetici John Levine'nin dediği gibi,
+<p></p><p>
+<pre class="literallayout">
+    "derleyiciler karmaşık veri yapılarının kullanımını oldukça kolay
+    hale getirmektedir ve derleyiciler işin yarısından sonra sıkılmamakta
+    ve güvenilir oldukça güzel kodlar üretmektedir."
+</pre>
+</p><p>
+Prosedür ve modül sınırları arasında kodu eniyilerken, aynı zamanda da tüm (büyük) program boyunca <i>düzgün</i> biçimde kod dönüşümleri üreteceklerdir.
+</p><p></p></li></ul></div>
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a>Değerlendirme</h4></div></dt><dd><p>
+Tüm bunlardan sonra, sembolik makina dili kullanmanın bir ihtiyaç olduğunu düşünebilirsiniz ve hatta ihtiyaç olmadığı bazı yerlerde kullanmak çok da faydalı olabilir. Şunları yapmak isteyeceksiniz:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+sembolik makina dilinin kullanımını küçültmek
+</li><li>
+iyi tanımlanmış arayüzler içine bu kodları koymak (encapsulate)
+</li><li>
+sembolik makine dili dışında yüksek seviyeli dillerle tanımlanmış yapılar tarafından sembolik makine dili kodunuzun otomatik üretilmesi (örn. GCC satıriçi (inline) makrolar)
+</li><li>
+bu programları otomatik araçların sembolik makine dili koduna dönüştürmesi
+</li><li>
+bu kodun eğer mümkünse eniyilenmesi
+</li><li>
+yukarıdakilerin tümü, örn. bir derleyici (ya da derleyiciye bir eklenti) arka ucu (back-end)
+</li></ul></div>
+</p><p>
+Sembolik makina diline gerek duyulsa (örn. İşletim sistemi geliştirmek) bile, yukarıdakilerin çok daha fazlasına gerek duyulmayacağını göreceksiniz ve de üstteki prensipler de varlığını koruyacaktır.
+</p><p>
+Bununla ilgili olarak Linux çekirdek kaynaklarına bakınız: ne kadar az sembolik makina diline gerek duyulursa, neticesinde hızlı, güvenilir, taşınabilir ve sürdürülebilir işletim sistemi oluşmaktadır. Hatta DOOM gibi başarılı bir oyun dahi yoğun şekilde C ile yazılmıştır, sadece küçük bir kısmı hızı arttırmak için sembolik makine dili ile yazılmıştır.
+</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="assembly-howto-howtonot"></a>Sembolik makina dili nasıl kullanılmaz</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id12"></a>Başarılı kodu gerçeklemek için adımlar</h4></div></dt><dd><p>
+<a class="ulink" href="news:comp.compilers" target="_top">comp.compilers</a>'daki Charles Fiterman'ın bilgisayara karşın insanın ürettiği sembolik makina kodlarıyla ilgili söylediği gibi:
+</p><p>
+
+<blockquote class="blockquote"><p>
+<pre class="literallayout">
+İnsanoğlu her zaman kazanmak zorundadır ve işte bu da nedenidir.
+
+Birincisi insanoğlu herşeyi yüksek seviyeli dilde yazar.
+İkincisi üzerinde zaman harcadığı sıcak noktaları bulacak
+şekilde programın taslağını hazırlar.
+Üçüncüsü elinde bu kısımlar için derleyicinin ürettiği kod vardır.
+Dördüncüsü makina kodu üzerinde ufak gelişmeler sağlayarak onlara
+bir canlılık kazandırabilir.
+
+İnsanoğlu kazanır çünkü makinaları kullanabilmektedir.
+</pre></p></blockquote>
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id22"></a>Eniyileme yapan derleyiciler ile dilleri</h4></div></dt><dd><p>
+Diğerleri arasında ObjectiveCAML, SML, CommonLISP, Scheme, ADA, Pascal, C, C++ gibi dillerin programınızın şişkinliğini eniyileyecek özgür derleyicileri vardır ve genellikle, sıkı döngüler için bile elle yazılmış sembolik makina kodundan daha iyisini üretirler, bu arada da daha yüksek seviyeli ayrıntılar üzerinde odaklanmanızı sağlarlar ve de belli bir kararlı düzeye geldikten sonra da yukarıda bahsedilen şekilde belli miktar başarıma el koymanızı yasaklamazlar. Elbette, bu dillerin çoğu için eniyileme yapan ticari derleyiciler de vardır!
+</p><p>
+Bazı diller C kodu üreten ve sonrasında eniyilemesini C derleyicisine yaptıran derleyicilere sahiptir: LISP, Scheme, Perl ve diğer pekçoğu. Hız oldukça iyidir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id32"></a>Kodunuzu hızlandıracak için genel adımlar</h4></div></dt><dd><p>
+Kodunuzun hızlı çalışmasını sağlamak için, analiz araçlarından birinin kodunuzun belli bir yerini sürekli bir performans darboğazı olarak tanımlaması gerekmektedir.
+</p><p>
+Bu nedenle, bir kod parçasını çok yavaş olarak tanımladıktan sonra, şunları yapmalısınız:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+öncelikle daha iyi bir algoritma kullanmaya çalışın;
+</li><li>
+yorumlamak yerine onu derleyin;
+</li><li>
+daha sonra derleyicinizdeki eniyilemeyi etkinleştirip onunla oynayın
+</li><li>
+daha sonra derleyiciye nasıl eniyileme yapacağına dair ipuçları verin (LISP'de bilgi girmek; GCC ile yazmaç kullanmak; pekçok derleyicideki seçenekler, v.b)
+</li><li>
+bundan sonra ancak son çare sembolik makina dilidir.
+</li></ul></div>
+</p><p>
+Son olarak, sembolik makina diliyle yazmayı bitirmeden önce, üretilen kodu incelemelisiniz, problemin gerçekten de kötü kod üretiminden kaynaklandığını görmelisiniz, ki bu herzaman sanılan durum olmayabilir: derleyicinin ürettiği kod sizin yazdığından daha iyi olabilir, özellikle modern çoklu ardışık düzen (multi-pipelined) mimarilerinde! Programın yavaş olan kısımları esas olarak böyle olabilir. Hızlı işlemcili modern mimarilerde temel sorun, bellek erişim gecikmeleri, önbellek atlamaları, TLB (TLB-misses) kayıpları ve sayfa hatalarından kaynaklanmaktadır; yazmaç kullanımı gereksiz olmaktadır ve veri yapılarını daha kazançlı bir şekilde ve bellek erişimini daha iyi yapmanın yollarını tekrar düşüneceksiniz. Belki de tamamen farklı bir yaklaşım sorunun çözümüne yardımcı olabilir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id42"></a>Derleyicinin ürettiği kodu incelemek</h4></div></dt><dd><p>
+Derleyicinin ürettiği kodu incelemek için pek çok neden vardır. İşte size bu kodla neler yapacağınız:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+üretilen kodun el yordamıyla geliştirilip geliştirilemeyeceğini kontrol edin (veya derleyici seçenekleriyle oynayarak)
+<p></p><p></p></li><li>
+durum böyle ise, o zaman üretilmiş kod ile başlayın, onu yeniden yazmak yerine değiştirin
+<p></p><p></p></li><li>
+genel olarak, dış dünyaya karşı sizin sembolik makine rutinlerinizi anlayan üretilen kodu değişiklik yapmak için bir yama gibi kullanın
+<p></p><p></p></li><li>
+derleyicinizdeki hataları takip edin (tahminim en az sıklıkla)
+<p></p><p></p></li></ul></div>
+</p><p>
+Sembolik makina dilinizin oluşması için standart yol derleyicinizi <tt>-S</tt> parametresiyle çalıştırmaktır. Bu, GCC C derleyicisini de içeren (GCC) pekçok Unix derleyicinde çalışmaktadır. GCC'ye gelince, <tt>-fverbose-asm</tt> komut satırı parametresiyle çok daha anlaşılabilir sembolik makina kodları üretecektir. Elbette, iyi sembolik makina kodu elde etmek istiyorsanız, herzamanki eniyileme seçeneklerinizi ve ipuçlarını unutmayınız!
+</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="assembly-howto-landa"></a>Linux ve Assembly</h3></div></dt><dd><p>
+Muhtemelen farkettiğiniz üzere, genel olarak, Linux programlamada sembolik makine dilini kullanmaya ihtiyaç duymazsınız. DOS'takinin aksine, Linux sürücülerini sembolik makine dili ile yazmanız zorunlu değildir (aslında, eğer gerçekten istiyorsanız yapabilirsiniz). Ve günümüzün eniyileme yapan derleyicileriyle, farklı işlemcilerdeki hızı dikkate alıyorsanız, C ile yazmak çok daha basittir. Yine de, bunu okuyorsanız, C/C++ yerine sembolik makine dili kullanmak için bir nedeniniz olabilir.
+</p><p>
+Sembolik makine dilini kullanmak <i>ihtiyacında</i> olabilirsiniz veya sadece kullanmak <i>isteyebilirsiniz</i>. Kısaca, sembolik makine dili krallığına dalmaktaki temel pratik sebepler (<i>ihtiyaç</i>) <i>kısa kodlar</i> ve <i>libc</i> <i>bağımsızlıklarıdır</i>. Pratik olarak ve en sık karşılaşılan nedense (<i>istek</i>), 20 yıllık ve herşeyi sembolik makine dili ile yapma alışkanlığı olan eski bir bilgisayar kurdu olmaktır.
+</p><p>
+Yine de, eğer Linux'u gömülü bir sisteme yerleştiriyorsanız, tüm sistemin büyüklüğüne göre kısa olabilirsiniz: çekirdeği, libc ve tüm diğer şeylerin (file|find|text|sh|v.b) uygulamalarını birkaç yüz kilobyte'a oturtmalısınız ve her kilobyte'ın değeri çok fazladır. Bundan dolayı, mümkün olan yollardan birisi, sistemin bazı (veya tüm) kısımlarını sembolik makine dili ile yazmaktır ve bu durum da pekçok yer tasarrufu sağlayacaktır. Mesela, basit bir, sembolik makine dili ile yazılmış, <b><tt>httpd</tt></b> 600 byte'tan az tutmaktadır; kernel, httpd ve ftpd içeren bir sunucuyu 400kb veya daha az boyutta ayarlayabilirsiniz... Bunu düşünün.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/assembly-howto-s-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/assembly-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/assembly-howto-s-assem.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Çeviriciler (Assemblers)</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

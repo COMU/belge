@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:23+03:00"><title>Boş göndericilerin system_aliases yönlendiricisinde sınanması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-bounces.html" title="Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi"><link rel="previous" href="../howto/spam-filtering-exim-dsn-mailbox.html" title="Alıcı posta kutuluranın sınanması"><link rel="next" href="../howto/spam-filtering-exim-forward.html" title="Yönlerdirilmiş Postaların Sınama Dışı Tutulması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Boş göndericilerin system_aliases yönlendiricisinde sınanması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-dsn-mailbox.html">Önceki</a> </td><th width="60%" align="center">Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-forward.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-dsn-noalias"></a>Boş göndericilerin <tt>system_aliases</tt> yönlendiricisinde sınanması</h3></div></dt><dd><p>
+<tt>postmaster</tt> ve <tt>mailer-demon</tt> gibi sistem rumuzlarına gelen postaları asıl alıcısına yönlendiren <tt>system_aliases</tt> veya benzer isimli bir yönlendiriciniz herhalde vardır. Normalde bu rumuzlar giden postalarda gönderici olarak kullanılmazlar. Dolayısıyla, bunlara hiç gelmemesi gereken <a class="link" href="../howto/spam-filtering-glossary.html#spam-filtering-dsn">teslimat durum bildirimlerini</a> yönlerdiriciye bir kural ekleyerek yakalayabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+!senders = : postmaster@*
+</pre> </td></tr></table></div>
+      </p><p>
+Örnek bir rumuz yönlendiricisi şöyle görünürdü:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+system_aliases:
+  driver         = redirect
+  domains        = +local_domains
+  !senders       = : postmaster@*
+  allow_fail
+  allow_defer
+  data           = ${lookup{$local_part}lsearch{/etc/aliases}}
+  user           = mail
+  group          = mail
+  file_transport = address_file
+  pipe_transport = address_pipe
+</pre> </td></tr></table></div>
+      </p><p>
+Böylece bazı sistem rumuzlarına gelen göndericisiz postaları engelleyebilmemize rağmen mevcut sistem kullanıcılarınının rumuzlarına (&#8220;root&#8221;, &#8220;daemon&#8221;, v.s) gelenleri henüz engelleyemedik. Yerel posta teslimatı için <tt>accept</tt> sürücüsünü ve alıcı adresleri doğrulamak için <tt>check_local_user</tt> kullanıyorsanız, kendinizi bu sistem hesaplarına posta yönlendirirken bulabilirsiniz.
+      </p><p>
+Bu sorunu gidermek için, yerel postanızı elde etmekte kullandığınız yönlendiricide (örn,  <i>local_user</i>), alıcının sadece mevcudiyetine değil, &#8220;gerçek&#8221; bir kullanıcı olup olmadığına da bakabilirsiniz. Örneğin, önceki bölümdeki gibi 500 ile 60000 arasındaki kullanıcı kimlikleriyle eşleşen kullanıcıları seçebilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  condition  = ${if and {{&gt;={$local_user_uid}{500}}\
+                         {&lt;{$local_user_uid}{60000}}}\
+                    {true}}
+</pre> </td></tr></table></div>
+      </p><p>
+Yerel teslimatlar için örnek bir yönlendirici şöyle görünürdü:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+local_user:
+  driver           = accept
+  domains          = +local_domains
+  check_local_user
+  condition        = ${if and {{&gt;={$local_user_uid}{500}}\
+                               {&lt;{$local_user_uid}{60000}}}\
+                              {true}}
+  transport        = <i>transport</i>
+</pre> </td></tr></table></div>
+      </p><p>
+Bu yöntemi kullanırken dikkatli olun, sistem kullanıcılarına ve rumuzlarına gönderilmiş göndericisiz postalar için red yanıtı bilinmeyen alıcı şeklinde (burada <b><tt>550 Unknown User</tt></b> olarak) olacaktır.
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-dsn-mailbox.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-bounces.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-forward.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Alıcı posta kutuluranın sınanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yönlerdirilmiş Postaların Sınama Dışı Tutulması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

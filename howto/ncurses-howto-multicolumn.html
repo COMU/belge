@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:24+03:00"><title>Çok Sütunlu Menüler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-menus.html" title="Menü Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-scrollmenus.html" title="Kaydırılabilen Menüler"><link rel="next" href="../howto/ncurses-howto-multivaluemenus.html" title="Çok Değerli Menüler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Çok Sütunlu Menüler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-scrollmenus.html">Önceki</a> </td><th width="60%" align="center">Menü Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-multivaluemenus.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-multicolumn"></a>Çok Sütunlu Menüler</h3></div></dt><dd><p>
+Yukarıdaki örnekte <tt>set_menu_format()</tt> işlevini nasıl kullanacağınızı gördünüz. Sütun değişkeninin (3. değişken) ne yaptığından bahsetmedim. Aslında, eğer alt menünüz yeterince genişse bir satırda birden fazla öğe gösterimini seçebilirsiniz. Bu, sütun değişkenlerinde tanımlanabilir. İşleri daha basit hale getirmek için, aşağıdaki örnek öğeler için açıklamaları göstermemektedir.
+</p><div class="example"><p><a name="ncurses-howto-mmemuco"></a><b>Örnek 5.26. Çok Sütunlu Menü Örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+  "Choice 1",  "Choice 2",  "Choice 3",  "Choice 4",  "Choice 5",
+  "Choice 6",  "Choice 7",  "Choice 8",  "Choice 9",  "Choice 10",
+  "Choice 11", "Choice 12", "Choice 13", "Choice 14", "Choice 15",
+  "Choice 16", "Choice 17", "Choice 18", "Choice 19", "Choice 20",
+  "Exit",
+  (char *)NULL,
+};
+
+int main()
+{ ITEM **my_items;
+  int c;
+  MENU *my_menu;
+  WINDOW *my_menu_win;
+  int n_choices, i;
+
+  /* Curses kipini ilklendir */
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+  init_pair(2, COLOR_CYAN, COLOR_BLACK);
+
+  /* Öğeleri oluştur */
+  n_choices = ARRAY_SIZE(choices);
+  my_items = (ITEM **)calloc(n_choices, sizeof(ITEM *));
+  for(i = 0; i &lt; n_choices; ++i)
+    my_items[i] = new_item(choices[i], choices[i]);
+
+  /* Menüyü oluştur */
+  my_menu = new_menu((ITEM **)my_items);
+
+  /* Menü seçeneğini açıklamayı göstermeyecek şekilde ayarla */
+  menu_opts_off(my_menu, O_SHOWDESC);
+
+  /* Menü ile ilişiklendirilecek pencereyi oluştur */
+  my_menu_win = newwin(10, 70, 4, 4);
+  keypad(my_menu_win, TRUE);
+
+  /* Ana ve alt pencereyi oluştur */
+  set_menu_win(my_menu, my_menu_win);
+  set_menu_sub(my_menu, derwin(my_menu_win, 6, 68, 3, 1));
+  set_menu_format(my_menu, 5, 3);
+  set_menu_mark(my_menu, " * ");
+
+  /* Ana pencere etrafında bir çerçeve çizer ve bir başlık yazar */
+  box(my_menu_win, 0, 0);
+
+  attron(COLOR_PAIR(2));
+  mvprintw(LINES - 3, 0,
+    "Menüyü kaydırmak için PageUp ve PageDown kullanın");
+  mvprintw(LINES - 2, 0,
+    "Hareket etmek için ok tuşlarını kullanın (Çıkmak için F1)");
+  attroff(COLOR_PAIR(2));
+  refresh();
+
+  /* Ekranı yazdır */
+  post_menu(my_menu);
+  wrefresh(my_menu_win);
+
+  while((c = wgetch(my_menu_win)) != KEY_F(1))
+  { switch(c)
+    { case KEY_DOWN:
+        menu_driver(my_menu, REQ_DOWN_ITEM);
+        break;
+      case KEY_UP:
+        menu_driver(my_menu, REQ_UP_ITEM);
+        break;
+      case KEY_LEFT:
+        menu_driver(my_menu, REQ_LEFT_ITEM);
+        break;
+      case KEY_RIGHT:
+        menu_driver(my_menu, REQ_RIGHT_ITEM);
+        break;
+      case KEY_NPAGE:
+        menu_driver(my_menu, REQ_SCR_DPAGE);
+        break;
+      case KEY_PPAGE:
+        menu_driver(my_menu, REQ_SCR_UPAGE);
+        break;
+    }
+    wrefresh(my_menu_win);
+  }
+
+  /* Ekrandan sil ve tahsis edilen belleği geri ver */
+  unpost_menu(my_menu);
+  free_menu(my_menu);
+  for(i = 0; i &lt; n_choices; ++i)
+    free_item(my_items[i]);
+  endwin();
+}
+</pre> </td></tr></table></div></p></div><p>
+<tt>set_menu_format()</tt> işlev çağrısına bakın. Olması gereken sütun sayısını 3 olarak tanımlar ve bu yüzden de her satırda 3 öğe gözükür. <tt>menu_opts_off()</tt> ile de menü açıklamalarını kapatmıştık. Menü seçeneklerini değiştirmek için <tt>set_menu_opts(), menu_opts_on()</tt> ve <tt>menu_opts()</tt> gibi birkaç işlev vardır. Aşağıdaki menü seçenekleri belirtilebilir.
+</p><p>
+<pre class="literallayout">
+    O_ONEVALUE
+        Bu menü için sadece tek öğe seçilebilir.
+
+    O_SHOWDESC
+        Menü ekrana yazıldığıda öğe açıklamalarını göster.
+
+    O_ROWMAJOR
+        Menüyü satır-düzensel sırada göster.
+
+    O_IGNORECASE
+        Örüntü eşlemede büyük küçük harfe duyarsız ol.
+
+    O_SHOWMATCH
+        Örüntü eşleme sırasında imleci öğe isminin içerisine konumlandır.
+
+    O_NONCYCLIC
+       İmleci menünün sonundan başına (veya tersi) aktarma.
+</pre>
+</p><p>
+Öntanımlı olarak tüm seçenekler etkindir. Belli özellikleri <tt>menu_opts_on()</tt> ve <tt>menu_opts_off()</tt> işlevleri ile açıp kapatabilirsiniz. Aynı zamanda doğrudan, bazı özellikleri <tt>set_menu_opts()</tt> ile belirtebilirsiniz. Bu işleve parametre yukarıdaki sabitlerle VEYA'lanmış bir değer olmalıdır.  <tt>menu_opts()</tt> işlevi menünün halihazırdaki seçeneklerini bulmak için kullanılabilir.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-scrollmenus.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-menus.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-multivaluemenus.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kaydırılabilen Menüler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Çok Değerli Menüler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

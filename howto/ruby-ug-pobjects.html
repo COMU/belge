@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Yordam Nesneleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-modules.html" title="Modüller"><link rel="next" href="../howto/ruby-ug-vars.html" title="Değişkenler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yordam Nesneleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-modules.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-vars.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-pobjects"></a>Yordam Nesneleri</h2></div></dt><dd><p>
+Beklenmeyen durumlara cevap verebilme genelde istenen bir durumdur.
+Eğer diğer yöntemlere kod bloklarını argüman olarak geçebilirsek yani koda bir veriymiş gibi davranabilirsek bu işi oldukça kolaylaştırmış oluruz.
+  </p><p>
+Yeni bir <span class="wordasword"><i>yordam nesnesi</i></span>, <b><tt>proc</tt></b> kullanılarak oluşturulur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> quguk = proc {</tt>
+    | <tt class="empinput">   print "GUGUKGUGUKGUGUK!!!\n"</tt>
+    | <tt class="empinput"> }</tt>
+   <tt class="empoutput">#&lt;Proc:0x4017357c&gt;</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Artık <b><tt>guguk</tt></b> bir nesne belirtiyor ve onun da diğer nesneler gibi istenebilir davranışları vardır. <b><tt>call</tt></b> yöntemi sayesinde bu davranışları talep edebiliriz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> guguk.call</tt>
+GUGUKGUGUKGUGUK!!!
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Peki tüm bunlardan sonra, <b><tt>guguk</tt></b> bir yöntem argümanı gibi kullanılabilir mi? Tabii ki.
+   </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> def run( p )</tt>
+    | <tt class="empinput">   print "Bir yordamı çağırıyoruz...\n"</tt>
+    | <tt class="empinput">   p.call</tt>
+    | <tt class="empinput">   print "Bitti.\n"</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> run quux</tt>
+Bir yordamı çağırıyoruz...
+GUGUKGUGUKGUGUK!!!
+Bitti.
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>trap</tt></b> yöntemi aldığımız cevabı tercihimize göre istediğimiz sistem sinyaline atamamıza izin verir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> inthandler = proc{ print "^C basıldı.\n" }</tt>
+   <tt class="empoutput">#&lt;Proc:0x401730a4&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> trap "SIGINT", inthandler</tt>
+   <tt class="empoutput">#&lt;Proc:0x401735e0&gt;</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Normalde <tt>^C</tt>'ye basmak yorumlayıcıdan çıkmamızı sağlar. Ancak şimdi bir ileti yazıldı ve yorumlayıcı hala çalışmaya devam ediyor, böylece yaptığınız işi kaybetmemiş oluyorsunuz. (Yorumlayıcıda sonsuza dek kapana kısılmadınız, hala <b><tt>exit</tt></b> yazarak ya da <tt>^D</tt>'ye basarak çıkabilirsiniz.)
+  </p><p>
+Başka konulara geçmeden önce son bir not: bir yordamı bir sinyale bağlamadan önce ona illa ki isim vermek gerekli değildir. <tt>Anonim</tt> bir yordam nesnesi aşağıdaki gibi olabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> trap "SIGINT", proc{ print "^C basıldı.\n" }</tt>
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>daha kısa şekilde,</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> trap "SIGINT", 'print "^C basıldı.\n"'</tt>
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bu kısaltılmış biçim, küçük anonim yordamlar yazdığınızda okunabilirlik sağlar.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-modules.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-vars.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Modüller </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Değişkenler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

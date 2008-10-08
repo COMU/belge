@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:20+03:00"><title>Örneğin açıklaması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-windows.html" title="Pencereler"><link rel="previous" href="../howto/ncurses-howto-letbewindow.html" title="Bana bir Pencere göster !!!"><link rel="next" href="../howto/ncurses-howto-otherstuff.html" title="Örnekteki diğer kısımlar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Örneğin açıklaması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-letbewindow.html">Önceki</a> </td><th width="60%" align="center">Pencereler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-otherstuff.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-borderexexpl"></a>Örneğin açıklaması</h3></div></dt><dd><p>
+Çığlık atmayın. Biliyorum büyük bir örnek. Fakat bazı önemli noktaları burada anlatmalıyım :-). Bu program sol, sağ, üst ve aşağı ok tuşlarıyla hareket eden dikdörtgen bir pencere oluşturur. Ardışıl olarak kullanıcının her tuşa basışında pencereyi yıkıp yeniden oluşturur. Ekran sınırlarının ötesine gitmeyin. Bu sınırların kontrol edilmesi okuyucuya bir örnek olarak bırakılmıştır. Şimdi satır satır inceleyelim.
+</p><p>
+<b><tt>create_newwin()</tt></b> işlevi <b><tt>newwin() </tt></b> ile yeni bir pencere oluşturur ve etrafına <tt>box()</tt> işlevi ile bir çerçeve çizer. <b><tt>destroy_win()</tt></b> işlevi ilk önce ' ' karakteri ile bir çerçeve oluşturarak pencereyi ekrandan siler ve daha sonra <b><tt>delwin()</tt></b>'i çağırarak onunla ilişkili belleği geri verir. Kullanıcının bastığı tuşa bağlı olarak, <i><tt>starty</tt></i> ve <i><tt>startx</tt></i> değişir ve yeni bir pencere oluşturulur.
+</p><p>
+<tt>destroy_win</tt> içerisinde gördüğünüz gibi, <tt>wborder</tt> yerine <tt>box</tt> işlevini kullandım. Nedeni açıklama satırlarında yazılı (Atladınız. Biliyorum. Kodu okuyun <tt>:-)</tt>). <tt>wborder</tt>, belirtilen 4 köşe ve 4 çizgi parametresiyle pencere etrafına bir çerçeve çizer. Daha açık hale getirmek için, eğer <tt>wborder</tt>'ı aşağıdaki şekilde çağırırsanız:
+
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+</pre> </td></tr></table></div>
+</p><p>
+şöyle bir şey üretir:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+  +------------+
+  |            |
+  |            |
+  |            |
+  |            |
+  |            |
+  |            |
+  +------------+
+</pre> </td></tr></table></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-letbewindow.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-windows.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-otherstuff.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Bana bir Pencere göster !!! </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Örnekteki diğer kısımlar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

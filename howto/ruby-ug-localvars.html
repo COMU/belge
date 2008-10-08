@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Yerel Değişkenler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-instancevars.html" title="Örnek Değişkenler"><link rel="next" href="../howto/ruby-ug-constants.html" title="Sınıf Sabitleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yerel Değişkenler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-instancevars.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-constants.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-localvars"></a>Yerel Değişkenler</h2></div></dt><dd><p>
+Yerel değişkenler küçük harfle ya da <b><tt>_</tt></b> karakteriyle başlayan isimlere sahiptirler. Yerel değişkenler genel ya da örnek değişkenlerde olduğu gibi, başlangıçta <b><tt>nil</tt></b> değerine sahip değildirler.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> $foo</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> @foo</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> foo</tt>
+<tt class="empoutput">ERR: (eval):1: undefined local variable or method `foo' for main(Object)</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Yerel bir değişkene yaptığınız ilk atama onu bildirmekle aynı şeydir.
+Eğer başlangıç değeri olmayan bir yerel değişkene başvurursanız, Ruby yorumlayıcısı bunun bir yöntemi çalıştırma girişimi olduğunu düşünür ve aşağıdaki gibi bir hata verir.
+  </p><p>
+Genelde yerel bir değişkenin etki alanı aşağıdakilerden biridir:
+  </p><p><div class="itemizedlist"><ul type="disc"><li><b><tt>proc{</tt></b> ... <b><tt>}</tt></b></li><li><b><tt>loop{</tt></b> ... <b><tt>}</tt></b></li><li><b><tt>def</tt></b> ... <b><tt>end</tt></b></li><li><b><tt>class</tt></b> ... <b><tt>end</tt></b></li><li><b><tt>module</tt></b> ... <b><tt>end</tt></b></li><li>yazılımın tamamı (yukarıdakilerden herhangi biri yoksa)</li></ul></div></p><p>
+Aşağıdaki örnekte görülen <b><tt>defined?</tt></b> işleci bir belirtecin tanımlanıp tanımlanmadığına bakar. Eğer tanımlanmışsa bir açıklama döndürür; tanımlanmamış ise <b><tt>nil</tt></b> değerini döndürür. Gördüğünüz gibi <b><tt>bar</tt></b> döngüde yerel, döngüden çıkınca tanımsızdır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> foo = 44; print foo, "\n"; defined? foo</tt>
+44
+   <tt class="empoutput">"local-variable"</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> loop{bar=45; print bar, "\n"; break}; defined? bar</tt>
+45
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Yordam nesneleri yynı etki alanındaki yerel değişkenleri paylaşırlar. Örnekte yerel değişken <b><tt>bar</tt></b>, <b><tt>main</tt></b> ve yordam nesneleri <b><tt>p1</tt></b> ve <b><tt>p2</tt></b> tarafından paylaşılmaktadır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> bar=nil</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> p1 = proc{|n| bar=n}</tt>
+   <tt class="empoutput">#&lt;Proc:0x8deb0&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> p2 = proc{bar}</tt>
+   <tt class="empoutput">#&lt;Proc:0x8dce8&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> p1.call(5)</tt>
+   <tt class="empoutput">5</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> bar</tt>
+   <tt class="empoutput">5</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> p2.call</tt>
+   <tt class="empoutput">5</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Baştaki "<tt>bar=nil</tt>"'ın çıkarılamayacağına dikkat edin; bu atama <b><tt>bar</tt></b>'ın <b><tt>p1</tt></b> ve <b><tt>p2</tt></b> tarafından kuşatılacağını garanti eder. Öteki türlü <b><tt>p1</tt></b> ve <b><tt>p2</tt></b> kendi yerel <b><tt>bar</tt></b> değişkenlerini sonlandırır ve <b><tt>p2</tt></b>'yi çağırmak "undefined local variable or method" hatasına neden olabilir.
+  </p><p>
+Yordam nesnelerinin güçlü bir özelliği de argüman olarak aktarılabilme yetenekleridir: paylaşımlı yerel değişkenler özgün etki alanının dışından değer aktarıldığında bile geçerli kalırlar.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> def kutu</tt>
+    | <tt class="empinput">   icerik = 15</tt>
+    | <tt class="empinput">   getir = proc{icerik}</tt>
+    | <tt class="empinput">   ata = proc{|n| icerik = n}</tt>
+    | <tt class="empinput">   return getir, ata</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> okur, yazar = kutu</tt>
+   <tt class="empoutput">[#&lt;Proc:0x40170fc0&gt;, #&lt;Proc:0x40170fac&gt;]</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> okur.call</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> yazar.call(2)</tt>
+   <tt class="empoutput">2</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> okur.call</tt>
+   <tt class="empoutput">2</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Ruby etki alanı konusunda bir parça akıllıca davranır. Örneğimizde <b><tt>icerik</tt></b> değişkeni <b><tt>okur</tt></b> ve <b><tt>yazar</tt></b> tarafından paylaşılıyordu. Aynı zamanda yukarıda tanımladığımız kutumuzdan birden çok okur-yazar çifti oluşturabilir ve her çiftin aynı sabiti paylaşmasını sağlayabiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> okur_1, yazar_1 = kutu</tt>
+   <tt class="empoutput">[#&lt;Proc:0x40172820&gt;, #&lt;Proc:0x4017280c&gt;]</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> okur_2, yazar_2 = kutu</tt>
+   <tt class="empoutput">[#&lt;Proc:0x40172668&gt;, #&lt;Proc:0x40172654&gt;]</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> yazar_1.call(99)</tt>
+   <tt class="empoutput">99</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> okur_1.call</tt>
+   <tt class="empoutput">99</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> okur_2.call</tt>
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-instancevars.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-constants.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Örnek Değişkenler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sınıf Sabitleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

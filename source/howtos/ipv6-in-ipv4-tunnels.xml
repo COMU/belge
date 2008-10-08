@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="ipv6-in-ipv4-tunnels" lang="tr">
+<articleinfo>
+  <title>Elle Yapılandırılmış IPv6-in-IPv4 Tüneli NASIL</title>
+  <author>
+	  <firstname>Tina Strauf</firstname>
+  </author><author role="translator">
+      <firstname>Necdet Yücel</firstname>
+      <affiliation>
+        <address><email>nyucel@comu.edu.tr</email></address>
+      </affiliation>
+    </author>
+    <revhistory>
+	    <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>24 Eylül 2008</date>
+		    <authorinitials>ny</authorinitials>
+		    <revremark>İlk sürüm</revremark>
+	    </revision>
+    </revhistory><revhistory>
+	    <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>2003</date>
+		    <authorinitials>ts</authorinitials>
+		    <revremark>İlk Sürüm</revremark> 
+	    </revision>
+    </revhistory>
+    <abstract>
+	    <para>Elle yapılandırılan IPv6-in-IPv4 tünelleri, IPv6/IPv4 çift yığın ağlarına geçerken kullanılan en temel geçiş mekanizmalarından biridir. Bu tünellerin oluşturulması 6to4 veya ISATAP gibi otomatik tünelleme mekanizmalarından birini kullanmaktan daha fazla çalışma gerektirir ama aynı zamanda daha kararlı ve kontrol edilebilirdir.</para>
+	    <para>IPv6-in-IPv4 tünelleri neredeyse her IPv6 platformunda yapılandırılabilir.</para>
+	    <para>Bu belgenin İngilizce sürümünü <ulink url="http://www.join.uni-muenster.de/Dokumente/Howtos/Howto_IPv6-in-IPv4-Tunnel.php?lang=en"/> adresinde bulabilirsiniz.</para>
+    </abstract>
+
+
+<copyright><year>2003</year><holder>Tina Strauf</holder></copyright>
+<copyright><year>2008</year><holder>Necdet Yücel - Türkçe çeviri</holder></copyright>
+
+</articleinfo>
+
+<sect1 id="ipv6-in-ipv4-tunnels-linux"><title>Linux (ip kullanarak)</title>
+	<note><para><command>ifconfig</command> komutunun yapılandırma amacıyla kullanımını tavsiye etmiyoruz. Onun işlevleri <command>ip</command> komutu tarafından yerine getirilmektedir.</para></note>
+	<para>Aşağıdaki komut "<filename>sit1</filename>" isimli bir "sit" tünel-arayüzü yaratır. Elbette ismi istediğiniz gibi değiştirebilirsiniz. Komutla birlikte tünelin iki ucundaki IPv4 adreslerini belirtmeniz gerekir. Bu adresler IPv4-kapsüllenmiş IPv6 paketlerinin gönderilip/alınırken kullanılacak fiziksel arayüzlerin adresleridir.</para>
+	<screen># ip tunnel add sit1 mode sit remote \\
+	&lt;IPv4 address of remote hosts&gt; local &lt;local IPv4 address&gt; </screen>
+	<para>Arayüz yapılandırıldıktan sonra aşağıdaki komutla aktif hale getirebilirsiniz:</para>
+	<screen># ip link set sit1 up </screen>
+	<para>Şimdi sit-arayüzüne bir IPv6 adresi atayacağız. Bunu yaparken yarattığımız noktadan-noktaya bağlantı alt ağı için bir önek uzunluğu da tanımlayacağız.</para>
+	<note><para>Bu önek bağlantının yapıldığı konak bilgisayarın herhangi bir alt ağ adreslemesiyle ilgili değildir. Bu alt ağ sadece bağlantı içindir ve gerçekte olmasa da olur. Uzunluğu /128 olarak atanabilir.</para></note>
+	<para><screen># ip address add dev sit1 &lt;IPv6 address&gt;/&lt;prefix-lenth&gt;</screen></para>
+	<para>Eğer tünel IPv6 internetine tek bağlatı ise çoğu durumda sadece öntanımlı rotanın (::/0) yapılandırılması gerekir.
+	<screen># ip route add ::/0 dev sit1</screen></para>
+</sect1>
+
+<sect1 id="ipv6-in-ipv4-tunnels-bsd"><title>BSD</title>
+<sect2 id="ipv6-in-ipv4-tunnels-bsd-ifconfig"><title>ifconfig kullanarak</title>
+	<para>Bir BSD makinede 6-in-4 tünel için bir "gif"-arayüzü (generic tunnel interface) yaratılır. Aşağıdaki komutla "gif0" isimli bir arayüz oluşturuyoruz.
+	<screen># ifconfig gif0 create</screen></para>
+	<para>Gerçek bir tünel için tünelin uç noktalarının yerel ve uzak IPv4 adreslerini belirtmemiz gerekir.
+	<screen># ifconfig gif0 &lt;tunnelname&gt; &lt;local IPv4 address&gt; &lt;IPv4 address of remote host&gt; </screen></para>
+	<para>Tünel arayüzüne bir IPv6 adresi atanması ve yaratılan noktadan noktaya bağlantının önek/alt ağ uzunluğunun belirtilmesi de gereklidir.
+	<note><para>Bu önek bağlantının yapıldığı konak bilgisayarın herhangi bir alt ağ adreslemesiyle ilgili değildir. Bu alt ağ sadece bağlantı içindir ve gerçekte olmasa da olur. Uzunluğu /128 olarak atanabilir.</para></note>
+	<screen># ifconfig gif0 &lt;local IPv6 address&gt; prefixlen &lt;prefix-length&gt;</screen></para>
+	<para>Son olarak tünel arayüzünün IPv6 öntanımlı rotasını da atanmalıdır:</para>
+	<screen># route add -inet6 :: -prefixlen 0 &lt;IPv6 address of the interface&gt;</screen>
+</sect2>
+
+<sect2 id="ipv6-in-ipv4-tunnels-bsd-rcconf"><title>rc.conf kullanarak</title>
+	<para>Bir BSD makinenin yeniden açılışıda otomatik tünel oluşturulması için aşağıdaki yapılandırma <filename>rc.conf</filename> dosyasına eklenmelidir.
+	<screen>gif_interfaces="gif0"    # List of gif-interfaces or "NO" if there are none.
+gifconfig_gif0="&lt;local IPv4 address> &lt;IPv4 address of remote host>"
+ipv6_ifconfig_gif0="&lt;local IPv6 address> prefixlen &lt;prefix-length>"</screen></para>
+</sect2>
+</sect1>
+
+<sect1 id="ipv6-in-ipv4-tunnels-windows"><title>Windows (netsh kullanarak)</title>
+	<para>(SP1 yüklenmemiş) Windows XP  IPv6 yapılandırması için hala sadece "<command>IPv6.exe</command>"'yi kullanmaktadır. SP1 yüklenmiş Windows XP ve daha sonrası Mikrosoft işletim sistemlerinde ise bu iş için "<command>netsh</command>" komutu bulunmaktadır.</para>
+	<para>Bir IPv6-in-IPv4 tüneli oluşturmak için aşağıdaki komut kullanılmalıdır:
+	<screen>c:\ netsh interface ipv6 add v6v4tunnel "&lt;any name&gt;" \\
+	&lt;local IPv4 address&lt; &lt;IPv4 address of remote host&gt;</screen></para> 
+	<para>Şİmdi arayüze bir IPv6 adresi atanmalıdır:
+	<screen>c:\ netsh interface ipv6 add address "&lt;tunnel name&gt;" &lt;IPv6 address&gt;</screen></para> 
+	<para>Son olarak rota düzenlenmelidir. Çoğu durumda sadece tünel arayüzüne öntanımlı rota (::/0) eklenmesi yeterli olacaktır:
+    	<screen>c:\ netsh interface ipv6 add route \\
+          &lt;prefix for route&gt;/&lt;prefix-length&gt; "&lt;tunnel name&gt;"\\
+	  &lt;IPv6 address of remote hosts&gt; [metric=&lt;priority&gt;]</screen></para> 
+	<para>Metric değerinin atanması isteğe bağlıdır.</para>
+
+</sect1>
+
+<sect1 id="ipv6-in-ipv4-tunnels-cisco"><title>Cisco IOS</title>
+	<para>Cisco IOS, IPv6-in-IPv4 tünelini daha kolay yapılandırmak için imkan sağlamaktadır. İlk olarak yapılandırma moduna geçelim:<screen>&lt;routername&gt;# configure terminal</screen></para> 
+	<para>Şimdi bir tünel arayüzü tanımlayalım (numarası "0"):</para>
+    <screen>!
+interface Tunnel0
+  description &lt;any string&gt;
+  no ip address
+  ipv6 address &lt;local IPv6 address for tunnel &lt;interface&gt;/&lt;prefix-length&gt;
+  tunnel source &lt;local IPv4 address&gt;
+  tunnel destination &lt;IPv4 address of remote host&gt;
+  tunnel mode ipv6ip
+!</screen> 
+	<para>Bu aynı zamanda bağlantıdaki alt ağın öneki için bir rota da yaratacaktır.</para>
+	<para>Son olarak rotaları ekleyelim (örneğin öntanımlı rota ::/0). Arayüz yapılandırmasından aşağıdaki gibi çıkalım
+	<screen>&lt;routername&gt;(config-if)# exit</screen></para> 
+	<para>Rota aşağıdaki komutla eklenebilir:<screen>lt;routername&gt;(config)# ipv6 route ::/0 Tunnel0</screen></para> 
+	<para>Hepsi bu kadar.</para>
+</sect1>
+
+<sect1 id="ipv6-in-ipv4-tunnels-sixos"><title>6WIND SixOS</title>
+	<para>6WIND yönlendirici piyasasına yeni katılanlardan biridir. Adından da anlaşıldığı gibi uzmanlık alanı IPv6'dır ve SOHO-Access-area'da bir kaç ürünü bulunmaktadır. Yönlendiricileri büyük alanlarda IPv6 erişimiyle başa çıkmaktadır.</para>
+	<para>SixOS ISATAP (sunucu), 6to4 ve DSTM'in yanı sıra IPv6-in-IPv4 tünelllerini elle yapılandırmaya da imkan sağlamaktadır.</para>
+	<para>Aşağıdaki komutlar "admin" kullanıcısı ile çalıştırılmalıdır:</para>
+	<para>İlk olarak çalışan yapılandırma moduna geçmek gereklidir:<screen>sixwind{} edit running</screen></para> 
+	<para>Herhangi bir IPv4/IPv6 geçiş mekanizması düzenlemesi için yapılandırma bölümünden migration alt bölümüne geçelim:<screen>sixwind{running} mig</screen></para> 
+	<para>Şimdi tüneli yapılandıralım:
+	<screen>sixwind{running-mig} 6in4 &lt;tunnel number&gt; \\
+          &lt;local IPv4 address&gt; &lt;IPv4 addresss of remote hosts&gt; &lt;local IPv6 address&gt; \\
+	  &lt;IPv6 address of remote hosts&gt;</screen></para> 
+	<para>Bu noktada 6WIND yönlendirici uzak konak bilgisayarın IPv6 adresi için /128 rotasını otomatik olarak yapılandırır. Böylece öntanımlı rotayı daha sonra yapılandırma imkanı olur.</para>
+	<para>Migration alt bölümünden çıkalım...<screen>sixwind{running-mig} exit</screen></para> 
+	<para>... ve rotaları (öntanımlı rota) yapılandırmak için routing alt bölümüne geçelim:
+	<screen>sixwind{running} rtg</screen></para>
+	<para>Yeni eklenen tünele öntanımlı rotayı aşağıdaki gibi ekleyelim:
+    <screen>sixwind{running-rtg} ipv6_defaultroute &lt;IPv6 address of remote hosts&gt;</screen></para> 
+	<para>(Bir 6WIND yönlendiricisinde bir tünelin yapılandırılması için gerçek bir arayüz ismi yoktur. Bu yüzden tünelin uzak ucunun IPv6 adresi kullanılır.)</para>
+	<para>Son olarak temelyapılandırma bölümüne geçerek yaptığımız değişikliklerin çalışan yapılamdırmaya eklenmesini sağlayalım. İsterseniz değişikliklerin başlangıç yapılandırmasına da eklenmesini sağlayabilirsiniz:
+    <screen>sixwind{running-rtg} exit
+    sixwind{running} addrunning
+    sixwind{} copy conf running start</screen></para>
+	<para>Hepsi bu kadar.</para>
+</sect1>
+</article>

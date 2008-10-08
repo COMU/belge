@@ -1,0 +1,401 @@
+body {
+  margin-left:10pt;
+  margin-right:10pt;
+  color: black;
+  background-color: white;
+  background: white;
+  background-position: top left;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+}
+a, body, th, td, ol, ul, dl, span, .listitem, .toc {
+font-family: verdana, arial, helvetica, sans-serif;
+font-size: 10pt;
+}
+
+p, li, dd {
+font-family: verdana, arial, helvetica, sans-serif;
+text-align:justify;
+font-size: 10pt;
+}
+
+pre.synopsis, pre.screen, pre.programlisting {
+font-family: terminus, courier new, courier, monospace;
+overflow: auto;
+font-size: 12pt;
+padding-bottom: 10px;
+}
+
+pre.literallayout, small {
+color: maroon;
+font-size: 12pt;
+}
+
+pre.paramdef {
+  font-family: terminus, courier new, courier, monospace;
+  font-size: 12pt;
+}
+tt, pre a, tt a {
+font-family: terminus, courier new, courier, monospace;
+font-size: 12pt;
+}
+/*
+pre > a, tt > a {
+font-size: 100%
+}
+
+pre > b {
+color: maroon;
+font-size: 100%
+}
+
+b tt {
+font-family: terminus, courier new, courier, monospace;
+font-size: 100%
+}
+
+tt b tt, pre tt {
+font-family: terminus, courier new, courier, monospace;
+font-size: 100%
+}
+b tt i tt {
+font-family: times new roman, times;
+font-size: 100%
+}
+*/
+i tt, tt i, pre i {
+font-family: nimbus roman no9 L, urw palladio L, times new roman, times;
+color: green;
+font-size: 12pt;
+}
+/*
+span.term tt i {
+font-family: times new roman, times;
+color: maroon;
+font-size: 100%
+}
+*/
+
+dd, dt, pre { margin-top: 0; margin-bottom: 0 } /* opera 3.50 */
+
+.empinput { color: green; }
+.empoutput { color: blue; }
+
+.mediaobject, .caption {
+text-align: center;
+}
+td.navoutline, .preoutline, td.revoutline {
+background-color: #999999;
+}
+td.footinline {
+background-color: #eeffff;
+}
+td.navinline {
+background-color: white;
+}
+.preinline, .revinline {
+background-color: #ffffee;
+}
+
+.funcdef, .synopsis .preinline {
+background-color: #efffcf;
+}
+
+div.informaltable > table, .mheadfoot{
+background-color: #ffffee;
+background: #ffffee;
+border-style: none;
+}
+div.informaltable >  td, div.informaltable > th {
+background-color: white;
+}
+div.note td, div.tip td, div.important td, div.warning td {
+color: navy;
+}
+div.note th, div.tip th, div.important th, div.warning th {
+font-family: verdana, Helvetica, Arial;
+font-size: 10pt;
+color: darkred;
+}
+.author1 { color:#999999; }
+
+h1, h2, h3, h4, h5, h6, .author {
+color: darkred;
+background: white;
+font-family: tahoma, times new roman, times, serif;
+text-align: left
+}
+
+h1, h1 tt { font-weight: bold; font-size: 200% }
+h2, h2 tt { font-weight: bold; font-size: 175% }
+h3, h3 tt { font-weight: bold; font-size: 150% }
+h4, h4 tt, h5 tt, h6 tt { font-weight: bold; font-size: 120% }
+h5 { font-weight: bold; font-size: 100% }
+h6 { font-weight: bold; font-size: 100% }
+
+.author { font-weight: bold; font-size: 125% }
+
+.email {color: blue;}
+
+span.author {
+font-weight: bold;
+font-size: 100%;
+color: black;
+}
+span.title {
+font-weight: bold;
+font-size: 100%;
+color: darkred;
+}
+
+span.term {
+font-family: verdana, arial, helvetica, sans-serif;
+/* font-size: 110%; */
+font-weight: bold;
+color: darkred;
+}
+
+span.wordasword {
+font-weight: bold;
+color: green;
+}
+
+sup {
+position: relative;
+display: inline;
+font-family: terminus, monospace, courier new, courier;
+font-size: 10pt;
+top: 5pt;
+}
+
+table.simplelist {
+border: thin solid lightgray;
+font-family: Verdana, Arial, Helvetica;
+font-size: 9pt;
+padding-left: 5px;
+}
+.coimage {
+padding-top: 15pt;
+}
+.manpara, .designator, .mslant, .methodname, .type, .parameter {
+font-family: terminus, courier new, courier;
+font-size: 110%
+}
+.methodname  {
+font-weight: bold;
+font-style: normal;
+color: black;
+}
+.type {
+font-style: italic;
+font-weight: normal;
+color: green;
+}
+.parameter {
+font-weight: bold;
+font-style: normal;
+color: maroon;
+}
+.tt, tt, span.dict { color: maroon }
+
+/* .glossterm {
+font-size: 120%;
+} */
+
+
+.var {
+font-style: italic;
+font-family: Times New Roman, Times Roman, Serif, Bitstream Charter;
+color: maroon;
+font-size: 24px;
+}
+
+.bigop {
+font-family:  Times New Roman, Times Roman, Serif, Bitstream Charter;
+color: maroon;
+font-size: 36px;
+}
+
+.subsup {
+font-family: Times New Roman, Bitstream Charter, Times Roman, Serif;
+color: maroon;
+font-size: 50%;
+}
+
+.nom, .varnum, .num, .frac, .op {
+font-family: Times New Roman,  Bitstream Charter, Times Roman, Serif;
+font-size: 24px;
+text-align: center;
+color: maroon;
+}
+
+.delta, .eq, .qe, .gt, .le, .lt, .minus, .ne, .plus, .comma, .mult {
+font-family: Times New Roman,  Bitstream Charter, Times Roman, Serif;
+font-size: 24px;
+text-align: center;
+color: maroon;
+}
+
+.comma {
+position: relative;
+display: block;
+left: 2px;
+}
+
+.mult {
+position: relative;
+display: block;
+top: 10px;
+}
+
+.minus {
+position: relative;
+display: block;
+top: 4px;
+}
+
+.plus, .eq, .le, .lt, .ne, .gt, .qe {
+position: relative;
+display: block;
+top: 6px;
+}
+
+.var, .num, .varnum, .par, .bracket {
+position: relative;
+display: block;
+top: 3px;
+}
+
+.divline {
+position: relative;
+display: block;
+top: 4px;
+font-family: courier new, courier;
+font-size: 24px;
+color: maroon;
+}
+
+.sigma {
+font-family: Times New Roman,  Bitstream Charter, Times Roman, Serif;
+font-size: 36px;
+color: maroon;
+}
+
+.expr {
+position: run-in;
+display: inline;
+color: maroon;
+vertical-align: -33%;
+}
+
+.hexpr {
+position: run-in;
+display: inline;
+color: maroon;
+vertical-align: -233%;
+}
+
+#frac {
+position: static;
+display: inline;
+color: maroon;
+}
+#blok { position: relative; display: block; left: 0px; top: 0px; vertical-align: middle;}
+
+#tdnom {
+position: relative;
+display: block;
+top: 12px;
+}
+
+#tddenom {
+position: relative;
+display: block;
+top: -8px;
+}
+
+#pardown {
+position: relative;
+display: inline;
+top: 12px;
+}
+
+#parup {
+position: relative;
+display: inline;
+top: -12px;
+}
+
+#sub {
+position: relative;
+display: inline;
+top: 24px;
+}
+
+#sup {
+position: relative;
+display: inline;
+top: -16px;
+}
+
+#sqrdiv {
+position: relative;
+display: inline;
+top: -10px;
+}
+
+#sqrop {
+position: relative;
+display: inline;
+color: maroon;
+}
+#sqropup {
+position: relative;
+display: inline;
+color: maroon;
+top: 14px;
+left: -4px;
+}
+
+#sqrsup {
+position: relative;
+display: inline;
+top: -10px;
+}
+
+#sqrline {
+position: relative;
+display: inline;
+color: maroon;
+top: 14px;
+left: -6px;
+}
+
+#sqrtxt. {
+position: relative;
+display: inline;
+top: -2px;
+left: 0px;
+}
+
+#varsub {
+position: relative;
+display: inline;
+top: 7px;
+left: 1px;
+}
+
+#varsup {
+position: relative;
+display: inline;
+top: -4px;
+left: 2px;
+}
+
+#varsubsub {
+position: relative;
+display: inline;
+top: 12px;
+}
+

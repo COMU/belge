@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="debian-history" lang="tr">
+ <articleinfo>
+  <title>Debian Tarihi</title>
+  <author role="translator">
+    <firstname>Pınar Yanardağ</firstname>
+    <affiliation>
+      <address><email>pinar@comu.edu.tr</email></address>
+    </affiliation>
+  </author><author>
+    <firstname>Debian Belgelendirme Grubu</firstname>
+    <affiliation><address><email>debian-doc@lists.debian.org</email></address></affiliation>
+  </author>
+   <legalnotice><title>Yasal Açıklamalar</title>
+ <para>Bu belgeyi, üzerinde yaptığınız değişiklikleri açıkça belirtmek kaydıyla, istediğiniz gibi düzenleyebilir ve yeniden 
+dağıtabilirsiniz. </para>
+ <para>Bu belge, üzerinde yapılan değişiklikler, orijinalinden farkı açıkça belirtilmek kaydıyla, ücretli ya da özgür olarak yeniden dağıtılabilir ve yeniden düzenlenebilir (dosya formatından başka bir formata dönüştürme ya da yazılan dilden başka bir dile çevirme de dahil).
+</para>
+ </legalnotice>
+ <abstract>
+ <para>
+ Bu belge, Debian Projesi'nin tarihini ve hedeflerini açıklar.
+ </para>
+ </abstract>
+    <revhistory>
+      <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+      <revision>
+	      <revnumber>1.2</revnumber>
+	      <date>Eylül 2008</date>
+	      <authorinitials>ny</authorinitials>
+	      <revremark>Güncelleme</revremark>
+    </revision><revision>
+      <revnumber>1.1</revnumber>
+        <date>Temmuz 2006</date>
+        <authorinitials>PY</authorinitials>
+        <revremark>Güncelleme</revremark>
+    </revision><revision>      
+        <revnumber>1.0</revnumber>
+        <date>Kasım 2005</date>
+        <authorinitials>PY</authorinitials>
+        <revremark>İlk çeviri</revremark>
+      </revision>
+    </revhistory>
+    <revhistory>
+      <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+       <revision>
+       <revnumber>2.7</revnumber>
+          <date>2007-04-03</date>
+          <authorinitials>bg</authorinitials>
+       </revision>
+     </revhistory>
+<othercredit><firstname>Bdale Garbee</firstname><email>bdale@debian.org</email></othercredit>
+<othercredit><firstname>Hartmut Koptein</firstname> <email>koptein@debian.org</email></othercredit>
+<othercredit><firstname>Nils Lohner</firstname> <email>lohner@debian.org</email></othercredit>
+<othercredit><firstname>Will Lowe</firstname> <email>lowe@debian.org</email></othercredit>
+<othercredit><firstname>Bill Mitchell</firstname> <email>Bill.Mitchell@pobox.com</email></othercredit>
+<othercredit><firstname>Ian Murdock</firstname> <email>imurdock@debian.org</email></othercredit>
+<othercredit><firstname>Martin Schulze</firstname> <email>joey@debian.org</email></othercredit>
+<othercredit><firstname>Craig Small</firstname> <email>csmall@debian.org</email></othercredit>
+<othercredit><firstname>Javier Fernández-Sanguino</firstname> <email>jfs@debian.org</email></othercredit>
+</articleinfo>
+
+ <sect1 id="debian-history-intro"><title>Giriş -- Debian Proje'si nedir?</title>
+ 
+<para>
+<ulink url="http://www.debian.org/">Debian Projesi</ulink> dünyanın dört bir yanından, tamamen özgür yazılım olarak geliştirilen bir işletim sistemi 
+üretmeye adamış gönüllü katılımcılardan oluşan bir projedir. Projenin şu ana kadarki temel ilkesi, Linux işletim 
+sistemi çekirdeği ve binlerce önpaketlenmiş uygulama içeren Debian GNU/Linux'tur. 
+Intel i386 ve Alpha, ARM, Intel IA-64, Motorola 68k, MIPS, PA-RISC, PowerPC, Sparc
+(ve UltraSparc), IBM S/390 ve Hitachi SuperH gibi birçok işlemci tipi desteklenir. 
+</para><para>
+Debian, kar amacı gütmeyen, New-York tabanlı <ulink url="http://www.spi-inc.org/">Software in the Public Interest, Inc.,</ulink> adlı 
+bir kuruluşun doğmasına sebep olmuştur. SPI, Debian ve ona benzer, özgür yazılım ve donanım geliştiren organizasyonlara yardım etmek için 
+kurulmuştur. Bu arada, SPI, Debian Projesinin, Amerika Birleşik Devletleri sınırları içinde, vergiden düşülebilir 
+bağışlar almasına olanak sağlayan bir mekanizmayı sağlamaktadır. 
+</para><para>
+Özgür yazılım hakkında daha fazla bilgi için,  <ulink url="http://www.debian.org/social_contract">Debian Sosyal Sözleşmesi</ulink>'ne 
+ve ilgili Debian Özgür Yazılım Kılavuzlarına ya da <ulink url="http://www.debian.org/intro/free">Debian--Özgür Yazılım Ne Demek?</ulink> isimli sayfaya bakın. 
+</para> 
+ 
+<sect2 id="debian-history-beginning"><title>Başlangıç</title>
+
+
+<para>
+Debian Projesi, resmi olarak Ian Murdock tarafından <ulink url="http://groups.google.com/groups?selm=CBusDD.MIK%40unix.portal.com&#38;output=gplain">16 Ağustos 1993</ulink>'te 
+kurulmuştur. Ian, Debian'ı açık olarak; Linux ve GNU ruhuna uygun olarak geliştirilmesi için tasarladı (hazırladığı bildiriyi okumak için, belgenin sonundaki eke bakın). 
+Debian Projesi, FSF'nin GNU projesi tarafından bir yıl boyunca desteklendi (Kasım 1994'ten Kasım 1995'e kadar). 
+</para><para>
+Debian, dikkatli bir şekilde biraraya getirmeyi ifade eder ve benzer şekilde geliştirilmeli ve desteklenmelidir. 
+Debian, başlangıçta sıkı kenetlenmiş küçük bir grup Özgür Yazılım hacker'ı tarafından başlatıldı ve zamanla büyük, iyi organize edilmiş 
+geliştirici ve kullanıcı topluluğuna dönüştü. 
+</para><para>
+Debian projesi başladığında her geliştiriciye ve kullanıcıya çalışmalarıyla katkıda bulunmalarına olanak veren 
+tek dağıtımdı. Bu da Debian'ın ticari varlık teşkil etmediğinin en önemli örneklerinden biridir. 
+Projeyi örgütlemek için, bir tüzüğe, sosyal sözleşmeye, poliçe belgelerine sahip tek dağıtımdır. 
+Ayrıca Debian, sistemin güncellemelere karşı tutarlılığını sağlamak için, inter-paket bağımlılıklarını dikkatle inceleyen detaylı bağımlılık bilgisini sağlayan "mikro paketlenmiş" 
+tek dağıtımdır. 
+</para><para>
+Yüksek kaliteyi korumak ve sürdürmek için, Debian, teslim etme ve paketleme için kapsamlı bir prosedür ve politika 
+duruşunu esas almıştır. Bu standartlar, açık ve görünmez bir şekilde, Debian'ın anahtar kavramlarını araçlar, özdevinim ve belgelendirmeyle 
+desteklemektedirler.</para>
+</sect2>
+
+
+<sect2 id="debian-history-pronoun"><title>Debian'ın telaffuzu</title>
+
+<para>
+Debian'ın resmi telaffuzu "deb i yın" şeklindedir. <footnote><para>
+Ç.N. - Telaffuz ederken, "i" yutulacak, "Deb'yın" gibi söylenecek.
+</para></footnote> Bu isim, Debian'ın yaratıcısı Ian Murdock ve karısı Debra'dan gelmektedir. 
+</para>
+
+</sect2>
+ </sect1>
+
+<sect1 id="debian-history-leaders"><title>Liderlik</title>
+<para>Debian, 1993'ten beri birçok lider değiştirmiştir.</para>
+<para>Ian Murdock 1993 Ağustos'unda Debian'ı kurdu ve 1996 Mart'ına kadar liderliğini devam ettirdi.</para>
+<para>Bruce Perens, Nisan 1996 ve Aralık 1997 tarihleri arasında Debian'a liderlik yaptı.</para>
+<para>Ian Jackson, Temmuz 1998 ile Aralık 1998 tarihleri arasında Debian'a liderlik yaptı.</para>
+<para>Wichert Akkerman, Temmuz 1999'dan Mart 2001'e kadar Debian'a liderlik yaptı.</para>
+<para>Ben Collins, Nisan 2001'den Nisan 2002'ye kadar Debian'a liderlik yaptı.</para>
+<para>Bdale Garbee, Nisan 2002 ile Nisan 2003 tarihleri arasında Debian'a liderlik yaptı.</para>
+<para>Martin Michlmayr, Mart 2003'te seçildi ve Mart 2005'e kadar liderlik pozisyonunu korudu.</para>
+<para>Branden Robinson, Nisan 2005'de seçildi ve Nisan 2006'ya kadar liderlik pozisyonunu korudu.</para>
+<para>Anthony Towns, Nisan 2006'de seçildi ve Nisan 2007'ya kadar liderlik pozisyonunu korudu.</para>
+<para>Sam Hocevar, Nisan 2007'de seçildi ve halen liderliğini devam ettiriyor.</para>
+</sect1>
+
+<sect1 id="debian-history-releases"><title>Debian Sürümleri</title>
+
+<para>Debian 0.01'den 0.90'a kadar olan sürümler (Ağustos-Aralık 1993)</para>
+<para>
+Debian 0.91 (Temmuz 1994): Bu sürüm, paketleri yükleyip kaldırabileceğiniz bir paket sistemine sahipti. 
+Proje bu noktada bir düzine insan tarafından geliştiriliyordu.
+</para><para>
+Debian 0.93R5 (Mart 1995): Bu noktada, her paketin sorumluluğu bir geliştiriye verildi ve (<command>dpkg</command>) 
+paket yöneticisi, temel sistem kurulumundan sonra paketleri yüklemek için kullanıldı.
+</para><para>
+Debian 0.93R6 (Kasım 1995): <command>dselect</command> göründü. Bu, a.out ikilik biçemini kullanan en son Debian sürümüydü ve yaklaşık 60 geliştirici bulunuyordu. 0.93R6 ile sürümüyle paralel olarak, ilk master.debian.org sunucusu Bdale Garbee tarafından kuruldu ve HP tarafından misafir edildi. Belirli bir master sunucuya yığılmak, Debian geliştiricilerinin her sürüm için Debian ağ yansılarına direkt olarak erişebilmeleri ve dolaylı olarak, projeyi bugün şekillendiren birçok geliştirme talimatlarına erişebilmelerini sağladı.
+</para><para>
+Debian 1.0 asla piyasaya sürülmedi: Kazayla Infomagic adında bir CD satıcısı, Debian'ın geliştirme sürümünü 
+aldı ve 1.0 ile etiketleyerek piyasaya sürdü. 11 Kasım 1994 tarihinde, Debian ve Infomagic birlikte bu sürümün 
+aldatıcı olduğunu duyurdu. Bruce Perens, <quote>Debian 1.0</quote> olarak etiketlenen <quote>InfoMagic
+Linux Geliştiricisi'nin 5-CDlik Kaynak Seti-Kasım 1995</quote> CD'sindeki bilgilerin Debian 1.0 sürümü olmadığını 
+ve bunun sadece ELF formatındaki geliştirme versiyonu olduğunu ve düzgün boot edemeyeceğini ya da düzgün çalışmayacağını 
+ve piyasaya sürülmüş bir Debian sisteminin katilesini yansıtmadığını duyurdu. Debian Projesi, CD versiyonu ile 
+yeni Debian sürümünün karışmaması için, bir sonraki sürümünü <quote>Debian 1.1</quote> olarak duyurdu. 
+Debian 1.0 etiketli CD versiyonu yanıltıcıdır ve kullanılmamalıdır.
+</para><para>
+Debian 1.1:: <emphasis>Buzz</emphasis>(17 Haziran 1996): Buzz, bir kod adıyla sürülen ilk Debian sürümüdür. 
+Bu kod adı, bundan sonraki sürümlerin çoğunda olduğu gibi, Oyuncak Hikayesi (Toy Story) filminden 
+bir karakterin adıdır. Aynı zamanda, o zamanlar bu filmi yapan firma olan Pixar'da çalışan Bruce Perens; p	rojenin 
+liderliğini Ian Murdock'tan devralmıştır. Bu sürüm, Linux 2.0 çekirdeğini kullanan, 474 paket içeren 
+tamamen ELF bir sürümdür.
+</para><para>
+Debian 1.2:: <emphasis>Rex</emphasis> (12 dec 1996): Filmdeki plastik dinazora ithafen Rex ismi kullanılmıştır. 
+Bu sürüm, 120 geliştirici tarafından geliştirilen 848 paket içerir.
+
+</para><para>
+Debian 1.3:: <emphasis>Bo</emphasis> (5 june 1997): Koyun güden kız, Bo Peep'e ithafen kullanılmıştır. Bu sürüm; 200 geliştirici 
+tarafından sürdürülen 974 paket içerir.
+</para><para>
+Debian 2.0:: <emphasis>Hamm</emphasis> (24 July 1998): Filmdeki domuz bankasına ithafen kullanılmıştır. 
+Bu sürüm, Motorola 68000 serileri için destek de içeren, Debian'ın ilk çok-mimarili sürümüdür. 
+Proje lideri, Ian Jackson ile birlikte, bu sürümde libc6 geçişi yapıldı ve 
+400'ün üzerinde geliştiriciyle beraber 1500'ün üzerinde paket içermekteydi.
+</para><para>
+
+Debian 2.1:: <emphasis>Slink</emphasis> (9 Mart 1999): Filmdeki dimdik oturan köpeğe ithafen kullanıldı. 
+İki yeni mimari, <ulink url="http://www.debian.org/ports/alpha/">Alpha</ulink> 
+ve <ulink url="http://www.debian.org/ports/sparc/">SPARC</ulink>  eklendi.
+Proje lideri, Wichert Akkerman ile beraber, bu sürüm 2250 paketle birlikte, resmi CD seti için, 2 CD'ye ihtiyaç duyuyordu. 
+Bu sürümdeki anahtar değişiklik yeni bir paket yönetim arayüzü olan <command>apt</command>'nin karşılanmasıydı. 
+Büyük bir gururla, apt'nin Açık Kaynak işletim sistemlerindeki paketleme ve yükleme programlarının boşluğunu 
+doldurduğunu söyleyebiliriz.
+</para><para>
+Debian 2.2:: <emphasis>Potato</emphasis> (15 Ağustos 2000): Filmdeki <quote>Bay Patates Kafa</quote>'ya ithafen isimlendirilmiştir. 
+Bu sürüm, <ulink url="http://www.debian.org/ports/powerpc/">PowerPC</ulink> 
+ve <ulink url="http://www.debian.org/ports/arm/">ARM</ulink> mimarileri için destek içermekteydi. 
+ Proje lideri olarak, yine Wichert ile birlikte, bu sürümde 450 geliştiricinin yanında, 2600 kaynak paketten 
+ derlenen 3900 ikilik paket bulunmaktaydı. 
+</para><para>
+
+Debian 3.0:: <emphasis>Woody</emphasis> (19 Temmuz 2002): Filmdeki ana karakter, kovboy "Woddy"ye ithafen bu isim verilmiştir. 
+Bu sürümle beraber, 
+<ulink url="http://www.debian.org/ports/ia64/">IA-64</ulink>,
+<ulink url="http://www.debian.org/ports/hppa/">HP PA-RISC</ulink>,
+<ulink url="http://www.debian.org/ports/mips/">MIPS (big endian)</ulink>,
+<ulink url="http://www.debian.org/ports/mipsel/">MIPS (little endian)</ulink>
+ve
+<ulink url="http://www.debian.org/ports/s390/">S/390</ulink> mimarileri desteklenmiştir. 
+Bu sürüm ayrıca, ABD'de ihracat için kısıtlamalar <emphasis>aydınlatıldığından</emphasis> beri kriptografik 
+yazılım içeren ve QT ile ilgili lisans sorunları halledildikten sonra, KDE'yi içeren ilk sürümdür.
+
+Proje lideri, Bdale Garbee ile birlikte, bu sürümde 900'den fazla Debian geliştiricisi ve yaklaşık 8500 
+ikilik paket bulunmaktaydı ve resmi set; 7 ikilik CD'ye ihtiyaç duymaktaydı. 
+
+</para><para>
+Debian 3.1:: <emphasis>Sarge</emphasis> (6 Haziran 2005): Yeşil plastik asker Sarge'a ithafen isimlendirilmiştir. 
+Bu sürüm, yeni mimari içermemesine rağmen, resmi olmayan ve yeni <ulink url="http://alioth.debian.org">Alioth Proje Sitesi</ulink> doğrultusunda geliştirilen bir AMD64 portu içerir.  
+Bu sürüm, yeni bir yükleyici sunar: <emphasis>debian-installer</emphasis>. Bu yükleyici, otomatik 
+donanım algılama ve gözetimsiz yüklem özelliklerine sahiptir. Bu sürüm ayrıca otuzdan fazla dile tamamen 
+tercüme edilmiştir ve tam bir ofis suiti içeren ilk sürümdür: Openoffice.org. 
+Proje lideri olarak, Branden Robinson önderliğinde, 900'den fazla geliştirici ve yaklaşık 15400 ikilik pakete sahiptir ve 
+resmi seti için 14 ikilik CD'ye ihtiyaç duymaktadır.</para>
+
+<para>Debian 4.0:: <emphasis>Etch</emphasis> (8 Nisan 2007): Filmdeki çizilip silinebilen tahtaya ithafen bu isim verilmiştir. Bir mimari desteği eklendi: <ulink url="http://www.debian.org/ports/amd64/">AMD64</ulink> ve <ulink url="http://www.debian.org/ports/m68k/">m68k</ulink> için resmi destek sonlandırıldı. Bu sürüm yükleyici olarak <emphasis>debian-installer</emphasis> kullanmayı sürdürmesine rağmen grafik tabanlı yükleyici de sunmaktadır. Diğer yenilikler ise; indirilen paketlerin kriptografik doğrulanması, daha esnek disk bölümleme (şifrelenmiş disk bölümleri için destek ile birlikte), basitleştirilmiş eposta yapılandırması, daha esnek masaüstü seçimi, basitleştirilmiş ama güçlendirilmiş yerelleştirme ve kurtarma modu gibi yeni modlardır. Yeni kurulumların bilgisayarı yeniden başlatması gerekmiyor. Geçmişteki iki aşamalı kurulum süreci bu sürümle birlikte birleştirildi. Bu yeni yükleyicinin grafik sürümü, bileşik karakterlerin ve komleks dillerin kullanımına imkan vererek kullanılabilen çevirilerin sayısını ellinin üzerine çıkartmıştır. Neredeyse sürümle aynı tarihte Sam Hocever proje liderliğine seçildi ve geliştirici sayısı 1030'un üzerine çıktı. Sürüm 18000 ikilik pakete sahiptir ve resmi set 20'den fazla CD (3 DVD) olarak dağıtılmaktadır. Aynı zamanda öntanımlı masaüstünden farklı iki masaüstüyle kurulabilecek iki farklı kurulum CD'si de mevcuttur.</para>
+
+</sect1>
+
+<sect1 id="debian-history-detailed"><title>Detaylı Tarihçe</title>
+
+<sect2 id="debian-history-detailed-0.x"><title>0.x Sürümleri</title>
+
+<para>
+Debian, Ağustos 1993 yılında Purdue Üniversitesi'nde lisans öğrencisi olan Ian Murdock tarafından başlatıldı. 
+Debian, Kasım 1994'ten, Kasım 1995'e kadar, bir senelik süre içinde, 
+Richard Stallman tarafından başlatılan, <ulink url="http://www.fsf.org/">Özgür Yazılım Vakfı (FSF)</ulink>'nın GNU projesi tarafından desteklendi 
+ve Genel Kamu Lisansı (GPL) ile lisanslandı. 
+</para><para>
+
+Debian 0.01'dan, Debian 0.90'a kadar olan sürümler Ağustos 1993 ile 
+dec 1993 arasında sürüldü. Ian Murdock şöyle diyor:
+</para><para>"
+Debian 0.91, Haziran 1994'te sürüldü. Bu sürüm, kullanıcılara paketleri el ile kurmalarına yarayan ilkel bir 
+paket sistemine sahipti (ancak bağımlılık kontrolü ya da buna benzer birşey yoktu). 
+Bu zamanlarda, Debian'da benle birlikte düzinelerce insan çalışıyordu. 0.91 sürümü bu şekilde oluştu.
+</para><para>
+1994'ün çoğu, diğerlerine katkıda bulunmak amacıyla, Debian Projesi'ni organize etmek için, ve 
+tabii ki <command>dpkg</command>'yi (Ian Jackson bundan büyük derecede sorumludur) geliştirmek için harcandı. 
+Hatırladığım kadarıyla süreçleri doğru yapabilmek için çalıştığımız dahili sürümler dışında, 1994 yılında genel bir sürüm yoktu. 
+</para><para>
+Debian 0.93 Sürüm 5, Mart 1995'te ortaya çıktı ve ilk "modern" Debian sürümü olma özelliğini elde etti: 
+bu sürümle beraber, bir çok geliştirici (düşünün, kaç tane olduğunu bile hatırlayamıyorum) görev aldı ve 
+her biri, kendi paketlerini geliştirdi. Bu aşamada, <command>dpkg</command>, taban sistem kurulduktan sonra, 
+bu paketleri yüklemek ve yerelleştirmek için kullanıldı.
+</para><para>
+Debian 0.93 Sürüm 6, Kasım 1995'de çıktı ve son a.out sürümüydü. 
+0.93R6'da paketleri geliştiren yaklaşık altmış geliştirici bulunmaktaydı. 
+Eğer yanlış hatırlamıyorsam, dselect ilk olarak 0.93R6'da göründü.
+
+"
+</para><para>
+Ian Murdock, ayrıca Debian 0.93R6 hakkında şöyle der "... her zaman benim 
+en sevdiğim Debian sürümü olmuştur", aynı zamanda bu sürümle birlikte, kişisel nedenlerden ötürü, CDROM imalatçısının hatasından dolayı, Debian 1.1 olarak duyurulan Debian 1.0'ın sürülmeye 
+hazırlanıldığı, Mart 1996'da, projede aktif olarak çalışmaya son vermiştir. 
+Bu olayla birlikte, bir daha bu şekilde hatalarla karşılaşmamak için, "resmi" CDROM imajı konsepti benimsenmiştir.
+</para><para>
+Ağustos 1995 sıralarında (Debian 0.93 Sürüm 5  ve Debian 0.93 Sürüm 6 arasında), Hartmut 
+Koptein, Motorola m68k ailesi için bir port yazmaya başlayarak, ilk Debian portunu başlatmış oldu. 
+Kendisi bu durumu şöyle belirtir "Bir çok, bir çok paket i386-merkezliydi (little endian, -m486, -O6 ve libc4 için olanların hepsi) 
+ve makinamda (31 MHz'lik bir Atari
+Medusa 68040) paketler için bir başlangıç tabanı oluşturma işi oldukça zordu. 
+Üç ay sonra (Kasım 1995'de), tümü libc5 için olan 250 paketten 200 tanesini yükledim!". 
+Bundan hemen sonra, Vincent Renardias ve Martin Schulze ile birlikte, PowerPC ailesi için port çalışmalarına 
+başladı.
+</para><para>
+Bu zamandan itibaren, Debian Projesi, başka mimariler için bir çok <ulink url="http://www.debian.org/ports/">port</ulink>u içine alacak şekilde gelişti, yeni bir (Linux olmayan) çekirdek olan GNU Hurd mikro çekirdeği ve son olarak da BSD çekirdeği için bir port içerdi.
+
+</para><para>
+Projenin eski üyelerinden, Bill Mitchell Linux çekirdeğini şöyle hatırlar :
+
+</para><para>
+"... 0.99r8 ve 0.99r15 arası bizim başladığımız zamanlardı. Uzun bir süre boyunca, 
+20 MHz'lik 386- tabanlı bir makinede, çekirdeği 30 dakikadan az bir süreyle derliyordum ve aynı zamanda 
+10 Mb disk alanı altında Debian sistemini hemen hemen aynı süre içinde yüklüyordum. 
+</para><para>
+" ... başlangıç grubu, Ian Murdock, ben, Ian Jackson, soyadını söylemediğim başka bir Ian, Dan Quinlan, ve ismini söylemediğim diğer bir kaç insandan oluşuyordu. Matt Welsh, başlangıç grubunun bir parçası olan ve aramıza erken katılan katılan başka bir üyeydi (projeden ayrıldı). Birileri e-posta listelerini kurdu, ve çalışmaya başladık. Daha önce söylediğim gibi, belirli bir planla yola çıkmadık ya da toplanıp hiç bir popüler moda üzerinde organize olmadık. Baştan beri, tekrarlıyorum, rastgele paket kolleksiyonları için kaynak biriktirmekle başladık. Zamanla, temel dağıtıma beraberce koymamız gereken paketlere geldik: çekirdek, bir kabuk, güncelleme, getty, bir çok değişik program ve sistemi başlatmaya yarayacak destek dosyaları ve aynı zamanda bir çekirdek seti".
+</para>
+<sect3 id="debian-history-detailed-old"><title>Eski Debian Paketleme Sistemi</title>
+<para>
+Projenin ilk zamanlarında, üyeler sadece kaynak paketleri kullanıyorlardı. 
+Her bir paket, upstream kaynak kodu, bir Debianlaştırılmış patch dosyası içermek zorundaydı ve 
+kullanıcılar kaynakları untar'lamak, patch'leri uygulamak için ikilik kodları kendileri derlermek zorundaydı. 
+Kısa zaman sonra, bir ikilik dağıtım şemasına ihtiyaç duydular. Hemen sonra, Debian-özelleştirilmiş 
+ikilik formatında bir paket yaratan ve paketleri açmaya ve yüklemeye yarayan paketleme aracı; <command>dpkg</command>, Ian Murdock tarafından yazıldı. 
+</para><para>
+Daha sonra, bu paketleme aracının geliştirilmesi Ian Jackson tarafından alındı ve 
+<command>dpkg-deb</command> adı verilerek, bugünkü Debian sisteminde kullanılan, <command>dpkg-deb</command>'i kullanmaya yarayan, <emphasis>Bağımlılıkları</emphasis> 
+ve <emphasis>çelişmeyi</emphasis> yok eden <command>dpkg</command> yazıldı. 
+Bu araçla üretilen paketlerde, başlıktaki bazı kontrol bilgileri tarafından ayrılan; paketleri yaratırken kullanılan versiyonu listeleyen bir başlık kısmı, ve 
+<command>tar</command> arşivini belirten bir ofset içeren bir kısım bulunmaktaydı. 
+</para><para>
+
+Bu zamanlarda, projenin üyeleri arasında bir tartışma ortaya çıktı -- bazıları <command>dpkg-deb</command> 
+tarafından yaratılan Debian'a özel formatın <command>ar</command> tarafından yapılması gerektiğini düşünüyordu. 
+Birçok yeniden geçirilen dosya formatından ve paketleme araçlarından sonra, 
+<command>ar</command> formatı kabul edildi. 
+Bu değişimin anahtar noktası, bir Debian paketinin, herhangi bir Unix türevli sistemde, güvenilmeyen çalıştırılabilir programlar olmadan 
+açılmasını sağlamasıdır. Başka bir deyişle, her standart Unix türevindeki 'ar' ya da 'tar' gibi araçlar sayesinde 
+bie Debian paketini açabileceğiz.</para>
+</sect3>
+</sect2>
+
+<sect2 id="debian-history-detailed-1.x"><title>1.x Sürümler</title>
+
+<para>
+Ian Murdock, Debian'dan ayrıldığı zaman, Bruce Perens'i projenin yeni lideri olarak ilan etti. 
+Bruce, Debian'ı ilk olarak; ham radyo istasyonları için kullanışlı programları içeren 
+bir Linux dağıtımı yaratmak için çabaladığı zaman tanıdı.
+Debian'ın çekirdek sistemini projesi için oldukça uygun buldu ve böylece Bruce; ham radyo istasyonlarıyla uğraşmayı erteleyerek; taban Linux sistemiyle ve ilgili yükleme 
+araçlarıyla uğraşmaya ve Debian yükleme betikleri yazmaya başladı ve bir çok sürüm için 
+Debian yükleme araç kitinin temelini oluşturan şimdilerde gördüğünüz 
+Debian Kurtarma Disketi'ni oluşturdu.
+</para><para>
+Ian Murdock diyor ki: 
+
+
+</para><para>
+"Bruce, başarıya ulaşmasını beklediğim biriydi, neredeyse bir yıldır temel sistemle uğraşıyordu."
+</para><para>
+Görevi boyunca, Debian Özgür Yazılım Kılavuzları ve Debian Sosyal Sözleşmesi gibi projelerin başlatılması için efor sarfetti ve Açık Donanım Projesini başlattı. Proje lideri olduğu zamanlarda, Debian pazar payı aldı ve teknik olarak yetenekli Linux kullanıcılarının katılmasını sağladı.
+</para><para>
+Bruce Perens <ulink url="http://www.spi-inc.org/">Software in the Public Interest,
+Inc.</ulink>'in yaratılmasına önayak olan insanlardan biridir. 
+
+</para><para>
+Bu zamandan sonra çıkan Debian sürümleri:
+</para><para>
+<itemizedlist>
+<listitem>1.1 <emphasis>Buzz</emphasis> Haziran 1996'da duyurdu (474 paket, 2.0 çekirdeği, tamamen ELF, <command>dpkg</command>)</listitem>
+<listitem>1.2 <emphasis>Rex</emphasis> Aralık 1996'da duyuruldu. (848 paket ve 120'den fazla geliştirici bulunuyordu)</listitem>
+<listitem>1.3 <emphasis>Bo</emphasis> Temmuz 1997'de duyuruldu (974 paket, 200'den fazla geliştirici bulunuyordu).</listitem>
+</itemizedlist>
+
+</para><para>
+En son olanı 1.3.1R6 şeklindedir ve 1.3 sürümünü gösteren birçok sürüm mevcuttur.
+</para><para>
+Bruce Perens, Temmuz 1998'de Debian proje lideri olarak yerine Ian Jackson'u getirdi.</para> 
+</sect2>
+
+<sect2 id="debian-history-detailed-2.x"><title>2.x Sürümleri</title>
+
+<para>
+Ian Jackson, 1998 yılı başlarında Debian Projesi'nin lideri konumuna geçti ve bundan çok kısa bir süre sonra, 
+Yardımcı başkan sıfatı ile, projeyi Kamu Yararına Yazılım kuruluna ekledi. Mali İşler Müdürü'nün (Tim Sailer), Başkan'ın (Bruce Perens) ve Sekreter'in (Ian Murdock) istifasından sonra seçilen diğer üç üye ile birlikte Kurul'un Başkan'ı ilan edildi: Martin Schulze (Başkan Yardımcısı), Dale Scheetz (Sekreter) ve Nils Lohner (Mali İşler Müdürü).
+
+</para><para>
+Debian 2.0:: (<emphasis>Hamm</emphasis>), Intel i386 ve Motorola 68000 serisi mimarileri için, 1998 Haziranında piyasaya sürüldü. Bu sürüm, C sistem kütüphanelerinin yeni bir sürüme gideceğinin işareti olarak görüldü (glibc2 ya da tarihsel olarak libc6). Sürümün bu zamanında, 400'den fazla Debian geliştiricisinin yerelleştirdiği 1500'den fazla paket bulunuyordu.
+
+</para><para>
+1999 Ocak ayında, Wichert Akkerman, Debian Proje Lideri olarak Ian Jackson'un yerine geçti.  <ulink url="http://www.debian.org/releases/slink/">Debian 2.1</ulink> birkaç son dakika sorunları yüzünden bir hafta geç olarak 9 Mart 1999 tarihinde <ulink url="http://www.debian.org/News/1999/19990309">duyuruldu</ulink>.
+
+</para><para>
+
+Debian 2.1:: (<emphasis>Slink</emphasis>), iki yeni mimariye resmi desktek özelliğiyle geldi: <ulink url="http://www.debian.org/ports/alpha/">Alpha</ulink> ve <ulink url="http://www.debian.org/ports/sparc/">Sparc</ulink>. X-Windows paketleri, eski sürümlere göre oldukça yeniden yapılandırılmış olarak yer aldı ve 2.1, yeni-jenerasyon Debian paket yönetim arayüzü <command>apt</command> ile geldi. Aynı zamanda, bu sürüm Debian'ın "Resmi Debian CD seti"'nin ilk kez 2 CD-ROM'a sahip olduğu sürümdür; dağıtım yaklaşık 2250 paket içeriyordu.
+</para><para>
+21 Nisan 1999'da, Corel'in Debian temelli ve KDE takımı tarafından üretilen bir masaüstü ortamı olan bir Linux dağıtımı yapmak istediğini açıklayınca, <ulink url="http://www.corel.com/">Corel Şirketi</ulink> ve <ulink url="http://www.kde.org/">K Masaüstü Projesi</ulink> fiilen bir anlaşma yaptılar. Takip eden ilkbahar ve yaz ayları süresinde, yeni bir Debian-tabanlı dağıtım, Storm Linux meydana çıktı ve Debian Projesi, hem CD-ROM'lar ya da resmi Proje web siteleri gibi resmi versiyonlarda onaylanmış-Debian materyallerinde kullanmak amacıyla resmi bir logo, hem de Debian türevli resmi olmayan materyaller için resmi olmayan bir <ulink url="http://www.debian.org/logos/">logo</ulink> seçti.
+
+</para><para>
+
+Yeni, benzersiz bir Debian port'u da bu zamanlarda başladı,  <ulink url="http://www.debian.org/ports/hurd/">Hurd</ulink>. 
+Bu, Linux-olmayan bir çekirdek; bir GNU Mach mikro çekirdeği <ulink url="http://www.gnu.org/software/hurd/hurd.html">GNU Hurd</ulink> kullanan ilk port'tu.
+
+</para><para>
+
+Debian 2.2:: (<emphasis>Potato</emphasis>) 15 Ağustos 2000 yılında, Intel i386, Motorola 68000 serileri, alpha, SUN Sparc, PowerPC ve ARM 
+mimarileri ile çıktı. Bu sürüm, PowerPC ve ARM port'larını içeren ilk sürümdü. Bu sürümle birlikte; 450 Debian geliştiricisi tarafından sürdürülen 3900'den fazla ikilik ve 2600'den fazla kaynak paket bulunuyordu. 
+
+</para><para>
+Debian 2.2 hakkındaki ilginç gerçeklerden biri; etrafındaki tüm sorunlara rağmen, bir özgür yazılımın nasıl modern 
+bir işletim sistemine liderlik edebilceğini göstermesidir. Bu durum; konuyla ilgilenen bir grup tarafından 
+<ulink url="http://people.debian.org/~jgb/debian-counting/">Counting potatoes</ulink> isimli bir makalede şöyle ele alımıştır: 
+ 
+</para><para><emphasis> 
+
+"[...] 
+Debian 2.2 (nam-ı diğer potato)'nin kodunun fiziksel kaynak satır sayısını (SLOC) tespit etmek için, David 
+A. Wheeler'ın slocsayaç sistemini kullandık. Debian 2.2'nin 55,000,000'dan fazla fiziksel SLOC içerdiğini (neredeyse 8 ay sonra çıkan, Red Hat 7.1'in iki katı) ve böylece Debian geliştirme modelinin (dünyanın dört bir tarafındaki gönüllü katılımcılardan oluşan büyük bir grubun çalışmasına dayalı bir model) en az diğer geliştirme modelleri kadar yetenekli olduğunu gösterdik.[...] Ayrıca, eğer Debian, Debian 2.2 sürümünü geleneksel tescil metotlarıyla geliştirilseydi, COCOMO modeline göre 1.9 milyon ABD dolarına yakın bir parayı gözden çıkarmak zorunda kalacaktı. Üstelik, dağıtımda kullanılan programla dillerinin (%70'den fazla C, %10 kadar C++, %5 civarında LISP ve Shell, ve diğerleri) ve büyük paketlerin (Mozilla, Linux çekirdeği, PM3, XFree86, vs.) analizini de önerdik."
+</emphasis></para>
+
+</sect2>
+
+<sect2 id="debian-history-detailed-3.x"><title>3.x Sürümleri</title>
+
+<para>
+Woody, sürüm için hazırlanmadan önce, ana ftp'nin arşiv sisteminde bir değişiklik yapılması gerekiyordu. 
+"Test" gibi, özel amaçlı dağıtımları sağlayan paket havuzları, ilk olarak Aralık 2000'de woody için <ulink url="http://lists.debian.org/debian-devel-announce-0012/msg00004.html">ftp-master</ulink>'ında 
+aktifleştirildi. Bir paket havuzu, dağıtımın (deneme, kararsız, test, ve kararlı), Paketler dosyasında bulunan paketlerinin değişik versiyonlarını içeren bir kolleksiyondur.
+
+</para><para>
+Yeni bir dağıtımla birlikte <emphasis>test</emphasis> sürümü tanıtılır. Genelde, testten geçen kararsız paketler (bir kaç hafta sonra) kararlı olarak adlandırılır. Bu yöntem, donmuş zamanı azaltmaya yarar ve herhangi bir zamanda yeni bir sürüm hazırlama kabiliyeti verir.
+</para><para>
+Bu dönemde, düzenlenmiş Debian versiyonlarını sağlayan bazı şirketler kapandı. Corel, 2001'in ilk çeyreğinde Linux şubesini sattı, Stormix 17 Ocak 2001'de iflasını ilan etti ve Progeny 1 Ekim 2001'de çalışmasını durdurdu.
+
+</para><para>
+Yeni sürüm için donma, 1 Temmuz 2001'de başladı. Ancak; ana arşivde kriptografik yazılıma giriş ve taban mimarideki değişiklikler (gelen arşiv mimarisi ve güvenlik mimarisi) sonucunda ortaya çıkan 
+<ulink url="http://lists.debian.org/debian-devel-announce-0104/msg00004.html">boot disketlerindeki sorunlar</ulink>
+nedeniyle yeni sürümü duyurmak bir yıldan fazla zaman aldı. 
+Buna rağmen, bu tarihlerde, kararlı sürüm (Debian 2.2) yedi kez yenilendi ve iki Proje Lideri seçildi: Ben Collins (2001'de) ve Bdale Garbee. 
+Aynı zamanda, paketleme dışındaki birçok alanda, Debian gelişimini sürdürdü; uluslararası kontrol sağlandı, Debian'ın web sitesi (bin kadar sayfa) 20 değişik dile çevrildi ve yeni sürümün yükleme aşaması 23 dil için hazırlandı. 
+Ayrıca, woody sürüm zaman çerçevesinde; Debian'ı değişik alanlara uyumlu yapabilmek amacıyla; Debian Junior(çocuklar için) ve Debian Med (tıbbi çalışma ve araştırmalar için) adında iki yeni dahili proje başlatıldı. 
+ 
+</para><para>
+Debian'daki yoğun çalışma temposu; geliştiricilerin <ulink url="http://www.debconf.org">Debconf</ulink> adında yıllık bir toplantı düzenlemelerini engellemedi. İlk toplantı, 2 ve 5 Temmuz arasında, Bordeux (Fransa)'da Libre Software Meeting (LSM) ile birlikte; yaklaşık kırk kadar Debian geliştiricisinin katılımıyla yapıldı. İkinci konferans, 5 Temmuz 2002'de, yaklaşık seksen kadar katılımcıyla birlikte Toronto (Kanada)'da yapıldı. 
+
+</para><para>
+
+Debian 3.0:: (<emphasis>Woody</emphasis>) 19 Temmuz 2002'de, Intel i386, Motorola 68000 serileri, alpha, SUN Sparc, PowerPC, ARM, HP PA-RISC, IA-64, MIPS, MIPS (DEC) ve IBM s/390 mimarileri için duyuruldu. Bu sürüm, HP PA-RISC, IA-64, MIPS, MIPS (DEC) ve IBM s/390 portlarını içeren ilk sürümdü. Bu sürüm, dokuz yüzden fazla Debian geliştiricisinin sürdürdüğü 8500'den fazla ikilik paket içeriyordu ve CD-ROM'ların yanında, DVD ortamında sunulan ilk sürüm olma özelliğini taşıyordu. 
+
+</para><para>
+Yeni sürümden önce, <emphasis>Debconf</emphasis> yıllık toplantısı, 12-17 Temmuz'daki <emphasis>Debcamp</emphasis>'ın ardından, 18 Temmuz ile 20 Temmuz 2003 arasında, yaklaşık yüzyirmi katılımcıyla gerçekleşti. Beşinci konferans, 26 Mayıs ve 2 Temmuz 2004 arasında Brezilya'da Porto Alegre'de, yaklaşık yirmi altı değişik ülkeden, yüzalmış katılımcıyla birlikte gerçekleştirildi. 
+
+</para><para>
+
+Debian 3.1:: (<emphasis>sarge</emphasis>), 6 Haziran 2005'de, dağıtımın proje altyapısı tarafından barındırılan ve 
+<ulink url="http://alioth.debian.org">alioth.debian.org</ulink>'da mevcut; resmi olmayan bir AMD64 portu haricinde, <emphasis>woddy</emphasis>'nin içerdiği aynı mirariler için duyuruldu. Bu sürümde, bin beşyüz Debian geliştiricisinin geliştirdiği 15,000 kadar ikilik paket bulunuyordu. 
+
+</para><para>
+Sürümün çıkması için geçen uzun zamana bağlı olarak, <emphasis>sarge</emphasis> sürümü birçok büyük değişiklik içeriyordu. 
+Bu sürüm yalnızca önceki versiyonda sürülen paketlerin %73'ünün güncellenmesiyle kalmadı, aynı zamanda; OpenOffice suiti, Firefox web tarayıcısı ve Thunderbird e-posta istemcisini de içeren 9,000 tane, önceki sürümün yaklaşık iki katı kadar yeni paketle geldi.
+
+</para><para>
+Bu sürüm, 2.4 ve 2.6 Linux çekirdek serisi, XFree86 4.3, GNOME 2.8, KDE 3.3  ve yeni bir yükleyiciyle birlikte sürüldü. 
+Bu yeni yükleyici, donanım algılamasına sahip; her mimariden acemi kullanıcılar için kurulumu kolay yapmaya yarayan ve
+daha gelişmiş yüklemeleri destekleyen (RAID, XFS ve LVM desteği ile) yeni modüler yapısıyla, eski boot-disketli yükleyicilerin yerini aldı. 
+
+Aynı zamanda paket yönetimi seçilen araca geçebilme özelliğine sahipti. Bu sürümle beraber, yazılımın yaklaşık kırk dile çevrilmesiyle tam bir uluslararası destek sağlandı. Desktek belgeleri: yükleme kılavuzları ve sürüm notları da yaklaşık on onbeş dil için desteklendi. 
+</para><para>
+Ayrıca bu sürüm, akademik paketlerinin ve özellikle engelli insanlar için tasarlanmış paketlerinin sayısı ile desteklenen Debian-Edu/Skolelinux, Debian-Med ve Debian-Accessibility alt-projelerini içeriyordu. 
+</para><para>
+
+Altıncı <emphasis>Debconf</emphasis> toplantısı, 10 ve 17 Temmuz 2005 tarihleri arasıda üçyüz katılımcıyla birlikte, Finlandiya'daki Espoo'da yapıldı. Konferans hakkındaki <ulink url="http://dc5video.debian.net">görüntülere</ulink> bu adresten ulaşılabilir. 
+</para><para>
+Yedinci <emphasis>Debconf</emphasis> toplantısı, 14 ve 22 Mayıs 2006 tarihleri arasında ikiyüzden fazla katılımcıyla birlikte Oaxtepec, Mexico'da yapıldı. Konferans hakkındaki <ulink url="http://meetings-archive.debian.net/pub/debian-meetings/2006/">görüntülere</ulink> ve <ulink url="https://gallery.debconf.org/debconf6">fotoğraflara</ulink> bu adresten ulaşılabilir. 
+</para>
+</sect2>
+
+<sect2 id="debian-history-detailed-4.x"><title>4.x Sürümleri</title>
+<para>Debian 4.0:: (<emphasis>etch</emphasis>), 8 Nisan 2007'de, <emphasis>sarge</emphasis> ile aynı sayıda mimari  destekleyerek (AMD64 desteği eklenirken m68k desteği sonlandırıldı) duyuruldu. Yine de m68k portu kararsız dağıtımda hala ulaşılabilir durumdadır. Bin otuzdan fazla Debian geliştiricisi tarafından sürdürülen 18200 kadar ikilik paket barındırmaktadır.
+</para>
+</sect2>
+
+<sect2 id="debian-history-detailed-important"><title>Önemli olaylar</title>
+
+<sect3 id="debian-history-detailed-072000"><title>Temmuz 2000: Joel Klecker öldü</title>
+
+<para>
+
+11 Temmuz 2000 tarihinde, Joel Klecker, namı-ı diğer Espy, 21 yaşında aramızdan ayrıldı. Debian listelerinde, <command>#mklinux</command>'da ya da kanallarda 'Espy'ı gören hiçkimse, O'nun, takma adının ardında 
+<ulink url="http://mdausa.org/disease/dmd.html">Duchenne Kas Erimesi ve Zayıflaması</ulink> hastalığından ısdırap çeken genç bir adam olduğunu bilmiyordu. Çoğu insan onu, 'Debian glibc ve powerpc adamı' olarak tanıyordu ve Joel'in boğuştuğu zorluklardan kimsenin haberi yoktu. Fiziksel olarak günden güne güçsüzleşmesine rağmen, O yine de büyük zekasını ve fikirlerini bizlerle paylaştı. 
+</para><para>
+Joel Klecker (namı-ı diğer Espy) her zaman hatırlanacak.</para></sect3>
+
+<sect3 id="debian-history-detailed-102000"><title>Eylül 2000: Paket havuzlarının gerçekleştirimi</title>
+
+<para>
+James Troup, paket havuzları üzerinde arşiv sürdürme araçları ve paket havuzlarını gerçekleştirmek için  
+<ulink url="http://lists.debian.org/debian-devel-announce-0010/msg00007.html">çalışıyordu</ulink>.
+Bu tarihten sonra, her paket; kaynak paketine göre, uygun klasörün içinde uygun havuza yerleştirilmeye başlandı. 
+Dağıtım dizinleri, yalnızca havuza referans edilmiş olan paketlere erişebilecekti. 	Böylece kararsız ve test sürümlerinin 
+örtüşmesi sağlanacaktı. Bu arşiv aynı zamanda PostgreSQL kullanıyordu.
+</para>
+</sect3>
+
+<sect3 id="debian-history-detailed-032001"><title>Mart 2001: Christopher Rutter öldü</title>
+
+<para>
+1 Mart 2001 tarihinde, Christopher Matthew Rutter (nam-ı diğer cmr), henüz 19 yaşında, kendisine çarpan bir araba tarafından öldürüldü. Christopher, Debian projesinin en genç ve ARM portuna olan desteğiyle, iyi tanınan üyelerinden biriydi. 
+
+</para><para>
+Chris Rutter her zaman hatırlanacak.</para>
+</sect3>
+
+<sect3 id="debian-history-detailed-032001-2"><title>Mart 2001 Fabrizio Polacco öldü</title>
+
+<para>
+28 Mart 2001 tarihinde, Fabrizio Polacco uzun bir süredir devam eden hastalığının sonucunda vefat etti.
+Debian Projesi, üstün çalışması ve kendisini Debian ve Özgür Yazılım'a adamasıyla onunla gurur duyuyor. Fabrizio'nun katkıları asla unutulmayacak ve diğer geliştiriciler onun işini devam etticerecekler.  
+ 
+</para><para>
+Fabrizio Polacco her zaman hatırlanacak. 
+</para>
+</sect3>
+
+<sect3 id="debian-history-detailed-072002"><title>Temmuz 2002: Martin Butterweck öldü</title>
+<para>
+21 Temmuz 2002'de Martin Butterweck (namı-ı diğer blendi), lösemiyle savaşını kaybetti. Martin, Debian projesine yeni katılmış genç bir üyeydi.
+</para><para>
+Martin Butterweck her zaman hatırlanacak.
+</para>
+</sect3>
+
+<sect3 id="debian-history-detailed-112002"><title>Kasım 2002: Debian sunucusunda yangın çıktı</title>
+
+<para>
+20 Kasım 2002'de saat 08:00 sularında University of Twente Network Operations Center (NOC)'da yangın çıktı. Bina tamamiyle yanıp kül oldu. Yangın birimleri sunucu alanını kurtarmak için ellerinden geleni yaptı. Bu arada, NOC; kalite güvencesi (qa) ve yeni-sürdürücü veritabanlarının yanında; hem güvenlik hem de ABD-harici arşivini içeren satie.debian.org'a ev sahipliği yaptı. Debian bu arşivleri, ABD'den Hollanda'ya taşınan klecker host'u üzerinde yeniden kurdu. 
+</para>
+</sect3>
+
+<sect3 id="debian-history-detailed-052004"><title>Mayıs 2004: Manuel Estrada Sainz ve Andrés García öldü</title>
+
+<para>
+9 Mayıs'ta, Manuel Estrada Sainz (ranty) ve Andrés
+García (ErConde) İspanya, Valensiya'daki Özgür Yazılım konferansından dönerken trajik bir araba kazasında 
+can verdiler. 
+</para><para>
+Manuel Estrada Sainz ve Andrés García  her zaman hatırlanacaklar. 
+</para>
+</sect3>
+
+<sect3 id="debian-history-detailed-052005"><title>Temmuz 2005: Jens Schmalzing öldü</title>
+
+<para>
+30 Temmuz'da Jens Schmalzing (jensen) Almanya, Münih'teki çalışma yerinde trajik 
+bir kaza sonucu vefat etti. Jens, birçok paketin geliştiricisi, PowerPC portunun destekçisi, çekirdek takımının 
+üyesi ve versiyon 2.6'daki PowerPC çekirdek paketinin geliştirilmesine yardımcı olmuştur. Ayrıca, Mac-on-Linux 
+emülatörünü ve çekirdek modüllerini sürdürmüştür ve yükleyici ve onun Münih aktiviteleriyle ilgilenmiştir. 
+</para><para>
+Jens Schmalzing her zaman hatırlanacak.
+</para>
+</sect3>
+</sect2>
+
+<sect2 id="debian-history-next"><title>Sırada ne var?</title>
+
+<para>
+Debian Projesi, halen <emphasis>kararsız</emphasis> dağıtım (Oyuncak Hikayesi filminde, yan kapıda bekleyen, asla dünyaya bırakılmaması gereken, "kararsız" ve kötü oğlan <emphasis>sid</emphasis> adıyla kodlanan sürüm) Sid üzerinde çalışıyor. Sid, aynı zamanda "Halen geliştirilen" (Still In Development) kararsız sürümün kalıcı adı olarak kalmıştır. Güncellenen ya da yeni geliştirilen paketlerin çoğu bu dağıtım üzerine yüklenmiştir.
+</para><para>
+<emphasis>Test</emphasis>  sürümünün bir sonraki kararlı sürüme dönüşmesi planlanıyor ve şu an
+ <emphasis>lenny</emphasis> kodadına sahip. 
+</para>
+</sect2>
+</sect1>
+
+<appendix id="debian-history-manifesto"><title>Debian Bildirisi</title>
+<para>
+Ian A. Murdock, Son gözden geçirilme tarihi: 01/06/94
+</para>
+<sect1 id="debian-history-what"><title>Debian Linux nedir?</title>
+
+<para>
+Debian Linux, yepyeni bir Linux dağıtımıdır. Diğer Linux dağıtımlarının geçmişte yaptığı gibi, yalıtılmış gruplar ya da bireyler tarafından geliştirilmek yerine; tamamen açık olarak GNU ve Linux ruhuna uygun olarak geliştirilmiştir. 
+Debian'ın birincil amacı, Linux ismini taşıyabilecek, prensiplerine uygun bir dağıtım yaratmaktır. 
+Debian, bu düşünce bağlı kalarak özenle geliştiriliyor ve destekleniyor.
+</para><para>
+Debian Projesi, aynı zamanda, ticari uygulamalarla yarışabilecek bir ticari-olmayan dağıtım geliştirilmesi girişimiydi. 
+İleride, CD-ROM üzerinde, Özgür Yazılım Vakfı tarafından dağıtılacak ve Debian Linux Derneği dağıtımı disket üzerinde sunacak ve basılmış kılavuzları, teknik desteği ve diğer son kullanıcı ihtiyaçlarını bir araya getirecekler. 
+Herşeyden öte, tüm kullanıcılar için özgür yazılımları sağlamış olacak. 
+Bunun gibi dağıtımlar,ticari pazardaki Linux işletim sisteminin başarısı için gerekli olduğu kadar, kar ya da dönüş baskısından uzak olarak özgür yazılım geliştiren organizasyonarın başarısını göstermek de önemlidir. 
+</para></sect1>
+
+<sect1 id="debian-history-why"><title>Debian niçin geliştiriliyor?</title>
+
+<para>
+Dağıtımlar, Linux'un geleceği için gereklidir. Aslında, dağıtımlar, kullanıcıların bir Linux sistemini çalıştırabilmesi için gereken çokça gerekli araç için yerelleştirme, indirme, derleme, yükleme gibi ihtiyaçları belirlerler. 
+Ayrıca, yapılan iş binlerce kullanıcı tarafından paylaşılabilmesine rağmen, sistem yapısının tüm yükü dağıtım yaratıcısının üstündedir. Hemen hemen tüm kullanıcılar dağıtımlarıyla ilgili ilk deneyimlerini yaşarken, çoğu kullanıcı da adet yerini bulsun diye alışkın oldukları işletim sistemini kullanmaya devam ederler. Bu noktada, işletim sistemi oldukça önemli bir rol oynar. 
+</para><para>
+Açıkça görünen önemliliklerinin yanında, geliştiricilerin, dağıtımlarına oldukça itina edilmesi gerekiyor.
+
+
+Bunun oldukça basit bir nedeni var: yaratıcının  dağıtımı hatasız ve güncel tutabilmesi için sürekli çaba harcaması gerekiyor ve bu iş ne kolay ne de yeterince çekici. Bu nokta, bir sistemi yarıştan çıkarabilecek birşeydir; sistemin diğerlerine yükleme için kolay geldiğini, geniş bir donanım çeşitliliği tarafından yüklenebilir ve kullanılabilir olduğunu belirlemek ve diğerlerinin yazılımı kullanılabilir bulup bulmadığını anlamak önemlidir.
+
+</para><para>
+
+Birçok dağıtım yola iyi sistemlerle başladı ancak zamanla geliştirilmesi ikinci plana atıldı. 
+Örneğin tipik bir vaka olarak; Softlanding Linux System'i (daha çok SLS adıyla anılır) verebiliriz. Muhtemelen Linux dağıtımları içinde en hata dolu ve kötü geliştirilen dağıtımdır ancak ne yazık ki, muhtemelen en popüler dağıtımlardan biridir. Bu durum, şüphesiz ki, artan işletim sistemi pazarında, ticari Linux "dağıtımcıları"nın, dağıtımın popülerliği üzerinde ne kadar büyük rol oynadığını göstermeye yeterlidir.
+
+</para><para>
+Aslında bu kötü bir durum, çünkü Linux'la tanışan çoğu insan bu "dağıtımcıların" hata dolu ve kötü geliştirilmiş dağıtımlarını kullanıyorlar. Eğer bu yeterince kötü değilse, bu "dağıtımcıların", fonksiyonel olmayan ve neredeyse kararsız dağıtımlarına; rahatsız edici bir yanıltıcı reklam alışkanlıklarının da eklendiğini söylemek daha aydınlatıcı olacaktır. 
+Ve böylece bir çok insanın bu dağıtımı almasının yanında, reklamına bağlı olarak birçoğu bunun bir ticari işletim sistemi olduğuna inanacaklardır (ayrıca bu dağıtımcıların, Linux'u özgür değil lanse etmek yerine; GNU Genel Kamu Lisans'ı altında geliştirildiğini belirtme eğilimleri de vardır). Herşeyden öte, bu "dağıtımcılar"; çabalarının ve birçok gazetede ilan vermenin karşılığında yeterince para kazanıyorlar ve bu durum daha iyisini bilmeyenler tarafından ödüllendirilmenin kabul edilemez ve klasik bir davranışıdır. Ve bu durumu ortadan kaldırmak için birşeyler yapılması gerekmekteydi. 
+</para></sect1>
+
+<sect1 id="debian-history-how"><title>Debian bu sorunların üstesinden nasıl gelecek?</title>
+
+<para>
+Debian tasarım süreci, sistemin yüksek kalitede olduğunun garantisini vermeli ve toplumun ihtiyaçlarını karşılayabilmelidir.
+Diğerleri, geniş bir kaynak ve arkaplana sahip olmalarına rağmen, Debian modüler bir biçimde geliştirilme kabiliyetine sahiptir. Alanlarında emin uzmanlar tarafından geliştirildiği için; dağıtımın içeriği yüksek kalitededir. Geliştirmeye diğerlerini de dahil etmek, dağıtımın yapıcının istediği gibi değil de, kullanıcıların istediği gibi geliştirilmesini sağlar. Bu ihtiyaçlara antipati duyan ve diğerlerinden girdileri saklayan küçük bir grupla dağıtım geliştirmek oldukça zor olacaktır. 
+</para><para>
+Debian Linux, ayrıca Özgür Yazılım Vakfı ve Debian Linux Kurumu tarafından fiziksel medya üzerinde dağıtılacaktır. 
+Böylece kullanıcıların, Internet ya da FTP erişimi olmadan, basılmış dökümanlar ve teknik destek gibi ürünlere ve servislere erişebilmelerine olanak sağlar. Bu yöntem sayesinde, Debian mümkün olduğundan daha çok organizasyon tarafından kullanılacak ve dağıtımın odak noktası, kar ya da dönüşler olmadan, birinci sınıf ürün üzerinde olacaktır.
+</para><para>
+Özgür Yazılım Vakfı, Debian'ın geleceği hakkında oldukça önemli bir role sahiptir. Bu basit gerçek, dünyaya, Linux'un ticari bir ürün olmadığı ve olamayacağı mesajını yolladığı gibi, hiçbir zaman ticari olacak yarışamayacağı anlamına gelmez. 
+Aynı fikirde olmayanlarınız için, ticari bir ürün olmadıkları halde ticari pazarda patlamaya yol açan, GNU Emacs'in ve GCC'nin başarısını gözönünde bulundurmanızı öneririm.
+</para><para>
+
+Zaman, Linux camiasında tek bir kişiyi zenginleştirmenin zararları ve geleceği hakkında konuşmaya değil, Linux'un geleceği hakkında yoğunlaşmaya gelmiştir. Debian'ın geliştirilmesi ve dağıtılması, bu bildiride bahsettiğim sorunlara cevap olmayacaktır ancak en azından bu sorunların çözülmesi için yeterli ilgiyi çektiğini umuyorum. 
+</para></sect1>
+</appendix>
+</article>

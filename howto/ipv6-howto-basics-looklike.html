@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:24+03:00"><title>IPv6 adresi neye benzer?</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-basics.html" title="Temel Bilgiler"><link rel="previous" href="../howto/ipv6-howto-basics-history-ipv6-linux.html" title="IPv6'nın Linux geçmişi"><link rel="next" href="../howto/ipv6-howto-basics-sss-basic.html" title="SSS (Temel düzey)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">IPv6 adresi neye benzer?</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-basics-history-ipv6-linux.html">Önceki</a> </td><th width="60%" align="center">Temel Bilgiler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-basics-sss-basic.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-basics-looklike"></a>IPv6 adresi neye benzer?</h3></div></dt><dd><p>
+Önceden söylediğimiz gibi IPv6 adresleri 128 bit uzunluğundadır. Bu bit sayısı ile 39 basamağa kadar ulaşabilen çok büyük ondalık sayılar üretilmektedir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">   2^128-1: 340282366920938463463374607431768211455</pre> </td></tr></table></div>
+  </p><p>
+Böyle sayılar gerçekte hatırlanabilir adresler değildirler. Gerçekte IPv6 adres tasarımı bit'ler üzerinde yapılmıştır (IPv4 de öyledir ama genellikle farkedilmez). Bu yüzden böyle büyük sayıların yazımı için onaltılık taban daha uygundur. Onaltılık gösterimde 4 bit ("nibble" olarak da bilinir) bir basamakla ya da 0-9 ve a-f (10-15) karakterlerinden biriyle temsil edilir. Bu gösterim şekli IPv6 adreslerinin uzunluğunu 32 karaktere düşürür:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">   2^128-1: 0xffffffffffffffffffffffffffffffff</pre> </td></tr></table></div>
+  </p><p>
+Bu gösterim hala çok kullanışlı olmadığından (karışıklık hala olasıdır) IPv6 tasarımcıları 16 bit'lik bloklardan oluşan onaltılık bir düzeni tercih etmişler ve programlama dillerinde onaltılık değerlerin kullanıldığını gösteren "0x" ifadesini kaldırmışlardır.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">   2^128-1: ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff</pre> </td></tr></table></div>
+  </p><p>
+Kullanılabilir bir adres (adres türlerinden daha sonra bahsedeceğiz) örneği şöyledir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">   3ffe:ffff:0100:f101:0210:a4ff:fee3:9566</pre> </td></tr></table></div>
+  </p><p>
+Basitlik için 16 bit'lik blokların başındaki sıfırlar ihmal edilebilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">3ffe:ffff:0100:f101:0210:a4ff:fee3:9566 -&gt; 3ffe:ffff:100:f101:210:a4ff:fee3:9566
+</pre> </td></tr></table></div>
+  </p><p>
+Tamamen sıfırlardan oluşan bir 16 bit'lik blok yerine "<tt>::</tt>" kullanılabilir. Fakat bir seferde birden fazla kullanımı gösterimin özelliğini bozar.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">3ffe:ffff:100:f101:0:0:0:1 -&gt; 3ffe:ffff:100:f101::1</pre> </td></tr></table></div>
+  </p><p>
+IPv6 ile yapılabilecek en büyük kısaltma şöyledir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">0000:0000:0000:0000:0000:0000:0000:0001 -&gt; ::1</pre> </td></tr></table></div>
+  </p><p>
+Genel kullanımı olmayan bir diğer gösterim de 1 Nisan 1996 da <a href="http://www.faqs.org/rfcs/rfc1924.html" target="_top">RFC 1924 / A Compact Representation of IPv6 Addresses</a>'te yayınlanan <tt>compact</tt> isimli gösterimdir. Belki de bir 1 nisan şakasıdır ama bir örneği şöyledir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ipv6calc --addr_to_base85 3ffe:ffff:0100:f101:0210:a4ff:fee3:9566</tt></b>
+Itu&amp;-ZQ82s&gt;J%s99FJXT
+</pre> </td></tr></table></div>
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Bilgi</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+<b><tt>ipv6calc</tt></b>, IPv6 adres düzenini hesaplayabilen ve dönüştürebilen bir programdır ve şu adreslerden edinilebilir: <a href="http://www.deepspace6.net/projects/ipv6calc.html" target="_top">ipv6calc ana sayfası</a> (<a href="http://mirrors.bieringer.de/www.deepspace6.net/projects/ipv6calc.html" target="_top">Yansı</a>)
+  </p></td></tr></table></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-basics-history-ipv6-linux.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-basics.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-basics-sss-basic.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">IPv6'nın Linux geçmişi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SSS (Temel düzey)</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

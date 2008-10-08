@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:25+03:00"><title>Çekirdeğin IPv6'ya hazırlanması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-systemcheck.html" title="Sistemin IPv6 Kullanımına Hazırlanması"><link rel="previous" href="../howto/ipv6-howto-systemcheck.html" title="Sistemin IPv6 Kullanımına Hazırlanması"><link rel="next" href="../howto/ipv6-howto-systemcheck-nettools.html" title="IPv6'ya hazır ağ yapılandırma araçları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Çekirdeğin IPv6'ya hazırlanması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-systemcheck.html">Önceki</a> </td><th width="60%" align="center">Sistemin IPv6 Kullanımına Hazırlanması</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-systemcheck-nettools.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-systemcheck-kernel"></a>Çekirdeğin IPv6'ya hazırlanması</h3></div></dt><dd><p>
+Modern Linux dağıtımlarının tümü zaten IPv6'ya hazır çekirdekler kullanmaktadır. Bu özellik genellikle modül olarak çekirdeğe eklenmektedir, ama başlangıçta otomatik yüklenmiyor olabilir.
+  </p><p>
+En güncel bilgiyi <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-distributions.html" target="_top">IPv6+Linux-Status-Distribution</a> belgesinde bulabilirsiniz.
+  </p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+IPv6'ya hazır olmayan 2.2.x serisi çekirdekleri kullanmamalısınız.
+  </p></td></tr></table></div></p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>Çalışan çekirdeğin IPv6 desteğini kontrol edin</h4></div></dt><dd><p>
+Çalışan çekirdeğinizin IPv6 desteğinin olup olmadığını kontrol etmek için <tt>/proc</tt> dosya sistemine bakın. Aşağıdaki girdi mutlaka olmalıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/proc/net/if_inet6</pre> </td></tr></table></div>
+  </p><p>
+Hızlı bir deneme şöyle yapılabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>test -f /proc/net/if_inet6 &amp;&amp; echo "Çalışan çekirdek IPv6 kullanımına hazır"</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Eğer bir hata ile karşılaşırsanız büyük ihtimalle IPv6 modülü yüklenmemiştir.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>IPv6 modülünü yüklemeye çalışın</h4></div></dt><dd><p>
+Aşağıdaki komutu çalıştırarak IPv6 modülünü yüklemeye çalışabilirsiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>modprobe ipv6</tt></b></pre> </td></tr></table></div>
+  </p><p>
+Eğer işe yararsa modül yüklenir ve aşağıdaki komutun sonucunda görünür:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>lsmod |grep -w 'ipv6' &amp;&amp; echo "IPv6 modülü başarıyla yüklendi"</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Artık modülün yüklendiğini görmeniz gerekir.
+  </p><p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/important.png"></td><th>Önemli</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Modül desteğini kaldırmak şimdilik desteklenmediğinden, böyle bir durum çekirdeğin çökmesine sebep olabilir.
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a>Modülün kendiliğinden yüklenmesi</h4></div></dt><dd><p>
+İhtiyaç durumunda modülün kendiliğinden yüklenmesini sağlamak mümkündür. Bunun için çekirdek modül yükleyicisinin yapılandırma dosyasına (genellikle <tt>/etc/modules.conf</tt> ya da <tt>/etc/conf.modules</tt>) aşağıdaki satırın eklenmesi yeterli olacaktır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">alias net-pf-10 ipv6  # gerektiğinde IPv6 modülünü yükler</pre> </td></tr></table></div>
+  </p><p>
+Kendi kendine yüklemenin iptal edilmesi için aynı dosyaya aşağıdaki satırın eklenmesi yeterli olacaktır
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">alias net-pf-10 off   # gerektiğinde IPv6 modülünü yüklenmesini önler</pre> </td></tr></table></div>
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+2.5 ve sonrası çekirdeklerde modül yükleme mekanizması değiştiğinden yapılandırma dosyası olarak <tt>/etc/modules.conf</tt> yerine <tt>/etc/modprobe.conf</tt> kullanılıyor.
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id41"></a>IPv6 desteğine sahip bir çekirdek derleyin</h4></div></dt><dd><p>
+Yukarıda anlatılanlar sonuç vermemişse ve çekirdeğinizin IPv6 desteği yoksa aşağıdakileri deneyebilirsiniz:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+Kullandığınız dağıtımı kutudan IPv6'ya hazır çıkan yenisine güncelleyin (acemiler için tavsiye edilir). Dağıtımların IPv6'ya hazır olma durumları için: <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-distributions.html" target="_top">IPv6+Linux-Status-Distribution</a>
+  <p></p><p></p></li><li>
+Güncel (vanilya) çekirdeği ihtiyaçlarınıza uygun bir şekilde derleyebilirsiniz (hangi seçeneklere ihtiyacınız olduğunu biliyorsanız kolaydır).
+   <p></p><p></p></li><li>
+Dağıtımınız ile birlikte gelen çekirdeği ihtiyaçlarınıza uygun bir şekilde tekrar derleyebilirsiniz (her zaman kolay değildir)
+   <p></p><p></p></li><li>
+Çekirdeği USAGI yaması ile derleyin
+  <p></p><p></p></li></ul></div></p><p>
+Yeni bir çekirdek derlemeye karar verirseniz bunun tecrübe gerektirdiğini düşünerek <a href="http://www.tldp.org/HOWTO/Kernel-HOWTO.html" target="_top">Linux Kernel HOWTO</a> belgesini okuyabilirsiniz.
+  </p><p>
+Orjinal çekirdekle USAGI yaması arasındaki güncel farklılıklar <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-kernel.html" target="_top">IPv6+Linux-Status-Kernel</a> adresinde bulunabilir.
+  </p><div class="sect4"><div> <h5 class="title"><a name="id141"></a>Güncel (vanilya) çekirdeği derlemek</h5></div><p>
+IPv6 destekli çekirdek derlemek ile ilgili ayrıntılı bilgi için bakınız: <a href="http://www.bieringer.de/linux/IPv6/IPv6-HOWTO/IPv6-HOWTO-2.html#kernel" target="_top">IPv6-HOWTO-2#kernel</a>.
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Mümkün olduğunca güncel 2.6.x ve yukarısı çekirdek sürümleri kullanılmalıdır. Çünkü 2.4.x serisinin IPv6 desteği kısmi olarak mevcuttur ve 2.2.x sersinin IPv6 desteği ise güncel değildir.
+  </p></td></tr></table></div></p></div><div class="sect4"><div> <h5 class="title"><a name="id241"></a>USAGI yamaları ile çekirdek derlemek</h5></div><p>
+Orjinal çekirdek derlemekte olduğu gibi sadece IPv6 ve çekirdek derleme konularında tecrübeli kullanıcılara önerilmektedir. <a href="http://www.linux-ipv6.org/faq.html" target="_top">USAGI project / FAQ</a> ve <a href="http://www.deepspace6.net/docs/best_ipv6_support.html" target="_top">Obtaining the best IPv6 support with Linux (Article)</a> (<a href="http://mirrors.bieringer.de/www.deepspace6.net/docs/best_ipv6_support.html" target="_top">Yansı</a>) belgelerini okumak faydalı olacaktır.
+  </p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id51"></a>IPv6 kullanımına hazır ağ aygıtları</h4></div></dt><dd><p>
+Piyasadaki ağ aygıtlarının tümünün IPv6 paketlerini taşıma kabiliyeti yoktur. Güncel bir durum tespiti için bakınız: <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-kernel.html#transport" target="_top">http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-kernel.html#transport</a>.
+  </p><p>
+Çekirdeğin IPv6 paketini işleyişinin ağ katman yapısında yarattığı farklılığın IP başlık (header) numarasından anlaşılamaması önemli bir sorundur. Bu fark ikinci katmandaki taşıma protokolün protokol numarasından anlaşılabilmektedir. Bu yüzden bu protokol numaralarını kullanmayan herhangi bir taşıma protokolü IPv6 paketlerini ayırt edemez.<sup>[<a name="id51" href="#ftn.id51">42</a>]</sup></p><div class="sect4"><div> <h5 class="title"><a name="id151"></a>Asla IPv6 kabiliyeti olmayacak bağlantılar</h5></div><p><div class="itemizedlist"><ul type="disc"><li>
+Seri Hat IP (SLIP, <a href="http://www.faqs.org/rfcs/rfc1055.html" target="_top">RFC 1055 / SLIP</a>), SLIPv4 olarak adlandırmak daha doğru olacaktır, aygıt adı: slX
+  <p></p><p></p></li><li>
+Paralel Hat IP (PLIP), SLIP'e benzer, aygıt adı: plipX
+  <p></p><p></p></li><li>
+<b><tt>rawip</tt></b> sarmalamalı ISDN, aygıt adı: isdnX
+  <p></p><p></p></li></ul></div></p></div><div class="sect4"><div> <h5 class="title"><a name="id251"></a>Şimdilik IPv6 kabiliyeti olmayan bağlantılar</h5></div><p>
+<b><tt>syncppp</tt></b> sarmalamalı ISDN, aygıt adı: ipppX
+  </p></div></dd></div></dl><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id51" href="#id51">42</a>] </sup> Paket ağ üzerinden taşınır ama alan taraf işleyemez (bunu <b><tt>tcpdump</tt></b> kullanarak görebilirsiniz).
+  </p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-systemcheck.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-systemcheck.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-systemcheck-nettools.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Sistemin IPv6 Kullanımına Hazırlanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> IPv6'ya hazır ağ yapılandırma araçları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-07-22T11:01:57+03:00"><title>Ana Düğümün  Yapılandırılması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/beowulf-howto.html" title="Beowulf NASIL"><link rel="previous" href="../howto/beowulf-howto-reqs.html" title="Gereksinimler"><link rel="next" href="../howto/beowulf-howto-slave.html" title="İkincil Düğümlerin Yapılandırılması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Ana Düğümün  Yapılandırılması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/beowulf-howto-reqs.html">Önceki</a> </td><th width="60%" align="center">Beowulf NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/beowulf-howto-slave.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="beowulf-howto-master"></a>Ana Düğümün  Yapılandırılması</h2></div></dt><dd><p>
+Ana düğüm yapmak için en güçlü makineyi seçin. Üzerine, sadece ihtiyacınız olan paketleri seçerek Linux kurun. İhtiyacınız olan şey sadece " Ağ servisleri"dir. Çünkü NFS ve SSH kullanmanız gerekecek. Bütün ihtiyaçlarınız bu kadar. Ama ben Beowulf uygulamaları geliştirecektim, dolayısıyla X ve C geliştiricisi de ekledim.
+   </p><p>
+Deneyimlerime göre gerçekten NFS kullanmaya ihtiyacınız yok. Ama, düğümler arasında dosya kopyalamak ve program kurmayı otomatikleştirmek için, çok faydalı buldum. Belgenin ilerleyen kısımlarında, NFS kullanmadan basit bir Beowulf uygulamasının nasıl çalıştırılabileceğini anlatacağım. Daha karmaşık uygulamalar NFS kullanabilir veya gerçekten ona bağımlı olabilir.
+    </p><p>
+Beowulf sistemlerini araştırmalarınızda ana düğümde, dış dünyadan ona erişiminizi sağlayacak olan ikinci bir ağ kartının nasıl olacağını göreceksiniz. Bu kümeleme işlemleri için gerekli değildir.
+    </p><p>
+Çok katı bir yol öğrendim: Linux dağıtımınız, sizi kullandığınız parolanın güçlü bir parola olmasına zorluyor. Kullanıcım için "a" gibi çok basit bir parola girdim  hiçbir şey çalışmadı. Parolamı; sayılar, karakterler, büyük harf ve küçük harfle karıştırdığımda çalıştı.
+   </p><p>
+Eğer ileti aktarım arayüzü olarak LAM kullanırsanız, kılavuzunda okuyacağınız gibi güvenlik duvarınızı devredışı bırakacaksınız, çünkü LAM düğümler arası iletişim için rastgele portlar kullanır. Kural: Eğer kılavuz size bir şeyleri yapmanızı söylüyorsa yapın. LAM kılavuzu size yönetici olmayan bir kullanıcı ile çalışmanızı söyler. Her bir düğüm için aynı kullanıcıyı tanımlayın. Küme üzerindeki herbir düğümü aynı kullanıcı ve parola ile kurun. Ben yönetici olmayan kullanıcıyı "wolf" diye tanımladım.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a><tt>hosts</tt> dosyaları</h3></div></dt><dd><p>
+Öncelikle <tt>/etc/hosts</tt> dosyasını düzenleyeceğiz. Dosya içinde göreceğiniz gibi açıklamalar size "localhost" satırına dokunmamanızı söyler. Bu tavsiyeyi dikkate almayın ve geridönüş arabiriminin adresini düğümünüzün ismini içermeyecek şekilde değiştirin.
+      </p><p>
+Satırı şöyle değiştirin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">127.0.0.1 wolf00 localhost.localdomain localhost</pre> </td></tr></table></div>
+      </p><p>
+Eski hali:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">127.0.0.1 localhost.localdomain localhost </pre> </td></tr></table></div>
+      </p><p>
+İstediğiniz bütün düğümleri kümeye ekleyin. Not: Bu, Beowulf işlemleri için gerekli değildir, sadece daha kullanışlıdır; dolayısıyla küme üzerindeki bir düğüme erişmek istediğinizde 192.168.0.100 gibi sıkıcı bir adres girmek yerine basitçe "wolf01" girerek erişmenizi sağlar.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">192.168.0.100 wolf00
+192.168.0.101 wolf01
+192.168.0.102 wolf02
+192.168.0.103 wolf03
+192.168.0.104 wolf04
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Gruplar</h3></div></dt><dd><p>
+Güvenilir bir küme kurmak için, özellikle düğümlerinizin "kullanıcısı" iseniz, bazı güvenlik önlemleri almalısınız.
+      </p><p>
+Kullanıcıyı oluşturduktan sonra bir grup oluşturun ve kullanıcıları bu gruba ekleyin. Sonra dosya ve dizinlerinizi sadece bu grubun kullanıcıları tarafından erişilebilecek şekilde düzenleyin.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">groupadd beowulf usermod -g beowulf wolf </pre> </td></tr></table></div>
+      </p><p>
+Aşağıdaki komutu da <tt>/home/wolf/.bash_profile</tt> dosyasına ekleyin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">umask 007</pre> </td></tr></table></div>
+      </p><p>
+Artık "wolf" kullanıcısı tarafından oluşturulan herhangi bir dosya, otomatik olarak, sadece "beowulf" grubu veya bu grubun kullanıcıları tarafından yazılabiliyor olacaktır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>NFS</h3></div></dt><dd><p>
+Şu web sitesinden bahsetmek gerekiyor: <a href="http://www.ibiblio.org/mdw/HOWTO/NFS-HOWTO/server.html" target="_top">http://www.ibiblio.org/mdw/HOWTO/NFS-HOWTO/server.html</a>
+      </p><p>
+Bir kenara yazın. Ben size NFS kurmak için sisteminizi nasıl düzenleyeceğinizi anlatacağım,  ama bu siteyi de çok faydalı buldum.
+      </p><p>
+Herkesin paylaşması için bir dizin oluşturun:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mkdir /mnt/wolf
+chmod 770 /mnt/wolf
+chown wolf:beowulf /mnt/wolf -R
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>/etc</tt> dizinine gidin ve <tt>shared</tt> dizininizi <tt>exports</tt> dosyasına ekleyin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>cd /etc</tt></b>
+# <b><tt>cat &gt;&gt; exports
+/mnt/wolf 192.168.0.100/192.168.0.255 (rw)
+&lt;control d&gt;</tt></b>
+</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>IP Adresleri</h3></div></dt><dd><p>
+Benim ağım 192.168.0.nnn dir; "özel" bir IP aralığıdır. Thomas Sterling kitabının  106. sayfasında bahsediyor. Güvenlik duvarında da bu aralıkta ve gayet iyi çalışıyor.
+      </p><p>
+192.168.0.100 olan ana düğümümü "wolf00" diye isimlendirdim. Her bir düğümün isimlendirmesi de 192.168.0.100 + nn'e  karşılık "wolfnn" olmalıdır. Ben pek çok web sayfasının tavsiyelerini takip ediyorum ve küme ölçeklendirme görevlerini kendim kuruyorum.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Servisler</h3></div></dt><dd><p>
+Çalışmasını istediğimiz süreçleri devreye sokalım:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">chkconfig -add sshd
+chkconfig -add nfs
+chkconfig -add rexec
+chkconfig -add rlogin
+chkconfig -level 3 rsh on
+chkconfig -level 3 nfs on
+chkconfig -level 3 rexec on
+chkconfig -level 3 rlogin on
+</pre> </td></tr></table></div>
+      </p><p>
+Ve, açılış sırasında, çalışmasını istemediğim bazı servisler gördüm. Bana göre silinmeli. Siz de ihtiyacınıza uygun servisleri ekleyip çıkarabilirsiniz; aşağıda görüldüğü gibi:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">chkconfig -del atd
+chkconfig -del rsh
+chkconfig -del sendmail
+</pre> </td></tr></table></div>
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id6"></a>SSH</h3></div></dt><dd><p>
+Güvenli olması için SSH çalışması yapmalıyız. root olarak sisteme giriş yapıp <tt>/etc/ssh/sshd_config</tt> dosyasını düzenlemelisiniz. Aşağıdaki satırlardaki gibi:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">#RSAAuthentication yes
+#AuthorizedKeysFile .ssh/authorized_keys
+</pre> </td></tr></table></div>
+      </p><p>
+satırları açıklama satırıdır, dolayısıyla başındaki # işareti kaldırılmalı.
+      </p><p>
+<b><tt>sshd</tt></b>'yi yeniden başlatıp, wolf olarak sisteme giriş yapın. Çünkü küme işlemleriniz daima "wolf" kullanıcısı tarafından yapılabiliyor olacaktır. <tt>hosts</tt> dosyası değişiklikleri daha önce yapılmalıdır, sistemden çıkış yapılıp tekrar girildiğinde değişiklik yapılamaz.  Düğümü yeniden başlatın ve komut istemcisinin "wolf00" sunucu ismini  gösterdiğinden emin olun.
+      </p><p>
+Genel ve gizli SSH anahtarlarınızı üretin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ssh-keygen -b 1024 -f ~/.ssh/id_rsa -t rsa -N "" </pre> </td></tr></table></div>
+      </p><p>
+Bazı iletiler gösterecek, genel ve gizli anahtar çiftinin oluşturulduğunu söyleyecek. Siz bu dosyaları görebileceksiniz, <tt>/home/wolf/.ssh</tt> dizini içinde <tt>id_rsa</tt> ve <tt>id_rsa.pub.</tt>
+      </p><p>
+<tt>id_rsa.pub</tt> dosyasını <tt>.ssh</tt> dizini içindeki <tt>authorized_keys</tt> dosyasına kopyalayın. Bu dosyayı daha sonra kullanıyor olacağız. Bu dosyanın sunucu ismini gösterdiğini doğrulayın. Dosyalar ve dizinlerin güvenliğini değiştirin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">chmod 644 ~/.ssh/auth*
+chmod 755 ~/.ssh
+</pre> </td></tr></table></div>
+      </p><p>
+Ç.N.: <tt>~/.ssh</tt> dizini gizli anahtarı içerdiğinden izinlerinin 700 olması gerekir. Mecbur kalmadıkça 755 yapmayın.
+      </p><p>
+LAM kullanıcı gruplarına göre ana düğüm, sadece ikincil düğümlerin erişim kayıtlarını tutmalıdır. Bu nedenle genel anahtar dosyalarını kopyalayacağımız zaman, sadece ana düğümün  anahtar dosyasını her bir ikincil düğüme kopyalarız. Bu, authorized_keys dosyalarının  bütün düğümlere kopyalanmasından daha basittir. İlerde bunu ayrıntılı olarak tarif edeceğim.
+      </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Ben, ileti aktarım arayüzü olarak LAM dağıtımını kullandığım için, sadece onun gereksinimlerini yazıyorum; eğer siz farklı bir ileti aktarım arayüzü seçip küme kurarsanız, sizin ihtiyaçlarınız değişebilir.</p></td></tr></table></div>
+      </p><p>
+<tt>/home/wolf/.bash_profile</tt> satırının sonuna, aşağıdaki ifadeleri ekleyin:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">export LAMRSH='ssh -x'
+ssh-agent sh -c 'ssh-add &amp;&amp; bash'
+</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id7"></a>MPI</h3></div></dt><dd><p>
+En son düğüme ileti aktarım arayüzünü koyun. <a href="../howto/beowulf-howto-reqs.html" title="Gereksinimler"> Gereksinimler</a> başlığında belirttiğim gibi, ben LAM kullandım. LAM'i buradan <a href="http://www.lam-mpi.org/" target="_top"> http://www.lam-mpi.org/</a> adresinden edinebilirsiniz.
+      </p><p>
+Ama siz, başka bir ileti aktarım arayüzü ve/veya paralel sanal makine yazılımı kullanabilirsiniz. Tekrar ediyorum, ben kendi çalışmalarımı gösteriyorum.
+     </p><p>
+LAM'i kaynak kodundan derleyebileceğiniz gibi, daha önceden derlenmiş RPM paketini de kullanabilirsiniz. Burada anlatma fırsatım olmadı; ben kaynak kodu indirip kılavuzuna göre derledim, başka bir deneyimimde de RPM paketlerinden kurmuştum. İkisi de gayet iyi çalışıyor. Unutmayın, bütün bunları öğrenmek için yapıyoruz.
+      </p><p>
+LAM ve diğer ileti aktarım arayüzü yazılımları hakkında daha fazla belgeyi <a href="http://www.tldp.org/HOWTO/Scientific-Computing-with-GNU-Linux/systems.html" target="_top">buradan</a> bulabilirsiniz.
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/beowulf-howto-reqs.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/beowulf-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/beowulf-howto-slave.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Gereksinimler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> İkincil Düğümlerin Yapılandırılması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

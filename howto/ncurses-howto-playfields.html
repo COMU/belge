@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:26+03:00"><title>Alanlar ile Oynamak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-compileforms.html" title="Form Kütüphanesi ile derleme"><link rel="next" href="../howto/ncurses-howto-formwindows.html" title="Form Pencereleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Alanlar ile Oynamak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-compileforms.html">Önceki</a> </td><th width="60%" align="center">Form Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-formwindows.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-playfields"></a>Alanlar ile Oynamak</h3></div></dt><dd><p>
+Her bir form alanı birden fazla özellik ile ilintilenmiştir. İstenilen özelliği elde etmek ve eğlenmek için değiştirilebilirler. Daha ne bekliyoruz?
+</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-fetchinfo"></a>Alan Konumunun ve Boyutununun Alınması</h4></div></dt><dd><p>
+Alan oluşturulması sırasında verdiğimiz parametreler <tt>field_info()</tt> ile okunabilir. Kendisine verilen parametrelere yükseklik, genişlik, y başlama koordinatı, x başlama koordinatı, görünmeyen satır sayısı ve ilave önbellek miktarını geri döndürür. <tt>new_field()</tt> bu işlevin bir çeşit ters işlevidir.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_info</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* döndürülecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>yukseklik</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* alan yüksekliği */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>genislik</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* alan genişliği */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>ust</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* üst kenar */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>sol</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sol kenar */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>gorunmeyen</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* görünmeyen satır sayısı */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>tampon_boyu</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* tampon boyu */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-movefield"></a>Alanı taşımak</h4></div></dt><dd><p>
+Alanın konumu farklı bir konuma <tt>move_field()</tt> ile taşınabilir.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>move_field</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>ust</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* yeni üst kenar */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>sol</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* yeni sol kenar */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Alışıldığı gibi, değişen konum bilgileri <tt>field_infor()</tt> ile alınabilir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-justifyfield"></a>Alan Hizalama</h4></div></dt><dd><p>
+Alanlar için hizalama <tt>set_field_just()</tt> işlevi ile yapılabilir.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_just</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>kip</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* ayarlanacak kip */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p><dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_just</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* alan için hizalama kipi */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Bu işlevler tarafından kullanılan ve geri döndürülen hizalama kipleri: <tt>NO_JUSTIFICATION</tt>, <tt>JUSTIFY_RIGHT</tt>, <tt>JUSTIFY_LEFT</tt>, or <tt>JUSTIFY_CENTER</tt>
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-fielddispattrib"></a>Alan Görüntüleme Öznitelikleri</h4></div></dt><dd><p>
+Gördüğünüz gibi, yukarıdaki örnekte alan için görünüm öznitelikleri <tt>set_field_fore()</tt> ve <tt>setfield_back()</tt> ile ayarlanabilir. Bu işlevler alanların ön ve artalan özelliklerini ayarlar. Aynı zamanda alanın doldurulmamış kısımları için bir tampon karakteri tanımlayabilirsiniz. Tampon karakteri <tt>set_field_pad()</tt> çağrısıyla tanımlanır. Varsayılan tampon karakteri boşluktur. <tt>field_fore(), field_back, field_pad()</tt> işlevleri ön, artalan özniteliklerini ve tampon karakterini sorgulamak için kullanılabilir. Aşağıdaki liste işlevlerin kullanımını vermektedir.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_fore</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">chtype  <i>öznitelik</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* ayarlanacak öznitelik */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>chtype <b><tt>field_fore</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sorgulanacak alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef"></pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* önalan özniteliğini döndürür */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_back</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">chtype  <i>öznitelik</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* ayarlanacak öznitelik */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>chtype <b><tt>field_back</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sorgulanacak alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef"></pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* artalan özniteliğini döndürür */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_pad</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>dolgu_krk</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* adımlama karakteri */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>chtype <b><tt>field_pad</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sorgulanacak alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef"></pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* adımlama karakterini döndürür */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Her ne kadar yukarıdaki işlevler oldukça basit gözükse de <tt>set_field_fore()</tt> ile renkleri kullanmak başlangıçta korkutucu olabilir. Öncelikle alanın ön ve artalan özniteliklerini açıklamama izin verin. Önalan özniteliği karakter ile ilişiklendirilmiştir. Bunun anlamı bir karakterin <tt>set_field_fore()</tt> ile ayarlanmış öznitelik ile gösterilmesidir. Artalan özniteliği alanın arka fonunu doldurmak için kullanılan özelliktir, bir karakter olmak zorunda değildir. Peki ya renkler? Renkler çiftler halinde tanımlandığından renklendirilmiş alanları göstermenin en iyi yolu nedir? İşte renk görüntü özelliklerini netleştiren bir özellik:
+</p><div class="example"><p><a name="ncurses-howto-ffoat"></a><b>Örnek 5.31. Form Öznitelikleri Örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;form.h&gt;
+
+int main()
+{ FIELD *field[3];
+  FORM  *my_form;
+  int ch;
+
+  /* Curses kipini ilklendir */
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
+  /* Bazı renk çiftlerini ilklendir */
+  init_pair(1, COLOR_WHITE, COLOR_BLUE);
+  init_pair(2, COLOR_WHITE, COLOR_BLUE);
+
+  /* alanları ilklendir */
+  field[0] = new_field(1, 10, 4, 18, 0, 0);
+  field[1] = new_field(1, 10, 6, 18, 0, 0);
+  field[2] = NULL;
+
+  /* Alan özelliklerini ayarla */
+  /* Alanların arka fonunu mavi yap */
+  set_field_fore(field[0], COLOR_PAIR(1));
+  /* ön fonun beyaz ya */
+  set_field_back(field[0], COLOR_PAIR(2));
+  /* karakterler beyaz olarak gösterilir         */
+  /* bu alan dolduğunda */
+  field_opts_off(field[0], O_AUTOSKIP);
+  /* sonraki alana geçme           */
+  set_field_back(field[1], A_UNDERLINE);
+  field_opts_off(field[1], O_AUTOSKIP);
+
+  /* Alanı oluştur ve ekrana yaz */
+  my_form = new_form(field);
+  post_form(my_form);
+  refresh();
+
+  /* Renklendirilmiş alana odaklan */
+  set_current_field(my_form, field[0]);
+  mvprintw(4, 10, "Değer 1:");
+  mvprintw(6, 10, "Değer 2:");
+  mvprintw(LINES - 2, 0,
+      "Alanlar arasında geçiş için YUKARI ve AŞAĞI ok tuşlarını kullanın");
+  refresh();
+
+  /* Kullanıcı isteklerini almak için döngü */
+  while((ch = getch()) != KEY_F(1))
+  { switch(ch)
+    { case KEY_DOWN:
+        /* Sonraki alana git */
+        form_driver(my_form, REQ_NEXT_FIELD);
+        /* O anki önbelleğin sonuna git */
+        /* Son karakterde döngüden çık */
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      case KEY_UP:
+        /* Önceki alana git */
+        form_driver(my_form, REQ_PREV_FIELD);
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      default:
+        /* Eğer bu normal bir karakterse */
+        /* ekrana yazılır                */
+        form_driver(my_form, ch);
+        break;
+    }
+  }
+
+  /* Formu ekrandan sil ve ayrılan belleği geri ver */
+  unpost_form(my_form);
+  free_form(my_form);
+  free_field(field[0]);
+  free_field(field[1]);
+
+  endwin();
+  return 0;
+}
+</pre> </td></tr></table></div></p></div><p>
+Renk çiftleriyle oynayarak ön ve artalan özniteliklerini anlamaya çalışın. Genelde sadece <tt>set_field_back()</tt> ile artalanı ayarlarım. Curses tek tek renk özniteliklerinin doğrudan ayarlanmasını izin vermemektedir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-fieldoptionbits"></a>Alan Seçenek Bitleri</h4></div></dt><dd><p>
+Bunların yanında ayrıca form işlemenin pekçok yönünü kontrol etmenizi sağlayan geniş bir alan seçenekleri bit kümesi de bulunmaktadır. Şu işlevlerle bunları değiştirebilirsiniz:
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_opts</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>öznitelik</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* ayarlanacak öznitelik */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_opts_on</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>öznitelik</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* etkinleştirilecek öznitelik */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_opts_off</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>öznitelik</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* etkisizleştirilecek öznitelik */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_opts</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sorgulanacak alan */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<tt>set_field_opts()</tt> işlevi bir alanın özelliklerini değiştirmek için doğrudan kullanılabilir veya <tt>field_opts_on()</tt> ve <tt>field_opts_off()</tt> ile bazı özellikleri seçime göre etkinleştirebilir veya kapatabilirsiniz. Herhangi bir zamanda bir alanın özelliklerini <tt>field_opts()</tt> ile sorugulayabilirsiniz. Aşağıda kullanılabilir özellikler listesi bulunmaktadır. Öntanımlı olarak, tüm özellikler etkindir.
+</p><p>
+<div class="variablelist"><dl><dt><span class="term">O_VISIBLE</span></dt><dd>
+Alanın ekranda görünüp görünmediğini kontrol eder. Ana alanın özelliğine bağlı olarak form işleme sırasında alanları saklamak ya da göstermek için kullanılır.
+<p></p><p></p></dd><dt><span class="term">O_ACTIVE</span></dt><dd>
+Form işleme sırasında alanın etkin olup olmadığını kontrol eder (örn. form gezinti tuşları tarafından ziyaret edilimiş mi?). Kullanıcı tarafından değil ama form uygulamasının kendisi tarafından değiştirilebilen önbellek değerleri ile türetilmiş alanlar veya etiketler yapmak için kullanılabilir.
+<p></p><p></p></dd><dt><span class="term">O_PUBLIC</span></dt><dd>
+Alana veri girişi sırasında verinin gösterilip gösterilmediğini kontrol eder. Eğer bu seçenek bir alan için kapatılırsa kütüphane, alan içerisindeki verileri alıp düzenleyecek, fakat  veriler görülebilir olmayacak ve görünmesi gereken imleç de ilerlemeyecektir. Parola alanlarını tanımlamak için <tt>O_PUBLIC</tt> bitini kapatabilirsiniz.
+<p></p><p></p></dd><dt><span class="term">O_EDIT</span></dt><dd>
+Bir alan verisinin değiştirilip değiştirilemeyeceğini kontrol eder. Bu özellik kapalı olduğunda, <tt>REQ_PREV_CHOICE</tt> ve <tt>REQ_NEXT_CHOICE</tt> dışındaki tüm düzenleme istekleri sekteye uğrayacaktır. Bu sadece okunabilir alanlarda yardım iletileri için faydalı olabilir.
+<p></p><p></p></dd><dt><span class="term">O_WRAP</span></dt><dd>
+Çok satırlı alanlarda satırın sarmalanmasını sağlar. Normal çalışma şeklinde (boşluklarla ayrılmış) bir kelimenin herhangi bir karakteri o anki satırın sonuna geldiğinde, kelimenin tamamı bir sonraki satıra (yeni bir satır olduğunu varsayıyoruz) olduğu gibi taşınır. Bu seçenek etkisizleştirildiğinde satırsonu ile beraber kelime parçalanacaktır.
+<p></p><p></p></dd><dt><span class="term">O_BLANK</span></dt><dd>
+Alanların boşaltılmasını kontrol eder. Bu seçenek etkin olduğunda, alanın ilk konumuna bir karakter girmek tüm alanı siler (hali hazırda var olan karakterler dışında).
+<p></p><p></p></dd><dt><span class="term">O_AUTOSKIP</span></dt><dd>
+Alanın kendisi dolduğunda otomatik olarak sonraki alana atlamayı kontrol eder. Normalinde, form kullanıcısı alana alabileceğinden fazlasını yazmaya kalkarsa yazılanlar sonraki alana geçer. Bu seçenek etkisiz olduğunda kullanıcı imleci alanın sonunda ilerlemeden duracaktır. Bu özellik çalışma zamanında boyutları değişen alanlar için ihmal edilir.
+<p></p><p></p></dd><dt><span class="term">O_NULLOK</span></dt><dd>
+Boş alanlara doğrulama yapılıp yapılmadığını kontrol eder. Normal olarak, bu yapılmaz; kullanıcı bir alanı boş bırakıp çıkabilir. Eğer bu seçenek bir özellik için etkisizse, alandan çıkarken doğrulama yapılır.
+<p></p><p></p></dd><dt><span class="term">O_PASSOK</span></dt><dd>
+Alandaki odaklanmadan her ayrılmada doğrulama yapılacak mı yoksa sadece alan değiştiğinde mi bir doğrulama yapılacak diye kontrol eder. Normalinde sonuncusu doğrudur. <tt>O_PASSOK</tt>'u ayarlamak form işlemeniz sırasında eğer alanın doğrulama işlevi değişiyorsa faydalı olabilir.
+<p></p><p></p></dd><dt><span class="term">O_STATIC</span></dt><dd>
+Alanın ilk boyutunda sabit olup olmadığını kontrol eder. Bu seçeneği etkisizleştirdiğinizde, alan çalışma zamanında değişken bir hal alır ve yazılan girdiye göre genişleyebilir bir özellik kazanır.
+<p></p><p></p></dd></dl></div>
+</p><p>
+Bir alanın özelliği o alan seçildiği anda değiştirilemez. Yine de, henüz seçilmemiş fakat ekranda gözüken alanların seçenekleri değiştirilebilir.
+</p><p>
+Seçenek değerleri bit maskeleridir ve açık şekilde, mantıksal VEYA kullanarak oluşturulabilir. <tt>O_AUTOSKIP</tt> değerinin etkisizleştirilmesini daha önce görmüştünüz. Aşağıdaki örnek birkaç seçeneğin daha kullanımını açıklamaktadır. Diğer seçenekler gerekli görüldüğü yerde açıklanmıştır.
+</p><div class="example"><p><a name="ncurses-howto-ffoop"></a><b>Örnek 5.32. Alan Özelliklerini Kullanım Örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;form.h&gt;
+
+#define STARTX 15
+#define STARTY 4
+#define WIDTH 25
+
+#define N_FIELDS 3
+
+int main()
+{ FIELD *field[N_FIELDS];
+  FORM  *my_form;
+  int ch, i;
+
+  /* Curses kipini ilklendir */
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
+  /* Alanları ilklendir */
+  for(i = 0; i &lt; N_FIELDS - 1; ++i)
+    field[i] = new_field(1, WIDTH, STARTY + i * 2, STARTX, 0, 0);
+  field[N_FIELDS - 1] = NULL;
+
+  /* Alan özelliklerini ayarla */
+  set_field_back(field[1], A_UNDERLINE);  /* Seçenek için bir satır yaz  */
+
+  field_opts_off(field[0], O_ACTIVE); /* Bu alan durağan bir etiket */
+  field_opts_off(field[1], O_PUBLIC); /* Bu alan bir parola alanı gibi*/
+  field_opts_off(field[1], O_AUTOSKIP); /* Son karakter girildikten sonra */
+                                        /* aynı alana girişi önlemek için */
+
+  /* Alanı oluştur ve ekrana yaz */
+  my_form = new_form(field);
+  post_form(my_form);
+  refresh();
+
+  set_field_just(field[0], JUSTIFY_CENTER); /* Ortalama ayarı */
+  set_field_buffer(field[0], 0, "Bu durağan bir alandır");
+                                            /* Alanı ilklendir  */
+  mvprintw(STARTY, STARTX - 10, "Alan 1:");
+  mvprintw(STARTY + 2, STARTX - 10, "Alan 2:");
+  refresh();
+
+  /* Kullanıcıdan elen istekler için dögü */
+  while((ch = getch()) != KEY_F(1))
+  { switch(ch)
+    { case KEY_DOWN:
+        /* Sonraki alana git */
+        form_driver(my_form, REQ_NEXT_FIELD);
+        /* O anki önbelleğin sonuna git */
+        /* Son karakterde döngüden çık */
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      case KEY_UP:
+        /* Önceki alana git */
+        form_driver(my_form, REQ_PREV_FIELD);
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      default:
+        /* Eğer bu normal bir karakterse */
+        /* Ekrana yazılır                                */
+        form_driver(my_form, ch);
+        break;
+    }
+  }
+
+  /* Formu ekrandan sil ve tahsis edilen belleği geri ver */
+  unpost_form(my_form);
+  free_form(my_form);
+  free_field(field[0]);
+  free_field(field[1]);
+
+  endwin();
+  return 0;
+}
+</pre> </td></tr></table></div></p></div><p>
+Bo örnek, işe yaramaz olsa da, seçeneklerin kullanımını göstermektedir. Eğer düzgün kullanılırsa, bir form içerisindeki bilgileri çok verimli şekilde gösterebilirler. <tt>O_PUBLIC</tt> olmayan ikinci alan yazdığınız karakterleri göstermez.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-fieldstatus"></a>Alan Durumu</h4></div></dt><dd><p>
+Alan durumu alan üzerinde düzenleme yapılıp yapılmadığını söyler. Başlangıçta <tt>FALSE</tt> değerindedir. Kullanıcı bir takım veriler girdiğinde ve veri belleğini değiştirdiğinde <tt>TRUE</tt> değerini alır. Dolayısıyla bir alanın durum bilgisi, alan verisi üzerinde değişiklik yapılıp yapılmadığının kontrolü için kullanılabilir. Aşağıdaki işlevler bu türden işlemlere yardım edebilir:
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_status</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int     <i>durum</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* atanacak durum */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_status</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sorgulanacak alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef"></pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* alanın durumu ile döner */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Alanın durumunu alandan ayrılırken kontrol etmek, veri doğrulama halen devam ettiğinden ve veri önbelleği henüz değişmemiş olabileceğinden daha sağlıklıdır. Dönen doğru değeri almak için, alanın ayrılma ile ilgili kısmına veya alan veya formun ilklendirme veya sonlandırılma kısımlarında veya hemen form sürücüsü tarafından <tt>REQ_VALIDATION</tt> isteği işlendikten sonra <tt>field_status()</tt> çağrılmalıdır.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-fielduserptr"></a>Alan Kullanıcı Göstericisi</h4></div></dt><dd><p>
+Her alan yapısı kullanıcı tarafından değişik amaçlar için kullanılabilen bir gösterici içerir. Form kütüphanesi tarafından kullanılmaz ama kullanıcı tarafından herhangi bir amaç için kullanılabilir. Sıradaki işlevler kullanıcı göstericilerini ayarlar ve onları eşler.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_field_userptr</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">char   *<i>kull_gost</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* ilişiklendirilecek kullanıcı göstericisi */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>field_userptr</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sorgulanacak alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef"></pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* kullanıcı göstericisini döndürür */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-variablesizefields"></a>Değişken Boydaki Alanlar</h4></div></dt><dd><p>
+Eğer çalışma zamanında değişken genişlikte bir alan istiyorsanız bu, tüm özellikleri ile kullanmanız gereken bir özelliktir. Bu, kullanıcının, asıl alan boyundan daha büyük değerler girmesini ve alanın büyümesini sağlar. Alan, yerleştirilme konumuna göre yeni girilen veriler ile bütünleşik olabilmek için yatay veya dikey kaydırılabilir olacaktır.
+</p><p>
+Bir alanın dinamik olarak büyümesini sağlamak için <tt>O_STATIC</tt> seçeneği etkisiz olmalıdır. Bu da,
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+field_opts_off(field_pointer, O_STATIC);
+</pre> </td></tr></table></div>
+</p><p>
+ile yapılabilir. Fakat bir alanın sonsuz boyda uzamasına izin vermek pek de tavsiye edilmez. Alanın genişleyebileceği en fazla büyüklüğü tanımlayabilirsiniz.
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>set_max_field</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">char    <i>azami_büyüme</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* alan için olası azami büyüme miktarı */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+Dinamik olarak büyüyebilen bir alandan bilgiler şu şekilde alınabilir:
+</p><p>
+<dl><dt><table width="100%" cellpadding="3" cellspacing="1" border="0" class="func"><tr class="funcdef"><td><table cellpadding="5" cellspacing="0" border="0" class="funcinline"><tr><td valign="top" class="tt" nowrap><tt>int <b><tt>dynamic_field_info</tt></b></tt></td><td valign="top"><table cellpadding="0" cellspacing="0" border="0" class="funcinline">
+<tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">(FIELD *<i>alan</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* değiştirilecek alan */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>sat_say</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sığdırılacak satır sayısı */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>sut_say</i>,</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sığdırılacak sütun sayısı */</pre></td>
+</tr><tr>
+  <td valign="top" class="paramdef"><pre class="paramdef">int    *<i>azm_buy_mik</i>);</pre></td>
+  <td valign="top" class="paramdef"><pre class="paramdef">/* sığdırılacak azami büyüme miktarı */</pre></td>
+</tr></table></td></tr></table></td><td align="right">işlev</td></tr></table></dt></dl>
+</p><p>
+<tt>field_inf</tt> bildik şekilde çalışmasına rağmen, çalışma zamanında genişleyen alanların özellikleri ile ilgili bilgileri bu işlevi kullanarak almanız tavsiye edilir.
+</p><p>
+<tt>new_field</tt> kütüphane yordamını hatırlayın; bir birim yüksekliğinde ve tek satırlık bir alan oluşturuluyordu. Bir birimden fazla yüksekliğe sahip alanlar çok satırlı alanlar olarak tanımlanacaklardır.
+</p><p>
+<tt>O_STATIC</tt> özelliği etkisizleştirilmiş tek satırlık bir alan tek bir sabit satır içerecektir, fakat sütun sayısı kullanıcının ilk alanın taşıyabileceğinden fazlasını girmesi durumunda artabilir. Görüntülenen alan sayısı sabit kalacak ve ilave veriler kaydırılabilir olacaktır.
+</p><p>
+Çok satırlı ve <tt>O_STATIC</tt> özelliği etksizleştrilmiş bir alan ise (çalışma zamanında genişleyebilen) sabit sayıda sütun içerecek, fakat satır sayısı alanın ilk tutabileceği değerden daha fazlası girilmesi durumunda artacaktır. Görüntülenen satır sayısı sabit olacak ve ilave veriler kaydırılabilir olacaktır.
+</p><p>
+Yukarıdaki iki paragraf çalışma zamanında genişleyen alanların davranış özellikleriyle ilgili oldukça açıklayıcıdır. Diğer form alanlarının davranış özellikleri aşağıda açıklanmıştır:
+</p><p>
+<div class="orderedlist"><ol type="1"><li><div class="listitem">
+<tt>O_AUTOSKIP</tt> seçeneği eğer <tt>O_STATIC</tt> etkisiz ve alan için tanımlanmış azami büyüyebilme miktarı tanımlı değilse  gözardı edilecektir. Şu anda, kullanıcı alanın en sonuna gelip bir karakter yazdığında <tt>O_AUTOSKIP</tt> otomatik şekilde <tt>REQ_NEXT_FIELD</tt> form sürücüsü isteğini üretmektedir. En fazla büyüyebilme miktarı tanımlanmamış genişleyebilir bir alanda son karakter için bir konum yoktur. Eğer en fazla genişleme oranı tanımlanmışsa, <tt>O_AUTOSKIP</tt> seçeneği eğer alan en büyük değerine kadar genişlediyse normal çekilde çalışacaktır.
+<p></p><p></p></div></li><li><div class="listitem">
+<tt>O_STATIC</tt> özelliği eğer etkisizse alan içerisinde hizalama gözardı edilecektir. Şu anda, <tt>set_field_just</tt> tek satıra <tt>JUSTIFY_LEFT, JUSTIFY_RIGHT, JUSTIFY_CENTER</tt> özellikleri kazandırmak için kullanılabilir. Genişleyebilir tek satırlık alan yatay olarak genişleyip kaydırılabilir ve hizalanabilen çok daha fazla veri içerebilir. <tt>field_just</tt>'ten geri dönen değer değişmemiş olacaktır.
+<p></p><p></p></div></li><li><div class="listitem">
+Aşırı yüklenmiş form sürücü isteği <tt>REQ_NEW_LINE, O_NL_OVERLOAD</tt> form seçeneğinde <tt>O_STATIC</tt> değerinin etkisiz olmasına ve alan için en fazla genişleme miktarı tanımlanmamasına bakmaksızın aynı şekilde çalışır. Şu anda eğer <tt>O_NL_OVERLOAD</tt> etkinse, <tt>REQ_NEW_LINE</tt> eğer alanın son satırında çağrılırsa gizli olarak <tt>REQ_NEXT_FIELD</tt> üretir. Eğer bir alan sınırlara bağlı kalmadan genişleyebiliyorsa, son bir satır yoktur, <tt>REQ_NEW_LINE</tt> hiç bir zaman gizli olarak <tt>REQ_NEXT_FIELD</tt> üretmez. Eğer en fazla büyüme miktarı belirtilmişse ve <tt>O_NL_OVERLOAD</tt> form özelliği etkinse, eğer alan büyüyebileceği en büyük büyüklüğe gelmiş ve son satırda ise <tt>REQ_NEW_LINE</tt> sadece gizli olarak <tt>REQ_NEXT_FIELD</tt> üretecektir.
+<p></p><p></p></div></li><li><div class="listitem">
+<tt>dup_field</tt> çağrısı bilindiği gibi çalışır; alanı o anki önbellek boyunu ve alanın içeriği ile ikileştirecektir. Belirtilmiş en fazla büyüme miktarı da ikileştirilecektir.
+<p></p><p></p></div></li><li><div class="listitem">
+<tt>link_field</tt> bilindiği gibi çalışacaktır; O an bağlanan alan ile birlikte tüm alan özelliklerini ve paylaşılan önbelleği ikileştirecektir. Eğer <tt>O_STATIC</tt> alan seçeneği alanı paylaşımlı önbellek tarafından ardışıl olarak değiştirilirse, önbelleğin sahip olduğu veri miktarından fazlasının alana girilmesi durumunda nasıl davranış göstereceği o anki alanın özellik ayarına bağlıdır.
+<p></p><p></p></div></li><li><div class="listitem">
+<tt>field_info</tt> bilindiği gibi çalışacaktır; <tr>sat_say</tr> değişkeni <tt>new_field</tt>'a yapılan asıl çağrının değerini tutacaktır. Kullanıcı o anki önbellek boyutunu sorgulamak için <tt>dynamic_field_info</tt>'yu kullanmalıdır.
+<p></p><p></p></div></li></ol></div>
+</p><p>
+Yukarıdakilerin bazıları sadece form sürücüsünden sonra açıklanınca anlam kazanmaktadır. Sonraki bir kaç kısımda buna bakıyor olacağız.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-compileforms.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-forms.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-formwindows.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Form Kütüphanesi ile derleme </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Form Pencereleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

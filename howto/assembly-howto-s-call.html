@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:45:22+03:00"><title>Çağrı Uzlaşımları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/assembly-howto.html" title="Linux Makina Dili NASIL"><link rel="previous" href="../howto/assembly-howto-s-meta.html" title="Düşük seviye programlama"><link rel="next" href="../howto/assembly-howto-s-quick.html" title="Hızlı başlangıç"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Çağrı Uzlaşımları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/assembly-howto-s-meta.html">Önceki</a> </td><th width="60%" align="center">Linux Makina Dili NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/assembly-howto-s-quick.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="assembly-howto-s-call"></a>Çağrı Uzlaşımları</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="assembly-howto-linux"></a>Linux</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>GCC'ye ilintileme</h4></div></dt><dd><p>
+C-asm karışımı projeler üretiyorsanız bu tercih edilen yoldur. GAS açıklamaları olan Linux çekirdeği .s dosyalarından örnekleri ve GCC belgelerini inceleyiniz (as86 ile ilgili olanları).
+</p><p>
+32 bitlik geridönüş adresi üzerinde, 32 bitlik bağımsız değişkenler yığıta (stack) ters sözdizimsel sırada itilirler (push) (böylece doğru sırada erişilir/çıkarılırlar (pop)). <tt>%ebp</tt>, <tt>%esi</tt>, <tt>%edi</tt> ve <tt>%ebx</tt> çağrılan tarafından kullanılır, diğer yazmaçlar ise çağırıcı tarafından kullanılır; <tt>%eax</tt> sonuçları tutmak içindir veya <tt>%edx:%eax</tt> 64 bitlik sonuçlar için kullanılır.
+</p><p>
+FP yığıtı (FP stack): Emin değilim ama, sanırım tüm sonuç, saklanmış çağrıcıların tamamı <tt>st(0)</tt> içindeydi. Eğer daha fazla ayrıntı istiyorsanız <a class="ulink" href="http://www.caldera.com/developer/devspecs/" target="_top">http://www.caldera.com/developer/devspecs/</a> adresindeki SVR4 i386 ABI belirtimi iyi bir başvuru kaynağıdır.
+</p><p>
+GCC'nin çağrı uzlaşımlarını değiştirmek için, yazmaçları önceden ayırtan, yazmaçlarda bağımsız değişkenler barındırılmasını sağlayan, FPU'yu dikkate almayan, v.b. seçenekleri olduğunu unutmayın. i386 <tt>.info</tt> sayfalarına bakınız.
+</p><p>
+Standart GCC çağrı uzlaşımlarını izleyecek bir işlev için <tt>cdecl</tt> ve <tt>regparm(0)</tt> bildirimlerini yapmanız gerektiğine dikkat edin. GCC info sayfasından <tt>C Extensions::Extended Asm::</tt> kısmına bakınız. Aynı zamanda Linux'un kendi <tt>asmlinkage</tt> makrosunu da nasıl tanımladığına bakınız.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>ELF ve a.out arasındaki sorunlar</h4></div></dt><dd><p>
+Bazı C derleyicileri, diğerleri yapmadığı halde, her sembolden önce bir alt çizgi yerleştirirler.
+</p><p>
+Özellikle, Linux a.out GCC böylesi bir ön yerleştirmeyi yapar, oysa ki Linux ELF GCC yapmamaktadır.
+</p><p>
+Eğer her iki davranış biçimiyle de aynı anda uğraşmak isterseniz, varolan paketlerin bunu nasıl yaptıklarına bakınız. Mesela, Elk, qthreads, OCaml... gibi eski bir Linux kaynak ağacı edinin.
+</p><p>
+Ayrıca, örneğin, <tt>foo()</tt> işlev çağrısının gerçekte bir makine dili kodu olan <tt>bar</tt>'ın çağrılmasını sağlaması için şu şekilde bir ek ifade ile örtük C-&gt;asm isim değişikliğini zorlayabilirsiniz:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">void foo asm("bar") (void);
+</pre> </td></tr></table></div>
+</p><p>
+Binutils paketindeki <b><tt>objcopy</tt></b> uygulamasının a.out nesnelerinizi ELF nesnelerine dönüştürmeyi mümkün kılması gerektiğini unutmayın, hatta bazı durumlarda tam tersine de imkan tanır. Daha genel olarak, pekçok dosya biçimi arasında dönüşüm gerçekleştirir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a>Doğrudan Linux sistem çağrıları (syscalls)</h4></div></dt><dd><p>
+Genelde C kütüphanesi (libc) kullanmanın tek yol olduğu ve doğrudan sistem çağrıları yapmanın kötü olduğu söylenir. Bu doğrudur. Bir bakıma... Genel olarak, libc kütüphanesinin kutsal olmadığını bilmelisiniz ve <i>pekçok</i> durumda sadece bazı denetimler yapar, sonra çekirdeğe çağrı yapar ve  ardından errno'ya atama yapar. Bunu kendi programınızda da yapabilirsiniz (eğer ihtiyacınız varsa) ve programınız bir düzine kat daha küçük olacaktır, bu da gelişmiş bir başarım artışına sebep olacaktır, bu da sırf paylaşımlı kütüphaneleri kullanmadığınızdan kaynaklanacaktır (durağan (static) kütüphaneler daha hızlıdır). Sembolik makina dili ile programlamada libc kullanımı pratik birşeyden çok zevk/inanış meselesidir. Linux'un POSIX standartlarına uygun olmayı hedeflediğini unutmayın, benzer şekilde libc de. Bu da, hemen her libc "sistem çağrısı" sözdizimin gerçek çekirdek sistemi çağrılarındaki sözdizimiyle örtüşmesi anlamına gelir (ve tam tersi). Buna ek olarak, GNU libc (glibc) sürümden sürüme daha yavaş hale gelmekte ve daha çok bellek tüketmektedir. İlerde siz de kendi, değişik türlerde, libc'ye özel işlevlerinizi (sadece birer sistem çağrısı değil) tanımlayacaksınız (<tt>printf()</tt> ve şürekası)... ve buna hazırsınız, değil mi? <tt>:)</tt>
+</p><p>
+Doğrudan sistem çağrıları yapmanın artı ve eksileri şu şekilde özetlenebilir:
+</p><h5><a name="id31"></a>Artılar</h5><p>
+<div class="itemizedlist"><ul type="disc"><li>olası en küçük boyut; son baytı sistem dışında bırakmak</li><li>olası en yüksek hız; favori karşılaştırmalı değerlendirme (benchmark) dışı döngüleri bunun dışında bırakmak</li><li>tam denetim: program/kütüphanenizi size özgü dile veya bellek gereksinimlerine veya herhangi bir şeye uydurabilirsiniz.</li><li>libc çerçöplerinin yol açacağı bir kirlilik olmaz</li><li>C çağrı uzlaşımlarının yol açacağı bir kirlilik olmaz (eğer kendi dilinizi veya ortamınızı tasarlıyorsanız)</li><li>durağan kütüphaneler libc yükseltmelerinden ve çökmelerinden veya yorumlayıcıya <tt>#!</tt> yolu ile asılmanızdan sizi bağımsız kılar. (ve daha hızlıdır)</li><li>biraz da eğlence içindir (sembolik makina dili dışında heyecanlanmaz mısınız?)</li></ul></div>
+</p><h5><a name="id31"></a>Eksiler</h5><p>
+<div class="itemizedlist"><ul type="disc"><li>
+Eğer bilgisayarınızda bir başka program da libc kullanıyorsa, libc kodunun yinelenmesi otomatik olarak belleğin, korunması yerine, boşa harcanmasına sebep olacaktır.
+<p></p><p></p></li><li>
+Pekçok durağan ikilikte (static binary) gereksiz yere tanımlanan servisler bellek israfıdır. Fakat kendi libc yerdeğiştirmenizin bir paylaşımlı kütüphane olmasını sağlayabilirsiniz. (NBB: Bu  yukarıdaki iddiasını yalanlamıyor mu? <tt>;-)</tt>)
+<p></p><p></p></li><li>
+Herşeyi sembolik makina dili ile yazmak yerine, bir çeşit bayt kodu, sözcük kodu veya yapısal yorumlayıcıya sahip olmakla, boyut çok daha iyi korunur. (derleyicinin kendisi C veya sembolik makina dilinde yazılabilir). İkilik çeşitliliğini küçük tutmanın en iyi yolu, çoklu ikilikler yapmamaktır, yerine <tt>#!</tt> önekiyle başlayan yorumlanan işlem dosyaları kullanmaktır. Bu, OCaml'ın sözcük kodu kipinde çalıştığındaki durumdur (eniyilenmiş doğal kod kipine karşın) ve de libc kullanımıyla uyumludur. Bu aynı zamanda unix araçlarının yeniden gerçeklenimi olan Tom Christiansen'in Perl Güç Araçları (Perl PowerTools)'nın nasıl çalıştığının açıklamasıdır. Son olarak, bunları küçük tutmanın bir yolu da, tam olarak yolu kodlanmış harici bir dosyaya bağımlı olmamaktır, bu da kütüphane veya yorumlayıcı olsun, tek bir ikilik dosyaya sahip olmak ve buna sabit veya sembolik bağlar yapmaktır: aynı ikilik size en makul alanda, alt yordamların gereksiz kullanımı veya gereksiz ikilik başlıkları olmadan,  ihtiyacınız olan herşeyi sunacaktır; kendine özel davranışı <tr>argv[0]</tr> değerine bakarak yönlendirecektir; bu durumda tanınan ismiyle çağrılmaz, bir kabuğa öntanımlı olabilir ve muhtemelen bir yorumlayıcı olarak da kullanışlı olmuş olur!
+<p></p><p></p></li><li>
+Nadir linux sistem çağrıları yanında libc'nin sunduğu pekçok işlevsellikten faydalanamazsınız: malloc, thread, locale, password, yüksek-seviyeli ağ yönetimi, v.b. işlevsellikler, kılavuz sayfalarının 2. bölümünde değil, 3. bölümünde yer alır.
+<p></p><p></p></li><li>
+Bu yüzden, libc'nin, <tt>printf()</tt>'den <tt>malloc()</tt> ve <tt>gethostbyname</tt>'e uzanan çok sayıda parçalasını yeniden gerçeklemek zorunda kalabilirsiniz. libc varken bu gereksizdir, hatta <i>oldukça</i> sıkıcı olabilir. Bazılarının libc'nin bazı kısımları için "hafif" (ligth) yerdeğiştirmeler yazdıklalarına dikkat ediniz - bunları inceleyiniz! (Redhat'in minilibc'si, Rick Hohensee'nin <a class="ulink" href="ftp://linux01.gwdg.de/pub/cLIeNUX/interim/libsys.tgz" target="_top">libsys</a>'si, Felix von Leitner'in <a class="ulink" href="http://www.fefe.de/dietlibc/" target="_top">dietlibc</a>'si, Christian Fowelin'in <a class="ulink" href="http://www.fowelin.de/christian/computer/libASM/" target="_top">libASM</a>'si, <a class="ulink" href="http://linuxassembly.org/asmutils.html" target="_top">asmutils</a> projesi de tamamen saf sembolik makina libc'si ile çalışmaktadır)
+<p></p><p></p></li><li>
+Durağan kütüphaneler sizi, libc güncellemelerinden ve aynı zamanda, gzip-sıkıştırılmış dosyalarını düzgün şekilde ihtiyaç olduğunca açmanızı sağlayan,  zlib paketi gibi libc eklentilerinden faydalanmaktan alıkoyar.
+<p></p><p></p></li><li>
+libc tarafından eklenen çok az sayıdaki komutun sistem çağrılarının maliyetine kıyasla <i>küçük</i> bir hız yükü olabilir. Eğer hız gözönüne alınırsa, temel sorununuz, onların sarmalayıcı işlevlerini değil, kendi sistem çağrılarınızın kullanımıdır.
+<p></p><p></p></li><li>
+Kendi çağrı uzlaşımları olan ve standart uzlaşım kullanımında kural dönüşüm yüküne (high convention-translation overhead) büyük önem veren L4Linux gibi Linux'un mikro çekirdek sürümleri çalıştırılırken, sistem çağrıları için standart sembolik makina dili API'leri kullanmak, libc API'leri kullanmaktan daha yavaştır (L4Linux, sistem çağrı API'leri ile yeniden derlenmiş şekilde gelir; elbette kendi kodunuzu onun API'leriyle tekrar derleyebilirsiniz).
+<p></p><p></p></li><li>
+Genel hız eniyileme konularıyla ilgili olarak önceki konulara bakınız.
+<p></p><p></p></li><li>
+Eğer sistem çağrıları size göre çok yavaşsa, kullanıcı adasında kalmak yerine çekirdek kaynak kodlarını (C dilindeki) elden geçirmeyi isteyebilirsiniz.
+<p></p><p></p></li></ul></div>
+</p><p>
+Eğer yukarıdaki artı ve eksileri zihninizde iyice ölçüp tarttıysanız ve hala doğrudan sistem çağrılarını kullanmak istiyorsanız, size bazı önerilerim olacak:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+Sistem çağrı işlevlerinizi taşınabilir bir şekilde, C dilinde (sembolik makina dilinin taşınamaz özelliğine karşın) <tt>asm/unistd.h</tt> ile sunulan makroları kullanarak tanımlayabilirsiniz.
+<p></p><p></p></li><li>
+Sistem çağrısı işlevlerini değiştirmeyi deneyecekseniz, libc'den kaynak kodunu alıp inceleyin. (Ve daha iyisini yapabileceğinizi düşünüyorsanız, bunu yazarlara bildirin!)
+<p></p><p></p></li><li>
+İstediğiniz her işi yapan bir sembolik makina kodu için <a href="../howto/assembly-howto-s-res.html" class="xref" title="Özkaynaklar"> Özkaynaklar</a>ına bakınız.
+<p></p><p></p></li></ul></div>
+</p><p>
+Temelde, <tt>eax</tt> içerisine <tt>__NR_</tt>sistemçağrı_ismi numarası (<tt>asm/unistd.h</tt> dosyasındadırlar) ile <tt>int 0x80</tt> değeri ve parametreleri de sırasıyla (<a class="link" href="../howto/assembly-howto-s-call.html#assembly-howto-six-arg">altı</a>ya kadar) <tt>ebx</tt>, <tt>ecx</tt>, <tt>edx</tt>, <tt>esi</tt>, <tt>edi</tt>, <a class="link" href="../howto/assembly-howto-s-call.html#assembly-howto-six-arg">ebp</a> içine konur.
+</p><p>
+Sonuç <tt>eax</tt> içerisinde döndürülür, negatif sonuçlarda hata ile döner, bunun karşılığı da libc içerisinde <tt>errno</tt>'dur. Kullanıcı yığıtına dokunulmaz, dolayısiyle bir sistem çağrısı yaparken geçerli bir kullanıcı yığıtına ihtiyacınız yoktur.
+</p><p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><a name="assembly-howto-six-arg"></a><p>
+<tt>ebp</tt>'ye 6 parametre aktarımı Linux 2.4 sürümünde mümkün olmuştur, daha önceki Linux sürümleri yazmaçlarda sadece 5 parametreye bakıyordu.
+</p></td></tr></table></div>
+</p><p>
+<a class="ulink" href="http://www.linuxdoc.org/LDP/lki/" target="_top">Linux Çekirdeğinin Dahili Yapısı (Linux Kernel Internals)</a> belgesi ve özellikle <a class="ulink" href="http://www.linuxdoc.org/LDP/lki/lki-2.html#ss2.11" target="_top">i386 Mimarisinde Sistem Çağrıları Nasıl Gerçeklenir? (How System Calls Are Implemented on i386 Architecture?)</a> bölümü çok daha sağlıklı bilgi verecektir.
+</p><p>
+Başlatırken bir sürece parametrelerin aktarılmasında olduğu gibi, genel prensip, yığıtın orjinal olarak argüman sayısını (<tr>argc</tr>) ve ardından <tr>*argv</tr>'ler halinde argüman göstericilerini, bundan sonra da <tr>environ</tr> (ortam) için boş gösterici ile sonlandırılmış boş karakter sonlandırmalı <tt>isim=deger</tt> dizgelerini
+içereceğidir. Daha ayrıntılı bilgi için, <a href="../howto/assembly-howto-s-res.html" class="xref" title="Özkaynaklar"> Özkaynaklar</a> bölümünü okuyunuz, libc'nizdeki C başlatma (<tt>crt0.S</tt> veya <tt>crt1.S</tt>) kodlarını veya bunların Linux çekirdeğinde olanlarını (<tt>exec.c</tt> ve <tt>linux/fs</tt> içindeki <tt>binfmt_*.c</tt>) inceleyiniz.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id41"></a>Linux altında donanımsal G/Ç</h4></div></dt><dd><p>
+Eğer Linux altında doğrudan port erişimi ile G/Ç işlemleri gerçekleştirmek istiyorsanız, bu ya işletim sisteminde bir değişiklik gerektirmeyen basit bir iştir ve bununla ilgili <tt>G/Ç portları ve programlama (IO-Port-Programming)</tt> küçük nasıl belgesini okumanız yeterli olur ya da bir çekirdek aygıt sürücüsü gereklidir ve çekirdek kaynak kodlarını elden geçirme, aygıt sürücüsü geliştirme, çekirdek modülleri, v.b.  ile ilgili daha fazla bilgi edinmeniz gerekir. Bunlarla ilgili pek çok belge ve NASILlar LDP sayfalarında bulunmaktadır.
+</p><p>
+Belki de, grafik programlama yapmak istersiniz, o zaman <a class="ulink" href="http://www.ggi-project.org/" target="_top">GGI</a> veya <a class="ulink" href="http://www.xfree86.org/" target="_top">XFree86</a> projelerinden birine katılın.
+</p><p>
+Bazıları daha iyisini bile yapabilir, yorumlanmış belli bir alana özgü bir dilde, GAL, küçük ve güçlü XFree86 sürücüleri yazabilirler, bazı değerlendirmelerden sonra da C ile yazılmış sürücülerin verimini arttırabilirler (sürücüler ne sadece asm'dir ne de sadece C!). Burada sorun, verimi arttırmak için kullanılacak bazı değerlendiricilerin özgür olmamasıdır. Bunların özgür sürümlerini gerçekleştirecek olan var mı?
+</p><p>
+Herneyse, tüm bu durumlarda, herşeyi sembolik makina kodu ile yazmak yerine GCC satıriçi sembolik makina dilini <tt>linux/asm/*.h</tt> dosyalarındaki makrolarla kullanmak daha iyi olacaktır.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id51"></a>Linux/i386'daki 16 bitlik sürücülere erişim</h4></div></dt><dd><p>
+Böyle bir şey teorik olarak doğrudur (kanıt: <a class="ulink" href="http://www.dosemu.org/" target="_top">DOSEMU</a>'nun programlara seçici bir şekilde port atamalarını nasıl yaptığını inceleyiniz) ve ben de bir yerlerde birilerinin bunu yaptığı söylentilerini de duydum (bir PCI sürücüsü mü? bir VESA erişim aracı mı?  ISA PnP mi? bilmiyorum). Eğer bunun hakkında çok net bilginiz varsa, o zaman çok daha memnun olacaksınız. Herneyse, daha ayrıntılı bilgi için bakılması gereken kaynaklar Linux çekirdeğinin kaynak kodları, DOSEMU kaynakları (ve DOSEMU deposundaki diğer programlar) ve de Linux altında pekçok düşük seviyeli programın kaynaklarıdır ... (belki CGI'da olabilir, eğer VESA desteği varsa).
+</p><p>
+Temel olarak ya 16 bitlik korumalı kipi veya vm86 kipini kullanmalısınız.
+</p><p>
+İlkinin yapılandırılması daha basittir, fakat sadece segman aritmetiği veya mutlak segman adreslemesi (özellikle 0. segmanı adreslerken) ile ilgili işlemler yapmayacak iyi davranışlı kodla çalışır, fakat şans eseri tüm segmanlar kullanılırsa, LDT ile ileri düzey ayarlama yapılabilir.
+</p><p>
+İkincisi ise harcıalem 16 bitlik ortamlarla daha bir uyumluluk sağlar, fakat idaresi daha karmaşıktır.
+</p><p>
+Her iki durumda da 16 bitlik koda geçmeden önce, şunları yapmalısınız:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+16 bitlik kod içerisinde kullanılan herhangi bir mutlak adresi (ROM, video tamponları, DMA hedefleri ve bellek eşlemli G/Ç gibi) <tt>/dev/mem</tt>'den sürecinizin adres uzayına <tt>mmap</tt>'leyin.
+</li><li>
+LDT ve/veya vm86 kipi gözlemleyici ayarlayın
+</li><li>
+çekirdekten uygun G/Ç izinlerini kapın (üst bölümlere bakınız)
+</li></ul></div>
+</p><p>
+Tekrar, DOSEMU projesiyle sunulan belgeleri dikkatlice okuyunuz, özellikle Linux/i386 altında ELKS ve/veya <tt>.COM</tt> programlarını çalıştırmak için kullanılan küçük emülatörlerle ilgili kısımları.
+</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="assembly-howto-dos"></a>DOS ve Windows</h3></div></dt><dd><p>
+Pekçok DOS çoğaltıcıları (extenders) DOS servisleri için bazı servislerle beraber gelir. Bununla ilgili belgeleri okuyunuz, fakat genelde, <tt>int 0x21</tt> ve benzerine benzetim yaparlar (simulate) ve siz de sanki gerçek kipteymiş gibi çalışırsınız (Az gelişmişlik dışında birşeyleri olduğundan ve işlemleri 32 bitlik terimlerle çalışır hale getirdiklerinden şüpheliyim, daha çok gelen kesmeleri gerçek kip veya vm86 eylemcisine yansıtıyor gibiler.)
+</p><p>
+DPMI hakkındaki belgeler (ve fazlası) <a class="ulink" href="ftp://x2ftp.oulu.fi/pub/msdos/programming/" target="_top">ftp://x2ftp.oulu.fi/pub/msdos/programming/</a> adresinde bulunabilir (yine, asıl x2ftp sitesi kapanıyor (kapandı?), onun için <a class="ulink" href="ftp://ftp.lip6.fr/pub/pc/x2ftp/README.mirror_sites" target="_top">yansıyı</a> kullanın).
+</p><p>
+DJGPP kendi (sınırlı) glibc türev/altküme/yerdeğiştirmeleri v.b.leri ile gelmektedir.
+</p><p>
+Linux'tan DOS'a çapraz-derleme (cross-compile) yapmak mümkündür, metalab.unc.edu için olan yerel FTP yansınızın <tt>devel/msdos/</tt> dizinine bakınız; Aynı zamanda Utah üniversitesindeki <a class="ulink" href="http://www.cs.utah.edu/projects/flux/" target="_top">Flux Projesi</a>'nden MOSS DOS-extender (DOS-genişletici)'ye de bakınız.
+</p><p>
+Diğer belgeler ve SSS, DOS merkezlidir; biz DOS gelişimini tavsiye etmiyoruz.
+</p><dl><br><b>Windows ve Şürekası</b><br><dd>
+Bu belge Windows programlama hakkında değildir, bununla ilgili pekçok belgeyi heryerde bulabilirsiniz... Bilmeniz gereken, GNU programlarının Win32 altında çalışması için, <a class="ulink" href="http://www.cygwin.com/" target="_top">cygwin32.dll</a> kütüphanesini olduğudur, böylece sizler GCC, GAS ve tüm GNU araçları ile pekçok diğer Unix uygulamasını kullanabilmektesiniz.
+<p></p></dd></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="assembly-howto-ownos"></a>Kendi işletim sisteminiz</h3></div></dt><dd><p>
+Denetim duygusu pekçok işletim sistemi geliştiricisini sembolik makina diline çeken şeydir, bu da genelde sembolik makina dili kodları elden geçirmeye yol açmakta veya ondan kaynaklanmaktadır. Her ne kadar temelini oluturan bir sistemin tepesinde çalışabiliyor olsa da (Mac üzerindeki Linux veya Unix üzerindeki OpenGenera), kendi kendine gelişime izin veren bir sistem ancak işletim sistemi olarak isimlendirilebilir.
+</p><p>
+Böylece, kolay hata ayıklama amaçları için, ilk başlarda kendi işletim sisteminizi Linux üzerinde çalışır şekilde tasarlayabilirsiniz (yavaşlığına rağmen), daha sonra <a class="ulink" href="http://www.cs.utah.edu/projects/flux/oskit/" target="_top">Flux OS aracı</a>nı kullanarak (kendi işletim sisteminizde Linux ve BSD sürücülerinin kullanımını garanti eder), onu kendi başına çalışır hale getirebilirsiniz. İşletim sisteminiz kararlı olduğunda, artık gerçekten sevdiyseniz, kendi donanım sürücülerinizi yazmanın vaktidir.
+</p><p>
+Bu NASIL belgesi önyükleyici (bootloader) kodlarını, 32 bitlik kipe geçmeyi, kesmelerle işlem yapmayı, Intel'in temel güvenli kipini veya V86/R86 beyinölümlülüğünü (braindeadness), nesne biçiminizi tanımlamayı ve çağrı uzlaşımlarını kapsaMAmaktadır.
+</p><p>
+Tüm bunlar için güvenli bilgi bulabileceğiniz yer halihazırdaki işletim sisteminin veya önyükleyicinin kaynak kodlarıdır. Pekçok konu şu adreste mevcuttur: <a class="ulink" href="http://www.tunes.org/Review/OSes.html" target="_top">http://www.tunes.org/Review/OSes.html</a>
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/assembly-howto-s-meta.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/assembly-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/assembly-howto-s-quick.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Düşük seviye programlama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hızlı başlangıç</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

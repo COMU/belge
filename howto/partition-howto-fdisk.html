@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:52+03:00"><title>fdisk ile diski bölümleme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/partition-howto.html" title="Linux Disk Bölümleme NASIL"><link rel="previous" href="../howto/partition-howto-requirements.html" title="Bölümlendirme gereksinimleri"><link rel="next" href="../howto/partition-howto-labels.html" title="Etiketler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">fdisk ile diski bölümleme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/partition-howto-requirements.html">Önceki</a> </td><th width="60%" align="center">Linux Disk Bölümleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/partition-howto-labels.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="partition-howto-fdisk"></a>fdisk ile diski bölümleme</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>fdisk ile disk bölümü oluşturmak</h3></div></dt><dd><p>
+Bu kısım aslında diskinizi <b><tt>fdisk</tt></b> uygulaması ile nasıl bölümlendireceğinizi anlatmaktadır. Linux sadece 4 tane birincil disk bölümüne izin vermektedir. Tek bir disk bölümünü alt bölümlere bölerek çok sayıda mantıksal bölüme sahip olabilirsiniz. Birincil disk bölümlerinden sadece bir tanesi alt bölümlere bölünebilir.
+    </p><p><i>Örnekler:</i>
+    </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+Dört tane birincil disk bölümü: <a href="../howto/partition-howto-fdisk.html#partition-howto-primary-example" class="xref" title="Dört disk bölümü"> Dört disk bölümü</a></div></li><li><div class="listitem">
+Birincil ve mantıksal disk bölümleri karışık: <a href="../howto/partition-howto-fdisk.html#partition-howto-mixed" class="xref" title="Birincil ve mantıksal disk bölümleri karışık"> Birincil ve mantıksal disk bölümleri karışık</a></div></li></ol></div></p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="partition-howto-about-fdisk"></a>fdisk kullanımı</h4></div></dt><dd><p>
+<b><tt>fdisk</tt></b>, komut satırında (root olarak) <b><tt>fdisk </tt></b><i><tt>aygıt-adı</tt></i> yazarak çalıştırılır. (<a href="../howto/partition-howto-devices.html#partition-howto-NamingConvention" class="xref" title="İsimlendirme Kuralları"> İsimlendirme Kuralları</a>). Aygıt adı <tt>/dev/hda</tt> veya <tt>/dev/sda</tt> gibi bir şey olabilir. İhtiyacınız olacak temel fdisk komutları şunlardır:
+    </p><p><div class="variablelist"><dl><dt><span class="term"><tt>p</tt></span></dt><dd>disk bölümleme tablosunu göster
+    <p></p><p></p></dd><dt><span class="term"><tt>n</tt></span></dt><dd>yeni bir disk bölümü oluştur
+    <p></p><p></p></dd><dt><span class="term"><tt>d</tt></span></dt><dd>disk bölümü sil
+    <p></p><p></p></dd><dt><span class="term"><tt>q</tt></span></dt><dd>değişiklikleri kaydetmeden çık
+    <p></p><p></p></dd><dt><span class="term"><tt>w</tt></span></dt><dd>mevcut disk bölüm tablosunu yaz ve çık
+    <p></p><p></p></dd></dl></div>
+    </p><p>
+Disk bölümü tablosunda yaptıklarınız <b><tt>w</tt></b> komutu ile yazana kadar etkisini göstermez. Aşağıda basit bir disk bölümleme tablosu bulunmaktadır:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Disk /dev/hdb: 64 kafa, 63 sektör/iz, 621 silindir
+Birimler = silindir / 4032 * 512 bayt
+
+   Aygıt Açılış    Başlangıç     Bitiş  BlokSayısı Kml Sistem
+/dev/hdb1   *           1        184       370912+  83  Linux
+/dev/hdb2             185        368       370944   83  Linux
+/dev/hdb3             369        552       370944   83  Linux
+/dev/hdb4             553        621       139104   82  Linux takas / Solaris
+</pre> </td></tr></table></div>
+    </p><p>
+İlk satır diskin geometrisini göstermektedir. Fiziksel olarak tam doğru olmayabilir ama siz öyle olduğunu varsayabilirsiniz. Bu örnekteki disk her biri üzerinde bir disk kafası olan çift yönlü 32 tane plakadan oluşmuştur (muhtemelen doğru değil). Her bir plakanın eşmerkezli 621 izi bulunmaktadır. Üç boyutlu bir ize (tüm disk üzerindeki aynı izlere) silindir denir. Her bir iz 63 sektöre bölünmüştür. Her bir sektör 512 bayt veri içermektedir. Bundan dolayı disk bölümü tablosundaki blok sayısı 64 disk kafası * 63 sektör * 512 bayt / 1024'tür.(Bu problemin çözümü <a href="../howto/partition-howto-recovering.html#partition-howto-BlockSize" class="xref" title="">4</a> bölümünde açıklanmıştır.) Başlangıç ve bitiş değerleri silindirlerdir.
+      </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="partition-howto-primary-example"></a>Dört disk bölümü</h4></div></dt><dd><p>
+<i>Gözden geçirme</i>: Takas alanınızın <a class="link" href="../howto/partition-howto-requirements.html#partition-howto-SwapSize" title="Takas alanı ne kadar büyük olmalıdır?">boyuna</a> ve nereye <a class="link" href="../howto/partition-howto-requirements.html#partition-howto-SwapPlacement" title="Takas alanımı nereye koymalıyım?">yerleşmesi</a> gerektiğine karar verin. Kalan alanı diğer üç disk bölümü için bölün.
+    </p><p>Örnek:</p><p>
+<b><tt>fdisk</tt></b>'i komut satırından başlattım:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"># <b><tt>fdisk /dev/hdb</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Bu, IDE denetleyicinin üzerindeki ikinci sürücüyü kullandığım anlamına gelmektedir.
+(<a href="../howto/partition-howto-devices.html#partition-howto-names" class="xref" title="Aygıt adları"> Aygıt adları</a> kısmına bakın.) (Boş) disk bölümleme tablosunu görüntülediğim zaman, sadece ayarlarla ilgili bilgi alırım.
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>p</tt></b>
+
+Disk /dev/hdb: 64 heads, 63 sectors, 621 cylinders
+Units = cylinders of 4032 * 512 bytes
+</pre> </td></tr></table></div>
+    </p><p>
+1.2GB disk kapasitem olduğunu biliyordum ama artık eminim: <tt>64 * 63 * 512 * 621 = 1281982464 bayt</tt>. Bu alanın 128MB'ını takas için ayırmaya karar verdim, geriye 1153982464 kaldı. Eğer takas için birincil disk bölümlerinden birini kullanırsam ext2 disk bölümleri için geriye 3 tane  kalmış olur. Eşit olarak bölün, bu da 384MB olacak şekilde her birini oluşturmak demektir. Artık şimdi çalışmaya başlayabilir.
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>n</tt></b>
+Command action
+   e   extended
+   p   primary partition (1-4)
+<b><tt>p</tt></b>
+Partition number (1-4): <b><tt>1</tt></b>
+First cylinder (1-621, default 1):<b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 1
+Last cylinder or +size or +sizeM or +sizeK (1-621, default 621): <b><tt>+384M</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Daha sonra takas alanı için kullanacağım alanı ayarlıyorum:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>n</tt></b>
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): <b><tt>2</tt></b>
+First cylinder (197-621, default 197):<b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 197
+Last cylinder or +size or +sizeM or +sizeK (197-621, default 621): <b><tt>+128M</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Artık disk bölümleme tablosu şu şekilde gözüküyor:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">   Device Boot    Start       End    Blocks   Id  System
+/dev/hdb1             1       196    395104   83  Linux
+/dev/hdb2           197       262    133056   83  Linux
+</pre> </td></tr></table></div>
+    </p><p>
+Diğer kalan iki disk bölümünü de ilkini yaptığım gibi ayarlıyorum. Son olarak da ilk disk bölümünü önyüklenebilir yapıyorum:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>a</tt></b>
+Partition number (1-4): <b><tt>1</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Ve ayrıca ikinci disk bölümünün türünü de takas alanı olarak ayarlıyorum:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>t</tt></b>
+Partition number (1-4): <b><tt>2</tt></b>
+Hex code (type L to list codes): <b><tt>82</tt></b>
+Changed system type of partition 2 to 82 (Linux swap)
+Command (m for help): <b><tt>p</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Sonuç şu şekilde gözüküyor:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+Disk /dev/hdb: 64 heads, 63 sectors, 621 cylinders
+Units = cylinders of 4032 * 512 bytes
+
+   Device Boot    Start       End    Blocks   Id  System
+/dev/hdb1   *         1       196    395104+  83  Linux
+/dev/hdb2           197       262    133056   82  Linux swap
+/dev/hdb3           263       458    395136   83  Linux
+/dev/hdb4           459       621    328608   83  Linux
+</pre> </td></tr></table></div>
+    </p><p>
+Son olarak da <b><tt>w</tt></b> ile tabloyu diske yazdırıyorum.
+    </p><p>
+İlgili konular:
+    </p><p><div class="itemizedlist"><ul type="disc"><li><a href="../howto/partition-howto-appendix.html#partition-howto-swap" class="xref" title="Takas Alanınının Etkinleştirilmesi"> Takas Alanınının Etkinleştirilmesi</a></li><li><a href="../howto/partition-howto-appendix.html#partition-howto-formating" class="xref" title="Disk Bölümlerinin Biçimlendirilmesi"> Disk Bölümlerinin Biçimlendirilmesi</a></li><li><a href="../howto/partition-howto-appendix.html#partition-howto-mounting" class="xref" title="Disk Bölümlerinin Bağlanması"> Disk Bölümlerinin Bağlanması</a></li></ul></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="partition-howto-mixed"></a>Birincil ve mantıksal disk bölümleri karışık</h4></div></dt><dd><p>
+<i>Gözden geçirme:</i>Tüm diğer alt disk bölümlerini içermesi için bir tane birincil disk bölümü oluşturun. Daha sonra onun içerisinde mantıksal disk bölümleri oluşturun. Diğer birincil disk bölümlerini mantıksal disk bölümleri oluşturmadan önce veya sonra oluşturabilirsiniz.
+      </p><p>Örnek:</p><p>
+<b><tt>fdisk</tt></b>'i komut satırından çalıştırıyorum:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"># <b><tt>fdisk /dev/sda</tt></b>
+</pre> </td></tr></table></div>
+      </p><p>
+Bu, SCSI zincirimin ilk sürücüsü anlamına gelmektedir. (<a href="../howto/partition-howto-devices.html#partition-howto-names" class="xref" title="Aygıt adları"> Aygıt adları</a> kısmına bakın.)
+      </p><p>
+Öncelikle kaç tane disk bölümü istediğime karar veriyorum. Diskimin 183GB kapasitesi olduğunu biliyorum ve 26GB'lık disk bölümleri istiyorum (çünkü yaklaşık bu boyutta yedekleme teyplerim var)
+      </p><p>
+<tt>183GB / 26GB = ~7</tt>
+      </p><p>
+Dolayısiyle 7 disk bölümüne ihtiyacım var. <b><tt>fdisk</tt></b> disk bölümü boylarını MB ve kB olarak kabul etmesine rağmen, her bir disk bölümü sonundaki silindir numaralarını hesaplamaya karar veriyorum çünkü fdisk silindirlerin başlangıç ve bitiş silindir numaralarının bilgisini vermektedir. fdisk'e başladığım zaman 22800 silindirim olduğunu görüyorum.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+&gt; The number of cylinders for this disk is set to 22800.  There is
+&gt; nothing wrong with that, but this is larger than 1024, and could in
+&gt; certain setups cause problems with: 1) software that runs at boot
+&gt; time (e.g., LILO) 2) booting and partitioning software from other
+&gt; OSs  (e.g., DOS FDISK, OS/2 FDISK)
+</pre> </td></tr></table></div>
+      </p><p>
+Bu durumda, toplam 22800 silindirin 7 disk bölümünün her birine 3258 silindir düşer. Yani, her bir disk bölümü yaklaşık olarak 3258 silindir boyunda olacaktır. Önyükleme uyarısını dikkate almıyorum çünkü burası benim önyükleme amacıyla kullanacağım sürücüm (<a href="../howto/partition-howto-requirements.html" class="xref" title="Bölümlendirme gereksinimleri"> Bölümlendirme gereksinimleri</a>) değil.
+    </p><p>
+4 tane birincil disk bölümüm olduğundan, bunlardan 3 tanesi 3258 uzunluğunda olabilir. Ek bölüm <tt>(4 * 3258)</tt> yani <tt>13032</tt> silindir uzunluğunda olmalı, böylece 4 mantıksal disk bölümü buraya sığar.
+    </p><p>
+İlk 3 birincil disk bölümünü oluşturmak için aşağıdaki komutları giriyorum (koyu ile yazdıklarım):
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>n</tt></b>
+Command action
+   e   extended
+   p   primary partition (1-4)
+<b><tt>p</tt></b>
+Partition number (1-4): <b><tt>1</tt></b>
+First cylinder (1-22800, default 1): <b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 1
+Last cylinder or +size or +sizeM or +sizeK (1-22800, default 22800): <b><tt>3258</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Son bölüm, ek disk bölümü:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Partition number (1-4): <b><tt>4</tt></b>
+First cylinder (9775-22800, default 9775): <b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 9775
+Last cylinder or +size or +sizeM or +sizeK (9775-22800, default 22800): <b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 22800
+</pre> </td></tr></table></div>
+    </p><p>
+Tabloyu göster komutunun çıktısı şöyle:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">/dev/sda1             1      3258  26169853+  83  Linux
+/dev/sda2          3259      6516  26169885   83  Linux
+/dev/sda3          6517      9774  26169885   83  Linux
+/dev/sda4          9775     22800 104631345    5  Extended
+</pre> </td></tr></table></div>
+    </p><p>
+Sonra, ilk mantıksal disk bölümünden başlayarak, ek bölümü her biri 3258-silindirlik 4 alt bölüme ayırıyorum. Mantıksal disk bölümleri böylece /dev/sda5'ten başlıyor.
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help):  <b><tt>n</tt></b>
+First cylinder (9775-22800, default 9775): <b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 9775
+Last cylinder or +size or +sizeM or +sizeK (9775-22800, default 22800): 13032
+</pre> </td></tr></table></div>
+    </p><p>
+Sonuç şu şekilde:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">   Device Boot    Start       End    Blocks   Id  System
+/dev/sda1             1      3258  26169853+  83  Linux
+/dev/sda2          3259      6516  26169885   83  Linux
+/dev/sda3          6517      9774  26169885   83  Linux
+/dev/sda4          9775     22800 104631345    5  Extended
+/dev/sda5          9775     13032  26169853+  83  Linux
+/dev/sda6         13033     16290  26169853+  83  Linux
+/dev/sda7         16291     19584  26459023+  83  Linux
+/dev/sda8         19585     22800  25832488+  83  Linux
+</pre> </td></tr></table></div>
+    </p><p>
+Son olarak, <b><tt>w</tt></b> komutu ile tabloyu diske yazdırıyorum. Disk bölümlerinin kullanılabilir olması için onları <a class="link" href="../howto/partition-howto-appendix.html#partition-howto-formating" title="Disk Bölümlerinin Biçimlendirilmesi">biçimlendirecek</a> ve kök dizine <a class="link" href="../howto/partition-howto-appendix.html#partition-howto-mounting" title="Disk Bölümlerinin Bağlanması">bağlayacağım</a>.
+      </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="partition-howto-submitted"></a>Sunulan Örnekler</h4></div></dt><dd><p>
+Kendi disk bölümü yerleşimimi göstermek isterim, çünkü herhangi bir Linux dağıtımıyla iyi çalışabilmektedir (hatta büyük RPM tabanlı olanlarda bile). 10 GB olan tek bir sabit diskim var. Windows bunun 9.4 GB'tan fazlasını göremiyor, fakat Linux görüp kullanabiliyor. Aynı zamanda diskim 1024 silindirden fazlasını içeriyor.
+      </p><p><div class="table"><p><b>Tablo 3.11. Bölüm yerleşim örneği</b></p><table cellspacing="1" cellpadding="3" summary="Bölüm yerleşim örneği" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Disk Bölümü</th><th>Bağlama noktası</th><th>Büyüklük</th></tr></thead><tbody><tr><td>/dev/hda1</td><td>/boot</td><td>(15 MB)</td></tr><tr><td>/dev/hda2</td><td>windows 98 bölümü</td><td>(2 GB)</td></tr><tr><td>/dev/hda3</td><td>ek bölüm</td><td>(kullanışsız)</td></tr><tr><td>/dev/hda5</td><td>takas alanı</td><td>(64 MB)</td></tr><tr><td>/dev/hda6</td><td>/tmp</td><td>(50 MB)</td></tr><tr><td>/dev/hda7</td><td>/</td><td>(150 MB)</td></tr><tr><td>/dev/hda8</td><td>/usr</td><td>(1.5 GB)</td></tr><tr><td>/dev/hda9</td><td>/home</td><td>diskin geri kalanı</td></tr></tbody></table></div>
+      </p><p>
+Yeni çekirdekleri USB diskleri bakımından deniyorum, bu da büyük <tt>/boot</tt> disk bölümlerini açıklıyor. LILO'yu MBR'ye kurdum ve öntanımlı olarak windows'un başlamasına ayarladım (bu bilgisayarı kullanan tek ben değilim).
+      </p><p>
+Ayrıca, örneklerde GERÇEK disk bölümleme tablolarının kullanılmadığını da belirteyim, yeni başlayanlar için ÖZELLİKLE bir iki tane konulmasını öneririm<sup>[<a name="id41" href="#ftn.id41">48</a>]</sup>. Artık yeni başlayan statüsünde değilim ve disk bölümleme beni en zorlayan konulardan biriydi.
+      </p><p>
+Valkor <span class="email">&lt;valkor (at) qx.net&gt;</span>
+      </p></dd></div></dl></dd></div></dl><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id41" href="#id41">48</a>] </sup>Ç.N.: Linux Sistem Yöneticisinin Kılavuzu kitabının  bölümünde gerçek bir örnek bulabilirsiniz.</p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/partition-howto-requirements.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/partition-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/partition-howto-labels.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Bölümlendirme gereksinimleri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Etiketler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

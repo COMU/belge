@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="squashfs-howto" lang="tr">
+  <articleinfo>
+	  <title>SquashFS NASIL</title>
+	<author>
+		  <firstname>Artemiy I. Pavlov</firstname>
+		  <affiliation><address><ulink>http://www.sinevibes.com/</ulink></address></affiliation>
+	</author><author>
+		  <firstname>Marco Cecchetti</firstname>
+		  <affiliation><address><email>mrc@ildp.com</email></address></affiliation>
+    	</author>
+	<author role="translator">
+        	<firstname>Necdet</firstname><surname>Yücel</surname>
+      		<affiliation><address><email>nyucel@comu.edu.tr</email></address></affiliation>
+	</author>
+    <revhistory>
+	    <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.0</revnumber>
+		    <date>24 Eylül 2008</date>
+		    <authorinitials>ny</authorinitials>
+		    <revremark>İlk sürüm</revremark>
+	    </revision>
+    </revhistory><revhistory>
+	    <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+	    <revision>
+		    <revnumber>1.9</revnumber>
+		    <date>2008-07-24</date>
+		    <authorinitials>aip, mc</authorinitials>
+		    <revremark>Küçük düzeltmeler yapıldı</revremark> 
+	    </revision>
+    </revhistory>
+    <legalnotice><title>Yasal Açıklamalar</title><para>
+		    Bu belgenin, <emphasis>SquashFS NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis> aittir, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2003-2008 <emphasis>Artemiy I. Pavlov</emphasis> ve <emphasis>Marco Cecchetti</emphasis>'ye</emphasis> aittir. Bu belgeyi, Open Content Lisansının koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.opencontent.org/opl.shtml"/> adresinde bulabilirsiniz.
+	    </para>
+	    <para>
+		    BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+	    </para>
+	    <para>
+		    İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+	    </para>
+	    <para>
+		    Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+	    </para>
+  </legalnotice>  
+  <abstract>
+	  <para>Bu belgede Linux için yüksek derecede sıkıştırılmış salt-okunur bir dosya sistemi olan SquashFS'in kullanımı anlatılmaktadır. SquashFS küçük boyutlu ve gömülü sistemlerin yanı sıra sıkıştırılmış dosya sistemine ihtiyaç duyacağınız her yerde kullanabileceğiniz bir dosya sistemidir. Bu belge ile SquashFS'e hazır bir Linux çekirdeğinin hazırlanmasını, sıkıştırılmış bir dosya sisteminin oluşturulmasını ve kullanılmasını öğreneceksiniz.</para><para>Bu belgenin İngilizce son sürümünü <ulink url="http://artemio.net/projects/linuxdoc/squashfs"/> adresinde bulabilirsiniz.</para>
+    </abstract>
+  </articleinfo>
+
+<sect1 id="squashfs-howto-whatis"><title>SquashFS Nedir?</title>
+<sect2 id="squashfs-howto-whatis-intro"><title>Giriş</title>
+    <para>Küçük boyutlu ve gömülü Linux sistemler oluşturulurken, depolama biriminin (disket, flash, disk vb.) her byte'ı çok önemli olduğundan mümkün olan her yerde sıkıştırma kullanılır. Ayrıca sıkıştırılmış dosya sistemleri arşivleme amacıyla da sıklıkla kullanılırlar. Kişisel arşivlerin yanı sıra büyük kamusal arşivlerde de olmazsa olmazlardan biri sıkıştırılmış dosya sistemleridir.</para>
+    <para>SquashFS bütün bunları başka bir seviyede ele alır. SquashFS isterseniz tek tek dizinleri, isterseniz bütün dosya sistemini sıkıştırmanıza izin veren; onları başka aygıtlara/disk bölümlerine ya da sıradan dosyalara yazabildiğiniz ve (eğer aygıt ise) doğrudan bağlayabildiğiniz veya (eğer bir dosya ise) loopback aygıtını kullanarak bağlayabildiğiniz salt-okunur bir dosya sistemidir. Sistem tasarımının modüler ve kompakt olması harikadır. Arşivleme amacıyla kullanıldığında bir tarball arşivinden daha fazla esneklik ve performans sunar.</para>
+    <para>SquashFS Linux çekirdeğine (çekirdeğin SquashFS okuması için desteği sağlayan) bir yama, (bir dosyaya ya da blok aygıtına) sıkıştırılmış dosya sistemini yaratan <command>mksquashfs</command> ve bu sıkıştırılmış dosya sisteminden dosyaların çıkartılmasına imkan tanıyan <command>unsquashfs</command> aracları ile birlikte dağıtılmaktadır.</para>
+    <para>Son SquashFS sürümü 3.x, bir önceki ise 2.x serisidir. Bu belgede gerektiğinde verilen notlarla her iki sürüm için de açıklamalar yapılmıştır. Örneğin eğer sürüm ağaçlarında bir özellik veya parametre farklı ise bu durum şöyle gösterilmiştir: new value (3.x) veya old value (2.x).</para>
+</sect2>
+<sect2 id="squashfs-howto-whatis-overview"><title>SquashFS'e Genel Bir Bakış</title>
+	<para><itemizedlist><listitem>Veri, düğüm ve dizinler sıkıştırılmıştır.</listitem>
+		<listitem>SquashFS dosya yaratılma zamanını ve tüm uid/gid'leri (32 bit) saklar.</listitem>
+		<listitem>Dosya büyüklüğü 2^64 byte'a kadar desteklenir, dosya sisteminin boyutu en çok 2^64 byte olabilir.</listitem>
+		<listitem>Düğüm ve dizin verileri çokça yoğunlaştırılmış ve byte sınırlarında paketlenmiştir: her sıkıştırılmış düğümün uzunluğu ortalama 8 byte'tır (kesin uzunluk dosya tipine göre değişmektedir, yani sıradan dosyaların, dizinlerin, sembolik linklerin ve blok/karakter aygıtlarının düğümleri farklı uzunluklardadır). </listitem>
+		<listitem>SquashFS en fazla 64 Kb (2.x) ve 1Mb (3.x) blok büyüklüklerini kullanabilir. Öntanımlı büyüklük ise normal 4K'lık büyüklükten daha yüksek sıkıştırma oranına izin veren 128Kb (3.x)'dır. </listitem>
+		<listitem>2.x sürümü ile birlikte <emphasis>fragment blocks</emphasis> kavramını getirilmiştir: blok boyutundan daha küçük birden çok dosya bir blogun içine yazılabilir ve böylece daha yüksek sıkıştırma oranı elde edilebilir.</listitem>
+		<listitem>Dosya tekrarları tespit edilir ve ortadan kaldırılır.</listitem>
+		<listitem>Hem büyük hem de küçük endian mimarileri desteklenir; yani SquashFS farklı byte-sıralı makineler üzerinde yaratılmış dosya sistemlerini bağlayabilir.</listitem></itemizedlist></para>
+</sect2>
+<sect2 id="squashfs-howto-whatis-clear"><title>Takip Edilecek Adımlar</title>
+	<para>Bundan sonra yapılacakların daha iyi açık anlaşılması için SquashFS'in çalışabilmesi için temel olarak hangi aşamalardan geçilmesi gerektiğini özetleyelim:
+		<orderedlist><listitem>Linux çekirdeğine SquashFS desteği vermek için çekirdeğin yamanması ve yeniden derlenmesi,</listitem>
+		<listitem><command>mksquashfs</command> ve <command>unsquashfs</command> araçlarının derlenmesi,</listitem>
+		<listitem><command>mksquashfs</command> kullanılarak sıkıştırılmış dosya sisteminin oluşturulması,</listitem>
+		<listitem>Sıkıştırılmış dosya sisteminin geçici bir dizine bağlanarak test edilmesi,</listitem>
+		<listitem><filename>/etc/fstab</filename> dosyasını ya da başlangıç betiklerini düzenleyerek yeni sıkıştırılmış dosya sisteminin gerektiğinde bağlanmasının sağlanması.</listitem></orderedlist></para>
+</sect2>
+</sect1>
+
+<sect1 id="squashfs-howto-gettingready"><title>SquashFS için Hazırlık</title>
+	<sect2 id="squashfs-howto-gettingready-download"><title>SquashFS'i Elde Etmek</title>
+	<para>SquashFS'in internet adresi <ulink url="http://squashfs.sourceforge.net/"/>dir. Bu adreste SquashFS hakkında genel bilginin yanı sıra yeni sürüm hakkında bilgileri ve değişiklikleri de bulmak mümkündür. Son sürümü <ulink url="http://sourceforge.net/project/showfiles.php?group_id=63835">SourceForge</ulink>'dan indirilebilir.</para>
+	<para>SquashFS LZMA sıkıştırmasıyla birlikte de kullanılabilmektedir: <ulink url="http://www.squashfs-lzma.org/"/></para>
+	</sect2>
+	<sect2 id="squashfs-howto-gettingready-prepare"><title>Çekirdeği SquashFS'e Hazır Hale Getirmek</title>
+		<para>SquashFS'in okunabilmesi için tıpkı reiserfs ve ext3 dosya sistemleri gibi çekirdek tarafından desteklenmesi gereklidir. Bunun için kendi çekirdek sürümünüze uygun bir yamanın bulunduğundan emin olmalısınız. Bu yama SquashFS kaynak dizininde <filename>kernel-patches/linux-2.x.y</filename> alt dizininde bulunur. Bir çok durumda <ulink url="http://kernel.org">kernel.org</ulink>'dan indireceğiniz orjinal Linux kaynak koduna da ihtiyacınız olacaktır. Çünkü eğer bir datıtımın çakirdeğini kullanırsanız büyük ihtimalle kullandığınız çekirdek daha önceden yamalanmış olacağından ve SquashFS yamaları orjinal çekirdek için yazıldığından SquashFS yaması çalışmayacaktır. Bununla birlikte bazı dağıtımların SquashFS-çekirdek-modülleri ve SquashFS-tools paketleri depolarında bulunabilmektedir. Eğer dağıtımınızın ilgili paketlerini kullanacaksanız çekirdeğe yama uygulamanıza ya da SquashFs araçlarını kaynak koddan derlemenize gerek yoktur. Bu durumda dağıtımınızın deposundan uygun çekirdek modülünü almanız yeterli olacaktır. Eğer bu yöntemi seçerseniz kolay bir kurulum süreci yaşacağınızı ama SquashFS'i özel amaçlarla (gömülü sistemler gibi) kullanmak istemeniz durumunda çekirdek yapılandırma parametreleri üzerinde hiç bir kontrolünüzün olmayacağını unutmayın. </para>
+		<sect3 id="squashfs-howto-gettingready-prepare-patching"><title>Çekirdeğe Yama Uygulanması</title>
+		<para>Çekirdeğin kaynak kodu ve uygun SquashFS yaması elinizdeyse (buradan sonra çekirdek kaynak kodunun <filename>/usr/src/linux</filename> ve SquashFS kaynak kodunun <filename>/usr/src/squashfs</filename> dizinlerinde olduğunu kabul edeceğiz) yapmanız gerekenler sırasıyla</para>
+		<para>SquashFS kaynak kodununun bulunduğu dizine geçerek çekirdek yamasını (yamanın <filename>squashfs-patch</filename> adında olduğunu kabul edeceğiz) <filename>/usr/src/linux</filename> dizinine kopyalayın;
+			<screen>bash# cd /usr/src/squashfs
+bash# cp linux-2.x.y/squashfs-patch /usr/src/linux</screen></para>
+		<para>Linux çekirdeği kaynak dizinine geçin;<screen>bash# cd /usr/src/linux</screen><note>Çekirdekle ilgili bütün işlerimizi bu dizinde yapacağımızdan bütün yollar <filename>/usr/src/linux</filename> dizinine göre verilecektir.</note></para>
+		<para>Şimdi çekirdeğe SquashFS yamasını uygulayın;
+			<screen>bash# patch -p1 &lt; squashfs-patch</screen></para>
+		</sect3>
+		<sect3 id="squashfs-howto-gettingready-prepare-compiling26"><title>2.6.x Çekirdek Derlenmesi</title>
+		<para>Çekirdeğin kaynak kodunu derlenmeye hazırlayalım.
+			<screen>bash# make distclean
+bash# make mrproper</screen></para>
+<para>Tercih ettiğiniz yöntemle (config/menuconfig/xconfig/gconfig) çekirdeği yapılandırın.<screen>bash# make menuconfig</screen></para>
+		<para><orderedlist>
+		<listitem>"File systems" bölümünün "Miscellaneous file systems" alt bölümünde "Squashed filesystem" seçeneğini isterseniz modül olarak, isterseniz doğrudan aktif edin. Sadece sıkıştırılmış başlangıç RAM diski (<command>initrd</command>) kullanacaksanız çekirdeğe doğrudan dahil etmeniz bir zorunluluktur. </listitem>
+		<listitem>Eğer çekirdeği gömülü bir sistem için derlenmiyorsanız aynı alt bölümde bulunan "Additional option for memory-constrained system" seçeneğini AKTİF ETMEYİN.</listitem>
+		<listitem>Eğer sıkıştırılmış başlangıç RAM diski kullanmak istiyorsanız "Device drivers" bölümünün "Block devices" alt bölümünde "Initial RAM disk support" seçeneğini aktif edin.</listitem>
+		<listitem>Eğer gelecekte sıkıştırılmış dosya sistemini <emphasis>loopback device</emphasis> üzerinden bağlamak istiyorsanız "Device drivers" bölümünün "Block devices" alt bölümünde "Loopback device support" seçeneğini aktif edin.</listitem></orderedlist>
+		</para>
+		<para>Artık çekirdeği ve modülleri derleyebilirsiniz.<screen>bash# make</screen></para>
+		</sect3>
+		<sect3 id="squashfs-howto-gettingready-prepare-compiling24"><title>2.4.x Çekirdek Derlenmesi</title>
+		<para>Çekirdeği yapılandırın;<screen>bash# make menuconfig</screen></para>
+		<para><orderedlist>
+		<listitem>"File systems" bölümünde "Squashed filesystem" seçeneğini isterseniz modül olarak, isterseniz doğrudan aktif edin. Sadece sıkıştırılmış başlangıç RAM diski (<command>initrd</command>) kullanacaksanız çekirdeğe doğrudan dahil etmeniz bir zorunluluktur. </listitem>
+		<listitem>Eğer sıkıştırılmış başlangıç RAM diski kullanmak istiyorsanız "Block devices" bölümünde "Initial RAM disk support" seçeneğini aktif edin.</listitem>
+		<listitem>Eğer gelecekte sıkıştırılmış dosya sistemini <emphasis>loopback device</emphasis> üzerinden bağlamak istiyorsanız "Block devices" bölümünde "Loopback device support" seçeneğini aktif edin.</listitem></orderedlist>
+		</para>
+		<para>Artık çekirdeği ve modülleri derleyebilirsiniz.<screen>bash# make dep
+bash# make bzImage
+bash# make modules</screen></para>
+		</sect3>
+		<sect3 id="squashfs-howto-gettingready-prepare-testing"><title>Çekirdeğin Kurulması ve Test Edilmesi</title>
+		<para>Artık SquashFS'e hazır çekirdeğimizi kurmanın zamanı geldi. Aşağıdaki adımlar konak bilgisyara çekirdeği kurmak ve başlatmakla ilgilidir, dehef ssteme kurup test etmeyi isteyebilirsiniz. </para>
+		<para>Çekirdeğinizin x86 mimarisi için derlendiğini ve sıkıştırılmış çekirdek görüntüsünün <filename>arch/i386/boot/</filename> dizininde bulunduğunu kabul edeceğiz. İlk olarak çekirdeği <filename>/boot</filename> dizinine kopyalayın (eğer isterseniz anlışlması kolay olsun diye <filename>bzImage-sqsh</filename> olarak isimlendirebilirsiniz).
+		<screen>bash# cp arch/i386/boot/bzImage /boot/bzImage-sqsh</screen></para>
+		<para>Eğer varsa modülleri yüklemeyi unutmayın.<screen>bash# make modules_install</screen></para>
+		<para>Önyükleyicinizin (lilo, grub vb.) yapılandırma dosyasını yeni çekirdeğinizle başlatabilecek şekilde güncelleyin ve gerikiyorsa öntükleyicinizi güncelleyin. Artık bilgisayarınızı yeniden başlatabilirsiniz. Açıldıktan sonra her şeyin yolunda olup olmadığını kontrol edin.<screen>bash# cat /proc/filesystems</screen></para>
+		<para>Eğer SquashFS modül olarak derlenmişse <screen>bash# insmod squashfs
+bash# cat /proc/filesystems</screen></para>
+		<para>Eğer diğer dosya sistemlerinin yanıda squashfs içeren bir satır görüyorsanız bu çekirdeğinize başarıyla SquashFS desteğiverdiğiniz anlamına gelir.</para>
+		</sect3>
+	</sect2>
+	<sect2 id="squashfs-howto-gettingready-tools"><title>SquashFS Araçlarını Derlemek</title>
+	<para>Sırada sıkıştırılmış dosya sistemi oluşturmanızı sağlayacak olan <command>mksquashfs</command> ve buradan dosyaların açılmasına yardımcı olacak <command>unsquashfs</command> araçlarının derlenmesi var.
+	<screen>bash# cd /usr/src/squashfs/squashfs-tools</screen></para>
+<para>Araçları derleyin ve kurun;<screen>bash# make
+bash# cp mksquashfs /usr/sbin
+bash# cp unsquashfs /usr/sbin</screen></para>
+<para>Her şey yolunda gitmişse konsoldan <command>mksquashfs</command> ve <command>unsquashfs</command> komutlarını çalıştırdığınızda nasıl kullanılacakları ile ilgili yönergeleri görüyor olmalısınız.</para>
+	</sect2>
+	<sect2 id="squashfs-howto-gettingready-install"><title>SquashFS'i Debian'a Yüklemek</title>
+	<para>Eğer Debian (ya da başka bir dağıtım) kullanılıyorsanız, SquashFS modülünü ve arçlarını dağıtımın deposundan kurmak isteyebilirsiniz. Debian'da uygun çekirdek modülünü ve araçlarını aşağıdaki komutlarla kurmanız gerekir (mimarinizin x86 olduğu varsayımıyla):<screen>bash# apt-get install squashfs-modules-2.6-486  squashfs-tools</screen></para>
+	<para>Çekirdek için <filename>squashfs</filename> modülünü yüklediğinizde aşağıdakine benzer bir satır görmelisiniz. <screen>bash# modprobe squashfs
+bash# lsmod|grep squash
+squashfs               39620  0</screen></para>
+	<para>Eğer <filename>squashfs</filename> modülünün açılışta yüklenmesini istiyorsanız <filename>/etc/modules</filename> dosyasına yazmanız gerekir. <screen>bash# echo squashfs &gt;&gt; /etc/modules</screen></para>
+	<para>Bu belge yezıldığında Debian (Etch. 4.0 r2) paket deposunda squashfs 3.1 vardı. Bu yüzden 3.2 sürümüyle birlikte gelen bazı özellik ve seçenekler desteklenmiyor olabilir. Ayrıntılar için bir sonraki bölüme bakın.</para>
+	</sect2>
+</sect1>
+
+<sect1 id="squashfs-howto-tools"><title>SquashFS Araçları</title>
+	<sect2 id="squashfs-howto-tools-mksquashfs"><title>mksquashfs'i Kullanmak</title>
+	<para><command>mksquashfs</command> sıkıştırılmış dosya sistemleri yaratmak ve varolan dosya sistemlerine yeni veri eklemk için kullanılan bir araçtır. Komut satırından kullanımı aşağıdaki şekildedir:<screen>bash# mksquashfs kaynak1 kaynak2 ... hedef [options]</screen></para>
+	<para><itemizedlist>
+	<listitem>kaynak1, kaynak2, vb: sonuçtaki dosya sistemine eklenecek göreceli ya da tam yolu verilmiş dosya veya dizinler</listitem>
+	<listitem>hedef: sıkıştırılmış dosya sisteminizin oluşacağı sıradan bir dosya (dosya sistemi görüntü dosyası) veya bir block aygıtı (<filename>/dev/fd0</filename> veya <filename>/dev/hda3</filename> gibi) </listitem>
+	</itemizedlist></para>
+	<para><command>mksquashfs</command>'in ön tanımlı davranışları hakkında notlar:
+	<itemizedlist><listitem>Yeni oluşturulan dosya sistemine veya varolan bir sisteme dosya eklenirken tekralanan dosya isimleri için <command>mksquashfs</command> öntanımlı olarak yeniden isimlendirme yapar: eğer bir dizinde <filename>text</filename> isimli bir dosya varsa aynı dizine eklenecek aynı isimli dosyalar <filename>text_1</filename>, <filename>text_2</filename> olarak yeniden isimlendirilir.</listitem>
+	<listitem>Tekrarlanan dosyalar kaldırılır, böylece sadece tek bir fiziksel örnek bulundurulmuş olur (SquashFS 2.x'den itibaren bu özellik <command>-no-duplicates</command> parametresi kullanılarak iptal edilebilir.).</listitem>
+	<listitem>Eğer hedef daha önceden varolan bir SquashFS dosya sistemini gösteriyorsa kaynaklar mevcut kök dizinine eklenecektir. Bir sonraki bölümdeki tabloda bunun nasıl değiştirilebileceğini bulabilirsiniz.</listitem>
+	<listitem>Eğer tek bir dosya ya da dizin kaynak olarak verişmişse yeni yaratılacak dosya sisteminin kök dizini o olacaktır. Eğer iki veya daha fazla kaynak belirtilirse onlar kök dizinin alt dizinleri olurlar.</listitem>
+	<listitem>Oluşturulan dosya sistemi 4 Kb'lık parçalar ile doldurulur. Bu dosya sisteminin block aygıtı olarak kullanılabilmesi için gereklidir. Eğer buna ihtiyacınız olmadığından gerçekten eminseniz bu özelliği <command>-nopad</command> parametresini kullanarak iptal edebilirsiniz.</listitem>
+	</itemizedlist></para>
+	<para>Bir sonraki bölümde mümkün olan bütün seçeneklerin ayrıntılarını bulacaksınız.</para>
+	</sect2>
+	<sect2 id="squashfs-howto-tools-options"><title>Komut Satırı Seçenekleri</title>
+	<para><command>mksquashfs</command> için mümkün olan bütün parametreler aşağıdaki tabloda verilmiştir.</para>
+	
+	<para>
+		<table pgwide="1"><title>mksquashfs için komut satırı seçenekleri</title>
+			<tgroup cols='1' align='left' colsep='1' rowsep='1'>
+				<tbody>
+					<row><entry>-2.0</entry><entry>force mksquashfs version 2.1 to create a version 2.0 filesystem</entry></row>
+					<row><entry>-all-root or -root-owned</entry><entry>make all files in the target file system owned by root (UID=0, GID=0)</entry></row>
+					<row><entry>-always-use-fragments</entry><entry>divide all files greater than block size into fragments (by the version 2.x). It will result in greater compression ratios</entry></row>
+					<row><entry>-b [block size]</entry><entry>use [block size] filesystem block size (32 Kbytes default for 2.x, 128 kbytes for 3.x) - this can be either 4096, 8192, 16384, 32768, 65536 or 131072</entry></row>
+					<row><entry>-be or -le</entry><entry>force a big or little endian file system, respectively</entry></row>
+					<row><entry>-check-data</entry><entry>enable additional file system checks</entry></row>
+					<row><entry>-e [file1] ( [file2] ... )</entry><entry>specify which files and/or directories to omit from the new file system that is to be created</entry></row>
+					<row><entry>-ef [file]</entry><entry>specify a file which contains the list of files/directories to exclude</entry></row>
+					<row><entry>-force-gid [GID]</entry><entry>set all group IDs in target file system to [GID] (can be specified as a name or a number)</entry></row>
+					<row><entry>-force-uid [UID]</entry><entry>set all user IDs in target file system to [UID] (can be specified as a name or a number)</entry></row>
+					<row><entry>-info</entry><entry>print files, their original size and compression ratio, as they are added to the file system</entry></row>
+					<row><entry>-keep-as-directory</entry><entry>if the source is a single directory, force this directory to be a subdirectory of the root in the created file system</entry></row>
+					<row><entry>-noappend</entry><entry>if the destination file/device already contains a squashed file system, overwrite it, rather than append the new data to an existing file system</entry></row>
+					<row><entry>-no-duplicates</entry><entry>do not detect/remove duplicate file names</entry></row>
+					<row><entry>-noD or -noDataCompression</entry><entry>do not compress the data</entry></row>
+					<row><entry>-noF or -noFragmentCompression</entry><entry>do not compress the fragments (avaliable by 2.x)</entry></row>
+					<row><entry>-no-fragments</entry><entry>do not generate fragment blocks (avaliable by 2.x, this will produce almost the same filesystem as 1.x did)</entry></row>
+					<row><entry>-noI or -noInodeCompression</entry><entry>do not compress the inode table</entry></row>
+					<row><entry>-nopad</entry><entry>do not pad the resulting file system to a multiple of 4 KBytes</entry></row>
+					<row><entry>-root-becomes [name]</entry><entry>can be used while appending to a pre-existing squashed file system: it will make a new root, and [name] directory will contain all pre-existing files/directories</entry></row>
+					<row><entry>-version</entry><entry>print the version, copyright and license message</entry></row>
+					<row><entry>-recover [name]</entry><entry>recover filesystem data using recovery file [name] (3.3)</entry></row>
+					<row><entry>-no-recovery</entry><entry>don't create a recovery file (3.3).</entry></row>
+					<row><entry>-no-exports</entry><entry>don't make avaliable file system to export via NFS (3.x)</entry></row>
+					<row><entry>-no-sparse</entry><entry>don't check for sparse files (3.x)</entry></row>
+					<row><entry>-processors [number]</entry><entry>	set the number of CPU to create file system. By default it will be used all avaliable processors (3.x)</entry></row>
+					<row><entry>--read-queue [size]</entry><entry>set input queue to [size] Mb. (Default is 64 Mb)(3.x)</entry></row>
+					<row><entry>-write-queue [size]</entry><entry>	set output queue to [size] Mb (3.x)</entry></row>
+					<row><entry>-sort [sort_file]</entry><entry>sort files relating to priorities in [sort_file] (3.x)</entry></row>
+					<row><entry>-wildcards</entry><entry>enable the extended shell wildcards to exclude directories/files (to be used with -e)</entry></row>
+					<row><entry>-regex</entry><entry>enable to use POSIX regular expressions (3.3)</entry></row>
+				</tbody>
+			</tgroup>
+		</table>
+  </para>
+	<para>Bir çok durumda sıkıştırma/block seçneklerini öntanımlı haliyle bırakmalısınız, çünkü bu değerler ile <command>mksquashfs</command> en iyi oranda sıkıştırma yapabilmektedir.</para>
+	</sect2>
+	<sect2 id="squashfs-howto-tools-unsquashfs"><title>unsquashfs'i Kullanmak</title>
+	<para><command>unsquashfs</command> sıkıştılmış dosya sistemlerinden veri çıkartılması için kullanılan bir araçtır. Komut satırı kullanımı şöyledir:<screen>unsquashfs [options] hedef [files/directories to extract]</screen></para>
+	<para><itemizedlist>
+	<listitem>hedef: açılması istenilen sıkıştırılmış dosya sistemi</listitem>
+	</itemizedlist></para>
+	<para><command>unsquashfs</command>'in ön tanımlı davranışları hakkında notlar:
+	<itemizedlist>
+	<listitem>Eğer dosyaların nereye açılacağı belirtilmezse <command>unsquashfs</command> sıkıştırılmış dosya sistemini <filename>./squashfs-root</filename> dizinine açar.</listitem>
+	<listitem>Eğer özellikle <command>-f</command> parametresi kullanılmazsa sıkıştırılmış dosya sistemi mevcut bir dizin üzerine açılmaz.</listitem>
+	<listitem>Komut satırından <command>-e [file]</command> parametresi ile açılması istenilen çoklu nesneler belirtilebilir.</listitem>
+	</itemizedlist></para>
+	<para><command>unsquashfs</command> için mümkün olan bütün parametreler aşağıdaki tabloda verilmiştir.</para>
+	<para>
+		<table pgwide="1"><title>unsquashfs için komut satırı seçenekleri</title>
+			<tgroup cols='1' align='left' colsep='1' rowsep='1'>
+				<tbody>
+					<row><entry>-v[ersion]</entry><entry>print the version, licence and copyright message</entry></row>
+					<row><entry>-i[nfo]</entry><entry>print the files as they are extracted from the file system</entry></row>
+					<row><entry>-l[ist]</entry><entry>list the squashed file system without extracting files</entry></row>
+					<row><entry>-li</entry><entry>list files with theyr attributes as they are unsquashed (3.3)</entry></row>
+					<row><entry>-ll</entry><entry>list the squashed file system files with attributes without any extraction (3.3)</entry></row>
+					<row><entry>-d[estination] path</entry><entry>specify a destination path for unsquashed items</entry></row>
+					<row><entry>-f[orce]</entry><entry>if files exist overwrite them</entry></row>
+					<row><entry>-s[tat]</entry><entry>display file system's superblock informations (it can discover the file system version and the options used to compress it) (3.3)</entry></row>
+					<row><entry>-e[f] [extract file]</entry><entry>list of directories or files to extract (entries given one per line) (3.3)</entry></row>
+					<row><entry>-r[egex]</entry><entry>treat extract names as POSIX regular expressions (3.3)</entry></row>
+				</tbody>
+			</tgroup>
+		</table>
+  </para>
+  <para>3.x sürümünü kullanarak 1.x ve 2.x sürümleriyle sıkıştırılmış dosya sistemlerini de açabilirsiniz.</para>
+</sect2></sect1>
+
+<sect1 id="squashfs-howto-creatingandusing"><title>Sıkıştırılmış Dosya Sistemini Oluşturmak ve Kullanmak</title>
+	<sect2 id="squashfs-howto-creatingandusing-basic"><title>Temel Adımlar</title>
+	<para>Tek bir dizin (örneğin <filename>/some/dir</filename>) kullanarak sıradan bir dosyada (dosya sistemi görüntüsü) çıktısı oluşacak bir sıkıştırılmış dosya sistemi oluşturmak için aşağıdaki komutu kullanmak yeterlidir.<screen>bash# mksquashfs /some/dir dir.sqsh</screen></para>
+	<para>Bu komutun sonucu olarak <command>mksquashfs</command> sıkıştırma işlemini yapacak ve düğüm sayısını, yazılan veri boyutunu ve ortalama sıkıştırma oranını çıktı olarak verecektir. Böylece <filename>/some/dir</filename> dizininin görüntüsünü <filename>dir.sqsh</filename> dosyasına almış olduk. <command>mount</command> komutunu kullanarak bu dosyayı bağlayabilirsiniz.<screen>bash# mkdir /mnt/dir
+bash# mount dir.sqsh /mnt/dir -t squashfs -o loop</screen></para>
+	<para>Her şeyin yolunda olup olmadığını kontrol edelim.<screen>bash# ls /mnt/dir</screen></para>
+	<para>Eğer çıktıyı doğrudan bir aygıta (örneğin <filename>/dev/fd0</filename>'daki disketinize) almak isterseniz:<screen>bash# mksquashfs /some/dir /dev/fd0</screen></para>
+	<para>Bu aygıtı <command>mount</command> ile bağlayalım;<screen>bash# mount /dev/fd0 /mnt/floppy -t squashfs</screen></para>
+	<para>Her şeyin yerli yerinde olup olmadığını kontrol edelim;<screen>bash# ls /mnt/floppy</screen></para>
+	</sect2>
+	<sect2 id="squashfs-howto-creatingandusing-squashing"><title>Dosya Sistemini Sıkıştırmak</title>
+		<para>Burada anlatılan işlemler salt okunur sıkıştırılmış dosya sisteminin kullanılabileceği çoğu duruma uygundur. Bu durumlar sıklıkla değişmeyen büyük FTP/HTTP arşivleri, sıkıştırılmış <filename>/usr</filename> dizinleri veya başka bir şey olabilir.</para>
+		<sect3 id="squashfs-howto-creatingandusing-squashing-1"><title>Örnek 1</title>
+			<para>İçerisinde bir çok dosyanın bulunduğu bir <filename>/var/arch</filename> dizininizin olduğunu ve bu dizini sıkıştırılmış dosya sistemine dönüştürerek kök dizininde bir dosya (bağlayıp kullanabileceğiniz bir dosya sistemi görüntüsü de olabilir) olarak tutmak istediğinizi düşünelim. Bunun için aşağıdaki adımları izlemeniz gerekir:</para>
+			<para>Dizini sıkıştırın, loopback aygıtı üzerinden denemek için bağlayın:<screen>bash# mksquashfs /var/arch /var/arch.sqsh
+bash# mkdir /mnt/tmp
+bash# mount /var/arch.sqsh /mnt/tmp -t squashfs -o loop
+bash# ls /mnt/tmp</screen></para>
+<para>Herşey beklediğiniz gibi giderse her açılışta otomatik bağlanması için <filename>/etc/fstab</filename> dosyasına aşağıdaki satırı ekleyin:<screen>/var/arch.sqsh	/var/arch	squashfs	ro,defaults	0 0</screen></para>
+<para>Geçici bağlanma noktasından çözüp fstab girdisine uygun yeniden bağlayın:<screen>bash# umount /mnt/tmp
+bash# mount /var/arch</screen></para>
+<para>Son olarak her şeyin yolunda olduğunu kontrol edin:<screen>bash# ls /var/arch</screen></para>
+		</sect3>
+		<sect3 id="squashfs-howto-creatingandusing-squashing-2"><title>Örnek 2</title>
+			<para>Bu örnekte iki disk bölümünüz olsun: <filename>/dev/hda6</filename> (boş) ve <filename>/dev/hda7</filename> (veri ile dolu, <filename>/var/arch</filename> dizinine bağlı ve <filename>/dev/hda6</filename>'dan daha büyük). İstediğiniz şey de <filename>/dev/hda7</filename>'yi sıkıştırıp <filename>/dev/hda6</filename>'ya taşımak ve <filename>/dev/hda7</filename>'yi başka amaçlar için kullanmak olsun. <filename>/etc/fstab</filename> dosyasında aşağıdaki gibi bir satır olduğunu kabul edeceğiz (reiserfs örnek olarak kullanılmıştır):<screen>/dev/hda7	/var/arch	reiserfs	defaults	0 0</screen></para>
+			<para>Bir önceki örnektekine benzer şeyler yapalım:<screen>bash# mksquashfs /var/arch /var/arch.sqsh
+bash# mkdir /mnt/tmp
+bash# mount /var/arch.sqsh /mnt/tmp -t squashfs -o loop
+bash# ls /mnt/tmp</screen></para>
+<para>Her şey yolunda gitmişse <filename>/dev/hda7</filename>'yi çözün ve <command>dd</command> komutunu kullanarak <filename>/var/arch.sqsh</filename> dosyasını <filename>/dev/hda6</filename> olarak kopyalayın:<screen>bash# umount /dev/hda7
+bash# dd if=/var/arch.sqsh of=/dev/hda6</screen></para>
+<para>Artık <filename>/etc/fstab</filename> dosyasında <filename>/dev/hda7</filename> için bulunan satırı aşağıdaki gibi değiştirebilirsiniz:<screen>/dev/hda6	/var/arch	squashfs	ro,defaults	0 0</screen></para>
+<para>Yeni dosya sistemini bağlayıp kontrol edin:<screen>bash# mount /var/arch
+bash# ls /var/arch</screen></para>
+<para>Artık ihtiyacınız olmayan sistem görüntüsünü silmeyi unutmayın:<screen>bash# rm /var/arch.sqsh</screen></para>
+		</sect3>
+	</sect2>
+	<sect2 id="squashfs-howto-creatingandusing-creating"><title>Küçük/Gömülü Sistem Yaratmak</title>
+		<para>"Küçük/Gömülü" terimi ile floppy diskler, IDE/USB flash diskler, iso9660 CD-ROM'lar, küçük boyutlu sabit diskler ve benzerleri ile açılması için imal edilmiş Linux sistemleri kastediyorum. İster bütün kök dizinini tek aygıt üzerinde (tek disk bölümü veya tek disket) tutun, isterseniz modüler (birden çok disket ya da disk bölümü) bir yapınız olsun izlenecek yol aynıdır. Böyle Linux sistemlerini yaratmak bu belgenin kapsamının dışındadır. <ulink url="http://www.tldp.org"/> adresinde bu konuyla ilgili NASIL belgelerine ve kılavuzlara ulaşabilirsiniz. </para>
+		<sect3 id="squashfs-howto-creatingandusing-creating-disk"><title>Disket/Flash/Sabit Disk üzerinde Sıkıştırılmış Dosya Sistemi</title>
+			<para>Küçük diskler üzerinde Linux sistemler yaratırken SquashFS kullanmak için minimal sistemler yaratırken izlenen adımlar izlenmelidir.</para>
+			<para><itemizedlist><listitem>Sisteminizin sıkıştırılmış dosya sistemlerini bağlayabilmesi için derlediğiniz çekirdekte SquashFS desteğini aktif edin.</listitem>
+					<listitem>Salt okunur ram diskleri ve/veya kök ve/veya diğer diskleri oluşturmak için <command>mksquashfs</command> komutunu kullanın.</listitem>
+					<listitem>Sıkıştırılmış dosya sistemlerini bağlayabilmek için <filename>/etc/fstab</filename> dosyasında ve başlangıç betiklerinde dosya sistemi olarak squashfs'i belirtin.</listitem></itemizedlist></para>
+			<sect4 id="squashfs-howto-creatingandusing-creating-disk-floppy"><title>Örnek Disket</title>
+				<para>Disket sistem ağacınız <filename>/home/user/floppylinux</filename> dizininde bulunsun ve sizin kök dosya sistemini bir diskette, <filename>/usr</filename> dizinini bir diğerinde bulundurmak istediğinizi farzedelim. Bunun için şunları yapmalısınız:<screen>bash# cd /home/user
+bash# mksquashfs floppylinux root.sqsh -e usr
+bash# mksquashfs floppylinux/usr usr.sqsh</screen><note><para>Gördüğünüz gibi <command>-e</command> seçeneğini kullanarak <filename>/usr</filename> dizinini kök dosya sistemi görüntüsüne dahil etmedik.</para></note>
+<note><para>Kök dizininizin <filename>/etc/fstab</filename> dosyasında veya başlangıç betiklerinde <filename>/usr</filename> dizininin tipini squashfs olarak belirtmeyi unutmayın.</para></note></para>
+<para>Disket sürücünüze bir disket yerleştirin (bu disket üzerinde bir dosya sistemi olduğunu, lilo veya grub bulunduğunu ve kök dosya sisteminin <filename>/boot</filename> altında olacağını kabul ediyorum):<screen>bash# mount /mnt/floppy
+bash# cp root.sqsh /mnt/floppy/boot</screen></para>
+<para>İşlem bittiğinde kök disketini çözün, <filename>/usr</filename> için yeni bir disket takın ve usr dosya sisteminitaşımak için <command>dd</command>'yi kullanın:<screen>bash# dd if=usr.sqsh of=/dev/fd0</screen></para>				</sect4>
+		</sect3>	
+		<sect3 id="squashfs-howto-creatingandusing-creating-cdrom"><title>CDROM üzerinde Sıkıştırılmış Dosya Sistemi</title>
+			<para>SquashFS ile (örneğin) çalışan cd'lerde kullanılacak büyük dosya sistemlerini de sıkıştırabilirsiniz. Bu amaçla SquashFS ile UnionFS birlikte kullanılır.</para>
+			<para><itemizedlist><listitem>Hedef sistemin Linux çekirdeğinde SquashFS'i aktif edin.</listitem>
+					<listitem>Sıkıştırılmış bir kök dosya sistemi oluşturun.</listitem>
+					<listitem>Sıkıştırılmış dosya sistemlerini bağlayabilmek için <filename>/etc/fstab</filename> dosyasında ve başlangıç betiklerini düzenleyin.</listitem></itemizedlist></para>
+			<para>Çalışan Linux sisteminizin dışında bir kök dosya sistemi yarattıysanız <command>mksquashfs</command> komutunu <command>-e</command> seçeneği ile kullanarak gerçek birer dosya sistemi olmayan /proc, /sys (2.5.x çekirdek sonrası) ve /dev dizinlerini dahil etmeyin. Ayrıca <command>mksquashfs</command> ile yaratılan dosya sistem görüntüsünün kendisini de çıkaracağınız dizinler arasına eklemeyi unutmayın (bunları neden dahil etmediğimizi bildiğinizi düşünüyorum).</para>
+		</sect3>
+	</sect2>
+	<sect2 id="squashfs-howto-creatingandusing-readable"><title>Dosya Sistemini Yazılabilir Yapmak</title>
+		<para>Yukarıda da bahsettiğimiz gibi SquashFS'in ilginç bir kullanımı da UnionFS dosya sistemi ile birlikte kullanılmasıdır. Bu sayede salt okunur dosya sistemi için kopyala-üzerine yaz (copy-on-write) kavramının olanakları arttırılabilir. (UnionFS için <ulink url="http://www.filesystems.org/project-unionfs.html"/> adresine bakabilirsiniz.) </para>
+		<para>Bir örnek olması için <filename>/home/user</filename> dizinini sıkıştırılmış kullanmak ve bu dizinde değişiklik yapma veya yeni dosyalar yazma olanağınızı da kaybetmek istemediğinizi kabul edelim.</para>
+		<para><filename>ro.fs</filename> sıkıştırılmış dosya sistemini ve <filename>rw.fs</filename> dizinini oluşturun:<screen>bash# mksquashfs /home/user1 ro.fs
+bash# mkdir /home/rw.fs</screen></para>
+		<para>Sıkıştırılmış <filename>ro.fs</filename> dosya sistemini loopback aygıtı ile bağlayın: <screen>bash# mount -t squashfs ro.fs /mnt -o loop</screen></para>
+		<para>Unionfs dosya sistemini bağlayın, böylece <filename>/mnt</filename> ve <filename>/home/rw.fs</filename> dizinleri <filename>/home/user1</filename> altında birleşmiş gibi olur.<screen>bash# cd /home
+bash# mount -t unionfs -o dirs=rw.fs=rw:/mnt=ro unionfs user1</screen></para>
+		<para>Gördüğünüz gibi <filename>/home/user1</filename> dizininde yeni dosyalar oluşturabilirsiniz:<screen>bash# cd /home/user1
+bash# touch file1
+bash# ls</screen></para>
+		<para>Unionfs ve squashfs dosya sistemlerini çözün ve <filename>/home/user1</filename> dizininin içeriğini listeleyin:<screen>bash# cd ..
+bash# umount /home/user1
+bash# umount /mnt
+
+bash# ls /home/user1
+bash# ls /home/rw.fs</screen></para>
+		<para>Yeni oluşturulan <filename>file1</filename> dosyasını <filename>/home/rw.fs</filename> içinde görebilirsiniz.</para>
+		<para>Kaarlı ve sıkıştırılmış dosya sisteminize yeni dosyalar eklemek istediğinizde onları mevcut olanlara eklemeniz gerekir:<screen>bash# mksquashfs /home/rw.fs /home/ro.fs</screen></para>
+		<para>Artık sıkıştırılmış ev dizininizin başlangıçta bağlanması için aşağıdakileri sırasıyla yapmalısınız.</para>
+		<para>Squashfs ve unionfs modüllerinin başlangıçta yüklenmesini sağlayın.<screen>bash# echo squashfs >> /etc/modules
+bash# echo unionfs >> /etc/modules</screen></para>
+		<para>Yazılabilir dosyanın sahibini user1 olarak değiştirin.<screen>chown user1 /home/rw.fs</screen></para>
+		<para><filename>/etc/fstab</filename> dosyasına aşağıdaki satırları ekleyerek açılışta squashfs ve unionfs dosya sistemlerinin bağlanmasını sağlayın:<screen>...
+/home/ro.fs  /mnt squashfs loop 0 0
+unionfs /home/user1 unionfs dirs=/home/rw.fs=rw:/mnt=ro 0 0</screen></para>
+	</sect2>
+</sect1>
+<sect1 id="squashfs-howto-acknowledgements"><title>Teşekkür</title>
+	<para>Aşağıdakilere en içten teşekkürlerimi ve saygılarımı sunarım:
+		<itemizedlist><listitem>Phillip Lougher -  squashfs altındaki harika çalışmaları, linux-2.4.18 çekirdeği için hazırladığı yama, bu belgenin daha iyi olması için yardımları ve maillerime cevapları için;</listitem>
+		<listitem>TLDP'den Tabatha Marshall - bu belgeyi 1.0 sürümüne getirebilmem için yaptığı yardımlardan dolayı;</listitem>
+		<listitem><ulink url="http://www.tldp.org/">Linux Belgelendirme Projesi</ulink>ndeki herkese, Linux'u keşfederken ve öğrenirken bana yardımcı olan bütün NASIL belgeleri ve klavuzların altındaki büyük çalışmalar için;</listitem>
+		<listitem>TLDP eposta listelerindeki herkese bu belgeyi hazırlamaya başlamamda yardımcı oldukları için;</listitem>
+			<listitem>Açık kaynak kodlu yazılım geliştiren herkese sonsuz teşekkürlerimi ve saygılarımı sunarım.</listitem></itemizedlist>
+		Artemiy I. Pavlov</para>
+	<para>Artemiy'e epostalarımı cevaplarken gösterdiği sabır ve bu NASIL belgesine katılmama izin verdiği için teşekkür ederim. Özgür yazılım camiasındaki herkese teşekkürlerimi ve saygılarımı sunmak isterim.</para>
+	<para>Marco Cecchetti</para>
+</sect1>
+<sect1 id="squashfs-howto-license"><title>Lisans</title>
+	<para>Bu belgeyi Open Content Lisanısın koşullarına bağlı kalarak kullanabilir ve dağıtabilirsiniz. Bu kısaca belgedeki yazar ve telif hakkı bilgisini koruduğunuz sürece belgeyi özgürce değiştirebilir ve dağıtabilirsiniz anlamına gelmektedir. Bu Lisansın bir kopyasını <ulink url="http://www.opencontent.org/opl.shtml"/> adresinde bulabilirsiniz.</para>
+</sect1>
+</article>

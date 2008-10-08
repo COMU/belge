@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Dizgiler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="basit_ornekler.html">
+ <img border=0 src="a2l.gif" alt="Basit örnekler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="duzenli_ifadeler.html">
+ <img border=0 src="a2r.gif" alt="Düzenli ifadeler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Dizgiler (<i>Strings</i>)</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>
+Ruby'de karakter dizgilerine nümerik bir veriymiş gibi davranabilirsiniz. Bir dizgi çift ("...") ta da tek ('...') tırnaklı olabilir.
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "abc"</b></font>
+<font color="#50ffff"><b>   "abc"</b></font>
+ruby&gt;<font color="#ffff00"><b> 'abc'</b></font>
+<font color="#50ffff"><b>   "abc"</b></font></font></pre></td></tr></table>
+<p>
+gurgenı durumlarda çift ve tek tırnak farklı işlevler görür. Çift tırnaklı bir dizgi \'yı takiben gelen karakteri göstermez ve gömülü ifadeleri <code>#{}</code> çalıştırmaya izin verir. Tek tırnaklı dizgi'ler buna izin vermez: ne görürsen onu alırsın. Örneğin:
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> print "a\nb\nc","\n"</b></font>
+a
+b
+c
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> print 'a\nb\n',"\n"</b></font>
+a\nb\nc
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> "\n"</b></font>
+<font color="#50ffff"><b>   "\n"</b></font>
+ruby&gt;<font color="#ffff00"><b> '\n'</b></font>
+<font color="#50ffff"><b>   "\\n"</b></font>
+ruby&gt;<font color="#ffff00"><b> "\001"</b></font>
+<font color="#50ffff"><b>   "\001"</b></font>
+ruby&gt;<font color="#ffff00"><b> '\001'</b></font>
+<font color="#50ffff"><b>   "\\001"</b></font>
+ruby&gt;<font color="#ffff00"><b> "abcd #{5*3} efg"</b></font>
+<font color="#50ffff"><b>   "abcd 15 efg"</b></font>
+ruby&gt;<font color="#ffff00"><b> var = " abc "</b></font>
+<font color="#50ffff"><b>   " abc "</b></font>
+ruby&gt;<font color="#ffff00"><b> "1234#{var}5678"</b></font>
+<font color="#50ffff"><b>   "1234 abc 5678"</b></font></font></pre></td></tr></table>
+<p>Ruby'nin dizgi işlemleri C'ye kıyasla daha esnek ve şıktır.Örneğin <code>+</code> ile iki dizgiyi birleştirebilirsiniz ya da <code>*</code> ile bir dizgiyi birçok kez tekrar ettirebirsiniz:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "foo" + "bar"</b></font>
+<font color="#50ffff"><b>   "foobar"</b></font>
+ruby&gt;<font color="#ffff00"><b> "foo" * 2</b></font>
+<font color="#50ffff"><b>   "foofoo"</b></font></font></pre></td></tr></table>
+<p>C'de dizgileri birleştirme işi, kesin bellek yönetimi nedeniyle oldukça yakışıksızdır:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#d8d8e0"><tr><td><pre><font color="black">char *s = malloc(strlen(s1)+strlen(s2)+1);
+strcpy(s, s1);
+strcat(s, s2);
+/* ... */
+free(s);</font></pre></td></tr></table>
+<p>Ruby kullandığımız için dizgilere ayrılan herhangi bir alanı işgal etmemize gerek yok. Bellek yönetimi açısından tamamen özgürüz.</p>
+<p>Aşağıda dizgilerle yapabileceğiniz birkaç örnek var:</p>
+<p>Birleştirme:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> word = "fo" + "o"</b></font>
+<font color="#50ffff"><b>   "foo"</b></font></font></pre></td></tr></table>
+<p>Tekrarlatma:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> word = word * 2</b></font>
+<font color="#50ffff"><b>   "foofoo"</b></font></font></pre></td></tr></table>
+<p>Karakterleri seçmek (ruby'de karakterlerin tamsayı olduğuna dikkat edelim):</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> word[0]</b></font>
+<font color="#50ffff"><b>   102            # 102 is ASCII code of `f' </b></font>
+ruby&gt;<font color="#ffff00"><b> word[-1]</b></font>
+<font color="#50ffff"><b>   111            # 111 is ASCII code of `o'</b></font></font></pre></td></tr></table>
+<p>(Negatif ofset, başlangıç yerine dizginin sonundan okumaya başlar.)</p>
+<p>Dizgi içinden karakter kümesi ayırmak:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> herb = "parsley"</b></font>
+<font color="#50ffff"><b>   "parsley"</b></font>
+ruby&gt;<font color="#ffff00"><b> herb[0,1]</b></font>
+<font color="#50ffff"><b>   "p"</b></font>
+ruby&gt;<font color="#ffff00"><b> herb[-2,2]</b></font>
+<font color="#50ffff"><b>   "ey"</b></font>
+ruby&gt;<font color="#ffff00"><b> herb[0..3]</b></font>
+<font color="#50ffff"><b>   "pars"</b></font>
+ruby&gt;<font color="#ffff00"><b> herb[-5..-2]</b></font>
+<font color="#50ffff"><b>   "rsle"</b></font></font></pre></td></tr></table>
+<p>Eşitlik kontrolü yapmak</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "foo" == "foo"</b></font>
+<font color="#50ffff"><b>   true</b></font>
+ruby&gt;<font color="#ffff00"><b> "foo" == "bar"</b></font>
+<font color="#50ffff"><b>   false</b></font></font></pre></td></tr></table>
+<p>Not: Ruby 1.0'da sonuçlar büyük harfle belirtiliyordu; örneğin <code>TRUE</code>.</p>
+<p>Şimdi bu özelliklerin gurgenılarını hayata geçirelim: Bulmacamız bir "kelimeyi bil" bulmacası ama sanırım "puzzle" kelimesi fazla mütevazi oldu <code>^o~</code></p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black"># tahmin.rb olarak kaydedin
+kelimeler = ['kestane', 'gurgen', 'palamut']
+gizli_kelime = kelimeler[rand(3)]
+
+print "tahmin? "
+while tahmin = STDIN.gets
+  tahmin.chop!
+  if tahmin == gizli_kelime
+    print "Kazandiniz!\n"
+    break
+  else
+    print "Uzgunum, kaybettiniz.\n"
+  end
+  print "tahmin? "
+end
+print "Kelime: ", gizli_kelime, ".\n"</font></pre></td></tr></table>
+<p>Şimdilik kodun detayları hakkında fazla kafa yormayalım. Aşağıda programın nasıl çalışması gerektiği görülüyor:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">% ruby tahmin.rb
+tahmin? kestane
+Uzgunum, kaybettiniz.
+tahmin? palamut
+Uzgunum, kaybettiniz.
+tahmin? ^D
+Kelime: gurgen.</font></pre></td></tr></table>
+<p>(1/3 olasılığa karşı biraz daha iyi yapmalıydım..).</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="basit_ornekler.html">
+ <img border=0 src="a2l.gif" alt="Basit örnekler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="duzenli_ifadeler.html">
+ <img border=0 src="a2r.gif" alt="Düzenli ifadeler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

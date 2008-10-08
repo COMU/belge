@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************
+     $Id: jabberd-howto.xml $
+     ******************************************************************** -->
+<article id="jabberd-howto" lang="tr">
+  <articleinfo>
+    <title>Jabber Sunucusu NASIL</title>
+<authorgroup><author>
+      <firstname>Pınar</firstname>
+      <surname>Yanardağ</surname>
+      <affiliation>
+        <address><email>pinar@comu.edu.tr</email></address>
+      </affiliation>
+    </author></authorgroup>
+    
+<revhistory>
+    <revision>
+      <revnumber>1.0</revnumber>
+      <date>Kasım 2006</date>
+      <authorinitials>py</authorinitials>
+      <revremark>İlk sürüm</revremark>
+    </revision>
+  </revhistory>  
+    
+  <legalnotice><title>Yasal Açıklamalar</title><para>
+Bu belgenin, <emphasis>Jabber Sunucusu Nasıl</emphasis> belgesinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2006 <emphasis>Pınar Yanardağ</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2.0 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+  </para>
+  <para>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </para>
+  </legalnotice>
+
+    <abstract>
+      <para>
+
+Bu belgede Jabber protokolü tabanlı açık kaynak mesajlaşma sistemi Jabberd 2 Sunucusunun (Jabberd) kurulumu ve yönetimi anlatılmıştır. 
+</para>
+    </abstract>
+  </articleinfo>
+  
+  <sect1 id="jabberd-howto-intro"><title>Giriş</title>
+
+    <para>
+
+Jabber her ne kadar birincil kullanım alanı anında mesajlaşma sistemleri olsa da; istemci-istemci, istemci-sunucu ve sunucu-sunucu arasında iletişim için bir XML protokolü sağlamasıyla ön plana çıkan bir protokoldür. 
+
+Jabber'ın öne çıkan bazı özellikleri:
+<itemizedlist>
+<listitem>
+Açık: Jabber protokolü özgür, açık ve anlaşılması kolay bir protokoldür. Aynı zamanda sunucular, istemciler ve kod kütüphaneleri için çeşitli gerçekleştirimleri bulunmaktadır.
+</listitem>
+
+<listitem>
+Standart: XML tabanlı protokoller IETF (Internet Engineering Task Force) tarafından XMPP (Extensible Messaging and Presence Protocol) teknolojisi adı altında, standart bir anında mesajlaşma teknolojisi olarak kabul edilmiştir.
+</listitem>
+
+<listitem>
+Yaygın: İlk Jabber teknolojisi 1998 yılında Jeremie Miller tarafından geliştirilmiştir, ve şu an Jabber teknolojileri üzerinde çalışan yüzlerce geliştirici ve Internet üzerinde çalışan on binlerce Jabber sunucusu bulunmaktadır. 
+</listitem>
+
+<listitem>
+Dağıtık: Jabber mimarisi gereği dağıtık olarak tasarlanmıştır. İsteyen herkes kendi Jabber sunucusunu kurabilir ve çalıştırabilir. Bu özellik sayesinde kuruluşlar kendi içlerinde anında mesajlaşma hizmetinin kontrolünü ele alma fırsatı yakalarlar.
+</listitem>
+
+<listitem>
+Güvenli: Herhangi bir Jabber sunucusu, dış ağdan tamamen izole edilebilir özelliktedir ve XMPP yapısına gömüşü SASL ve TLS sayesinde güvenli iletişim sağlanır.
+</listitem>
+
+<listitem>
+Genişletilebilir: XML teknolojisi sayesinde, protokol için özel fonksiyonel yapılar geliştirilebilir.
+</listitem>
+
+<listitem>
+Esnek: Jabber protokolü, anında mesajlaşma servislerinin dışında, ağ yönetimi, dosya paylaşımı, oyun ve uzak sistem izlemesi gibi işlerde kullanılmaktadır.
+</listitem>
+</itemizedlist>
+</para>
+
+    <para>Jabberd sunucusu ise yıllardır açık kaynak kodlu olarak geliştirilen
+bir projedir ve Jabberd 2 versiyonu getirdiği yeni kod altyapısı, yeni mimarisi ve yeni
+pek çok özelliğiyle beraber Jabberd 1.4 sunucusunun yerini almaya hazırlanmaktadır. Aşağıda Jabberd 2 sunucusunun hem Postgresql hem de Mysql veritabanları ile kurulumu anlatılmıştır.</para>
+
+
+
+    </sect1>
+
+
+    <sect1 id="jabberd-howto-install">
+
+<title>Ön Hazırlık</title>
+
+
+
+<para>Öncelikle sistemde bir Jabber kullanıcısının ve grubunun oluşturulması gerekmektedir:
+<screen><command>su</command> -
+<command>groupadd</command> jabber
+<command>useradd</command> -g jabber jabber</screen>      
+      </para>
+ <para>Daha sonra Jabber'ın PID dosyalarını ve loglarını yazabileceği dizinler oluşturuluyor:</para><para>PID için:
+<screen>
+<command>mkdir</command> -p <filename>/usr/local/var/jabberd/pid/</filename>
+<command>chown</command> -R jabber:jabber <filename>/usr/local/var/jabberd/pid/</filename></screen>
+</para><para>Log dosyaları için:
+<screen><command>mkdir</command> -p <filename>/usr/local/var/jabberd/log/</filename>
+<command>chown</command> -R jabber:jabber <filename>/usr/local/var/jabberd/log</filename></screen></para>     
+      
+<para>Jabberd varsayılan olarak logları syslog'a
+yazmaktadır, bu yüzden logların oluşturulan log dizinine kayıt edilmesi için
+yapılandırma dosyasının sonradan düzenlenmesi gerekmektedir.</para>
+
+<para>Jabber2 kurulumu için Openssl ve Lididn'nin ve Postgresql/Mysql'in sistemde kurulu olup olmadığına dikkat edin.</para>      
+
+
+<para>Jabberd 2'yi <ulink url="http://jabberd.jabberstudio.org/2/">bu</ulink>
+adresten indirin ve bulunduğu dizine geçip, aşağıdaki komut ile açın:
+<screen><command>tar</command> -zxvf jabberd-2.0s11.tar.gz</screen></para>
+
+
+</sect1>
+<sect1 id="jabberd-howto-postgresql">
+
+<title>Postgresql Üzerinde Jabberd Kurulumu</title>
+
+
+      
+<para>Jabberd varsayılan olarak Mysql veritabanını seçmektedir, ancak belgenin bu kısmında Jabber sunucusunu Postgresql ile kullanacağımızdan,  Openssl ve Libidn kullanılarak sistemi yapılandıralım:
+<screen><command>cd</command> jabberd-2.0s11
+<command>./configure</command> --enable-pgsql --enable-ssl --enable-idn</screen></para>
+
+<note><para>Eğer yukarıdaki komutu uygulamanıza rağmen halen Mysql ile derleme konusunda ısrarla karşılaşırsanız aşağıdaki komutu deneyin:</para><screen>
+<command>./configure</command> --disable-mysql --enable-pgsql --enable-ssl --enable-idn</screen></note>
+
+<para>
+Eğer ek olarak path ya da kütüphane eklemek istiyorsanız:
+<varname>-with-extra-include-path</varname> ve  <varname>-with-extra-library-path</varname> seçeneklerini kullanabilirsiniz.</para>
+
+<para>Örnek bir komut için:
+<screen><command>./configure</command> <varname>--disable-mysql --enable-pgsql --enable-ssl --enable-idn</varname> \
+<varname>-with-extra-include-path=/etc/postgresql:/usr/include/postgresql:/usr/share/postgresql</varname> \
+<varname>-with-extra-library-path=/usr/lib/postgresql</varname></screen>
+</para>
+
+<para>Yapılandırma sorunsuz bittikten sonra;
+<screen><command>make</command>
+<command>make install</command></screen>
+komutlarını vererek kurulum işini bitirin.
+</para>
+
+   </sect1>
+
+<sect1 id="jabberd-howto-config-postgre"><title>Yapılandırma</title>
+
+<para>Jabberd dosyalarının içerdiği bilgiler arasında parolalar da olduğu için gerekli izinleri aşağıdaki gibi ayarlayalım:
+
+<screen><command>chown</command> -R root:jabber <filename>/usr/local/etc/jabberd/*</filename>
+<command>chmod</command> -R 640 <filename>/usr/local/etc/jabberd/*</filename></screen>
+</para>
+
+<para>Böylece artık yalnızca jabber kullanıcısı ve root'un yapılandırma
+dosyalarını okuyabilmesini ve değiştirebilmesini sağladık.</para>
+
+<tip><para>Kolaylık için yapılandırma dosyalarına bir sembolik link atayabilirsiniz:</para>
+<screen>ln -s /usr/local/etc/jabberd/ /etc/jabberd</screen></tip>
+
+<para>Şimdi <filename>/etc/jabberd</filename> dizinine geçip ve yapılandırma dosyalarını düzenleme işine başlayalım. 
+Jabberd'de yapılandırma dosyaları xml halinde bulunurlar. İlk iş
+olarak <filename>sm.xml</filename> ve <filename>c2s.xml</filename> dosyalarındaki <varname>hostname</varname>'i ayarlayın. Bunun için 
+<filename>sm.xml</filename> dosyasının ilk paragrafında <varname>localhost</varname> gördüğünüz yere kendi
+alan adınızı yazın:
+</para>
+
+<screen>&lt;!-- Session manager configuration --&gt;
+&lt;sm&gt;
+ &lt;!-- Our ID on the network. Users will have this as the domain part of
+      their JID. If you want your server to be accessible from other
+      Jabber servers, this ID must be resolvable by DNS.s
+      (default: localhost) --&gt;
+ &lt;id&gt;<varname>jabber.comu.edu.tr</varname>&lt;/id&gt;
+</screen>
+
+<para><filename>c2s.xml</filename> dosyasında ise "Local Network Configuration" ile başlayan
+kısımda <varname>localhost</varname> yazan yere kendi alan adınızı yazın:</para>
+
+<screen>&lt;!-- Local network configuration --&gt;
+ &lt;local&gt;
+   &lt;!-- Who we identify ourselves as. This should correspond to the
+        ID (host) that the session manager thinks it is. You can
+        specify more than one to support virtual hosts, as long as you
+        have additional session manager instances on the network to
+        handle those hosts. The realm attribute specifies the auth/reg
+        or SASL authentication realm for the host. If the attribute is
+        not specified, the realm will be selected by the SASL
+        mechanism, or will be the same as the ID itself. Be aware that
+        users are assigned to a realm, not a host, so two hosts in the
+        same realm will have the same users.
+        If no realm is specified, it will be set to be the same as the
+        ID. --&gt;
+   &lt;id&gt;<varname>jabber.comu.edu.tr</varname>&lt;/id&gt;</screen>
+
+<para>Şimdi Postgresql ile olan işimizi halledelim. Öncelikle Jabberd için bir veritabanı yaratın:
+<screen><command>createdb</command> -U postgres jabberd2</screen>
+</para>
+
+<para>Daha sonra da jabberd2 kullanıcısını oluşturun:
+<screen><command>createuser</command> -P -U postgres jabberd2</screen>
+</para>
+
+<para>Daha sonra açtığınız Jabberd kaynak kodlarının bulunduğu dizindeki
+<filename>tools</filename> dizinine geçerek;
+<screen><command>psql</command> -U jabberd2 jabberd2</screen>
+ve ardından;
+<screen><command>jabberd2</command> -i db-setup.pgsql</screen>
+komutlarını çalıştırarak db-setup.pgsql betiğini çalıştırın. 
+</para>
+
+<para>Şimdi yapılandırma dosyanızda veritabanı için ufak bir kaç ayar
+yapmanız gerekiyor. Öncelikle <filename>sm.xml</filename> dosyasında "Storage database configuration" ile
+başlayan satıra gidip driver etiketleri arasında yazılı olan mysql'i pgsql'e çevirin.
+<screen>
+&lt;!-- Storage database configuration --&gt;
+       &lt;storage&gt;
+         &lt;!-- By default, we use the MySQL driver for all storage --&gt;
+         &lt;driver&gt;<varname>pgsql</varname>&gt;&lt;/driver&gt;
+</screen>
+</para>
+
+<para>
+Sonra yine aynı dosyada postgresql ile olan kısımdaki ("PostgreSQL
+driver configuration" etiketi ile başlayan) "<varname>secret</varname>" kelimesi yerine
+kendi parolanızı yazın.
+<screen>&lt;!-- PostgreSQL driver configuration --&gt;
+     &lt;pgsql&gt;
+       &lt;!-- Database server host and port --&gt;
+       &lt;host&gt;<varname>localhost</varname>&lt;/host&gt;
+       &lt;port&gt;<varname>5432</varname>&lt;/port&gt;
+
+       &lt;!-- Database name --&gt;
+       &lt;dbname&gt;<varname>jabberd2</varname>&lt;/dbname&gt;
+
+       &lt;!-- Database username and password --&gt;
+       &lt;user&gt;<varname>jabberd2</varname>&lt;/user&gt;
+       &lt;pass&gt;<varname>secret</varname>&lt;/pass&gt;
+
+       &lt;!-- Transaction support. If this is commented out, transactions
+            will be disabled. This might make database accesses faster,
+            but data may be lost if jabberd crashes. --&gt;
+       &lt;transactions/&gt;
+     &lt;/pgsql&gt;</screen>
+</para>
+
+<para>
+Şimdi <filename>c2s.xml</filename> dosyasını açın ve "Authentication/registration
+database configuration" ile başlayan etikette module tagındaki <varname>mysql</varname>'i
+<varname>pgsql</varname>'e çevirin.
+<screen>&lt;!-- Authentication/registration database configuration --&gt;
+     &lt;authreg&gt;
+       &lt;!-- Backend module to use --&gt;
+       &lt;module&gt;<varname>pgsql</varname>&lt;/module&gt;
+</screen>
+</para>
+<para>Sonra yine aynı dosyadaki "PostgreSQL module configuration" ile
+başlayan etikette "Database username and password" kısmındaki <varname>secret</varname>
+kelimesinin yerine jabberd2 kullanıcısının veritabanı parolasını yazın.
+<screen>&lt;!-- PostgreSQL module configuration --&gt;
+     &lt;pgsql&gt;
+       &lt;!-- Database server host and port --&gt;
+       &lt;host&gt;<varname>localhost</varname>&lt;/host&gt;
+       &lt;port&gt;<varname>5432</varname>&lt;/port&gt;
+
+       &lt;!-- Database name --&gt;
+       &lt;dbname&gt;<varname>jabberd2</varname>&lt;/dbname&gt;
+
+       &lt;!-- Database username and password --&gt;
+       &lt;user&gt;<varname>jabberd2</varname>&lt;/user&gt;
+       &lt;pass&gt;<varname>secret</varname>&lt;/pass&gt;
+     &lt;/pgsql&gt;</screen>
+</para>
+
+
+<!--postgresql'in kapanış tag'ı-->
+</sect1>
+
+
+<sect1 id="jabberd-howto-mysql">
+
+
+<title>Mysql Üzerinde Jabberd Kurulumu</title>
+
+
+<para>
+
+Jabberd'yi Mysql ile birlikte kullanmak istiyorsanız, öncelikle Jabberd 2 dağıtımı içindeki kurulum betiğini çalıştırmanız gerekmektedir. Öncelikle '[Jabberd Source Files]/tools' dizinine geçin ve MySQL konsolunu başlatın (MySQL sunucusu zaten çalışıyor olmalıdır). MySQL konsolundan aşağıdaki komutu çalıştırın:
+
+<screen>
+      mysql -u root -p
+      mysql>\. db-setup.mysql
+</screen>
+Böylece Jabberd için bir veritabanı ve MySQL sunucusuna erişebilecek bir kullanıcı yarattık.
+</para>
+
+
+<para>
+
+Daha sonra MySQL konsolundan aşağıdaki SQL ifadesini çalıştırın (secret yazan yeri kendi parolanız ile değiştirin):
+<screen>
+          GRANT select,insert,delete,update ON jabberd2.* 
+          to jabberd2@localhost IDENTIFIED by 'secret';
+</screen>
+
+Böylece MySQL, Jabberd ile kullanılmaya hazır hale geldi.
+
+</para>
+
+   </sect1>
+
+<sect1 id="jabberd-howto-config-mysql"><title>Yapılandırma</title>
+
+<para>Jabberd dosyalarının içerdiği bilgiler arasında parolalar da olduğu için gerekli izinleri aşağıdaki gibi ayarlayalım:
+
+<screen><command>chown</command> -R root:jabber <filename>/usr/local/etc/jabberd/*</filename>
+<command>chmod</command> -R 640 <filename>/usr/local/etc/jabberd/*</filename></screen>
+</para>
+
+<para>Böylece artık yalnızca jabber kullanıcısı ve root'un yapılandırma
+dosyalarını okuyabilmesini ve değiştirebilmesini sağladık.</para>
+
+<tip><para>Kolaylık için yapılandırma dosyalarına bir sembolik link atayabilirsiniz:</para>
+<screen>ln -s /usr/local/etc/jabberd/ /etc/jabberd</screen></tip>
+
+<para>Şimdi yapılandırma dosyanızda veritabanı için ufak bir kaç ayar
+yapmanız gerekiyor. Öncelikle <filename>sm.xml</filename> dosyasında "Storage database configuration" ile
+başlayan satırda driver etiketleri arasında mysql yazdığından emin olun:
+<screen>
+&lt;!-- Storage database configuration --&gt;
+       &lt;storage&gt;
+         &lt;!-- By default, we use the MySQL driver for all storage --&gt;
+         &lt;driver&gt;<varname>mysql</varname>&gt;&lt;/driver&gt;
+</screen>
+</para>
+
+<para>Daha sonra sm.xml dosyasında "MySQL driver configuration" olarak etiketlenmiş sekmede "secret" yerine parolanızı yazın:
+<screen>
+          &lt;!-- MySQL driver configuration --&gt;
+          &lt;mysql&gt;
+            &lt;!-- Database server host and port --&gt;
+            &lt;host&gt;localhost&lt;/host&gt;
+            &lt;port>3306&lt;/port&gt;
+
+            &lt;!-- Database name --&gt;
+            &lt;dbname&gt;jabberd2&lt;/dbname&gt;
+
+            &lt;!-- Database username and password --&gt;
+            &lt;user&gt;jabberd2&lt;/user&gt;
+            &lt;pass&gt;secret&lt;/pass&gt;
+
+            &lt;!-- Transaction support. If this is commented out, transactions
+                 will be disabled. This might make database accesses faster,
+                 but data may be lost if jabberd crashes.
+
+                 This will need to be disabled if you are using a MySQL
+                 earlier than v3.23.xx, as transaction support did not appear
+                 until this version. --&gt;
+            &lt;transactions/&gt;
+          &lt;/mysql&gt;
+</screen>
+Böylece MySQL ile olan işimiz bitti.
+</para>
+
+<para>Artık sunucumuzu test edebiliriz. Root iken aşağıdaki komutları uygulayın ve Jabber'ın keyfini çıkarın!
+<screen>
+<command>su
+    su jabber
+    cd /usr/local/bin
+    ./jabberd  </command></screen>
+</para>
+</sect1>
+</article>

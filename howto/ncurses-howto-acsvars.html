@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:22+03:00"><title>ACS_ değişkenleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-misc.html" title="Çeşitli Özellikler"><link rel="previous" href="../howto/ncurses-howto-templeave.html" title="Curses Kipini Geçici Olarak Terk Etmek"><link rel="next" href="../howto/ncurses-howto-otherlib.html" title="Diğer Kütüphaneler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">ACS_ değişkenleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-templeave.html">Önceki</a> </td><th width="60%" align="center">Çeşitli Özellikler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-otherlib.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-acsvars"></a><tt>ACS_</tt> değişkenleri</h3></div></dt><dd><p>
+Eğer DOS'ta programlama yaptıysanız genişletilmiş karakter kümesi içerisindeki şu güzel görünümlü olanları biliyorsunuzdur. Sadece bazı uçbirimlerde gösterilirler. NCURSES'ün <b><tt>box()</tt></b> gibi işlevleri bu karakterleri kullanır. Tüm bu karakterler seçimlik karakter kümesi anlamına gelen ACS (alternative character set) ile başlar. Yukarıdaki programların bazılarında bu karakterleri kullandığımı farketmiş olabilirsiniz. Aşağıda tüm karakterleri gösteren bir örnek vardır.
+</p><div class="example"><p><a name="ncurses-howto-bacsvars"></a><b>Örnek 5.18. <tt>ACS_</tt> değişkenleri örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;
+
+int main()
+{
+  initscr();
+
+  printw("Sol üst köşe         "); addch(ACS_ULCORNER); printw("\n");
+  printw("Sol alt köşe         "); addch(ACS_LLCORNER); printw("\n");
+  printw("Sağ alt köşe         "); addch(ACS_LRCORNER); printw("\n");
+  printw("Sağı dönük T         "); addch(ACS_LTEE); printw("\n");
+  printw("Sola dönük T         "); addch(ACS_RTEE); printw("\n");
+  printw("Yukarı dönük T       "); addch(ACS_BTEE); printw("\n");
+  printw("Aşağı dönük T        "); addch(ACS_TTEE); printw("\n");
+  printw("Yata çizgi           "); addch(ACS_HLINE); printw("\n");
+  printw("Dikey çizgi          "); addch(ACS_VLINE); printw("\n");
+  printw("Büyük artı           "); addch(ACS_PLUS); printw("\n");
+  printw("Tarama satırı 1      "); addch(ACS_S1); printw("\n");
+  printw("Tarama satırı 3      "); addch(ACS_S3); printw("\n");
+  printw("Tarama satırı 7      "); addch(ACS_S7); printw("\n");
+  printw("Tarama satırı 9      "); addch(ACS_S9); printw("\n");
+  printw("Eşkenar görtgen      "); addch(ACS_DIAMOND); printw("\n");
+  printw("Noktalı onay kutusu  "); addch(ACS_CKBOARD); printw("\n");
+  printw("Derece sembolü       "); addch(ACS_DEGREE); printw("\n");
+  printw("Artı/Eksi işareti    "); addch(ACS_PLMINUS); printw("\n");
+  printw("Madde imi            "); addch(ACS_BULLET); printw("\n");
+  printw("Solu gösteren ok     "); addch(ACS_LARROW); printw("\n");
+  printw("Sağı gösteren ok     "); addch(ACS_RARROW); printw("\n");
+  printw("Aşağı gösteren ok    "); addch(ACS_DARROW); printw("\n");
+  printw("Yukarı gösteren ok   "); addch(ACS_UARROW); printw("\n");
+  printw("Diyez işareti        "); addch(ACS_BOARD); printw("\n");
+  printw("İçi boş kare         "); addch(ACS_LANTERN); printw("\n");
+  printw("İçi dolu kare blok   "); addch(ACS_BLOCK); printw("\n");
+  printw("Küçük/Eşit işareti   "); addch(ACS_LEQUAL); printw("\n");
+  printw("Büyük/Eşit işareti   "); addch(ACS_GEQUAL); printw("\n");
+  printw("Pi                   "); addch(ACS_PI); printw("\n");
+  printw("Eşit değil           "); addch(ACS_NEQUAL); printw("\n");
+  printw("UK ound sembolü      "); addch(ACS_STERLING); printw("\n");
+
+  refresh();
+  getch();
+  endwin();
+
+  return 0;
+}
+</pre> </td></tr></table></div></p></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-templeave.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-misc.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-otherlib.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Curses Kipini Geçici Olarak Terk Etmek </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Diğer Kütüphaneler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

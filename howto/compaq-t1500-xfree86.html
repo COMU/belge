@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-04-18T02:17:41+02:00"><title>XFree86</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/compaq-t1500.html" title="Compaq T1500 Linux NASIL"><link rel="previous" href="../howto/compaq-t1500-other.html" title="FLASH Görüntüsünü Düzenlemek ve Diğer Araçlar"><link rel="next" href="../howto/compaq-t1500-troubleshooting.html" title="Hata Giderme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">XFree86</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/compaq-t1500-other.html">Önceki</a> </td><th width="60%" align="center">Compaq T1500 Linux NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/compaq-t1500-troubleshooting.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="compaq-t1500-xfree86"></a>XFree86</h2></div></dt><dd><p>
+		XFree86 ile başlatmak için, normal XFree paketlerini edinip kurmanız gereklidir. XF86Config dosyasını <a href="http://www.falkensweb.com/t1500.html" target="_top">http://www.falkensweb.com/t1500.html</a> adresinden alıp kurabilirsiniz. Başlangıçta otomatik olarak başlaması için <tt>rc.local</tt> (ya da dağıtımınızdaki eşdeğeri) dosyasına aşağıdaki satırı ekleyin
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+xinit -- -bpp 16 &amp;
+</pre> </td></tr></table></div>
+  </p><p>
+Temkinli davranıp X'i kullanıcı haklarıyla çalıştırmak için, bir kullanıcı yaratın ve X'i
+başlatıp durdurmak için aşağıdakileri yapın (ben bunu <tt>init.d</tt>'ye yerleştirdim ve <tt>rc.4</tt>'e sembolik bağ verdim). 5. satırdaki 'mplayer' yerine kullanıcı adınızı yazın.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#! /bin/sh
+case "$1" in
+start)
+        echo -n "Automatically logging into X"
+        su -c 'cd ~mplayer &amp;&amp; xinit -- -bpp 16' - mplayer &amp;
+        echo "."
+        ;;
+stop|restart)
+        ;;
+*)
+        echo "Usage: /etc/init.d/mplayer {start|stop|restart}"
+        exit 1
+esac
+
+exit 0
+</pre> </td></tr></table></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/compaq-t1500-other.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/compaq-t1500.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/compaq-t1500-troubleshooting.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">FLASH Görüntüsünü Düzenlemek ve Diğer Araçlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hata Giderme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

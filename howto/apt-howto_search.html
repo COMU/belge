@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:48+03:00"><title>Paketler hakkında bilgi toplama</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apt-howto.html" title="APT NASIL"><link rel="previous" href="../howto/apt-howto_helpers.html" title="Yardımcı araçlar"><link rel="next" href="../howto/apt-howto_sourcehandling.html" title="Kaynak paketlerle çalışma"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Paketler hakkında bilgi toplama</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apt-howto_helpers.html">Önceki</a> </td><th width="60%" align="center">APT NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/apt-howto_sourcehandling.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apt-howto_search"></a>Paketler hakkında bilgi toplama</h2></div></dt><dd><p>
+Paketler hakkında bilgi toplamak için APT sisteminin üzerinde çalışan programlar bulunmaktadır. Bu bilgiler sisteme kurulabilen paket listesi, yüklenmiş paketlerin listesi, paketin hangi bölüme ait olduğu, önceliği ve açıklaması vb. olabilir.
+    </p><p>
+Fakat burada amacımız APT ile aynı bilgilere nasıl erişebileceğinizi sizlere anlatmaktır. Mesela, kurmak istediğiniz programın paket adını nasıl öğrenebiliriz?
+    </p><p>
+Bu amaç için birkaç yardımcı araca sahibiz. Önce <b><tt>apt-cache</tt></b> ile başlayalım. Bu program APT sistemi tarafından kendi özel veritabanını yönetmede kullanılır. Şimdi pratik kullanımda uygulanmasına geçelim.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_cache"></a>Paket isimlerini keşfetme</h3></div></dt><dd><p>
+Örneğin, eski iyi günleri hatırladınız, Atari 2600 günlerinizi... Ve bir Atari emülator programı kurmak için APT'yi kullanmak istiyorsunuz ancak kurmanız gereken paketin ismini bilmiyorsunuz. Yapmanız gereken:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache search atari</tt></b>
+atari-fdisk-cross - Partition editor for Atari (running on non-Atari)
+circuslinux - The clowns are trying to pop balloons to score points!
+madbomber - A Kaboom! clone
+tcs - Character set translator.
+atari800 - Atari emulator for svgalib/X/curses
+stella - Atari 2600 Emulator for X windows
+xmess-x - X binaries for Multi-Emulator Super System
+</pre> </td></tr></table></div></p><p>
+Gördüğünüz gibi arama sonucumuzda birkaç paket kısa açıklamalarıyla birlikte listelendi. Herhangi biri hakkında daha ayrıntılı bilgi almak istersek kullanacağımız komut:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache show stella</tt></b>
+Package: stella
+Priority: extra
+Section: non-free/otherosfs
+Installed-Size: 830
+Maintainer: Tom Lear &lt;tom@trap.mtview.ca.us&gt;
+Architecture: i386
+Version: 1.1-2
+Depends: libc6 (&gt;= 2.1), libstdc++2.10, xlib6g (&gt;= 3.3.5-1)
+Filename: dists/potato/non-free/binary-i386/otherosfs/stella_1.1-2.deb
+Size: 483430
+MD5sum: 11b3e86a41a60fa1c4b334dd96c1d4b5
+Description: Atari 2600 Emulator for X windows
+ Stella is a portable emulator of the old Atari 2600 video-game console
+ written in C++.  You can play most Atari 2600 games with it.  The latest
+ news, code and binaries for Stella can be found at:
+ http://www4.ncsu.edu/~bwmott/2600
+</pre> </td></tr></table></div></p><p>
+Bu defaki ekran çıktısında paket hakkında daha ayrıntılı bilgi var ve bu bilgiler doğrultusunda paketi kurmak isteyip istemediğimize karar verebiliriz. Eğer paket sisteminizde kurulu fakat yeni bir sürümü mevcut ise, her iki sürüm hakkındaki bilgiler listelenecektir.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache show lilo</tt></b>
+Package: lilo
+Priority: important
+Section: base
+Installed-Size: 271
+Maintainer: Russell Coker &lt;russell@coker.com.au&gt;
+Architecture: i386
+Version: 1:21.7-3
+Depends: libc6 (&gt;= 2.2.1-2), debconf (&gt;=0.2.26), logrotate
+Suggests: lilo-doc
+Conflicts: manpages (&lt;&lt;1.29-3)
+Filename: pool/main/l/lilo/lilo_21.7-3_i386.deb
+Size: 143052
+MD5sum: 63fe29b5317fe34ed8ec3ae955f8270e
+Description: LInux LOader - The Classic OS loader can load Linux and others
+ This Package contains lilo (the installer) and boot-record-images to
+ install Linux, OS/2, DOS and generic Boot Sectors of other OSes.
+ .
+ You can use Lilo to manage your Master Boot Record (with a simple text screen)
+ or call Lilo from other Boot-Loaders to jump-start the Linux kernel.
+
+Package: lilo
+Status: install ok installed
+Priority: important
+Section: base
+Installed-Size: 190
+Maintainer: Vincent Renardias &lt;vincent@debian.org&gt;
+Version: 1:21.4.3-2
+Depends: libc6 (&gt;= 2.1.2)
+Recommends: mbr
+Suggests: lilo-doc
+Description: LInux LOader - The Classic OS loader can load Linux and others
+ This Package contains lilo (the installer) and boot-record-images to
+ install Linux, OS/2, DOS and generic Boot Sectors of other OSes.
+ .
+ You can use Lilo to manage your Master Boot Record (with a simple text screen)
+ or call Lilo from other Boot-Loaders to jump-start the Linux kernel.
+</pre> </td></tr></table></div></p><p>
+Burada ilk sırada yeni sürüme ait bilgiler, ikinci sırada ise zaten sisteminizde kurulu olan sürüme ait bilgiler listelenir. Bir paket hakkında daha genel bilgi edinmek için aşağıdaki komutu kullanabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache showpkg penguin-command</tt></b>
+Package: penguin-command
+Versions:
+1.4.5-1(/var/lib/apt/lists/download.sourceforge.net_debian_dists_unstable_main_binary-i386_Packages)(/var/lib/dpkg/status)
+
+Reverse Depends:
+Dependencies:
+1.4.5-1 - libc6 (2 2.2.1-2) libpng2 (0 (null)) libsdl-mixer1.1 (2 1.1.0) libsdl1.1 (0 (null)) zlib1g (2 1:1.1.3)
+Provides:
+1.4.5-1 -
+Reverse Provides:
+</pre> </td></tr></table></div></p><p>
+Bir paketin bağımlı olduğu paketlerin listesini almak için:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache depends penguin-command</tt></b>
+penguin-command
+  Depends: libc6
+  Depends: libpng2
+  Depends: libsdl-mixer1.1
+  Depends: libsdl1.1
+  Depends: zlib1g
+</pre> </td></tr></table></div></p><p>
+Özetle, aradığımız paket adını bulmak için bir kaç silaha sahibiz.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_dpkg-search"></a>Paket adlarını bulmak için dpkg kullanma</h3></div></dt><dd><p>
+Paket adını bulmada diğer bir yöntem de o paket tarafından kullanıldığını bildiğiniz bir dosyadan hareket etmektir. Örneğin belirli bir <tt>".h"</tt> dosyasını içerdiğini bildiğiniz paketin ismini aşağıdaki gibi bulabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>dpkg -S stdio.h</tt></b>
+libc6-dev: /usr/include/stdio.h
+libc6-dev: /usr/include/bits/stdio.h
+perl: /usr/lib/perl/5.6.0/CORE/nostdio.h
+</pre> </td></tr></table></div></p><p>veya:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>dpkg -S /usr/include/stdio.h</tt></b>
+libc6-dev: /usr/include/stdio.h
+</pre> </td></tr></table></div></p><p>
+Eğer sisteminize kurulu bir paketin tam ismini öğrenmek isterseniz aşağıdaki komut işinizi görecektir:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>dpkg -l | grep mozilla</tt></b>
+ii  mozilla-browse 0.9.6-7        Mozilla Web Browser
+</pre> </td></tr></table></div></p><p>
+Bu komut paket isimlerini belirli bir uzunluktan sonra kesmektedir. Yukarıdaki örnekte paketin tam ismi <tt>mozilla-browser</tt>'dır. Bu problemi gidermek için <tt>COLUMNS</tt> çevresel değişkenini aşağıdaki gibi ayarlamalısınız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>[kov]@[couve] $</tt> <b><tt>COLUMNS=132 dpkg -l | grep mozilla</tt></b>
+ii  mozilla-browser             0.9.6-7                     Mozilla Web Browser
+- core and browser
+</pre> </td></tr></table></div></p><p>
+veya açıklamasından yola çıkarak paket adını elde edebilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache search "Mozilla Web Browser"</tt></b>
+mozilla-browser - Mozilla Web Browser
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_auto-apt"></a>Programları anında kurma</h3></div></dt><dd><p>
+Bir program derliyorsunuz ve aniden bir hata oluştu! Çünkü program sisteminizde olmayan bir <tt>.h</tt> dosyasına ihtiyaç duyuyor. <b><tt>auto-apt</tt></b> programı sizi bu senaryolardan kurtaracaktır. Gerektiğinde ilgili paketi kurmak isteyip istemediğinizi soracak, derleme işlemini durduracak ve programı çekip kurduktan sonra derleme işleminin devam etmesini sağlayacaktır.
+      </p><p>
+Peki nasıl yapacaksınız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>auto-apt run </tt></b><i>komut</i>
+</pre> </td></tr></table></div></p><p>
+Burada <i><tt>komut</tt></i> yerine derleme için kullanacağınız komutu yazmalısınız.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>auto-apt run ./configure</tt></b>
+</pre> </td></tr></table></div></p><p>
+Ardından gerekli paketleri kurmak isteyip istemediğinizi soracak, <b><tt>apt-get</tt></b>'i çağırarak kurulumları otomatik olarak gerçekleştirecektir. Eğer bir X sunucusu üzerinde çalışıyorsanız, varsayılan metin arayüzü grafik bir arayüzle otomatik olarak değiştirilecektir.
+      </p><p>
+<b><tt>auto-apt</tt></b> programı verimli çalışabilmek için kendi özel veritabanını tutar. Bu veritabanının güncel tutulması programın beklenilen davranışı gösterebilmesi açısından önemlidir. Veritabanını güncellemek için <b><tt>auto-apt update</tt></b>, <b><tt>auto-apt updatedb</tt></b> ve <b><tt>auto-apt update-local</tt></b> komutlarını çalıştırmalısınız.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_apt-file"></a>Bir dosyanın hangi pakete ait olduğunu bulma</h3></div></dt><dd><p>
+Bir paketi kurdunuz ancak <b><tt>apt-cache</tt></b> ile nasıl çağıracağınızı bilmiyorsunuz. Fakat programın dosya adını biliyorsunuz, veya paketten çıkan başka herhangi bir dosyanın adını bilmektesiniz. Bu durumda <b><tt>apt-file</tt></b> programı ile paket adını bulabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>$</tt> <b><tt>apt-file search </tt></b><i>dosya_adı</i>
+</pre> </td></tr></table></div></p><p>
+Bu komut aynı <b><tt>dpkg -S</tt></b> gibi çalışır ancak ayrıca verdiğiniz dosyayı içermesine rağmen sisteminizden sonradan kaldırılmış olan paketleri de listeler. Bu komut ayrıca bir derleme sırasında ihtiyaç duyulan dosyaları içeren paketleri bulmak için de kullanılabilir. Fakat bu tür sorunlar için <b><tt>auto-apt</tt></b> kullanmak daha iyi bir yöntemdir. Detaylar için bkz. <a href="../howto/apt-howto_search.html#apt-howto_auto-apt" class="xref" title="Programları anında kurma"> Programları anında kurma</a>.
+      </p><p>
+Bir paketin içeriğini aşağıdaki komutla listeleyebilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>$</tt> <b><tt>apt-file list </tt></b><i>paket_adı</i>
+</pre> </td></tr></table></div></p><p>
+<b><tt>apt-file</tt></b> tüm paketler hakkında içerdikleri dosyalara ilişkin kayıtları tutar. Aynı <b><tt>auto-apt</tt></b>'de olduğu gibi bu veritabanının da zamanla güncellenmesi gereklidir:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-file update</tt></b>
+</pre> </td></tr></table></div></p><p>
+Öntanımlı olarak <b><tt>apt-file</tt></b> <b><tt>auto-apt</tt></b> ile aynı kaynağı kullanır, bkz. <a href="../howto/apt-howto_search.html#apt-howto_auto-apt" class="xref" title="Programları anında kurma"> Programları anında kurma</a>.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_apt-listchanges"></a>Paketlerdeki değişikliklerden haberdar olma</h3></div></dt><dd><p>
+Sisteminize kurulan her paket kendi belge dizini altına (<tt>/usr/share/doc/paket_adı</tt>) <tt>changelog.Debian.gz</tt> adlı bir dosya atar. Bu dosyada ilk sürümden son sürüme kadar paket üzerinde yapılan değişiklikler belirtilir. Bu dosyayı <b><tt>zless</tt></b> ile okuyabilirsiniz, ancak tüm paketleri bu şekilde takip etmek epey güç bir uğraştır.
+       </p><p>
+Bu işi otomatik hale getirmek için yardımcı bir araç mevcuttur: <b><tt>apt-listchanges</tt></b>. Programı kullanmak için önce <tt>apt-listchanges</tt> paketini sisteminize kurmalısınız. Kurulum esnasında <b><tt>Debconf</tt></b> tarafından sorulan soruları istediğiniz gibi yanıtlayabilirsiniz.
+      </p><p>
+İlk soru <tt>apt-listchanges</tt>'in paketlerdeki değişiklikleri nasıl göstereceğine karar vermeniz gereken kısımdır. Değişikliklerin kendinize elektronik posta olarak iletilmesini seçebilirsiniz, otomatik güncellemelerde bu faydalı olabilir veya bir <b><tt>less</tt></b> gibi bir sayfalama aracı ile güncellemelere devam etmeden önce değişikliklere bir göz atmak isteyebilirsiniz Eğer <tt>apt-listchanges</tt>'in güncellemeler sırasında otomatik olarak çalışmasını istemiyorsanız <tt>none</tt> seçeneğini seçin.
+      </p><p>
+<tt>apt-listchanges</tt> yüklendikten sonra paketler apt ile indirildikten sonra (veya bir CD veya bağlanmış aygıttan alındıktan sonra), paketleri yüklemeden önce bu paketlerde yapılmış değişiklikleri listeleyecektir.
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apt-howto_helpers.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apt-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/apt-howto_sourcehandling.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yardımcı araçlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kaynak paketlerle çalışma</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

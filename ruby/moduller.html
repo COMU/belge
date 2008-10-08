@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Modüller</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="tekil_metotlar.html">
+ <img border=0 src="a2l.gif" alt="Tekil metotlar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="prosedur_nesneleri.html">
+ <img border=0 src="a2r.gif" alt="Prosedür nesneleri"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Modüller</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Ruby'de modüller, sınıflarla benzer özellikler gösterirler:</p>
+<ul>
+<li>Modülün örneği yoktur.</li>
+<li>Modülün alt sınıfı yoktur.</li>
+<li>Modül <code>module ... end </code>şeklinde tanımlanır.</li>
+</ul>
+<p>Aslında modülün <code>Module</code> sınıfı, sınıfın <code>Class</code> sınıfının bir süper sınıfıdır. Anladınız mı? Hayır? O zaman devam edelim.</p>
+<p>İki tip modül kullanımı bulunur. Bir tanesi ilişkili metotları ve sabitleri merkezi bi yerde toplamaktır. Ruby'nin standart kitaplığındaki <code>Math</code> modülü böyle bir rol oynar:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> Math.sqrt(2)</b></font>
+<font color="#50ffff"><b>   1.41421</b></font>
+ruby&gt;<font color="#ffff00"><b> Math::PI</b></font>
+<font color="#50ffff"><b>   3.14159</b></font></font></pre></td></tr></table>
+<p><code>::</code> operatörü Ruby yorumlayıcısına bir sabit için hangi modülü yükleyeceğini söyler. (örneğin <code>Math</code> için bir anlam ihtiva eden birşey <code>PI</code> için başka bir anlama gelebilir). Eğer bir metoda ya da sabite, <code>::</code> kullanmadan direkt modülü referans etmek istiyorsak bu modülü <code>include</code> ile ekleyebiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> include Math</b></font>
+<font color="#50ffff"><b>   Object</b></font>
+ruby&gt;<font color="#ffff00"><b> sqrt(2)</b></font>
+<font color="#50ffff"><b>   1.41421</b></font>
+ruby&gt;<font color="#ffff00"><b> PI</b></font>
+<font color="#50ffff"><b>   3.14159</b></font></font></pre></td></tr></table>
+<p>Diğer bir kullanım da <code>mixin</code> olarak adlandırılır. Bazı nesneye yönelik programlama dili , C++ da dahil, birden fazla süper sınıftan miras almamızı sağlayan <em>çoklu miras</em> (<i>multiple inheritance</i>) kavramına izin verir. Bunun gerçek dünyadaki örneği <em>çalar saatler</em> olabilir. Çalar saatleri hem saat sınıfına hem de alarm sınıfına sokabilirsiniz.</p>
+<p>
+Ruby, gerçek çoklu mirası gerçekleştirmez, ancak <em>mixin</em> tekniği iyi bir alternatiftir. Modülleri örnekleyemeyeceğimizi ya da 
+alt sınıflayamayacağımızı unutmayın, ancak; eğer bir modülü, bir sınıf tanımlamasına <code>include</code> edersek 
+sınıfa, metotlarını efektif olarak eklemiş ya da "karıştırmış" oluruz.</p>
+<p>
+<em>Mixin</em>, ek olarak başka nelere ihtiyaç duyduğumuzu sormanın başka bir yolu olarak düşünülebilir. Örneğin 
+bir  çalışan bir <code>each</code> metodu olan bir sınıfa, standart kütüphanenin <code>Enumerable</code> modülünü karıştırmak 
+bize <code>sort</code> ve <code>find</code> metotlarını bedavadan verecektir.</p>
+<p>
+Modüllerin bu kullanımı bize çoklu mirasın fonksiyonalitesini verirken, aynı zamanda basit bir ağaç yapısıyla 
+sınıf akrabalıklarını da temsil etmemize izin verir; böylece dil gerçekleştirimini de basitleştirmiş olur 
+(benzer bir seçim Java tasarımcıları tarafından da yapılmıştı).
+</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="tekil_metotlar.html">
+ <img border=0 src="a2l.gif" alt="Tekil metotlar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="prosedur_nesneleri.html">
+ <img border=0 src="a2r.gif" alt="Prosedür nesneleri"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Örnek Değişkenler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="global_degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Global değişkenler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="yerel_degiskenler.html">
+ <img border=0 src="a2r.gif" alt="Yerel Değişkenler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Örnek Değişkenler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Örnek değişken (<i>instance variable</i>), <code>@</code> ile başlayan bir ada sahiptir ve kapsamı self nesnesinin referans ettiği kadardır. Aynı sınıfa dahil olan iki aynı nesne için iki değişik örnek değişken tanımlamak mümkündür. Örnek değişkenler bir nesnenin dışından -programcı hangi metodu tanımlarsa tanımlasın- değiştirilemez (Ruby'nin örnek değişkenleri hiçbir zaman genel (public) olamaz). Global değişkenlerde olduğu gibi, örnek değişkenler de başlangıç değeri atanmazsa nil değerine sahip olurlar.</p>
+<p>Ruby'de örnek değişkenleri tanımlamaya gerek yoktur. Bu durum nesnelerin yapısına esneklik kazandırır. Aslında, her örnek değişken, nesnesi ilk referans edildiğinde dinamik olarak oluşturulur./p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class InstTest</b></font>
+    |<font color="#ffff00"><b>   def set_foo(n)</b></font>
+    |<font color="#ffff00"><b>     @foo = n</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b>   def set_bar(n)</b></font>
+    |<font color="#ffff00"><b>     @bar = n</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> i = InstTest.new</b></font>
+<font color="#50ffff"><b>   #&lt;InstTest:0x83678&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> i.set_foo(2)</b></font>
+<font color="#50ffff"><b>   2</b></font>
+ruby&gt;<font color="#ffff00"><b> i</b></font>
+<font color="#50ffff"><b>   #&lt;InstTest:0x83678 @foo=2&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> i.set_bar(4)</b></font>
+<font color="#50ffff"><b>   4</b></font>
+ruby&gt;<font color="#ffff00"><b> i</b></font>
+<font color="#50ffff"><b>   #&lt;InstTest:0x83678 @foo=2, @bar=4&gt;</b></font></font></pre></td></tr></table>
+<p><code>i</code>'nin <code>set_bar</code> metodu çağrılmadan, <code>@bar</code> için hiçbir değer belirtmediğine dikkat edin.</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="global_degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Global değişkenler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="yerel_degiskenler.html">
+ <img border=0 src="a2r.gif" alt="Yerel Değişkenler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

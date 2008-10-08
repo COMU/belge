@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="eui-64" lang="tr">
+<articleinfo>
+  <title>64 Bit Genel Tanıtıcıların (EUI-64) Kayıt Otoritesi için Kılavuz</title>
+    <author role="translator">
+      <firstname>Pınar Yanardağ</firstname>
+      <affiliation>
+        <address><email>pinar@comu.edu.tr</email></address>
+      </affiliation>
+    </author>
+
+<copyright><year>2007</year><holder>Pınar Yanardağ - Türkçe çeviri</holder></copyright>
+
+</articleinfo>
+
+<sect1 id="eui-64-general"><title>Genel</title>
+<para>
+	IEEE tanımlı 64 bit uzatılmış tekil tanıtıcılar (EUI-64) IEEE Kayıt Otoritesi'nin 24 bitlik company_id 
+	değeri ile company_id ataması ile tanımlanmış organizasyonun 40 bitlik uzatılmış tanıtıcısının birleşmesi 
+	ile oluşmuştur.
+</para>
+<para>
+	IEEE 24 bitlik company_id değerlerinin atama işini yönetmektedir. 
+	Bu değerlerin ataması kamuya açıktır, bu yüzden bir EUI-64'ün kullanıcısı herhangi bir değerin üreticisini 
+	tanıyabilir.
+</para> 
+	<footnote><para>
+	company_id değerinin sahibinin gizli tutulması gerektiği durumların istisna teşkil ettiğine dikkat edin. Bu değerler gizli kalmalıdır.
+	</para></footnote>
+<para>  
+	  IEEE/RAC 40 bitlik uzatılmış tanıtıcıların atamalarında kontrol sahibi değildir ve üreticiler tarafından tanımlanmış EUI-64 tanıtıcılarının çiftlenmesi konusunda sorumluluk kabul etmez. 
+</para>
+</sect1>
+
+<sect1 id="eui-64-app"><title>Uygulama Kısıtlamaları</title>
+<para>
+	EUI-64 tanıtıcılarının tamamının tüketilmesi ihtimali düşük olmasına rağmen, IEEE/RAC standartlar dahilinde kullanımları konusunda küçük kısıtlamalar getirmiştir. Buna rağmen bir IEEE standartı bağlamında kullanıldığında bu belge IEEE/RAC tarafından doğrulama ve netlik için gözden geçirilmelidir. IEEE/RAC aksi takdirde standartlar bazında EUI-64 bitlik tanıtıcıların kullanımını kısıtlayamaz. Eğer EUI-64 IEEE olmayan standartlar ile referans edilirse, IEEE/RAC tarafından onaylanmadıkça IEEE'ye herhangi bir referansta bulunulmamalıdır.
+</para>
+</sect1>
+
+<sect1 id="eui-64-dist"><title>Dağıtım kısıtlamaları</title>
+<para>
+	EUI-64 tanıtıcılarının tükenmesi ihtimali çok düşük olmasına rağmen, IEEE/RAC bu tanıtıcıların üçüncü partilere dağıtılmasına bazı kısıtlamalar getirmiştir:</para>
+<variablelist><varlistentry><term>Tahsis</term><listitem>
+			EUI-64 değerleri elektronik olarak okunabilir şekilde satılmalıdır; üretilen her bileşende bir EUI-64 değerinden fazlası olmamalıdır.</listitem></varlistentry>
+<varlistentry><term>Paketleme</term><listitem>
+		EUI-64 değerini içeren bir bileşen, yaygınca kullanılan diğer tanıtıcı bileşenlerden ayırd edilmek için, ayırd edici bir özelliğe (renk ya da şekil gibi) sahip olmalıdır.</listitem></varlistentry>
+<varlistentry><term>Belgelendirme</term><listitem>Okunabilir belgelendirme (sonrai sayfaya bakın).</listitem></varlistentry>
+<varlistentry><term>Yasal Tazminat</term><listitem>
+		EUI-64 değerini üreten her organizasyon çifte değer atamalarından doğabilecek zararlar için IEEE'ye tazminat ödemek zorundadır.</listitem></varlistentry>
+</variablelist>
+<para>
+	EUI-64 terimi IEEE tarafından alınmış ticari bir markadır. Şirketler bu terimi ancak IEEE/RAC tarafından onaylandıkları ve bu kısıtlamalara uydukları sürece ticari amaçlar için kullanmakta serbesttirler.</para>
+</sect1>
+
+<sect1 id="eui-64-app-doc"><title>Uygulama Belgesi</title>
+<para>Bir company_id atamasını taşıyabilmek için, EUI-64 değerinin üreticisi aşağıdaki sorumlulukları kabul etmiş sayılır:</para>
+<orderedlist><listitem>Bu belge tüm EUI-64 değeri alıcılarına hiçbir ücret karşılığı açıkça okunabilir olmalıdır.</listitem>
+<listitem>
+	Üretici kısmının şartnamesi EUI-64 değerlerine nasıl erişildiğine (pin ya da adres tanımlamaları ile) dair açıkça tasvirini içermelidir.
+	</listitem></orderedlist>
+</sect1>
+
+<sect1 id="eui-64-manufacturer"><title>Üretici-tanımlı tanıtıcılar</title>
+<para>
+	Üretici-tanımlı tanıtıcı ataması son 40 biti değiştirmek suretiyle yaklaşık 1 trilyon (1012) eşsiz EUI-64 değeri atamasına izin verir. IEEE, EUI-64 değeri üreticisinin, üretici bu potansiyel eşsiz kelimeler blogunun (%90'dan fazlasını) tüketene kadar başka bir OUI/company_id değeri atanmasını istemez. Üreticinin eşsiz kelime blogunun büyük bir kısmını üretime sokmaksızın kullanılmadan bırakılmasına izin vermemekle yükümlüdür.</para>
+</sect1>
+
+<sect1 id="eui-64-tutorial"><title>64-BIT GENEL TANITICI BİÇİM KILAVUZU</title>
+<sect2 id="eui-64-tutorial-general"><title>Genel</title>
+  <para>IEEE tanımlı 64 bit uzatılmış tekil tanıtıcılar (EUI-64) 
+  IEEE Kayıt Otoritesi'nin 24 bitlik company_id değeri ile company_id ataması ile tanımlanmış 
+  organizasyonun 40 bitlik uzatılmış tanıtıcısının birleşmesi ile oluşmuştur.</para>
+  <para>
+  IEEE 24 bitlik company_id değerlerinin atama işini yönetmektedir. Bu değerlerin ataması kamuya açıktır, bu yüzden bir EUI-64'ün kullanıcısı herhangi bir değerin üreticisini tanıyabilir.</para> 
+  <para>
+	  IEEE/RAC 40 bitlik uzatılmış tanıtıcıların atamalarında kontrol sahibi değildir ve üreticiler tarafından tanımlanmış EUI-64 tanıtıcılarının çiftlenmesi konusunda sorumluluk kabul etmez.</para>
+</sect2>
+
+<sect2 id="eui-64-tutorial-format"><title>Biçim</title>
+<para>
+	Elinizde yetkili bir üretici tarafından sağlanmış bir 64 bit genel tanıtıcı (EUI-64) olması gerekmektedir (elektronik olarak okunabilir çipler halinde). Bu değerlerin en soldaki 24 biti, IEEE Kayıt Otoritesi tarafından üreticilere atanmış company_id değerlerini temsil eder. En sağdaki 40 bit ise üretici tarafından atanmış değerlerdir.</para>
+<para>
+	
+	Örneğin üreticinin IEEE tarafından atanmış company_id değerinin ACDE4816 olduğunu ve üretici tarafından seçilmiş uzatılmış tanıtıcının 234567ABCD16 olduğunu farzedelim. Aşağıda bu iki sayıdan üretilmiş EUI-64 değeri olan ACDE48234567ABCD16'yı ve bayt ve bit temsillerini görüyorsunuz:</para>
+
+<literallayout>|        company_id       |            uzatılmış tanıtıcı           | alan 
+|addr+0 | addr+1 | addr+2 | addr+3 | addr+4 | addr+5 | addr+6 | addr+7| 
+|  AC   |   DE   |   48   |   23   |   45   |   67   |   AB   |   CD  | hex
+10101100 11011110 01001000 00100011 01000101 01100111 10101011 11001101 bits
+|  |                                                               |  |
+|  en anlamlı bayt                      en az anlamlı bayt  |
+en anlamlı bit                              en az anlamlı bit</literallayout>
+<para>
+	
+	Eğer bayt-adreslenebilir bir ortam ise, üreticinin orijinal bayt-adres sırası belirlidir: EUI-64 değerinin en anlamlıdan en az anlamlı baytına doğru, en düşükten en yüksek bayt adresleri yukarıda gösterilmiştir.</para>
+<para>
+	Başka bir elektronik olarak okunabilir ortama aktarılırken (örneğin bir disk dosyasına ya da ağ paketine) standartlara göre kabul edilebilir şekilde ilişkili baytların sırası değişebilir.</para>
+</sect2>
+
+<sect2 id="eui-64-tutorial-restricted"><title>Kısıtlı kapsüllenmiş değerler</title>
+<para>
+	EUI-48 ve MAC-48 değerlerinin EUI-64 değerlerinin küçük alt setleri olarak kapsüllenmesini desteklemek için, üreticinin uzatılmış tanıtıcısının ilk dört dijitinin FFFF16 ya da FFFE16 olmaması gerekir. Yani aşağıdaki forma sahip 64 bitlik değerler asla EUI-64 değerleri olamaz:</para>
+<literallayout>   ccccccFFFEeeeeee16   (bir EUI-48 uzantısı)
+
+   ccccccFFFFeeeeee16   (bir MAC-48 uzantısı)</literallayout>
+<para>The letters 'c' ve 'e' harfleri onaltılık rakamları temsil eder ve EUI-48 değerinin EUI-64 değerine nasıl açıkça kamsüllendiğini gösterir; 'c' ve 'e' rakamları ise EUI-48/MAC-48 değerlerinin company_id ve uzatılmış tanıtıcı kısımlarını temsil eder.</para>
+<para>Bu yöntem MAC-48 ve EUI-48 tanıtıcılarına EUI-64 değerleri olarak kapsülleme ve dönüştürme (ya da atanmamış olarak bırakma) imkanı sağlar. Bunu yapmaktaki amaç OUI/company_id tabanlı genel eşsiz 64-bit tanıtıcıların tek bir formda ifade edilecek hale getirilebilir olmasını sağlamaktır.</para>   
+</sect2>
+
+<sect2 id="eui-64-tutorial-EUI-48-values"><title>Encapsulated EUI-48 values</title>
+<para>Örneğin üreticinin IEEE tarafından atanmış company_id değerinin ACDE4816 ve üretici tarafından verilmiş tanıtıcının numarasının 23456716 olduğunu farzedelim. Bu iki değerden üretilen EUI-48 değeri ACDE4823456716 olup, bit ve bayt temsilleri aşağıdaki gibi gösterilir:</para>
+<literallayout>    |        company_id       |   uzatılmış tanıtıcısı  | alan 
+    |  AC   |   DE   |   48   |   23   |   45   |   67  | hex
+    10101100 11011110 01001000 00100011 01000101 01100111 bit
+    |  |                                                               |  |
+    |  en anlamlı bayt                      en az anlamlı bayt  |
+    en anlamlı bit                              en az anlamlı bit</literallayout>
+<para>
+	Bir eşsiz EUI-64 değeri, bir company_id, bir FFFE16 değerli etiket ve uzatılmış tanıtıcı değerlerinden oluşur. EUI-48 benzeri önem sırasına göre temsili aşağıdaki gibidir:</para>
+<para>EUI-64 değerinin bayt ve bit temsili aşağıda gösterilmiştir:</para>
+<literallayout>|        company_id       |    EUI etiketi    |   uzatılmış tanıtıcı  | alan 
+|  AC   |   DE   |   48   |   FF   |   FE   |   23   |   45   |   67  | hex
+10101100 11011110 01001000 11111111 11111110 00100011 01000101 01100111 bits
+|  |                                                               |  |
+|  en anlamlı bayt                      en az anlamlı bayt  |
+en anlamlı bit                              en az anlamlı bit</literallayout>
+</sect2>
+
+<sect2 id="eui-64-tutorial-MAC-48-values"><title>Kapsüllenmiş MAC-48 değerleri</title>
+<para>
+	Bir MAC-48 tanıtıcısı bir EUI-64 içine yerleştirilebilir ve kapsüllenebilir. Buradaki amaç varolan MAC-48 tanıtıcılarının EUI-64 formatı ile temsil edilirken aradaki çelişmeyi önlemektir. Örneğin üreticinin IEEE tanımlı OUI değerinin AC-DE-48 olduğunu ve MAC-48 adresi üretmek istediğini farzedelim.</para>
+<literallayout>AC-DE-48-23-45-67
+
+</literallayout>
+<para>İkilik düzende sıralanmış temsili aşağıdaki gibi olacaktır:</para>
+<literallayout>    |            OUI             |     uzatılmış tanıtıcı   | alan
+    |  1.ci   |   2.ci   |  3.cü    |   4.cü   |   5.ci   |   6.cı  | oktet
+    | C   A  |  E   D  |  8   4  |  3   2  |  5   4  |  7   6 | hex
+    0011 0101 0111 1011 0001 0010 1100 0100 1010 0100 1110 0110 bits
+    |       | |       | |       | |       | |       | |       |
+    lsb   msb lsb   msb msb   lsb msb   lsb msb   lsb msb   lsb</literallayout>
+<para>Bir eşsiz EUI-64 değeri bir sıralanmış OUI, bir FF-FF değerli etiket ve uzatılmış tanıtıcı değerlerinden üretilmiştir. Bu kapsüllenmiş MAC-48 tanıtıcısı için, MAC-48 benzeri iletim-sıralı ikilik temsiller aşağıda listelenmiştir:</para>
+<literallayout>|           OUI           |    MAC etiketi    |   uzatılmış tanıtıcı  | alan 
+|  1.ci   |   2.ci   |  3.cü    |   4.cü   |   5.ci   |   6.cı  | sıra
+| C  A  |  E  D  |  8  4  |  F  F  |  F  F  |  3  2  |  5  4  |  7  6 | hex
+00110101 01111011 00010010 11111111 11111111 11000100 10100100 11100110 bit
+|      | |      | |      | |      | |      | |      | |      | |      |
+lsb  msb lsb  msb msb  lsb msb  lsb msb  lsb msb  lsb msb  lsb msb  lsb</literallayout>
+<para>Bu kapsüllenmiş MAC-48 tanıtıcısı için önem sırasına göre EUI-48 benzeri temsili aşağıdaki gibidir:</para>
+<literallayout>|           OUI           |    MAC etiketi    |   uzatılmış tanıtıcı  | alan 
+|  AC   |   DE   |   48   |   FF   |   FF   |   23   |   45   |   67  | hex
+10101100 11011110 01001000 11111111 11111111 00100011 01000101 01100111 bit
+|  |                                                               |  |
+|  en anlamlı bayt                      en az anlamlı bayt  |
+en anlamlı bit                              en az anlamlı bit</literallayout>
+</sect2>
+</sect1>
+</article>

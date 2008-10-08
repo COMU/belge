@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:23+03:00"><title>Yönlerdirilmiş Postaların Sınama Dışı Tutulması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim.html" title="A. Exim Gerçeklenimi"><link rel="previous" href="../howto/spam-filtering-exim-dsn-noalias.html" title="Boş göndericilerin system_aliases yönlendiricisinde sınanması"><link rel="next" href="../howto/spam-filtering-exim-final.html" title="Tamamlanmış ACL'ler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yönlerdirilmiş Postaların Sınama Dışı Tutulması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-dsn-noalias.html">Önceki</a> </td><th width="60%" align="center">A. Exim Gerçeklenimi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-final.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="spam-filtering-exim-forward"></a>Yönlerdirilmiş Postaların Sınama Dışı Tutulması</h2></div></dt><dd><p>
+SMTP aktarımına bu sınamaları ekledikten sonra, kendimizi posta listelerinden veya diğer sitelerin posta hesaplarından yönlendirilmiş postaları reddederek dolaylı spam yapar bir halde bulabiliriz (<a href="../howto/spam-filtering-forwardedmail.html" class="xref" title="Yönlendirilen Postalar"> Yönlendirilen Postalar</a> bölümüne bakınız). En azından bizim spam ve/veya virüs filtrelemelerimiz sonucunda gönderdikleri postaların reddedilmemesii için bu konakları aklisteye alabilir ve sınamalarımızın dışında tutabiliriz.
+    </p><p>
+Bu örnekte, her <b><tt>RCPT TO:</tt></b> komutuna yanıt verirken iki dosyaya bakıyoruz:
+    </p><p>
+    <div class="itemizedlist"><ul type="disc"><li>
+Yedek posta alıcılarını ve diğer aklisteli göndericileri içeren genel amaçlı bir ak liste: <tt>/etc/mail/whitelist-hosts</tt>
+      <p></p><p></p></li><li>
+Yönlendirimiş posta alıcısı olan kullanıcıların postalarını yönlendiren konakları belirttikleri <tt>/home/<i>kullanıcı</i>/.forwarders</tt> dosyaları.
+      <p></p><p></p></li></ul></div>
+    </p><p>
+Eğer posta kullanıcılarınızın yerel hesapları ve ev dizinleri yoksa, bu dosyaların bulunacağı yolları değiştirebilir ve/veya sisteminize uygun bazı arama mekanizmaların kullanılmasını sağlayabilirsiniz (örn, veritabanı veya LDAP sorguları).
+    </p><p>
+Eğer gönderici konak bu aklistelerden birindeyse, <a href="../howto/spam-filtering-exim-smtpdelays-selective.html" class="xref" title="Seçimlik Gecikmeler"> Seçimlik Gecikmeler</a> bölümünde anlatıldığı gibi &#8220;accept&#8221; sözcüğünü <tt>$acl_m0</tt> değişkenine kaydedip <i><tt>$acl_m1</tt></i> değişkeninin içini boşaltacağız. Böylece bu postanın daha sonraki sınamalarda reddedilmesini önlemiş olacağız.
+    </p><p>
+<a href="../howto/spam-filtering-acl_rcpt_to_final.html" class="xref" title="acl_rcpt_to"> acl_rcpt_to</a> ACL'sinde alıcı adresini doğruladıktan sonraya ve uzak konaklardan yerel kullanıcılara kimlik kanıtlamasız teslimatlarla ilgili <tt>accept</tt> deyimlerinin öncesine (varsa grilisteleme ve zarf gönderici imlemesi sınamalarının öncesine) aşağıdaki satırları yerleştireceğiz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Gönderici konak genel akliste içindeyse postayı kabul edeceğiz.
+  # Geçici olarak $acl_m9 değişkenine bu dosyayı atayacağız.
+  # Konak listedeyse, $acl_m0'a bir değer yerleştirip $acl_m1'i
+  # temizleyeceğiz, böylece daha sonra bu postayı reddetmeyeceğiz.
+  #
+  accept
+    set acl_m9  = /etc/mail/whitelist-hosts
+    hosts       = ${if exists {$acl_m9}{$acl_m9}}
+    set acl_m0  = accept
+    set acl_m1  =
+
+
+  # Gönderici konak alıcının ev dizinindeki ".forwarders" dosyasındaysa
+  # postayı kabul edeceğiz. Geçici olarak $acl_m9 değişkenine bu dosyayı
+  # atayacağız. Konak listedeyse, $acl_m0'a bir değer yerleştirip $acl_m1'i
+  # temizleyeceğiz, böylece daha sonra bu postayı reddetmeyeceğiz.
+  #
+  accept
+    domains     = +local_domains
+    set acl_m9  = /home/${extract{1}{=}{${lc:$local_part}}}/.forwarders
+    hosts       = ${if exists {$acl_m9}{$acl_m9}}
+    set acl_m0  = accept
+    set acl_m1  =
+</pre> </td></tr></table></div>
+    </p><p>
+<a href="../howto/spam-filtering-acl_data_final.html" class="xref" title="acl_data"> acl_data</a> ACL'sinin çeşitli deyimlerinde <i><tt>$acl_m0</tt></i>'ın değerine bakarak eğer yukarıdaki gibi boş bırakılmışsa postayı reddetmeyeceğiz. Örneğin, aklisteli konaklardan gelen bir postanın RFC2822 başlığının bulunmayışı sebebiyle reddedilmesini önlemek istersek:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  deny
+    message     = Your message does not conform to RFC2822 standard
+    log_message = missing header lines
+    !hosts      = +relay_from_hosts
+    !senders    = : postmaster@*
+    condition   = ${if !eq {$acl_m0}{accept}{true}}
+    condition   = ${if or {{!def:h_Message-ID:}\
+                           {!def:h_Date:}\
+                           {!def:h_Subject:}} {true}{false}}
+</pre> </td></tr></table></div>
+    </p><p>
+Bu ve ilgili diğer sınamalar sonraki <a href="../howto/spam-filtering-exim-final.html" class="xref" title="Tamamlanmış ACL'ler"> Tamamlanmış ACL'ler</a> bölümünde bulunabilir.
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-dsn-noalias.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-final.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Boş göndericilerin system_aliases yönlendiricisinde sınanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Tamamlanmış ACL'ler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

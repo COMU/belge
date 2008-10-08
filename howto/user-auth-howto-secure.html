@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-26T10:51:12+03:00"><title>Kullanıcı Kimlik Denetimini Güvenli Hale Getirmek</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/user-auth-howto.html" title="Kullanıcı Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/user-auth-howto-pam.html" title="PAM (Eklenebilir Kimlik Kanıtlama Modülleri)"><link rel="next" href="../howto/user-auth-howto-sample.html" title="Tümünü birden denemek"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kullanıcı Kimlik Denetimini Güvenli Hale Getirmek</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/user-auth-howto-pam.html">Önceki</a> </td><th width="60%" align="center">Kullanıcı Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/user-auth-howto-sample.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="user-auth-howto-secure"></a>Kullanıcı Kimlik Denetimini Güvenli Hale Getirmek</h2></div></dt><dd><p>
+Birçok linux dağıtımı kullanıcı kimlik kanıtlamasını yeterince güvenli gerçekleştirmez. Bu bölümde sisteminizde kimlik denetimini nasıl daha güvenli hale getirebileceğinizi tartışacağız. Burada anlatılanları yapmanız sisteminizi daha güvenli hale getirir ama kırılamaz yapmaz.
+  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Güçlü <tt>/etc/pam.d/other</tt> dosyası</h3></div></dt><dd><p>
+<tt>/etc/pam.d/</tt> dizinindeki dosyaların tümü özel bir servis için yapılandırmaları içerir. Bu kuralın tek istisnası <tt>/etc/pam.d/other</tt> dosyasıdır. Bu dosya kendisi için bir yapılandırma dosyası bulunmayan servisler için yapılandırmaları içerir. Örneğin, eğer (hayali) xyz servisi kimlik kanıtlamasına ihtiyaç duyarsa PAM <tt>/etc/pam.d/xyz</tt> dosyasını arar. Bulamayınca xyz uygulaması için kimlik denetiminde <tt>/etc/pam.d/other</tt> dosyasını kullanır. <tt>/etc/pam.d/other</tt> sahipsiz PAM servislerinin yapılandırma dosyası olduğundan onun güvenli olması önemlidir. Burada <tt>/etc/pam.d/other</tt> dosyasının birisi neredeyse paranoyak diğeri biraz daha mantıklı olan iki farklı güvenli yapılandırmasını tartışacağız.
+   </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>Paronayak Yapılandırma</h4></div></dt><dd><p>
+<tt>/etc/pam.d/other</tt> dosyasının paronayak yapılandırması aşağıdaki gibidir:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">auth        required        pam_deny.so
+auth        required        pam_warn.so
+account     required        pam_deny.so
+account     required        pam_warn.so
+password    required        pam_deny.so
+password    required        pam_warn.so
+session     required        pam_deny.so
+session     required        pam_warn.so
+</pre> </td></tr></table></div>
+    </p><p>
+Bu yapılandırma ile bilinmeyen bir servis dört yapılandırma türünden birine erişmeye çalışırsa PAM kimlik denetimini reddeder (pam_deny.so modülü ile) ve sistem günlüklerine bir uyarı mesajı (pam_warn.so modülü ile) kaydeder. Bu yapılandırma ile PAM kabaca güvenlidir. Bu kabalık ile ilgili tek problem eğer bir servisin yapılandırma dosyasını silerseniz ortaya çıkar. Örneğin eğer <tt>/etc/pam.d/login</tt> dosyasını kazara silerseniz kimse oturum açamaz!
+    </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>Daha nazik yapılandırma</h4></div></dt><dd><p>
+O kadar da kaba olmayan bir yapılandırma aşağıdaki gibidir:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">auth        required        pam_unix.so
+auth        required        pam_warn.so
+account     required        pam_unix.so
+account     required        pam_warn.so
+password    required        pam_deny.so
+password    required        pam_warn.so
+session     required        pam_unix.so
+session     required        pam_warn.so
+</pre> </td></tr></table></div>
+    </p><p>
+Bu yapılandırma ile bilinmeyen bir servis için kullanıcı kimlik kanıtlamasına (pam_unix.so modülü ile) izin verilir ama parolasını değiştirmesine izin verilmez. Bilinmeyen servislerin kimlik kanıtlaması yapmalarına izin verilse bile sistem günlüklerine bir uyarı mesajı kaydeder.
+    </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a><tt>/etc/pam.d/other</tt> dosyalarından birini seçmek</h4></div></dt><dd><p>
+Aksi yönde çok iyi bir nedeniniz olmadıkça yukarıdaki <tt>/etc/pam.d/other</tt> dosyalarından ilkini seçmenizi kuvvetle öneririm. 'Öntanımlı olarak güvenli' olmak her zaman iyi fikirdir. Eğer yeni bir servis için kimlik kanıtlamasına izin vermeniz gerekirse bunu basitçe o servis için bir PAM yapılandırma dosyası yaratarak yapabilirsiniz.
+    </p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Kullanıcıların boş parolalarla oturum açmasını engellemek</h3></div></dt><dd><p>
+Linux sistemlerinin çoğunda ftp, web sunucusu ve mail gibi sistem servislerine ayrıcalıklar tanıyabilmek için bir takım &#8592;sözde&#8594; kullanıcı hesapları bulunur. Bu hesapların bulunması sisteminizi daha güvenli hale getirir. Çünkü bir servisin açığından faydalanan saldırgan sınırsız root yetkilerini değil sadece kısıtlı ayrıcalıkları olan sözde hesabın yetkilerini kazanacaktır. Bununla birlikte bu sözde hesapların bulunması genellikle boş (null) parolaları olduğundan bir güvenlik açığıdır. Boş parolaların kabul edilmesine &#8592;nullok&#8594; yapılandırma seçeneği izin verir. Bu seçeneği oturum açmasına izin verilen 'auth' türündeki tüm servislerden kaldırmak isteyebilirsiniz. Bu genellikle login servisidir ama rlogin ve ssh gibi servisleri de kapsayabilir. Bu yüzden <tt>/etc/pam.d/login</tt> dosyasının aşağıdaki satırı:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">auth         required        pam_unix.so     nullok
+</pre> </td></tr></table></div>
+    </p><p>
+    yerine
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">auth         required        pam_unix.so
+</pre> </td></tr></table></div>
+    </p><p>getirilmelidir.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Kullanılmayan servislerin iptal edilmesi</h3></div></dt><dd><p>
+<tt>/etc/pam.d/</tt> dizinindeki dosyalara baktığınızda kullanmadığınız hatta bazılarının adını bile duymadığınız programlar için yapılandırma dosyaları olduğunu göreceksiniz.
+Bu servislerin kimlik denetimi yapmasına izin vermek sisteminizde büyük güvenlik açıkları oluşturmasa da kimlik denetiminden reddedilmeleri daha iyidir.
+Bu programlar için PAM kimlik denetimine izin vermemenin en iyi yolu dosyalarını yeniden adlandırmaktır.
+PAM kimlik kanıtlama talebinde bulunan servis için gerekli dosyayı bulamadığında çok güvenli olan <tt>/etc/pam.d/other</tt> dosyasını kullanacaktır.
+Eğer ilerde bu programlardan birine ihtiyacınız olduğunu farkederseniz dosyanın adnı eski haline getirmeniz her şeyin gerektiği gibi çalışması için yeterli olacaktır.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>Parola-kırma araçları</h3></div></dt><dd><p>
+Parola-kırma araçları saldırganlar tarafından sistemi ele geçirmek için kullanılabilecekleri gibi sistem yöneticileri tarafından
+sistemlerinde güçlü parolalar kullanıldığından emin olmak için de kullanılırlar.
+En yaygın kullanılan parola-kırma araçları &#8592;crack&#8594; ve &#8592;John the Ripper&#8594;'dır.
+Crack büyük ihtimalle kullandığınız dağıtıma dahil edilmiştir.
+John the Ripper ise  
+    <a href="http://www.openwall.com/john/" target="_top">http://www.openwall.com/john/</a> adresinden edinilebilir. 
+Bu araçları parola veri tabanınızda çalıştırdığınızda sonuçlar büyük ihtimalle sizi şaşırtacaktır.
+   </p><p>
+Bunlara ilave olarak, kullanıcılar parolalarını değiştirirken parolaların dayanıklılıklarını ölçen bir PAM modülü de mevcuttur.
+Bu modül yüklendiğinde kullanıcılar parolalarını ancak minimum dayanıklılığa sahip parolalar ile değiştirebilirler.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Gölgelenmiş ve MD5 parolalar</h3></div></dt><dd><p>
+Bu belgenin ilk bölümünde bahsettiğimiz gibi gölgelenmiş ve MD5 parolalar sisteminizi daha güvenli hale getirir.
+Modern dağıtımların çoğu kurulum aşamasında gölgelenmiş ve/veya MD5 parolaları kullanmak isteyip istemediğinizi sorar.
+Aaksi için çok iyi bir nedeniniz yokta onları aktif edin.
+Gölgelenmemiş/MD5-lenmemiş parolaların dönüştürülmesi karmaşık bir süreçtir ve bu belgenin kapsamının dışındadır.
+<a href="http://www.tldp.org/HOWTO/Shadow-Password-HOWTO.html" target="_top">Gölgelenmiş Parola NASIL</a> belgesi eskimiş olsa da
+yardımcı olabilir.
+   </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/user-auth-howto-pam.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/user-auth-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/user-auth-howto-sample.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">PAM (Eklenebilir Kimlik Kanıtlama Modülleri) </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Tümünü birden denemek</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

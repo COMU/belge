@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T01:00:34+03:00"><title>Şifrelenmiş Ev Dizini Oluşturulması ve Kullanımı</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/encrypted-swap-howto.html" title="Şifrelenmiş Takas Alanı ve Ev Dizini NASIL"><link rel="previous" href="../howto/encrypted-swap-howto-part1.html" title="Şifrelenmiş Takas Alanı Kurulumu"><link rel="next" href="../howto/encrypted-swap-howto-part3.html" title="Oturum Açılırken Otomatik Bağlama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Şifrelenmiş Ev Dizini Oluşturulması ve Kullanımı</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/encrypted-swap-howto-part1.html">Önceki</a> </td><th width="60%" align="center">Şifrelenmiş Takas Alanı ve Ev Dizini NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/encrypted-swap-howto-part3.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="encrypted-swap-howto-part2"></a>Şifrelenmiş Ev Dizini Oluşturulması ve Kullanımı</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step1"></a>LVM Kullanarak ev disk bölümünün ayarlanması</h3></div></dt><dd><p>Eğer sıradan bir disk bölümü kullanıyorsanız güvenle bu bölümü atlayabilirsiniz.
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># pvcreate /dev/sda3
+Physical volume "/dev/sda3" successfully created
+# vgcreate vg_storage /dev/sda3
+Volume group "vg_storage" successfully created
+# vgchange -a y vg_storage
+0 logical volume(s) in volume group "vg_storage" now active
+# lvcreate -L20G -nlv_home vg_storage
+Logical volume "lv_home" created</pre> </td></tr></table></div></p><p>LVM ile ilgili daha fazla detay için <a href="http://tldp.org/HOWTO/LVM-HOWTO/" target="_top">LVM NASIL</a> belgesine bakabilirsiniz.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step2"></a>Ev dizininiz olacak disk bölümünün rasgele veriyle doldurulması</h3></div></dt><dd><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># dd if=/dev/urandom of=/dev/vg_storage/lv_home
+20481+0 records in
+20480+0 records out
+21474836480 bytes (21 GB) copied, 5554.23 s, 3.9 MB/s</pre> </td></tr></table></div></p><p>Bu işlem takas alanından da çok zaman alacağından öğle yemeğine ya da benzer bir işe vakit ayırabilirsiniz.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step3"></a>Disk bölümünün sıfırlanması ve başlangıç anahtarının atanması</h3></div></dt><dd><p>Unutmayın; zayıf parola işe yaramaz, parolanızı unutursanız oyun biter!<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># cryptsetup -c aes-cbc-essiv:sha256 -y -s 256 luksFormat /dev/vg_storage/lv_home
+				
+WARNING!
+========
+This will overwrite data on /dev/vg_storage/lv_home irrevocably.
+
+Are you sure? (Type uppercase yes): YES
+Enter LUKS passphrase: 
+Verify passphrase: 
+Command successful.</pre> </td></tr></table></div></p><p>Cipher olarak "aes-cbc-essi" kullanmamızın nedeni öntanımlı olanın <a href="http://en.wikipedia.org/wiki/Watermarking_attack" target="_top">Watermarking Saldırısına</a> karşı savunmasız oluşudur.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step4"></a>Aygıt haritalamasının yaratılması</h3></div></dt><dd><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># cryptsetup luksOpen /dev/vg_storage/lv_home cryptohome
+Enter LUKS passphrase: 
+key slot 0 unlocked.
+Command successful.</pre> </td></tr></table></div></p><p>Aşağıdaki komutla oluşturduğunuz aygıt haritasını görebilirsiniz:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ ls -l /dev/mapper/
+total 0
+crw-rw---- 1 root root  10, 63 2008-05-04 18:46 control
+brw-rw---- 1 root disk 254,  2 2008-05-04 20:53 cryptohome
+brw-rw---- 1 root disk 254,  0 2008-05-04 18:52 cryptoswap
+brw-rw---- 1 root disk 254,  1 2008-05-04 20:53 vg_storage-lv_home</pre> </td></tr></table></div></p><p>LVM'nin de device-mapper kullandığına dikkat edin (bu nedenle LVM hacimlari de listeleniyorlar).</p><p>Başka bir yöntem olarak <b><tt>dmsetup ls</tt></b> komutunu kullanabilirsiniz:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ dmsetup ls
+cryptoswap      (254, 0)
+vg_storage-lv_home      (254, 1)
+cryptohome      (254, 2)</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step5"></a>Dosya sistemi yaratılması</h3></div></dt><dd><p>Artık Şifrelenmiş bir disk bölümümüz var, onu kullanmak için üzerinde bir dosya sistemi oluşturmalıyız:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># mkfs.ext3 -j -m 1 -O dir_index,filetype,sparse_super /dev/mapper/cryptohome
+mke2fs 1.40.8 (13-Mar-2008)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+1310720 inodes, 5242623 blocks
+52426 blocks (1.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=0
+160 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,
+4096000
+
+Writing inode tables: done
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 28 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step6"></a>Test</h3></div></dt><dd><p>Test için şifrelenmiş disk bölümünü bağlamadan önce şifrelemeyi kapatıp yeniden açıyoruz:
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># cryptsetup luksClose cryptohome
+# cryptsetup luksOpen /dev/vg_storage/lv_home cryptohome
+Enter LUKS passphrase: 
+key slot 0 unlocked.
+Command successful.
+# mkdir -p /mnt/cryptohome
+# mount /dev/mapper/cryptohome /mnt/cryptohome
+# touch /mnt/cryptohome/testfile
+# ls /mnt/cryptohome/
+testfile</pre> </td></tr></table></div></p><p>Çalışıp çalışmadığını aşağıdaki komutla da öğrenebiliriz:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># cryptsetup status cryptohome
+/dev/mapper/cryptohome is active:
+cipher:  aes-cbc-essiv:sha256
+keysize: 256 bits
+device:  /dev/mapper/vg_storage-lv_home
+offset:  2056 sectors
+size:    41940984 sectors
+mode:    read/write</pre> </td></tr></table></div></p><p>Her şey yolundaysa ev dizininizi yeni bölüme taşıyabilirsiniz.</p><p>Son olarak diski çözelim:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"> # umount /mnt/cryptohome
+# cryptsetup luksClose cryptohome</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="encrypted-swap-howto-part2-step7"></a>Şifrelenmiş ev dizininin bağlanma zamanı</h3></div></dt><dd><p>Bu aşamada bir karar vermeniz gerekiyor. Şifrelenmiş disk bölümünüzün bilgisayarınız açılırken bağlanmasını seçebilirsiniz, bu durumda açılış işlemleri LUKS parolasını girmeniz için kesintiye uğrayacaktır. Eğer bu bölümün oturum açtığınızda otomatik olarak bağlanmasını istiyorsanız bir sonraki bölüme geçebilirsiniz.</p><p>Parolanızı elle girmek yerine harici bir ortamda (örneğin bir usb diskte) saklamayı tercih edebilirsiniz. Bu konuda ayrıntılı bilgi için <a href="http://wiki.archlinux.org/index.php/LUKS_Encrypted_Root#Storing_the_key_externally_.28USB_stick.29" target="_top">bu adrese</a> bakabilirsiniz.</p><p>Eğer tercihiniz diskin açılışta bağlanması ise <tt>/etc/crypttab</tt> dosyasını aşağıdaki gibi düzenleyin:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># cat /etc/crypttab
+...
+cryptohome /dev/vg_storage/lv_home none luks</pre> </td></tr></table></div></p><p><tt>/etc/fstab</tt> dosyası da düzenlenmelidir:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># cat /etc/fstab
+...
+/dev/mapper/cryptohome	/mnt/cryptohome ext3 relatime,errors=remount-ro 0 2</pre> </td></tr></table></div></p><p>Artık bilgisayarınızı yeniden başlattığınızda açılış süreci siz LUKS parolanızı girene kadar kesintiye uğrayacaktır. Eğer doğru girerseniz ev dizininiz bağlanır. Oturum açtığınızda sizi bekleyen şifrelenmiş bir ev dizini bulacaksınız.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/encrypted-swap-howto-part1.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/encrypted-swap-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/encrypted-swap-howto-part3.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Şifrelenmiş Takas Alanı Kurulumu </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Oturum Açılırken Otomatik Bağlama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

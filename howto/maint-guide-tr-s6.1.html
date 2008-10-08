@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:19+03:00"><title>Baştan yeniden derlemek</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s6.html" title="Paketin Derlenmesi"><link rel="previous" href="../howto/maint-guide-tr-s6.html" title="Paketin Derlenmesi"><link rel="next" href="../howto/maint-guide-tr-s6.2.html" title="Hızlı yeniden derleme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Baştan yeniden derlemek</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s6.html">Önceki</a> </td><th width="60%" align="center">Paketin Derlenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s6.2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s6.1"></a>Baştan yeniden derlemek</h3></div></dt><dd><p>
+Programın ana dizinine girin ve aşağıdaki komutu çalıştırın:
+     </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>dpkg-buildpackage -rfakeroot</tt></b>
+</pre> </td></tr></table></div>
+     </p><p>
+Bu komut herşeyi sizin için yapacak ve şunları gerçekleştirecektir:
+     </p><p><div class="itemizedlist"><ul type="disc"><li><b><tt>fakeroot</tt></b>'u kullanarak kaynak ağacının temizler (<tt>debian/rules clean</tt>)
+        </li><li>
+Paketi yapılandırır (<tt>dpkg-source -b</tt>)
+        </li><li>
+Paketi derler (<tt>debian/rules build</tt>)
+        </li><li><b><tt>fakeroot</tt></b>'u kullanarak ikilik paketi oluşturur (<tt>debian/rules binary</tt>)
+        </li><li><b><tt>gnupg</tt></b>'yi kullanarak kaynak <tt>.dsc</tt> dosyasını imzalar
+        </li><li><b><tt>dpkg-genchanges</tt></b> ve <b><tt>gnupg</tt></b>'yi kullanarak yükleme (upload) <tt>changes</tt> dosyasını oluşturur ve imzalar
+        </li></ul></div>
+      </p><p>
+Girdi olarak tek ihtiyacınız olan işlem sırasında iki kere kullanacağınız GPG anahtarınızın parolasıdır.
+      </p><p>
+Bütün bunlar yapıldıktan sonra, yukarıdaki dizin içinde (<tt>~/gentoo/</tt>) şu dosyaları göreceksiniz:
+      </p><p><div class="variablelist"><dl><dt><span class="term"><tt>gentoo_0.9.12.orig.tar.gz</tt></span></dt><dd>
+Bu, orjinal kaynak kodun sıkıştırılmış arşiv dosyasıdır, sadece paket ismi Debian standartlarına uygun olarak yeniden isimlendirilmiştir. <b><tt>dh-make</tt></b>'i ilk olarak <tt>-f</tt> seçeneğiyle çalıştırdığımızda oluşturulduğuna dikkat ediniz.
+      <p></p><p></p></dd><dt><span class="term"><tt>gentoo_0.9.12-1.dsc</tt></span></dt><dd>
+Kaynak kodun içeriğinin bir özetidir. Sizin <tt>control</tt> dosyanızdan oluşturulmuştur ve kaynak paketi <b><tt>dpkg-source(1)</tt></b> ile açarken kullanılır. Bu dosya GPG imzalıdır, böylece başkaları dosyanın gerçekten size ait olduğuna emin olabilir.
+      <p></p><p></p></dd><dt><span class="term"><tt>gentoo_0.9.12-1.diff.gz</tt></span></dt><dd>
+Bu sıkıştırılmış dosya orjinal kaynak paketinde yaptığınız her değişikliği tekilleştirilmiş fark dosyası ("unified diff") biçiminde içerir. <b><tt>dpkg-source(1)</tt></b> ile oluşturulur ve onun tarafından kullanılır. Uyarı: Eğer orjinal kaynak paketinin ismini <tt>paketismi_sürüm.orig.tar.gz</tt> şeklince oluşturmazsanız, <b><tt>dpkg-source</tt></b> <tt>.diff.gz</tt> dosyasını düzgün oluşturmada başarısız olacaktır.
+      <p></p><p>
+Eğer birisi paketinizi baştan yeniden oluşturmak isterse, yukarıdaki üç dosyayı kullanarak bunu kolaylıkla başarabilir. Dosyaları açma işlemi oldukça basittir: Sadece dosyaları bir yere kopyalayın ve <b><tt>dpkg-source -x gentoo_0.9.12-1.dsc</tt></b> komutunu çalıştırın.
+      </p><p></p></dd><dt><span class="term"><tt>gentoo_0.9.12-1_i386.deb</tt></span></dt><dd>
+Bu sizin tamamlanmış ikilik paketinizdir. <b><tt>dpkg</tt></b> kullanarak herhangi bir diğer paket gibi bunu da sisteminize kurabilir ya da kaldırabilirsiniz.
+      <p></p><p></p></dd><dt><span class="term"><tt>gentoo_0.9.12-1_i386.changes</tt></span></dt><dd>
+Bu dosya o anki paket gözden geçirimiyle ilgili yapılmış tüm değişiklikleri açıklar ve Debian FTP arşivinin bakım programları tarafından ikilik ve kaynak paketlerini kurarken kullanılır. Kısmen <tt>changelog</tt> ve <tt>.dsc</tt> dosyasından üretilir. GPG ile imzalanır, böylece başkaları bunun gerçekten size ait olduğundan emin olabilir.
+      <p></p><p>
+Paket üstünde çalışırken, paketin davranışı değişecek ve yeni özellikler eklenecektir. Paketi indirenler bu dosyaya bakarak yapılmış değişiklikleri kolayca görebilir. Debian arşivinin bakımını yapan programlar bu dosyanın içeriğini ayrıca <tt>debian-devel-changes</tt> ileti listesine de postalayacaktır.
+        </p><p></p></dd></dl></div>
+      </p><p>
+<tt>.dsc</tt> ve <tt>.changes</tt> dosyalarındaki uzun sayısal dizgeler, yukarıda bahsedilen dosyalar için MD5 sağlamalarıdır (MD5 checksum). Dosyalarınızı indiren biri <b><tt>md5sum(1)</tt></b> ile sınayıp, sayıların uyuşmaması durumunda dosyaların bozulduğunu veya üzerinde oynandığını anlayabilir.
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s6.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-s6.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s6.2.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Paketin Derlenmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hızlı yeniden derleme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

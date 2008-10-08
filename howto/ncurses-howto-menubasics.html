@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:24+03:00"><title>Temel Bilgiler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-menus.html" title="Menü Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-menus.html" title="Menü Kütüphanesi"><link rel="next" href="../howto/ncurses-howto-compilemenus.html" title=" Menü Kütüphanesi ile derleme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Temel Bilgiler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menus.html">Önceki</a> </td><th width="60%" align="center">Menü Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-compilemenus.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-menubasics"></a>Temel Bilgiler</h3></div></dt><dd><p>
+Menüleri oluşturmak için önce öğeler oluşturulur ve sonra da ekranda menü oluşturulur. Bundan sonra, kullanıcının tüm işlemleri menü programının dolap beygiri olan <tt>menu_driver()</tt> işlevi tarafından zekice gerçeklenir.
+</p><p>
+Bir menü programının genel akışı şu şekildedir.
+</p><p>
+<div class="orderedlist"><ol type="1"><li><div class="listitem">
+Curses kipi ilklendirilir
+</div></li><li><div class="listitem"><tt>new_item()</tt> kullanarak öğeler oluşturulur. Öğeler için isim ve tanımlama belirtebilirsiniz.
+</div></li><li><div class="listitem"><tt>new_menu()</tt> ile kendisine ilintilenecek öğeler belirtilerek menü oluşturulur.
+</div></li><li><div class="listitem">
+Menü <tt>menu_post()</tt> ile ekrana yazdırılır ve ekran tazelenir.
+</div></li><li><div class="listitem">
+Bir döngü ile kullanıcı isteklerini işlenir ve <tt>menu_driver</tt> ile menü üzerinde gerekli güncellemeler yapılır.
+</div></li><li><div class="listitem"><tt>menu_unpost()</tt> ile ekrandan menü görüntüsü silinir.
+</div></li><li><div class="listitem"><tt>free_menu()</tt> ile menü tarafından kullanılan bellek alanı serbest bırakılır.
+</div></li><li><div class="listitem">
+Menü içerisindeki öğelere ayrılan bellek alanı <tt>free_item()</tt> ile serbest bırakılır.
+</div></li><li><div class="listitem">
+Curses kipi sonlandırılır.
+</div></li></ol></div>
+</p><p>
+Şimdi, yukarı ve aşağı ok tuşları kullanarak seçilen öğeyi güncelleyen basit bir program görelim.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menus.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-menus.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-compilemenus.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Menü Kütüphanesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top">  Menü Kütüphanesi ile derleme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

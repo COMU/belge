@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Örnek Değişkenler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-globalvars.html" title="Genel Değişkenler"><link rel="next" href="../howto/ruby-ug-localvars.html" title="Yerel Değişkenler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Örnek Değişkenler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-globalvars.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-localvars.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-instancevars"></a>Örnek Değişkenler</h2></div></dt><dd><p>
+Örnek değişken <b><tt>@</tt></b> ile başlayan bir ada sahiptir ve etki alanı <b><tt>self</tt></b> nesnesi ile sınırlıdır. Aynı sınıfa dahil olan iki aynı nesne için iki değişik örnek değişken tanımlamak mümkündür.
+  </p><p>
+Örnek değişkenler, yazılımcı hangi yöntemi tanımlarsa tanımlasın bir nesnenin dışından değiştirilemez (Ruby'nin örnek değişkenleri hiçbir zaman <i>genel</i> olamaz). Genel değişkenlerde olduğu gibi, örnek değişkenler de başlangıç değeri atanmazsa <b><tt>nil</tt></b> değerine sahip olurlar.
+  </p><p>
+Ruby'de örnek değişkenleri bildirmeye gerek yoktur. Bu durum nesnelerin yapısına esneklik kazandırır. Aslında, her örnek değişken, nesnedeki ilk kullanımında kendiliğinden oluşturulur.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> class OrnekDeneme</tt>
+    | <tt class="empinput">   def set_foo(n)</tt>
+    | <tt class="empinput">     @foo = n</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput">   def set_bar(n)</tt>
+    | <tt class="empinput">     @bar = n</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> i = OrnekDeneme.new</tt>
+   <tt class="empoutput">#&lt;OrnekDeneme:0x83678&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> i.set_foo(2)</tt>
+   <tt class="empoutput">2</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> i</tt>
+   <tt class="empoutput">#&lt;OrnekDeneme:0x83678 @foo=2&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> i.set_bar(4)</tt>
+   <tt class="empoutput">4</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> i</tt>
+   <tt class="empoutput">#&lt;OrnekDeneme:0x83678 @foo=2, @bar=4&gt;</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>i</tt></b>'nin <b><tt>set_bar</tt></b> yöntemi çağrılmadan <b><tt>@bar</tt></b>'ın  hiçbir değer belirtmediğine dikkat edin.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-globalvars.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-localvars.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Genel Değişkenler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yerel Değişkenler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

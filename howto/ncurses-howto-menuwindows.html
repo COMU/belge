@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:24+03:00"><title> Menü Pencereleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-menus.html" title="Menü Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-menudriver.html" title="menu_driver: Menü sisteminin dolap beygiri"><link rel="next" href="../howto/ncurses-howto-scrollmenus.html" title="Kaydırılabilen Menüler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center"> Menü Pencereleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menudriver.html">Önceki</a> </td><th width="60%" align="center">Menü Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-scrollmenus.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-menuwindows"></a> Menü Pencereleri</h3></div></dt><dd><p>
+Oluşturulan her bir menü bir pencere ve bir alt menü ile ilişiklendirilir. Menü penceresi menü ile ilişiklendirilmiş herhangi bir başlığı veya çerçeveyi gösterir. Menü alt penceresi seçimi mümkün olan menü öğelerini gösterir. Fakat basit örnekte herhangi bir pencere veya alt pencere belirtmedik. Bir pencere belirtilmediği zaman, temel pencere olarak <tt>stdscr</tt> alınır ve daha sonra menü sistemi öğelerin gösterimi için pencere büyüklüğünü ayarlar. Daha sonra öğeler hesaplanmış alt menüde gösterilir. Öyleyse şimdi bu pencerelerle oynayıp bir çerçeve ve başlıkla bir menü gösterelim.
+</p><div class="example"><p><a name="ncurses-howto-mmewi"></a><b>Örnek 5.24. Menü Pencereleri Kullanım örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+  "Choice 1",
+  "Choice 2",
+  "Choice 3",
+  "Choice 4",
+  "Exit",
+  (char *)NULL,
+};
+void print_in_middle(WINDOW *win, int starty, int startx, int width,
+     char *string, chtype color);
+
+int main()
+{ ITEM **my_items;
+  int c;
+  MENU *my_menu;
+  WINDOW *my_menu_win;
+  int n_choices, i;
+
+  /* Curses kipini ilklendir */
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+
+  /* Öğeleri oluştur */
+  n_choices = ARRAY_SIZE(choices);
+  my_items = (ITEM **)calloc(n_choices, sizeof(ITEM *));
+  for(i = 0; i &lt; n_choices; ++i)
+    my_items[i] = new_item(choices[i], choices[i]);
+
+  /* Menüyü oluştur */
+  my_menu = new_menu((ITEM **)my_items);
+
+  /* Menü ile ilişiklendirilecek pencereyi oluştur */
+  my_menu_win = newwin(10, 40, 4, 4);
+  keypad(my_menu_win, TRUE);
+
+  /* Ana pencereyi ve alt pencereleri ayarla */
+  set_menu_win(my_menu, my_menu_win);
+  set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
+
+  /* Menü göstericisini " * " olarak ayarla*/
+  set_menu_mark(my_menu, " * ");
+
+  /* Ana pencere etrafında bir çerçeve çiz ve bir başlık yaz */
+  box(my_menu_win, 0, 0);
+  print_in_middle(my_menu_win, 1, 0, 40, "My Menu", COLOR_PAIR(1));
+  mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
+  mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
+  mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
+  mvprintw(LINES - 2, 0, "F1 to exit");
+  refresh();
+
+  /* Menüyü ekrana yaz */
+  post_menu(my_menu);
+  wrefresh(my_menu_win);
+
+  while((c = wgetch(my_menu_win)) != KEY_F(1))
+  { switch(c)
+    { case KEY_DOWN:
+        menu_driver(my_menu, REQ_DOWN_ITEM);
+        break;
+      case KEY_UP:
+        menu_driver(my_menu, REQ_UP_ITEM);
+        break;
+    }
+    wrefresh(my_menu_win);
+  }
+
+  /* Menüyü ekrandan sil ve tahsis edilen belleği geri ver */
+  unpost_menu(my_menu);
+  free_menu(my_menu);
+  for(i = 0; i &lt; n_choices; ++i)
+    free_item(my_items[i]);
+  endwin();
+}
+
+void print_in_middle(WINDOW *win, int starty, int startx, int width,
+     char *string, chtype color)
+{ int length, x, y;
+  float temp;
+
+  if(win == NULL)
+    win = stdscr;
+  getyx(win, y, x);
+  if(startx != 0)
+    x = startx;
+  if(starty != 0)
+    y = starty;
+  if(width == 0)
+    width = 80;
+
+  length = strlen(string);
+  temp = (width - length)/ 2;
+  x = startx + (int)temp;
+  wattron(win, color);
+  mvwprintw(win, y, x, "%s", string);
+  wattroff(win, color);
+  refresh();
+}
+</pre> </td></tr></table></div></p></div><p>
+Bu örnek bir başlık, çerçeve ve öğelerle başlığı ayıran hoş bir çizgiye sahip bir menü oluşturur. Gördüğünüz gibi, bir pencereyi bir menüye ilişiklendirmek için <tt>set_menu_win()</tt> işlevi kullanılmak zorundadır. Böylece alt pencereyi de bağlamış oluruz. Bu, öğeleri alt pencerede gösterir. Seçilen öğenin sol tarafında gözüken işaretleme dizgesini <tt>set_menu_mark()</tt> ile ayarlayabilirsiniz.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menudriver.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-menus.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-scrollmenus.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">menu_driver: Menü sisteminin dolap beygiri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kaydırılabilen Menüler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

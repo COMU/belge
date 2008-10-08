@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:48+03:00"><title>Kaynak paketlerle çalışma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apt-howto.html" title="APT NASIL"><link rel="previous" href="../howto/apt-howto_search.html" title="Paketler hakkında bilgi toplama"><link rel="next" href="../howto/apt-howto_erros.html" title="Hatalarla başa çıkma"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kaynak paketlerle çalışma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apt-howto_search.html">Önceki</a> </td><th width="60%" align="center">APT NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/apt-howto_erros.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apt-howto_sourcehandling"></a>Kaynak paketlerle çalışma</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_source"></a>Kaynak paketleri indirme</h3></div></dt><dd><p>
+Özgür yazılım dünyasında kaynak kodlar üzerinde çalışma, hata bulma ve düzeltme oldukça yaygındır. Bunu yapabilmek için programın kaynak kodlarını indirmeniz gereklidir. APT sistemi, dağıtım içerisinde yer alan paketlerin kaynak kodlarını, <tt>.deb</tt> paketi oluşturulabilmesi için yapılan değişiklikleri de içerecek şekilde indirmenizi sağlayacak komutlara sahiptir.
+      </p><p>
+Debian kaynak paketlerinin kullanılmasının gerektiği diğer bir durum ise, belirli bir paketin güncel sürümünü, <tt>unstable</tt> sürümünü örneğin, <tt>stable</tt> sürümü için yeniden hazırlamak istediğiniz durumdur. Bir paketi <tt>stable</tt> dağıtım için oluşturduğunuzda bağımlılıklar da <tt>stable</tt> dağıtıma göre düzenlenir.
+      </p><p>
+Bunun için <tt>/etc/apt/sources.list</tt> dosyanızda unstable sürümle ilgili <b><tt>deb-src</tt></b> satırlarının bulunması gereklidir. Ayrıntı için bkz. <a href="../howto/apt-howto_basico.html#apt-howto_sources.list" class="xref" title="/etc/apt/sources.list dosyası"> /etc/apt/sources.list dosyası</a>.
+      </p><p>
+Bir kaynak paketi indirmek için aşağıdaki komutu kullanınız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-get source </tt></b><i>paket_adı</i>
+</pre> </td></tr></table></div></p><p>
+Bu komut üç dosyanın indirilmesini sağlayacaktır: bir <tt>.orig.tar.gz</tt>, bir <tt>.dsc</tt> ve bir de <tt>.diff.gz</tt>. Eğer paket Debian'a özgü ise, son iki dosya indirilmez ve dosya adı büyük olasılıkla <tt>orig</tt> önekini içermez.
+      </p><p>
+<tt>.dsc</tt> dosyası <b><tt>dpkg-source</tt></b> tarafından kaynak paketi <i><tt>paket_adı-sürüm</tt></i> dizini altına açmak için kullanılır. İndirilen her bir debian kaynak paketi açıldıktan sonra, <tt>debian</tt> adında bir dizin içerir. Bu dizinde <tt>.deb</tt> paketini oluşturmak için yapılan tüm değişiklikler bulunmaktadır.
+      </p><p>
+Kaynak paket indirildikten hemen sonra <tt>.deb</tt> paketinin oluşturulmasını istiyorsanız <b><tt>auto-build</tt></b> komutu işinize yarayacaktır. Bunun için komutu <tt>-b</tt> seçeneği ile aşağıdaki gibi kullanmalısınız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-get -b source </tt></b><i>paket_adı</i>
+</pre> </td></tr></table></div></p><p>
+Eğer indirdikten hemen sonra yerine daha ileriki zamanlarda <tt>.deb</tt> paketini oluşturmak isterseniz aşağıdaki komut bunu yapabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>dpkg-buildpackage -rfakeroot -uc -b</tt></b>
+</pre> </td></tr></table></div></p><p>
+Bu komutu kaynak paketin açıldığı dizin içerisindeyken çalıştırmalısınız. İşlem sonunda üretilen paketi aşağıdaki gibi sisteminize kurabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>dpkg -i paket.deb</tt></b>
+</pre> </td></tr></table></div></p><p>
+<b><tt>apt-get</tt></b>'in <tt>source</tt> yöntemi ile diğerleri arasında birtakım farklar bulunmaktadır. Burada paketin indirilebilmesi için root kullanıcısı olunmasına gerek yoktur, indirilen paketler o an bulunulan dizin içerisine açılırlar.
+     </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_build-dep"></a>Kaynak paketleri derlemek için gerekli paketler</h3></div></dt><dd><p>
+Doğal olarak derleyeceğiniz programın ihtiyaç duyduğu kütüphanelerin sisteminizde bulunması zorunludur. Tüm kaynak paketler <tt>debian/control</tt> dosyalarında <tt>Build-Depends:</tt> adlı bir alana sahiptir, bu alanda paketin kaynak kodundan derlenebilmesi için ihtiyaç duyduğu paketler belirtilir.
+     </p><p>
+APT bu paketleri kolayca indirmek ve kurmak için gerekli komuta sahiptir. <b><tt>apt-get build-dep paket_adı</tt></b> komutu ile derlemek istediğiniz paketin <tt>Build-Depends</tt> alanında belirtilen paketlerin sisteminize kurulması sağlanır.
+     </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-get build-dep gmc</tt></b>
+Reading Package Lists... Done
+Building Dependency Tree... Done
+The following NEW packages will be installed:
+  comerr-dev e2fslibs-dev gdk-imlib-dev imlib-progs libgnome-dev libgnorba-dev
+  libgpmg1-dev
+0 packages upgraded, 7 newly installed, 0 to remove and 1  not upgraded.
+Need to get 1069kB of archives. After unpacking 3514kB will be used.
+Do you want to continue? [Y/n]
+</pre> </td></tr></table></div></p><p>
+Burada <tt>gmc</tt> paketinin kaynak halinden derlenebilmesi için gerekli paketler sisteme kurulmaktadır. Bu komutun kaynak paketi indirmediğini unutmayın, kaynak paketi <b><tt>apt-get source</tt></b> ile ayrıca indirmelisiniz.
+      </p><p>
+Eğer amacınız belirli bir kaynak paketi derleyebilmek için gereken paketlerin listesini almak ise bunun için <b><tt>apt-cache show</tt></b> türevi bir komut kullanılır, bkz. <a href="../howto/apt-howto_search.html" class="xref" title="Paketler hakkında bilgi toplama"> Paketler hakkında bilgi toplama</a>. Bu araç <tt>Build-Depends</tt> satırında yazan bilgiler yanında başka bilgiler de göstermektedir.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>#</tt> <b><tt>apt-cache showsrc </tt></b><i>paket_adı</i>
+</pre> </td></tr></table></div>
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apt-howto_search.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apt-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/apt-howto_erros.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Paketler hakkında bilgi toplama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hatalarla başa çıkma</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

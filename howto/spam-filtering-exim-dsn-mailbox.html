@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:23+03:00"><title>Alıcı posta kutuluranın sınanması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-bounces.html" title="Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi"><link rel="previous" href="../howto/spam-filtering-exim-bounces.html" title="Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi"><link rel="next" href="../howto/spam-filtering-exim-dsn-noalias.html" title="Boş göndericilerin system_aliases yönlendiricisinde sınanması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Alıcı posta kutuluranın sınanması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-bounces.html">Önceki</a> </td><th width="60%" align="center">Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-dsn-noalias.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-dsn-mailbox"></a>Alıcı posta kutuluranın sınanması</h3></div></dt><dd><p>
+İlk yöntem için <a href="../howto/spam-filtering-acl_rcpt_to_final.html" class="xref" title="acl_rcpt_to"> acl_rcpt_to</a> ACL'sini kullanacağız. Burada, yerel bir posta kutusu olan bir alıcı adresinin varlığını sınayacağız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Eğer gönderici adresi boşsa, bir posta kutusu olmayan kullanıcılara
+  # (örn, postmaster, webmaster, v.s.) gelen postayı reddediyoruz.
+  # Bu kullanıcılar posta göndermezler, dolayısıyla onlara bir posta
+  # (teslimat durum bildirimi) dönemez.
+  #
+  deny
+    message     = This address never sends outgoing mail. \
+                  You are responding to a forged sender address.
+    log_message = bogus bounce for system user &lt;$local_part@$domain&gt;
+    senders     = : postmaster@*
+    domains     = +local_domains
+    !<i>posta kutusu sınaması</i>
+</pre> </td></tr></table></div>
+      </p><p>
+Talihsizliğe bakın ki, postanızı nasıl teslim ettiğinize bağlı olarak <tr>posta kutusu sınaması</tr> için yapacağımız işlem farklı olacak (örn, <a class="link" href="../howto/spam-filtering-exim-sign.html" title="Zarf Gönderici İmlerinin Eklenmesi">imlemeli zarf göndericisi adresleri</a> için alıcı adresinin eşit işaretinden önceki kısmını ayırmak gibi):
+      </p><p>
+      <div class="itemizedlist"><ul type="disc"><li>
+Eğer posta kutusu isimleri olarak sunucunuzdaki kullanıcıların hesapları kullanılmışsa, alıcı isimleri ile normal kullanıcıların kullanıcı kimlikleri (500 ile 60000 arasında) karşılaştırılabilir:
+      <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  set acl_m9 = ${extract{1}{=}{${lc:$local_part}}}
+  set acl_m9 = ${extract{2}{:}{${lookup passwd {$acl_m9}{$value}}}{0}}
+  condition  = ${if and {{&gt;={$acl_m9}{500}} {&lt;${acl_m9}{60000}}} {true}}
+</pre> </td></tr></table></div>
+        </p><p></p></li><li>
+Posta teslimatlarınızı <a class="ulink" href="http://asg.web.cmu.edu/cyrus/" target="_top">Cyrus</a> IMAP yapıyorsa, posta kutularının varlığına bakmak için <b><tt>mbpath</tt></b> komut satırı aracını kullanabilirsiniz. Bunun için, Exim'in posta kutularını sınama yetkisine sahip olmasını sağlamanız gerekir (örn, onu <tt>cyrus</tt> grubuna ekleyebilirsiniz:<br><b><tt># adduser exim4 cyrus</tt></b>).
+      <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  set acl_m9 = ${extract{1}{=}{${lc:$local_part}}}
+  condition  = ${run {/usr/sbin/mbpath -q -s user.$acl_m9} {true}}
+</pre> </td></tr></table></div>
+        </p><p></p></li><li>
+Tüm postaları teslim etmesi için bir dış makineye yolluyorsanız, bu makinenin postayı kabul edip etmeyeceğine karar verebilmek için bir <a href="../howto/spam-filtering-smtpchecks.html#spam-filtering-callforward" class="xref" title="Alıcı Varlık Sınaması">Alıcı Varlık Sınaması</a> uygulamanız gerekebilir. Varlık sınaması için özgün zarf göndericisi adresini aynen kullanmanız gerekir:
+      <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  verify = recipient/callout=use_sender
+</pre> </td></tr></table></div>
+          </p><p></p></li></ul></div>
+      </p><p>
+Postanın yerel olarak teslimatı durumunda, bu posta kutusu sınamaları yönlendiricilerde (routers) uygulananların birer tekrarı olacağından ve posta teslimat mekanizması bizim siteye özel olacağından, bu işlem bizim gibi mükemmelliyetçiler için biraz zorlu bir süreç olur. Bu bakımdan, şimdi başka bir yönteme bakacağız.
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-bounces.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-bounces.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-dsn-noalias.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Göndericisi Olmayan Postaların sadece Gerçek Kullanıcılar için Kabul Edilmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Boş göndericilerin system_aliases yönlendiricisinde sınanması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

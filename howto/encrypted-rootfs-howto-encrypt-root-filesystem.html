@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T01:01:26+03:00"><title>Şifrelenmiş Kök Dosya Sisteminin Oluşturulması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/encrypted-rootfs-howto.html" title="Şifrelenmiş Kök Dosya Sistemi NASIL"><link rel="previous" href="../howto/encrypted-rootfs-howto-preparing-system.html" title="Sistemin Hazırlanması"><link rel="next" href="../howto/encrypted-rootfs-howto-setup-boot-device.html" title="Önyükleme Aygıtının Ayarlanması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Şifrelenmiş Kök Dosya Sisteminin Oluşturulması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/encrypted-rootfs-howto-preparing-system.html">Önceki</a> </td><th width="60%" align="center">Şifrelenmiş Kök Dosya Sistemi NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/encrypted-rootfs-howto-setup-boot-device.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="encrypted-rootfs-howto-encrypt-root-filesystem"></a>Şifrelenmiş Kök Dosya Sisteminin Oluşturulması</h2></div></dt><dd><p>
+Hedef disk bölümünü rastgele veri ile doldurun:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>shred -n 1 -v /dev/hda2</tt></b></pre> </td></tr></table></div>
+    </p><p>
+Şifrelenmiş geridönüş aygıtını ayarlayın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>losetup -e aes256 -S xxxxxx /dev/loop0 /dev/hda2</tt></b></pre> </td></tr></table></div>
+    </p><p>
+Sözlük ataklarından korunmak için <tt>-S xxxxxx</tt> seçeneğini eklemeniz tavsiye edilir. Burada "xxxxxx" rastgele seçilmiş anahtar olmalıdır (örneğin "gPk4lA" olabilir). Bu anahtarı unutmamak için bir kağıda yazmanız iyi olur. Ayrıca önyükleme sırasında klavye sorunları yaşamamak için parolanızda ASCII olmayan karakterleri kullanmayın. <a href="http://www.diceware.com/" target="_top">Diceware</a> sitesinde hatırlaması kolay ama güçlü parolalar hazırlanmasına yardımcı olunmaktadır
+    </p><p>
+Şimdi ext3 dosya sistemini oluşturalım:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>mke2fs -j /dev/loop0</tt></b></pre> </td></tr></table></div>
+    </p><p>
+Girdiğiniz parolanın doğruluğunu sınayın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>losetup -d /dev/loop0</tt></b>
+# <b><tt>losetup -e aes256 -S xxxxxx /dev/loop0 /dev/hda2</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>mkdir /mnt/efs</tt></b>
+# <b><tt>mount /dev/loop0 /mnt/efs</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Şifrelenmiş ve çözülmüş verileri karşılaştırabilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>xxd /dev/hda2  | less</tt></b>
+# <b><tt>xxd /dev/loop0 | less</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Artık şifrelenmiş Linux sisteminizi kurmanın zamanı geldi. Eğer bir GNU/Linux dağıtımı (Debian, Slackware, Gentoo, Mandrake, RedHat/Fedora, SuSE, gibi) kullanıyorsanız, aşağıdaki komutu çalıştırın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># <b><tt>cp -avx / /mnt/efs</tt></b></pre> </td></tr></table></div>
+    </p><p>
+Eğer Linux From Scratch kitabını takip ediyorsanız, aşağıdaki düzeltmelerle birlikte kitabı takibe devam edin:
+        <div class="itemizedlist"><ul type="disc"><li>Bölüm 6 - Util-linux paketinin kurulması:<p></p><p>Kodları açtıktan sonra loop-AES yamasını uygulayın.</p><p></p></li><li>Bölüm 8 - LFS sisteminin önyüklenebilir hale getirilmesi:<p></p><p>Bir sonraki bölüme (Önyükleme Aygıtının Ayarlanması) bakın.</p><p></p></li></ul></div>
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/encrypted-rootfs-howto-preparing-system.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/encrypted-rootfs-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/encrypted-rootfs-howto-setup-boot-device.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Sistemin Hazırlanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Önyükleme Aygıtının Ayarlanması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

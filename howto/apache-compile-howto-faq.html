@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:31+03:00"><title>Sorular ve Cevaplar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apache-compile-howto.html" title="Apache Derleme NASIL"><link rel="previous" href="../howto/apache-compile-howto-moreinfo.html" title="Daha Fazla Bilgi"><link rel="next" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO.html" title="Fedora Core 3 Üzerine Oracle 9i Kurulumu NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sorular ve Cevaplar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apache-compile-howto-moreinfo.html">Önceki</a> </td><th width="60%" align="center">Apache Derleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apache-compile-howto-faq"></a>Sorular ve Cevaplar</h2></div></dt><dd><div class="qandaset"><dl><dt>1.10.1.  <a href="../howto/apache-compile-howto-faq.html#id1">
+Apache 2.0 için böyle bir NASIL belgesi var mı?
+</a></dt><dt>1.10.2.  <a href="../howto/apache-compile-howto-faq.html#id2">
+Neden mod_filanca'nın nasıl derlenip kurulacağına ilişkin bir açıklama eklemiyorsunuz?
+</a></dt><dt>1.10.3.  <a href="../howto/apache-compile-howto-faq.html#id3">
+Benim istemcilerim https://sunucum.org'a bağlanırken "Certificate not valid" gibi bir hata iletisi gösteriyor.
+</a></dt><dt>1.10.4.  <a href="../howto/apache-compile-howto-faq.html#id4">
+PHP dosyasına istek yaptığımda tarayıcım onu indirmeye çalışıyor, Sorun nedir?
+</a></dt><dt>1.10.5.  <a href="../howto/apache-compile-howto-faq.html#id5">
+Bu NASIL diğer platformlarda da işe yarar mı?
+     </a></dt></dl><p></p><hr><p></p><dl><dt class="question"><a name="id1"></a><a name="id1"></a><b>1.10.1. </b> <b>
+Apache 2.0 için böyle bir NASIL belgesi var mı?
+</b></dt><dd class="answer"><b></b> <p>
+Henüz yok. Çünkü PHP 4.2.1 Apache 2.0 API'sini sadece deneysel olarak destekler ve PHP'nin Apache 2.0 ile hızı çok kötüdür. Yeni bir Apache bir çok yeni özellik ve büyük bir hız artışı getirir. PHP'nin desteklediği kararlı ve daha performanslısı çıktığında böyle bir NASIL yazacağım. Şuanda kullanıcılardan Apache 2.0 NASIL'da neler görmek istedikleri hakkında  fikir ve görüşler topluyorum. Lütfen  <span class="email">&lt;luc (at) delouw.ch&gt;</span>  adresine yazın.
+</p><p></p></dd><dt class="question"><a name="id2"></a><a name="id2"></a><b>1.10.2. </b> <b>
+Neden mod_filanca'nın nasıl derlenip kurulacağına ilişkin bir açıklama eklemiyorsunuz?
+</b></dt><dd class="answer"><b></b> <p>
+Çünkü daha onu kimse istemedi, hem onun hakkında bilgim yok hem de onu yararlı bulmuyorum. NASIL'a neler ekleneceği hakkında önerileriniz için lütfen bana yazın. Eğer birden fazla istek olursa ve duyarlı olunursa belki ilerdeki sürümlere eklenebilir.
+</p><p></p></dd><dt class="question"><a name="id3"></a><a name="id3"></a><b>1.10.3. </b> <b>
+Benim istemcilerim https://sunucum.org'a bağlanırken "Certificate not valid" gibi bir hata iletisi gösteriyor.
+</b></dt><dd class="answer"><b></b> <p>
+Sertifika, bu NASIL belgesinde anlatıldığı gibi kendinden imzalı olarak üretilir. Bunun anlamı CA (Sertifikasyon yetkilisi) sizsiniz. CA'nız tarayıcınız tarafından geçerli CA olarak algılanmıyor. Ya kullanıcıların makinalarına sertifikayı kurarsınız, ya da bütün önemli tarayıcılar tarafından tanınan sertifikayı satın alırsınız. Bir örnek Verisign <a class="ulink" href="http://www.verisign.com" target="_top">http://www.verisign.com</a>. Böyle bir sertifikanın yaklaşık maliyeti, şifreleme anahtarına bağlı olarak (56 veya 128 Bit)  yılda 300 $'dır.
+</p><p></p></dd><dt class="question"><a name="id4"></a><a name="id4"></a><b>1.10.4. </b> <b>
+PHP dosyasına istek yaptığımda tarayıcım onu indirmeye çalışıyor, Sorun nedir?
+</b></dt><dd class="answer"><b></b> <p>
+Apache'ye php dosyaları ile ne yapacağını söylemeyi unutmuşsunuz.Dolayısıyla php dosyaları php motoru tarafından işlenmiyor. Bunun için <a href="../howto/apache-compile-howto-php.html#apache-compile-howto-build-php" class="xref" title="PHP4'ün Derlenmesi ve Kurulması"> PHP4'ün Derlenmesi ve Kurulması</a> bölümünde tanımlandığı gibi uygulama türünü ekleyin.
+</p><p></p></dd><dt class="question"><a name="id5"></a><a name="id5"></a><b>1.10.5. </b> <b>
+Bu NASIL diğer platformlarda da işe yarar mı?
+     </b></dt><dd class="answer"><b></b> <p>
+Emin değilim, Solaris çalışmalı, AIX ve HP-UX çalışmaz. FreeBSD için denemeye henüz zamanım olmadı. Benim hedefim bütün önemli Unix platformları için bir NASIL sürümü oluşturmak.
+</p><p></p></dd></dl></div><p>
+Bir sorunuz olursa ve önemli bulursam onu buraya (anonim olarak) ekleyebilirim.
+   </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apache-compile-howto-moreinfo.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apache-compile-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/Oracle-9i-Fedora-3-Install-HOWTO.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Daha Fazla Bilgi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Fedora Core 3 Üzerine Oracle 9i Kurulumu NASIL</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

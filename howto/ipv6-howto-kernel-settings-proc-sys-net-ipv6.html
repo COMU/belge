@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:27+03:00"><title>/proc/sys/net/ipv6/ dizinindeki kayıtlar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-kernel-settings.html" title="/proc dosya sisteminde çekirdek ayarlamaları"><link rel="previous" href="../howto/ipv6-howto-kernel-settings-proc.html" title="/proc dosya sistemine erişim"><link rel="next" href="../howto/ipv6-howto-kernel-settings-proc-sys-net-ipv4.html" title="/proc/sys/net/ipv4/ dizininde IPv6 kayıtları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">/proc/sys/net/ipv6/ dizinindeki kayıtlar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-kernel-settings-proc.html">Önceki</a> </td><th width="60%" align="center">/proc dosya sisteminde çekirdek ayarlamaları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-kernel-settings-proc-sys-net-ipv4.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-kernel-settings-proc-sys-net-ipv6"></a><tt>/proc/sys/net/ipv6/</tt> dizinindeki kayıtlar</h3></div></dt><dd><div class="variablelist"><dl><dt><span class="term"><tt>conf/default/*</tt></span></dt><dd>
+Bir arabirime özgü öntanımlı değerleri değiştirir.
+  <p></p><p></p></dd><dt><span class="term"><tt>conf/all/*</tt></span></dt><dd>
+Tüm arabirimlere özgü değerleri değiştirir.
+  <p></p><p>
+İstisna: <tt>conf/all/forwarding</tt> farklı bir anlam içerir.
+  </p><p><div class="variablelist"><dl><dt><span class="term"><tt>conf/all/forwarding</tt></span></dt><dd>
+Veri türü: MANTIKSAL
+  <p></p><p>
+Tüm arabirimler arasındaki IPv6 iletimine (forwarding) izin verir.
+  </p><p>
+IPv6'da iletimini aygıt başına denetleyemezsiniz, iletim denetimi (ip6tables tarafından denetlenen) IPv6-netfilter kural kümeleri kullanılarak yapılmalıdır (daha fazlası <a href="../howto/ipv6-howto-firewalling-netfilter6.html" title="netfilter6 kullanarak güvenlik duvarı oluşturmak"> netfilter6 kullanarak güvenlik duvarı oluşturmak</a> bölümündedir). Bu durum iletimi her aygıt için ayrı ayrı denetleyebildiğiniz (karar paketin geldiği arabirimde verilir) IPv4'den farklıdır.
+  </p><p>
+Böylece tüm arabirimler için belirlenen değer <tt>forwarding</tt>e atanmış olur. Aşağıda daha fazla ayrıntı bulacaksınız.
+  </p><p>
+Eğer bu değer 0 ise hiçbir IPv6 iletimi yapılmıyor demektir. Paketler ne fiziksel ne de mantıksal başka bir arabirime asla ulaşamazlar.
+  </p><p></p></dd></dl></div>
+  </p><p></p></dd><dt><span class="term"><tt>conf/interface/*</tt></span></dt><dd>
+Her arabirim için özel ayarlamalar yapar.
+  <p></p><p>
+Belirli bir ayarlama için yerel iletimin yetkilendirilme durumuna göre farklı davranışlar sergilenebilir.
+  </p><p><div class="variablelist"><dl><dt><span class="term"><tt>accept_ra</tt></span></dt><dd>
+Veri türü: MANTIKSAL
+  <p></p><p>
+Öntanımlı işlevselliği: yerel iletim kapalı ise etkindir, aksi takdirde etkin değildir.
+  </p><p>
+Yönlendirici bildirimlerini kabul eder ve aldığı veri ile arabirimi otomatik yapılandırır.
+  </p><p></p></dd><dt><span class="term"><tt>accept_redirects</tt></span></dt><dd>
+Veri türü: MANTIKSAL
+  <p></p><p>
+Öntanımlı işlevselliği: yerel iletim kapalı ise etkindir, aksi takdirde etkin değildir.
+  </p><p>
+IPv6 yönlendiricinin gönderdiği yeniden yönlendirmeleri kabul eder.
+  </p><p></p></dd><dt><span class="term"><tt>autoconf</tt></span></dt><dd>
+Veri türü: MANTIKSAL
+  <p></p><p>
+Öntanımlı değer: TRUE (doğru)
+  </p><p>
+L2 donanım adreslerini kullanarak yerel-bağlantı (<a href="../howto/ipv6-howto-addresstypes.html" title="Adres Türleri"> Adres Türleri</a> bölümüne bakabilirsiniz) adreslerini yapılandırır. Örneğin L2-MAC adresinden <tt>fe80::201:23ff:fe45:6789</tt> gibi bir adresi otomatik olarak üretir.
+  </p><p></p></dd><dt><span class="term"><tt>dad_transmits</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 1
+  </p><p>
+Algılanan DAD (Duplicate Address Detection - Yinelenmiş Adres Tespiti) miktarını gösterir.
+  </p><p></p></dd><dt><span class="term"><tt>forwarding</tt></span></dt><dd>
+Veri türü: MANTIKSAL
+  <p></p><p>
+Öntanımlı değer: eğer küresel iletim etkin değilse FALSE (yanlış), aksi halde TRUE
+  </p><p>
+Arabirime özgü Konak/Yönlendirici davranışını yapılandırır.
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Tüm arabirimler için aynı değerlerin olması tavsiye edilir. Karışık yönlendirici/konak senaryoları pek nadirdir.
+  </p></td></tr></table></div></p><p><div class="itemizedlist"><ul type="disc"><li>
+YANLIŞ değeri için: Öntanımlı Konak davranışı kabul edilir.Yani:
+  <p></p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+Komşu Bildiriminde, IsRouter bayrağı atanmaz.
+  </div></li><li><div class="listitem">
+Yönlendirici Talepleri ihtiyaç olduğunda gönderilir.
+  </div></li><li><div class="listitem">
+Eğer <tt>accept_ra</tt> DOĞRU ise (öntanımlı), Yönlendirici Bildirimlerini kabul eder (ve otomatik yapılandırma yapar).
+  </div></li><li><div class="listitem">
+Eğer <tt>accept_redirects</tt> DOĞRU ise (öntanımlı), Yeniden yönlendirmeleri kabul eder.
+  </div></li></ol></div></p><p></p></li><li>
+DOĞRU değeri için: Yerel iletim etkin ise Yönlendirici davranışı kabul edilir. Bu yukarıdakilerin tam tersi demektir:
+  <p></p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+Komşu bildiriminde IsRouter bayrağı atanır.
+  </div></li><li><div class="listitem">
+Yönlendirici Talepleri gönderilmez.
+  </div></li><li><div class="listitem">
+Yönlendirici bildirimleri görmezden gelinir.
+  </div></li><li><div class="listitem">
+Yeniden yönlendirmeler görmezden gelinir.
+  </div></li></ol></div></p><p></p></li></ul></div>
+  </p><p></p></dd><dt><span class="term"><tt>hop_limit</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 64
+  </p><p>
+Kullanılacak öntanımlı Hop Limit değeri.
+  </p><p></p></dd><dt><span class="term"><tt>mtu</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 1280 (IPv6'nın ihtiyacı olan asgari değer)
+  </p><p>
+Öntanımlı Azami Aktarım Birimi
+  </p><p></p></dd><dt><span class="term"><tt>router_solicitation_delay</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 1
+  </p><p>
+Bir arabirim etkin olduktan sonra Yönlendirici Talebi göndermeden kaç saniye bekleyecek.
+  </p><p></p></dd><dt><span class="term"><tt>router_solicitation_interval</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 4
+  </p><p>
+Yönlendirici talepleri arasında kaç saniye beklenecek.
+  </p><p></p></dd><dt><span class="term"><tt>router_solicitations</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 3
+  </p><p>
+Etkin yönlendirici bulunamadığını kabul etmeden önce gönderilecek yönlendirici talebi sayısı.
+  </p><p></p></dd></dl></div>
+  </p><p></p></dd><dt><span class="term"><tt>neigh/default/*</tt></span></dt><dd>
+Öntanımlı değerleri komşuları tespit etmek için değiştirebilirsiniz:
+  <p></p><p><div class="variablelist"><dl><dt><span class="term"><tt>gc_thresh1</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 128
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_thresh2</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 512
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_thresh3</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 1024
+  </p><p>
+Komşu tablosunun büyüklüğünü belirleyen parametredir.
+  </p><p>
+Eğer fazlaca arabiriminiz varsa ve yönledirmenin başlaması sorun oluyorsa veya başlamıyorsa bu değeri arttırın. Sorun olduğu durumda <a href="http://www.zebra.org/" target="_top">Zebra (yönlendirme programı)</a> aşağıdaki gibi bir hata raporu verir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ZEBRA: netlink-listen error: No buffer space available, type=RTM_NEWROUTE(24), seq=426, pid=0
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term"><tt>gc_interval</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 30
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd></dl></div>
+  </p><p></p></dd><dt><span class="term"><tt>neigh/interface/*</tt></span></dt><dd>
+Komşuların araştırılması için her arabirimde özel ayarları değiştirin.
+  <p></p><p><div class="variablelist"><dl><dt><span class="term"><tt>anycast_delay</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 100
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_stale_time</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 60
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>proxy_qlen</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 64
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>unres_qlen</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 3
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>app_solicit</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 0
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>locktime</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 0
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>retrans_time</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 100
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>base_reachable_time</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 30
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>mcast_solicit</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 3
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>ucast_solicit</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 3
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>delay_first_probe_time</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 5
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>proxy_delay</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 80
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd></dl></div>
+  </p><p></p></dd><dt><span class="term"><tt>route/*</tt></span></dt><dd>
+Yönlendirme için küresel ayarları değiştirin.
+  <p></p><p><div class="variablelist"><dl><dt><span class="term"><tt>flush</tt></span></dt><dd>
+Yeni çekirdek sürümlerinden kaldırıldı.
+  <p></p><p></p></dd><dt><span class="term"><tt>gc_interval</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 30
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_thresh</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 1024
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>mtu_expires</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 600
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_elasticity</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 0
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_min_interval</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 5
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>gc_timeout</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 60
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>min_adv_mss</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 12
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd><dt><span class="term"><tt>max_size</tt></span></dt><dd>
+Veri türü: TAMSAYI
+  <p></p><p>
+Öntanımlı değer: 4096
+  </p><p>
+Açıklama yazılacak.
+  </p><p></p></dd></dl></div>
+  </p><p></p></dd></dl></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-kernel-settings-proc.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-kernel-settings.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-kernel-settings-proc-sys-net-ipv4.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">/proc dosya sistemine erişim </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> /proc/sys/net/ipv4/ dizininde IPv6 kayıtları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

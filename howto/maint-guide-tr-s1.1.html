@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:16+03:00"><title>Geliştirme için gereken araçlar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s1.html" title="Doğru şekilde başlamak"><link rel="previous" href="../howto/maint-guide-tr-s1.html" title="Doğru şekilde başlamak"><link rel="next" href="../howto/maint-guide-tr-s1.2.html" title="Diğer bilgiler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Geliştirme için gereken araçlar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s1.html">Önceki</a> </td><th width="60%" align="center">Doğru şekilde başlamak</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s1.2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s1.1"></a>Geliştirme için gereken araçlar</h3></div></dt><dd><p>
+Herhangi bir şeye başlamadan önce, geliştirmek için kullanacağınız bazı ek paketlerin düzgün biçimde yüklendiğinden emin olmalısınız. Listenin `temel' veya `gerekli' gibi herhangi bir paketi içermediğini dikkate alınız; onların zaten kurulu olduğunu varsayıyoruz.
+      </p><p>
+Bu belgenin bu sürümü Debian 2.2 (`potato') ve 3.0 (`woody') dağıtımlarındaki paketlere göre güncellenmiştir.
+      </p><p>
+Aşağıdaki paketler standart Debian kurulumunda gelmektedir, dolayısiyle muhtemelen sisteminizde bulunmaktadır (bağımlı oldukları diğer ek paketlerle beraber). Gene de <b><tt>dpkg -s </tt></b><i>paketadı</i> ile kontrol etmelisiniz.
+      </p><p><div class="variablelist"><dl><dt><span class="term"><tt>dpkg-dev</tt></span></dt><dd>
+Bu paket Debian kaynak paketlerini açmak (unpack), derlemek (build), karşıya yüklemek (upload) için gerekli araçları içerir. (<b><tt>dpkg-source(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>file</tt></span></dt><dd>
+Bu kullanışlı araçla bir dosyanın türünü belirleyebilir. (<b><tt>file(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>gcc</tt></span></dt><dd>
+GNU C derleyicisi, eğer pek çok diğer program gibi sizinki de C dilinde yazıldıysa gerelidir. (<b><tt>gcc(1)</tt></b> kılavuz sayfasına bakınız.) Bu paket ayrıca C önişlemcisi <b><tt>cpp</tt></b> (<b><tt>cpp(1)</tt></b> kılavuz sayfasına bakınız.) ve nesne dosyalarını çevirmek ve ilintilemek için kullanılan araçları içeren <tt>binutils</tt> (binutils-doc paketi içerisindeki <b><tt>info binutils</tt></b>'e bakınız) gibi çeşitli paketlere de nüfuz eder.
+      <p></p><p></p></dd><dt><span class="term"><tt>g++</tt></span></dt><dd>
+GNU C++ derleyicisi, eğer programınız C++ ile yazılmışsa gereklidir. (<b><tt>g++(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>libc6-dev</tt></span></dt><dd>
+gcc'nin nesne dosyalarını oluştururuken ilintilemesi gereken C kütüphaneleri ve başlık dosyaları. ('na bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>make</tt></span></dt><dd>
+Genellikle bir programın oluşturulması birkaç adım alır, aynı komutları tekrar tekrar yazmak yerine, bu programı kullanarak `Makefile' dosyaları oluşturup işlemi otomatikleştirebilirsiniz. (<b><tt>info make</tt></b>'e bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>patch</tt></span></dt><dd>
+Bu pek faydalı araç, farklılıklar listesi içeren bir dosyayı alır (<b><tt>diff</tt></b> uygulaması tarafından oluşturulmuş) ve onu orjinal dosyaya uygular, sonucunda da yamalı sürüm üretilir. (<b><tt>patch(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>perl</tt></span></dt><dd>
+Perl, genellikle "Unix'in İsviçre Çakısı" olarak ifade edilen, günümüz Unix-benzeri sistemlerde en çok kullanılan betik dillerinden biridir. (<b><tt>perl(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd></dl></div></p><p>
+ Muhtemelen aşağıdaki paketkeri de yüklemek isteyeceksiniz:
+      </p><p><div class="variablelist"><dl><dt><span class="term"><tt>autoconf</tt> ve <tt>automake</tt></span></dt><dd>
+Pek çok yeni program bu tür araçların yardımıyla önişleme tabi tutulan <tt>configure</tt> betikleri ve <tt>Makefile</tt> dosyaları  kullanmaktadır. ( ekitabına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>dh-make</tt> ve <tt>debhelper</tt></span></dt><dd>
+<b><tt>dh-make</tt></b> örnek paketimizin iskeletini oluşturmak için gereklidir ve paketi oluşturuken de <b><tt>debhelper</tt></b> araçlarından bazılarını kullanacaktır. Bunlar paket oluşturmak için gerekli değildir, fakat ilk defa paket hazırlayan bakımcılar için şiddetle tavsiye edilmektedir. Başlangıçta ve sonrasında kontrol ederken bütün işlemi çok basit bir hale getirmektedir. (<b><tt>dh_make(1)</tt></b>, <b><tt>debhelper(1)</tt></b> kılavuz sayfalarına ve <tt>/usr/share/doc/debhelper/README</tt> dosyasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>devscripts</tt></span></dt><dd>
+Bu paket, paket bakımcılarına yardımı olabilecek bazı hoş ve faydalı betikler içermektedir, fakat bunlar paket oluşturmak için gerekli değildir. (<tt>/usr/share/doc/devscripts/README.gz</tt> dosyasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>fakeroot</tt></span></dt><dd>
+Bu araç yapım derleme aşamasının bazı yerlerinde root gibi davranmanıza izin vermektedir. (<b><tt>fakeroot(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>gnupg</tt></span></dt><dd>
+Paketleri sayısal olarak imzalamayı sağlayan bir araçtır. Bu eğer özellikle paketinizi başkalarına dağıtmak isterseniz önemlidir ve elbette çalışmanız Debian projesine dahil olunca da bunu yapıyor olacaksınız. (<b><tt>gpg(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>g77</tt></span></dt><dd>
+GNU Fortran 77 derleyicisi, eğer programınız Fortran dilinde yazıldıysa gereklidir. (<b><tt>g77(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>gpc</tt></span></dt><dd>
+GNU Pascal derleyicisi, eğer programınız Pascal dilinde yazıldıysa gereklidir. Bu işte iyi olan ve işaret etmeye değer bir tanesi de <b><tt>fp-compiler</tt></b>, Özgür Pascal Derleyicisidir (Free Pascal Compiler). (<b><tt>gpc(1)</tt></b> ve <b><tt>ppc386(1)</tt></b> kılavuz sayfalarına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>xutils</tt></span></dt><dd>
+Genelde X11 uygulamalarını yapmak için yapılmış bazı programlar, ayrıca bu programlar bazı makro işlev kümelerinden Makefile dosyalarını üretmek için de kullanılır. (<b><tt>imake(1)</tt></b> ve <b><tt>xmkmf(1)</tt></b> kılavuz sayfalarına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>lintian</tt></span></dt><dd>
+Bu, siz Debian paketi yaptıktan sonra genel hataları bilmenizi sağlayan ve bulduğu hataları açıklayan Debian paket denetimcisidir. (<b><tt>lintian(1)</tt></b> kılavuz sayfasına ve <tt>/usr/share/doc/lintian/lintian.html/index.html</tt> dosyasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>linda</tt></span></dt><dd>
+Bu da başka bir Debian paket denetimcisidir. (<b><tt>linda(1)</tt></b> kılavuz sayfasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>pbuilder</tt></span></dt><dd>
+Bu paket <tt>chroot</tt> ortamını oluşturmak ve bakımını yapmak için gerekli paketleri içerir. Debian paket derleyici, bu chroot ortamında, gerekli derleme bağımlılıklarının doğrulanmasını ve FTBFS hatalarından kaçınabilmeyi sağlar. (<b><tt>pbuilder(1)</tt></b> ve <b><tt>pdebuild(1)</tt></b> kılavuz sayfalarına bakınız.)
+      <p></p><p></p></dd></dl></div>
+      </p><p>
+Aşağıdakiler bu belge ile beraber okumanız gereken <i>çok önemli</i> belgelerdir:
+      </p><p><div class="variablelist"><dl><dt><span class="term"><tt>debian-policy</tt></span></dt><dd>
+Politika, Debian arşivinin yapısı ve içeriğiyle, bazı işletim sistemi meseleleriyle, Dosya Hiyerarşı Standardı (Filesystem Hierarchy Standard) (hangi dosya ve dizin nerede olmalı) ile ilgili açıklamalar içerir. Sizin için en önemlisi, dağıtımda yer alması için bir pakette olması gerekenleri açıklamasıdır. (<a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">http://www.debian.org/doc/debian-policy/</a>  veya <tt>/usr/share/doc/debian-policy/policy.html/index.html</tt> dosyasına bakınız.)
+      <p></p><p></p></dd><dt><span class="term"><tt>developers-reference</tt></span></dt><dd>
+Paketlemenin teknik ayrıntıları dışındaki herşey; arşivin yapısı, nasıl yeniden adlandırılacağı, öksüz (orphan), toplama paketler, NMU'ların nasıl yapıldığı, hatalarla nasıl ilgilenilir, en iyi paketleme pratikleri, ne zaman ve nereye karşıya yükleme yapılmalı, v.b. gibi. (<a class="ulink" href="http://www.debian.org/doc/manuals/developers-reference/index.en.html" target="_top">http://www.debian.org/doc/manuals/developers-reference/index.en.html</a> veya <tt>/usr/share/doc/developers-reference/index.en-us.iso-8859-1.html</tt> dosyasına bakınız.)
+      <p></p><p></p></dd></dl></div>
+      </p><p>
+Yukarıda verilen kısa açıklamalar sadece her paketin ne amaçla kullanıldığını belirtmek için vermiştir. Devam etmeden önce lütfen her programın belgelendirmesini etraflıca, en azından standart kullanımını, okuyunuz. Şu an çok zor gözükebilir, ama ilerde okuduğunuza memnun olacaksınız.
+      </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+<tt>debmake</tt>, <tt>dh-make</tt> benzeri işlevler yapan araçları içeren bir pakettir, fakat ona özel kullanım bu belge içinde anlatılmayacaktır, çünkü artık önerilmemektedir. Lütfen daha ayrıntılı bilgi edinmek için Debmake Kılavuzuna (<a class="ulink" href="http://people.debian.org/~jaldhar/make_package1.html" target="_top">http://people.debian.org/~jaldhar/make_package1.html</a>) bakınız.)
+      </p></td></tr></table></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s1.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-s1.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s1.2.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Doğru şekilde başlamak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Diğer bilgiler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

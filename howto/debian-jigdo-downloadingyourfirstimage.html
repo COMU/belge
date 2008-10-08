@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-07T02:12:42+03:00"><title>İlk Görüntünüzü İndirmek (5 Kolay Adımda)</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/debian-jigdo.html" title="Debian Jigdo küçük-NASIL"><link rel="previous" href="../howto/debian-jigdo-howjigdoworks.html" title="Jigdo Nasıl Çalışır (seçimlik)"><link rel="next" href="../howto/debian-jigdo-updatingyourimage.html" title="Görüntü Dosyanızı Güncellemek"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">İlk Görüntünüzü İndirmek (5 Kolay Adımda)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/debian-jigdo-howjigdoworks.html">Önceki</a> </td><th width="60%" align="center">Debian Jigdo küçük-NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/debian-jigdo-updatingyourimage.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="debian-jigdo-downloadingyourfirstimage"></a>İlk Görüntünüzü İndirmek (5 Kolay Adımda)</h2></div></dt><dd><p>Sıfırdan başladığınızı ve herhangi bir Debian ISO'suna sahip olmadığınızı varsayıyoruz. Bir kere kendi ISO kümenizi CD'ye yazdıktan sonra, jigdo-lite'ı kullanarak daha sonra onu güncelleyebilirsiniz. ISO'ların güncellenmesini bir sonraki bölümde ele alacağız.</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="debian-jigdo-installingjigdo"></a>Jigdo'yu Yüklemek</h3></div></dt><dd><p>İlk olarak jigdo-file paketini yükleyin:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># apt-get install jigdo-file</pre> </td></tr></table></div></p><p>Jigdo atılgan bir gelişim içerisindedir. Hata düzeltmeleri ve geliştirilmesi sürekli devam etmektedir bu yüzden de eğer kararlı veya test sürümü kullanıyorsanız jigdo-file dosyasını kararsız sürümden <a href="http://packages.debian.org/unstable/utils/jigdo-file.html" target="_top">http://packages.debian.org/unstable/utils/jigdo-file.html</a> adresinden indirin. 28 Kasım 2005 itibariyle 0.7.2-2 sürümüne ulaşmıştır.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="debian-jigdo-downloadthe.templateand.jigdofiles"></a>.template ve .jigdo Dosyalarını İndirmek</h3></div></dt><dd><p>
+	  İndirmek istediğiniz her ISO görüntüsü için, o görüntünün <tt>.jigdo</tt> ve <tt>.template</tt> dosyalarının her ikisine ihtiyacınız vardır. Her iki dosya da aynı isimlendirme kuralını takip etmektedir:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">dağıtım-mimari-n.jigdo
+dağıtım-mimari-n.template</pre> </td></tr></table></div>
+  </p><p>
+	Burada dağıtım kısmı dağıtımın adı ("sarge" gibi), mimari mimarinin tipi ("i386" gibi) ve n de disk numarasıdır ("1" gibi).
+  
+  </p><p>
+	  Örneğin Sarge'ın 8 tane görüntüsü vardır, dolayısiyle 8 .jigdo ve 8 .template dosyası indirmeniz gerekmektedir. <a href="http://www.debian.org/CD/jigdo-cd/" target="_top">http://www.debian.org/CD/jigdo-cd/</a> adresinden indirilebilirler. İlk <tt>.jigdo</tt> ve <tt>.template</tt> dosyaları sırasıyla <tt>sarge-i386-1.jigdo</tt> ve <tt>sarge-i386-1.template</tt> olarak isimlendirilirler. 
+  
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="debian-jigdo-runjigdo-lite"></a>jigdo-lite'ı Çalıştırmak</h3></div></dt><dd><p>
+	    jigdo-lite'ı çalıştırın ve indirmek istediğiniz görüntünün <tt>.jigdo</tt> dosyasını gönderin. Sarge'ı örnek olarak kullanırsak:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">lucifer$ ls
+sarge-i386-1.jigdo  sarge-i386-1.template
+lucifer$ jigdo-lite sarge-i386-1.jigdo
+
+Jigsaw Download "lite"
+Copyright 2001-2003 by Richard Atterer &lt;jigdo@atterer.net&gt;
+Getting mirror information from /etc/apt/sources.list
+
+-----------------------------------------------------------------
+Images offered by `sarge-i386-1.jigdo':
+  1: 'Debian GNU/Linux testing "Sarge"
+          - Official Snapshot i386 Binary-1 CD' (sarge-i386-1.iso)
+
+Further information about `sarge-i386-1.iso':
+Generated on Fri, 7 Feb 2003 20:31:28 -0700
+
+-----------------------------------------------------------------
+If you already have a previous version of the CD you are
+downloading, jigdo can re-use files on the old CD that are also
+present in the new image, and you do not need to download them
+again. Mount the old CD ROM and enter the path it is mounted under
+(e.g. `/mnt/cdrom').
+Alternatively, just press enter if you want to start downloading
+the remaining files.
+Files to scan:</pre> </td></tr></table></div>
+  </p><p>Eğer jigdo-lite'ı cntrl-z ile durdurursanız (bunu yapmayın; ne göreceğinizi söyleyeceğim) ve <b><tt>ls</tt></b> çıktısına bakarsanız, dizin içerisinde <tt>sarge-i386-1.jigdo.unpacked</tt> isimli yeni bir dosya göreceksiniz. Bu da <tt>.jigdo</tt> dosyalarının gzip'lendiği sonucunu doğurur. Bu dosya basitçe <tt>.jigdo</tt> dosyasının gunziplenmiş halidir.</p><p>Şu anda jigdo-lite bize eğer Sarge'ın ilk CD'sinin güncelliğini yitirmiş bir sürümü var mı diye sormaktadır, CD için yolu vermeliyiz.  Bu ISO  görüntülerini nasıl güncellediğimizdir (ya da tamamlanmamış indirmelerinizi tamamlama). Sıfırdan başladığınızı varsaydığımızdan ve hiç Debian ISO'suna sahip olmadığınızı düşündüğümüzden, taranacak herhangi bir şeyimiz yoktur. <a href="../howto/debian-jigdo-updatingyourimage.html" title="Görüntü Dosyanızı Güncellemek"> Görüntü Dosyanızı Güncellemek</a> kısmında buna değineceğiz, sadece &lt;<b>ENTER</b>&gt;'a basınız.</p><p><a href="../howto/debian-jigdo-errata.html#debian-jigdo-more-about-scan" title="Kaynak Tarama Hakkında"> Kaynak Tarama Hakkında</a>, bölümüne de bakabilirsiniz.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="debian-jigdo-specifyamirror"></a>Bir Yansı Belirleyin</h3></div></dt><dd><p>Şunu göreceksiniz:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">-----------------------------------------------------------------
+The jigdo file refers to files stored on Debian mirrors. Please
+choose a Debian mirror as follows: Either enter a complete URL
+pointing to a mirror (in the form
+`ftp://ftp.debian.org/debian/'), or enter any regular expression
+for searching through the list of mirrors: Try a two-letter
+country code such as `de', or a country name like `United
+States', or a server name like `sunsite'.
+Debian mirror [http://linux.csua.berkeley.edu/debian/]:
+</pre> </td></tr></table></div></p><p>Öntanımlı olarak jigdo-lite kullanacağı yansıyı <tt>/etc/apt/sources.list</tt> dosyasından çeker. Eğer farklı bir yansı girmek istiyorsanız, talimatları takip ederek farklı bir yansı gireceksiniz. Eğer bu kullanmak istediğiniz yansı ise &lt;<b>ENTER</b>&gt;'a basın. Jigdo-lite daha sonra ev dizininizde <tt>~/.jigdo-lite</tt> dosyasına yazacaktır. 
+  
+  </p><p>
+Daha sonra eğer kullandığınız <tt>.jigdo</tt> dosyası US kaynaklı olmayan bir sunucudaki bir pakete işaret ediyorsa, jigdo-lite size bir Debian US olmayan sunucusu için soracaktır. Görüntülenecek mesaj (ve sizin cevabınız) bir önceki paragraftakine benzer olacaktır (Non-US kaynaklı olmayan yansılar için).
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">-----------------------------------------------------------------
+The jigdo file also refers to the Non-US section of the Debian
+archive. Please repeat the mirror selection for Non-US. Do not
+simply copy the URL you entered above; this does not work because
+the path on the servers differs!
+Debian non-US mirror [http://linux.csua.berkeley.edu/debian-non-US//]:</pre> </td></tr></table></div></p><p>Jigdo-lite seçiminizi <tt>~/.jigdo-lite</tt> dosyasına yazacaktır. Aslında, eğer indirecekleriniz US-olmayan yazılım içermiyorsa bu mesajı görmeyeceksiniz.</p><p>İleride jigdonun kullandığı varsayılan yansıyı değiştirmek isterseniz, <tt>~/.jigdo-lite</tt> içerisindeki şu iki satırı değiştirebilirsiniz:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">debianMirror='http://some-mirror-to-use/debian/'
+nonusMirror='http://some-other-mirror/debian-non-US/'
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="debian-jigdo-downloadingoftheiso"></a>ISO Görüntüsünün İndirilmesi</h3></div></dt><dd><p>Yansı(lar)yı belirttikten sonra, jigdo-lite ISO görüntüsünü oluşturmak için dosyaları indirmeye başlayacaktır.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Not downloading .template file - `sarge-i386-1.template' already present
+
+-----------------------------------------------------------------
+Merging parts from `file:' URIs, if any...
+Found 0 of the 826 files required by the template
+Will not create image or temporary file - try again with different input files
+--09:35:12--  http://mirror/debian/pool/main/p/pack/pack_3.10-1_i386.deb
+    =&gt; `sarge-i386-1.iso.tmpdir/mirror/debian/pool/main/p/pack/pack_3.10-1_i386.deb
+Resolving linux.csua.berkeley.edu... done.
+Connecting to linux.csua.berkeley.edu[128.32.112.231]:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1,911,624 [application/x-debian-package]
+
+19% [======&gt;                              ] 378,304      149.87K/s    ETA 00:09</pre> </td></tr></table></div>
+  </p><p>Ekranınızda uçuşan pek çok mesaj olacaktır; eğer bu sizin için karmaşıksa <a href="../howto/debian-jigdo-faq.html#debian-jigdo-wgetoptions" title="Jigdo-lite çok fazla açıklama mesajı veriyor. Bu mesajların bazılarını veya tamamını nasıl geçebilirim?"> Jigdo-lite çok fazla açıklama mesajı veriyor. Bu mesajların bazılarını veya tamamını nasıl geçebilirim?</a> kısmına bakınız. jigdo-lite paketleri indirirken, başka bir konsol ekranına geçin (veya başka bir xterm açın) ve jigdo-lite'ı çalıştırdığınız dizinde <b><tt>ls</tt></b> komutunu çalıştırın. Şu anda dizinde 6 dosya olmalıdır:
+  
+  </p><p>
+<div class="itemizedlist"><ul type="disc"><li><tt>sarge-i386-1.iso.list</tt><p></p><p></p></li><li><tt>sarge-i386-1.iso.tmp</tt><p></p><p></p></li><li><tt>jigdo-file-cache.db</tt><p></p><p></p></li><li><tt>sarge-i386-1.iso.tmpdir/</tt><p></p><p></p></li><li><tt>sarge-i386-1.jigdo</tt><p></p><p></p></li><li><tt>sarge-i386-1.jigdo.unpacked</tt><p></p><p></p></li><li><tt>sarge-i386-1.template</tt><p></p><p></p></li></ul></div>
+  </p><p>
+<tt>sarge-i386-1.iso.tmpdir/</tt> dizini jigdonun indirdiği tüm Debian paketlerini içermektedir. Sıklıkla dizin boşaltılarak dosyalar, istediğiniz ISO görüntüsünün bitmemiş bir sürümü olan <tt>sarge-i386-1.iso.tmp</tt> dosyasına yazılır. <tt>sarge-i386-1.iso.tmp</tt> dosyasının <tt>sarge-i386-1.iso.tmpdir/</tt> dizini ilk kez boşaltılana kadar <tt>sarge-i386-1.iso.tmp</tt> dosyasının oluşturulmayacağına dikkat edin.  
+  
+  </p><p>
+	<tt>jigdo-file-cache.db</tt> dosyası <tt>Files to scan:</tt> ekranında bir dizin belirttiğiniz zaman okunan herhangi dosyaların md5 toplam sağlamlarını içeren bir Berkeley DB dosyasıdır. <a href="../howto/debian-jigdo-errata.html#debian-jigdo-jigdo-file-cache" title="jigdo-file-cache.db"> jigdo-file-cache.db</a> kısmında açıklanmıştır. 
+  
+  </p><p>
+	Bu noktadan sonra, gidip biraz Quake III oynayın çünkü biraz zaman alacaktır (farklı bir makinada oynamak isteyebilirsiniz çünkü jigdo dosyaları <tt>.iso.tmp</tt> dosyasına yazarken diski yoğun şekilde kullanmaktadır). Bir zaman sonra indirme bitecek ve şu çıktıya gözünüzü dikmiş bakıyor olacaksınız:
+  
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">FINISHED --13:32:58--
+Downloaded: 7,469,872 bytes in 9 files
+Found 9 of the 9 files required by the template
+Successfully created `sarge-i386-3.raw'
+
+-----------------------------------------------------------------
+Finished!
+The fact that you got this far is a strong indication that `sarge-i386-3.raw'
+was generated correctly. I will perform an additional, final check,
+which you can interrupt safely with Ctrl-C if you do not want to wait.
+
+OK: Checksums match, image is good!
+</pre> </td></tr></table></div>
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/debian-jigdo-howjigdoworks.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/debian-jigdo.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/debian-jigdo-updatingyourimage.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Jigdo Nasıl Çalışır (seçimlik) </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Görüntü Dosyanızı Güncellemek</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

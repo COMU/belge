@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>linux/init/main.c</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-kernel_head.html" title="linux/arch/i386/kernel/head.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-smpboot.html" title="SMP Önyükleme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/init/main.c</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-smpboot.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-init_main"></a>linux/init/main.c</h2></div></dt><dd><p>
+Bu bölümü yazarken kendimi suçlu hissettim çünkü yeterince olmasa bile hakkında çok sayıda belge var. <tt>start_kernel()</tt> destekli işlevler, sürekli gelişen işletim sistemi dahili bileşenlerine bağımlı olduğu için, sürümden sürüme değişir. Sık sık belge güncellemek için vaktim olmadığından bu bölümü olabildiğince basit tutmaya karar verdim.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-start_kernel"></a>start_kernel()</h3></div></dt><dd><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+<a class="ulink" href="http://kernelnewbies.org/faq/index.php3#asmlinkage" target="_top">asmlinkage</a> void <a class="ulink" href="http://www.tldp.org/LDP/lki/lki-1.html#ss1.8" target="_top">__init</a> start_kernel(void)
+{
+  char * command_line;
+  extern char saved_command_line[];
+/*
+ * Kesmeler hala etkin değil. Gerekli kurulumu yap, sonra etkinleştir
+ */
+  lock_kernel();
+  printk(linux_banner);
+
+  /* <a class="ulink" href="http://www.symonds.net/~abhi/files/mm/mm.html" target="_top">Linux'da bellek yönetimi</a>, esp. for setup_arch()
+    * <a class="ulink" href="http://linux-mm.org/docs/initialization.html" target="_top">Linux-2.4.4 MM Başlangıç durumuna getirme</a> */
+  setup_arch(&amp;command_line);
+  printk("Kernel command line: %s\n", saved_command_line);
+
+  /* <tt>linux/Documentation/kernel-parameters.txt</tt>
+    * <a class="ulink" href="http://www.tldp.org/HOWTO/BootPrompt-HOWTO.html" target="_top">The Linux BootPrompt-HowTo</a> */
+  parse_options(command_line);
+
+  trap_init() {
+#ifdef CONFIG_EISA
+    if (isa_readl(0x0FFFD9) == 'E'+('I'&lt;&lt;8)+('S'&lt;&lt;16)+('A'&lt;&lt;24))
+      EISA_bus = 1;
+#endif
+#ifdef CONFIG_X86_LOCAL_APIC
+    init_apic_mappings();
+#endif
+    set_xxxx_gate(x, &amp;func);    // kurulum kapıları
+    cpu_init();
+  }
+  init_IRQ();
+  sched_init();
+  softirq_init() {
+    for (int i=0; i&lt;32: i++)
+            tasklet_init(bh_task_vec+i, bh_action, i);
+    open_softirq(TASKLET_SOFTIRQ, tasklet_action, NULL);
+    open_softirq(HI_SOFTIRQ, tasklet_hi_action, NULL);
+  }
+  time_init();
+
+  /*
+    * HACK ALERT! Bu erken. PCI ve bunun gibi kurulumları bitirdikten
+    * ve console_init()'in bunu farketmesinde önce konsolu etkinleştirmeliyiz.
+    * Birşeylerin kötü gitmesi durumunda bunun erkenden çıktı olmasını isteriz.
+    */
+  console_init();
+#ifdef CONFIG_MODULES
+  init_modules();
+#endif
+  if (prof_shift) {
+    unsigned int size;
+    /* only text is profiled */
+    prof_len = (unsigned long) &amp;_etext - (unsigned long) &amp;_stext;
+    prof_len &gt;&gt;= prof_shift;
+    size = prof_len * sizeof(unsigned int) + PAGE_SIZE-1;
+    prof_buffer = (unsigned int *) alloc_bootmem(size);
+  }
+
+  kmem_cache_init();
+  sti();
+
+  // <a class="ulink" href="http://www.tldp.org/HOWTO/BogoMips.html" target="_top">BogoMips mini-Howto</a>
+  calibrate_delay();
+
+  // <tt>linux/Documentation/initrd.txt</tt>
+#ifdef CONFIG_BLK_DEV_INITRD
+  if (initrd_start &amp;&amp; !initrd_below_start_ok &amp;&amp;
+            initrd_start &lt; min_low_pfn &lt;&lt; PAGE_SHIFT) {
+    printk(KERN_CRIT "initrd overwritten (0x%08lx &lt; 0x%08lx) - "
+        "disabling it.\n",initrd_start,min_low_pfn &lt;&lt; PAGE_SHIFT);
+    initrd_start = 0;
+  }
+#endif
+
+  mem_init();
+  kmem_cache_sizes_init();
+  pgtable_cache_init();
+
+  /*
+    * Yüksek belleğe (highmem) sahip olan mimariler için, num_mappedpages
+    * çekirdeğin kullanabileceği bellek miktarını ifade eder. Diğer mimariler için
+    * toplam sayfa ile aynıdır. Her iki rakama da ihtiyaç duyarız çünkü bazı
+    * altsistemler çekirdeğin ne kadar bellek kullanabileceğine dayanarak
+    * başlangıç durumuna getirilir.
+    */
+  if (num_mappedpages == 0)
+          num_mappedpages =  num_physpages;
+
+  fork_init(num_mempages);
+  proc_caches_init();
+  vfs_caches_init(num_physpages);
+  buffer_init(num_physpages);
+  page_cache_init(num_physpages);
+#if defined(CONFIG_ARCH_S390)
+  ccwcache_init();
+#endif
+  signals_init();
+#ifdef CONFIG_PROC_FS
+  proc_root_init();
+#endif
+#if defined(CONFIG_SYSVIPC)
+  ipc_init();
+#endif
+  check_bugs();
+  printk("POSIX conformance testing by UNIFIX\n");
+
+  /*
+    *      İlk işlemdeki (thread) iyi gidenleri sayarız
+    *      atıl (idlers) gibi init de kilitsiz bir çekirdek işlemidir,
+    *      sistem çağrısı yapar (ve böylece kilitlenir).
+    */
+  smp_init() {
+#ifndef CONFIG_SMP
+# ifdef CONFIG_X86_LOCAL_APIC
+    APIC_init_uniprocessor();
+#  else
+    do { } while (0);
+# endif
+#else
+    /* Check <a href="../howto/linux-i386-boot-code-howto-smpboot.html#linux-i386-boot-code-howto-smp_init" class="xref" title="smp_init()"> smp_init()</a>. */
+#endif
+  }
+
+  rest_init() {
+    // init process, pid = 1
+    kernel_thread(init, NULL, CLONE_FS | CLONE_FILES | CLONE_SIGNAL);
+    unlock_kernel();
+    current-&gt;need_resched = 1;
+    // idle process, pid = 0
+    cpu_idle();     // never return
+  }
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>start_kernel()</tt> "init" işlemi oluşturmak için <tt>rest_init()</tt>'i çağırır ve kendisi "idle" işlem durumuna geçer.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-init_proc"></a>init()</h3></div></dt><dd><p>
+"Init" süreci:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+static int init(void * unused)
+{
+  lock_kernel();
+  do_basic_setup();
+
+  prepare_namespace();
+
+  /*
+    * Tamam, ilk önyüklemeyi (bootup) tamamladık, ayakta ve
+    * çalışır durumdayız. initmem bölütlerinden kurtul ve
+    * kullanıcı kipini başlat...
+    */
+  free_initmem();
+  unlock_kernel();
+
+  if (open("/dev/console", O_RDWR, 0) &lt; 0)        // stdin
+          printk("Warning: unable to open an initial console.\n");
+
+  (void) dup(0);                                  // stdout
+  (void) dup(0);                                  // stderr
+
+  /*
+    * Biri başarılı olana kadar her birini deneyeceğiz
+    * Gerçekten bozuk bir makinayı toparlamaya çalışıyorsak
+    * init yerine Bourne kabuğu kullanılabilir.
+    */
+
+  if (execute_command)
+          execve(execute_command,argv_init,envp_init);
+  execve("/sbin/init",argv_init,envp_init);
+  execve("/etc/init",argv_init,envp_init);
+  execve("/bin/init",argv_init,envp_init);
+  execve("/bin/sh",argv_init,envp_init);
+  panic("No init found.  Try passing init= option to kernel.");
+}
+</pre> </td></tr></table></div>
+      </p><p>
+Kullanıcı kipi "init" süreciyle ilgili bilgiler için <b><tt>man init</tt></b> veya <a class="ulink" href="http://freshmeat.net/projects/sysvinit" target="_top">SysVinit</a>'e bakınız.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-idle_proc"></a>cpu_idle()</h3></div></dt><dd><p>
+"Idle" süreç:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">/*
+ * Boşta bekleme (idle) evresi. Yapılacak yararlı bir iş yok,
+ * bu yüzden sadece gücü korumaya çalış ve düşük çıkış gecikmesine
+ * sahip ol (örn. birinin yeniden iş yapma isteği
+ * belirtmesini bekleyen bir döngü içinde kal)
+ */
+void cpu_idle (void)
+{
+  /* hiç bir önceliği olmayan sonsuz atıl döngü */
+  init_idle();
+  current-&gt;nice = 20;
+  current-&gt;counter = -100;
+
+  while (1) {
+    void (*idle)(void) = pm_idle;
+    if (!idle)
+      idle = default_idle;
+    while (!current-&gt;need_resched)
+      idle();
+    schedule();
+    check_pgt_cache();
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void __init init_idle(void)
+{
+  struct schedule_data * sched_data;
+  sched_data = &amp;aligned_data[smp_processor_id()].schedule_data;
+
+  if (current != &amp;init_task &amp;&amp; task_on_runqueue(current)) {
+    printk("UGH! (%d:%d) was on the runqueue, removing.\n",
+            smp_processor_id(), current-&gt;pid);
+    del_from_runqueue(current);
+  }
+  sched_data-&gt;curr = current;
+  sched_data-&gt;last_schedule = get_cycles();
+  clear_bit(current-&gt;processor, &amp;wait_init_idle);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void default_idle(void)
+{
+  if (current_cpu_data.hlt_works_ok &amp;&amp; !hlt_counter) {
+    __cli();
+    if (!current-&gt;need_resched)
+      safe_halt();
+    else
+      __sti();
+  }
+}
+
+/* linux/include/asm-i386/system.h içinde tanımlı */
+#define __cli()                 __asm__ __volatile__("cli": : :"memory")
+#define __sti()                 __asm__ __volatile__("sti": : :"memory")
+
+/* atıl döngü içinde kullanıldı; sti'nin tamamlanması bir komut süresi alır */
+#define safe_halt()             __asm__ __volatile__("sti; hlt": : :"memory")
+</pre> </td></tr></table></div>
+      </p><p>
+İşlemci bir kesme eylemcisinden dönen "hlt"yi takip eden komut ile kod çalıştırmaya devam edecektir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-main_ref"></a>Kaynakça</h3></div></dt><dd><p>
+      <div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.tldp.org/LDP/lki/index.html" target="_top"> Linux Kernel 2.4 Internals</a></li><li><a class="ulink" href="http://kernelnewbies.org/documents/" target="_top">Kerneldoc</a></li><li><a class="ulink" href="http://www.tldp.org/HOWTO/HOWTO-INDEX/index.html" target="_top">LDP HOWTO-INDEX</a></li><li><a class="ulink" href="http://www.xml.com/ldd/chapter/book" target="_top">Linux Device Drivers, 2nd Edition</a></li></ul></div>
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-smpboot.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/arch/i386/kernel/head.S </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SMP Önyükleme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

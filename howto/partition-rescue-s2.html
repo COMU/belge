@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:55:13+03:00"><title>Teknik Bilgi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/partition-rescue.html" title="Disk Bölümü Kurtarmak NASIL"><link rel="previous" href="../howto/partition-rescue-s1.html" title="Başlangıç"><link rel="next" href="../howto/partition-rescue-s3.html" title="Sorunun çözümü"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Teknik Bilgi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/partition-rescue-s1.html">Önceki</a> </td><th width="60%" align="center">Disk Bölümü Kurtarmak NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/partition-rescue-s3.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="partition-rescue-s2"></a>Teknik Bilgi</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Diskler</h3></div></dt><dd><p>
+Bir sabit disk 0'dan kapasiteye bağlı bir azami miktara kadar numaralanmış sektörlerden oluşur.
+</p><p>
+Örneğin <b><tt>dmesg</tt></b> komutu aşağıdaki çıktıyı verir:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">[hdb: ST34321A, 4103MB w/128kB Cache, CHS=523/255/63
+</pre> </td></tr></table></div>
+</p><p>
+CHS'nin anlamı: Silindirler (Cylinders), Kafalar (Heads), Sektörler (Sectors)
+</p><p>
+523*255*63 çarpımı sonucu 512 byte'lık 8401995 sektör verir, bu 4103 MB yapar. Bu sadece mantıksal bir haritadır, diskte ne yazdığıyla örtüşmesi gerekmez (Disk boyutu hariç).
+</p><p>
+Bizim için verilen değerin gerçekte kaç sektöre denk geldiği önemli değildir, bir şeyleri değiştirmek değil, eski bir duruma (sorunun öncesine) dönmeye çalışıyoruz. Bizim için <b><tt>fdisk</tt></b> tarafından verilen varsayılan boyut yeterlidir.
+</p><p>
+Sistem tarafından görülen disk boyutu doğrudan BIOS'a bağlıdır (Basic Input/Output System - Bilgisayarın sadece okunabilir belleği [ROM]). BIOS tarafından gösterilen sabit disk kipi önemlidir. Yeni bir disk taktığınızda BIOS'un diski otomatik algılamasına izin verip sadece "evet" demeniz yeterli ve daha iyidir. Bu bölgede yapılan herhangi bir değişiklik diskteki tüm veriyi kaybetmenize neden olabilir, o yüzden gerekmedikçe bu kısımla oynamayın.
+</p><p>
+Diskiniz muhtemelen bunu kullanıyordur, yani korkmayın.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Bölümler</h3></div></dt><dd><p>
+Artık diskler oldukça büyük boyutlu, 40 GB ve daha büyük disklere sıklıkla rastlanıyor, yani bütün bu kapasiteyi tek bir bölüm olarak kullanmak pek kullanışlı değil. Sadece MS Windows diski böyle kullanır ve eğer Linux kullanıyorsanız böyle verimsiz kullanımından kaçmak istersiniz.
+</p><p>
+Yani sabit diskler genellikle "bölüm" denilen kısımlara ayrılırlar (Ayrıntılar için <a class="ulink" href="http://www.tldp.org/HOWTO/Partition/index.html" target="_top">"Bölümleme NASIL"</a> belgesine göz atın, aynı zamanda <tt>/usr/share/doc/package/util/README.fdisk</tt> dosyasını okuyun.)
+</p><p>
+Şimdi kendi diskim için <b><tt>fdisk -l</tt></b> çıktısının bir bölümüne bakalım:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+Disk /dev/hdb: 255 kafa, 63 sektör/iz, 523 silindir
+Birimler = silindir /  16065 * 512 bayt
+   Aygıt Açılış    Başlangıç     Bitiş  BlokSayısı Kml Sistem
+/dev/hdb1              1          153    1228941   83   Linux
+/dev/hdb2            154          166     104422+  82   Linux swap
+/dev/hdb3 *          167          291    1004062+  83   Linux
+/dev/hdb4            295          523    1839442+   5   Extended
+/dev/hdb5            295          422    1028128+  83   Linux
+/dev/hdb6            423          523     811251    6   FAT16
+</pre> </td></tr></table></div>
+</p><p>
+<tt>/dev/hdb</tt> ikinci ide diskim (birincil arabirimin ikincil diski),
+</p><p>
+<tt>/dev/hdb1</tt> ilk birincil bölümüm, 1. silindirden 153. silindire kadar devam ediyor.
+</p><p>
+Bu birincil bölümlerden en fazla dört tane olabilir. Eğer daha fazla bölüme ihtiyaç duyulursa bölümlerden bir tanesi ek (extended) bölüm olmalıdır (mutlaka dördüncü olması gerekmez) ve ek bölümden sonraki diğer bölümler mantıksal (logical) bölüm olarak adlandırılır ve ek bölümün <i>içinde</i> bulunurlar. Dikkat ederseniz 5 ve 4 numaralı bölümlerin başlangıç numaraları aynıdır. 5 numara mantıksaldır, 4 numara ise ek bölümdürr. Mantıksal bölümler, 4 tane birincil bölüm olmasa bile her zaman 5'ten başlar.
+</p><p>
+İşte başka bir diskin <b><tt>fdisk -lu</tt></b> çıktısı:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+Disk /dev/hda : 240 kafa, 63 sektör/iz, 2584 silindir
+Birimler = sektör / 1 * 512 = 512 bayt
+   Aygıt Açılış    Başlangıç     Bitiş  BlokSayısı Kml Sistem
+/dev/hda1 *            63    10357199     5178568+   c  Win95 FAT32 (LBA)
+/dev/hda2        15452640    39070079    11808720   83  Linux
+/dev/hda3        10357200    15150239     2396520    f  Win95 Ext'd (LBA)
+/dev/hda4        15150240    15452639      151200   84  OS/2 gizli C: sürücüsü
+/dev/hda5        10357263    10463039       52888+  83  Linux
+/dev/hda6        10463103    10780559      158728+  82  Linux takas / Solaris
+/dev/hda7        10780623    15150239     2184808+   6  FAT16
+</pre> </td></tr></table></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Sorun neden var?</h3></div></dt><dd><p>
+Sorun, bilgisayara yüklü bütün işletim sistemlerinin aynı diskleri paylaşmak zorunda olması. Başlangıç anında BIOS sadece baş tarafı taradığından diskin tam baş tarafında bir "bölüm tablosu" olmak zorundadır. Bu bölüm tablosu, önyükleyici ile yani MBR (Master Boot Record - Ana Önyükleme Kaydı) denen kısımla yan yana bulunur.
+</p><p>
+İşletim sistemlerinden birinin bile MBR'yi yanlış kullanması sorunlara yol açar. Yeni bir işletim sistemi yüklemeye çalışırken "otomatik bölümleme yapılsın mı?" gibi bir soruya verilen evet cevabı sorunun habercisidir... Bu durum özellikle Windows için geçerlidir ve özellikle bazı özel yapım windows kurulumlarında (çoğu dizüstü bilgisayardaki gibi, gerçek "Windows" CD'si bulunmadığında). Fakat aynı durum, bazı yeni Linux dağıtımlarının "akıllı" (pek de değil!) kurulumlarında da görülebiliyor.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/partition-rescue-s1.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/partition-rescue.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/partition-rescue-s3.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Başlangıç </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sorunun çözümü</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

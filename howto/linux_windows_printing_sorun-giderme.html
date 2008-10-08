@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-04-08T01:15:36Z"><title>Sorun Giderme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux_windows_printing.html" title="Debian ve Windows Paylaşımlı Yazdırma Nasıl"><link rel="previous" href="../howto/linux_windows_printing_windows_ile_paylasim.html" title="Yazıcıları Windows Makinalarla Paylaşmak"><link rel="next" href="../howto/leased-line-howto.html" title="Kiralık Hat-Mini NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sorun Giderme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux_windows_printing_windows_ile_paylasim.html">Önceki</a> </td><th width="60%" align="center">Debian ve Windows Paylaşımlı Yazdırma Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/leased-line-howto.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux_windows_printing_sorun-giderme"></a>Sorun Giderme</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_connect_failure"></a>Windows Yazıcılara Bağlantı Sorunu</h3></div></dt><dd><p>
+CUPS'un kullandığı <b><tt>smbclient</tt></b> hizmetlerinden biri olan  <i>smbspool</i>, düzgün bir şekilde bağlanamadığı zaman, faydalı olmayan komik hata iletileri gönderir. Bu iletilerden biri: <tt>Unable to connect to SAMBA host: Success.</tt> Bağlantı hatasının olduğunun bir başka işareti de, Windows yazıcıda yazdırılmak için bekleyen belgenin kuyrukta takılıp kalmasıdır.
+    </p><p>
+CUPS günlüğündeki (log) en son girdileri şu komut ile görüntüleyebilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/usr/bin/tail /var/log/cups/error_log
+</pre> </td></tr></table></div>
+    </p><p>
+Eğer <tt>cli_connect() failed...</tt>'e benzer bir ileti görürseniz, <i>smbspool</i> bağlanmak istediğiniz Windows makinayı bulamamış demektir.
+Windows makina adını tekrar kontrol edin. Windows makinanın açık olduğundan ve ağ bağlantısının sağlıklı çalıştığından emin olun. <b><tt>smbclient</tt></b> komutu kullanarak o makinaya bağlanabileceğinizden emin olun.
+    </p><p>
+<tt>SMB tree connect failed: ERRSRV - ERRinvnetname</tt>'e benzer bir hata iletisi görürseniz, o zaman <b><tt>smbclient</tt></b> Windows makinaya bağlanmış fakat istenen yazıcıya bağlanamamış demektir.  <b><tt>smbclient</tt></b> komutunu kullanarak paylaştırılan yazıcının adını kontrol edin.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_diger_hatalar"></a>Diğer Hatalar</h3></div></dt><dd><p>
+Diğer hatalar, yerel yazıcıda dosya yazdıramama ve yazıcı kuğruğundaki dosyaların yazdırılmadan kaybolmasıdır. Ayrıca <tt>Child process 2384 exited with status 32.</tt> şeklinde belirsiz hata iletileri de görebilirsiniz.
+    </p><p>
+Bir yazma işi başarısızlığa uğramadan önce neler olduğunu görmek için CUPS'un günlük seviyesini (logging level) <tt>debug</tt> durumuna getirin.
+    </p><p>
+    <div class="orderedlist"><ol type="1"><li><div class="listitem">
+Ana CUPS yapılandırma dosyası olan <tt>/etc/cups/cupsd.conf</tt> isimli dosyayı bir dosya düzenleyici ile açın.
+    <p></p><p></p></div></li><li><div class="listitem">
+<tt>LogLevel warn</tt> geçen satırı  <tt>LogLevel debug</tt> olarak değiştirin.
+    <p></p><p></p></div></li><li><div class="listitem">
+Ayarları kaydedin ve dosya düzenleyiciden çıkın.
+    <p></p><p></p></div></li><li><div class="listitem">
+CUPS sunucusunu şu komut ile tekrar başlatın:
+    <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/etc/init.d/cupsys restart
+</pre> </td></tr></table></div>
+    </p><p></p></div></li></ol></div>
+    </p><p>
+CUPS günlüğünü şu şekilde takip edebilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/usr/bin/tail -f /var/log/cups/error_log
+</pre> </td></tr></table></div>
+    </p><p>
+Şöyle bir satır görmelisiniz: <tt>Scheduler shutting down due to SIGTERM</tt>. Bu CUPS sunucusunun başarılı bir şekilde sonlandırıldığını belirtir.
+    </p><p>
+Belgenizi tekrar yazıcıya gönderin ve hata iletilerine bakın. Faydalı olabilecek hata iletilerinden biri şöyledir: <tt>GNU Ghostscript 7.05: Can't start ijs server 'hpijs'.</tt> Bu durumda çözüm  <tt>hpijs</tt> paketini yüklemektir.
+    </p><p>
+Eğer hatanın nedenini belirleyemiyorsanız, anahtar kelimeleri kullanarak internette bir arama yapın; belki de benzer bir sorunu bir başkası çözmüştür daha önceden. Ayrıca paketlerinizi güncellemeyi de deneyebilirsiniz.
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux_windows_printing_windows_ile_paylasim.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux_windows_printing.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/leased-line-howto.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yazıcıları Windows Makinalarla Paylaşmak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kiralık Hat-Mini NASIL</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

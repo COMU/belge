@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:48+03:00"><title>Yardımcı araçlar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apt-howto.html" title="APT NASIL"><link rel="previous" href="../howto/apt-howto_apt-get.html" title="Paketlerin yönetimi"><link rel="next" href="../howto/apt-howto_search.html" title="Paketler hakkında bilgi toplama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yardımcı araçlar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apt-howto_apt-get.html">Önceki</a> </td><th width="60%" align="center">APT NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/apt-howto_search.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apt-howto_helpers"></a>Yardımcı araçlar</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_equivs"></a>Kendi derlediğim paketleri nasıl kuracağım?</h3></div><div> <h4 class="subtitle">equivs</h4></div></dt><dd><p>
+Bazen bir programın belirli bir sürümünü kullanmak zorunda kalabiliriz. Bu sürüme ait bir Debian paketi mevcut değil ise, programı kaynak kodundan derleyerek kendimiz kurarız. Fakat paket yönetim sistemi bu durumda şaşırabilir. Mesela kullandığınız eposta sunucu yazılımının yeni bir sürümünü derlediğinizi düşünün. Burada problem yok, ancak pek çok Debian paketi sistemde bir MTA (Mail Transport Agent) yazılımı olmasını gerektirir. Eposta sunucunuzu kendiniz derleyerek kurduğunuz için paket yönetim sistemi bundan haberdar değildir ve bağımlılık hataları oluşur.
+      </p><p>
+Burada <b><tt>equivs</tt></b> paketi devreye girmektedir. Paketi kurmak için aynı isimli paketi sisteminize kurmalısınız. Bu program ile boş bir paket yaratıp, bağımlılık problemlerini çözebilir ve paket yönetim sisteminin içini rahatlatabilirsiniz.
+      </p><p>
+Başlamadan önce hatırlatmak isteriz ki, Debian için zaten paketi hazırlanmış bir programı farklı derleme seçenekleriyle derlemenin daha güvenli ve uygun yolları vardır. Eğer ne yaptığınızı tam olarak bilmiyorsanız <b><tt>equivs</tt></b> kullanmayınız. Ayrıntılı bilgi için bkz. <a href="../howto/apt-howto_sourcehandling.html" class="xref" title="Kaynak paketlerle çalışma"> Kaynak paketlerle çalışma</a>.
+      </p><p>
+MTA örneğimize kaldığımız yerden devam edelim. Yeni derlemiş olduğunuz <tt>postfix</tt> paketini sisteminize kurdunuz ve ardından <tt>mutt</tt> paketini kurmak istediniz. Fakat <tt>mutt</tt> paketinin başka bir MTA kurulmasını gerektirdiğini gördünüz ama zaten sisteminizde bir MTA var!
+      </p><p>
+Herhangi bir dizine geçip (örneğin <tt>/tmp</tt>) aşağıdaki komutu çalıştırın:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>$</tt> <b><tt>equivs-control </tt></b><i>isim</i>
+</pre> </td></tr></table></div></p><p>
+<i><tt>isim</tt></i> değerini oluşturmak istediğiniz <tt>control</tt> dosyasının adı ile değiştiriniz. Ardından dosya aşağıdaki şekilde oluşturulacaktır:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Section: misc
+Priority: optional
+Standards-Version: 3.0.1
+
+Package: &lt;enter package name; defaults to equivs-dummy&gt;
+Version: &lt;enter version here; defaults to 1.0&gt;
+Maintainer: &lt;your name and email address; defaults to username&gt;
+Pre-Depends: &lt;packages&gt;
+Depends: &lt;packages&gt;
+Recommends: &lt;packages&gt;
+Suggests: &lt;package&gt;
+Provides: &lt;(virtual)package&gt;
+Architecture: all
+Copyright: &lt;copyright file; defaults to GPL2&gt;
+Changelog: &lt;changelog file; defaults to a generic changelog&gt;
+Readme: &lt;README.Debian file; defaults to a generic one&gt;
+Extra-Files: &lt;additional files for the doc directory, commaseperated&gt;
+Description: &lt;short description; defaults to some wise words&gt;
+ long description and info
+ .
+ second paragraph
+</pre> </td></tr></table></div></p><p>
+Bu dosyayı kendi isteğimize göre değiştirebiliriz. Tüm alanları açıklamaya şimdilik burada gerek yok, hemen amacımızı gerçekleştirelim:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Section: misc
+Priority: optional
+Standards-Version: 3.0.1
+
+Package: mta-local
+Provides: mail-transport-agent
+</pre> </td></tr></table></div></p><p>
+Evet, hepsi bundan ibaret. <tt>mutt</tt> paketi sistemde <tt>mail-transport-agent</tt> paketi olmasını gerektirir. Bu sanal bir pakettir ve tüm MTA'lar tarafından sağlanır. Aynı davranış için paket ismi olarak doğrudan <tt>mail-transport-agent</tt> seçebilirdik, ancak sanal paket kavramını ve <tt>Provides</tt> alanını kullanarak bunu gerçekleştirdik.
+      </p><p>
+Şimdi yapmanız gereken paketi oluşturmaktır:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# equivs-build paket_ismi
+dh_testdir
+touch build-stamp
+dh_testdir
+dh_testroot
+dh_clean -k
+# Add here commands to install the package into debian/tmp.
+touch install-stamp
+dh_testdir
+dh_testroot
+dh_installdocs
+dh_installchangelogs
+dh_compress
+dh_fixperms
+dh_installdeb
+dh_gencontrol
+dh_md5sums
+dh_builddeb
+dpkg-deb: building package `paket_ismi' in `../paket_ismi_1.0_all.deb'.
+
+The package has been created.
+Attention, the package has been created in the current directory,
+</pre> </td></tr></table></div></p><p>
+Ve sonra üretilen <tt>.deb</tt> paketini sisteminize kurmalısınız.
+      </p><p>
+Gördüğünüz gibi <b><tt>equivs</tt></b> programının kullanılabileceği pek çok durum vardır. Örneğin <tt>favorilerim</tt> adlı bir paket oluşturabilir ve bu paketin sıklıkla kullandığınız paketlere bağımlı olmasını sağlayabilirsiniz (<tt>Depends</tt> alanı ile). Ardından bu paketi sisteminize kurup, bağımlılık verdiğiniz diğer tüm paketlerin de kurulmasını sağlamış olursunuz.
+      </p><p>
+Örnek <tt>control</tt> dosyaları için <tt>/usr/share/doc/equivs/examples</tt> dizini altına bakabilirsiniz.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_localepurge"></a>Kullanılmayan yerelleştirme dosyalarını kaldırma</h3></div><div> <h4 class="subtitle">localepurge</h4></div></dt><dd><p>
+Çoğu Debian kullanıcısı sadece bir tip yerel dosyası kullanır. Örneğin bir Türk genellikle <tt>tr_TR</tt> yerelini kullanır ve hemen hiç bir zaman <tt>es</tt> kullanma ihtiyacı hissetmez.
+      </p><p>
+<tt>localepurge</tt> paketi bu kullanıcılar için oldukça faydalıdır. Kullanmadığınız yerellerin sisteminizden kaldırılmasını ve yenilerinin de kurulmamasını sağlayarak disk üzerinde size yer kazandırır. Yapmanız gerekeni biliyorsunuz: <b><tt>apt-get install localepurge</tt></b>.
+      </p><p>
+Paketin ayarlamaları oldukça kolaydır, <b><tt>debconf</tt></b> tarafından ilgili sorular size yöneltilecektir. Ancak ilk soruya cevap verirken dikkatli olun, yanlış bir seçim sonucu kullandığınız yerel dosyalarının silinmesine neden olabilirsiniz. Bu durumda tek çözüm, ilgili yerel dosyalarını içeren paketleri sisteminize yeniden kurmak olacaktır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apt-howto_helper-show-versions"></a>Güncellenebilir paketleri nasıl öğrenebilirim?</h3></div></dt><dd><p>
+<b><tt>apt-show-versions</tt></b> programı sisteminizde güncellenmeye müsait olan paketler hakkında faydalı bilgiler sunar. <tt>-u</tt> seçeneği ile güncellenebilir paketlerin listesini alabilirsiniz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>$</tt> <b><tt>apt-show-versions -u</tt></b>
+libeel0/unstable upgradeable from 1.0.2-5 to 1.0.2-7
+libeel-data/unstable upgradeable from 1.0.2-5 to 1.0.2-7
+</pre> </td></tr></table></div>
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apt-howto_apt-get.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apt-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/apt-howto_search.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Paketlerin yönetimi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Paketler hakkında bilgi toplama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

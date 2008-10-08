@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:26+03:00"><title>Form Kütüphanesi ile derleme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-formbasics.html" title="Temel Bilgiler"><link rel="next" href="../howto/ncurses-howto-playfields.html" title="Alanlar ile Oynamak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Form Kütüphanesi ile derleme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-formbasics.html">Önceki</a> </td><th width="60%" align="center">Form Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-playfields.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-compileforms"></a>Form Kütüphanesi ile derleme</h3></div></dt><dd><p>
+Form kütüphanesi işlevlerini kullanmak için <tt>form.h</tt> başlık dosyasını programınıza eklemeniz ve kütüphane ile ilintileyerek derlemek için <tt>-lform -lncurses</tt> seçeneklerini kullanmanız gerekmektedir.
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;form.h&gt;
+.
+.
+.
+
+derleme ve ilintileme: <b><tt>gcc </tt></b><i>program dosyası </i><b><tt>-lform -lncurses</tt></b>
+</pre> </td></tr></table></div>
+</p><div class="example"><p><a name="ncurses-howto-ffosi"></a><b>Örnek 5.30. Formların Temelleri</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;form.h&gt;
+
+int main()
+{ FIELD *field[3];
+  FORM  *my_form;
+  int ch;
+
+  /* Curses kipini ilklendir*/
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
+  /* Alanları ilklendir */
+  field[0] = new_field(1, 10, 4, 18, 0, 0);
+  field[1] = new_field(1, 10, 6, 18, 0, 0);
+  field[2] = NULL;
+
+  /* alan seçeneklerini ayarla*/
+  set_field_back(field[0], A_UNDERLINE);  /* Seçenek için bir satır yazın  */
+  field_opts_off(field[0], O_AUTOSKIP);   /* Eğer alan dolduyda            */
+                                          /* alan içerisinde ilerleme      */
+  set_field_back(field[1], A_UNDERLINE);
+  field_opts_off(field[1], O_AUTOSKIP);
+
+  /* Form2u oluştur ve ekrana yaz */
+  my_form = new_form(field);
+  post_form(my_form);
+  refresh();
+
+  mvprintw(4, 10, "Değer 1:");
+  mvprintw(6, 10, "Değer 2:");
+  refresh();
+
+  /* Kullanıcı isteklerinde hareket edin */
+  while((ch = getch()) != KEY_F(1))
+  { switch(ch)
+    { case KEY_DOWN:
+        /* Sonraki alana gidin */
+        form_driver(my_form, REQ_NEXT_FIELD);
+        /* O anki önbelleğin sonuna gidin */
+        /* Son karakterde döngüden çık */
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      case KEY_UP:
+        /* Bir önceki alana git */
+        form_driver(my_form, REQ_PREV_FIELD);
+        form_driver(my_form, REQ_END_LINE);
+        break;
+      default:
+        /* Eğer normal bir karakterse */
+        /* Ekrana yazılır             */
+        form_driver(my_form, ch);
+        break;
+    }
+  }
+
+  /* Formu ekrandan sil ve ayrılan bellek alanını geri ver */
+  unpost_form(my_form);
+  free_form(my_form);
+  free_field(field[0]);
+  free_field(field[1]);
+
+  endwin();
+  return 0;
+}
+</pre> </td></tr></table></div></p></div><p>
+Yukarıdaki örnek oldukça açık şekildedir. <b><tt>new_field()</tt></b> ile iki alan oluşturur. <tt>new_field()</tt> parametre olarak yükseklik, genişlik, y başlangıç koordinatı, x başlangıç koordinatı, ekranda gözükmeyen satır sayısı ve ilave çalışma önbelleği sayısını almaktadır. Beşinci parametre, ekranda gözükmeyen satır sayısı alanın ne kadarının gözükeceğini belirtir. Eğer sıfırsa, tüm alan gösterilir, aksi halde kullanıcı alanın görüntülenmeyen alanlarına taştığında form kaydırılabilir olacaktır. Form kütüphanesi kullanıcının girdiği verilerin saklanması için her alan için bir önbellek tahsis eder. <tt>new_field()</tt>'in son parametresini kullanarak ilave ek bellekler tahsis etmesini sağlayabiliriz. İstediğiniz herhangi bir amaç için kullanılabilir.
+</p><p>
+Alanları oluşturduktan sonra, <tt>set_field_back()</tt> ile artalan özellikleri bir alt çizgi olarak ayarlanır. <tt>AUTOSKIP</tt> seçeneği <tt>field_opts_off()</tt> kullanılarak kapatılır. Eğer bu özellik açıksa, odak eğer üzerinde işlem yapılan alan tamamen dolduysa bir sonraki alana kayacaktır.
+</p><p>
+Alanlar forma ilintilendikten sonra ekrana yazılır. İşte şu <b><tt>while</tt></b> döngüsü içerisinde de kullanıcı girdileri <tt>form_driver</tt>'daki uygun karşılıkları ile işlenir. <tt>form_driver()</tt>'a yapılacak olan isteklerin ayrıntıları daha sonra açıklanacaktır.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-formbasics.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-forms.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-playfields.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Temel Bilgiler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Alanlar ile Oynamak</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-06T10:10:12+03:00"><title>Terimler Sözlüğü</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kerberos-howto.html" title="Kerberos Altyapısı NASIL"><link rel="previous" href="../howto/kerberos-howto-sources.html" title="A. Daha Fazla Bilgi İçin Kaynaklar"><link rel="next" href="../howto/8021x-howto.html" title="802.1X Port Tabanlı Kimlik Kanıtlama NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Terimler Sözlüğü</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kerberos-howto-sources.html">Önceki</a> </td><th width="60%" align="center">Kerberos Altyapısı NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/8021x-howto.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><div id="kerberos-howto-glossary" class="glossary"><div class="titlepage"><div><div class="head2"><a name="kerberos-howto-glossary"></a>Terimler Sözlüğü</div></div></div><dl><dt><span class="glossterm">Ağ Zaman Protokolü [NTP]</span></dt><dd>
+Konakların ve yönlendiricilerin saatlerini Internetten eşzamanlamaları için kullanılan protokol.
+<p></p></dd><dt><span class="glossterm">Anahtar Dağıtım Merkezi [KDC]</span></dt><dd>
+Kerberos protokolünde güvenilen hakem rolünü oynayan yazılım ve bilgisayar.
+<p></p></dd><dt><span class="glossterm">ASN.1</span></dt><dd>
+Abstract Syntax Notation One. ASN.1 mesaj tanımlamak için kullanılan bir notasyondur. Mesajları ardışık bileşenler olarak tanımlar. ASN.1 Kerberos datagramlarını tanımlamada kullanılır. Eğer yazılım geliştiricisi değilseniz ASN.1 bilgisine ihtiyacınız yoktur.
+<p></p></dd><dt><span class="glossterm">Bilet</span></dt><dd>
+Sunucunun gizli anahtarı ile şifrelenmiş, istemcinin kimliği, oturum anahtarı, zaman bilgisi ve diğer bilgilerden oluşan veri iletisidir. Kimlik kanıtlamasında kullanılır.
+<p></p></dd><dt><span class="glossterm">Bilet Veren Bilet [TGT]</span></dt><dd>
+İstemci ile KDC'nin iletişiminde kullanılan oturum anahtarını içeren bilet.
+<p></p></dd><dt><span class="glossterm">Bilet Verme Servisi [TGS]</span></dt><dd>
+İstemcilere Bilet Veren Bilet'i (TGT) almalarından sonra bilet vermeye yetkili servis.
+<p></p></dd><dt><span class="glossterm">Bölge</span></dt><dd>
+Kerberos'un kapsama alanıdır. KDC'nin yetkili kullanıcılar için kimlik denetiminde güvenilir olacağı işletme alanıdır.
+<p></p></dd><dt><span class="glossterm">Çapraz Bölge Kimlik Denetimi</span></dt><dd>
+Eğer iki farklı bölgenin sırları KDC'ler tarafından paylaşılırsa, bir bölgenin yetkili kullanıcısı diğer bir bölgenin KDC'sinde kimlik kanıtlaması yapabilir. Bu bölgeler arası kimlik denetimine çapraz bölgeli kimlik denetimi denir.
+<p></p></dd><dt><span class="glossterm">Geçerli olacak bilet</span></dt><dd>
+Kerberos 5'de başlangıçta geçersiz olmasına rağmen gelecekte geçerli hale gelen bilet. Normal Kerberos biletleri yaratıldıkları zamandan izin verilen sürenin sonuna kadar geçerlidirler.
+<p></p></dd><dt><span class="glossterm">Geçişli Çapraz Bölgeli Kimlik Denetimi</span></dt><dd>
+Kerberos 5'de, bölgeler arasında bir güven yolu etkisi yaratarak, eğer X ve Z bölgeleri Y bölgesi ile bir sırrı paylaşmışlar ise Z bölgesindeki bir kullanıcı ile kimlik kanıtlaması yapmak isteyen X bölgesindeki bir kullanıcının X bölgesindeki KDC'nin Z bölgesi ile bir sır paylaşmadan kimlik kanıtlaması yapabilmesidir.Y bölgesi güven yolunda "sıçramak" için kullanılabilir.
+<p></p></dd><dt><span class="glossterm">Genel Güvenlik Servisleri Uygulama Programlama Arayüzü [GSS-API]</span></dt><dd>
+Kullanıcılarına güvenlik servisleri sağlayan C dili atamaları (bindings) kümesi. Bu API bir çok kriptografik sistemde gerçeklenebilir. Kerberos böyle sistemlere bir örnektir.
+<p></p></dd><dt><span class="glossterm">Gizli Dosya</span></dt><dd>
+Gizli anahtarları içeren dosya.
+<p></p></dd><dt><span class="glossterm">İletilebilir Bilet</span></dt><dd>
+Kullanıcının farklı IP adreslerinden ilave biletler talep etmesine izin veren KDC tarafından verilen bilet. Aslında, kimlik doğrulaması yapmış bir yetkili kullanıcının diğer bilgisayarlarda geçerli biletler talep etmesine izin veren bir TGT.
+<p></p></dd><dt><span class="glossterm">Kanıt</span></dt><dd>
+Sunucu için bir bilet ve yetkili kullanıcının kimliğini kanıtlaması için kullanılan oturum anahtarı.
+<p></p></dd><dt><span class="glossterm">Kanıtlayıcı</span></dt><dd>
+Sadece istemci ve sunucunun bildiği oturum anahtarını kullanarak yakın zamanda yaratıldığını gösterebilecek bilgiyi içeren kayıt. (Tanım <a href="http://cryptnet.net/mirrors/rfcs/rfc1510.txt" target="_top">RFC1510</a>'den alınmıştır.)
+<p></p></dd><dt><span class="glossterm">Kerberos</span></dt><dd>
+İstemcilerin kimlik denetiminin TCP/IP ağında güvenilen bir üçüncü taraf hakem kullanılarak yapıldığı bir kimlik denetim protokolü. Bu protokol ağda geleneksel düz metin parolaları iletmek yerine şifrelenmiş biletleri kullanacak şekilde tasarlandığı için güvenli kimlik denetimine imkan sağlar.
+<p></p></dd><dt><span class="glossterm">Kerberoslaştırmak</span></dt><dd>
+(f.) Bir sistemi, servisi veya yazılım parçasını Kerberos protokolünü kullanarak kimlik denetimi yapabilecek şekilde değiştirmek.
+<p></p><p>
+(sıfat), kerberoslaşmış: Kerberos üzerinden kimlik denetimini destekleyen sistem, servis veya yazılım parçası.
+</p></dd><dt><span class="glossterm">Ön Kimlik denetimi</span></dt><dd>
+KDC'nin bir yetkili kullanıcıya TGT vermeden önce devreye giren ilave kimlik denetimi. Böyle bir kimlik denetimine bir örnek biyometrik sistemler verilebilir.
+<p></p></dd><dt><span class="glossterm">Tuz (Salt)</span></dt><dd>
+Verilen bir düz metinden oluşturulacak şifreli metinlerin sayısını arttırmak için, düz metin parolasını şifrelemede kullanılan başlangıç değeri. Bu başlangıç değerini kullanmak şifrelenmiş parolaları sözlük ataklarına karşı daha dirençli hale getirmek için kullanılır.
+<p></p></dd><dt><span class="glossterm">Üçlü DES</span></dt><dd>
+DES'in verinin iki farklı anahtar kullanılarak standart DES ile üç kez şifrelendiği bir türevi.
+<p></p></dd><dt><span class="glossterm">Vekil Bilet</span></dt><dd>
+Kerberos 5'de farklı bir IP adresi için bir TGT talep etmenize izin veren bilet.
+<p></p></dd><dt><span class="glossterm">Veri Şifreleme Standardı [DES]</span></dt><dd>
+Birleşik Devletlerin şifrelemede kullanılmış resmi algoritmasıdır. NSA'nın desteğiyle IBM tarafından geliştirilmiştir. Algoritma 64 bit bloklar ve 56 bit anahtarlar kullanarak 16 tur blok şifreleme yapar.
+<p></p></dd><dt><span class="glossterm">Yenilenebilir Bilet</span></dt><dd>
+Kerberos 5'de yetkili kullanıcının standart bilet yaşam süresine ek olarak maksimum yenilenebilir yaşam süresi eklenmiş bilet. Yenilenebilir biletler geçerli oldukları sürece KDC'den ilave biletler istemek için kullanılabilirler. Yenilenmiş biletler özgün yenilenebilir biletin azami yenilenebilir yaşam süresince talep edilebilirler.
+<p></p></dd><dt><span class="glossterm">Yetkili</span></dt><dd>
+KDC veritabanında gizli anahtarı bulunan kullanıcı veya sunucu.
+<p></p></dd></dl></div><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kerberos-howto-sources.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kerberos-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/8021x-howto.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">A. Daha Fazla Bilgi İçin Kaynaklar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> 802.1X Port Tabanlı Kimlik Kanıtlama NASIL</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:18+03:00"><title>printw() sınıfı işlevler </title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-printw.html" title="Çıktı işlevleri"><link rel="previous" href="../howto/ncurses-howto-addch.html" title="mvaddch(), waddch() ve mvwaddch()"><link rel="next" href="../howto/ncurses-howto-addstrclass.html" title="addstr() sınıfı işlevler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">printw() sınıfı işlevler </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-addch.html">Önceki</a> </td><th width="60%" align="center">Çıktı işlevleri</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-addstrclass.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-printwclass"></a><tt>printw()</tt> sınıfı işlevler </h3></div></dt><dd><p>
+Bu işlevler <b><tt>printf()</tt></b> işlevine benzemeleri yanında ekran üzerindeki herhangi bir konuma da yazabilmeyi de sağlamaktadırlar.
+</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-printwmvprintw"></a><tt>printw()</tt> ve <tt>mvprintw()</tt></h4></div></dt><dd><p>
+Bu iki işlev <b><tt>printf()</tt></b>'e benzer çalışmaktadır. <b><tt>mvprintw()</tt></b> imleci belirtilen konuma hareket ettirir ve buraya yazar. Eğer önce imleci hareket ettirip daha sonra <b><tt>printw()</tt></b> kullanarak ekrana yazmak isterseniz önce <b><tt>move()</tt></b>'u daha sonra da <b><tt>printw()</tt></b>'yi kullanın. Hoş, birinin <b><tt>mvprintw()</tt></b> kullanımından kaçınmasında bir mantık göremesem de değiştirme esnekliğiniz bulunmaktadır.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-wprintwmvwprintw"></a><tt>wprintw()</tt> ve <tt>mvwprintw()</tt></h4></div></dt><dd><p>
+Bu işlevler, parametre olarak verilen pencerelere yazmaları dışında yukarıdakilere benzemektedir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-vwprintw"></a><tt>vwprintw()</tt></h4></div></dt><dd><p>
+Bu işlev <b><tt>vprintf()</tt></b>'e benzemektedir. Değişken sayıda argümanla kullanılabilir.
+</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ncurses-howto-simpleprintwex"></a>Basit bir <tt>printw</tt> örneği</h4></div></dt><dd><div class="example"><p><a name="ncurses-howto-bprex"></a><b>Örnek 5.8. Basit bir <tt>printw</tt> örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;       /* stdio.h başlık dosyasını da ekler */
+#include &lt;string.h&gt;
+
+int main()
+{
+ char ileti[]="Sadece bir dizge"; /* ekranda görünecek ileti       */
+ int sat, sut;                    /* ekrandaki satır sayısını ve    *
+                                   * sütün sayısını tutmak için     */
+ initscr();                       /* curses kipine başlama          */
+ getmaxyx(stdscr, sat, sut);      /* satır ve sütun sayısını alma   */
+ mvprintw(sat/2, (sut-strlen(ileti))/2, "%s", ileti);
+                                  /* iletiyi ekranın ortasına yazdır */
+ mvprintw(sat-2, 0, "Bu ekranda %d satır ve %d sütun var\n", sat, sut);
+ printw("Ekran boyunu degistirerek (eger mümkünse)"
+        " programı yeniden çalıstırın");
+ refresh();
+ getch();
+ endwin();
+
+ return 0;
+}
+</pre> </td></tr></table></div></p></div><p>
+Yukarıdaki program <b><tt>printw</tt></b> kullanımının ne kadar kolay olduğunu göstermektedir. Sadece koordinatları ve göstermek istediğiniz iletiyi belirtmektesiniz ve o da isteğinizi yerine getirmektedir.
+</p><p>
+Yukarıdaki program bize <b><tt>getmaxyx()</tt></b> isimli <tt>ncurses.h</tt> içerisinde tanımlı yeni bir makroyu tanıtmaktadır. Verilen penceredeki satır ve sütün sayısını hesaplar. <b><tt>getmaxyx()</tt></b> bunu kendisine verilen değişkenleri güncelleyerek yapar.  <b><tt>getmaxyx()</tt></b> işlev olmadığından parametre olarak gösterici aktaramayız, sadece iki tamsayı değişken verebiliriz.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-addch.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-printw.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-addstrclass.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">mvaddch(), waddch() ve mvwaddch() </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> addstr() sınıfı işlevler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

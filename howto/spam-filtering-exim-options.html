@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:20+03:00"><title>Seçenekler ve Ayarlar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim.html" title="A. Exim Gerçeklenimi"><link rel="previous" href="../howto/spam-filtering-exim-expansions.html" title="Yerleşikler"><link rel="next" href="../howto/spam-filtering-exim-firstpass.html" title="ACL'lerin Hazırlanması - İlk Aşama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Seçenekler ve Ayarlar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-expansions.html">Önceki</a> </td><th width="60%" align="center">A. Exim Gerçeklenimi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-firstpass.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="spam-filtering-exim-options"></a>Seçenekler ve Ayarlar</h2></div></dt><dd><p>
+Exim yapılandırma dosyasının ana bölümü (<tt>begin</tt> ile başlayan ilk satırdan önceki bölüm) çeşitli makrolar, kural denetimleri ile genel ayarları içerir. Daha sonra kullanacağımız bazı makroları tanımlayarak başlayalım:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# İleti boyutunun sınırı; bunu DATA ACL içinde kullanacağız.
+MESSAGE_SIZE_LIMIT = 10M
+
+# Spam veya Virus taraması için azami ileti boyutu.
+# Büyük iletiler sunucuyu aşırı yüklemesin diye düşük tutuyoruz.
+MESSAGE_SIZE_SPAM_MAX = 1M
+
+# Çırpılama için kullanmak üzere gizemli bir dizge tanımlayan makro.
+# BUNU KENDİNİZE GÖRE DÜZENLEYİN!.
+SECRET = <i>gizemli-dizge</i>
+</pre> </td></tr></table></div>
+    </p><p>
+Genel Exim ayarlarının bazılarını yapalım:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# DNS başarısızlıklarını (SERVFAIL) sorgu başarısızlığı olarak
+# ele alacağız. Böylece, daha sonra mevcut olmayan alanlara veya
+# alanadı sunucusu olmayan alanlara ait gönderici adreslerden
+# gelen teslimatları reddedebileceğiz. (Bu tanıma göre, yerel
+# alanlar ve röleleme yapılan alanlar için sorgu yapılmayacak.)
+dns_again_means_nonexist = !+local_domains : !+relay_to_domains
+
+# Tüm konaklar için ACL'lerde HELO doğrulamasını etkinleştirelim.
+helo_try_verify_hosts = *
+
+# Bir defada hizmet sunacağımız gelen bağlantı sayısına bir
+# sınırlama koymuyoruz. Daha sonra spamcılara SMTP aktarım
+# gecikmeleri uygulayacağımız için bu sırada yeni gelen bağlantıları
+# böylece kabul edebileceğiz.
+smtp_accept_max = 0
+
+# Ama, sistemin yükü de 10'nun üzerini çıkmamalı.
+smtp_load_reserve = 10
+
+# Hiçbir konağa ESMTP "PIPELINING" yapabileceğimizi söylemeyeceğiz.
+# Bu, kalleş yazılımlar için gerekli, boruhattı açmaya bayılırlar.
+pipelining_advertise_hosts = :
+</pre> </td></tr></table></div>
+    </p><p>
+Son olarak, gelen bir SMTP aktarımının çeşitli aşamalarında değerlendirmeye alınmasını istediğimiz beş ACL'yi Exim kural denetimcisine tanıtacağız:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+acl_smtp_connect = acl_connect
+acl_smtp_helo    = acl_helo
+acl_smtp_mail    = acl_mail_from
+acl_smtp_rcpt    = acl_rcpt_to
+acl_smtp_data    = acl_data
+</pre> </td></tr></table></div>
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-expansions.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-firstpass.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yerleşikler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> ACL'lerin Hazırlanması - İlk Aşama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

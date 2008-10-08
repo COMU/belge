@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:01+03:00"><title>Örneklere Dönüş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-arrays.html" title="Diziler"><link rel="next" href="../howto/ruby-ug-control.html" title="Denetim Yapıları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Örneklere Dönüş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-arrays.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-control.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-b2examples"></a>Örneklere Dönüş</h2></div></dt><dd><p>
+Şimdi eski örneklere tekrar göz atalım.
+  </p><p>
+Aşağıdakini daha önce  <a href="../howto/ruby-ug-examples.html" class="xref" title="Basit Örnekler"> Basit Örnekler</a> kısmında görmüştük.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+print fact(ARGV[0].to_i), "\n"
+</pre> </td></tr></table></div>
+  </p><p>
+Bu bizim ilk örneğimiz olduğu için her satırı teker teker açıklayalım.
+  </p><h4><a name="ruby-ug-factorials"></a>Faktöriyeller</h4><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">def fact(n)  </pre> </td></tr></table></div>
+    </p><p>
+İlk satırda bir işlev (ya da daha özel olarak bir <span class="wordasword"><i>yöntem</i></span>; yöntemin ne olduğunu ileriki kısımlarda göreceğiz) tanımlamak için <b><tt>def</tt></b> deyimini kullanıyoruz. Burada işlevimiz <tt>fact</tt>'ın <tt>n</tt> adında tek bir argüman aldığını görüyoruz.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">if n == 0</pre> </td></tr></table></div>
+    </p><p>
+<b><tt>if</tt></b> bir denetim deyimidir. Eğer koşul sağlanıyorsa onu takip eden kod değerlendirilir, aksi taktide <b><tt>else</tt></b> kısmına geçilir.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">1</pre> </td></tr></table></div>
+    </p><p>
+Eğer koşul sağlandıysa <b><tt>if</tt></b>'in değeri 1 olacaktr.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">else</pre> </td></tr></table></div>
+    </p><p>
+Sağlanmadıysa, bu deyimle başlayan <b><tt>end</tt></b> ile biten kod parçası değerlendirilir.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">n * fact(n-1)</pre> </td></tr></table></div>
+    </p><p>
+Yani, eğer koşul sağlanmamışsa sonuç <b><tt>n</tt></b> kere <b><tt>fact(n-1)</tt></b> olacaktır.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">end</pre> </td></tr></table></div>
+    </p><p>
+İlk <b><tt>end</tt></b>, <b><tt>if</tt></b> deyimini kapatmak için kullanılır.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">end</pre> </td></tr></table></div>
+    </p><p>
+İkinci <b><tt>end</tt></b> <b><tt>def</tt></b> ifadesini kapatmak için kullanılır.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">print fact(ARGV[0].to_i), "\n"  </pre> </td></tr></table></div>
+    </p><p>
+Bu bizim komut satırından <tt>fact()</tt> işlevini çalıştırmamızı ve sonuçları ekranda görmemizi sağlar.
+    </p><p>
+<b><tt>ARGV</tt></b> komut satırı argümanlarını içeren özel bir dizidir. <b><tt>ARGV</tt></b> dizisinin tüm elemanları dizgeler olduğu için, <b><tt>to_i</tt></b> yöntemiyle tamsayıya dönüştürmek zorundayız. Ruby Perl'deki gibi dizgeleri tamsayılara kendiliğinden dönüştürmez.
+    </p><p>
+Hmmm... Eğer bu yazılıma negatif bir sayı girersek ne olur? Sorunu görebildiniz mi? Peki düzeltebilir misiniz?
+    </p><h4><a name="id147"></a>Dizgeler</h4><p>
+<a href="../howto/ruby-ug-strings.html" class="xref" title="Dizgeler"> Dizgeler</a> bölümündeki bulmaca örneğimizi tekrar inceleyelim. Bu sefer biraz daha uzun, kolaylık açısından satırları numaralandırdık.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td align="right" width="20" valign="top"><pre class="screen">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre> </td><td width="*"><pre class="screen">
+words = ['kestane', 'gurgen', 'palamut']
+secret = words[rand(3)]
+
+print "tahmin et? "
+while guess = STDIN.gets
+  guess.chop!
+  if guess == secret
+    print "Bildin!\n"
+    break
+  else
+    puts "Üzgünüm kaybettin.\n"
+  end
+  print "tahmin et? "
+end
+puts "Kelime ", secret, ".\n"
+</pre> </td></tr></table></div>
+    </p><p>
+Bu yazılımda yeni bir denetim yapısı gördük: <b><tt>while</tt></b>.
+Verilen koşul doğru olduğu sürece <b><tt>while</tt></b> ve <b><tt>end</tt></b> arasındaki kod tekrar tekrar çalıştırılacaktır.
+    </p><p>
+2. satırdaki <tt>rand(3)</tt> işlevi 0 ile 2 arasında rastgele sayı üretir. Bu rastgele sayı <tt>words</tt> dizisinin elemanlarından birini çıkarmak için kullanılır.
+    </p><p>
+5. satırda <tt>STDIN.gets</tt> yöntemiyle standart girdiden bir satır okuduk. Eğer satırı alırken <tt>EOF</tt> (end of file) karakterine rastlanırsa <tt>gets</tt> işlevi <b><tt>nil</tt></b> değerini döndürecektir. <b><tt>while</tt></b> ile ilişkilendirilmiş kod <tt>^D</tt> (ya da DOS altında ^Z) görene kadar tekrarlanacaktır.
+    </p><p>
+6. satırdaki <tt>guess.chop!</tt> işlevi <tt>guess</tt> değişkeninin sonundaki satırsonu karakterini temizlemeye yarar.
+    </p><p>
+15. satırda gizli kelimeyi yazdırıyoruz. Bunu üç argümanla birlikte bir yazdırma deyimi olarak kullandık (birbiri ardına yazdırılarak) ancak bunu daha verimli hale getirmek için <tt>secret</tt> yerine bir tek argüman alan <tt>#(secret)</tt> yöntemini tanımlayabilirdik:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">puts "Kelime #{secret}.\n"   </pre> </td></tr></table></div>
+    </p><p>
+Birçok yazılımcı, bu yolun çıktı vermek için daha açık olduğunu düşünürler. Tek bir dizge oluşturur ve bu dizgeyi <b><tt>puts</tt></b>'a tek bir argüman gibi sunar.
+    </p><p>
+Standart betik çıktısında <b><tt>puts</tt></b> kullanma düşüncesini işledik, ancak bu betik 4. ve 13. satırlarda <b><tt>print</tt></b>'i de kullanır. Bu ikisi aynı şey değildir. <b><tt>print</tt></b> dizgeyi kendisine verildiği gibi çıktılarken, <b><tt>puts</tt></b>; aynı zamanda çıktı satırının sonlanmasını sağlar. 4. ve 13. satırlarda <b><tt>print</tt></b> kullanıldığı için, işleç bir sonraki satırın başlangıcına geçeceği yerde, işleci ekrana çıktılanan dizgenin yanında bırakır. Bu durum kullanıcı girdisi için tanınabilir bir durumdur. Aşağıdaki dört çıktı çağrısı da aynı sonucu verir:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#satırsonu karakteri yoksa, puts tarafından eklenir:
+puts  "Tasi delen suyun kuvveti degil, damlalarin sürekliligidir."
+
+#satırsonu karakteri print komutuna verilmelidir:
+print "Tasi delen suyun kuvveti degil, damlalarin sürekliligidir.\n"
+
+#çıktıyı + ile birleştirebilirsiniz:
+print 'Tasi delen suyun kuvveti degil, damlalarin sürekliligidir.'+"\n"
+
+# ya da birden fazla dizge vererek birleştirebilirsiniz:
+print 'Tasi delen suyun kuvveti degil, damlalarin sürekliligidir.', "\n"
+</pre> </td></tr></table></div>
+  </p><h4><a name="id147"></a>Düzenli İfadeler</h4><p>
+Son olarak <a href="../howto/ruby-ug-regex.html" class="xref" title="Düzenli İfadeler"> Düzenli İfadeler</a> bölümündeki yazılımı inceleyeceğiz.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td align="right" width="20" valign="top"><pre class="screen">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre> </td><td width="*"><pre class="screen">
+st = "\033[7m"
+en = "\033[m"
+
+while TRUE
+  print "str&gt; "
+  STDOUT.flush
+  str = gets
+  break if not str
+  str.chop!
+  print "pat&gt; "
+  STDOUT.flush
+  re = gets
+  break if not re
+  re.chop!
+  str.gsub! re, "#{st}\\&amp;#{en}"
+  print str, "\n"
+end
+print "\n"
+</pre> </td></tr></table></div>
+    </p><p>
+4. satırda <b><tt>while</tt></b>'ın koşulu sonsuz döngüyü sağlamak için <b><tt>true</tt></b> yapılmıştır. Ancak döngüden çıkabilmek için 8. ve 13. satırlarda <b><tt>break</tt></b> kullandık. Bu iki <b><tt>break</tt></b> aynı zamanda <b><tt>if</tt></b> deyiminin niteleyicilerinden biridir. Bir <i>if niteleyicisi</i> sadece ve sadece koşul sağlandığı zaman sol yandaki terimini çalıştırır.
+    </p><p>
+<tt>chop!</tt> için (9. ve 14 satıra bakın) hakkında söylenecek çok şey var. Ruby'de geleneksel olarak yöntem isimlerinin sonuna '<b><tt>!</tt></b>' ya da '<b><tt>?</tt></b>' ekleriz. Ünlem işareti (<b><tt>!</tt></b> bazen "bang!" diye söylenir) potansiyel olarak yıkıcı bir görev görür, daha da açmak gerekirse; dokunduğu değeri değiştiren bir işleçtir. <tt>chop!</tt> bir dizgeye doğrudan etki eder ancak ünlem işareti olmayan bir <tt>chop</tt> bir kopya üzerinde çalışır. Aşağıda ikisi arasındaki fark görülüyor:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"> <tt>ruby&gt; </tt><tt class="empinput">s1 = "forth"</tt>
+  <tt class="empoutput">"forth"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">s1.chop!</tt>       # Bu s1'in değerini değiştirir.
+  <tt class="empoutput">"fort"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">s2 = s1.chop</tt>   # s2'ye değiştirilmiş bir kopyasını koyar.
+  <tt class="empoutput">"for"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">s1</tt>             # ... s1'e dokunmaz.
+  <tt class="empoutput">"fort"</tt>
+</pre> </td></tr></table></div>
+    </p><p>
+İlerde sonunda soru işareti olan yöntem isimleriyle karşılaşacaksınız (<b><tt>?</tt></b> genelde "huh?" şeklinde telaffuz edilir). Bu <b><tt>true</tt></b> ya da <b><tt>false</tt></b> döndüren bir 'doğrulama' yöntemidir.
+    </p><p>
+15. satırda dikkat edilmesi gereken önemli bir uyarı yer almaktadır. Öncelikle <tt>gsub!</tt>'in başka bir sözde 'yıkıcı' yöntem olduğuna dikkat edelim. <tt>re</tt>'ye uyan her ne varsa <tt>str</tt>'nin yerine koyar (<b><tt>sub</tt></b> ikame etmekten (substitute), <b><tt>g</tt></b> ise globalden gelir);  sadece ilk bulunanı değil, dizgedeki <tt>tüm</tt> eşleşen kısımları değiştirir. Çok iyi, çok güzel; fakat eşleştirilen kısımları neyle değiştireceğiz? 1. ve 2 satırda önalan ve artalan renklerini peşpeşe değiştiren <tt>st</tt> ve <tt>en</tt> adlı iki dizge tanımladık.  15. satırdaysa bunları, olduğu gibi yorumlandıklarından emin olmak için <b><tt>#{}</tt></b> arasına yazdık (<i>değişken isimlerinin yazdırıldığını görmeyiz</i>).  Bunların arasında da "<b><tt>\\&amp;</tt></b>" kodunu görüyoruz. Bu küçük bir hiledir. Yer değiştirilen dizge çift tırnak arasında olduğu için  bir çift ters bölü işareti tek bir taneymiş gibi yorumlanır. Böylece <tt>gsub!</tt>'in göreceği şey "<b><tt>\&amp;</tt></b>" olur ve  bu da ilk konumda ne eşleştirildiyse onu gösteren özel bir koda dönüştürülür. Yani yeni dizge eşleşen parçaları farklı renkte gösterilen eski dizge olur.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-arrays.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-control.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Diziler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Denetim Yapıları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

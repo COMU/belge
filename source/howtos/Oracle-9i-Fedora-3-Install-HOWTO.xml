@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************
+     $Id: Oracle-9i-Fedora-3-Install-HOWTO.xml,v 1.20 2003/07/19 09:25:04 nilgun Exp $
+     ******************************************************************** -->
+<article id="Oracle-9i-Fedora-3-Install-HOWTO" lang="tr">
+<articleinfo>
+<title>Fedora Core 3 Üzerine Oracle 9i Kurulumu NASIL</title>
+<author role="translator">
+    <firstname>Necdet Yücel</firstname>
+    <affiliation>
+      <address><email>nyucel@comu.edu.tr</email></address>
+    </affiliation>
+  </author>
+<author>
+<firstname>Gaurav</firstname>
+<surname>Prasad</surname>
+<affiliation>
+<address>
+<email>gauravpd at gmail dot com</email>
+</address>
+</affiliation>
+</author>
+
+<pubdate>2005-06-27</pubdate>
+    <revhistory>
+      <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>Kasım 2005</date>
+        <authorinitials>NY</authorinitials>
+        <revremark>İlk çeviri</revremark>
+      </revision>
+    </revhistory>
+<revhistory>
+      <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+<revision>
+<revnumber>v1.0</revnumber>
+<date>2005-06-22</date>
+<authorinitials>MG</authorinitials>
+<revremark>TLDP kapsamında: XML belge yapısı articleinfo ve belge içi bağlantılar için bölüm ID verilerek tamamlandı. Teknik, dil, gramer ve yazım düzeltmeleri yapıldı.
+</revremark>
+</revision>
+<revision>
+<revnumber>v1.0-pre1</revnumber>
+<date>2005-04-01</date>
+<authorinitials>GP</authorinitials>
+<revremark>Çeşitli hatalar bölümü eklendi.</revremark>
+</revision>
+<revision>
+<revnumber>v0.1</revnumber>
+<date>2005-03-25</date>
+<authorinitials>GP</authorinitials>
+<revremark>İlk yayımlanma.</revremark>
+</revision>
+</revhistory>
+
+<abstract>
+
+<para>Bu belge Fedora Core 3 veya daha üst sürümlere nasıl Oracle 9i kurulacağını anlatır.</para>
+</abstract>
+
+</articleinfo>
+
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_01">
+<title>Giriş</title>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_01_01"><title>Bilmeniz gerekenler</title>
+<para>Bu belge benim FC3 üzerine Oracle 9i kurarken yaşadıklarım sonucu yazılmıştır.
+Aslında RAS 1,2,3 RH 9, FC1 ve FC2 üzerine 9i kurulumu oldukça iyi belgelendirilmiş olmasına rağmen FC3 için kayda değer birşey bulmak zordur.
+Hatta bazıları FC3 üzerine Oracle 9i kurmanın olanaksız olduğunu yazmaktadırlar.
+Bu NASIL belgesi FC3'e özgü tecrübelerim ve internette dağınık halde bulduklarımdan oluşan kısa ama yararlı bir belge olması amacını taşımaktadır.
+</para>
+<para>Umarım bu kısa belgeyi yararlı bulursunuz.</para>
+<para>Eğer FC3 üzerine Oracle 9i kurmanız gerekiyorsa aşağıdaki gerçeklerin farkında olmalısınız:</para>
+<orderedlist>
+<listitem>
+<para>Fedora, Oracle Corp. tarafından *Resmi Olarak Desteklenmemektedir*.</para>
+</listitem>
+<listitem>
+<para>FC3 üzerine Oracle 9i kurulumu zordur ama mümkündür.</para>
+</listitem>
+<listitem>
+<para>Oracle 9i gcc 3.4 tarafından kullanılan kitaplıklara ilintilenemez. FC3'de FC2 GCC compat kitaplıklarını kullanmanız gereklidir.</para>
+</listitem>
+<listitem>
+<para>Oracle 10 G kurulum yöntemi 9i için geçerli DEĞİLDİR.</para>
+</listitem>
+<listitem>
+<para>Bu NASIL belgesi FC3 veya daha üst sürüm veya gcc 2.9'dan üst sürüme sahip RedHat ürünleri ile ilgilidir. Eğer diğer RedHat ürünlerine kurulum yapmakla ilgileniyorsanız çok güzel hazırlanmış diğer belgelere gözatmak isteyebilirsiniz, örneğin; <ulink url="http://www.puschitz.com/OracleOnLinux.shtml">http://www.puschitz.com/OracleOnLinux.shtml</ulink> ve <ulink url="http://oracle-base.com/">http://oracle-base.com/</ulink>.</para>
+</listitem>
+</orderedlist>
+<para>Bunlarıda aklınızda bulundurun: </para>
+<orderedlist>
+<listitem>
+<para>Bu NASIL belgesi sadece size yardımcı olması için yazılmıştır.  RESMİ bir Oracle belgesi değildir.</para>
+</listitem>
+<listitem>
+<para>Ben bir Veri Tabanı Yöneticisi değilim. Lütfen bana bu belgenin içeriğinin dışında sorular yöneltmeyin. Veri tabanınızı oluşturmanıza yardım edemem. Eğer yardıma ihtiyacınız varsa Oracle forumlarından yardım almayı deneyin.</para>
+</listitem>
+<listitem>
+<para>İleride vakit bulabilirsem belki de bu zevksiz, sıkıcı, asap bozucu ve elle yapılan işlemleri tamamen otomatikleştirmek için bir Bash veya Perl betiği yazabilirim. Fikirleriniz memnuniyetle karşılanacaktır.</para>
+		
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_01_02"><title>Teşekkürler</title>
+<para>Jean Fran&#231;ois'e ustalık isteyen bölümlerdeki yardımları için teşekkür ediyorum.</para>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_01_03"><title>Bulunabilirlik ve Geri besleme</title>
+<para>Bu belgenin son sürümü <ulink url="http://www.pagux.com/oracle9ionfedora3.html" /> adresinde bulunabilir.</para> 
+<para>Bu belgenin yararlı olabilmesi konusunda size güveniyorum. Eğer önerilerinizi, düzeltmelerinizi veya yorumlarınızı bana gönderirseniz onları yeni sürüme dahil etmeye çalışırım.</para>
+</sect2>
+
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_01_04"><title>Lisans Bilgisi ve Sorumluluk</title>
+<para>Copyright 2005 Gaurav Prasad - Özgün Belge</para>
+<para>Copyright 2005 Necdet Yücel - Türkçe Çeviri</para>
+<para>This HOWTO is free documentation; you can redistribute it and/or
+modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.   A copy of the license is available at <ulink url="http://www.gnu.org/copyleft/fdl.html" />.</para>
+<para>This document is distributed in the hope that it will be useful,
+but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.  No liability for the contents of this document can be accepted.
+Use the concepts, examples and information at your own risk.
+There may be errors and inaccuracies, that could be damaging to
+your system.  Proceed with caution, and although accidents are highly
+unlikely, the author(s) do not take any responsibility.
+</para>
+<para>Linux is a registered trademark of Linus Torvalds.</para>
+<para>
+All copyrights are held by their by their respective owners,
+unless specifically noted otherwise.  Use of a term in this
+document should not be regarded as affecting the validity of any
+trademark or service mark.  Naming of particular products or
+brands should not be seen as endorsements.
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_02"><title>Oracle 9i'yi edinmek</title>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_02_01"><title>CD Kurulumu</title>
+<para>Eğer Oracle 9i CD'niz varsa aşağıdaki komutla bağlayın:</para>
+<cmdsynopsis><command>mount <option>-r -o loop=/dev/loop0</option> <filename>ora9id1.iso Disk1/</filename></command></cmdsynopsis>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_02_02"><title>İndirmek</title>
+<para>CD'niz yoksa <ulink url="http://www.oracle.com/technology/software/products/oracle9i/htdocs/linuxsoft.html" /> adresinden indirebilirsiniz.</para>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_02_03"><title>Kurulum</title>
+<para>Üç dosyayı da açın:</para>
+<cmdsynopsis><command>gunzip <filename>ship_9204_linux_disk1.cpio.gz</filename></command></cmdsynopsis>
+<cmdsynopsis><command>cpio <option>-idmv -I</option> <filename>ship_9204_linux_disk1.cpio</filename></command></cmdsynopsis>
+<para>Eğer <option>-I</option> seçeneğini unutursanız hatalarla karşılaşırsınız.</para>
+<para>Bu komut cpio arşivini <filename>Disk1</filename> adında bir dizine açar.  
+Diğer iki arşiv için de aynı yöntemi izleyin.</para>
+</sect2>
+</sect1>
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_03"><title>Yapılandırmaya Hazırlık</title>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_03_01"><title>Kullanıcı ve Grupların Yaratılması</title>
+<para>Aşağıdaki komutları <emphasis>root</emphasis> haklarıyla çalıştırın:</para>
+<screen>
+# groupadd oinstall
+# groupadd dba
+# groupadd oper
+# groupadd apache
+# useradd -g oinstall -G dba oracle
+# passwd oracle
+</screen>
+<para><emphasis>oracle</emphasis> kullanıcısı için parola atayın.</para>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_03_02"><title>Dizinlerin Yaratılması</title>
+<para>Yazılımın nihayi yeri burası olacaktır:</para>
+<screen>
+# mkdir /u01 /u02
+# chown oracle.dba /u01 /u02
+# chmod 755 /u01 /u02
+</screen>
+</sect2>
+</sect1>
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_04"><title>Ortam Değişkenlerinin Atanması</title>
+<para><emphasis>oracle</emphasis> kullanıcı ile sisteme girin:</para>
+<cmdsynopsis><command>su <option>-</option> <parameter>oracle</parameter></command></cmdsynopsis>
+<para><emphasis>oracle</emphasis> kullanıcısının ev dizinindeki <filename>.bash_profile</filename> dosyasını, örneğin <command>vim</command> ile düzenleyerek aşağıdakileri ekleyin:</para>
+<screen>
+########## Oracle Variables ##########
+echo " Welcome to oracle";
+ORACLE_BASE=/u01/app/oracle
+ORACLE_OWNER=oracle; export ORACLE_OWNER
+ORACLE_TERM=xterm; export ORACLE_TERM
+ORACLE_HOME=/u01/app/oracle/product/9.2.0.1.0
+ORACLE_SID=ORTD
+LD_PRELOAD=$HOME/libcwait.so
+export DISPLAY=172.28.66.39:0.0
+PATH=$PATH:$ORACLE_HOME/bin
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib:$ORACLE_HOME/network/lib
+
+CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+export CLASSPATH
+
+LD_ASSUME_KERNEL=2.4.1; export LD_ASSUME_KERNEL
+THREADS_FLAG=native; export THREADS_FLAG
+TMP=/tmp; export TMP
+TMPDIR=$TMP; export TMPDIR
+
+export PATH ORACLE_BASE ORACLE_HOME ORACLE_SID LD_LIBRARY_PATH LD_PRELOAD
+########## End of Oracle variables ##########
+</screen>
+</sect1>
+
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_05"><title>Çekirdek Parametrelerinin Atanması</title>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_05_01"><title>/etc/sysctl.conf dosyasının düzenlenmesi</title>
+<para>Aşağıdaki satırları <filename>/etc/sysctl.conf</filename> dosyasına ekleyin:</para>
+<screen>
+kernel.shmmax = 2147483648
+kernel.shmmni = 128
+kernel.shmall = 2097152
+kernel.sem = 250 32000 100 128
+fs.file-max = 65536
+net.ipv4.ip_local_port_range = 1024 65000
+</screen>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_05_02"><title>/etc/security/limits.conf dosyasının düzenlenmesi</title>
+<para>İlave olarak aşağıdaki satırlar da <filename>/etc/security/limits.conf</filename> dosyasına eklenebilir:
+</para>
+<screen>
+oracle soft nofile 65536
+oracle hard nofile 65536
+oracle soft nproc 16384
+oracle hard nproc 16384
+</screen>
+
+<para>Bu dosyalara yapılan eklemelerle yapılan yeni ayarlamaların aktif olabilmesi için bilgisayarınızı yeniden başlatmanız gereklidir.</para>
+</sect2>
+</sect1>
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_06"><title>GCC 2.9 Compat kitaplıklarının kurulumu</title>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_06_01"><title>GCC 2.96 Compat paketinin kurulumu</title>
+<para>Fedora Core 2'den aşağıdaki paketleri kurun:</para>
+<itemizedlist>
+<listitem><para><filename>compat-libstdc++-7.3-2.96.126.i386.rpm</filename></para></listitem>
+<listitem><para><filename>compat-libstdc++-devel-7.3-2.96.126.i386.rpm</filename></para></listitem>
+<listitem><para><filename>compat-gcc-7.3-2.96.126.i386.rpm</filename></para></listitem>
+<listitem><para><filename>compat-gcc-c++-7.3-2.96.126.i386.rpm</filename></para></listitem>
+</itemizedlist>
+
+<caution><title>Mevcut paketlerin üzerine yazmayın</title>
+<para>Mevcut GCC kurulumunuzu koruduğunuzdan emin olun, yoksa yazılımlarınızın büyük bölümü çalışmayacak ya da derlenmeyecektir. Bu paketlerin daha yeni sürüm numaralarıyla sisteminizde kurulu olmaları durumunda <command>rpm <option>-i --force</option></command> komutunu kullanarak eskilerin yenilerin yanına kurulmalarını sağlayın.
+</para>
+</caution>
+
+<para>Fedora Core 3'den <application>compat-db</application> paketini kurun.</para>
+<para>Eğer GCC compat kitaplıklarını yukarıdaki gibi kurmazsanız milyon tane ilintilendirme hatası alırsınız.</para>
+
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_06_02"><title>Sembolik Bağlantıların Yaratılması</title>
+<para>Aşağıdaki sembolik bağlantıları yaratarak gcc296 ve g++296'yi $PATH değişkeninizde ilk sıraya yerleştirin:</para>
+<screen>
+# mv /usr/bin/gcc /usr/bin/gcc323
+# mv /usr/bin/g++ /usr/bin/g++323
+# ln -s /usr/bin/gcc296 /usr/bin/gcc
+# ln -s /usr/bin/g++296 /usr/bin/g++
+</screen>
+
+<para>Eğer sisteminizi güncellemişseniz GCC sürüm numaraları farklı olabilir.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_07"><title>Kurulum Programını Çalıştırın</title>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_01"><title>libwait.c yamasını uygulayın</title>
+<para>Kurulum programını çalıştırmadan önce, tuhaf hatalar almamak için aşağıdakileri yapın:</para>
+<itemizedlist>
+<listitem><para><filename>/home/oracle</filename> dizininde aşağıdaki gibi bir <filename>libwait.c</filename> dosyası oluşturun ve derleyin:</para>
+<screen>
+/*
+gcc -O2 -shared -o $HOME/libcwait.so -fpic $HOME/libcwait.c
+*/
+#include
+#include
+#include
+Deploying Oracle 9i on Red Hat Enterprise Linux AS 3
+Page 11
+#include
+pid_t
+__libc_wait (int *status)
+{
+int res;
+asm volatile ("pushl %%ebx\n\t"
+"movl %2, %%ebx\n\t"
+"movl %1, %%eax\n\t"
+"int $0x80\n\t"
+"popl %%ebx"
+: "=a" (res)
+: "i" (__NR_wait4), "0" (WAIT_ANY), "c" (status), "d" (0), "S" (0));
+return res;
+}
+</screen>
+<cmdsynopsis><command>gcc <option>-shared -o</option> <filename>libcwait.so libcwait.c</filename> <option>-fpic -O</option></command></cmdsynopsis>
+</listitem>
+<listitem><para>Bu kitaplığı veritabanı kullanıcısının ortam değişkenleri arasına ekleyin:</para>
+<cmdsynopsis><command>export <varname>LD_PRELOAD</varname>=<filename>/home/oracle/libcwait.so</filename></command></cmdsynopsis>
+<para>Daha önce <filename>.bash_profile</filename> dosyasına benzer bir satır eklemiştik.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_02"><title>Kurulum pencerelerinin açılacağı terminalin yapılandırılması</title>
+<para>Aşağıdaki komutları oracle kullanıcısı olarak çalıştırın:</para>
+<screen>
+oracle@9iserver ~&gt; xhost +localhost
+oracle@9iserver ~&gt; export DISPLAY=localhost:0.0
+</screen>
+
+<para>Artık kendi masaüstünüzden bağlanabileceğiniz gibi kurulum programını uzaktan da çalıştırabilirsiniz,
+örneğin Windows masaüstünden <application>VNC</application> ile bağlanarak kurulum programını çalıştırabilirsiniz.
+</para>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_03"><title>Kurulumun başlatılması</title>
+<para>Grafik kurulum uygulamasını başlatın:</para>
+<cmdsynopsis><command>/path/to/oracle/Disk1/runInstaller</command></cmdsynopsis>
+<para>Buradan sonra Grafik kurulumu takip edin (eğer standart veritabanını seçmemişseniz).  
+Kurulum sürecinin buradan sonrası açıktır.</para>
+</sect2>
+<sect2 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_07_04"><title>nodeinfo'nun düzeltilmesi</title>
+<para>Kurulum buradan sonra bir ilintileme hatası vermeden devam etmelidir ama sonunda aşağıdaki gibi bir hata ile karşılaşacaksınız:</para>
+<screen>
+Parameter "nodeinfo" = NO_VALUE
+Agent Service Failed
+</screen>
+<para>Bunu düzeltmek için kurulum bittikten sonra sihirbazı başlatmak için aşağıdaki komutu çalıştırın:</para>
+<cmdsynopsis><command>netca &amp;</command></cmdsynopsis>
+<para>Şimdi <varname>$ORACLE_HOME</varname> dizinine geçerek <command>./lsnrctl <parameter>start</parameter></command> komutunu çalıştırın.</para>
+<para>Sürecin çalışıp çalışmadığını kontrol edin:</para>
+<cmdsynopsis><command>ps <option>afx</option> | grep <parameter>LISTEN</parameter></command></cmdsynopsis>
+</sect2>
+</sect1>
+
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_08"><title>Başlangıç Betiğinin Yaratılması</title>
+<para>Oracle sunucusunun açılışta otomatik olarak başlaması için aşağıdaki gibi bir <filename>/etc/init.d/oracle</filename> dosyası yaratın:
+</para>
+<screen>
+#!/bin/bash
+#
+# Run-level Startup script for the Oracle Instance and Listener
+#
+# chkconfig: 345 91 19
+# description: Startup/Shutdown Oracle listener and instance
+
+ORA_HOME="/u01/app/oracle/product/9.2.0.1.0"
+ORA_OWNR="oracle"
+
+# if the executables do not exist -- display error
+
+if [ ! -f $ORA_HOME/bin/dbstart -o ! -d $ORA_HOME ]
+then
+        echo "Oracle startup: cannot start"
+        exit 1
+fi
+
+# depending on parameter -- startup, shutdown, restart 
+# of the instance and listener or usage display 
+
+case "$1" in
+    start)
+        # Oracle listener and instance startup
+        echo -n "Starting Oracle: "
+        su - $ORA_OWNR -c "$ORA_HOME/bin/lsnrctl start"
+        su - $ORA_OWNR -c $ORA_HOME/bin/dbstart
+        touch /var/lock/subsys/oracle
+        echo "OK"
+        ;;
+    stop)
+ 	# Oracle listener and instance shutdown
+        echo -n "Shutdown Oracle: "
+        su - $ORA_OWNR -c "$ORA_HOME/bin/lsnrctl stop"
+        su - $ORA_OWNR -c $ORA_HOME/bin/dbshut
+        rm -f /var/lock/subsys/oracle
+        echo "OK"
+        ;;
+    reload|restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 start|stop|restart|reload"
+        exit 1
+esac
+exit 0
+</screen>
+<para><command>chkconfig <filename>oracle</filename></command> komutu ile çalışma seviyesi bilgisini güncelleyin.</para>
+<para>Herşeyin yolunda olup olmadığını denemek için <command>service <parameter>oracle start|stop|restart</parameter></command> komutunu çalıştırın.</para>
+<para>Eğer buraya kadar hatasız gelebilmişseniz: tebrikler.  Hatalarla karşılamışsanız <xref linkend="Oracle-9i-Fedora-3-Install-HOWTO-sect_09" /> bölümündeki önerilerden yararlanın.</para>
+</sect1>
+
+<sect1 id="Oracle-9i-Fedora-3-Install-HOWTO-sect_09"><title>Çeşitli Hatalar</title>
+<para>HATA:</para>
+<screen>
+ORA-01034: ORACLE not available
+ORA-27101: shared memory realm does not exist
+Linux Error: 2: No such file or directory 
+</screen>
+<para>Bu hata bilgisayarı yeniden başlatıp oturum açmaya çalıştığınızda oluşur. Veritabanı bağlanmadığında veya otomatik başlatılmadığında bir çok hata alırsınız.</para>
+<para>Çözüm:</para>
+<orderedlist>
+<listitem><para><filename>/etc/oratab</filename> dosyasında <option>*:/opt/oracle/OraHome1</option> ve <option>ordb:/opt/oracle/OraHome1</option> seçeneklerinin <quote>Y</quote> (YES) olarak atandığını kontrol edin.</para></listitem>
+<listitem><para>Veritabanını <command>$ORACLE_HOME/bin/dbstart</command> komutu ile ilklendirmeyi deneyin.</para></listitem>
+</orderedlist>
+
+<para>HATA:</para>
+<screen>
+No start entry for SID * at /opt/oracle/OraHome1 in /etc/oratab
+</screen>
+<para>Bu hata dbstart betiğinin sid dosyasını hatalı yerde aramasından kaynaklanabilir.</para>
+<para>Çözüm:</para>
+<orderedlist>
+<listitem><para><command>cp <filename>$ORACLE_BASE/admin/$ORACLE_SID/pfile/init_*.ora</filename></command> \</para>
+<para><filename>$ORACLE_HOME/dbs/init$ORACLE_SID.ora</filename></para>
+</listitem>
+<listitem><para><emphasis>oracle</emphasis> kullanıcısı olarak:</para>
+<screen>
+$ sqlplus
+SQL&gt; create pfile from spfile;
+SQL&gt; exit
+</screen>
+</listitem>
+<listitem><para><filename>dbstart</filename> betiğini çalıştırın: <command>$ORACLE_HOME/bin/dbstart</command>.</para></listitem>
+</orderedlist>
+</sect1>
+
+</article>

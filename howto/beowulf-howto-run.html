@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-07-22T11:01:57+03:00"><title>Program Çalıştırma</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/beowulf-howto.html" title="Beowulf NASIL"><link rel="previous" href="../howto/beowulf-howto-verify.html" title="Doğrulama"><link rel="next" href="../howto/ipv6-howto.html" title="Linux IPv6 NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Program Çalıştırma</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/beowulf-howto-verify.html">Önceki</a> </td><th width="60%" align="center">Beowulf NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="beowulf-howto-run"></a>Program Çalıştırma</h2></div></dt><dd><p>
+Yukarıda gösterilen denemeleri yaptıktan sonra, artık program çalıştırabiliyor olmalısınız. Şu andan sonraki komutlar LAM için özeldir.
+    </p><p>
+Ana düğüme geri dönün, wolf olarak oturum açın ve şu komutları verin:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">cat &gt; /nnt/wolf/lamhosts
+wolf01
+wolf02
+wolf03
+wolf04
+&lt;control d&gt;
+</pre> </td></tr></table></div>
+    </p><p>
+LAM örneklerinin bulunduğu dizinine gidin ve <tt>hello.c</tt> dosyasını derleyin:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mpicc -o hello hello.c
+cp hello /mnt/wolf
+</pre> </td></tr></table></div>
+    </p><p>
+Sonra, LAM kılavuzunda belirtildiği gibi LAM'i başlatın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">[wolf@wolf00 wolf]$ <b><tt>lamboot -v lamhosts</tt></b>
+LAM 7.0/MPI 2 C++/ROMIO - Indiana University
+n0&lt;2572&gt; ssi:boot:base:linear: booting n0 (wolf00)
+n0&lt;2572&gt; ssi:boot:base:linear: booting n1 (wolf01)
+n0&lt;2572&gt; ssi:boot:base:linear: booting n2 (wolf02)
+n0&lt;2572&gt; ssi:boot:base:linear: booting n3 (wolf04)
+n0&lt;2572&gt; ssi:boot:base:linear: finished
+</pre> </td></tr></table></div>
+    </p><p>
+Böylece, artık uygulama çalıştırmaya hazırız. (Unutmayın ben LAM kullanıyorum, siz başka bir yazılım kullanıyorsanız söz dizimi değişebilir.)
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">[wolf@wolf00 wolf]$ <b><tt>mpirun n0-3 /mnt/wolf/hello</tt></b>
+Merhaba dünya! I am 0 of 4
+Merhaba dünya! I am 3 of 4
+Merhaba dünya! I am 2 of 4
+Merhaba dünya! I am 1 of 4
+[wolf@wolf00 wolf]$
+</pre> </td></tr></table></div>
+    </p><p>
+Hatırlayın yukarıda NFS kullanımından bahsetmiştim. Bütün düğümlere paylaşımlı dizini kullanmalarını söylüyorum. Çalıştırılabilir dosyaları kolayca her bir düğüme kopyalayabilirsiniz ve <b><tt>mpirun</tt></b> komutlarıyla, düğüm yerel dizinlerini belirtebilirsiniz.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mpirun n0-3 /home/wolf/hello</pre> </td></tr></table></div>
+    </p><p>
+gibi. Bunun için ön şart bütün dosyaların yerel erişilebilir olmasıdır. Gerçekten bunu yaptım ve nfs, paylaşımlıçalıştırılabilir dosya kullanmaktan daha iyi çalıştı. Tabii ki, benim küme uygulamam, kümeleme yoluyla paylaşılmış dosyayı düzenleme ihtiyacı duyuyorsa bu teori çöker...
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/beowulf-howto-verify.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/beowulf-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Doğrulama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Linux IPv6 NASIL</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-05-23T11:35:36+03:00"><title>Macromedia Flash</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/fedora-multimedia-howto.html" title="Fedora Multimedia Kurulumu NASIL"><link rel="previous" href="../howto/fedora-multimedia-howto-security.html" title="Güvenlik noktaları ve diğer riskler"><link rel="next" href="../howto/fedora-multimedia-howto-gstreamer.html" title="gstreamer ve ffmpeg desteği"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Macromedia Flash</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/fedora-multimedia-howto-security.html">Önceki</a> </td><th width="60%" align="center">Fedora Multimedia Kurulumu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/fedora-multimedia-howto-gstreamer.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="fedora-multimedia-howto-flash"></a>Macromedia Flash</h2></div></dt><dd><p>
+Fedora, sayfasında dağıtımını yapamamaktadır, çünkü Macromedia lisansı buna izin vermemektedir. Fakat <a class="ulink" href="http://macromedia.mplug.org/" target="_top">http://macromedia.mplug.org/</a> adresindeki RPM'leri kullanmak için herhangi bir engel yoktur.
+</p><p>
+Aşağıdakileri takip ederek <tt>/etc/yum.repos.d/</tt> ayar dosyanıza Macromedia deposunu ekleyin. Yaklaşık şuna benzemelidir:
+</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+[macromedia]
+name=Macromedia for i386 Linux
+baseurl=http://macromedia.mplug.org/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=http://macromedia.mplug.org/FEDORA-GPG-KEY
+</pre> </td></tr></table></div>
+</p><p>Daha sonra yüklemeyi gerçekleştirin:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+yum install flash-plugin
+</pre> </td></tr></table></div>
+</p><p>
+Bu RPM'nin kurulması eklentiyi Firefox (aynı zaman da Mozilla) dizinlerine koymalıdır.
+.</p><p>
+<a class="ulink" href="http://www.macromedia.com/shockwave/welcome/" target="_top">Resmi test sayfasında</a> flash desteğinizi test edebilirsiniz. Eklentiyi yükledikten sonra tarayıcınızı yeniden başlatmanız gerektiğini unutmayın; ben yükler yüklemez test etmeye çalışmıştım ve Firefox hatalar vererek sonlanmıştı.
+</p><p>
+Özellikle dikkate alınması gereken bir nokta vardır: Macromedia eklentisi sadece 32-bit Intel makinelerde çalışmaktadır. 64-bit kipte çalışan x86_64'lerde sekteye uğramaktadır (genelde 32-bit'lik eklentiler 64-bit tarayıcılarda çalışmamaktadır). Şu anda bu sorunu çözen üç proje bulunmaktadır:
+</p><p>
+<div class="itemizedlist"><ul type="disc"><li>
+<a class="ulink" href="http://gplflash.sourceforge.net/" target="_top">gplflash1</a>, özgün hali ve GPL lisansıyla Flash eklentisidir. Sadece 4. seviyeye kadarki SWF'leri çalıştırabilmektedir.
+<p></p><p></p></li><li>
+<a class="ulink" href="http://gplflash.sourceforge.net/" target="_top">gplflash2</a>, ekran titremeleri ve sıklıkla tarayıcı çökmelerine sebep olmakla yarım çalışmaktadır.  gplflash'ın yeniden yazılan bu hali sinirleri germemek için bırakılmıştır.
+<p></p><p></p></li><li>
+<a class="ulink" href="http://www.gnu.org/software/gnash/" target="_top">gnash</a>, 7. seviyeye kadarki SWF'leri çalıştıracağının garantisini vermektedir. Fakat hala erken bir gelişim sürecindedir ve pek çok uyarıyı içermektedir.
+<p></p><p></p></li></ul></div>
+</p><p>
+Bence 64-bit sistemlerdeki geçici çözüm gplflash1'i derleyip kurmaktır. Fakat 21 Mart 2006 tarihi itibariyle bunu başarabilmiş değilim, henüz doğru RPM'sini bulamadığım bir X başlık dosyasına ihtiyaç duymaktadır. FC5 etrafındaki sis dağıldıktan sonra bu durum değişebilir.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/fedora-multimedia-howto-security.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/fedora-multimedia-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/fedora-multimedia-howto-gstreamer.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Güvenlik noktaları ve diğer riskler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> gstreamer ve ffmpeg desteği</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

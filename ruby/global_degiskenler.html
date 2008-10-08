@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Global Değişkenler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Değişkenler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ornek_degiskenler.html">
+ <img border=0 src="a2r.gif" alt="Örnek Değişkenler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Global Değişkenler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Global değişkenler isimlerinin başında birer <code>$</code> işareti bulundururlar. Global değişkenler programın herhangi bir yerinden başvurulabilirler. Başlangıç değeri atamadan önce <code>nil</code> değerine sahiptirler.
+
+ </p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> $foo</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> $foo = 5</b></font>
+<font color="#50ffff"><b>   5</b></font>
+ruby&gt;<font color="#ffff00"><b> $foo</b></font>
+<font color="#50ffff"><b>   5</b></font></font></pre></td></tr></table>
+<p>Global değişkenler kısıtlı kullanılmalıdırlar. Her yerden yazılabilindikleri için tehlikelidirler. Global değişkenlerin aşırı kullanılması yanlışları izole etmede zorluk çıkarabildiği gibi programın iyice düşünülmeden tasarlandığına dikkat çeker. Globaldeğişken kullanmayı uygun gördüğünüz zaman, onlara anlaşılabilir isimler verdiğinizden emin olun ( <code>$foo</code> gibi birşey çağırmak oldukça kötü bir fikir değil mi?).</p>
+<p>Global değişkenlerin güzel bir özelliği de izlenebilir olmalarıdır; bir değişkenin değeri ne zaman değişirse o zaman çağrılan bir prosedür belirleyebilirsiniz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> trace_var :$x, proc{print "$x is now ", $x, "\n"}</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> $x = 5</b></font>
+$x is now 5
+<font color="#50ffff"><b>   5</b></font></font></pre></td></tr></table>
+<p>Bir global değişken, değiştiği zaman bir prosedürü çalıştırmak için kullanılıyorsa, aktif değişken olarak da anılır.</p>
+<p>Aşağıda <code>$</code> işaretini takiben tek bir karakter daha içeren bir dizi özel değişken bulunuyor. Örneğin <code>$$</code> Ruby yorumcusunun süreç numarasını (<em>process id</em>) içerir ve sadece okunabilirdir. Aşağıda önemli sistem değişkenleri ve anlamları bulunuyor: (ayrıntılar için <a href="http://www.ruby-lang.org/en/man-1.4/">Ruby Referans Kılavuzu</a>'na bakın):
+
+</p>
+<p><table border="1"><tr><td><code>$!</code> </td><td>  son hata mesajı </td></tr>
+<tr><td>
+<code>$@</code> </td><td>  	 hatanın konumu </td></tr>
+<tr><td>
+<code>$_</code> </td><td> <code>gets</code> tarafından okunan son dizgi </td></tr>
+<tr><td>
+<code>$.</code> </td><td> yorumlayıcı tarafından son okunan satır numarası</td></tr>
+<tr><td>
+<code>$&amp;</code> </td><td> düzenli ifadeler tarafından son bulunan dizgi</td></tr>
+<tr><td>
+<code>$~</code> </td><td>  alt ifadeler (subexpression) dizisi olarak düzenli ifadeler tarafından bulunan son ifade </td></tr>
+<tr><td>
+<code>$</code><em>n</em> </td><td>  son bulunan <code>n</code>'inci alt ifade (<code>$~[n]</code> ile aynı) </td></tr>
+<tr><td>
+<code>$=</code> </td><td>  büyük- küçük harfe duyarsız bayrak </td></tr>
+<tr><td>
+<code>$/</code> </td><td>  girdi kayıdı ayırıcısı (input record separator)</td></tr>
+<tr><td>
+<code>$\</code> </td><td>  çıktı kayıdı ayırıcısı (output record separator) </td></tr>
+<tr><td>
+<code>$0</code> </td><td>  ruby betik dosyasının adı </td></tr>
+<tr><td>
+<code>$*</code> </td><td>  komut satırı argümanları</td></tr>
+<tr><td>
+<code>$$</code> </td><td>  yorumcunun süreç ID'si </td></tr>
+<tr><td>
+<code>$?</code> </td><td>  son işletilen çocuk sürecin çıkış durumu</td></tr></table>
+<p><code>$_</code> ve<code> $~</code> yerel kapsama sahiptir. Her ne kadar isimleri gereği global değişkenler olmaları gerekiyorsa da böyle daha kullanışlıdırlar.</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="Değişkenler.html">
+ <img border=0 src="a2l.gif" alt="Değişkenler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="instancevars.html">
+ <img border=0 src="a2r.gif" alt="Örnek Değişkenler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

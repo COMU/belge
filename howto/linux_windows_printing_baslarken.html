@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-04-08T01:15:36Z"><title>Başlarken</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux_windows_printing.html" title="Debian ve Windows Paylaşımlı Yazdırma Nasıl"><link rel="previous" href="../howto/linux_windows_printing_intro.html" title="Giriş"><link rel="next" href="../howto/linux_windows_printing_windowsa-yazdirma.html" title="Windows Makinalara Yazdırma"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Başlarken</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux_windows_printing_intro.html">Önceki</a> </td><th width="60%" align="center">Debian ve Windows Paylaşımlı Yazdırma Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux_windows_printing_windowsa-yazdirma.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux_windows_printing_baslarken"></a>Başlarken</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_linux-yazici-bilesenleri"></a>Linux Yazıcı Bileşenleri</h3></div></dt><dd><p>
+Kullanacağımız temel bileşenler şunları içerir:
+    </p><p><div class="variablelist"><dl><dt><span class="term">CUPS</span></dt><dd>
+Ortak Unix Yazıcı Sistemi (The Common Unix Printig System) (<a href="http://www.cups.org/" target="_top">http://www.cups.org/</a>) bir yazıcı kuyruğu oluşturucu (spooler) ve yazıcıları kullanmak ve yönetmek için bir uygulama kümesidir.
+      <p></p><p></p></dd><dt><span class="term">SAMBA</span></dt><dd>
+Samba (<a href="http://www.samba.org/" target="_top">http://www.samba.org/</a>) Windows olmayan makinaların bir ağda, Windows'un dosya ve yazıcı paylaşım protokollerini uygulayarak, Windows makinaymış gibi davranmasını sağlar.
+      <p></p><p></p></dd><dt><span class="term">Yazıcı Sürücüleri</span></dt><dd>
+LinuxPrinting.org (<a href="http://www.linuxprinting.org/" target="_top">http://www.linuxprinting.org/</a>) en geniş sayıda yazıcı sürücüsü sunmakta ve Linux altında desteklenen yazıcıların veritabanını tutmaktadır. Linux altında kullanmak istediğiniz her model yazıcı için sürücüsünü indirmelisiniz. Bir yazıcı sürücüsü bir PPD dosyası ve filtre uygulaması veya PostScript yazıcılar için sadece PPD dosyasından oluşur.
+      <p></p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_gerekli-paketler"></a>Gerekli Paketler</h3></div></dt><dd><p>
+Bütün gerekli uygulamalar ve paketler standart Debian arşivinin bir parçasıdır. Bu paketleri standart Debian paket araçları kullanarak indirip yükleyebilirsiniz. Aşağıda ihtiyacınız olacak paketlerin bir listesi vardır:
+    </p><p><div class="variablelist"><dl><dt><span class="term">cupsys</span></dt><dd>
+CUPS sunucu
+      <p></p><p></p></dd><dt><span class="term">cupsys-bsd</span></dt><dd>
+CUPS BSD komutları
+      <p></p><p></p></dd><dt><span class="term">cupsys-client</span></dt><dd>
+CUPS istemci uygulaması
+      <p></p><p></p></dd><dt><span class="term">foomatic-bin</span></dt><dd>
+LinuxPrinting.org yazıcı destek uygulamaları
+      <p></p><p></p></dd><dt><span class="term">samba</span></dt><dd>
+Unix için Samba SMB/CIFS sunucu
+      <p></p><p></p></dd><dt><span class="term">smbclient</span></dt><dd>
+Unix için Samba SMB/CIFS istemci
+      <p></p><p></p></dd><dt><span class="term">gs-esp</span></dt><dd>
+ESP Ghostscript (<a href="http://www.cups.org/ghostscript.php" target="_top">http://www.cups.org/ghostscript.php</a>)
+      <p></p><p>
+Debian GNU/Linux Sarge paketi olarak mevcut değildir, yerine <tt>gs</tt> kullanın
+      </p><p></p></dd><dt><span class="term">a2ps</span></dt><dd>
+GNU A2PS (<a href="http://www.gnu.org/software/a2ps/" target="_top">http://www.gnu.org/software/a2ps/</a>)
+      <p></p><p></p></dd></dl></div>
+    </p><p>
+Aşağıdaki komutlar bu paketleri yükleyecektir. Bu komutları çalıştırabilmeniz için root olmanız veya <b><tt>sudo</tt></b> komutunu kullanmanız gerekmektedir:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">apt-get update
+apt-get install cupsys cupsys-bsd cupsys-client foomatic-bin samba smbclient gs-esp a2ps
+</pre> </td></tr></table></div>
+    </p><p>
+Bazı özel yazıcılar için ek paketler gerekli olabilir. Örneğin, <tt>hpijs</tt> paketi pekçok HP InkJet, DeskJet ve LaserJet yazıcıyı düzgün şekilde çalıştırabilmek için yüklenmelidir. Bu yazıcılar için gerekli olan PPD dosyaları dosya adlarındaki <tt>hpijs</tt> ifadesi ile ayırt edilebilir.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_CUPS-yap%C4%B1land%C4%B1rma"></a>CUPS Yerel Yazıcı Yapılandırma</h3></div></dt><dd><p>
+<b><tt>lpadmin</tt></b> komutu yazıcıları yapılandırmak için kullanılır. Aşağıda CUPS ile bir Laser yazıcının yapılandırılma örneği vardır. Bu komutları çalıştırabilmeniz için root olmanız veya <b><tt>sudo</tt></b> komutunu kullanmanız gerekmektedir:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">/usr/sbin/lpadmin -p Laser -v parallel:/dev/lp0 -P /root/laser.ppd
+/usr/bin/enable Laser
+/usr/sbin/accept Laser
+/usr/sbin/lpadmin -d Laser
+</pre> </td></tr></table></div>
+    </p><p>
+Bash kabuğunun <b><tt>enable</tt></b> şeklinde çağrılan yerleşik bir komutu olduğunu unutmayın, bunun için Bash kabuğu kullanıcıları yazıcıları etkin hale getirmek için komutun tam yolunu vermelidir (<tt>/usr/bin/enable</tt>).
+    </p><p>
+İlk komut <tt>Laser</tt> isimli ilk paralel porta bağlı ve PPD dosyası olarak <tt>/root/laser.ppd</tt> dosyasını kullanan bir yeni yazıcı oluşturur. Daha sonra <b><tt>enable</tt></b> ve <b><tt>accept</tt></b> komutları ile <tt>Laser</tt>'in etkin olması ve kendisine gönderilen işleri kabul etmesi sağlanır.
+    </p><p>
+Eğer yazıcınız USB portuna bağlıysa veya yazıcınız için doğru aygıt belirleyicisini bilmiyorsanız, varolan yazıcı aygıtlarının listesini görmek için <b><tt>/usr/sbin/lpinfo -v</tt></b> komutunu deneyin.
+    </p><p>
+<b><tt>/usr/bin/lpoptions -l</tt></b> komutunu çalıştırarak yazıcınızın sayfa boyu ve diğer özelliklerinin doğru olup olmadığından emin olun. Yazıcı yapılandırmaları ilgili daha ayrıntılı bilgi CUPS belgesinde bulunmaktadır.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux_windows_printing_temel"></a>Linux'ta Temel Yazdırma İşlemleri</h3></div></dt><dd><p>
+Belgelerin ya  <b><tt>lpr</tt></b> veya <b><tt>lp</tt></b> komutuna dosya adları ile belirtilerek yazıcı kuyruğunda bekletilmesi sağlanır. Yazıcı kuyruğunu ve yazıcının durumunu <b><tt>lpstat -o</tt></b> veya <b><tt>lpstat -p</tt></b> komutu ile görebilirsiniz. Bir yazma işini iptal etmek için <b><tt>cancel</tt></b> veya <b><tt>lprm</tt></b> komutunda yazdırma iş numarasını kullanın.
+  </p><p>
+CUPS, yazıcı kuyruğunda bekletme artalan süreci <i>cupsd</i> olarak isimlendirilir. Önce belgeleri PostScript biçimine daha sonra da yazıcının anlayabileceği bir biçime çevirir. PostScript biçimini algılayamayan yazıcılar, belgeler için, ızgaralanmış (rasterized) veya biteşlem (bitmap) biçimini kullanır. Izgaralanmış belgelerin boyu PostScript halinden daha büyük olabilir ve bu da yazıcıya gönderilme zamanını arttırır.
+  </p><p>
+Filtreler, belgeleri bir biçimden diğerine dönüştürmek için kullanılan araçlardır. CUPS bekleticisi gönderdiğinizi belgeye uygun bir filtre bulmak için elinden gelenin en iyisini yapacaktır. Eğer belgenizi dönüştürmek için herhangi bir filtre yüklü değilse, <tt>lpr:unable to print file: client-error-document-format-not-supported.</tt>'e benzer bir hata alırsınız.
+  </p><p>
+Pek çok uygulama kendi belge biçimleri için filtreler içermez. Bu uygulamalar ile oluşturulan belgeler, yalnızca uygulamanın içerisinden yazdırılabilir, aksi halde belgenin PostScript biçimine veya başka bir biçime dönüştürülmesi gerekir.
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux_windows_printing_intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux_windows_printing.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux_windows_printing_windowsa-yazdirma.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Windows Makinalara Yazdırma</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

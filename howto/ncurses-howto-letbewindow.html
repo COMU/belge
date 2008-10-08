@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:20+03:00"><title>Bana bir Pencere göster !!!</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-windows.html" title="Pencereler"><link rel="previous" href="../howto/ncurses-howto-windowbasics.html" title="Temel bilgiler"><link rel="next" href="../howto/ncurses-howto-borderexexpl.html" title="Örneğin açıklaması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Bana bir Pencere göster !!!</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-windowbasics.html">Önceki</a> </td><th width="60%" align="center">Pencereler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-borderexexpl.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-letbewindow"></a>Bana bir Pencere göster !!!</h3></div></dt><dd><p>
+Eğer bir pencere oluşturuldu ve biz de göremiyorsak bu komik bir durumdur. Eğlenceli kısım pencereyi göstermekle başlar. <b><tt>box()</tt></b> işlevi pencere etrafına bir çerçeve çizmek için kullanılır. Bu işlevleri aşağıdaki örnekte daha ayrıntılı inceleyelim.
+</p><div class="example"><p><a name="ncurses-howto-bwibo"></a><b>Örnek 5.12. Pencere Çerçevesi örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;
+
+WINDOW *create_newwin(int height, int width, int starty, int startx);
+void destroy_win(WINDOW *local_win);
+
+int main(int argc, char *argv[])
+{ WINDOW *my_win;
+  int startx, starty, width, height;
+  int ch;
+
+  initscr();                      /* Curses kipini ilklendirme    */
+  cbreak();                       /* Satır önbelleği etkisiz,     *
+                                   * herşeyi bana gönder          */
+  keypad(stdscr, TRUE);           /* Şu şeker F1'e ihtiyacım var  */
+
+  height = 3;
+  width = 10;
+  starty = (LINES - height) / 2;  /* Pencerenin ortasına yazmak için */
+  startx = (COLS - width) / 2;    /* hesaplama yapılıyor             */
+  printw("Press F1 to exit");
+  refresh();
+  my_win = create_newwin(height, width, starty, startx);
+
+  while((ch = getch()) != KEY_F(1))
+  { switch(ch)
+    { case KEY_LEFT:
+        destroy_win(my_win);
+        my_win = create_newwin(height, width, starty,--startx);
+        break;
+      case KEY_RIGHT:
+        destroy_win(my_win);
+        my_win = create_newwin(height, width, starty,++startx);
+        break;
+      case KEY_UP:
+        destroy_win(my_win);
+        my_win = create_newwin(height, width, --starty,startx);
+        break;
+      case KEY_DOWN:
+        destroy_win(my_win);
+        my_win = create_newwin(height, width, ++starty,startx);
+        break;
+    }
+  }
+
+  endwin();                       /* Curses kipi sonu */
+  return 0;
+}
+
+WINDOW *create_newwin(int height, int width, int starty, int startx)
+{ WINDOW *local_win;
+
+  local_win = newwin(height, width, starty, startx);
+  box(local_win, 0 , 0);          /* 0, 0 yatay ve düşey çizgiler    *
+                                   * için öntanımlı karakteri verir  */
+  wrefresh(local_win);            /* Kutuyu gösterir                 */
+
+  return local_win;
+}
+
+void destroy_win(WINDOW *local_win)
+{
+  /* box(local_win, ' ', ' '); : Bu istenen pencere silme sonucunu
+    * vermeyecektir. Pencerenin dört köşesi ve
+    * çirkin küçük bir kısmı kalacaktır.
+    */
+  wborder(local_win, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+  /* Alınan parametreler şu şekildedir
+    * 1. win: üzerinde çalışılacak pencere
+    * 2. ls: pencerenin sol kenarı için kullanılacak karakter
+    * 3. rs: pencerenin sağ kenarı için kullanılacak karakter
+    * 4. ts: pencerenin üst kenarı için kullanılacak karakter
+    * 5. bs: pencerenin alt kenarı için kullanılacak karakter
+    * 6. tl: pencerenin sol üst köşesi için kullanılacak karakter
+    * 7. tr: pencerenin sağ üst köşesi için kullanılacak karakter
+    * 8. bl: pencerenin sol alt köşesi için kullanılacak karakter
+    * 9. br: pencerenin sağ alt köşesi için kullanılacak karakter
+    */
+  wrefresh(local_win);
+  delwin(local_win);
+}
+</pre> </td></tr></table></div></p></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-windowbasics.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-windows.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-borderexexpl.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Temel bilgiler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Örneğin açıklaması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

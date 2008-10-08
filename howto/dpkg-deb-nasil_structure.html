@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:45:39+03:00"><title>Paket Yapısı</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/dpkg-deb-nasil.html" title="Debian İkilik Paketlerini Oluşturma Nasıl"><link rel="previous" href="../howto/dpkg-deb-nasil_baslarken.html" title="Başlarken"><link rel="next" href="../howto/dpkg-deb-nasil_uygulama.html" title="Uygulama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Paket Yapısı</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/dpkg-deb-nasil_baslarken.html">Önceki</a> </td><th width="60%" align="center">Debian İkilik Paketlerini Oluşturma Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/dpkg-deb-nasil_uygulama.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="dpkg-deb-nasil_structure"></a>Paket Yapısı</h2></div></dt><dd><p>
+Örnek bir paketi daha yakından inceleyelim. Örnek olarak <tt>parted_1.4.24-4_i386.deb</tt> dosyası şu üç dosyayı içerir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>ar tv parted_1.4.24-4_i386.deb</tt></b>
+rw-r--r-- 0/0      4 Mar 28 13:46 2002 debian-binary
+rw-r--r-- 0/0   1386 Mar 28 13:46 2002 control.tar.gz
+rw-r--r-- 0/0  39772 Mar 28 13:46 2002 data.tar.gz
+</pre> </td></tr></table></div>
+  </p><p>
+Şimdi tar dosyalarının içindekiler ile birlikte tüm dosyaları açmaya başlayabiliriz.
+  </p><p><div class="variablelist"><dl><dt><span class="term"><tt>debian-binary</tt></span></dt><dd>
+Bu dosyanın içeriği <tt>2.0\n</tt>'dır. Bu, <tt>.deb</tt> dosya biçiminin sürümünü belirtir. 2.0 dışında diğer tüm satırlar yoksayılır.
+  <p></p><p></p></dd><dt><span class="term"><tt>data.tar.gz</tt></span></dt><dd>
+<tt>data.tar.gz</tt> dosyası hedef yolları ile birlikte yüklenecek tüm dosyaları içerir.
+    <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">drwxr-xr-x root/root         0 2002-03-28 13:44:57 ./
+drwxr-xr-x root/root         0 2002-03-28 13:44:49 ./sbin/
+-rwxr-xr-x root/root     31656 2002-03-28 13:44:49 ./sbin/parted
+drwxr-xr-x root/root         0 2002-03-28 13:44:38 ./usr/
+drwxr-xr-x root/root         0 2002-03-28 13:44:41 ./usr/share/
+drwxr-xr-x root/root         0 2002-03-28 13:44:38 ./usr/share/man/
+drwxr-xr-x root/root         0 2002-03-28 13:44:52 ./usr/share/man/man8/
+-rw-r--r-- root/root      1608 2002-03-28 13:44:37 ./usr/share/man/man8/parted.8.gz
+drwxr-xr-x root/root         0 2002-03-28 13:44:41 ./usr/share/doc/
+drwxr-xr-x root/root         0 2002-03-28 13:44:52 ./usr/share/doc/parted/
+-rw-r--r-- root/root      1880 2002-03-07 14:20:08 ./usr/share/doc/parted/README.Debian
+-rw-r--r-- root/root      1347 2002-02-27 01:40:50 ./usr/share/doc/parted/copyright
+-rw-r--r-- root/root      6444 2002-03-28 13:37:33 ./usr/share/doc/parted/changelog.Debian.gz
+-rw-r--r-- root/root     15523 2002-03-28 02:36:43 ./usr/share/doc/parted/changelog.gz
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>.deb</tt> arşivinde olması gereken son dosyadır.
+    </p><p></p></dd><dt><span class="term"><tt>control.tar.gz</tt></span></dt><dd>
+Bizim örneğimizde bu dosya aşağıdakileri içermektedir:
+    <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">-rw-r--r--    1 root     root         1336 Mar 28  2002 control
+-rw-r--r--    1 root     root          388 Mar 28  2002 md5sums
+-rwxr-xr-x    1 root     root          253 Mar 28  2002 postinst
+-rwxr-xr-x    1 root     root          194 Mar 28  2002 prerm
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>md5sums</tt>, <tt>data.tar.gz</tt> içerisindeki her dosya için bir sağlama özeti içerir. Bizim örneğimizde bu şöyle gözükür:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">1d15dcfb6bb23751f76a2b7b844d3c57  sbin/parted
+4eb9cc2e192f1b997cf13ff0b921af74  usr/share/man/man8/parted.8.gz
+2f356768104a09092e26a6abb012c95e  usr/share/doc/parted/README.Debian
+a6259bd193f8f150c171c88df2158e3e  usr/share/doc/parted/copyright
+7f8078127a689d647586420184fc3953  usr/share/doc/parted/changelog.Debian.gz
+98f217a3bf8a7407d66fd6ac8c5589b7  usr/share/doc/parted/changelog.gz
+</pre> </td></tr></table></div>
+    </p><p>
+Endişe etmeyin, <tt>postinst</tt> ve <tt>prerm</tt> dosyaları yanında <tt>md5sum</tt> dosyası ilk paketiniz için zorunlu değildir. Fakat bunların olduğunu gözden kaçırmayın, her resmi Debian paketi faydalı sebeplerden dolayı  bunlara sahiptir.
+    </p><p>
+<tt>prerm</tt> ve <tt>postinst</tt> eski belgeleme dosyalarını kaldırmakla ve <tt>doc</tt>'tan <tt>share/doc</tt>'a bir sembolik bağ eklemekle ilgili gözükmektedir.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>cat postinst</tt></b>
+#!/bin/sh
+set -e
+# Automatically added by dh_installdocs
+if [ "$1" = "configure" ]; then
+  if [ -d /usr/doc -a ! -e /usr/doc/parted -a -d /usr/share/doc/parted ]; then
+      ln -sf ../share/doc/parted /usr/doc/parted
+  fi
+fi
+# End automatically added section
+
+<tt>$ </tt><b><tt>cat prerm</tt></b>
+#!/bin/sh
+set -e
+# Automatically added by dh_installdocs
+if [ \( "$1" = "upgrade" -o "$1" = "remove" \) -a -L /usr/doc/parted ]; then
+        rm -f /usr/doc/parted
+fi
+# End automatically added section
+</pre> </td></tr></table></div>
+    </p><p>
+Ve son olarak en ilginç dosya:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>cat control</tt></b>
+Package: parted
+Version: 1.4.24-4
+Section: admin
+Priority: optional
+Architecture: i386
+Depends: e2fsprogs (&gt;= 1.27-2), libc6 (&gt;= 2.2.4-4), libncurses5 (&gt;= \
+5.2.20020112a-1), libparted1.4 (&gt;= 1.4.13+14pre1), libreadline4 (&gt;= \
+4.2a-4), libuuid1
+Suggests: parted-doc
+Conflicts: fsresize
+Replaces: fsresize
+Installed-Size: 76
+Maintainer: Timshel Knoll &lt;timshel@debian.org&gt;
+Description: The GNU Parted disk partition resizing program
+GNU Parted is a program that allows you to create, destroy,
+resize, move and copy hard disk partitions. This is useful
+for creating space for new operating systems, reorganizing
+disk usage, and copying data to new hard disks.
+
+This package contains the Parted binary and manual page.
+
+Parted currently supports DOS, Mac, Sun, BSD, GPT and PC98
+disklabels/partition tables, as well as a 'loop' (raw disk)
+type which allows use on RAID/LVM. Filesystems supported are
+ext2, ext3, FAT (FAT16 and FAT32) and linux-swap. Parted can
+also detect HFS (Mac OS), JFS, NTFS, ReiserFS, UFS and XFS
+filesystems, but cannot create/remove/resize/check these
+filesystems yet.
+
+The nature of this software means that any bugs could cause
+massive data loss. While there are no known bugs at the moment,
+they could exist, so please back up all important files before
+running it, and do so at your own risk.
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>control</tt> isimli dosya ile  ilgili ek bilgi <b><tt>man 5 deb-control</tt></b> ile elde edilebilir.
+    </p><p></p></dd></dl></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/dpkg-deb-nasil_baslarken.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/dpkg-deb-nasil.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/dpkg-deb-nasil_uygulama.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Başlarken </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Uygulama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

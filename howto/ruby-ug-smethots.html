@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Tekil Yöntemler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-accesscontrol.html" title="Erişim Denetimi"><link rel="next" href="../howto/ruby-ug-modules.html" title="Modüller"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Tekil Yöntemler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-accesscontrol.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-modules.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-smethots"></a>Tekil Yöntemler</h2></div></dt><dd><p>
+Bir örneğin davranışı ait olduğu sınıf tarafından belirlenir. Ancak bazen belirli bir örneğin özel bir davranışı olmasını isteyebiliriz. Çoğu yazılım geliştirme dilinde, sadece bir kere kullanacağımız bir sınıf tanımlamak gibi karmaşık bir yol seçebiliriz. Ruby'de her nesneye kendine ait yöntemler verebiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> class TekilDeneme</tt>
+    | <tt class="empinput">   def boyut</tt>
+    | <tt class="empinput">     print "25\n"</tt>
+    | <tt class="empinput">   end</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> dnm1 = TekilDeneme.new</tt>
+   <tt class="empoutput">#&lt;TekilDeneme:0xbc468&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> dnm2 = TekilDeneme.new</tt>
+   <tt class="empoutput">#&lt;TekilDeneme:0xbae20&gt;</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> def dnm2.size</tt>
+    | <tt class="empinput">   print "10\n"</tt>
+    | <tt class="empinput"> end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> dnm1.boyut</tt>
+   <tt class="empoutput">25</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> dnm2.boyut</tt>
+   <tt class="empoutput">10</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Yukarıdaki örnekte, <b><tt>dnm1</tt></b> ve <b><tt>dnm2</tt></b> aynı sınıfa mensup olmalarına rağmen, <b><tt>dnm2</tt></b>'nin <b><tt>boyut</tt></b> yöntemi yeniden tanımlandığı için farklı davranır. Sadece tekil bir nesneye verilen yönteme <tt>tekil yöntem</tt> (<i>singleton method</i>) denir.
+  </p><p>
+Tekil yöntemler genelde grafik arayüzü elemanlarında (GUI) değişik düğmelerin değişik
+eylemler yapması gerektiğinde kullanılır.
+  </p><p>
+Tekil yöntemler CLOS, Dylan vb. yazılım geliştirme dillerinde olduğu üzere Ruby'ye özgü değildir. Self ve NewtonScript gibi bazı diller ise sadece tekil yöntemlerden oluşmuştur. Bu tür diller <tt>prototip tabanlı</tt> diller olarak anılırlar.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-accesscontrol.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-modules.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Erişim Denetimi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Modüller</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

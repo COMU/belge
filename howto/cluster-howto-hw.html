@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-07-22T11:00:23+03:00"><title>Donanım</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/cluster-howto.html" title="Linux Kümeleme NASIL"><link rel="previous" href="../howto/cluster-howto-intro.html" title="Giriş"><link rel="next" href="../howto/cluster-howto-sw.html" title="Yazılım"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Donanım</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/cluster-howto-intro.html">Önceki</a> </td><th width="60%" align="center">Linux Kümeleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/cluster-howto-sw.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="cluster-howto-hw"></a>Donanım</h2></div></dt><dd><p>
+Bu bölüm benim yaptığım donanım seçimlerinden oluşur. <a href="../howto/cluster-howto-setup.html#cluster-howto-known_hardware_issues" title="Bilinen Donanım Sorunları"> Bilinen Donanım Sorunları</a> bölümünde özellikle bahsedilmemiş her şeyin iyi çalıştığını varsayıyoruz.
+  </p><p>
+Her bölüm için satın alınması gereken donanımlar önce listelenmiştir.
+  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Düğüm Donanımı</h3></div></dt><dd><p>
+  <div class="orderedlist"><ol type="1"><li><div class="listitem">
+32 makine aşağıdaki özelliklere sahip olacak:
+  <p></p><p>
+<div class="itemizedlist"><ul type="disc"><li> 2 XEON 2.66GHZ 533FSB işlemci</li><li> Supermicro 6013A-T 1u kasa ve anakart</li><li> 2 512MB PC2100 DDR REG ECC RAM bellek</li><li> 1 80GB SEA 7200 SATA sabit disk</li><li> 1 250GB SEA 7200 SATA sabit disk</li></ul></div>
+</p><p></p></div></li><li><div class="listitem">
+32 makine aşağıdaki özelliklere sahip olacak:
+<p></p><p>
+<div class="itemizedlist"><ul type="disc"><li> 2 XEON 2.4GHZ 533FSB işlemci</li><li> Supermicro X5DPR-1G2 anakart</li><li> 2 512MB PC2100 DDR REG ECC RAM bellek</li><li> 1 40GB SEA 7200 sabit disk</li><li> 1 120GB SEA 7200 sabit disk</li><li> Supermicro Slim 24X CDROM sürücü</li><li> CSE-812 400 C/B 1U kasa</li></ul></div>
+</p><p></p></div></li><li><div class="listitem">
+32 makine aşağıdaki özelliklere sahip olacak:
+<p></p><p>
+<div class="itemizedlist"><ul type="disc"><li> 2 AMD Palamino MP XP 2000+ 1.67 GHz işlemci</li><li> Asus A7M266-D w/LAN Dual DDR anakart</li><li> 2 Kingston 512mb PC2100 DDR-266MHz REG ECC RAM bellek</li><li> 1 41 GB Maxtor 7200rpm ATA100 sabit disk </li><li> 1 120 GB Maxtor 5400rpm ATA100 sabit disk </li><li> Asus CD-A520 52x CDROM sürücü</li><li> 1.44mb disket sürücü </li><li> ATI Expert 2000 Rage 128 32mb ekran kartı</li><li> IN-WIN P4 300ATX Mid Tower kasa</li><li> Enermax P4-430ATX güç kaynağı</li></ul></div>
+</p><p></p></div></li><li><div class="listitem">
+32 makine aşağıdaki özelliklere sahip olacak:
+<p></p><p>
+<div class="itemizedlist"><ul type="disc"><li> 2 AMD Palamino MP XP 1800+ 1.53 GHz işlemci </li><li> Tyan S2460 Dual Socket-A/MP anakart </li><li> Kingston 512mb PC2100 DDR-266MHz REG ECC RAM bellek</li><li> 1 20 GB Maxtor UDMA/100 7200rpm sabit disk </li><li> 1 120 GB Maxtor 5400rpm ATA100 sabit disk </li><li> Asus CD-A520 52x CDROM sürücü</li><li> 1.44mb disket sürücü </li><li> ATI Expert 98 8mb AGP ekran kartı </li><li> IN-WIN P4 300ATX Mid Tower kasa </li><li> Intel PCI PRO-100 10/100Mbps ağ kartı </li><li> Enermax P4-430ATX güç kaynağı</li></ul></div>
+</p><p></p></div></li><li><div class="listitem">
+32 makine aşağıdaki özelliklere sahip olacak:
+<p></p><p>
+<div class="itemizedlist"><ul type="disc"><li> 2 Pentium III 1 GHz Intel işlemci </li><li> Supermicro 370 DLE Dual PIII-FCPGA anakart </li><li> 2 256 MB 168-pin PC133 Registered ECC Micron RAM bellek</li><li> 1 20 GB Maxtor ATA/66 5400 RPM sabit disk </li><li> 1 40 GB Maxtor UDMA/100 7200 RPM sabit disk </li><li> Asus CD-S500 50x CDROM sürücü</li><li> 1.4 MB disket sürücü </li><li> ATI Expert 98 8 MB PCI ekran kartı </li><li> IN-WIN P4 300ATX Mid Tower kasa</li></ul></div>
+</p><p></p></div></li></ol></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Sunucu Donanımı</h3></div></dt><dd><p>
+Harici kullanım için iki sunucunun özellikleri:
+</p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+<div class="itemizedlist"><ul type="disc"><li> 2 AMD Opteron 240 1.4 GHz işlemci </li><li> RIOWORKS HDAMB DUAL OPTERON anakart </li><li> 4 KINGSTON 512MB PC3200 REG ECC RAM bellek </li><li> 80GB MAX 7200 UDMA 133 sabit disk </li><li> 6 200GB WD 7200 8MB sabit disk </li><li> ASUS 52X CD-A520 CDROM sürücü</li><li> 1.44mb disket sürücü</li><li> Antec 4U22ATX550EPS 4u kasa </li></ul></div>
+<p></p><p></p></div></li><li><div class="listitem">
+<div class="itemizedlist"><ul type="disc"><li> 2 AMD Palamino MP XP 2000+ 1.67 GHz işlemci </li><li> Asus A7M266-D w/LAN Dual DDR bellek</li><li> 4 Kingston 512mb PC2100 DDR-266MHz REG ECC RAM bellek</li><li> Asus CD-A520 52x CDROM sürücü</li><li> 1 41 GB Maxtor 7200rpm ATA100 sabit disk </li><li> 6 120 GB Maxtor 5400rpm ATA100 sabit disk </li><li> 1.44mb disket sürücü </li><li> ATI Expert 2000 Rage 128 32mb ekran kartı</li><li> IN-WIN P4 300ATX mid tower kasa </li><li> Enermax P4-430ATX güç kaynağı </li></ul></div>
+<p></p><p></p></div></li></ol></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Masaüstü ve Terminal Donanımı</h3></div></dt><dd><p>
+Kümemizin en azından 2 tip kullanıcısını tanımladık:
+Kümeleme ile birlikte veri işlemeyi hızlandırmak için devamlı bir yerel işleme gücüne ve disk alanına
+ihtiyaç duyanlar ve sadece kümeleme işlem gücüne ihtiyaç duyanlar. Baştaki için, daha çok yüksek performanslı "masaüstüler" uygundur, sonraki için aptal "terminaller" uygundur.
+</p><p>
+Masaüstü bilgisayarlar; onların yerel işlem gücünde sürekliliğine ve işlem hızını artırmak için küme ile disk alanlarının birleştirilmeye ihtiyacı vardır. Yüksek performanslı olmaları gerekmektedir. Masaüstü bilgisayarlarımız genellikle, son teknolojiye sahip 1.6 GHZ Opteron işlemcili, 10 GB kadar belleği olan, 1 TB'tan fazla yerel diski bulunan ikili veya dörtlü işlemcili makinelerdir. Terminallerimiz kullanıcının hesabına girebildiği, uygulamalarını çalıştırabildiği makinelerdir. Kullanıcılar dizüstü bilgisayarlarını, aptal terminaller gibi de kullanabilirler.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>Çevresel Donanımlar</h3></div></dt><dd><p>
+Biz genellikle Viewsonic monitörleri tercih ediyoruz. Microsoft Intellimouse ve
+Microsoft Natural klavye birlikte uyum içinde çalışmaktadır.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Bütün Donanımları Bir Araya Getirme</h3></div></dt><dd><p>
+Düğümlere görsel erişim için; önceleri KVM anahtar ve ucuz bir monitör ile
+bütün makinelere bağlanıp bakabiliyorduk. Bu hoş bir çözüm olmasına rağmen
+ölçeklenemiyordu. Şu anda küçük bir monitörü kablolarıyla birlikte gerektiği yere
+taşıyoruz. İhtiyacımız olduğunda küçük el monitörünü PC'lerin arkasına takıp
+sökebiliyoruz.
+</p><p>
+Network için genellikle Netgear ve Cisco anahtarlarını kullanıyoruz.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id6"></a>Fiyat</h3></div></dt><dd><p>
+Satıcımız Hard Drives Northwest'tir (<a href="http://www.hdnw.com" target="_top">http://www.hdnw.com</a>). Kümemizde ki, 2 işlemci
+içeren her bir düğüm için vergileriyle birlikte 1500-2000$ ödedik. Genel olarak
+hedefimiz her bir işlemcinin fiyatını 1000$'ın altında tutmaktır.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/cluster-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/cluster-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/cluster-howto-sw.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yazılım</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

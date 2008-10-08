@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:03+03:00"><title>Hata İşleme: rescue deyimi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-constants.html" title="Sınıf Sabitleri"><link rel="next" href="../howto/ruby-ug-ensure.html" title="Hata İşleme: ensure deyimi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Hata İşleme: rescue deyimi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-constants.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-ensure.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-rescue"></a>Hata İşleme: <tt>rescue</tt> deyimi</h2></div></dt><dd><p>
+Çalıştırılan bir yazılım beklenmeyen sorunlar doğurabilir. Okunmaya çalışılan bir dosya mevcut olmayabilir ya da veri kaydetmemek istediğimiz disk dolu olabilir yada kullanıcı beklenmeyen bir girdi yapabilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> file = open("bir_dosya")</tt>
+<tt class="empoutput">ERR: (eval):1:in `open': No such file or directory - bir_dosya</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Güçlü bir yazılım bu gibi durumları hassasiyetle yakalayacaktır. C yazılımcılarından, hata doğurabilecek her sistem çağrısının sonucunu kontrol etmeleri ve anında ne yapılacağına ilişkin karar vermeleri beklenir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">FILE *file = fopen("bir_dosya", "r");
+if (file == NULL) {
+  fprintf( stderr, "Dosya mevcut değil.\n" );
+  exit(1);
+}
+bytes_read = fread( buf, 1, bytes_desired, file );
+if (bytes_read != bytes_desired ) {
+  /* hata giderme işlemleri... */
+}
+...
+</pre> </td></tr></table></div>
+  </p><p>
+Bu yazılımcıları dikkatsizliğe ve ihmalciliğe iten, üstelik hataları tam olarak yakalayamayan bir yazılım yazmanıza yol açan sıkıcı bir uygulamadır. Öte yandan, işi doğru düzgün yapmak, yakalanabilecek bir çok hata olduğu için yazılımın okunabilirliğini oldukça zorlaştıracaktır.
+  </p><p>
+Güncel bir çok dilde olduğu gibi Ruby'de de, yazılımcıyı ya da sonradan kodumuzu okuyan kişileri sıkıntıya sokmadan, sürprizleri kod bloklarından soyutlayan bir yolla yakalayabiliriz.
+  </p><p>
+<b><tt>begin</tt></b> ile işaretlenmiş kod bloğu bir istisnayla karşılaşana dek çalıştırılır, hata durumunda denetimi <b><tt>rescue</tt></b> ile işaretlenmiş kod bloğuna verir. Eğer hiçbir istisnayla karşılaşılmazsa <b><tt>rescue</tt></b> kodu kullanılmaz. Aşağıdaki yöntem bir metin dosyasının ilk satırını döndürür, bir istisna ile karşılaşırsa <b><tt>nil</tt></b> değerini:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+def first_line( filename )
+  begin
+    file = open("bir_dosya")
+    info = file.gets
+    file.close
+    info  # Değerlendirmeye alınan son şey dönüş değeri
+  rescue
+    nil   # Dosyayı okuyamıyor musunuz? O zaman bir dizge dönmez.
+  end
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Bir problemle yaratıcı bir biçimde ilgilenmek istediğimiz zamanlar olacaktır. Örneğin dosyaya erişmek mümkün değilse standart girdi yerine başka bir şey kullanmak isteyebiliriz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+begin
+  file = open("bir_dosya")
+rescue
+  file = STDIN
+end
+
+begin
+  # ... girdiyi değerlendir ...
+rescue
+  # ... burada diğer istisnalarla uğraş.
+end
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>begin</tt></b> kodunu tekrar çalıştırmak için <b><tt>rescue</tt></b>'nun içinde <b><tt>retry</tt></b>'ı kullanabiliriz. Bu bize önceki örneğimizi daha kısa şekilde yazmamıza izin verir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+fname = "bir_dosya"
+begin
+  file = open(fname)
+  # ... girdiyi degerlendir ...
+rescue
+  fname = "STDIN"
+  retry
+end
+</pre> </td></tr></table></div>
+  </p><p>
+Ancak burada bir kusur bulunmaktadır. Hiç olmayan bir dosya bu kodun sonsuz bir döngüde kendisini tekrar etmesini sağlayacaktır. <b><tt>retry</tt></b>'ı kullanırken bu tür durumlara dikkat etmelisiniz.
+  </p><p>
+Her Ruby kütüphanesi, sizin de kendi kodunuzda yapabileceğiniz gibi, herhangi bir hata karşısında bir istisna doğurur. Bir istisnayı çıkarmak için <b><tt>raise</tt></b> kullanılır. <b><tt>raise</tt></b> tek argüman olarak istisnayı açıklayan bir dizge alır. Bu argüman isteğe bağlıdır ancak atlanmaması gereken bir husustur. Özel değişkenlerden olan <b><tt>$!</tt></b> ile sonradan ulaşılabilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> raise "deneme hatası"</tt>
+   <tt class="empoutput">deneme hatası</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> begin</tt>
+    | <tt class="empinput">   raise "dnm2"</tt>
+    | <tt class="empinput"> rescue</tt>
+    | <tt class="empinput">   print "Bir hata meydana geldi: ",$!, "\n"</tt>
+    | <tt class="empinput"> end</tt>
+Bir hata meydana geldi: dnm2
+   <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-constants.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-ensure.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Sınıf Sabitleri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hata İşleme: ensure deyimi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

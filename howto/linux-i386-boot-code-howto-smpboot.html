@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>SMP Önyükleme</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-init_main.html" title="linux/init/main.c"><link rel="next" href="../howto/linux-i386-boot-code-howto-kbuild.html" title="A. Çekirdek Derleme ve Kurulum Örneği"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">SMP Önyükleme</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-init_main.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-kbuild.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-smpboot"></a>SMP Önyükleme</h2></div></dt><dd><p>
+SMP ile ilgili <tt>CONFIG_SMP, CONFIG_X86_LOCAL_APIC, CONFIG_X86_IO_APIC, CONFIG_MULTIQUAD</tt> ve <tt>CONFIG_VISWS</tt> gibi bir kaç makro bulunmaktadır. Birçok insanın dikkate almadığı (eğer IBM üst-uç çok işlemcili sunucu veya SGI Görsel İşistasyonu kullanmıyorsa) <tt>CONFIG_MULTIQUAD</tt> veya <tt>CONFIG_VISWS</tt> gerektiren kodları yoksayacağım.
+    </p><p>
+BSP APleri tetiklemek için <tt>start_kernel() -&gt; smp_init() -&gt; smp_boot_cpus() -&gt; do_boot_cpu() -&gt; wakeup_secondary_via_INIT()</tt>'i çalıştırır. Teknik ayrıntılar için bakınız: <a class="ulink" href="http://www.intel.com/design/pentium/datashts/242016.htm" target="_top">MultiProcessor Specification</a> ve IA-32 Manual Vol.3 (Ch.7. Multile-Processor Management, and Ch.8. Advanced Programmable Interrupt Controller).
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-before_smpinit"></a>smp_init() Öncesi</h3></div></dt><dd><p>
+<tt>smp_init()</tt>'i çağırmadan önce, <tt>start_kernel()</tt> SMP ortamını kurmak için birşeyler yapar.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+start_kernel()
+|-- setup_arch()
+|   |-- parse_cmdline_early();  // SMP "noht" ve "acpismp=force" arar
+|   |   `-- /* "noht" çoklu işlem (HyperThreading) özelliğini iptal eder
+|   |        * (Xeon başına 2 mantıksal işlemci) */
+|   |       if (!memcmp(from, "noht", 4)) {
+|   |           disable_x86_ht = 1;
+|   |           set_bit(X86_FEATURE_HT, disabled_x86_caps);
+|   |       }
+|   |       /* "acpismp=force" ACPI SMP tablosunu kullanıma ve
+|   |        * çözümlemeye zorlar */
+|   |       else if (!memcmp(from, "acpismp=force", 13))
+|   |           enable_acpi_smp_table = 1;
+|   |-- setup_memory();         // MP yapılandırma tablosu için bellek ayırır
+|   |   |-- reserve_bootmem(PAGE_SIZE, PAGE_SIZE);
+|   |   `-- find_smp_config();
+|   |       `-- find_intel_smp();
+|   |           `-- smp_scan_config();
+|   |               |-- set flag <tt>smp_found_config</tt>
+|   |               |-- set MP floating pointer <tt>mpf_found</tt>
+|   |               `-- reserve_bootmem(mpf_found, PAGE_SIZE);
+|   |-- if (disable_x86_ht) {   // çoklu işlem iptal edilmişse
+|   |       clear_bit(X86_FEATURE_HT, &amp;boot_cpu_data.x86_capability[0]);
+|   |       set_bit(X86_FEATURE_HT, disabled_x86_caps);
+|   |       enable_acpi_smp_table = 0;
+|   |   }
+|   |-- if (test_bit(X86_FEATURE_HT, &amp;boot_cpu_data.x86_capability[0]))
+|   |       enable_acpi_smp_table = 1;
+|   |-- smp_alloc_memory();
+|   |   `-- /* AP işlemcilerinin gerçek kip kod uzayını düşük bellekte ayırır */
+|   |       trampoline_base = (void *) alloc_bootmem_low_pages(PAGE_SIZE);
+|   `-- get_smp_config();     /* önyükleme anı MP yapılandırmasını al */
+|       |-- config_acpi_tables();
+|       |   |-- memset(&amp;acpi_boot_ops, 0, sizeof(acpi_boot_ops));
+|       |   |-- acpi_boot_ops[ACPI_APIC] = acpi_parse_madt;
+|       |   `-- /* <tt>have_acpi_tables</tt> değerini ACPI tablosunda
+|       |        * MADT kullanıldığını belirtecek şekilde değiştirir;
+|       |        * başarısız olursa MPS kullan. */
+|       |       if (enable_acpi_smp_table &amp;&amp; !acpi_tables_init())
+|       |           have_acpi_tables = 1;
+|       |-- set <tt>pic_mode</tt>
+|       |   /* =1, IMCR varsa ve PIC Kipi gerçekleştirilmişse;
+|       |    * =0, aksi taktirde Sanal Tel Tipi (Virtual Wire Mode)
+|       |    *     gerçekleştirilmiştir. */
+|       |-- <tt>mp_lapic_addr</tt>'deki yerel APIC adresini sakla
+|       `-- MP_PROCESSOR, MP_BUS, MP_IOAPIC, MP_INTSRC ve MP_LINTSRC.MP gibi
+|             yapılandırma tablo girdilerini tara.
+|
+|-- trap_init();
+|   `-- init_apic_mappings();   // PTE'yi APIC için ayarla
+|       |-- /* Eğer hiç yerel APIC bulunmazsa tüm sıfır sayfalarını
+|       |    * (zeroes page) yerel APIC'i ve bir de IO-APIC'i
+|       |    * taklit edecek şekilde ayarla. */
+|       |   if (!smp_found_config &amp;&amp; detect_init_APIC()) {
+|       |       apic_phys = (unsigned long) alloc_bootmem_pages(PAGE_SIZE);
+|       |       apic_phys = __pa(apic_phys);
+|       |   } else
+|       |       apic_phys = mp_lapic_addr;
+|       |-- /* yerel APIC adresini,
+|       |    *  çoğu durumda <tt>mp_lapic_addr</tt>'dir (0xfee00000),
+|       |    *  bunu doğrusal FIXADDR_TOP (0xffffe000) adresine eşle */
+|       |   set_fixmap_nocache(FIX_APIC_BASE, apic_phys);
+|       |-- /* öntanımlı yapılandırmamız (veya MP tablosunun bozuk olması)
+|       |    * durumu için BSP'nin APIC ID değerini al. */
+|       |   if (boot_cpu_physical_apicid == -1U)
+|       |       boot_cpu_physical_apicid = GET_APIC_ID(apic_read(APIC_ID));
+|       `-- // IOAPIC adresini arabelleksiz doğrusal adrese eşle
+|           set_fixmap_nocache(idx, ioapic_phys);
+|       // Artık APIC uzayına erişmek için doğrusal adres kullanabiliriz.
+|-- init_IRQ();
+|   |-- init_ISA_irqs();
+|   |   |-- /* sanal tel kipinin ilk kurulumu. */
+|   |   |   init_bsp_APIC();
+|   |   `-- init_8259A(auto_eoi=0);
+|   `-- setup SMP/APIC interrupt handlers, esp. IPI.
+`-- mem_init();
+    `-- /* SMP için düşük adresleme geçişini (zapping)
+         * geciktir: zap_low_mappings() */
+</pre> </td></tr></table></div>
+      </p><p>
+IPI (İşlemcilerarası Kesme - InterProcessor Interrupt), yani işlemciden işlemciye yerel APIC üzerinden kesme, BSP'nin APleri tetiklemek için kullandığı mekanizmadır.
+      </p><p>
+Bilmeniz gerekir ki MP-uyumlu sistemlerde "CPU başına bir yerel APIC gereklidir". İşlemciler APIC yerel birimlerinin adres uzayını (0xFEE00000 - 0xFEEFFFFF fiziksel adresini) paylaşmazlar, fakat APIC giriş-çıkış birimlerini (0xFEC00000 - 0xFECFFFFF) paylaşırlar. Her iki adres uzayı da arabelleklenebilir değildir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-smp_init"></a>smp_init()</h3></div></dt><dd><p>
+BSP her bir işlemcinin veri yapılarını kurmak ve kalan APleri etkinleştirmek için <tt>start_kernel() -&gt; smp_init() -&gt; smp_boot_cpus()</tt> çağrısı yapar.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+static void __init smp_init(void)
+{
+  /* Get other processors into their bootup holding patterns. */
+  smp_boot_cpus();
+  wait_init_idle = cpu_online_map;
+  clear_bit(current-&gt;processor, &amp;wait_init_idle); /* Don't wait on me! */
+
+  smp_threads_ready=1;
+  smp_commence() {
+    /* Lets the callins below out of their loop. */
+    Dprintk("Setting commenced=1, go go go\n");
+    wmb();
+    atomic_set(&amp;smp_commenced,1);
+  }
+
+  /* Wait for the other cpus to set up their idle processes */
+  printk("Waiting on wait_init_idle (map = 0x%lx)\n", wait_init_idle);
+  while (wait_init_idle) {
+    cpu_relax();    // i.e. "rep;nop"
+    barrier();
+  }
+  printk("All processors have done init_idle\n");
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void __init smp_boot_cpus(void)
+{
+  // ... çok ilginç olmayan birşey :-)
+
+  /* Initialize the logical to physical CPU number mapping
+    * and the per-CPU profiling router/multiplier */
+  prof_counter[0..NR_CPUS-1] = 0;
+  prof_old_multiplier[0..NR_CPUS-1] = 0;
+  prof_multiplier[0..NR_CPUS-1] = 0;
+
+  init_cpu_to_apicid() {
+    physical_apicid_2_cpu[0..MAX_APICID-1] = -1;
+    logical_apicid_2_cpu[0..MAX_APICID-1] = -1;
+    cpu_2_physical_apicid[0..NR_CPUS-1] = 0;
+    cpu_2_logical_apicid[0..NR_CPUS-1] = 0;
+  }
+
+  /* Setup boot CPU information */
+  smp_store_cpu_info(0); /* Final full version of the data */
+  printk("CPU%d: ", 0);
+  print_cpu_info(&amp;cpu_data[0]);
+
+  /* We have the boot CPU online for sure. */
+  set_bit(0, &amp;cpu_online_map);
+  boot_cpu_logical_apicid = logical_smp_processor_id() {
+    GET_APIC_LOGICAL_ID(*(unsigned long *)(APIC_BASE+APIC_LDR));
+  }
+  map_cpu_to_boot_apicid(0, boot_cpu_apicid) {
+    physical_apicid_2_cpu[boot_cpu_apicid] = 0;
+    cpu_2_physical_apicid[0] = boot_cpu_apicid;
+  }
+
+  global_irq_holder = 0;
+  current-&gt;processor = 0;
+  init_idle();    // will clear corresponding bit in <tt>wait_init_idle</tt>
+  smp_tune_scheduling();
+
+  // ... some conditions checked
+
+  connect_bsp_APIC();     // enable APIC mode if used to be PIC mode
+  setup_local_APIC();
+
+  if (GET_APIC_ID(apic_read(APIC_ID)) != boot_cpu_physical_apicid)
+    BUG();
+
+  /* Scan the CPU present map and fire up the other CPUs
+    *   via do_boot_cpu() */
+  Dprintk("CPU present map: %lx\n", phys_cpu_present_map);
+  for (bit = 0; bit &lt; NR_CPUS; bit++) {
+    apicid = cpu_present_to_apicid(bit);
+    /* Don't even attempt to start the boot CPU! */
+    if (apicid == boot_cpu_apicid)
+      continue;
+    if (!(phys_cpu_present_map &amp; (1 &lt;&lt; bit)))
+      continue;
+    if ((max_cpus &gt;= 0) &amp;&amp; (max_cpus &lt;= cpucount+1))
+      continue;
+    do_boot_cpu(apicid);
+    /* Make sure we unmap all failed CPUs */
+    if ((boot_apicid_to_cpu(apicid) == -1) &amp;&amp;
+        (phys_cpu_present_map &amp; (1 &lt;&lt; bit)))
+      printk("CPU #%d not responding - cannot use it.\n", apicid);
+  }
+
+  // ... SMP BogoMIPS
+  // ... B stepping processor warning
+  // ... HyperThreading handling
+
+  /* Set up all local APIC timers in the system */
+  setup_APIC_clocks();
+
+  /* Synchronize the TSC with the AP */
+  if (cpu_has_tsc &amp;&amp; cpucount)
+    synchronize_tsc_bp();
+
+smp_done:
+  zap_low_mappings();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+static void __init do_boot_cpu (int apicid)
+{
+  cpu = ++cpucount;
+
+  // 1. prepare "idle process" task struct for next AP
+
+  /* We can't use kernel_thread since we must avoid to
+    * reschedule the child. */
+  if (fork_by_hand() &lt; 0)
+    panic("failed fork for CPU %d", cpu);
+  /* We remove it from the pidhash and the runqueue
+    * once we got the process: */
+  idle = init_task.prev_task;
+  if (!idle)
+    panic("No idle process for CPU %d", cpu);
+
+  /* we schedule the first task manually */
+  idle-&gt;processor = cpu;
+  idle-&gt;cpus_runnable = 1 &lt;&lt; cpu; // only on this AP!
+
+  map_cpu_to_boot_apicid(cpu, apicid) {
+    physical_apicid_2_cpu[apicid] = cpu;
+    cpu_2_physical_apicid[cpu] = apicid;
+  }
+
+  idle-&gt;thread.eip = (unsigned long) start_secondary;
+
+  del_from_runqueue(idle);
+  unhash_process(idle);
+  init_tasks[cpu] = idle;
+
+  // 2. prepare stack and code (CS:IP) for next AP
+
+  /* start_eip had better be page-aligned! */
+  start_eip = setup_trampoline() {
+    memcpy(trampoline_base, trampoline_data,
+            trampoline_end - trampoline_data);
+    /* <tt>trampoline_base</tt> was reserved in
+      * <tt>start_kernel() -&gt; setup_arch() -&gt; smp_alloc_memory()</tt>,
+      * and will be shared by all APs (one by one) */
+    return virt_to_phys(trampoline_base);
+  }
+
+  /* So we see what's up */
+  printk("Booting processor %d/%d eip %lx\n", cpu, apicid, start_eip);
+  stack_start.esp = (void *) (1024 + PAGE_SIZE + (char *)idle);
+  /* this value is used by next AP when it executes
+    *   "lss stack_start,%esp" in
+    *   linux/arch/i386/kernel/head.S:startup_32(). */
+
+  /* This grunge runs the startup process for
+    * the targeted processor. */
+  atomic_set(&amp;init_deasserted, 0);
+  Dprintk("Setting warm reset code and vector.\n");
+
+  CMOS_WRITE(0xa, 0xf);
+  local_flush_tlb();
+  Dprintk("1.\n");
+  *((volatile unsigned short *) TRAMPOLINE_HIGH) = start_eip &gt;&gt; 4;
+  Dprintk("2.\n");
+  *((volatile unsigned short *) TRAMPOLINE_LOW) = start_eip &amp; 0xf;
+  Dprintk("3.\n");
+  // we have setup 0:467 to <tt>start_eip (trampoline_base)</tt>
+
+  // 3. kick AP to run (AP gets CS:IP from 0:467)
+
+  // Starting actual IPI sequence...
+  boot_error = wakeup_secondary_via_INIT(apicid, start_eip);
+  if (!boot_error) {      // looks OK
+    /* allow APs to start initializing. */
+    set_bit(cpu, &amp;cpu_callout_map);
+
+    /* ... Wait 5s total for a response */
+
+    // bit cpu in cpu_callin_map is set by AP in smp_callin()
+    if (test_bit(cpu, &amp;cpu_callin_map)) {
+      print_cpu_info(&amp;cpu_data[cpu]);
+    } else {
+      boot_error= 1;
+      // marker 0xA5 set by AP in trampoline_data()
+      if (*((volatile unsigned char *)phys_to_virt(8192)) == 0xA5)
+        /* trampoline started but... */
+        printk("Stuck ??\n");
+      else
+        /* trampoline code not run */
+        printk("Not responding.\n");
+    }
+  }
+  if (boot_error) {
+    /* Try to put things back the way they were before ... */
+    unmap_cpu_to_boot_apicid(cpu, apicid);
+    clear_bit(cpu, &amp;cpu_callout_map); /* set in do_boot_cpu() */
+    clear_bit(cpu, &amp;cpu_initialized); /* set in cpu_init() */
+    clear_bit(cpu, &amp;cpu_online_map);  /* set in smp_callin() */
+    cpucount--;
+  }
+
+  /* mark "stuck" area as not stuck */
+  *((volatile unsigned long *)phys_to_virt(8192)) = 0;
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>start_secondary()</tt> ile <tt>trampoline_data()</tt>'yı karıştırmayın. İlki AP "idle" süreci görev yapısı EIP değeridir, ikincisi ise AP'nin BSP onu uyardıktan sonra (<tt>wakeup_secondary_via_INIT()</tt> kullanarak) çalıştırdığı gerçek kipli koddur.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-trampoline"></a>linux/arch/i386/kernel/trampoline.S</h3></div></dt><dd><p>
+Bu dosya 16 bitlik gerçek kipli AP başlatma kodunu içerir. BSP <tt>start_kernel() -&gt; setup_arch() -&gt; smp_alloc_memory()</tt> içinde <tt>trampoline_base</tt> bellek uzayını ayırdı. BSP APyi tetiklemeden önce trampoline kodunu <tt>trampoline_data</tt> ve <tt>trampoline_end</tt> arasından <tt>trampoline_base</tt>'e (<tt>do_boot_cpu() -&gt; setup_trampoline()</tt> içindeki) kopyalar. BSP 0:467 noktasını, AP bu noktadan itibaren çalışabilmesi için, <tt>trampoline_base</tt> olarak atar.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+trampoline_data()
+{
+r_base:
+  wbinvd;         // diğeri için zararsız olması gereken NUMA-Q için gerekli
+  DS = CS;
+  BX = 1;         // Bir SMP trampoline seçeneği
+  cli;
+
+  // master'in çalıştığımızı bilmesi için imleyiciyi yaz
+  trampoline_base = 0xA5A5A5A5;
+
+  lidt idt_48;
+  lgdt gdt_48;
+
+  AX = 1;
+  lmsw AX;        // korumalı kip!
+  goto flush_instr;
+flush_instr:
+  goto CS:100000; // see linux/arch/i386/kernel/head.S:startup_32()
+}
+
+idt_48:
+  .word   0                       # idt limit = 0
+  .word   0, 0                    # idt base = 0L
+
+gdt_48:
+  .word   0x0800                  # gdt limit = 2048, 256 GDT girdisi
+  .long   gdt_table-__PAGE_OFFSET # gdt base = gdt (ilk SMP CPU)
+
+.globl SYMBOL_NAME(trampoline_end)
+SYMBOL_NAME_LABEL(trampoline_end)
+</pre> </td></tr></table></div>
+      </p><p>
+Dikkat ederseniz AP <tt>linux/arch/i386/kernel/head.S:startup_32()</tt>'ye geçtiğinde, BSPninkinden (BX=0) farklı olarak, BX=1 oluyor. Bakınız: <a href="../howto/linux-i386-boot-code-howto-kernel_head.html" class="xref" title="linux/arch/i386/kernel/head.S"> linux/arch/i386/kernel/head.S</a>.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-initialize_secondary"></a>initialize_secondary()</h3></div></dt><dd><p>
+BSP'den farklı olarak, <a href="../howto/linux-i386-boot-code-howto-kernel_head.html#linux-i386-boot-code-howto-go_start_kernel" class="xref" title="Çekirdeği Başlat"> Çekirdeği Başlat</a> bölümündeki <tt>linux/arch/i386/kernel/head.S:startup_32()</tt>'nin sonunda AP <tt>start_kernel()</tt> yerine <tt>initialize_secondary()</tt>'yi çağırır.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/* İkincil işlemciler için herşey kurulmuş durumda;
+ * bunlar sadece görev yapısındaki herşeyi yeniden
+ * yüklemek için gerekli.
+ * Bu işlev değer döndürmemeli. */
+void __init initialize_secondary(void)
+{
+  /* Aslında tüm TSS'yi yüklememiz gerekmiyor,
+    * basitçe sadece yığıt göstericisi ve eip. */
+  asm volatile(
+    "movl %0,%%esp\n\t"
+    "jmp *%1"
+    :
+    :"r" (current-&gt;thread.esp),"r" (current-&gt;thread.eip));
+}
+</pre> </td></tr></table></div>
+      </p><p>
+BSPnin <tt>thread.eip</tt>'yi <tt>start_secondary()</tt>'ye atamak için <tt>do_boot_cpu()</tt>'yu çağırmasıyla denetim bu işleve geçer. AP, BSP tarafından <tt>do_boot_cpu() -&gt; fork_by_hand() -&gt; do_fork()</tt> içinde kurulan, yeni bir yığıt çerçevesi kullanır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-start_secondary"></a>start_secondary()</h3></div></dt><dd><p>
+Tüm APler <a href="../howto/linux-i386-boot-code-howto-smpboot.html#linux-i386-boot-code-howto-smp_init" class="xref" title="smp_init()"> smp_init()</a> içindeki <tt>smp_init() -&gt; smp_commence()</tt> ile tetiklenen BSP'den <tt>smp_commenced</tt> sinyalini beklerler. Bu sinyali aldıktan sonra "idle" süreçlerini çalıştırırlar.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+///////////////////////////////////////////////////////////////////////////////
+int __init start_secondary(void *unused)
+{
+  /* smp_callin() öncesine birşey koyma, en yapılması gereken şeyleri
+   * yapmak için yapılacak şeyleri sınırlamak istediğimiz bu yerde
+   * SMP önyüklemesi çok kırılgandır.*/
+  cpu_init();
+  smp_callin();
+  while (!atomic_read(&amp;smp_commenced))
+          rep_nop();
+  /* düşük bellek adreslemesi temizlendi,
+    * onları yerel TLB'lerden de çıkar (flush). */
+  local_flush_tlb();
+  return cpu_idle();      // asla dönmez, bakınız: <a href="../howto/linux-i386-boot-code-howto-init_main.html#linux-i386-boot-code-howto-idle_proc" class="xref" title="cpu_idle()"> cpu_idle()</a>
+}
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>cpu_idle() -&gt; init_idle()</tt> <tt>wait_init_idle</tt> içindeki ilgili biti temizler ve son olarak BSPnin <tt>smp_init()</tt>'i bitirmesini sağlar ve <tt>start_kernel()</tt> içindeki takip eden işlevle devam eder (örn. <tt>rest_init()</tt>).
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-smpboot_ref"></a>Kaynakça</h3></div></dt><dd><p>
+      <div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.intel.com/design/pentium/datashts/242016.htm" target="_top">MultiProcessor Specification</a></li><li><a class="ulink" href="http://developer.intel.com/design/pentium4/manuals/" target="_top">IA-32 Intel Architecture Software Developer's Manual</a></li><li><a class="ulink" href="http://www.tldp.org/LDP/lki/lki-1.html#ss1.7" target="_top">Linux Kernel 2.4 Internals: Ch.1.7. SMP Bootup on x86</a></li><li><a class="ulink" href="http://www.tldp.org/HOWTO/SMP-HOWTO.html" target="_top">Linux SMP HOWTO</a></li><li><a class="ulink" href="http://www.acpi.info" target="_top">ACPI spec</a></li><li>
+Bir çokişlemcili Linux gerçeklenimi: <tt>linux/Documentation/smp.tex</tt></li></ul></div>
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-init_main.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-kbuild.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/init/main.c </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> A. Çekirdek Derleme ve Kurulum Örneği</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

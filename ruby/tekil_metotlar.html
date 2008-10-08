@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Tekil Metotlar</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisim_kontrolu.html">
+ <img border=0 src="a2l.gif" alt="Erişim Kontrolü"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="moduller.html">
+ <img border=0 src="a2r.gif" alt="moduller"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Tekil Metotlar</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Bir örneğin davranışı ait olduğu sınıf tarafından belirlenir. Ancak bazen belirli bir örneğin özel bir davranışı olmasını isteyebiliriz. Çoğu programlama dilinde, sadece bir kere kullanacağımız bir sınıf tanımlamak gibi karmaşık bir yol seçebiliriz. Ruby'de her nesneye kendine ait metotlar verebiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class SingletonTest</b></font>
+    |<font color="#ffff00"><b>   def size</b></font>
+    |<font color="#ffff00"><b>     print "25\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> test1 = SingletonTest.new</b></font>
+<font color="#50ffff"><b>   #&lt;SingletonTest:0xbc468&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> test2 = SingletonTest.new</b></font>
+<font color="#50ffff"><b>   #&lt;SingletonTest:0xbae20&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> def test2.size</b></font>
+    |<font color="#ffff00"><b>   print "10\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> test1.size</b></font>
+25
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> test2.size</b></font>
+10
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Yukarıdaki örnekte, <code>test1</code> ve <code>test2</code> aynı sınıfa mensup olmalarına rağmen, <code>test2</code>'nin size metodu yeniden tanımlandığı için farklı davranır. Sadece tekil bi nesneye verilen metoda <em>tekil metot</em> (<i>singleton method</i>) denir.</p>
+<p>Tekil metotlar CLOS, Dylan vb. programlama dillerinde olduğu üzere Ruby'ye özgü değildir. Self ve NewtonScript gibi bazı diiler ise sadece tekil metotlardan oluşmuştur. Bu tür diller, <em>prototip tabanlı diller</em> olarak anılırlar. </p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisim_kontrolu.html">
+ <img border=0 src="a2l.gif" alt="Erişim Kontrolü"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="moduller.html">
+ <img border=0 src="a2r.gif" alt="moduller"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="debian-jigdo" lang="tr">
+  <articleinfo>
+    <title>Debian Jigdo küçük-NASIL</title>
+    <titleabbrev>DJ-NASIL</titleabbrev>
+    <authorgroup>
+      <author role="translator">
+        <firstname>Oğuz Yarımtepe</firstname>
+        <affiliation>
+          <address><email>oguzy@comu.edu.tr</email></address>
+        </affiliation>
+      </author>
+      <author>
+        <firstname>Peter</firstname>
+        <othername role='middle'>Jay</othername>
+        <surname>Salzman</surname>
+        <affiliation>
+		<address><email>p@dirac.orgZZZ</email></address>
+        </affiliation>
+      </author>
+    </authorgroup>
+<revhistory>
+	<para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+	<revision>
+		<revnumber>1.1</revnumber>
+		<date>Ekim 2008</date>
+		<authorinitials>ny</authorinitials>
+		<revremark>Özgün belgenin 1.8 sürümüne güncellendi</revremark>
+	</revision><revision>
+		<revnumber>1.0</revnumber>
+		<date>25 Kasım 2005</date>
+		<authorinitials>oy</authorinitials>
+		<revremark>İlk sürüm</revremark>
+	</revision>
+</revhistory><revhistory>
+	<para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+	<revision>
+		<revnumber>1.8</revnumber>
+		<date>2005-12-05</date>
+		<authorinitials>pjs</authorinitials>
+	</revision>
+    </revhistory>
+    <legalnotice><title>Yasal Açıklamalar</title>
+	    <para>Bu belgenin, <emphasis>Debian Jigdo küçük-NASIL</emphasis> çevirisinin 1.1 sürümünün <emphasis role="bold">telif hakkı © 2005-2008 <emphasis>Oğuz Yarımtepe</emphasis>'ye</emphasis> aittir, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2001 <emphasis>Peter Jay Salzman</emphasis>'a</emphasis> aittir. Bu belge Open Software Lisansı, versiyon 1.1 hükümleri altında dağıtılır.
+	    </para>
+ </legalnotice>  
+    <abstract><para>Debian ISO'larını indirmek her zaman zahmetli, yavaş ve alabildiğine verimsiz bir işlem olmuştur. Jigdo, Debian ISO'larını kolay, hızlı ve oldukça verimli bir şekilde elde etmek ve dağıtmak için bir araçtır. Bu NASIL belgesi jigdo'yu neden kullanmanız gerektiğini, biraz nasıl çalıştığını, biraz da Debian ISO'larını nasıl indirip güncelleyeceğinizi açıklamaktadır.</para>
+	<para>Jigdo, özel olarak Debian ISO'larına bağlı olmayan oldukça genel bir araçtır. Jigdo araçları, indirmek için erişilebilir olan herhangi bir ISO için Debian ISO'larında kullanılan kolay, hızlı ve verimli şekilde olan yollarla kullanılabilir. Bu NASIL belgesi  bu konuya da değinecektir fakat daha çok Debian ISO'larının indirilmesi üzerine yoğunlaşılmıştır.</para>
+	<para>Bu belgenin İngilizce son sürümünü <ulink url="http://www.dirac.org/linux/debian/jigdo/"/> adresinde bulabilirsiniz.</para></abstract>
+</articleinfo>
+
+<sect1 id="debian-jigdo-administrata"><title>Yönetim</title>
+  <sect2 id="debian-jigdo-authorship"><title>Kaynak ve Telif Hakkı</title>
+	  <para>Bu belgenin telif hakkı (c) 2001 Peter Jay Salzman'a, <email>p@dirac.orgZZZ</email>, aittir. Bu belge Open Software Lisansı (OSL), sürüm 1.1 altında kopyalanabilir, dağıtılabilir ve/veya değiştirilebilir. Lisans içeren NASIL'lardan nefret ederim, insanı canından bezdirebilir hal alabiliyorlar. OSL ile ilgili açıklamayı <ulink url="http://opensource.org/licenses/osl-1.1.txt"/> adresinden okuyabilirsiniz.</para>
+	  <para>Eğer bu belgeyi kullanarak ticari amaçlar için bir başka çalışma yapmak veya belgeyi yayınlamak istiyorsanız, öncelikle benimle irtibata geçerseniz çok memnun olurum. Bu bana size belgenin son sürümünü vermek için bir şans vermiş olur. Ayrıca her ne yapıyorsanız bir kopyasını veya bir ıspanak, sarımsak, mantar, beyaz peynir ve enginarlı pizza gönderirseniz çok memnun olurum.</para>
+  </sect2>
+  <sect2 id="debian-jigdo-acknowledgements"><title>Teşekkür</title>
+	  <para>Başlangıçta, tümüyle jigdo'nun yazarı Richard Atterer'a <email>atterer@debian.org</email> jigdo'yu yazdığı için teşekkür etmek isterim. Debian ISO'larını diğer yollarla elde edenler bunun neden olduğunu anlayacaklardır. Bu NASIL belgesi jigdo ile ilgili tecrübelerimi yazdığım web sayfalarına üzerinde çalışırken başladı. Richard jidgo hakkındaki sorularıma cevap vermek, düzeltmeler ve açıklamalar için yoğun şekilde zaman harcayarak bana elektronik posta yazmıştır. Bu yüzden de benim çalışmamı defalarca okumuştur. Richard sadece kendi işiyle ilgilenen bir geliştirici değil aynı zamanda da onu kullananları da dikkate alan biridir. Ne yazık ki yaşadığımız dünyada bu durum daha az raslanır hale geliyor. Teşekkürler Richard!.</para>
+	  <para>Aynı zamanda bu küçük-NASIL belgesini çevirdikleri için Conrad Wood <email>cnw@conradwood.netZZZ</email>, Elcio Mello, Marcelo Ramos <email>mramos@montevideo.com.uyZZZ</email>, Yufeng Wang, Tsukasa Yamaguchi, Yuri Kozlov <email>kozlov.y@gmail.comZZZ</email> ve Oguz Yarımtepe'ye <email>oguzy@comu.edu.trZZZ</email> teşekkür etmek isterim. Yazdıklarımı zamanlarını, çabalarını ve enerjilerini harcamaya değer buldukları için tamamiyle gurur duydum. Teşekkürler beyler!.</para>
+	  <para>Son olarak da Mark van Lent <email>mark@panic.et.tudelft.nl</email>, Gordon Huff, David Anselmi, Thierry Cabuzel <email>thierry.cabuzel@skynet.beZZZ</email>, Russell L. Harris <email>rlharris@hal-pc.orgZZZ</email> ve Jens Seidel'e <email>tux-master@web.deZZZ</email> hoş sözleri ve oldukça ihtiyaç duyulan düzeltmeleri için teşekkür etmek isterim.</para>
+  </sect2>
+  <sect2 id="debian-jigdo-comments"><title>Yorumlar ve Düzeltmeler</title>
+	  <para>Bu belgeyi kullananlarla ilgilenmelere büyük önem veriyorum. Küçük-NASIL belgeleri yazmak bile uzun zaman almaktadır ve ben de insanların anlamadıkları bir şeye çok fazla zaman harcamış olmak istemem. Yazma şekliyle bile olsa yorumunuz, düzeltmeniz beya öneriniz varsa bana elektronik posta göndermekte çekinmeyin. Doktora savunmam veya No Starch Press için GDB/DDD kullanarak yazdığım hata ayıklama kodu yüzünden tamamen batıp kaybolmadıysam, bu küçük-NASIL ile ilgili iletinize yanıt vermek için elimden geleni yapacağım.<note><para>Doktoramı tamamladım ve iş arıyorum. Bir teorik fizikçiye iş vermek isteyen var mı?</para></note></para>
+  </sect2>
+  <sect2 id="debian-jigdo-version"><title>En Son Sürüm ve Çeviriler</title>
+<variablelist><varlistentry>
+<term>Almanca:</term>
+<listitem><para>Conrad Wood <email>cnw@conradwood.netZZZ</email>.
+</para></listitem></varlistentry><varlistentry>
+<term>Portekizce</term>
+<listitem><para>Elcio Mello
+</para></listitem></varlistentry><varlistentry>
+<term>İspanyolca</term>
+<listitem><para>Marcelo Ramos <email>mramos@montevideo.com.uyZZZ</email>.
+</para></listitem></varlistentry><varlistentry>
+<term>Çince</term>
+<listitem><para>Yufeng Wang 
+</para></listitem></varlistentry><varlistentry>
+<term>Japonca</term>
+<listitem><para>Tsukasa Yamaguchi. <ulink url="http://www.linux.or.jp/JF/JFdocs/Debian-Jigdo"/> adresinden edinilebilir.
+</para></listitem></varlistentry><varlistentry>
+	<term>Rusça</term>
+	<listitem><para>Yuri Kozlov <email>kozlov.y@gmail.comZZZ</email>. <ulink url="http://alioth.debian.org/project/showfiles.php?group_id=30279"/> adresinden edinilebilir.
+</para></listitem></varlistentry><varlistentry>
+	<term>Türkçe</term>
+	<listitem><para>Oğuz Yarımtepe <email>oguzy@comu.edu.trZZZ</email>. <ulink url="http://docs.comu.edu.tr/howto/debian-jigdo.html"/> adresinden edinilebilir.
+</para></listitem></varlistentry>
+</variablelist>
+  <para>İngilizce sürümü ve tüm diğer çeviriler <ulink url="http://www.dirac.org/linux/debian/jigdo"/> adresinden edinilebilir. Eğer bu küçük-NASIL'ı başka bir dile çevirmek istiyorsanız benimle <email>p@dirac.orgZZZ</email> adresinden iletişime geçiniz.</para>
+  <para>Belgenin bu İngilizce kararlı sürümü The Linux Documentation Project sayfasında küçük-NASIL kısmında bulunabilir: <ulink url="http://tldp.org/docs.html"/>.</para>
+</sect2>
+</sect1>
+<sect1 id="debian-jigdo-whyjigdo"><title>Neden jigdo?</title>
+  <sect2><title>Debian ISO Görüntüleri Kümesi Nasıl Elde Edilir?</title><para>
+	Eğer Debian CD setini elde etmek istiyorsanız bunun pek çok yolu vardır. Birinci yol Debian CD'leri <ulink url="http://www.debian.org/CD/vendors/">satanlardan</ulink> satın almaktır. Elbette bazı satıcıların Debian projesine para yardımı yaptıklarından dolayı bunun yararı vardır. Yaptığınız yardımlar ile Debian'ın uzun bir süre ortalarda gözükeceğinden emin olabilirsiniz. 
+  
+  </para><para>Debina CD'leri oluşturmanın bir başka yolu da kendi takımınızı yazdırmaktır. Bu da ilk olarak ISO görüntüsünü edinip onu boş bir CD'ey yazdırmayı zorunlu kılmaktadır. Jidgo'dan önce Debian CD'leri oluşturmak için iki yol vardı:</para>
+  <para><orderedlist>
+<listitem>Tüm ISO'ları indirmek</listitem>
+<listitem>Yalancı-görüntü aracını kullanmak (PIK)</listitem>
+  </orderedlist></para>
+<para>Bu belge jigdo isimli bir araç kullanarak daha yeni ve daha iyi bir şekilde Debian ISO görüntüleri edinmekle ilgilidir. Gerçekte, PIK'in resmi olarak gelitirilmesi durmuştur ve onunla ilgili tüm diğer kaynaklar bu belgeden çıkarılmıştır. Debian ISO'larını edinmek için kabul edilen yol jigdo ile gerçeklemektir.</para>
+</sect2>
+  <sect2 id="debian-jigdo-whynotdownloadthewholeisoimage"><title>Neden Tüm ISO Görüntülerini İndirmeyelim?</title>
+	  <para>Debian ISO'larını sunan http ve ftp yansıları bulunmaktadır. Sorun çok fazla yansı olmaması ve yansıların sundukları bant genişliğinin her Debian ISO'su isteyene yetmemesidir. Örneğin, fsn.hu söylendiğine göre sağlayıcısının bağlantısını doldurmuştur. Dışarı yansıyan trafik bir ay içerisinde terabaytlara ulaşmaktadır!</para>
+	  <para>Buna ek olarak, Debian'ın test ve kararsız sürümleri çok sık güncellenmektedir. ISO'larınız eğer ISO'yu rsync kullanarak bir geridönüş aygıtına bağlamak gibi (PIK'in tam olarak da yaptığı budur) sinsi bir yol bulmazsanız güncelliğini kaybetmiş hale gelebilir. Bu yüzden de eğer güncel ISO görüntüleri istiyorsanız, her gün yeni ISO görüntü kümelerini indirmelisiniz. Açıktır ki bu yol Debian ISO'ları edinmek için isteyeceğiniz bir yol değildir!</para>
+	  <para>Kararlı ISO görüntülerini indirmek isteseniz bile onlar da bir kaç ayda bir güncellenmektedir. ISO görüntülerini indirmek size birkaç ay güncel görüntü kullanmanızı sağlayacaktır, fakat her yeni kararlı Debian sürümü gözden geçirilmesinde, bu işkence verici tüm ISO kümesini baştan indirme işlemini baştan gerçeklemek zorunda kalacaksınız. Bu yol zamanınızı ve yansı kaynaklarını kullanmak için iyi değildir.</para>
+  </sect2>
+  <sect2 id="debian-jigdo-whatisjigdo"><title>Jigdo Nedir?</title>
+	  <para>Jigdo ("Jigsaw Download" anlamına gelmektedir) <ulink url="mailto:atterer@debian.org">Richard Atterer</ulink> tarafından yazılmış ve GNU GPL altında lisanslanmıştır. Verimli bir şekilde ISO görüntüleri indirmek ve güncellemek için kullanılan bir araçtır. Herhangi bir ISO görüntüsü için kullanılabilir. Jigdo Debian'a özgü değildir, yine de Debian onu ISO görüntülerini edinmek için resmi yol olarak seçmiştir.</para>
+	  <para>Yaygın yanlış fikir jigdo'nun ISO görüntüleri oluşturduğudur ama oluşturmamaktadır. Jigdo'nun ISO görüntüleri edinmenizi sağlamayan süreçlerini genel olarak inceleyelim. Adam'ın ISO görüntüleri sunan kişi (Debian sürüm yöneticisi) olduğunu varsayalım. Betty'nin de ISO görüntülerini indirmek isteyen kişi (Debian kullanıcısı) olduğunu düşünelim.</para>
+	  <para><orderedlist><listitem><para>
+	Adam'ın ilk olarak CD'ye yazılabilmesi için bir ISO görüntüsü oluşturur. ISO görüntüleri oluşturmak için <application>mkisofs</application> veya <application>debian-cd</application> benzeri bir uygulama kullanıyor olabilir. Aynı zamanda yeni oluşturduğu ISO görüntüleriyle ilgili iki küçük dosya daha oluşturur: <filename>.jigdo</filename> ve <filename>.template</filename> isimli iki ayrı dosya. Bu iki dosyayı ISO görüntüleri indirmek isteyen herkesin erişimine açar.</para></listitem>
+<listitem><para>İkinci adım Betty'nin <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarını indirmesidir. Daha sonra jigdo-lite'ı bu iki dosya ile birlikte  Adam'ın ISO görüntüleri indirmek için kullanır. 
+</para></listitem>
+<listitem><para>Debian güncellendiğinde, Adam yeni ISO görüntüsünü yaratır ve <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarının yeni sürümlerini oluşturur.</para></listitem>
+<listitem><para>Betty CD'lerini güncellemek istediğinde yeni <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarını indirir ve bunları kullanarak <application>jigdo-light</application> programıyla kendi ISO görüntülerini günceller. Buradaki önemli nokta Betty'nin kendi eski ISO görüntüsü ile Adam'ın yeni ISO görüntüsü arasındaki farkları indiriyor olmasıdır. Değişmeyen bölümleri yeniden indirmesi gerekmez.</para></listitem>
+
+</orderedlist></para>
+	<para>Jigdo iki uygulama ile gelmektedir: (Adam'ın kullandığı) <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarını oluşturan <application>jigdo-file</application> ve (Betty'nin kullandığı) bu iki dosya yardımıyla ISO görüntüsü indirdiği ya da güncellendiği <application>jigdo-lite</application>. Eğer tek yapmak istediğiniz Debian ISO'larını indirmekse jigdo-lite'ı kullanıyor olacaksınız. jigdo-file'ı var olmasına rağmen unutabilirsiniz. :-)</para>
+	<para>Jigdo Debian ISO'ları edinmek için kullanılan diğer metodlarla ilgili sorunlara da çözüm getirmektedir:  </para>
+	<para><itemizedlist>
+<listitem><para>
+ISO görüntüsünün tamamını indirmekten çok daha hızlıdır.
+</para></listitem><listitem><para>
+ISO görüntüsünün tamamını indirmekten farklı olarak, güncelliğini yitirmiş bir CD'yi alarak (ya da geridönüş aygıtına bağlanmış güncel olmayan CD görüntüsü), <emphasis>sadece</emphasis> CD oluşturulduğundan beri değişen dosyaları indirir ve yeni bir güncel ISO oluşturur.  Cvs kullanarak kaynak kodunuzu güncellemeye çok benzemektedir. 
+
+</para></listitem><listitem><para>
+	<application>jigdo-lite</application> varsayılan olarak http'yi kullanan wget'i kullanmaktadır. rsync'in tersine http güvenlik duvarları tarafından asla engellenmez (başlamak için arkasında jigdo kullamamanız gerekenler dışında).
+</para></listitem><listitem><para>
+Jigdo Debian görüntüleri sunan sunuculara oldukça özenli davranmaktadır. Debian yansıları jigdo kullananlar ile diğer yollarla Debian görüntülerini indirmeye çalışanlardan oluşan yükten çok daha fazlasıyla ilgilenebilmektedir. 
+</para></listitem></itemizedlist>
+</para><para>
+Açık şekilde jigdo, Debian ISO görüntüleri edinmek için en iyi yoldur. 
+
+  </para></sect2>
+</sect1>
+<sect1 id="debian-jigdo-howjigdoworks">
+  <title>Jigdo Nasıl Çalışır (seçimlik)</title>
+  <para>Debian ISO görüntülerini indirmek için bu maddeyi bilmenize gerek yoktur fakat jigdonun ne yaptığının açığa çıkmasına yardım edebilir. Eğer detaylarla ilgilenmiyorsanız, hızlı bir şekilde <xref linkend="debian-jigdo-downloadingyourfirstimage"/> kısmına ilerleyin; "Jigdo'yu Nasıl Kullanırım".
+  
+  </para><sect2 id="debian-jigdo-preparingtheisofordownload">
+    <title>İndirim İçin Bir ISO'yu Hazırlamak</title><para>
+	Bir CD görüntüsü iso9660 olarak isimlendirilen bir dosya sistemidir, fakat buradaki açıklamalar için bir CD görüntüsünün "ISO görüntüsü" olarak isimlendirilen ve değişik göreli konumlarda pekçok dosya içeren büyük bir dosya olduğunu (yaklaşık 650MB) güvenli bir şekilde kabul edebiliriz. Örneğin, eğer bir CD 567 baytlık bir README dosyası içeriyorsa, ISO görüntüsü README dosyasının görüntüsünü 20480000 ve 20480567 göreli konumları arasında içerebilir. Bir CD görüntüsünü şu şekilde düşünebilirsiniz:</para>
+<para><literallayout>
+                 ------------------------------------------------------------
+ISO Görüntü:    |xxxx| dosya-0 |xx| dosya-1 |xxx| dosya-2 |x| dosya-3 |xxxx|
+                 ------------------------------------------------------------
+</literallayout>
+  </para><para>
+	Görüntünün "x" alanları dizin bilgisi, sıfır ile hizalama, disk ismi, başlama bloğu, v.b. gibi bilgileri içermektedir.</para>
+<para><application>jigdo-file</application> girdi olarak iki parametre almaktadır: Tam bir CD görüntüsü (yani ISO önceden yapılmış olmalıdır) ve görüntüde kullanılabilir veya kullanılamaz dosyalar kümesi. Aşağıda jigdo-file'ın girdilerinin görsel bir hali bulunmaktadır:
+  
+  </para><para>
+<literallayout>
+                ------------------------------------------------------------
+ISO Görüntü:    |xxxx| dosya-0 |xx| dosya-1 |xxx| dosya-2 |x| dosya-3 |xxxx|
+              	------------------------------------------------------------
+
+                        -----------  -----------              -----------    -----------
+Serbest Dosyalar:       | dosya-0 |  | dosya-1 |              | dosya-3 |    | dosya-4 |
+                        -----------  -----------              -----------    -----------
+</literallayout></para>
+<para>Sihirsel bir şekilde, jigdo-file ISO görüntüsü içerisindeki serbest dosyaları ve onların ISO dosyası içerisindeki göreli konumlarını bulmaktadır. Sonuç olarak iki dosya üretir: bir  <filename>.template</filename> dosyası ve bir <filename>.jigdo</filename> dosyası.</para>
+</sect2>
+  <sect2 id="debian-jigdo-the.templatefile"><title>.template Dosyası</title>
+	  <para>Bir ISO görüntüsü ve ISO görüntüsü içerisinde olabilecek veya olmayacak dosyaların verilmesi halinde jigdo-file bu ISO görüntüsü için bir .template dosyası üretir. Aşağıda bir <filename>.template</filename> dosyasının neye benzediği gösterilmiştir.</para>
+    <para>
+<literallayout>
+              --------------------------------------------------------
+.template:    |xxxx| md5-0  |xx| md5-1  |xxx|cccccccc|x| md5-3  |xxxx|
+              --------------------------------------------------------
+</literallayout>
+  </para><para>
+	jigdo-file, <filename>dosya-0</filename>, <filename>dosya-1</filename> ve <filename>dosya-3</filename>'ün ISO görüntüsünce içerildiğini bulmuştur. Bu dosyaların içeriklerini herbirinin  md5 sağlama toplamı ile yer değiştirmiştir (<filename>md5-0</filename>, <filename>md5-1</filename>, v.b.).  
+  
+  </para><para>
+	ISO görüntüsü içerisindeki "<literal>x</literal>" verisi (dizin bilgisi, sıfır ile yaslama, v.b.) sıkıştırılmış olup .template dosyasına yazılır. Son olarak da ISO görüntüsü içerisinde olup da serbest dosya olarak sağlanmayan dosyalar (<filename>dosya-2</filename> gibi) da .template dosyasına yazılır. Bu durum .template dosyasında görsel olarak "<literal>c</literal>" verisi olarak gösterilmiştir. 
+  
+  </para><para>
+	  ISO görüntü içerisinde bulunmayan <application>jigdo-file</application>'a sağlanan serbest dosyalar (<filename>dosya-4</filename> gibi) ihmal edilir.
+  </para></sect2>
+  <sect2 id="debian-jigdo-the.jigdofile"><title>.jigdo Dosyası</title>
+	  <para>Bir ISO görüntüsü ve ISO görüntüsü içerisinde bulunabilecek veya bulunamayacak dosyaların verilmesi durumunda, <application>jigdo-file</application> o ISO görüntüsü için bir <filename>.jigdo</filename> dosyası üretir. Debian <filename>.jigdo</filename> dosyaları gzip ile sıkıştırılmıştır, dolayısiyle onları görmek için zcat veya zless kullanmalısınız. Aşağıda bir <filename>.jigdo</filename> dosyasını gunzip ile açtığınızda nasıl görüneceği vardır:</para>
+	  <para>
+<screen>md5-0=http://biryansi.org/dosya-0
+md5-1=http://biryansi.org/dosya-1
+md5-2=http://biryansi.org/dosya-2
+md5-3=http://biryansi.org/dosya-3</screen></para>
+<para><filename>.jigdo</filename> dosyası basitçe ISO görüntüsü içerisindeki md5 toplam sağlamı ile o dosyanın indirilme URL'si arasında bir eşleme yapmaktadır. <filename>.jigdo</filename> dosyası içerisinde başka bazı şeyler de vardır, eğer içerisine bakarsanız <filename>.jigdo</filename> dosyasının bir ".ini" dosyasıyla aynı yapıya sahip olduğunu görürsünüz. Bu kendisini açıklamak için yeterlidir, fakat daha öz detayları istiyorsanız jigdo belgelendirmesine bakın. 
+  
+  </para><para>
+	  Yukarıda gösterilen tipik bir <filename>.jigdo</filename> dosyasında tam olarak ne gördüğünüz değildir, fakat oldukça benzemektedir. Eğer <filename>.jigdo</filename> dosyası sonundaki [Servers] kısmına bakarsanız, gerçek bir <filename>.jigdo</filename> dosyası ile yukarıda gösterdiğim arasındaki farkı tam olarak göreceksiniz. 
+  
+  </para></sect2>
+  <sect2 id="debian-jigdo-downloadingtheimage"><title>Görüntüyü İndirme</title>
+	  <para><application>jigdo-file</application>'ı bir kere bir ISO görütüsünün <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarını oluşturmak için kullandıktan sonra herhangi biri jigdo-lite kullanarak o görüntüyü indirebilir. jigdo-lite, <application>wget</application> kullanarak bir Debian ISO'nun tüm dosyalarını indirir, onları birleştirir ve asıl ISO görüntüsünün bir kopyasını anında oluşturur.</para>
+</sect2>
+</sect1>
+<sect1 id="debian-jigdo-downloadingyourfirstimage"><title>İlk Görüntünüzü İndirmek (5 Kolay Adımda)</title>
+	<para>Sıfırdan başladığınızı ve herhangi bir Debian ISO'suna sahip olmadığınızı varsayıyoruz. Bir kere kendi ISO kümenizi CD'ye yazdıktan sonra, jigdo-lite'ı kullanarak daha sonra onu güncelleyebilirsiniz. ISO'ların güncellenmesini bir sonraki bölümde ele alacağız.</para>
+	<sect2 id="debian-jigdo-installingjigdo"><title>Jigdo'yu Yüklemek</title>
+	<para>İlk olarak jigdo-file paketini yükleyin:<screen># apt-get install jigdo-file</screen></para>
+	<para>Jigdo atılgan bir gelişim içerisindedir. Hata düzeltmeleri ve geliştirilmesi sürekli devam etmektedir bu yüzden de eğer kararlı veya test sürümü kullanıyorsanız jigdo-file dosyasını kararsız sürümden <ulink url= "http://packages.debian.org/unstable/utils/jigdo-file.html"/> adresinden indirin. 28 Kasım 2005 itibariyle 0.7.2-2 sürümüne ulaşmıştır.</para>
+</sect2>
+  <sect2 id="debian-jigdo-downloadthe.templateand.jigdofiles">
+  <title>.template ve .jigdo Dosyalarını İndirmek</title><para>
+	  İndirmek istediğiniz her ISO görüntüsü için, o görüntünün <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarının her ikisine ihtiyacınız vardır. Her iki dosya da aynı isimlendirme kuralını takip etmektedir:
+<screen>dağıtım-mimari-n.jigdo
+dağıtım-mimari-n.template</screen>
+  </para><para>
+	Burada dağıtım kısmı dağıtımın adı ("sarge" gibi), mimari mimarinin tipi ("i386" gibi) ve n de disk numarasıdır ("1" gibi).
+  
+  </para><para>
+	  Örneğin Sarge'ın 8 tane görüntüsü vardır, dolayısiyle 8 .jigdo ve 8 .template dosyası indirmeniz gerekmektedir. <ulink url="http://www.debian.org/CD/jigdo-cd/"/> adresinden indirilebilirler. İlk <filename>.jigdo</filename> ve <filename>.template</filename> dosyaları sırasıyla <filename>sarge-i386-1.jigdo</filename> ve <filename>sarge-i386-1.template</filename> olarak isimlendirilirler. 
+  
+  </para></sect2>
+  <sect2 id="debian-jigdo-runjigdo-lite">
+    <title>jigdo-lite'ı Çalıştırmak</title><para>
+	    jigdo-lite'ı çalıştırın ve indirmek istediğiniz görüntünün <filename>.jigdo</filename> dosyasını gönderin. Sarge'ı örnek olarak kullanırsak:
+<screen>lucifer$ ls
+sarge-i386-1.jigdo  sarge-i386-1.template
+lucifer$ jigdo-lite sarge-i386-1.jigdo
+
+Jigsaw Download "lite"
+Copyright 2001-2003 by Richard Atterer &lt;jigdo@atterer.net&gt;
+Getting mirror information from /etc/apt/sources.list
+
+-----------------------------------------------------------------
+Images offered by `sarge-i386-1.jigdo':
+  1: 'Debian GNU/Linux testing "Sarge"
+          - Official Snapshot i386 Binary-1 CD' (sarge-i386-1.iso)
+
+Further information about `sarge-i386-1.iso':
+Generated on Fri, 7 Feb 2003 20:31:28 -0700
+
+-----------------------------------------------------------------
+If you already have a previous version of the CD you are
+downloading, jigdo can re-use files on the old CD that are also
+present in the new image, and you do not need to download them
+again. Mount the old CD ROM and enter the path it is mounted under
+(e.g. `/mnt/cdrom').
+Alternatively, just press enter if you want to start downloading
+the remaining files.
+Files to scan:</screen>
+  </para>
+  <para>Eğer jigdo-lite'ı cntrl-z ile durdurursanız (bunu yapmayın; ne göreceğinizi söyleyeceğim) ve <command>ls</command> çıktısına bakarsanız, dizin içerisinde <filename>sarge-i386-1.jigdo.unpacked</filename> isimli yeni bir dosya göreceksiniz. Bu da <filename>.jigdo</filename> dosyalarının gzip'lendiği sonucunu doğurur. Bu dosya basitçe <filename>.jigdo</filename> dosyasının gunziplenmiş halidir.</para>
+  <para>Şu anda jigdo-lite bize eğer Sarge'ın ilk CD'sinin güncelliğini yitirmiş bir sürümü var mı diye sormaktadır, CD için yolu vermeliyiz.  Bu ISO  görüntülerini nasıl güncellediğimizdir (ya da tamamlanmamış indirmelerinizi tamamlama). Sıfırdan başladığınızı varsaydığımızdan ve hiç Debian ISO'suna sahip olmadığınızı düşündüğümüzden, taranacak herhangi bir şeyimiz yoktur. <xref linkend="debian-jigdo-updatingyourimage"/> kısmında buna değineceğiz, sadece <keycap>ENTER</keycap>'a basınız.</para>
+  <para><xref linkend="debian-jigdo-more-about-scan"/>, bölümüne de bakabilirsiniz.</para>
+</sect2>
+  <sect2 id="debian-jigdo-specifyamirror">
+  <title>Bir Yansı Belirleyin</title>
+<para>Şunu göreceksiniz:<screen>-----------------------------------------------------------------
+The jigdo file refers to files stored on Debian mirrors. Please
+choose a Debian mirror as follows: Either enter a complete URL
+pointing to a mirror (in the form
+`ftp://ftp.debian.org/debian/'), or enter any regular expression
+for searching through the list of mirrors: Try a two-letter
+country code such as `de', or a country name like `United
+States', or a server name like `sunsite'.
+Debian mirror [http://linux.csua.berkeley.edu/debian/]:
+</screen></para>
+<para>Öntanımlı olarak <application>jigdo-lite</application> kullanacağı yansıyı <filename>/etc/apt/sources.list</filename> dosyasından çeker. Eğer farklı bir yansı girmek istiyorsanız, talimatları takip ederek farklı bir yansı gireceksiniz. Eğer bu kullanmak istediğiniz yansı ise <keycap>ENTER</keycap>'a basın. Jigdo-lite daha sonra ev dizininizde <filename>~/.jigdo-lite</filename> dosyasına yazacaktır. 
+  
+  </para><para>
+Daha sonra eğer kullandığınız <filename>.jigdo</filename> dosyası US kaynaklı olmayan bir sunucudaki bir pakete işaret ediyorsa, jigdo-lite size bir Debian US olmayan sunucusu için soracaktır. Görüntülenecek mesaj (ve sizin cevabınız) bir önceki paragraftakine benzer olacaktır (Non-US kaynaklı olmayan yansılar için).
+<screen>-----------------------------------------------------------------
+The jigdo file also refers to the Non-US section of the Debian
+archive. Please repeat the mirror selection for Non-US. Do not
+simply copy the URL you entered above; this does not work because
+the path on the servers differs!
+Debian non-US mirror [http://linux.csua.berkeley.edu/debian-non-US//]:</screen></para>
+<para>Jigdo-lite seçiminizi <filename>~/.jigdo-lite</filename> dosyasına yazacaktır. Aslında, eğer indirecekleriniz US-olmayan yazılım içermiyorsa bu mesajı görmeyeceksiniz.</para>
+<para>İleride jigdonun kullandığı varsayılan yansıyı değiştirmek isterseniz, <filename>~/.jigdo-lite</filename> içerisindeki şu iki satırı değiştirebilirsiniz:
+<screen>debianMirror='http://some-mirror-to-use/debian/'
+nonusMirror='http://some-other-mirror/debian-non-US/'
+</screen>
+  </para>
+  </sect2>
+  <sect2 id="debian-jigdo-downloadingoftheiso"><title>ISO Görüntüsünün İndirilmesi</title>
+	  <para>Yansı(lar)yı belirttikten sonra, <application>jigdo-lite</application> ISO görüntüsünü oluşturmak için dosyaları indirmeye başlayacaktır.
+<screen>Not downloading .template file - `sarge-i386-1.template' already present
+
+-----------------------------------------------------------------
+Merging parts from `file:' URIs, if any...
+Found 0 of the 826 files required by the template
+Will not create image or temporary file - try again with different input files
+--09:35:12--  http://mirror/debian/pool/main/p/pack/pack_3.10-1_i386.deb
+    => `sarge-i386-1.iso.tmpdir/mirror/debian/pool/main/p/pack/pack_3.10-1_i386.deb
+Resolving linux.csua.berkeley.edu... done.
+Connecting to linux.csua.berkeley.edu[128.32.112.231]:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1,911,624 [application/x-debian-package]
+
+19% [======>                              ] 378,304      149.87K/s    ETA 00:09</screen>
+  </para>
+  <para>Ekranınızda uçuşan pek çok mesaj olacaktır; eğer bu sizin için karmaşıksa <xref linkend="debian-jigdo-wgetoptions"/> kısmına bakınız. <application>jigdo-lite</application> paketleri indirirken, başka bir konsol ekranına geçin (veya başka bir xterm açın) ve <application>jigdo-lite</application>'ı çalıştırdığınız dizinde <command>ls</command> komutunu çalıştırın. Şu anda dizinde 6 dosya olmalıdır:
+  
+  </para><para>
+<itemizedlist>
+<listitem><para><filename>sarge-i386-1.iso.list</filename></para></listitem>
+<listitem><para><filename>sarge-i386-1.iso.tmp</filename></para></listitem>
+<listitem><para><filename>jigdo-file-cache.db</filename></para></listitem>
+<listitem><para><filename>sarge-i386-1.iso.tmpdir/</filename></para></listitem>
+<listitem><para><filename>sarge-i386-1.jigdo</filename></para></listitem>
+<listitem><para><filename>sarge-i386-1.jigdo.unpacked</filename></para></listitem>
+<listitem><para><filename>sarge-i386-1.template</filename></para></listitem>
+</itemizedlist>
+  </para><para>
+<filename>sarge-i386-1.iso.tmpdir/</filename> dizini jigdonun indirdiği tüm Debian paketlerini içermektedir. Sıklıkla dizin boşaltılarak dosyalar, istediğiniz ISO görüntüsünün bitmemiş bir sürümü olan <filename>sarge-i386-1.iso.tmp</filename> dosyasına yazılır. <filename>sarge-i386-1.iso.tmp</filename> dosyasının <filename>sarge-i386-1.iso.tmpdir/</filename> dizini ilk kez boşaltılana kadar <filename>sarge-i386-1.iso.tmp</filename> dosyasının oluşturulmayacağına dikkat edin.  
+  
+  </para><para>
+	<filename>jigdo-file-cache.db</filename> dosyası <literal>Files to scan:</literal> ekranında bir dizin belirttiğiniz zaman okunan herhangi dosyaların md5 toplam sağlamlarını içeren bir Berkeley DB dosyasıdır. <xref linkend="debian-jigdo-jigdo-file-cache"/> kısmında açıklanmıştır. 
+  
+  </para><para>
+	Bu noktadan sonra, gidip biraz Quake III oynayın çünkü biraz zaman alacaktır (farklı bir makinada oynamak isteyebilirsiniz çünkü jigdo dosyaları <filename>.iso.tmp</filename> dosyasına yazarken diski yoğun şekilde kullanmaktadır). Bir zaman sonra indirme bitecek ve şu çıktıya gözünüzü dikmiş bakıyor olacaksınız:
+  
+  </para><para>
+<screen>FINISHED --13:32:58--
+Downloaded: 7,469,872 bytes in 9 files
+Found 9 of the 9 files required by the template
+Successfully created `sarge-i386-3.raw'
+
+-----------------------------------------------------------------
+Finished!
+The fact that you got this far is a strong indication that `sarge-i386-3.raw'
+was generated correctly. I will perform an additional, final check,
+which you can interrupt safely with Ctrl-C if you do not want to wait.
+
+OK: Checksums match, image is good!
+</screen>
+  </para></sect2>
+</sect1>
+<sect1 id="debian-jigdo-updatingyourimage"><title>Görüntü Dosyanızı Güncellemek</title>
+	<para>Muhtemelen son bölümü okumuş, talimatları takip edip yeni oluşturduğunuz ISO'yu CD'ye yazarak kendinizi sıcak ve tüylere bürünmüş hissediyorsunuzdur. Eninde sonunda bazı paketler güncellenecektir ve siz de yerel Linux Kullanıcıları Gurubunuzun yükleme festivalinde eski CD'lerinizi yeni başlayan birine vermek ve kendinize yeni bir güncel CD takımı yazmak isteyeceksiniz. jigdo-guru'su olma yolunda gayet iyi ilerlediğinizden, en son bölümdeki kadar acı veren detaylara girmeyeceğiz.</para>
+	<para>İlk adım, gene, güncellemek istediğiniz görüntü için <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarını indirmektir. Bunları ikinci kez indirmenin sebebini merak ediyor olabilirsiniz. Sebebi indirmek istediğiniz güncel görüntünün değişmiş olmasıdır. Dosyalar eklenmiş veya silinmiş olabilir, böyle olmasa bile herhangi bir güncel paket, görüntüyü ilk indirirken kullandığınız <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarının listesindekilerden farklı toplam sağlama sahip olacaktır.</para>
+	<para>Bu noktada ya elinizde güncelliği geçmiş bir Debian CD'si tutuyorsunuzdur veya CD'nin güncelliğini yitirmiş bir ISO görüntüsü disk sürücünüzde vardır. Güncel bir ISO dosyasını almak için adımları takip edelim. Eğer CD'ninki varsa onu CD sürücünüze koyarak bağlayın:<screen>$ mount /cdrom</screen></para>
+	<para>Öte yandan güncellemek istediğiniz bir ISO dosyanız varsa, onu bir dönüş aygıtı olarak bağlayın (bunu yapmak için root olmanız gerekebilir). Örnek olarak Woody görüntü dosyamı güncelliyor olacağım:<screen># mount -o loop woody-i386-1.iso /mnt</screen></para>
+	<para>jigdo-lite'ı <filename>.jigdo</filename> dosyasını parametre olarak göndererek çalıştırın.
+<screen>$ jigdo-lite woody-i386-1.jigdo
+
+-----------------------------------------------------------------
+Jigsaw Download "lite"
+Copyright 2001-2002 by Richard Atterer &lt;jigdo@atterer.net&gt;
+Loading settings from `/home/p/.jigdo-lite'
+
+-----------------------------------------------------------------
+Images offered by `woody-i386-1.jigdo':
+  1: Debian GNU/Linux 3.0 r0 Woody
+        - Official i386 Binary-1 CD (debian-30r0-i386-binary-1.iso)
+
+Further information about `debian-30r0-i386-binary-1.iso':
+Generated on Thu, 18 Jul 2002 14:34:12 +0100
+
+-----------------------------------------------------------------
+If you already have a previous version of the CD you are
+downloading, jigdo can re-use files on the old CD that are also
+present on the new image, and you do not need to download them
+again.  You found the secret message; you're a very careful
+reader.  Mount the old CD ROM and enter the path it is mounted
+under (e.g. `/mnt/cdrom'). Alternatively, just press enter if you
+want to start the download of any remaining files.
+
+You can also enter a single digit from the list below to
+select the respective entry for scanning:
+  1: /mnt
+Files to scan:</screen></para>
+<para>jigdo-lite bize bağlanmış CD'nin (eğer bir CD'yi güncelliyorsanız) veya dönüş aygıtı olarak bağlanmış ISO dosyanızın konumunu sormaktadır (eğer bir ISO dosyası kullanıyorsanız). <filename>/mnt</filename> üzerinde dönüş aygıtı olarak bağlanmış bir ISO dosyası kullanıyorum, dolayısiyle <literal>/mnt</literal> gireceğim. Eğer bir CD'yi güncelliyorsanız, CD'nin bağlama yolunu girin, o da muhtemelen <literal>/cdrom</literal> benzeri bir şeydir. Her iki durumda da, jigdo-lite bağlanmış olan aygıtınızı tarayacak, hangi dosyaların güncellenmesi gerektiğini belirleyecek ve buna ihtiyaç olmayan dosyaları tekrar kullanacaktır. <xref linkend="debian-jigdo-more-about-scan"/> bölümünü de inceleyebilirsiniz.</para>
+<para>Şuna benzer bir şey görebilirsiniz:<screen>Files to scan: /mnt/other
+
+Not downloading .template file - `woody-i386-1.template' already present
+jigdo-file: Output file `debian-30r0-i386-binary-1.iso' already exists - delete
+it or use --force
+jigdo-file failed with code 3 - aborting.
+</screen></para>
+	<para>Ne oldu? Bunu size göstermek istedim çünkü buna eninde sonunda toslayacaktım. Bir ISO dosyasını göncelliyorum fakat güncelliğini yitirmiş görüntü dosyası, çalıştığım dizinde aynı zamanda. Jigdo-lite, <filename>woody-i386-1.iso</filename> isminde bir dosya üretmek ister fakat halihazırda çalıştığım dizinde bir tane bulunmaktadır (güncel olmayan görüntü). Jigdo-lite bunu bozmak istememektedir, bunun için bir teminat vermekte ve dosyayı silebileceğimi veya <literal>--force</literal>  kullanarak üzerine yazabileceğimi söylemektedir. Dosyayı aynı zamanda yeniden adlandırıp başka yere de taşıyabilirsiniz, fakat sanırım jigdo-lite bunu bildiğimizi varsayıyor. <literal>:-)</literal></para>
+	<para>Dönüş aygıtı şeklinde bağlı olduğu için görüntü dosyasını başka yere taşımakta ya da yeniden isimlendirmekte cesaretsiz olmayın. Dosya sistemi başlıklar altında dosya yapılarını tanımlayan veri yapıları kullanmaktadır (inode) ve dosyayı taşısanız veya yeniden isimlendirseniz bile bu yapılar yerinde kalır. <filename>/mnt</filename> altına bağlı dosya sistemine zarar vermezsiniz. ISO dosyasını silmek de bağlanmış dosya sistemine zarar vermez. Dosyanın yapılarını tanımlayan veri yapıları bunlara işaret eden sayaç bilgisi sıfıra indiğinde bırakılmaktadır. ISO dosyasını bağlamak sayacı arttırmaktadır, dolayısiyle dosya gerçekten ancak <command>rm</command> ile dosyayı sildikten ve dönüş aygıtını bağını bıraktıktan sonra silinir. CD'den güncelleme yapan tüm diğerlerinin bunlar üzerinde endişe etmesine gerek yok. <literal>:-)</literal></para>
+	<para>ISO dosyasını <filename>woody-i386-1.iso.old</filename> olarak yeniden isimlendireceğim ve jigdo-lite'ı tekrar çalıştıracağım. Tekrar deneyelim:
+<screen>$ jigdo-lite woody-i386-1.jigdo
+
+-----------------------------------------------------------------
+Jigsaw Download "lite"
+Copyright 2001-2002 by Richard Atterer &lt;jigdo@atterer.net&gt;
+Loading settings from `/home/p/.jigdo-lite'
+
+-----------------------------------------------------------------
+Images offered by `woody-i386-1.jigdo':
+  1: Debian GNU/Linux 3.0 r0 Woody - Official i386 Binary-1 CD
+        (debian-30r0-i386-binary-1.iso)
+
+Further information about `debian-30r0-i386-binary-1.iso':
+Generated on Thu, 18 Jul 2002 14:34:12 +0100
+
+-----------------------------------------------------------------
+If you already have a previous version of the image you are
+downloading, jigdo can re-use files on the old image that are also
+present on the new image, and you do not need to download them
+again. Mount the old CD ROM and enter the path it is mounted under
+(e.g. `/mnt/cdrom'). Alternatively, just press enter if you want
+to start the download of any remaining files.
+You can also enter a single digit from the list below to
+select the respective entry for scanning:
+  1: /mnt
+Files to scan: /mnt
+Not downloading .template file - `woody-i386-1.template' already present
+...
+Found 1200 of the 1224 files required by the template
+...
+</screen></para>
+	<para>jigdo-lite, <filename>/mnt</filename> dizinini taramak istediğimi hatırlamaktadır ve, <literal>1</literal> ya da dizinin adını yazarak taratabileceğimi söylemektedir. İnatçı biri olduğumdan dizinin adını tekrar yazdım.  </para>
+	<para>Elipsler süratli bir şekilde değişen yazılar göstermektedir. İlk elips, jigdo-lite'ın taradığı dosyaların dinamik listesidir. İkincisi  <filename>woody-i386-1.iso.tmp</filename> dosyasına yazılanları temsil etmektedir. jigdo-lite dosyaları taramayı ve geçici ISO dosyasına yazmayı bitirdiğinde, şunu yazar:
+<screen>Copied input files to temporary file `woody-i386-1.iso.tmp'
+    - repeat command and supply more files to continue
+
+-----------------------------------------------------------------
+If you already have a previous version of the image you are
+downloading, jigdo can re-use files on the old image that are also
+present on the new image, and you do not need to download them
+again. Mount the old CD ROM and enter the path it is mounted under
+(e.g. `/mnt/cdrom'). Alternatively, just press enter if you want
+to start the download of any remaining files.
+You can also enter a single digit from the list below to
+select the respective entry for scanning:
+  1: /mnt
+Files to scan:
+</screen>
+  </para><para>
+	Dönüş aygıtınıza bağlanmış ISO dosyanızdan (veya CD'nizden) başka taratacak dosya kaynağınız olmadığından &lt;ENTER&gt;'a basın. Jigdo-lite daha sonra tıpkı ISO'nuzu ilk kez indirirken yaptığı gibi hangi yansıları kullanmak istediğinizi soracaktır. Bu sorulara daha önceden de yanıt vermiştiniz, fakat gerçekten de hatırlamıyorsanız <xref  linkend="debian-jigdo-specifyamirror"/> kısmını tekrar okumak isteyebilirsiniz. 
+  </para><para>Bu noktadan sonra jigdo-lite'ın sihrini işlettiğini göreceksiniz. Evet, kolay değil miydi?</para>
+</sect1>
+<sect1 id="debian-jigdo-faq"><title>Sıkça Sorulan Sorular</title>
+	<para>Bir tarih bilgisiyle verilen sorular zamana duyarlı olarak belirtilen sorulardır (geçici bir durumu ifade eden soru). Eğer bu sorulardan birini görüyor veya geçici durumun değiştiğini biliyorsanız, lütfen  <ulink url="mailto:p@dirac.org">benimle iletişime</ulink> geçin ve benim bilgilenmemi sağlayın, ben de soruyu küçük-NASIL belgesinden çıkarabileyim.</para>
+  <sect2 id="debian-jigdo-jigdoaskstwice"><title>Jigdo neden <emphasis>iki</emphasis> kere var olan dosyaları taramak için sormaktadır? Sadece bir kere söylemek yeterli değil midir?</title>  	
+	  <para>Bu soruyu bir yol girdiğiniz sürece sormaya devam edecektir. Burada fikir birden fazla eski CD'nizi taramak isteyebileceğinizdir, böylece birbiri ardına bunları bir dizine yerleştirebilir ve "<literal>D:\</literal>" (veya her ne ise) yolunu taramak için sunabilirsiniz. Ayrıca,<xref linkend="debian-jigdo-more-about-scan"/> bölümünü de inceleyebilirsiniz.</para></sect2>
+  <sect2 id="debian-jigdo-problemfiles"><title>Jigdo Belli Dosya İsimlerini İndirirken Sorun Yaşıyor</title>
+      <para>Windows altında Debian görüntülerini indirirken, jigdo-lite aşağıdaki bir veya iki dosyayı indirirken jigdo-lite sorun yaşıyor olabilir:
+<screen>libbusiness-onlinepayment-bankofamerica-perl_xxx_all.deb
+libbusiness-onlinepayment-authorizenet-perl_xxx_all.deb
+libbusiness-onlinepayment-payconnect-perl_xxx_all.deb
+libmasonx-request-withapachesession-perl_xxx_all.deb
+libtemplate-plugin-calendar-simple-perl_xxx_all.deb
+</screen></para>
+	<para>jigdo'nun indirmek için kullandığı dizini mümkün olduğunda sürücülerin kök dizinlerine yakın olacak şekilde  üst dizine taşıyın.</para>
+	<para>NTFS dosya sistemi dosya yol adlarında 255 karakter sınırına sahiptir. Jigdo-lite internetten dosyaları indirdiği zaman, sunucunun dizin yapısının bir kopyasını indirdiği dizinde oluşturmaktadır. Oldukça uzun isimleriyle, yukarıdaki Debian paketleri yol uzunluğunu için konan limitleri aşabilir, bu da "<literal>Cannot write to `[very long pathname]' (No such file or directory)</literal>" gibi bir hatanın oluşmasına sebep olabilir.</para>
+	<para>Bazıları şimdi merak ediyordur: Jigdo-lite neden wget'in "<literal>--force-directories</literal>" anahtarını kullanarak bu problemli dizin hiyerarşisini oluşturmaktadır?</para>
+	<para>Jigdo-lite'ın önceki versiyonları bunu kullanmıyordu, fakat daha sonra bazıları jigdo-lite'ın kesilemesi veya yeniden başlaması sonucu yarım kalan veya silinmiş .deb dosyalarının ihmal edilmesini önleyen "<literal>--continue</literal>" anahtarını kullanmasını istediler.</para>
+	<para>Ne yazık ki bu bazı sorunlara yol açmıştır: Debian sunucuları farklı dizinlerde benzer pekçok dosya ismine sahiptir: (örn. "<literal>root.bin</literal>") ve siz de jigdo-lite indirme işlemi sırasında yaklaşık uygun bir zamanda keserseniz indirme işlemi kaldığı yerden devam edeceği zaman yanlış yarım-yüklenmiş dosya üzerine veri eklemesi, onu bozması ve tüm jigdo indiriminin hataya uğraması muhtemeldir.</para>
+</sect2>
+  <sect2 id="debian-jigdo-useproxy"><title>Jigdo'nun proxy'i kullanmasını nasıl sağlayabilirim?</title>
+	  <para><filename>~/.jigdo-lite</filename> dosyasını (Microsoft Windows versiyonu için <filename>jigdo-lite-settings.txt</filename>) bir editör ile açarak "<literal>wgetOpts</literal>" ile başlayan satırı bulunuz. Aşağıdaki satırlar durumu değiştirecektir:
+<screen>-e ftp_proxy=http://LOCAL-PROXY:PORT/
+-e http_proxy=http://LOCAL-PROXY:PORT/
+--proxy-user=USER
+--proxy-passwd=PASSWORD</screen></para>
+	<para>Elbetteki kendi proxy sunucunuz için uygun değerleri girin. Son iki seçenek eğer proxy parola doğrulama kullanıyorsa gereklidir. Anahtarlar en sondaki <literal>'</literal> karakterinden önce wgetOpts satırının sonuna eklenmelidir. Tüm seçenekler bir satırda olmalıdır.</para>
+	<para>Başka bir seçenek olarak, Linux altında, mesela <filename>/etc/environment</filename> veya <filename>~/.bashrc</filename> dosyasındaki <varname>ftp_proxy</varname> ve <varname>http_proxy</varname> ortam değişkenlerini ayarlayabilirsiniz.</para>
+</sect2>
+<sect2 id="debian-jigdo-jigdo-fails"><title>Jigdo-lite bir hata ile sonlandı - tüm o MB'ları boşuna mı indirdim?</title><para>
+	Eğer ISO'nun içeriğinin öenmli bir kısmını indirdikten sonra jigdo-file bir hatayla sonlanırsa büyük bir "<literal>.iso.tmp</literal>" dosyası üretecektir. Bu durumda indirdiklerinizi korumak için yapabileceğiniz bazı şeyler vardır:
+  
+  </para><para><itemizedlist>
+	<listitem><para>
+	<keycap>ENTER</keycap> tuşuna basarak tekrar başlayın. Belki de zaman aşımından dolayı veya geçici hatalardan bazı dosyalar indirilemedi. İkinci bir deneme eksik dosyaları indirecektir.</para></listitem>
+	<listitem><para>Farklı bir yansı deneyin. Bazı Debian yansıları eşzamanlılıktan biraz uzaktır. Belki farklı bir yansı belittiğinizden silinmiş olan dosyaları hala barındırıyordur veya kendi yansınızda olmayan başka dosyalarla halihazırda güncellenmiştir. Bu benim başıma bir kaç kez geldi.</para></listitem>
+	<listitem><para>Görüntünün eksik kısımlarını <ulink url="http://rsync.samba.org">rsync</ulink> kullanarak edinin. Öncelikle indirmekte olduğunuz görüntünün doğru rsync URL'sini bulmalısınız: <ulink url="http://www.debian.org/CD/mirroring/rsync-mirrors">kararlı</ulink> veya <ulink url="http://www.debian.org/CD/http-ftp/#testing">test</ulink> sürümü için görüntülere rsync erişimi sunan bir sunucu belirleyin, daha sonra doğru yolu ve dosya adını belirleyin. Dizin listesi <command>rsync rsync://cdimage.debian.org/debian-cd/</command> komutu kullanılarak edinilebilir.</para>
+	<para>Daha sonra "<literal>.tmp</literal>" uzantısını jigdo-lite geçici dosyasından kaldırın ve hem uzak URL'yi hem de yerel dosya adını rsync'e gönderin: <command>rsync rsync://server.org/path/binary-i386-1.iso binary-i386-1.iso</command> Rsync'in <literal>--verbose</literal> ve <literal>--progress</literal> anahtarlarını kullanarak durum mesajları alabilirsiniz ve <literal>--block-size=8192</literal> ile de hızı arttırabilirsiniz.</para></listitem>
+	<listitem><para>Linux altında <literal>.tmp</literal> dosyasını indirilmiş paketlere erişim için dönüş aygıtına bağlayabilirsiniz ve daha sonra onları kullarak yeni bir jigdo dosyasından görüntü elde edebilirsiniz (eğer indirme işleminizdeki hata test sürümü örnek görüntüleri sırasında ise, güncel test sürümü örnek görüntülerini kullanmak gibi). Bunu yapmak için, kesilmiş indirme işleminin gerçekleştiği dizinde şu komutu root olarak çalıştırın: <command>mkdir mnt; mount -t iso9660 -o loop *.tmp mnt</command>. Daha sonra farklı bir dizinde yeni bir indirme işlemine başlayın ve mnt dizininin yolunu "Files to scan" cevabını bekleyen satıra yazın.</para>
+	<para>Aynı şeyleri Windows altında "virtual drive" yazılımını kullanarak geçici ISO görüntüsünü dönüş aygıtına bağlayarak yapabilirsiniz. <ulink url="http://www.daemon-tools.cc/">Daemon tools</ulink> ve Nero Image Drive popüler yazılımlardır. Daha fazla seçenek için <ulink url="http://tinyurl.com/c39zr"/> adresine gözatabilirsiniz.</para></listitem></itemizedlist>
+  </para></sect2>
+  <sect2 id="debian-jigdo-disacknowledgements">
+  <title>[11 Ağustos 2002]: Bu NASIL'ın çevirileri neden LDP'de değil?</title><para>
+	LDP'nin İngilizce olmayan sürümlerle ilgilenen yayıncılarına sunulacak bu NASIL'ın tercümelerini edinmekte sorun yaşıyorum.</para>
+	<para>Almanca ile ilgili LDP yayıncısı Marco Budde <email>Budde@tu-harburg.de</email> Almanca tercümeyi, Docbook, LDP'deki SGML için tercih edilen dil olmasına rağmen kabul etmedi, çünkü Linuxdoc değil Docbook formatında yazılmıştı. Açık kaynak camiasında bu topluluğu içinden sabotaj ile çökertecek birilerini olması bir utanç kaynağıdır.</para>
+	<para>Portekizce ile ilgili LDP yayıncısı Alfredo Carvalho <email>ajpc@poli.org</email> Portekizce olarak sunduğum çeviriyi tamamen yoksaydı.</para>
+	<para>Eğer bu dillerdeki LDP belgelerine önem veriyorsanız, bu yayıncılara yazarak çevirileri kabul konusunda biraz daha sorumlu olmalarını isteyiniz. O zaman dek çevirileri kişisel sayfamdan indirebilirsiniz: <ulink url="http://www.dirac.org/linux/debian/jigdo"/></para>
+	<para>Ayıp sana Marco Budde <email>Budde@tu-harburg.de</email>.</para>
+	<para>Ayıp sana Alfredo Carvalho <email>ajpc@poli.org</email>.</para>
+</sect2>
+  <sect2><title>Jigdo ile dosyaları indirmek biraz uzun zaman almakta çünkü wget her dosyada sunucuya bağlantıyı kesmekte ve tekrar bağlanmakta. Bunu hızlandırmanın bir yolu var mı?</title><para>
+	İndirme hızı FTP sunucuları yerine HTTP kullanarak arttırılabilir - FTP pekçok küçük dosyayı indirmek için pek de verimli bir protokol değildir. İlave olarak wget'in son sürümüne güncelleme yapabilirsiniz, çünkü bu sürüm başka bir ufak hız artışına sebep olan kalıcı HTTP bağlantılarını desteklemektedir.</para>
+	<para>Ne yazık ki kalıcı HTTP bağlantılarında bile indirme hızı tek bir ISO dosyasının indirilmesi halindekinden büyük olmayacaktır. Bu tür hızlar ancak HTTP iş hattı ile sağlanabilir - jigdo grafik arayüzü iş hattını destekleyecektir.</para></sect2>
+  <sect2 id="debian-jigdo-interrupted"><title>Jigdo indirmem kesilirse ne yapmalıyım?</title>
+	  <para>Eğer indirme işleminiz kesilirse tek yapmanız gereken jigdo-lite'ı yeniden başlatıp tüm cevap bekleyen satırlarda <keycap>ENTER</keycap>'a basmaktır.</para>
+  </sect2>
+  <sect2><title> Jigdo indirmem <filename>.jigdo</filename> dosyam bozulduğu için tamamlanmayacak. Yeni, düzgün bir .jigdo dosyası indirdiğim zaman tüm verileri tekrar indirmek zorunda mıyım?</title>
+	  <para>.jigdo dosyanızın zarar gördüğünü fark edebilirsiniz. Bu şık rastlanan bir durum değildir, fakat zaman zaman hedefleri test sürümünden karasız sürüme geçirirken olmaktadır.</para>
+	  <para>Eğer <filename>.jigdo</filename> dosyanızın zarar gördüğünü farketmişseniz, yeni bir <filename>.jigdo</filename> dosyası indirmeniz gerekir (düzgün bir tanesi edinilebilir olunca), fakat tüm verileri tekrar indirmek zorunda <emphasis>kalmayacaksınız</emphasis>.</para>
+	  <para>ISO görüntüleri güncellemek için kullandığımız dönüş aygıtına bağlamadaki aynı mantığı kullanabilirsiniz. Fark başlamak için bitmiş bir .iso dosyasının olmamasıdır, fakat <filename>.iso.tmp</filename> dosyası da jigdo-file'ın çalışması sırasında sekteye uğrayarak indirilen .jigdo dosyalarını tekrar indirmenize gerek duydurmayan bir ISO görüntüsüdür. Basit olarak <filename>.iso.tmp</filename> dosyasını <filename>/mnt</filename> üzerindeki dönüş aygıtına bağlayın ve tekrar jigdo-lite'ı çalıştırdığınızda, <filename>/mnt</filename> dizinini taramasını söyleyin. <filename>.iso.tmp</filename> dosyasını yeniden adlandırmayı veya taşımayı unutmayın böylece jigdo-lite yeni oluşturmaya çalıştığımız <filename>.iso.tmp</filename> dosyasına müdahale etmeyecektir. .  
+  
+  </para></sect2>
+  <sect2 id="debian-jigdo-dvdsizedimages">
+  <title>Jigdo'yu DVD için görüntüler indirmek için kullanabilir miyim?</title><para>
+	  Elbette; işlem CD görüntüleri için olanın aynısıdır. Yapmanız gereken tek şey <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarının CD için olanları yerine DVD için olanlarını indirmektir. DVD için gerekli <filename>.jigdo</filename> ve <filename>.template</filename> dosyalarını <ulink url="http://www.debian.org/CD/jigdo-cd/"/> adresinde bulabilirsiniz. 
+  
+  </para><para>
+	Linux altında DVD boyutunda dosyalar için 2.4 ve üzeri sürümlerdeki çekirdeğe ihtiyacınız vardır. 
+  
+  </para><para>
+	MS Windows altında <literal>jigdo-win-0.7.1a</literal> (21 Temmuz 2004'te duyuruldu) veya sonraki sürümünü DVD boyutunda görüntüler oluşturmak için kullanmalısınız. Bu Mingw32 içerisindeki büyük dosya boyutlarını desteklemekle ilgili bir hatadan kaynaklanmaktadır, derleyici MS Windows çalıştırılabilir dosyaları oluşturmaya alışmıştır. Hata bu tarihte düzeltildi ve <literal>jigdo-win-0.7.1a</literal> duyuruldu.
+  
+  </para></sect2>
+  <sect2><title><filename>.iso.tmp</filename> dosyasını CD'ye yazabilir miyim?</title><para>
+	Gordon Huff ve David Anselmi sayesinde yanıtın "evet yapabilirsiniz" olduğunu biliyoruz. Bundan daha önemlisi ise Gordon'un böyle bir şeyi ilk etapta neden yapmak istediğinizle ilgili iyi bir sebep vermesidir. Gordon şöyle diyor:
+  </para><para><blockquote><para>
+  	Arkadaşımın Win98'inin hoş bir kablolu bağlantısı vardı. Sabahleyin ulaştım ve jigdo'yu başlattım (aslında bir kereden fazla) ve daha sonra da alışverişe gittik, kivi ağacını bağladık, Yılbaşı Ağacına ışıkları koyduk, bir pizza söyleyip paylaştık ve uydu alıcısını çalıştırdık. 	
+	
+  </para><para>
+	Arkadaşımın yerinden CD yazıcıda pek çok iso.tmp ile ayrıldım. Eve geldiğimde, dial-up kullanarak güncelleme için başlattığım jigdo kurulumu için iso'ları kullandım.  
+  
+  </para></blockquote>
+  </para></sect2>
+  <sect2><title> Jigdo-lite düzgün çalışmıyor! Bazı paketleri indiriyor ve siliyor. <filename>iso.tmp</filename> dosyasına yazmadığını biliyorum çünkü dosya boyu değişmiyor!</title>
+	  <para>Jigdo aslında gayet güzel çalışmaktadır - <filename>.iso.tmp</filename> dosyası en sonda olması gerektiği boyutuyla oluşturulur bu zamana kadar sıfır bayt verilerle doldurulur. Daha sonra indirilmiş olan kısımları üzerine yazılır. 
+  
+  </para><para>
+	Jigdo'nun bazı işlemler yaptığını zaman zaman ekrana verdiği "<literal>Found X of the Y files required by the template</literal>" mesajlardan anlayabilirsiniz. İlk değer olan "<literal>X</literal>" artmalıdır. <literal>X</literal> değeri <literal>Y</literal>'ye eşit olduğunda indirme işlemi sonlanır. . 
+  </para></sect2>
+<sect2 id="debian-jigdo-troublewithjigdoeasy"><title>jigdo-easy'i çalıştırmakta sorun yaşıyorum.</title>
+	<para><xref linkend="debian-jigdo-jigdo-easy"/> kısmına bakın.</para>
+</sect2>  
+<sect2 id="debian-jigdo-scanmultipleimages"><title>Görüntü güncellemeleri için jigdo-lite'ın bir kerede 14 tane bağlanmış dönüş aygıtını taramasını istiyorum. Bunu nasıl yapabilirim?</title>
+	<para>CD görüntülerini güncellerken, görüntüleri dönüş aygıtı gibi bağlamak ve ayırmak oldukça yorucudur. Yine de, varsayılan olarak Linux çekirdeği sadece 8 tane dönüş aygıtını desteklemektedir ve jigdo-lite'ın da bir önce girilen yol menülerinde 5 girişi bulunmaktadır.</para>
+	<para>Daha fazla dönüş aygıtı gibi bağlanmış görüntüleri taramak için Linux çekirdeğine varsayılan olan 8 tanesinden fazlasını söylemelisiniz. Bu, modül yüklenmesi sırasında "<literal>max_loop</literal>" parametresi verilerek yapılır: örn. komut satırında "<literal>modprobe loop max_loop=16</literal>" girilerek veya <filename>/etc/modules.conf</filename>	dosyasına "<literal>options loop max_loop=16</literal>" satırı eklenerek. Debian'da bu satırı <filename>/etc/modutils/local-loop</filename> gibi bir dosyaya koymalısınız ve sonrasında 	<command>update-modules</command> komutunu çalıştırmalısınız, çünkü <filename>/etc/modules.conf</filename> 	dosyasındaki değişiklikler üzerine yazılacaktır.</para>
+	<para>Bağımsız olarak bağlanmış görüntülere sahip olunca bunların kök dizinlerini parametre olarak jigdo-lite'a taraması için verebilirsiniz. Örneğin, eğer görüntüler <filename>/mnt/myloopmounts/image1/</filename> v.b gibi bir dizin altına bağlandıysa, "<filename>/mnt/myloopmounts</filename>" dizinini taranacak dizin olarak gönderin. Eğer ana dizini göndermek uygun değilse, başka bir dizin oluşturup içerisini bağlama noktalarına sembolik linklerle doldurabilirsiniz.</para>
+  </sect2>
+
+  <sect2 id="debian-jigdo-wgetoptions">
+  <title>Jigdo-lite çok fazla açıklama mesajı veriyor. Bu mesajların bazılarını veya tamamını nasıl geçebilirim?</title><para>
+	Jigdo-lite wget kullanmaktadır ve wget çıktıları da oldukça açıklama içermektedir. Bu rahatsızlık vericiyse, <filename>~/.jigdo-lite</filename> dosyasındaki <literal>wgetOpts</literal> seçeneğine <literal>--non-verbose</literal> ekleyerek biraz daha sessiz çalışmasını sağlayabilirsiniz. 
+  
+  </para></sect2>
+  <sect2 id="debian-jigdo-otherplatforms">
+  <title>Jigdo'yu Linux dışındaki ortamlarda da kullanabilir miyim?</title><para>
+	Elbette. Eğer Potato veya Woody ile ilgiliyseniz Microsoft Windows, eski SunOS, HP-UX ve IRIX altında jigdo-easy'i kullanabilirsiniz. <xref linkend="debian-jigdo-jigdo-easy"/> ve <xref linkend="debian-jigdo-links"/> kısmına bakınız.   
+  
+  </para><para>
+	Eğer  Potato, Woody, Sarge veya Sid'i Microsoft Windows altında indirmek istiyorsanız, jigdo-lite bu ortama uygun hale getirilmiştir ve jigdo ana sayfasından indirilebilir (<xref linkend="debian-jigdo-links"/>).
+  
+  </para></sect2>
+  <sect2><title>MS Windows'ta neden , "<literal>No such file or directory</literal>" hata mesajını alıyorum?</title><para>
+	MS Windows altında jigdo-lite'ın bazı dosyaları indirdiğini ve daha sonra da onların içeriklerini almada "<literal>No such file or directory</literal>" benzeri bir hata mesajıyla neticelenen bir hata yaşadığını gözlemleyebilirsiniz.
+  
+  </para><para>
+	Bu jigdo'nun işlediği dosya adlarının belli bir sınırı aştığında olmaktadır. Çözüm yarım-bitmiş indirmeleri dizn hiyerarşisi içerisinde sürücü seviyesine daha yakına taşımaktır. 
+  
+  </para></sect2>
+  <sect2><title>MS Windows'ta, neden görüntüm 2GB'tan daha büyük gözüküyor?</title><para>
+	Jigdo'nun eski sürümünü kullanıyorsunuz. Lütfen <literal>jigdo-win-0.7.1a </literal> veya daha yeni bir sürümüne güncelleyin. <xref linkend="debian-jigdo-dvdsizedimages"/> kısmına bakın. 
+  
+  </para></sect2>
+  <sect2><title>MS Windows'ta, <filename>jigdo-lite.bat</filename> doyası "sh" bulunmadı şeklindeki bir hata mesajıyla sonlanıyor.</title><para>
+	Bu  <literal>.bat</literal> dosyası içerisindeki <literal>PATH</literal> komutunun hataya uğradığı anlamına gelmektedir. Bunun sebebi, bazen jigdo'yu Windows ağı paylaşımını kullanarak "<filename>\\SomeServer\Files\jigdo</filename>" gibi bir yola açmanızdır. Çözüm: (tarayıcının seçenekler menüsündeki) "<command>Map network drive</command>"'ı "<literal>Z:</literal>" gibi bir sürücü atamak için kullanın, daha sonra "<literal>Z:\jigdo</literal>" içerisindeki <literal>.bat</literal> dosyasına çift tıklayın. Bir başka çözüm olarak <filename>jigdo-bin</filename> alt dizini içerisindeki tüm dosyalar <literal>.bat</literal> dosyasının olduğu yere taşınabilir. 
+  </para></sect2>
+
+<sect2><title>ISO görüntülerini paralel indirebilmek için birden çok jigdo-lite çalıştırabilir miyim?</title>
+	<para>Tabi ki çalıştırabilirsiniz. Yine de dosya isimlerindeki çakışmayı önlemek için her <application>jigdo-lite</application> uygulamasını kendi ayrı dizininde çalıştırmalısınız. İstediğiniz kadar fazla süreci aynı anda başlatıp yatabilirsiniz, sabah uyandığınızda tüm ISO görüntüleri diskinizde sizi bekliyor olacaktır. <application>jigdo-lite</application> bant genişliğini ve işlemciyi yoğun olarak kullanacağından aynı sırada başka bir şey yapmak istemezsiniz.</para>
+</sect2>
+<sect2><title>Grafik arayüz mevcut mu?</title>
+	<para>Jigdo'nun bir GTK+ arayüzü üzerinde çalışılıyor. Hem Linux hem de Microsoft Windows grafik arayüzleri planlanıyor olsa da 1.5 yılda %80'i tamamlanabildiğinden kullanmak için onu beklemeyin.</para>
+</sect2>
+
+
+</sect1>
+<sect1 id="debian-jigdo-errata"><title>Düzeltmeler</title>
+  <sect2 id="debian-jigdo-jigdo-easy"><title>jigdo-easy</title>
+  <para>Jigdo-easy Anne Bezemer tarafından yazılmış Microsoft Windows, old SunOS, HP-UX ve IRIX gibi pekçok sistem yelpazesinde çalışabilen bir jigdo-lite türevidir. jigdo-lite kullanımından daha kolaydır fakat yapılan değişikliklerden dolayı sadece Potato ve Woody ile çalışacaktır. Jigdo-easy Sarge ve Sid'i indiremez. <xref linkend="debian-jigdo-links"/> and <xref linkend="debian-jigdo-otherplatforms"/> bölümlerine bakınız.</para>
+</sect2>
+<sect2 id="debian-jigdo-more-about-scan"><title>Kaynak Tarama Hakkında</title>
+	<para>Şimdiye kadar öğrendiğiniz gibi jigdo-lite taramak için dosya sorduğunda üç tür kaynak kullanabilirsiniz:
+	<itemizedlist><listitem>Güncellemek istediğiniz CD veya DVD'nin diskinize bağlanmış kopyası,</listitem>
+		<listitem>Güncellenek istediğiniz ISO görüntüsünün diskinize bağlanmış kopyası,</listitem>
+		<listitem>jigdo-lite daha önce çalıştırılmış ve durdurulmuşsa <filename>.iso.tmp</filename> dosyasının diskinize bağlanmış kopyası.</listitem>
+	</itemizedlist></para>
+<para>Jens Seidel'in belirttiği gibi kaynak taramak için kullanabileceğiniz kurnazca bir kaynağınız daha vardır: diskinizdeki apt önbelleğiniz (apt cache). Apt önbellek olarak <filename>/var/cache/apt/archives</filename> dizinini kullanır. Bu dizinde jigdo-lite için kaynak olabilecek bir çok debian paketi bulunur. Bu dizini tereddütsüz kullanabilirsiniz.</para>
+<para><filename>~/.jigdo-lite</filename> dosyasını elle düzenlerseniz birden çok kaynak dizininin bir birinden boşlukla ayırıldığına dikkat edin. Örneğin:  <screen>scanMenu='/var/cache/apt/archives/ /cdrom/'</screen></para></sect2>
+  <sect2 id="debian-jigdo-jigdo-file-cache">
+  <title>jigdo-file-cache.db</title><para>
+	<literal>Files to scan:</literal> sorusuna verdiğiniz yanıttaki dizinin içerisideki md5 toplam sağlamlarını içerir. Aynı dizini jigdo-file ile tekrar taratırsanız daha hızlı gerçekleşecektir. 
+  
+  </para><para>
+	Bu şu durumlarda faydalı olabilir: rev0, rev1'e güncellenmiştir. rev1 CD görüntüleri ile bazı paketler  CD <literal>n</literal>'den CD <literal>n+1</literal>'e itilmiş olabilir, veya tam tersi. Eğer oldukça yavaş bir bağlantınız varsa (örn. modem), bu paketleri tekrar indirmekten kaçınabilirsiniz. Bundan dolayı,  CD <literal>n</literal>'in yeni sürümünü indirirken jigdo-lite'ın <literal>n-1</literal>, <literal>n</literal> ve <literal>n+1</literal> CD'lerini taramasını sağlamalısınız. 
+  
+  </para><para>
+	Eğer jigdo-lite ile aynı CD'leri 8 CD görüntüsünü güncelleme sırasında tekrar tekrar tararsanız, önbellek (cache) CD'lerdeki verinin defalarca okunmasını önleyecektir.  
+  
+  </para><para>
+	Önbellek jigdo dosyalarını <emphasis>üretmekten</emphasis> daha önemlidir, jigdo-file'ın her jigdo dosyası için 50GB'lık Debian yansısını taramasını istemezsiniz.   
+  
+  </para></sect2>
+  <sect2 id="debian-jigdo-links"><title>Kaynaklar</title><para>
+	Bu NASIL artık sona yaklaşıyor, fakat sizlere jigdo araçları ve nasıl çalıştıklarıyla ilgili bir kaç bağ bırakmalıyım.
+  
+  </para><para><variablelist><varlistentry>
+<term><ulink url="http://atterer.net/jigdo"/></term>
+<listitem><para>
+	Bu jigdo'nun ev sayfasıdır. Bu sayfaya kesinlikle göz atmalısınız; portlarla ilgili herşey, GUI araçları ve jigdo ile ilgili gün ışığındaki her şey.
+
+</para></listitem></varlistentry><varlistentry>
+<term><ulink url="http://cdimage.debian.org/~costar/jigdo"/></term>
+<listitem><para>
+jigdo-easy için Debian paketi(<xref linkend="debian-jigdo-jigdo-easy"/>).
+</para></listitem></varlistentry><varlistentry>
+<term><ulink url="http://www.debian.org/CD/jigdo-cd"/></term>
+<listitem><para>
+Jigdo için ana Debian sayfası.
+</para></listitem></varlistentry><varlistentry>
+<term><ulink url="http://packages.debian.org/testing/utils/jigdo-file.html"/></term>
+<listitem><para>
+Debian jigdo-file paketinin resmi internet adresi.
+</para></listitem></varlistentry><varlistentry>
+<term><ulink url="http://lists.debian.org/search.html"/></term>
+<listitem><para>
+Bu sayfayı debian-cd ileti listesi arşivinde arama yapmak için kullanabilirsiniz. 
+</para></listitem></varlistentry><varlistentry>
+<term><ulink url="http://www.debian.org/MailingLists/subscribe"/></term>
+<listitem><para>
+debian-cd ileti listesi kayıt sayfası.
+</para></listitem></varlistentry><varlistentry>
+	<term><ulink url="https://lists.berlios.de/mailman/listinfo/jigdo-user"/></term>
+	<listitem><para>Jigdo ileti listesi kayıt sayfası.</para></listitem></varlistentry>
+</variablelist>
+  </para>
+  </sect2>
+</sect1>
+</article>
+
+

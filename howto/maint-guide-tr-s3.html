@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:17+03:00"><title>Kaynak paketinde değişiklik</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr.html" title="Debian Paket Bakımcılarının Kılavuzu"><link rel="previous" href="../howto/maint-guide-tr-s2.4.html" title='İlk "debianlaştırma"'><link rel="next" href="../howto/maint-guide-tr-s3.1.html" title="Kütüphaneleri değiştirmek"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kaynak paketinde değişiklik</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s2.4.html">Önceki</a> </td><th width="60%" align="center">Debian Paket Bakımcılarının Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s3.1.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="maint-guide-tr-s3"></a>Kaynak paketinde değişiklik</h2></div></dt><dd><div class="toc"><p><b>İçindekiler</b></p><dl><dt>3.3.1. <a href="../howto/maint-guide-tr-s3.1.html">Kütüphaneleri değiştirmek</a></dt></dl></div><p>
+Normal olarak programlar kendilerini <tt>/usr/local</tt> dizini altındaki dizinlere yükler. Fakat, bu kısım sistem yöneticilerinin (veya kullanıcıların) özel kullanımlarına ayrıldığı için, Debian paketleri bu dizini kullanmamalıdır. Bu da paketin derlenme sistemine, genel olarak da Makefile ile başlayarak bakmak demektir. Makefile, programın derlenmesini ve kurulmasını otomatikleştirecek bir <b><tt>make(1)</tt></b> betiğidir. Makefile ile ilgili daha ayrıntılı bilgi için <a href="../howto/maint-guide-tr-s4.4.html" class="xref" title="rules dosyası"> rules dosyası</a> bölümüne bakınız.
+    </p><p>
+Eğer programınız GNU <b><tt>automake(1)</tt></b> ve/veya <b><tt>autoconf(1)</tt></b> kullanıyorsa, ki bu da kaynak paketinin <tt>Makefile.am</tt> ve/veya <tt>Makefile.in</tt> dosyalarını içermesi demektir, sırasıyla, bu dosyaları değiştirmeniz gerekir. Bunun sebebi, her bir <b><tt>automake</tt></b> çağrımının  <tt>Makefile.am</tt> dosyasında üretilen bilgilerin <tt>Makefile.in</tt> dosyasına tekrar yazılmasını, her bir <b><tt>./configure</tt></b> çağrımının da <tt>Makefile.in</tt> dosyalarında üretilen bilgi ile benzer işlemi <tt>Makefile</tt> dosyasıda gerçekleştirecek olmasıdır. <tt>Makefile.am</tt> dosyasını düzenlemek biraz yöntemleri vardır; çalıştırılabilirler $PATH'e eklenir, ayrıca belgeleri ve kılavuz sayfalarını da yaygın kullanılan yerlerde bulursunuz. Yine de, bu şekilde yaptığınız zaman, programınız sisteminizde var olan herşeyin arasına yüklenecektir. Bu da paketleme araçlarını zora sokacak ve hangi dosyalar pakete ait hangileri değil tespiti zorlaşacaktır.
+    </p><p>
+Bunun için farklı bir şeyler yapmalısınız: programı, paketleme araçlarının çalışan bir <tt>.deb</tt> paketi yapabileceği bir geçici alt dizine kurun. Bir kullanıcının bu paketi kurmak istemesi durumunda, bu dizinin içerdiği herşey  sistemine kurulacaktır, tek farkla ki, <b><tt>dpkg</tt></b> dosyaları geçici alt dizine değil kök dizin altına kuruyor olacaktır.
+    </p><p>
+Bu geçici dizin kaynak dizin hiyerarşisi içinde, <tt>debian/</tt> dizini olarak oluşturulur. Genelde <tt>debian/tmp</tt> veya <tt>debian/paketadı</tt> olarak isimlendirilir.
+    </p><p>
+Program kurulumunu <tt>debian/paketadı</tt> içine yüklenmiş şekilde yapmanız gerekse de, kök dizin altına yerleştirilince de düzgün çalışması gerekmektedir, örn. bir <tt>.deb</tt> paketinden kurulum yaparken. Bu bakımdan paket dosyalarına derleme sisteminin <tt>/home/me/deb/gentoo-0.9.12/usr/share/gentoo</tt> gibi dizgeyi uygulamasına izin vermemelisiniz.
+    </p><p>
+GNU autoconf'u kullanan programlarla bu biraz daha kolay olacaktır. Böyle programların çoğu, Örneğin <tt>/usr</tt> gibi belli bir öneki uhdesinde tutarken, kurulumun rasgele bir alt dizine yapılabilmesine imkan veren öntanımlı bir yapılandırma sistemine sahip Makefile dosyaları içeririrler.  <b><tt>dh_make</tt></b>, programınızın autoconf kullandığını saptarsa, komutları bunu otomatik olarak yapması için ayarlayacaktır. Böylece, bu bölümün devamını okumadan geçebileceksiniz. Fakat diğer program türleri için Makefile dosyalarını incelemeniz ve gereken düzenlemeleri kendiniz yapmanız gerekecektir.
+    </p><p>
+İşte gentoo'nun Makefile dosyasının ilgili kısmı:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Where to put binary on 'make install'?
+# <i>'make install' çalıştırılabilirleri nereye koyacak?</i>
+BIN     = /usr/local/bin
+
+# Where to put icons on 'make install'?
+# <i>'make install' simgeleri nereye koyacak?</i>
+ICONS   = /usr/local/share/gentoo
+</pre> </td></tr></table></div>
+    </p><p>
+Dosyaların <tt>/usr/local</tt> altına yükleneceğini görüyoruz. Bu yolları şu şekilde değiştirin:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Where to put binary on 'make install'?
+BIN     = $(DESTDIR)/usr/bin
+
+# Where to put icons on 'make install'?
+ICONS   = $(DESTDIR)/usr/share/gentoo
+</pre> </td></tr></table></div>
+    </p><p>
+Fakat neden bu dizin de bir başkası değil? Çünkü Debian paketleri dosyalarını asla <tt>/usr/local</tt> altına yüklemez - bu hiyerarşi sistem yöneticileri için ayrılmıştır. Bunun yerine, bu tür dosyalar Debian sistemlerinde <tt>/usr</tt> altına gider.
+    </p><p>
+İkilikler, simgeler, belgelendirme, v.b. ile ilgili daha kesin yerleştirme bilgisi Dosyasistemi Hiyerarşisi Standardında (Filesystem Hierarchy Standard) belirtilmiştir. Size <tt>/usr/share/doc/debian-policy/fhs/</tt> dizinindekileri okumanızı ve paketinizle ilgili kısımları incelemenizi tavsiye ederim.
+    </p><p>
+O halde, ikilik dosyayı <tt>/usr/local/bin</tt> yerine <tt>/usr/bin</tt>'e, kılavuz sayfalarını <tt>/usr/local/man/man1</tt> yerine <tt>/usr/share/man/man1</tt>'e, v.s. yüklemeliyiz. gentoo'nun makefile'ında bir kılavuz sayfası belirtilmediğini hatırlayın, fakat <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a> her programın bir kılavuz sayfası olmasını gerektirdiğinden, ilerde bir tane yapıp <tt>/usr/share/man/man1</tt> altına koyacağız.
+    </p><p>
+Bazı programlar bu tür yolları belirtmek için makefile değişkenlerini kullanmaz. Bu da doğru yerleşimleri kullanmaları için asıl C kodunu düzenlemek zorunda kalacağınız anlamına gelir. Fakat nereyi araştıracaksınız, tam olarak ne için? Bunu aşağıdakini uygulayarak öğrenebilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">grep -rn usr/local/lib *.[ch]</pre> </td></tr></table></div>
+    </p><p>
+Grep kaynak ağacında özyinelemeli olarak çalışacak ve arananla ilgili bir oluşum olduğunda size dosya adını ve satırı söyleyecektir.
+    </p><p>
+Şu dosyaları düzenleyiniz ve <tt>/usr/local/*</tt> satırlarını <tt>usr/*</tt> ile değiştirin. Kodun geri kalan kısmına zarar vermediğinizden emin olun. <tt>:-)</tt>
+    </p><p>
+Bundan sonra hedef yükleme yerini bulmalısınız (<tt>install:</tt> ile başlayan satırı araştırın, genelde işe yarar) ve tüm başvuruları yukarında Makefile dosyasında olduğu gibi yeniden adlandırın. Önceden, gentoo'nun kurulum hedefi şu şekilde idi:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+install: gentoo
+        install ./gentoo $(BIN)
+        install icons/* $(ICONS)
+        install gentoorc-example $(HOME)/.gentoorc
+</pre> </td></tr></table></div>
+    </p><p>
+Değiştirdikten sonra şu şekilde olur:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+install: gentoo-target
+        install -d $(BIN) $(ICONS) $(DESTDIR)/etc
+        install ./gentoo $(BIN)
+        install -m644 icons/* $(ICONS)
+        install -m644 gentoorc-example $(DESTDIR)/etc/gentoorc
+</pre> </td></tr></table></div>
+    </p><p>
+Elbetteki farketmişsinizdir, artık kural setindeki diğerlerinden önce bir <b><tt>install -d</tt></b> komutu bulunmaktadır. Orjinal makefile bunu içermemektedir, çünkü genelde <b><tt>make install</tt></b>'ın çalıştırdığı bir sistemde <tt>/usr/local/bin</tt> ve diğer dizinler bulunmaktadır. Yine de, kendi boş (varolmayan) dizinimize kurduğumuz için, bu dizinlerin herbirini oluşturmamız gerekecektir.
+    </p><p>
+Kural kümesinin sonuna bazı başka şeyler de ekleyebiliriz, üst düzey geliştiricinin bazen atlatığı ek belgelendirmenin kurulumu gibi.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+        install -d $(DESTDIR)/usr/share/doc/gentoo/html
+        cp -a docs/* $(DESTDIR)/usr/share/doc/gentoo/html
+</pre> </td></tr></table></div>
+    </p><p>
+Dikkatli bir okuyucu <b><tt>install:</tt></b> satırındaki <tt>gentoo</tt>'yu <tt>gentoo-target</tt>'e çevirdiğimi farketmiştir. Buna ilişkisiz hata onarımı (unrelated bug fix) denir <tt>:-)</tt>.
+    </p><p>
+Her ne zaman Debian paketiyle ilgili bir değişiklik yaparsanız, üst düzey geliştiriciye de de bunu yollamayı unutmayın ki böylece programın yeni sürümünde yer alarak herkese faydalı olabilsin. Ayrıca, göndermeden önce yapacağınız düzeltmeleri sadece Debian ya da Linux'a (ve hatta Unix'e!) özgün olmaması gerektiğini unutmayın - onları taşınabilir yapın. Bu da düzeltmelerinizin uygulanması kolaylaştırır.
+    </p><p>
+<tt>debian/*</tt> dosyalarını göndermeniz gerekmemektedir.
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s2.4.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s3.1.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">İlk "debianlaştırma" </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kütüphaneleri değiştirmek</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

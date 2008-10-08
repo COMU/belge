@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-26T01:21:36+03:00"><title>Müzik CD'lerinin Yazılması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/cd-yazimi.html" title="Linux'da CD Yazımı"><link rel="previous" href="../howto/cd-yazimi_veriler.html" title="Veri CD'lerinin Yazılması"><link rel="next" href="../howto/cd-yazimi_kaynakca.html" title="Kaynaklar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Müzik CD'lerinin Yazılması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/cd-yazimi_veriler.html">Önceki</a> </td><th width="60%" align="center">Linux'da CD Yazımı</th><td width="20%" align="right"> <a accesskey="n" href="../howto/cd-yazimi_kaynakca.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="cd-yazimi_muzik"></a>Müzik CD'lerinin Yazılması</h2></div></dt><dd><p>
+      Müzik CD'si derken, müzik setlerinde ve CD-Walkman'lerde okunabilecek
+      müzik CD'lerini kastettiğimizi hatırlatmakta fayda var. Belgenin (kısa
+      belgemizin) başında da ifade ettiğimiz gibi, Müzik CD'si hazırlarken
+      <b><tt>cdrecord</tt></b>'a ek olarak <b><tt>sox</tt></b>
+      ve <b><tt>mpg321</tt></b> yazılımlarının da sistemimizde bulunması
+      gerekmektedir.
+    </p><p>
+      Müzik CD'si hazırlarken, istediğimiz şey muhtemelen diskimizde mp3
+      biçeminde bulunan müzik dosyalarından müzik setlerinde dinlenebilecek
+      bir Müzik CD'si oluşturmaktır. Bu işlem, öncelikle mp3 dosyalarımızı
+      wav biçemine çevirmemiz, sonrasında CD'ye yazmamızı gerektiren iki
+      aşamalı bir süreçtir. İlk önce, mp3 dosyalarımızı bir dizin içerisinde
+      topladığınızı varsayıyoruz. Bu dizin içerisindeki mp3 dosyalarını
+      <b><tt>sox</tt></b> ve <b><tt>mpg321</tt></b> programlarının
+      birlikte kullanımı ile wav biçemine şöyle bir komut ile çevirebiliyoruz:
+    </p><p>
+<pre class="literallayout">
+    <b><tt>mpg123</tt></b> <tt>-s <i>parcam.mp3</i> | <b><tt>sox</tt></b> -t raw -r 44100 -s -w -c 2 - <i>parcam.wav</i></tt>
+</pre>
+    </p><p>
+      Bunu kendi bilgisayarımızda bir mp3 için yaptığımızda şöyle bir çıktı
+      ile karşılaşıyoruz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>[root@isildur iso]#</tt> <b><tt>ls</tt></b>
+jaco_pastorius-slang.mp3
+<tt>[root@isildur iso]#</tt> <b><tt>mpg123 -s jaco_pastorius-slang.mp3 | sox -t raw -r 44100 -s -w -c 2 - jaco.wav</tt></b>
+High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2, and 3.
+Version 0.59q (2002/03/23). Written and copyrights by Joe Drew.
+Uses code from various people. See 'README' for more!
+THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN RISK!
+
+Playing MPEG stream from jaco_pastorius-slang.mp3 ...
+MPEG 1.0 layer III, 128 kbit/s, 44100 Hz stereo
+
+[8:01] Decoding of jaco_pastorius-slang.mp3 finished.
+<tt>[root@isildur iso]#</tt> <b><tt>ls</tt></b>
+jaco_pastorius-slang.mp3  jaco.wav
+<tt>[root@isildur iso]#</tt>
+</pre> </td></tr></table></div>
+    </p><p>
+      Görüldüğü gibi mp3 dosyamızı wav biçemine başarı ile çevirdik. Burada
+      bir tane mp3 dosyasını üzerinde çalıştık fakat, istediğiniz kadar mp3'ü
+      bu yolla - toplamları CD boyutunu aşmadığı sürece - wav dosyasına
+      çevirebilirsiniz. Bu wav dosyalarını CDDA biçemine dönüştürüp CD'ye
+      yazmak için de yardımımıza <b><tt>cdrecord</tt></b> koşuyor.
+    </p><p>
+      Burası enteresan bir nokta: aşağıdaki komutu CD'de yer kaldığı sürece
+      istediğiniz kadar tekrarlayabilir ve şarkılarınızı istediğiniz sırada
+      yazdırarak Müzik CD'nizi oluşturabilirsiniz:
+    </p><p>
+<pre class="literallayout">
+    <b><tt>cdrecord</tt></b> <tt>-pad -v dev=<i>0,4,0</i> -dao speed=<i>12 sarki_adi.wav</i></tt>
+</pre>
+    </p><p>
+      Yine bir çıktı ile -kısa- belgemizi noktalayalım. Aşağıdaki çıktı, bir
+      müzik CD'sinin yazımından alınmıştır. Şarkıları tek tek el ile yazmaktansa,
+      <tt>*.wav</tt> diyerek dizin içerisindeki tüm wav dosyalarını
+      CD'ye yazdırabilirsiniz elbette. Fakat bu şekilde şarkılar sizin istediğiniz
+      sırada değil alfabetik sırada CD'ye yazılacaklarından, şarkı isimlerini
+      istediğiniz sıraya göre numaralandırmalısınız:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>[root@isildur iso]#</tt> <b><tt>ls</tt></b>
+01miles.wav      03coltrane.wav   05terje.wav      07joe.wav        09kessel.wav     11tony.wav
+02mingus.wav     04terje.wav      06evreniz.wav    08lespaul.wav    10ella.wav
+<tt>[root@isildur iso]#</tt> <b><tt>cdrecord -pad -v dev=0,4,0 -dao speed=12 *.wav</tt></b>
+Cdrecord 1.10 (i686-pc-linux-gnu) Copyright (C) 1995-2001 Jörg Schilling
+TOC Type: 0 = CD-DA
+scsidev: '0,4,0'
+scsibus: 0 target: 4 lun: 0
+Linux sg driver version: 3.1.22
+Using libscg version 'schily-0.5'
+atapi: 0
+Device type    : Removable CD-ROM
+Version        : 2
+Response Format: 2
+Capabilities   : SYNC LINKED
+Vendor_info    : 'PLEXTOR '
+Identifikation : 'CD-R   PX-W1210S'
+Revision       : '1.04'
+Device seems to be: Generic mmc CD-RW.
+Using generic SCSI-3/mmc CD-R driver (mmc_cdr).
+Driver flags   : SWABAUDIO
+Drive buf size : 2394336 = 2338 KB
+FIFO size      : 4194304 = 4096 KB
+Track 01: audio  56 MB (05:37.58)
+Track 02: audio  48 MB (04:50.14)
+Track 03: audio  45 MB (04:31.83)
+Track 04: audio  49 MB (04:54.87)
+Track 05: audio  62 MB (06:12.29)
+Track 06: audio  57 MB (05:39.70)
+Track 07: audio  34 MB (03:22.81)
+Track 08: audio  27 MB (02:40.52)
+Track 09: audio  34 MB (03:27.46)
+Track 10: audio  32 MB (03:13.25)
+Track 11: audio  42 MB (04:14.53)
+Total size:     492 MB (48:45.10) = 219383 sectors
+Lout start:     492 MB (48:47/08) = 219383 sectors
+Current Secsize: 2048
+ATIP info from disk:
+  Indicated writing power: 6
+  Is not unrestricted
+  Is not erasable
+  Disk sub type: Medium Type A, low Beta category (A-) (2)
+  ATIP start of lead in:  -11634 (97:26/66)
+  ATIP start of lead out: 359849 (79:59/74)
+Disk type:    Short strategy type (Phthalocyanine or similar)
+Manuf. index: 3
+Manufacturer: CMC Magnetics Corporation
+Blocks total: 359849 Blocks current: 359849 Blocks remaining: 140466
+Starting to write CD/DVD at speed 12 in write mode for single session.
+Last chance to quit, starting real write in 0 seconds. Operation starts.
+Waiting for reader process to fill input buffer ... input buffer ready.
+Performing OPC...
+Sending CUE sheet...
+Writing pregap for track 1 at -150
+Starting new track at sector: 0
+Track 01:  56 of  56 MB written (fifo  98%).
+Track 01: Total bytes read/written: 59549184/59550288 (25319 sectors).
+Starting new track at sector: 25319
+Track 02:  48 of  48 MB written (fifo 100%).
+Track 02: Total bytes read/written: 51181056/51181872 (21761 sectors).
+Starting new track at sector: 47080
+Track 03:  45 of  45 MB written (fifo 100%).
+Track 03: Total bytes read/written: 47950848/47952576 (20388 sectors).
+Starting new track at sector: 67468
+Track 04:  49 of  49 MB written (fifo 100%).
+Track 04: Total bytes read/written: 52015104/52016832 (22116 sectors).
+Starting new track at sector: 89584
+Track 05:  62 of  62 MB written (fifo  98%).
+Track 05: Total bytes read/written: 65673216/65674896 (27923 sectors).
+Starting new track at sector: 117507
+Track 06:  57 of  57 MB written (fifo  98%).
+Track 06: Total bytes read/written: 59923968/59924256 (25478 sectors).
+Starting new track at sector: 142985
+Track 07:  34 of  34 MB written (fifo 100%).
+Track 07: Total bytes read/written: 35776512/35778624 (15212 sectors).
+Starting new track at sector: 158197
+Track 08:  27 of  27 MB written (fifo 100%).
+Track 08: Total bytes read/written: 28316160/28318080 (12040 sectors).
+Starting new track at sector: 170237
+Track 09:  34 of  34 MB written (fifo  98%).
+Track 09: Total bytes read/written: 36596736/36597120 (15560 sectors).
+Starting new track at sector: 185797
+Track 10:  32 of  32 MB written (fifo 100%).
+Track 10: Total bytes read/written: 34089984/34092240 (14495 sectors).
+Starting new track at sector: 200292
+Track 11:  42 of  42 MB written (fifo 100%).
+Track 11: Total bytes read/written: 44900352/44902032 (19091 sectors).
+Writing  time:  270.911s
+Fixating...
+Fixating time:    5.080s
+cdrecord: fifo had 8131 puts and 8131 gets.
+cdrecord: fifo was 0 times empty and 5363 times full, min fill was 93%.
+</pre> </td></tr></table></div>
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/cd-yazimi_veriler.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/cd-yazimi.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/cd-yazimi_kaynakca.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Veri CD'lerinin Yazılması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kaynaklar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

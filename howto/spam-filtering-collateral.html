@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:18+03:00"><title>Dolaylı Spamın Engellenmesi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-techniques.html" title="Teknikler"><link rel="previous" href="../howto/spam-filtering-datachecks.html" title="İleti verisinin sınanması"><link rel="next" href="../howto/spam-filtering-considerations.html" title="Dikkate Alınacak Diğer Hususlar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Dolaylı Spamın Engellenmesi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-datachecks.html">Önceki</a> </td><th width="60%" align="center">Teknikler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-considerations.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-collateral"></a>Dolaylı Spamın Engellenmesi</h3></div></dt><dd><p>
+<a href="../howto/spam-filtering-glossary.html#spam-filtering-colspam" class="xref" title="Dolaylı Spam">Dolaylı Spam</a>ın şimdiye kadar açıklanan tekniklerle engellenmesi zordur, çünkü bunlar normalde standart posta aktarımcılarını (Sendmail, Postfix veya Exim gibi) kullanan meşru sitelerden gelirler. Asıl sorun, kendi kullanıcılarınızın gönderdikleri postalara yanıt olarak gelen geçerli <a class="link" href="../howto/spam-filtering-glossary.html#spam-filtering-dsn">teslimat durum bildirimleri</a>nden bu iletileri ayırmaktır. Bu ayrımı yapanların kullandıkları yöntemlerden bazıları:
+    </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-bogusviruswarning"></a>Hatalı Virüs Uyarıları Filtresi</h4></div></dt><dd><p>
+Çoğu zaman, dolaylı spam antivirüs tarayıcılarının ürettiği virüs uyarıları şeklinde karşımıza çıkar<sup>[<a name="id17" href="#ftn.id17">30</a>]</sup>.
+Bu virüs uyarılarının <tt>Subject:</tt> satırı dahil birçok karakteristik özelliği antivirüs yazılımının kendisi tarafından oluşturulur. Dolayısıyla, ortak karakteristik özelliklerin bir listesini yapıp böyle hatalı virüs uyarılarını filtreleyebilirsiniz.
+      </p><p>
+Ne yazık ki, şansınız yok -- birileri bunu zaten sizin için yapmış. <tt>:-)</tt>
+      </p><p>
+Tim Jackson <span class="email">&lt;tim (at) timj.co.uk&gt;</span>, <a class="link" href="../howto/spam-filtering-datachecks.html#spam-filtering-spamassassin">SpamAssassin</a> ile kullanmak için bir hatalı virüs uyarı listesi yapmış bile. Bu listeyi <a class="ulink" href="http://www.timj.co.uk/linux/bogus-virus-warnings.cf" target="_top">http://www.timj.co.uk/linux/bogus-virus-warnings.cf</a> adresinden edinebilirsiniz.
+      </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-addspf"></a>Alanınız için SPF kaydı oluşturun</h4></div></dt><dd><p>
+<a href="../howto/spam-filtering-senderauth.html#spam-filtering-spf" class="xref" title="Gönderici Yetkilendirme Dizgesi (SPF)"> Gönderici Yetkilendirme Dizgesi (SPF)</a>'nin amacı özellikle <a href="../howto/spam-filtering-glossary.html#spam-filtering-joejob" class="xref" title="Joe İşi">Joe İşi</a>nden korunmaktır. Yani geçerli bir eposta adresinin taklit edilmesini önlemektir.
+      </p><p>
+Eğer alanadınızın DNS bilgileri arasında bir SPF kaydı varsa, SPF sınamaları yapan alıcı konaklar, taklit edilmiş adreslerle gönderilmiş postaları kabul etmeyecektir. Böyle bir durumda da, size bir <a href="../howto/spam-filtering-glossary.html#spam-filtering-dsn" class="xref" title="Teslimat Durum Bildirimi">Teslimat Durum Bildirimi</a> gönderilmeyecektir.
+      </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-signedsender"></a>Zarf Gönderici İmleri</h4></div></dt><dd><p>
+Benim kendim için de denemekte olduğum bir başka farklı yaklaşım, giden postanın <a href="../howto/spam-filtering-glossary.html#spam-filtering-envfrom" class="xref" title="Zarf Göndericisi">Zarf Göndericisi</a> adresinin yerel kısmına bir dizgecik eklemek ve <a class="link" href="../howto/spam-filtering-glossary.html#spam-filtering-dsn">teslimat durum bildirimleri</a>ni kabul etmeden önce <a href="../howto/spam-filtering-glossary.html#spam-filtering-envto" class="xref" title="Zarf Alıcısı">Zarf Alıcısı</a> adresinde bu dizgeciğin varlığına bakmaktır. Örnek olarak, böyle bir gönderici adresinin biçimi şöyle olabilir:
+      </p><p>
+<pre class="literallayout">
+    <i>yerelkısım</i>=<i>dizgecik</i>@<i>alanadı</i>
+</pre>
+      </p><p>
+Normal ileti yanıtları bundan etkilenmez. Çünkü bu yanıtlar, bu işlem sırasında içeriğine dokunulmayan <tt>From:</tt> veya <tt>Reply-To:</tt> başlıklarındaki adreslerle yapılır.
+      </p><p>
+Söylemesi kolay, değil mi? Maalesef, bu amaca uygun bir imleme biraz karmaşık bir işlem. Hesaba katılması gereken bir takım olumsuz durumlar mevcut:
+      </p><p>
+      <div class="itemizedlist"><ul type="disc"><li>
+Bu yöntemin yararlı olabilmesi için, imli gönderici adresini spamcıların kullanamaması lazım. İm olarak bir zaman damgası kullanıp bir süre sonra kullanışsız hale gelecek bir adres oluşturulabilir:
+        <p></p><p>
+<pre class="literallayout">
+    <i>gönderen</i>=<i>zamandamgası</i>=<i>dizgecik</i>@<i>alanadı</i>
+</pre>
+        </p><p></p></li><li>
+Postanızın <a href="../howto/spam-filtering-greylisting.html" class="xref" title="Grilisteleme"> Grilisteleme</a> yapan bir siteye de gidebileceğini gözönüne alırsak, zarf gönderici adresinizin belli bir alıcı için değişmez olması gerekir, aksi halde sürekli grilistede kalırsınız.
+          <p></p><p>
+Bu durumda, <a href="../howto/spam-filtering-glossary.html#spam-filtering-envto" class="xref" title="Zarf Alıcısı">Zarf Alıcısı</a>na uygun bir <a href="../howto/spam-filtering-glossary.html#spam-filtering-envfrom" class="xref" title="Zarf Göndericisi">Zarf Göndericisi</a> üretebilirsiniz:
+          </p><p>
+<pre class="literallayout">
+    <i>gönderen</i>=<i>alıcı</i>=<i>alıcının.alanadı</i>=<i>dizgecik</i>@<i>alanadı</i>
+</pre>
+          </p><p>
+Bu adres zamanaşımına uğramayacağından, bu adresle ilgili döküntü postalar görmeye başlarsanız, en azından kaçağın kaynağını öğrenmiş olursunuz. Bununla birlikte, aynı alıcıdan size gelen normal teslimatları etkilemeksizin, imli adresinize bu alıcıdan gelen postaları kolayca reddebilirsiniz.
+        </p><p></p></li><li>
+Posta listelerinin sunucuları ile ilgili iki durum vardır. Genellikle, sunuculara yapılan isteklerde  (&#8220;subscribe&#8221;/&#8220;unsubscribe&#8221; gibi), yanıtlar zarf gönderici adresi boş bırakılarak gönderilir.
+          <p></p><p>
+          <div class="itemizedlist"><ul type="round"><li>
+İlk durum, sunucunun istek postasının <a href="../howto/spam-filtering-glossary.html#spam-filtering-envfrom" class="xref" title="Zarf Göndericisi">Zarf Göndericisi</a> adresine gönderdiği yanıt ile ilgilidir. Posta listesi sunucusu ile ilgili sorun, komutların (<b><tt>subscribe</tt></b> veya <b><tt>unsubscribe</tt></b> gibi) genellikle farklı adreslere (<span class="email">&lt;discuss (at) en.tldp.org&gt;</span> listesi için <span class="email">&lt;discuss-subscribe (at) en.tldp.org&gt;</span> ve <span class="email">&lt;discuss-unsubscribe (at) en.tldp.org&gt;</span> gibi) gönderilmesidir. Böyle bir durumda, üyelik adresi ile listeye gönderilecek iletinin gönderici adresi farklı olacaktır -- ve bu örnekte, ayrıca, üyelikten çıkma isteğinde kullanılan adresten de farklı olacaktır. Sonuçta, ne listeye posta göndermek ne de üyelikten çıkmak mümkün olacaktır.
+              <p></p><p>
+Bu durumda uzlaşma ancak gönderici adresinde imleme için sadece alıcının alan adının bulunmasıyla sağlanabilir. Yani, gönderici adresi şöyle üretilebilir:
+        </p><p>
+<pre class="literallayout">
+    <i>üyeismi</i>=en.tldp.org=<i>dizgecik</i>@<i>üyelik.alanadı</i>
+</pre>
+            </p><p></p></li><li>
+İkinci durum, yanıtların, istek postasının (<span class="email">&lt;spam-l-request (at) peach.ease.lsoft.com&gt;</span> gibi bir adrese istek yapılması gibi) ileti başlığındaki yanıtlama adresine gönderilmesi ile ilgilidir. Bu adres imli olmayacağından, liste sunucusundan gelen yanıt sunucunuz tarafından reddedilecektir.
+              <p></p><p>
+Postayı imsiz alıcı adresine yollayan bu tür sunucuları &#8220;aklisteye&#8221; almaktan başka yapabileceğiniz pek birşey yoktur.
+            </p><p></p></li></ul></div>
+        </p><p></p></li></ul></div>
+      </p><p>
+Bu noktada bu yaklaşım kenarından köşesinden kırılmaya başlar. Bununla birlikte, özgün postası sizin sunucunuzdan gönderilmemiş meşru teslimat durum bildirimleri de reddedilir. Bu durumda, postalarını sadece sizin denetiminizde olan sunucular üzerinden gönderen kullanıcılarınız için bunu yapmayı düşünebilirsiniz.
+      </p><p>
+Sonuç olarak, yukarıda bahsedilen durumların hiçbirinin mevcut olmadığı durumlarda, bu yöntem dolaylı spamı engelleme imkanı vermekten başka, bunları üreten site sahiplerini eğitme imkanı da verir. Bunun yanında, yararlı bir yan etki olarak, <a href="../howto/spam-filtering-smtpchecks.html#spam-filtering-callback" class="xref" title="Gönderici Varlık Sınaması">Gönderici Varlık Sınaması</a> yapan siteler, özgün postanın sadece sizin sunucunuzdan gitmiş olması durumunda bir olumlu yanıt alacaklardır. Özünde, spamcılar tarafından gönderici adreslerin taklit edilmesine maruz kalma şansını düşürürsünüz.
+      </p><p>
+Kullanıcılarınızın giden postalarında imli adresler belirtmek isteyip istemediklerine bağlı olarak, adreslerinin imsiz türlerine dönen postalara izin verecek konakları belirleyebilirsiniz. Örneğin, bu kullanıcılar posta sunucunuzun aynı zamanda sisteme kayıtlı kullanıcıları iseler, onların ev dizinlerindeki belli bir dosyanın içeriğine bakarak bunu yapabilirsiniz.
+      </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-dsnrealuser"></a>Göndericisi olmayan postaları sadece gerçek kullanıcılar için kabul edin</h4></div></dt><dd><p>
+Zarf gönderici imleri ile ilgili sınamalar yapıyor olsanız bile, göndericisiz postaların istenmeyenleri arasından kaçanlar olabilir. Özellikle, bu şemayı yeğleyen kullanıcılarınız varsa, <tt>postmaster</tt> veya <tt>mailer-daemon</tt> gibi takma adlara gönderilmiş postalarda böyle bir imin varlığına bakmazsınız. Mantıken, bu takma adlı kullanıcılar için giden bir posta olmayacağından, bunlara göndericisiz postalar da gelmemesi gerekir.
+      </p><p>
+Bu tür takma adlı kullanıcılar için hatta, alıcı adresi için bir posta kutusu olmayan postaları reddedebilirsiniz.
+      </p></dd></div></dl><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id17" href="#id17">30</a>] </sup>
+Virüs tarama yazılımı üreticilerinin virüs içeren epostalardaki gönderici adreslerine neden güvendiklerini açıklamak ancak psikoanalitik bir çalışmanın konusu olabilir.
+</p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-datachecks.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-techniques.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-considerations.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">İleti verisinin sınanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Dikkate Alınacak Diğer Hususlar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

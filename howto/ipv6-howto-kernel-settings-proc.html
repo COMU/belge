@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:27+03:00"><title>/proc dosya sistemine erişim</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-kernel-settings.html" title="/proc dosya sisteminde çekirdek ayarlamaları"><link rel="previous" href="../howto/ipv6-howto-kernel-settings.html" title="/proc dosya sisteminde çekirdek ayarlamaları"><link rel="next" href="../howto/ipv6-howto-kernel-settings-proc-sys-net-ipv6.html" title="/proc/sys/net/ipv6/ dizinindeki kayıtlar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">/proc dosya sistemine erişim</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-kernel-settings.html">Önceki</a> </td><th width="60%" align="center">/proc dosya sisteminde çekirdek ayarlamaları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-kernel-settings-proc-sys-net-ipv6.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-kernel-settings-proc"></a><tt>/proc</tt> dosya sistemine erişim</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a><tt>cat</tt> ve <tt>echo</tt> kullanarak</h4></div></dt><dd><p>
+<tt>/proc</tt> dosya sistemine erişmenin en kolay yolu <b><tt>cat</tt></b> ve <b><tt>echo</tt></b> kullanmaktır, bunun için bazı gereklilikler vardır:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+<tt>/proc</tt> dosya sistemi çekirdekte yetkilendirilmiş olmalıdır, yani aşağıdaki değer ile derlenmiş olmalıdır:
+  <p></p><p>
+<pre class="literallayout">   CONFIG_PROC_FS=y</pre>
+  </p><p></p></li><li>
+<tt>/proc</tt> dosya sistemi önceden bağlanmış olmalıdır. Aşağıdaki gibi sınayabilirsiniz:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>mount | grep "type proc"</tt></b>
+none on /proc type proc (rw)
+</pre> </td></tr></table></div>
+  </p><p></p></li><li>
+<tt>/proc</tt> dosya sisteminde okuma ve bazen yazma haklarına (elbette root için) sahip olmalısınız
+  <p></p><p></p></li></ul></div></p><p>
+Normalde, <tt>/proc/sys/*</tt> içine yazabilirsiniz, diğer kayıtlar salt okunurdur ve sadece bilgi almak için kullanılırlar.
+  </p><p><div class="variablelist"><dl><dt><span class="term">Bir değeri öğrenmek</span></dt><dd>
+Bir kaydın değeri <b><tt>cat</tt></b> kullanılarak öğrenilebilir:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>cat /proc/sys/net/ipv6/conf/all/forwarding</tt></b>
+0
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term">Bir değer atamak</span></dt><dd>
+Yeni bir değer <b><tt>echo</tt></b> kullanılarak atanabilir (eğer kayıt yazılabilir ise):
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>echo "1" &gt;/proc/sys/net/ipv6/conf/all/forwarding</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a><tt>sysctl</tt> kullanarak</h4></div></dt><dd><p>
+<b><tt>sysctl</tt></b> uygulaması çekirdeğe erişmek için modern bir yöntem kullanmaktadır. <tt>/proc</tt> dosya sistemi bağlı olmasa dahi kullanılması mümkündür ama bu durumda sadece <tt>/proc/sys/*</tt> dizinine erişim mümkün olabilmektedir!
+  </p><p>
+<b><tt>sysctl</tt></b> uygulaması (Red Hat Linux sistemlerinde) <tt>procps</tt> paketine dahildir.
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+<tt>sysctl</tt> arayüzü çekirdekte yetkilendirilmiş olmalıdır, yani çekirdek aşağıdaki değer ile derlenmiş olmalıdır:
+  <p></p><p>
+<pre class="literallayout">   CONFIG_SYSCTL=y</pre>
+  </p><p></p></li></ul></div></p><p>
+  <div class="variablelist"><dl><dt><span class="term">Bir değeri öğrenmek</span></dt><dd>
+Bir kaydın değerini öğrenmek için:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>sysctl net.ipv6.conf.all.forwarding</tt></b>
+net.ipv6.conf.all.forwarding = 0
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term">Bir değer atamak</span></dt><dd>
+Bir değer atamak için (eğer kayıt yazılabilir ise):
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>sysctl -w net.ipv6.conf.all.forwarding=1</tt></b>
+net.ipv6.conf.all.forwarding = 1
+</pre> </td></tr></table></div>
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Değer atarken "=" den önce veya sonra boşluk kullanmayın. Bir satırda çoklu değer atanacak ise bu aşağıdaki gibi yapılmalıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>sysctl -w net.ipv4.ip_local_port_range="32768 61000"</tt></b>
+net.ipv4.ip_local_port_range = 32768 61000
+</pre> </td></tr></table></div>
+  </p></td></tr></table></div></p><p></p></dd><dt><span class="term">Ek bilgi</span></dt><dd>
+Not: Bazı <b><tt>sysctl</tt></b> sürümleri "." yerine "/" göstermektedir.
+  <p></p><p>
+Daha fazla ayrıntı için <b><tt>sysctl</tt></b>'nin kılavuz sayfasına bakabilirsiniz.
+  </p><p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/tip.png"></td><th>İpucu</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Ayarlara hızlıca göz atmak için <tt>-a</tt> (tüm kayıtları göster) seçeneğini <b><tt>grep</tt></b> ile birlikte kullanın.
+  </p></td></tr></table></div></p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a><tt>/proc</tt> dosya sisteminde bulunan değerler</h4></div></dt><dd><p>
+<tt>/proc</tt> dosya sisteminde farklı biçimlere rastlanabilir:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+MANTIKSAL: basitçe "0" (yanlış) ya da "1" (doğru)
+  </li><li>
+TAMSAYI: bir tamsayı değeri
+  </li><li>
+Çoklu değerler içeren daha karmaşık satırlar: bazen bir başlık satırı da görüntülenir, eğer bu açıklama satırı yoksa çekirdeğin kaynak koduna bakarak her değerin anlamını öğrenebilirsiniz...
+  </li></ul></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-kernel-settings.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-kernel-settings.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-kernel-settings-proc-sys-net-ipv6.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">/proc dosya sisteminde çekirdek ayarlamaları </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> /proc/sys/net/ipv6/ dizinindeki kayıtlar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

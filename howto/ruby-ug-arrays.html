@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:01+03:00"><title>Diziler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-regex.html" title="Düzenli İfadeler"><link rel="next" href="../howto/ruby-ug-b2examples.html" title="Örneklere Dönüş"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Diziler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-regex.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-b2examples.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-arrays"></a>Diziler</h2></div></dt><dd><p>
+Ruby'de köşeli parantezler <b><tt>[]</tt></b> arasına elemanları yazarak ve virgüller
+yardımıyla ayırarak bir dizi oluşturabilirsiniz. Ruby'de diziler farklı nesne türlerini ayırdedebilecek niteliktedir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">ary = [1, 2, "3"]</tt>
+  <tt class="empoutput">[1, 2, "3"]</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Diziler de aynı dizgeler gibi birleştirilebilir ya da tekrar edilebilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">ary + ["foo", "bar"]</tt>
+  <tt class="empoutput">[1, 2, "3", "foo", "bar"]</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">ary * 2</tt>
+  <tt class="empoutput">[1, 2, "3", 1, 2, "3"]</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Dizinin herhangi bir elemanına ulaşmak için indisleri kullanabiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">ary[0]</tt>
+  <tt class="empoutput">1</tt>
+<tt>ruby&gt; </tt><tt class="empinput">ary[0,2]</tt>
+  <tt class="empoutput">[1, 2]</tt>
+<tt>ruby&gt; </tt><tt class="empinput">ary[0..1]</tt>
+  <tt class="empoutput">[1, 2]</tt>
+<tt>ruby&gt; </tt><tt class="empinput">ary[-2]</tt>
+  <tt class="empoutput">2</tt>
+<tt>ruby&gt; </tt><tt class="empinput">ary[-2,2]</tt>
+  <tt class="empoutput">[2, "3"]</tt>
+<tt>ruby&gt; </tt><tt class="empinput">ary[-2..-1]</tt>
+  <tt class="empoutput">[2, "3"]</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+(Negatif indisler dizinin sonundan başlanmasını sağlar.)
+  </p><p>
+Diziler <b><tt>join</tt></b>  kullanılarak dizgelere ve dizgeler <b><tt>split</tt></b> kullanılarak dizilere dönüştürülebilirler.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">str = ary.join(":")</tt>
+   <tt class="empoutput">"1:2:3"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">str.split(":")</tt>
+   <tt class="empoutput">["1", "2", "3"]</tt>
+</pre> </td></tr></table></div>
+  </p><h4><a name="ruby-ug-hashs"></a>Çırpılar</h4><p>
+Çırpılar (hash) elemanlarına indisler yerine herhangi bir değer olabilen  <tt>anahtarlar</tt> yardımıyla erişilebilen özelleştirilmiş dizilerdir.
+Böyle dizilere <span class="wordasword"><i>çırpı</i></span> dendiği gibi <span class="wordasword"><i>isim-değer çiftleri</i></span> de denir; biz ruby dünyasında çırpı deyimini tercih ederiz. Bir çırpı kaşlı ayraçlar arasına yazılarak oluşturulabilir. Dizilerde herhangi bir elemana ulaşmak için indisleri kullandığımız gibi çırpılarda elemana ulaşmak için anahtarları kullanırız.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput"> h = {1 =&gt; 2, "2" =&gt; "4"}</tt>
+   <tt class="empoutput">{1=&gt;2, "2"=&gt;"4"}</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> h[1]</tt>
+   <tt class="empoutput">2</tt>
+<tt>ruby&gt; </tt><tt class="empinput">h["2"]</tt>
+   <tt class="empoutput">"4"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">h[5]</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">h[5] = 10</tt>     # değer ekleme
+   <tt class="empoutput">10</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">h</tt>
+   <tt class="empoutput">{5=&gt;10, 1=&gt;2, "2"=&gt;"4"}</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">h.delete 1</tt>   # değer silme
+   <tt class="empoutput">2</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">h[1]</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput">h</tt>
+   <tt class="empoutput">{5=&gt;10, "2"=&gt;"4"}</tt>
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-regex.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-b2examples.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Düzenli İfadeler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Örneklere Dönüş</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-04-18T02:17:41+02:00"><title>Geçerli Bir Yöntem</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/compaq-t1500.html" title="Compaq T1500 Linux NASIL"><link rel="previous" href="../howto/compaq-t1500-compaq.html" title="Compaq Yöntemi"><link rel="next" href="../howto/compaq-t1500-other.html" title="FLASH Görüntüsünü Düzenlemek ve Diğer Araçlar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Geçerli Bir Yöntem</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/compaq-t1500-compaq.html">Önceki</a> </td><th width="60%" align="center">Compaq T1500 Linux NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/compaq-t1500-other.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="compaq-t1500-debian"></a>Geçerli Bir Yöntem</h2></div></dt><dd><p>
+Örnek olarak debian 'potato' (2.2) dağıtımını kullanacağız. Kullanılacak yöntem 2.0.35 çekirdek kullanan başka bir dağıtım için de benzer olmalıdır.
+  </p><p>
+Sunucuda çekirdek ve dosya sistemi için gerekli dizinleri oluşturun. Compaq CD'sini bağlayarak dosyaları kopyalayın. Dosya sistemini açın (burada önceden hazırlanmış bazı debian dosyalarını
+kullandım, daha ileri düzey tartışmaların yeri burası değil):
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+mkdir /exports/T1500
+mkdir /exports/T1500/root
+mkdir /exports/T1500/tftpboot
+mount /cdrom
+cp /cdrom/product/vmlinux /exports/T1500/tftpboot
+CD /exports/T1500/root
+tar zxvf /tmp/base2_2.tgz
+tar zxvf /tmp/telnetd*.tgz
+</pre> </td></tr></table></div>
+  </p><p>
+DHCP sunucunuzu <tt>/etc/dhcpd.conf</tt> dosyasına aşağıdaki gibi bir bölüm ekleyerek yapılandırın. T1500'ün donanım adresini değiştirmeyi unutmayın.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Group {
+   #little black box
+   host box {
+        hardware ethernet 00:80:64:10:1d:1c;
+     fixed-address box.house;
+     option host-name "box";
+     server-name "192.168.1.1";
+     filename "/exports/T1500/tftpboot/vmlinux";
+     option root-path "192.168.1.1:/exports/T1500/root";
+     }
+   }
+</pre> </td></tr></table></div>
+  </p><p>
+DNS üzerinde yeni bir konak tanımlayın.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+db.192.168.1.1:
+   52 in ptr box.
+</pre> </td></tr></table></div>
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+db.house:
+   box in a 192.168.1.52
+</pre> </td></tr></table></div>
+  </p><p>
+<tt>/etc/exports</tt> dosyasına aşağıdaki satırı ekleyerek kök dosya sistemini sunmaya başlayın.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+/exports/T1500/root box(rw,no_root_squash)
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>tftp</tt></b>'yi yapılandırmak için <tt>/etc/inetd.conf</tt> dosyasına aşağıdaki satırı ekleyin:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+tftp dgram udp wait root /usr/sbin/tcpd in.tftpd /exports/T1500/tftpboot
+</pre> </td></tr></table></div>
+  </p><p>
+Artık <b><tt>inetd, dhcpd, nfs</tt></b> ve <b><tt>named</tt></b> servislerini yeniden başlatabilirsiniz.
+  </p><p>
+Dosya sistemini root parolası 'pass' olacak şekilde yapılandırın ve <b><tt>telnetd</tt></b>'yi çalıştırın. Bunun için <tt>/exports/T1500/root/etc/passwd</tt> dosyasının ilk satırını
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+root:Z/U2u32VhNJoA:0:0:,,,:/root:/bin/bash
+</pre> </td></tr></table></div>
+  </p><p>
+olarak değiştirin. Telnet'i başlatmak için de <tt>/exports/T1500/root/etc/inetd.conf</tt> dosyasına aşağıdaki satırı ekleyin:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+telnet stream tcp nowait root /usr/sbin/tcpd in.telnetd
+</pre> </td></tr></table></div>
+  </p><p>
+Uzak terminalleri <tt>/etc/securetty</tt> dosyasına ilave ederek uzaktan root erişimine izin verin.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+tty1
+tty2
+tty3
+tty4
+tty5
+tty6
+tty7
+tty8
+tty9
+tty10
+tty11
+tty12
+ttyp0
+ttyp1
+ttyp2
+ttyp3
+</pre> </td></tr></table></div>
+  </p><p>
+Ağdan açılışı seçerek T1500'ü yeniden başlatın.
+  </p><p>
+İlk açılıştan sonra T1500'e telnet ile bağlanabilmelisiniz. Bu noktadan sonra sistemde SSH yapılandırarak telnet'i kapatmalısınız.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/compaq-t1500-compaq.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/compaq-t1500.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/compaq-t1500-other.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Compaq Yöntemi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> FLASH Görüntüsünü Düzenlemek ve Diğer Araçlar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

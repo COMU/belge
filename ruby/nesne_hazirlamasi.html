@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Nesne Hazırlaması</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisgecler.html">
+ <img border=0 src="a2l.gif" alt="erisgecler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="misc.html">
+ <img border=0 src="a2r.gif" alt="Ve başka şeyler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Nesne Hazırlaması</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Geçen bölümdeki <code>Fruit</code sınıfı, bir tanesi meyvenin türünü diğeri de durumunu açıklayan iki örnek değişkene sahipti. Bunu yapmamızın nedeni bir kaç parça meyve için karakteristiğin önemli olmamasıydı. Genel bir <code>inspect</code>  metodu oluşturmaktı. Ruby örnek değişkenlerin her zaman hazırlanmış olduğunu garanti eden bir yol sunuyor.</p>
+<h3><a name="label:0" id="label:0"><code>initialize</code> metodu</a></h3><!-- RDLabel: "The initialize method" -->
+<p>Ruby yeni bir nesne yaratıldığı zaman<code> initialize</code> denen bir metot arar ve çalıştırır.Yapabilceğimiz basit şeylerden biri her örnek değişkene varsayılan bir <code>initialize</code> metodu koymak ve böylece <code>inspect</code> metoduna söyleyebilecek bi şeyler sağlamaktır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Fruit</b></font>
+    |<font color="#ffff00"><b>   def initialize</b></font>
+    |<font color="#ffff00"><b>     @kind = "apple"</b></font>
+    |<font color="#ffff00"><b>     @condition = "ripe"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> f4 = Fruit.new</b></font>
+<font color="#50ffff"><b>   "a ripe apple"</b></font></font></pre></td></tr></table>
+<h3><a name="label:1" id="label:1">Varsayılan değerleri değiştirmek</a></h3><!-- RDLabel: "Changing assumptions to requirements" -->
+<p>Bazen varsayılan değerlerin pek de anlamlı olmadığı zamanlar olabilir. Varsayılan bir meyve çeşidi gibi birşey olabilir mi? Her meyve parçasının yaratıldığı zaman kendi türünü belirlemesi daha tercih edilebilir bir durumdur. Bunu yapmak için <code>initialize</code> metoduna ek bir argüman ekleriz. Burada bahsetmeyeceğimiz nedenlerden dolayı <code>new</code>'e verdiğiniz her argüman initialize metodu tarafından alınmış olur.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Fruit</b></font>
+    |<font color="#ffff00"><b>   def initialize( k )</b></font>
+    |<font color="#ffff00"><b>     @kind = k</b></font>
+    |<font color="#ffff00"><b>     @condition = "ripe"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> f5 = Fruit.new "mango"</b></font>
+<font color="#50ffff"><b>   "a ripe mango"</b></font>
+ruby&gt;<font color="#ffff00"><b> f6 = Fruit.new</b></font>
+<font color="#50ffff"><b>ERR: (eval):1:in `initialize': wrong # of arguments(0 for 1)</b></font></font></pre></td></tr></table>
+<h3><a name="label:2" id="label:2">Esnek hazırlama</a></h3><!-- RDLabel: "Flexible initialization" -->
+<p>Yukarıda gördüğümüz gibi bir argümanı, <code>initialize</code> metodu ile ilişkilendirirseniz boş argüman vermeniz durumunda hatayla karşılaşırsınız. Daha düşünceli davranmak istersek, argüman verildiği zaman kullanabilir, verilmediği zamansa varsayılan değer atayabiliriz.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Fruit</b></font>
+    |<font color="#ffff00"><b>   def initialize( k="apple" )</b></font>
+    |<font color="#ffff00"><b>     @kind = k</b></font>
+    |<font color="#ffff00"><b>     @condition = "ripe"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> f5 = Fruit.new "mango"</b></font>
+<font color="#50ffff"><b>   "a ripe mango"</b></font>
+ruby&gt;<font color="#ffff00"><b> f6 = Fruit.new</b></font>
+<font color="#50ffff"><b>   "a ripe apple"</b></font></font></pre></td></tr></table>
+<p>Varsayılan argüman değerlerini sadece <code>initialize</code> için değil tüm metotlar için uygulayabilirsiniz.</p>
+<p>Bazen bir nesneyi hazırlamak için birçok yol hazırlamak yararlı olabilir. Bu kılavuzun kapsamının dışında olmasına rağmen Ruby, beraber metotları aşırı yüklemeyi sağlayan nesne yansımasına (<i>object reflection</i>) ve değişken uzunluklu argüman listesine izin verir.</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisgecler.html">
+ <img border=0 src="a2l.gif" alt="erisgecler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="misc.html">
+ <img border=0 src="a2r.gif" alt="Ve başka şeyler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

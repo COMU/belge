@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T01:01:43+03:00"><title>Bir bölüm yerine bir dosyanın kullanılması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/cryptoloop-howto.html" title="Şifreli Geridönüş Aygıtı NASIL"><link rel="previous" href="../howto/cryptoloop-howto-mounting-filesystem.html" title="Şifrelenmiş dosya sisteminin bağlanması"><link rel="next" href="../howto/squashfs-howto.html" title="SquashFS NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Bir bölüm yerine bir dosyanın kullanılması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/cryptoloop-howto-mounting-filesystem.html">Önceki</a> </td><th width="60%" align="center">Şifreli Geridönüş Aygıtı NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/squashfs-howto.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="cryptoloop-howto-filebased"></a>Bir bölüm yerine bir dosyanın kullanılması</h2></div></dt><dd><p>
+Başka bir dosya sistemindeki bir dosyada şifrelenmiş dosya sistemi kurmak da bu kadar kolay. Bu durum eğer dosyayı DVD vs. gibi aygıtlarda yedeklemek isterseniz işinize yarayacaktır. Böylece dosyayı kolayca başka bir makineye taşıyabilirsiniz.
+    </p><p>
+100MB boyutunda rasgele bilgi içeren bir dosya oluşturmak için aşağıdaki komutu kullanın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">dd if=/dev/urandom of=/mystuff.aes bs=1k count=100000</pre> </td></tr></table></div>
+    </p><p>
+Eğer dosyanın boyutunu değiştirmek isterseniz <i><tt>count</tt></i> değişkeninin değerini değiştirin. Yukarıdaki komut her biri 1k boyutlu 100000 blok oluşturur, ama siz istediğiniz gibi değiştirebilirsiniz. Sadece boyutun seçtiğiniz dosya sistemini taşıyamayacak kadar küçük olmamasına dikkat etmelisiniz. Elbette <tt>/dosya_ismi.aes</tt> yerine istediğiniz yolu ve dosya adını seçebilirsiniz.
+    </p><p>
+Yukarda yaptığımıza benzer şekilde bu dosya içerisine şifrelenmiş dosya sistemini şu şekilde oluşturabilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">losetup -e aes-256 /dev/loop0 /mystuff.aes</pre> </td></tr></table></div>
+    </p><p>
+Şimdi dosya sistemini oluşturabilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mkfs.ext3 /dev/loop0</pre> </td></tr></table></div>
+    </p><p>ve bağlayalım:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mount -t ext3 /dev/loop0 /mnt/crypto</pre> </td></tr></table></div>
+    </p><p>
+Son olarak dosya sistemini ayırın ve geridönüş aygıtını çıkarın:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">umount /mnt/crypto
+losetup -d /dev/loop0
+</pre> </td></tr></table></div>
+    </p><p>
+İhtiyacınız olduğunda dosya sistemini tekrar bağlayabilirsiniz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mount /mystuff.aes /mnt/crypto -oencryption=aes-256</pre> </td></tr></table></div>
+    </p><p>
+Eğer dosyayı taşımak veya CD/DVD ye yazmak isterseniz önce <b><tt>unmount</tt></b> komutuyla dosya sistemini ayırdığınızdan emin olun.
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/cryptoloop-howto-mounting-filesystem.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/cryptoloop-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/squashfs-howto.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Şifrelenmiş dosya sisteminin bağlanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SquashFS NASIL</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

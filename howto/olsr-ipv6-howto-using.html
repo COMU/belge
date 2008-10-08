@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-25T01:43:22+03:00"><title>OLSRd'nin kullanımı</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/olsr-ipv6-howto-OLSRLinux.html" title="Linux için OLSR"><link rel="previous" href="../howto/olsr-ipv6-howto-installing.html" title="OLSRd'yi kurma"><link rel="next" href="../howto/olsr-ipv6-howto-hna.html" title="HNA iletileri nedir?"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">OLSRd'nin kullanımı</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/olsr-ipv6-howto-installing.html">Önceki</a> </td><th width="60%" align="center">Linux için OLSR</th><td width="20%" align="right"> <a accesskey="n" href="../howto/olsr-ipv6-howto-hna.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="olsr-ipv6-howto-using"></a>OLSRd'nin kullanımı</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="olsr-ipv6-howto-onehost"></a>Bir konak üzerinde</h4></div></dt><dd><p>OLSRd kurulduğunda ve yapılandırıldığında, root olarak şöyle başlatılır:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"><tt># </tt><b><tt>olsrd</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>/etc/olsrd.conf</tt>'daki tüm ayarlar komut satırı seçenekleri ile değiştirilebilir:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting"><tt># </tt><b><tt>olsrd -i eth1 -ipv6 -d 1</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+IPv6'yı kullanarak hata iletileriyle birlikte <b><tt>eth1</tt></b> arayüzünde <b><tt>olsrd</tt></b> dinlemeye başlayacak.
+    </p><p>
+<b><tt>olsrd</tt></b>'yi başlatıyoruz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>olsrd -i eth1 -d 1 -ipv6</tt></b>
+
+    *** UniK olsrd-0.4.3 ***
+
+hello interval = 2.00       hello int nonwireless: = 4.00 <a name="olsr-ipv6-howto-tuning"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+tc interval = 5.00          polling interval = 0.10
+neighbor_hold_time = 6.00   neighbor_hold_time_nw = 12.00
+topology_hold_time = 15.00  tos setting = 16
+hna_interval = 15.00         mid_interval = 5.00
+Willingness set to 3 - next update in 20.000000 secs
+Using IP version 6
+Using multicast address ff05::15
+
+  ---- Interface configuration ----
+
+  eth1:                                          <a name="olsr-ipv6-howto-interface"></a><img src="../images/xsl/callouts/2.png" alt="2" border="0">
+        Address: fec0:106:2700::10
+        Multicast: ff05::15
+        Interface eth1 set up for use with index 0
+
+
+  Main address: fec0:106:2700::10                <a name="olsr-ipv6-howto-adr"></a><img src="../images/xsl/callouts/3.png" alt="3" border="0">
+
+  NEIGHBORS: l=linkstate, m=MPR, w=willingness
+
+  Thread created - polling every 0.10 seconds    <a name="olsr-ipv6-howto-list"></a><img src="../images/xsl/callouts/4.png" alt="4" border="0">
+  neighbor list: 11:43:17.214807
+  neighbor list: 11:43:19.194967
+  neighbor list: 11:43:21.395046
+  neighbor list: 11:43:23.604800
+  neighbor list: 11:43:25.694875
+</pre> </td></tr></table></div>
+    </p><p><div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-tuning"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>
+Bu OLSRd'nin kullandığı tüm ayarları gösterir. Yapılandırma dosyasında (<tt>/etc/olsrd.conf</tt>) veya komut satırında belirterek bunları değiştirebilirsiniz. Bütün bu ayarların ne anlama geldiğiyle alakalı bir tarif için <a href="http://www.ietf.org/rfc/rfc3626.txt" target="_top">OLSR RFC</a>'yi okuyun.
+      </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-interface"><img src="../images/xsl/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>
+OLSRd arayüzümüzü buldu. Eğer OLSRd'yi çoklu arayüzlerle kullanıyorsanız , "Çoklu Arayüz Tanımlaması" (ÇAT) iletileri oluşturulacaktır.
+      </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-adr"><img src="../images/xsl/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>
+Eğer OLSRd'yi çoklu arayüzlerle kullanıyorsanız, "temel" adres olarak belirtileni ilk arayüz olarak alacaktır.
+      </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-list"><img src="../images/xsl/callouts/4.png" alt="4" border="0"></a> </td><td valign="top" align="left"><p>
+Hiçbir konak OLSRd'yi çalıştırmıyorsa, bu liste boştur.
+      </p></td></tr></table></div>
+    </p><p>
+Dikkat etmeniz gereken bir diğer husus yönlendirme tablomuza bir kaydın eklendiğidir:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>#</tt> <b><tt>route -A inet6</tt></b>
+Destination:   Next Hop   Flags  Metric  Ref  Use Iface
+...
+ff05::15/128   ff05::15   UAC    0       1    1   eth1
+...
+</pre> </td></tr></table></div>
+    </p><p>
+Bu OLSR'nin OLSR çalıştıran diğer düğümlerle konuşmak için kullandığı IPv6 çoğa gönderim (multicast) adresidir.
+    </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="olsr-ipv6-howto-addhosts"></a>Diğer konakları ekleme</h4></div></dt><dd><p>
+OLSRd'yi tek bir düğüm üzerinde kullanmanın bir anlamı olmayacağından birkaç düğüm ekledik. Bunun ardından "komşu listesi"'nin güncellendiğini göreceksiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">neighbor list: 12:55:14.733586
+neighbor list: 12:55:18.803585
+Willingness for fec0:106:2700::11 changed from 0 to 3 - UPDATING  <a name="olsr-ipv6-howto-will"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+neighbor list: 12:55:22.763585
+fec0:106:2700::11:l=0:m=0:w=3[2hlist:]                            <a name="olsr-ipv6-howto-newhost"></a><img src="../images/xsl/callouts/2.png" alt="2" border="0">
+neighbor list: 12:55:26.833589
+fec0:106:2700::11:l=1:m=0:w=3[2hlist:]
+Willingness for fec0:106:2700::12 changed from 0 to 2 - UPDATING  <a name="olsr-ipv6-howto-thirdhost"></a><img src="../images/xsl/callouts/3.png" alt="3" border="0">
+neighbor list: 12:55:30.903585
+fec0:106:2700::12:l=0:m=0:w=2[2hlist:]
+fec0:106:2700::11:l=1:m=0:w=3[2hlist:]
+neighbor list: 12:55:34.863585
+fec0:106:2700::12:l=0:m=0:w=2[2hlist:]
+fec0:106:2700::11:l=1:m=0:w=3[2hlist:]
+neighbor list: 12:55:39.153586
+fec0:106:2700::12:l=1:m=0:w=2[2hlist:fec0:106:2700::11:]          <a name="olsr-ipv6-howto-triangle"></a><img src="../images/xsl/callouts/4.png" alt="4" border="0">
+fec0:106:2700::11:l=1:m=0:w=3[2hlist:fec0:106:2700::12:]          <a name="olsr-ipv6-howto-triangle2"></a><img src="../images/xsl/callouts/5.png" alt="5" border="0">
+neighbor list: 12:55:43.443605
+fec0:106:2700::12:l=1:m=0:w=2[2hlist:fec0:106:2700::11:]
+fec0:106:2700::11:l=1:m=0:w=3[2hlist:fec0:106:2700::12:]
+</pre> </td></tr></table></div>
+  </p><p><div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-will"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>
+Bir diğer düğüm fark edildi (B düğümü). Bu, bir düğümün diğer düğümler için trafiği taşıma ve iletme istekliliğini gösterir. İşte, <b><tt>fec0:106:2700::11</tt></b> yeni düğümü trafiği iletmek için istekli gözüküyor. Düşük pil gücü olan bir konak büyük miktarda trafiği iletmek için istekli olmayabilir, - dolayısıyla daha düşük bir isteklilik değeri gösterecektir (güç durumuna göre yönlendirme eklenti olarak mevcuttur).
+   </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-newhost"><img src="../images/xsl/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>
+Yönlendirme tablomuza düğüm eklenmiştir. 2-sıçramalı komşu listesi (<b><tt>[2hlist:]</tt></b>) boş olduğundan dolayı bu düğümü kullanarak her hangi başka bir düğüme erişemeyiz (henüz). 2-sıçramalı komşu bir komşu tarafından duyulan bir düğümdür.
+ </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-thirdhost"><img src="../images/xsl/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>
+OLSRd çalıştıran bir üçüncü düğüm (C düğümü) burada.
+ </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-triangle"><img src="../images/xsl/callouts/4.png" alt="4" border="0"></a> </td><td valign="top" align="left"><p>
+Kısa bir süre sonra, bütün düğümler güncellendiğinde ve izlenecek yollar hesaplandığında, bir düğümden her hangi bir diğerine de erişebiliriz. 2-sıçramalı komşu listesi (<b><tt>[2hlist:]</tt></b>) oluşur. <b><tt>B</tt></b> düğümüne <b><tt>C</tt></b> aracılığıyla erişebiliriz.
+ </p></td></tr><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-triangle2"><img src="../images/xsl/callouts/5.png" alt="5" border="0"></a> </td><td valign="top" align="left"><p>
+ Burada <b><tt>C</tt></b> düğümüne <b><tt>B</tt></b>
+ aracılığıyla erişebiliriz.
+     </p></td></tr></table></div>
+  </p><p>Yönlendirme tablosunun yeni konaklarla güncellendiğini de göreceksiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>#</tt> <b><tt>route -A inet6</tt></b>
+Destination:           Next Hop   Flags  Metric  Ref  Use Iface
+...
+fec0:106:2700::11/128  ::         UH     1       0    0   eth1
+fec0:106:2700::12/128  ::         UH     1       0    0   eth1
+...
+</pre> </td></tr></table></div>
+  </p><p>
+OLSR'nin gerçek güzelliği bir grup düğüm ekleyip onları dolaştırdığınızda  ortaya çıkıyor. Hala her birisine doğrudan (eğer kapalılarsa) veya diğer  düğümler üzerinden erişebilirsiniz.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="olsr-ipv6-howto-movement"></a>Hareket</h4></div></dt><dd><p>
+Her düğümün diğer tüm düğümlere erişebilmesi her zaman istenilen durum değildir. "A" ve "B" düğümleri birbirlerine kapsam (radyo) dışı olsunlar diye düğümleri şimdi taşımaya başlayalım. "A" düğümünü "C" düğümünü dinleyemesin diye yeterince uzağa taşıdığımızda, tüm trafik "B" düğümü üzerinden gerçekleşmelidir.
+  </p><p><div class="mediaobject"><a name="olsr-ipv6-howto-moving"></a><img src="images/olsr-ipv6/movement.png" align="center" width="450" alt="Taşıma"><div class="caption"><p>
+<b><tt>A</tt></b> ve <b><tt>C</tt></b> düğümleri birbirlerine erişmek için B düğümü üzerinden konuşacak şekilde üç düğümümüzü hareket ettiriyoruz.
+    </p></div></div>
+  </p><p>
+Tavsiye: Düğümleri fiziksel olarak dolaştırmak yerine <b><tt>ip6tables</tt></b>'ı kullanabilirsiniz. MAC-adresini kullanarak tüm paketi "drop" edebilirsiniz. Sadece bir düğümde engellemeniz yeterlidir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT -m mac --mac-source XX:XX:XX:XX:XX:XX -j DROP</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+A konağındaki OLSRd çıktısı şöyle olur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">neighbor list: 13:22:35.693587
+fec0:106:2700::11:l=1:m=1:w=3[2hlist:fec0:106:2700::12:]  <a name="olsr-ipv6-howto-onlyone"></a><img src="../images/xsl/callouts/1.png" alt="1" border="0">
+neighbor list: 13:22:40.093588
+fec0:106:2700::11:l=1:m=1:w=3[2hlist:fec0:106:2700::12:]
+neighbor list: 13:22:44.053594
+fec0:106:2700::11:l=1:m=1:w=3[2hlist:fec0:106:2700::12:]
+neighbor list: 13:22:48.233594
+fec0:106:2700::11:l=1:m=1:w=3[2hlist:fec0:106:2700::12:]
+neighbor list: 13:22:52.193605
+fec0:106:2700::11:l=1:m=1:w=3[2hlist:fec0:106:2700::12:]
+</pre> </td></tr></table></div></p><p>
+  <div class="calloutlist"><table border="0" summary="Callout list" cellspacing="0" cellpadding="3" width="100%"><tr><td width="5%" valign="top" align="left" class="coimage"><a href="#olsr-ipv6-howto-onlyone"><img src="../images/xsl/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>
+<b><tt>B</tt></b> düğümüne doğrudan erişebiliriz; ve <b><tt>B</tt></b> düğümü aracılığıyla <b><tt>C</tt></b> düğümüne erişebiliriz.
+  </p></td></tr></table></div>
+  </p><p>
+Yönlendirme tablosu da güncellenir. <b><tt>A</tt></b> düğümünün <b><tt>C</tt></b> düğümüne erişebilmesi için <b><tt>B</tt></b> düğümünü kullanması gerekir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>#</tt> <b><tt>route -A inet6</tt></b>
+Destination:             Next Hop           Flags  Metric  Ref  Use Iface
+...
+fec0:106:2700::11/128    ::                 UH      1      1    0   eth1
+fec0:106:2700::12/128    fec0:106:2700::11  UGH     2      0    0   eth1
+...
+</pre> </td></tr></table></div>
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/olsr-ipv6-howto-installing.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/olsr-ipv6-howto-OLSRLinux.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/olsr-ipv6-howto-hna.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">OLSRd'yi kurma </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> HNA iletileri nedir?</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

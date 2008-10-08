@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:25+03:00"><title>Faydalı Kullanıcı Göstericisi</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-menus.html" title="Menü Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-menuopt.html" title="Menü Seçenekleri"><link rel="next" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Faydalı Kullanıcı Göstericisi</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menuopt.html">Önceki</a> </td><th width="60%" align="center">Menü Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-forms.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-menuuserptr"></a>Faydalı Kullanıcı Göstericisi</h3></div></dt><dd><p>
+Menüdeki her öğeye bir kullanıcı göstericisi atayabiliriz. Panellerdeki kullanıcı göstericisi ile aynı şekilde çalışmaktadır. Menü sistemi tarafından kullanılmazlar. Bunlar içerisine istediğiniz herhangi bir şeyi koyabilirsiniz. Ben genelde menü seçeneği seçildiğinde çalışacak işlevi (seçilen ve muhtemelen kullanıcının &lt;ENTER&gt;'ladığı) tutmak için kullanırım.
+</p><div class="example"><p><a name="ncurses-howto-mmeus"></a><b>Örnek 5.29. Menü Kullanıcı Göstericilerinin Kullanımı</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+  "Choice 1",
+  "Choice 2",
+  "Choice 3",
+  "Choice 4",
+  "Choice 5",
+  "Choice 6",
+  "Choice 7",
+  "Exit",
+};
+void func(char *name);
+
+int main()
+{ ITEM **my_items;
+  int c;
+  MENU *my_menu;
+  int n_choices, i;
+  ITEM *cur_item;
+
+  /* Curses Kipi İlklendir */
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+  init_pair(2, COLOR_GREEN, COLOR_BLACK);
+  init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
+
+  /* Öğeleri İlklendir */
+  n_choices = ARRAY_SIZE(choices);
+  my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+  for(i = 0; i &lt; n_choices; ++i)
+  { my_items[i] = new_item(choices[i], choices[i]);
+    /* Set the user pointer */
+    set_item_userptr(my_items[i], func);
+  }
+  my_items[n_choices] = (ITEM *)NULL;
+
+  /* Menüyü oluştur */
+  my_menu = new_menu((ITEM **)my_items);
+
+  /* Menüyü ekrana yaz */
+  mvprintw(LINES - 3, 0,
+    "Seçili öğeyi görmek için &lt;ENTER&gt;'a basın");
+  mvprintw(LINES - 2, 0,
+    "Hareket etmek için Yukarı ve Aşağı ok tuşlarını kullanın "
+    "(Çıkmak için F1)");
+  post_menu(my_menu);
+  refresh();
+
+  while((c = getch()) != KEY_F(1))
+  { switch(c)
+    { case KEY_DOWN:
+        menu_driver(my_menu, REQ_DOWN_ITEM);
+        break;
+      case KEY_UP:
+        menu_driver(my_menu, REQ_UP_ITEM);
+        break;
+      case 10: /* Enter */
+      { ITEM *cur;
+        void (*p)(char *);
+
+        cur = current_item(my_menu);
+        p = item_userptr(cur);
+        p((char *)item_name(cur));
+        pos_menu_cursor(my_menu);
+        break;
+      }
+      break;
+    }
+  }
+  unpost_menu(my_menu);
+  for(i = 0; i &lt; n_choices; ++i)
+    free_item(my_items[i]);
+  free_menu(my_menu);
+  endwin();
+}
+
+void func(char *name)
+{ move(20, 0);
+  clrtoeol();
+  mvprintw(20, 0, "Seçili öge: %s", name);
+}
+</pre> </td></tr></table></div></p></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-menuopt.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-menus.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-forms.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Menü Seçenekleri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Form Kütüphanesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

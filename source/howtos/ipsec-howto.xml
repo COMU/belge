@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="ipsec-howto" lang="tr">
+  <articleinfo>
+    <title>IPsec NASIL</title>
+    <author role="translator">
+      <firstname>Necdet Yücel</firstname>
+      <affiliation>
+        <address><email>nyucel@comu.edu.tr</email></address>
+      </affiliation>
+    </author>
+    <author>
+	    <firstname>Ralf</firstname>
+	    <surname>Spenneberg</surname>
+       <affiliation>
+	       <address><email>maintainer@ipsec-howto.org</email></address>
+       </affiliation>
+     </author>
+    <revhistory>
+      <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>Ekim 2008</date>
+        <authorinitials>ny</authorinitials>
+        <revremark>İlk Çeviri</revremark>
+      </revision>
+    </revhistory>
+    <revhistory>
+      <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+      <revision>
+	      <revnumber>0.9.96</revnumber>
+          <date>2007-02-26</date>
+          <authorinitials>RS</authorinitials>
+	  <revremark>OpenSSL needs file: crlnumber</revremark>
+       </revision></revhistory>
+<copyright><year>2003-2007</year><holder>Ralf Spenneberg - Özgün belge</holder></copyright><sbr/>
+<copyright><year>2008</year><holder>Necdet Yücel - Türkçe çeviri</holder></copyright>
+    <legalnotice><title>Yasal Açıklamalar</title>
+<para>Bu belgenin, <emphasis>IPsec NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün  <emphasis role="bold">telif hakkı © 2003-2007 <emphasis>Ralf Spenneberg</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
+  <para>BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.</para>
+    </legalnotice>
+     <abstract>
+	<para>Bu belge Linux 2.6 çekirdeği üzerinde IPsec kullanarak VPN oluşturmanın temel ve ileri konularını kapsayacaktır. 2.4 çekirdeğiyle ilgili çok fazla belge olduğundan burada sadece 2.6 çekirdeği ile gelen yeni IPsec özellikleri üzerinde durulacaktır.</para>
+	<para>Bu belgenin İngilizce sürümünü <ulink url="http://www.ipsec-howto.org/t1.html"> bu adreste</ulink> bulabilirsiniz.</para>
+     </abstract>
+  </articleinfo>
+<sect1 id="ipsec-howto-intro"><title>Giriş</title>
+	<para></para>
+	<sect2 id="ipsec-howto-intro-reason"><title>Bu Belgenin Yazılma Nedeni</title>
+		<para>Geçmişte bir çok NASIL belgesi kullandım. Çoğu benim için faydalı oldu. Linux çekirdeğinde IPsec'in yeni özelliklerinin gerçeklenimleri yapıldıkça ben de onlarla ilgilenmeye başladım. Bu konuyla ilgili çok az sayıda belge bulunduğundan bu NASIL belgesini yazmaya başladım.</para>
+	</sect2>
+	<sect2 id="ipsec-howto-intro-contrib"><title>Katkıda Bulunanlar</title>
+	<para><itemizedlist>
+		<listitem>Matija Nalis</listitem>
+		<listitem>Fridtjof Busse</listitem>
+		<listitem>Uwe Beck</listitem>
+		<listitem>Juanjo Ciarlante</listitem>
+		<listitem>Ervin Hegedus</listitem>
+		<listitem>Barabara Kane</listitem>
+		<listitem>Alois Schmid</listitem>
+	</itemizedlist>
+	</para>
+	</sect2>
+	
+	<sect2 id="ipsec-howto-intro-docs"><title>İlgili Belgeler</title>
+	<para><itemizedlist>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/Networking-Overview-HOWTO.html">Networking Overview HOWTO</ulink></listitem>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/Net-HOWTO/index.html">Networking HOWTO</ulink></listitem>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/Net-HOWTO/index.html">VPN-Masquerade HOWTO</ulink></listitem>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/VPN-HOWTO/">VPN HOWTO</ulink></listitem>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/VPN-HOWTO/">Advanced Routing &amp; Traffic Control HOWTO</ulink></listitem>
+	</itemizedlist></para>
+	</sect2>
+</sect1>
+<sect1 id="ipsec-howto-theory"><title>Teorik Bilgiler</title>
+	<sect2 id="ipsec-howto-theory-whatis"><title>IPsec Nedir?</title>
+		<para>IPsec IP protokolünün IP ve daha üst katmanlar için güvenlik sağlayan bir genişletmesidir. İlk olarak yeni IPv6 standadı için geliştirilmiş daha sonra IPv4 için "geriye yapılandırılmıştır". IPsec mimarisi RFC2401 belgesinde tanımlanmıştır. Aşağıdaki bir kaç paragraf IPsec için kısa bir giriş olacaktır.</para>
+		<para>IPsec iletişimin doğruluğunu kanıtlamak, bütünlük ve gizliliğinden emin olmak için iki farklı protokol kullanır: AH ve ESP. Tüm IP datagramını koruyabileceği gibi sadece daha üst katmanların protokollerini de koruyabilir. Bu durumlar için karşılık gelen modlar tünel ve taşıma modlarıdır. Tünel modunda IP datagramı IPsec protokolünü kullanarak yeni bir IP datagramı tarafından tamamen kapsüllenir. Taşıma modunda ise IP datagramının sadece kullanıcı verisi (payload) IPsec protokolü tarafından IPsec başlığı IP başlığı ile daha üst katman protokol başlığı arasına yerleştirilerek işlenir. (<xref linkend="ipsec-howto-mods"/>'e bakınız.)</para>
+		<para><figure id="ipsec-howto-mods"><title>IPsec Tünel ve Trasport Modları</title>
+			<mediaobject><imageobject>
+				<imagedata fileref="ipsec/mods.png" format="PNG" align="center" scalefit="1"/>
+			</imageobject></mediaobject></figure>
+		</para>
+		<para>IPsec protokolleri IP datagramlarının bütünlüğünü korumak için hash mesaj doğrulama kodlarını (HMAC) kullanır. MD5 ve SHA gibi hash algoritmaları kullanarak IP datagramı ve bir gizli anahtarı temel alan HMAC'i çıkartırlar. Daha sonra bu HMAC IPsec protokol başlığına eklenir ve paketin alıcısı eğer gizli anahtara erişimi varsa bu HMAC'i kontrol edebilir.</para>
+		<para>IPsec protokolleri IP datagramlarının gizliliğini korumak için standat simetik şifreleme algoritmalarını kullanır. IPsec standartı NULL ve DES gerçeklenimlerine ihtiyaç duysa da günümüzde genel olarak 3DES, AES ve Blowfish gibi daha güçlü algoritmalar kullanılmaktadır.</para>
+		<para>IPsec protokolleri DoS ataklarına karşı korunmak için kayan pencere kullanırlar. Her paketin ardışık bir numarası vardır ve bir paket sadece numarasının pencerede olması veya daha yeni olması durumunda kabul edilir. Eski paketler hızla gözardı edilirler. Böylece saldırganın orjinal paketleri kaydedip daha sonra yanıtlamasıyla yapılan cevaplama saldırılarına karşı koruma sağlanmış olur.</para>
+		<para>IPsec paketlerini karşılıklı olarak kapsülleyip açabilen eşlerin gizli anahtarı, algoritmaları ve iletişimde izin verilen IP adreslerini saklamak için bir yönteme ihtiyaçları vardır. IP datagramlarının korunması için ihtiyaç duyulan bütün bu parametreler bir güvenlik anlaşmasında (security association) (SA) saklanır. Güvenlik anlaşmaları sırayla güvenlik anlaşmaları veritabanında (SAD) saklanırlar.</para>
+		<para>Her bir güvenlik anlaşması aşağıdaki parametreleri tanımlar:
+			<itemizedlist><listitem>Oluşan IPsec başlığının hedef ve kaynak IP adresleri. Bu adresler paketleri koruyan IPsec eşlerinin IP adresleridir.</listitem>
+				<listitem>IPsec protokolü (AH veya ESP), bazen sıkıştırma (IPCOMP) da desteklenir.</listitem>
+				<listitem>IPsec protokolünün kullandığı gizli anahtar ve protokol.</listitem>
+				<listitem>Güvenlik Parametre Dizini (Security Parameter Index - SPI). Bu güvenlik anlaşmasını belirleyen 32-bit bir sayıdır.</listitem>
+			</itemizedlist>
+		</para>
+		<para>Bazı güvenlik anlaşması veritabanı gerçeklenimleri başka parametrelerin de saklanmasına izin verir:
+			<itemizedlist><listitem>IPsec modu (tünel veya taşıma)</listitem>
+				<listitem>Cevap ataklarına karşı koruma sağlayan kayan pencerenin büyüklüğü.</listitem>
+				<listitem>Güvenlik anlaşmasının geçerlilik süresi.</listitem>
+			</itemizedlist>
+		</para>
+		<para>Güvenlik anlaşması kaynak ve hedef IP adreslerini tanımladığından çift yönlü IPsec iletişiminde sadece bir yöndeki trafikte koruma sağlayabilir. IPsec her iki yönde de koruma sağlamak için iki adet tek yönlü güvenlik anlaşmasına ihtiyaç duyar.</para>
+		<para>Güvenlik anlaşmaları sadece IPsec'in trafiği nasıl koruyacağını belirlerler. Hangi trafiğin ne zaman korunacağını tanımlamak için ilave bilgiye ihtiyaç duyulur. Bu bilgi günelik anlaşması veritabanında bulundurulan güvenlik politikasında (SP) saklanır.</para>
+		<para>Bir güvenlik politikası aşağıdaki parametreleri belirler:
+			<itemizedlist><listitem>Korunacak paketlerin kaynak ve hedef adresleri. Taşıma modunda bu adresler SA'daki adreslerle aynı olurlar! Tünel modunda farklı olabilirler!</listitem>
+				<listitem>Korunacak protokol (ve port). Bazı IPsec gerçeklenimleri özel protokolün korunmak için tanımlanmasın aizin vermezler. Böyle bir durumda belirtilen IP adresleri arasındaki tüm trafik korunur.</listitem>
+				<listitem>Paketlerin korunmasında kullanılacak güvenlik anlaşması.</listitem>
+			</itemizedlist>
+		</para>
+		<para>Güvenlik anlaşmasının elle yapılandırılması hataya yatkın ve çok gğvenli de değildir. Gizli anahtarların ve şifreleme algoritmalarının sanal özel ağdaki tüm eşler arasında faylaşılması gerekir. Özellikle anahtarların değişimi sistem yöneticisi için kritik problemler yaratır: Henüz bir şifreleme sağlanmamışken simetrik anahtarların değişimi nasıl yapılacaktır?</para>
+		<para>Bu problemin çözümü için internet anahtar değişim protokolü (IKE) geliştirilmiştir. Bu protokol ilk olarak eşlerin kimlik denetimini yapar, ardından güvenlik anlaşmaları tertip edilir ve simetrik anahtarlar Diffie Hellmann anahtar değişimi kullanılarak seçilir. IKE protokolü gizli anahtarların güvenliğinden emin olmak için periyodik olarak yapılacak anahtar yenilemelerinde de devreye girer.</para>
+	</sect2>	
+	<sect2 id="ipsec-howto-theory-protocols"><title>IPsec Protokolleri</title>
+		<para>IPsec protokol ailesi iki bağımsız IP protokolünden oluşur: Kimlik Kanıtlama Başlığı (AH) ve Kapsüllenen Güvenlik Yükü (ESP). AH 51 ve ESP ise 50 numaralı protokollerdir (ayrıntı için <filename>/etc/protocols</filename> dosyasına bakabilirsiniz). Aşağıdaki iki bölümde bu protokollerin özelliklerini özet olarak bulacaksınız.</para>
+		<sect3 id="ipsec-howto-theory-protocols-ah"><title>AH - Kimlik Kanıtlama Başlığı</title>
+			<para>AH protokolü IP datagramının bütünlüğünü korur. Bunu yapabilmek için datagramın HMAC'ini hesaplar. HMAC hesaplanırken gizli anahtar, paketteki kullanıcı verisi ve IP başlığındaki IP adresi gibi değişmeyen bölümleri temel alınır. Bu bilgi daha sonra paketin AH başlığına eklenir. AH başlığı <xref linkend="ipsec-howto-ah_header"/>'de gösterilmektedir.</para>
+			<para><figure id="ipsec-howto-ah_header"><title>Paketin bütünlüğünü koruyan AH Başlığı</title>
+					<mediaobject><imageobject>
+							<imagedata fileref="ipsec/ah_header.png" format="PNG" align="center" scalefit="1"/>
+			</imageobject></mediaobject></figure></para>
+			<para>AH başlığı 24 byte uzunluğundadır. İlk byte <emphasis>Next Header</emphasis> alanıdır. Bu alan takip eden başlığın protokolünü belirtir. Tünel modunda bütüm IP datagramı kapsüllendiğinden bu alanın değeri 4'tür. Bir TCP datagramı taşıma modunda kapsüllendiğinde kullanılan sayı ise 6'dır. Sonraki byte yükün uzunluğunu gösterir. Bu alanı iki adet ayırılmış byte takip eder. Sıradaki 32 bit uzunluğundaki alanda <emphasis>Güvenlik Parametre Dizini</emphasis> (SPI) bulunur. SPI, kapsüllenmiş paketin açılmasında kullanılacak güvenlik anlaşmasını belirler. 32 bit uzunluğundaki <emphasis>Ardışıklık Numarası</emphasis> cevaplama ataklarına karşı koruma sağlar. Son alan olan <emphasis>HMAC</emphasis> ise 96 bitlik alan kaplar. Sadece gizli anahtarı bilen eşler HMAC yaratıp onu kontrol edebildiklerinden HMAC alanı paketin bütünlüğünü korur.</para>
+			<para>AH protokolü IP datagramının IP başlığındaki IP adresi gibi değişmeyen parçalarını da koruduğundan NAT'a izin vermez. Ağ Adresi Çeviricisi (NAT) IP başlığındaki IP adresini (genellikle kaynak IP) başka bir IP adresiyle değiştirir. Böylece HMAC değişeceğinden artık geçersiz olur. IPsec protokolünün bir genişletmesi olan Aykırı-NAT bu kısıtlamanın etrafından dolanan bir çözümdür.</para>
+		</sect3>		
+		<sect3 id="ipsec-howto-theory-protocols-esp"><title>ESP - Kapsüllenen Güvenlik Yükü</title>
+			<para>ESP protokolü hem HMAC kullanarak paketin bütünlüğünü hem de şifreleme kullanarak paketin gizliğini garanti eder. Paketin şifrelendikten sonra HMAC hesaplanır ve ESP başlığı oluşturulur ve pakete eklenir. İki bölümden oluşan ESP başlığı <xref linkend="ipsec-howto-esp_header"/>'de gösterilmiştir.</para>
+			<para><figure id="ipsec-howto-esp_header"><title>ESP Başlığı</title>
+					<mediaobject><imageobject>
+							<imagedata fileref="ipsec/esp_header.png" format="PNG" scalefit="1"/>
+			</imageobject></mediaobject></figure></para>
+			<para>ESP başlığındaki ilk bölüm <emphasis>Güvenlik Parametre Dizini</emphasis> (SPI)'dir. SPI kapsüllenmiş ESP paketinin açılmasında kullanılacak SA'yı belirtir. İkinci bölüm <emphasis>Ardışıklık Numarası</emphasis>dır. Bu numara cevaplama ataklarına karşı koruma sağlar. Üçüncü bölümde ise şifreleme işleminde kullanılan <emphasis>İlklendirme Vektörü</emphasis> (IV) bulunur. Simetrik şifreleme algoritmaları eğer IV kullanılmazsa frekans saldırılarına karşı zayıftırlar. IV sayasinde iki eşit yüke karşılık iki farklı şifrelenmiş yük oluştuğundundan emin olunabilir.</para>
+			<para>IPsec şifreleme sürecinde blok şifreleme algoritmaları kullandığından eğer şifrelenecek yükün uzunluğu bir bloğun tam katı değilse takviye edilmelidir. Bu takviyenin uzunluğu da başlığa eklenir. Bunun ardından <emphasis>Next Header</emphasis> bölümü gelir. ESP başlığında son olarak  paketin bütünlüğünden emin olunmasını sağlayan 96 bit uzunluğundaki HMAC bulunur. IP başlığı hesaplama sürecine dahil edilmez.</para>
+			<para>Bu yüzden ESP protokolü NAT kullanımına mani olmaz. Yine de bir çok durumda IPsec ile NAT'ın beraber kullanımı mümkün olmamaktadır. Aykırı-NAT ESP paketlerini UDP paketlerinin içine kapsülleyen bir çözüm sunar.</para>
+		</sect3>
+	</sect2>
+	
+	<sect2 id="ipsec-howto-theory-ike"><title>IKE Protokolü</title>
+		<para>IKE protokolü güvenli iletişimin en ünlü sorununu çözer: eşlerin kimlik kanıtlama yapması ve simetrik anahtarların değişimi. Bu sayede güvenlik anlaşmaları yapılır ve SAD oluşturulur. IKE protokolü genellikle kullanıcı tarafı sürecine ihtiyaç duyar, işletim sisteminde bir gerçekleştirmesi yoktur. İletişim için 500/UDP portunu kullanır.</para>
+		<para>IKE protokol fonksiyonları iki safhalıdır. İlk safhada <emphasis>Internet Güvenlik Anlaşması Anahtar Yönetimi Güvenlik Anlaşması</emphasis> (ISAKMP SA) tesis edilir. İkinci safhada ISAKMP SA kullanılarak IPsec SA'ları kurulur.</para>
+		<para>İlk safhada eşlerin kimlik kanıtlaması RSA anahtarları veya X.509 sertifikaları (hatta Kerberos desteğindeki racoon) gibi daha önceden paylaşılan anahtarlara dayanarak yapılır.</para>
+		<para>İlk safha genellikle iki farklı modu destekler: temel mod ve saldırgan mod. İki mod da eşlerin kimlik kanıtlamasını yapar ve bir ISAKMP SA oluşturur ama saldırgan mod bu işi yapmak için temel modun yarısı kadar mesaj kullanır. Bunun sakıncası saldırgan modun kimlik korumasını desteklemediğinden eğer önceden paylaşılmış anahtarlarla birlikte kullanılırsa aradaki-adam saldırılarına karşı 
+			This does have its drawbacks though, because the aggressive mode does not support identity protection and is therefore susceptible to a man-in-the-middle attack if used in conjunction with pre-shared keys. On the other hand this is the only purpose of the aggressive mode. Because of the internal workings of the main mode it does not support the usage of different preshared keys with unknown peers. The aggressive mode does not support identity protection and transfers the identity of the client in the clear. The peers therefore know each other before the authentication takes place and different pre-shared keys can be used for different peers.</para>
+		<para>In the second phase the IKE protocol exchanges security association proposals and negotiates the security associations based on the ISAKMP SA. The ISAKMP SA provides the authentication to protect against a man-in-the-middle attack. This second phase uses the quick mode.</para>
+		<para>Usually two peers negotiate only one ISAKMP SA, which is then used to negotiate several (at least two) unidirectional IPsec SAs.</para>
+	</sect2>
+	
+	<sect2 id="ipsec-howto-theory-nat"><title>Aykırı NAT</title>
+		<para>What is NAT-Traversal and why is it needed?</para>
+		<para>Often one peer in the VPN is behind a NAT-device. I just assume Source-NAT devices here. Whenever I talk about NAT I mean Source-NAT or Masquerading. What does this mean concerning the VPN? Well, first of all the original IP address of the peer is hidden by the NAT-device. The NAT-device conceals the original source IP address and replaces it by its own IP address.</para>
+		<para>This make the IPsec AH protocol immediately unusable. But ESP can still be used if both sides are configured correctly.</para>
+		<para>So why do you need NAT-Traversal? Because as soon as two machines behind the same NAT device try to build a tunnel to the outside, both will fail.</para>
+		<para>Why is this happening? The NAT device needs to keep track of the "natted" connections to be able to "de-nat" the reply packets back to the original client. Therefore the NAT device maintains an internal table where all "natted" connections are stored. Lets assume one client connects to a webserver on the Internet. The NAT device conceils the original address by replacing it with its own address. It then makes a note in its internal table that all packets coming back on the chosen client port have to be send to the original client1. As soon as the second client starts a connection, it handles that connection identical. If the second client chose the same client port by coincidence the NAT device will also modify the client port for unambuigity. This works very well using TCP and UDP because those protocols provide ports. ESP does not use ports. Therefore the NAT device can only use the protocol distinguish the packets. When the first client connects it stores the information in the table that all ESP packets have to be "denatted" to the first client. When the second client connects it will overwrite this entry with the appropiate entry for the second one thus breaking at least the first connection.</para>
+		<para>What does NAT traversal do to help? NAT-traversal again encapsulates the ESP packets in UDP packets. These can easily be handled by a NAT device since they provide ports. By default port 4500/udp is used. NAT traversal is specified in several drafts. There are no RFCs at the moment. A nice feature of NAT traversal is the fact that once activated the peers automatically use it when needed.</para>
+	</sect2>
+</sect1>
+
+<sect1 id="ipsec-howto-openswan"><title>Linux 2.6 Üzerinde Çalışan Openswan</title>
+	<para>Bu bölüm daha sonra yazılacak.</para>
+</sect1>
+
+<sect1 id="ipsec-howto-kametools"><title>KAME-tools kullanılan Linux 2.6 Çekirdeği</title>
+	<para></para>
+	<sect2 id="ipsec-howto-kametools-installation"><title>Kurulum</title>
+		<para></para>
+	</sect2>
+	
+	<sect2 id="ipsec-howto-kametools-setkey"><title>Manual keyed connections using setkey</title>
+		<para></para>
+		<sect3 id="ipsec-howto-kametools-setkey-transport"><title>Transport Mode</title>
+			<para></para>
+		</sect3>
+		<sect3 id="ipsec-howto-kametools-setkey-tunnel"><title>Tünel Mod</title>
+			<para></para>
+		</sect3>		
+	</sect2>
+	
+	<sect2 id="ipsec-howto-kametools-racoon"><title>Automatic keyed connections using racoon</title>
+		<para></para>
+		<sect3 id="ipsec-howto-kametools-racoon-keys"><title>Preshared Keys</title>
+			<para></para>
+		</sect3>
+		
+		<sect3 id="ipsec-howto-kametools-racoon-x509"><title>X.509 Sertifikaları</title>
+			<para></para>
+		</sect3>
+		
+		<sect3 id="ipsec-howto-kametools-racoon-roadwarrior"><title>Roadwarrior</title>
+			<para></para>
+		</sect3>
+	</sect2>	
+	
+	<sect2 id="ipsec-howto-kametools-nattraversal"><title>Aykırı NAT</title>
+		<para></para>
+	</sect2>	
+</sect1>
+
+<sect1 id="ipsec-howto-isakmpd"><title>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</title>
+	<para></para>
+	<sect2 id="ipsec-howto-isakmpd-installation"><title>Kurulum</title>
+		<para></para>
+	</sect2>
+	<sect2 id="ipsec-howto-isakmpd-psk"><title>Using preshared keys (PSK)</title>
+		<para></para>
+	</sect2>
+	<sect2 id="ipsec-howto-isakmpd-x509"><title>Using X.509 certificates</title>
+		<para></para>
+	</sect2>
+
+</sect1>
+
+<sect1 id="ipsec-howto-x509"><title>X.509 Sertifikaları Oluşturmak</title>
+	<para></para>
+	<sect2 id="ipsec-howto-x509-openssl"><title>OpenSSL Kullanarak</title>
+		<para></para>
+	</sect2>
+	<sect2 id="ipsec-howto-x509-windows"><title>Generating Certificates for Windows Clients</title>
+		<para></para>
+	</sect2>
+</sect1>
+
+<sect1 id="ipsec-howto-advanced"><title>Gelişmiş Yapılandırma</title>
+	<sect2 id="ipsec-howto-advanced-xauth"><title>Xauth and IKE-Mode-Config</title>
+		<para></para>
+	</sect2>
+	<sect2 id="ipsec-howto-advanced-iptables"><title>IPtables Kuralları</title>
+		<para></para>
+	</sect2>
+</sect1>
+
+<sect1 id="ipsec-howto-links"><title>Bağlantılar</title>
+	<para>Bu bölümde ihtiyaç duyabileceğiniz bazı araçların bağlantılarını bulacaksınız:</para>
+	<para><itemizedlist>
+			<listitem>IPsec-Tools: <ulink url="http://ipsec-tools.sf.net/"/></listitem>
+			<listitem>Markus Mueller'in yazdığı Windows makineleri VPN'e bağlamakta kullanılan <command>ipsec.exe</command>: <ulink url="http://vpn.ebootis.de/"/></listitem>
+			<listitem>PKCS#12-Sertifika dosyalarını oluşturmaya yardımcı olan <command>wincert</command>: <ulink url="http://sourceforge.net/projects/wincert/"/></listitem>
+		</itemizedlist>
+	</para>
+</sect1>
+
+</article>

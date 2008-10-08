@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:02+03:00"><title>Linux Makefile'lar</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-intro.html" title="Giriş"><link rel="next" href="../howto/linux-i386-boot-code-howto-bootsect.html" title="linux/arch/i386/boot/bootsect.S"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Linux Makefile'lar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-intro.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-bootsect.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-makefiles"></a>Linux Makefile'lar</h2></div></dt><dd><p>
+Linux kodunu incelemeden önce Linux'un nasıl oluşturulduğu, derlendiği ve bağlandığı konusunda bazı temel fikirlere sahip olmalıyız. Bunu en baştan başlayarak yapmanın bir yolu Linux makefile'ları anlamaktır. Çevrimiçi kaynak gösterimini tercih ediyorsanız <a class="ulink" href="http://lxr.linux.no/source?v=2.4.20" target="_top">Cross-Referencing Linux</a> bağlantısını kontrol edin.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-linux_makefile"></a>linux/Makefile</h3></div></dt><dd><p>
+Bu üst seviye için bazı iyi bilinen makefile hedefleri şunlardır:
+      <div class="variablelist"><dl><dt><span class="term"><tt>xconfig, menuconfig, config, oldconfig</tt></span></dt><dd>
+<tt>linux/.config</tt> çekirdek yapılandırma dosyasını üretir;
+      <p></p><p></p></dd><dt><span class="term"><tt>depend, dep</tt></span></dt><dd>
+alt dizinlerde <tt>linux/.depend</tt>, <tt>linux/.hdepend</tt> ve <tt>.depend</tt> gibi bağımlılık dosyalarını üretir;
+      <p></p><p></p></dd><dt><span class="term"><tt>vmlinux</tt></span></dt><dd>
+en önemli hedef olan <tt>linux/vmlinux</tt> yerleşik çekirdek görüntüsünü üretir;
+      <p></p><p></p></dd><dt><span class="term"><tt>modules, modules_install</tt></span></dt><dd>
+<tt>/lib/modules/$(KERNELRELEASE)</tt>içerisindeki modülleri üretir ve kurar;
+      <p></p><p></p></dd><dt><span class="term"><tt>tags</tt></span></dt><dd>
+<a class="ulink" href="http://vim.sourceforge.net" target="_top">vim</a> ile kaynağın görüntülenmesi için <tt>linux/tags</tt> etiket dosyasını üretir.
+      <p></p><p></p></dd></dl></div>
+      </p><p>
+<tt>linux/Makefile</tt> anahatları ile aşağıdaki gibidir:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+include .depend
+include .config
+include arch/i386/Makefile
+
+vmlinux: linux/vmlinux üretir
+        /* "stext" giriş noktası arch/i386/kernel/head.S dosyasında tanımlı*/
+        $(LD) -T $(TOPDIR)/arch/i386/vmlinux.lds -e stext
+        /* $(HEAD) */
+        + from arch/i386/Makefile
+                arch/i386/kernel/head.o
+                arch/i386/kernel/init_task.o
+        init/main.o
+        init/version.o
+        init/do_mounts.o
+        --start-group
+        /* $(CORE_FILES) */
+        + from arch/i386/Makefile
+                arch/i386/kernel/kernel.o
+                arch/i386/mm/mm.o
+        kernel/kernel.o
+        mm/mm.o
+        fs/fs.o
+        ipc/ipc.o
+        /* $(DRIVERS) */
+        drivers/...
+                char/char.o
+                block/block.o
+                misc/misc.o
+                net/net.o
+                media/media.o
+                cdrom/driver.o
+                and other static linked drivers
+                + from arch/i386/Makefile
+                        arch/i386/math-emu/math.o (ifdef CONFIG_MATH_EMULATION)
+        /* $(NETWORKS) */
+        net/network.o
+        /* $(LIBS) */
+        + from arch/i386/Makefile
+                arch/i386/lib/lib.a
+        lib/lib.a
+        --end-group
+        -o vmlinux
+        $(NM) vmlinux | grep ... | sort &gt; System.map
+tags: vim için linux/tags üretir
+modules: modülleri üretir
+modules_install: modülleri kurar
+clean mrproper distclean: derlemenin yapıldığı dizini temizler
+psdocs pdfdocs htmldocs mandocs: çekirdek belgelerini üretir
+
+include Rules.make
+
+rpm: bir rpm üretir
+</pre> </td></tr></table></div>
+      </p><p>
+Burada <tt>--start-group</tt> ve <tt>--end-group</tt>, sembol referans sorununu çözmek için <b><tt>ld</tt></b> komut satırı seçenekleridir. Ayrıntılar için <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_2.html#SEC3" target="_top">Using LD, the GNU linker: Command Line Options</a> belgesine başvurabilirsiniz.
+      </p><p>
+<tt>Rules.make</tt> çoklu Makefile dosyaları için kurallar içerir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-vmlinux.lds"></a>linux/arch/i386/vmlinux.lds</h3></div></dt><dd><p>
+Derlemeden sonra <b><tt>ld</tt></b> birkaç nesne ve arşiv dosyasını biraraya getirir, verilerini yeniden yerleştirir ve sembol referansları bağlayıp kapatır. <tt>linux/arch/i386/vmlinux.lds</tt> dosyası <tt>linux/Makefile</tt> tarafından yerleşik çekirdek görüntüsü <tt>linux/vmlinux</tt> 'un ilintilenmesinde kullanılan ilintileyici betik olarak tasarlanmıştır.
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/* i386 Linux çekirdeği oluşturmak için ld betiği
+ * Martin Mares &lt;mj@atrey.karlin.mff.cuni.cz&gt; tarafından yazılmıştır;
+ */
+OUTPUT_FORMAT("elf32-i386", "elf32-i386", "elf32-i386")
+OUTPUT_ARCH(i386)
+/* "ENTRY" linux/Makefile içinde "-e stext" komut satırı seçeneği ile değiştirilir */
+ENTRY(_start)
+/* Çıktı dosyası (linux/vmlinux) yerleşimi.
+ * Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC17" target="_top">Using LD, the GNU linker: Specifying Output Sections</a> */
+SECTIONS
+{
+/* Çıktı bölümü .text 3G+1M adresinden başlar.
+ * Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC10" target="_top">Using LD, the GNU linker: The Location Counter</a> */
+  . = 0xC0000000 + 0x100000;
+  _text = .;                    /* Metin ve salt okunur veri */
+  .text : {
+        *(.text)
+        *(.fixup)
+        *(.gnu.warning)
+        } = 0x9090
+/* Tahsis edilmemiş oyuklar 0x9090 ile doldurulur, örn. "NOP NOP" için opcode.
+ * Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC21" target="_top">Using LD, the GNU linker: Optional Section Attributes</a> */
+
+  _etext = .;                   /* text bölümünün sonu */
+
+  .rodata : { *(.rodata) *(.rodata.*) }
+  .kstrtab : { *(.kstrtab) }
+
+/* Sonraki 16 baytlık sınıra hizalandı.
+ * Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC14" target="_top">Using LD, the GNU linker: Arithmetic Functions</a> */
+  . = ALIGN(16);                /* Olağandışılık tablosu */
+  __start___ex_table = .;
+  __ex_table : { *(__ex_table) }
+  __stop___ex_table = .;
+
+  __start___ksymtab = .;        /* Çekirdek sembol tablosu */
+  __ksymtab : { *(__ksymtab) }
+  __stop___ksymtab = .;
+
+  .data : {                     /* Veri */
+        *(.data)
+        CONSTRUCTORS
+        }
+/* "CONSTRUCTORS" için bakınız:
+ * <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC26" target="_top">Using LD, the GNU linker: Option Commands</a> */
+
+  _edata = .;                   /* data bölümünün sonu */
+
+  . = ALIGN(8192);              /* init_task */
+  .data.init_task : { *(.data.init_task) }
+
+  . = ALIGN(4096);              /* Init kodu ve veri */
+  __init_begin = .;
+  .text.init : { *(.text.init) }
+  .data.init : { *(.data.init) }
+  . = ALIGN(16);
+  __setup_start = .;
+  .setup.init : { *(.setup.init) }
+  __setup_end = .;
+  __initcall_start = .;
+  .initcall.init : { *(.initcall.init) }
+  __initcall_end = .;
+  . = ALIGN(4096);
+  __init_end = .;
+
+  . = ALIGN(4096);
+  .data.page_aligned : { *(.data.idt) }
+
+  . = ALIGN(32);
+  .data.cacheline_aligned : { *(.data.cacheline_aligned) }
+
+  __bss_start = .;              /* BSS */
+  .bss : {
+        *(.bss)
+        }
+  _end = . ;
+
+/* Çıktı bölümü /DISCARD/ son ilintileme çıktısına dahil edilmeyecektir.
+ * Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC18" target="_top">Using LD, the GNU linker: Section Definitions</a> */
+  /* Çıkarılacak bölümler */
+  /DISCARD/ : {
+        *(.text.exit)
+        *(.data.exit)
+        *(.exitcall.exit)
+        }
+
+/* Aşağıdaki çıktı bölümleri 0. bellek konumuna adreslenmiştir.
+ * Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC21" target="_top">Using LD, the GNU linker: Optional Section Attributes</a> */
+  /* Stab hata ayıklama bölümleri.  */
+  .stab 0 : { *(.stab) }
+  .stabstr 0 : { *(.stabstr) }
+  .stab.excl 0 : { *(.stab.excl) }
+  .stab.exclstr 0 : { *(.stab.exclstr) }
+  .stab.index 0 : { *(.stab.index) }
+  .stab.indexstr 0 : { *(.stab.indexstr) }
+  .comment 0 : { *(.comment) }
+}</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-i386_makefile"></a>linux/arch/i386/Makefile</h3></div></dt><dd><p>
+<tt>linux/arch/i386/Makefile</tt>, <tt>linux/Makefile</tt> tarafından i386'ya özel öğelerin ve kuralların sağlanması için dahil edilmiştir.
+      </p><p>
+Aşağıdaki bütün hedefler linux/Makefile'ının <tt>vmlinux</tt> hedefine bağımlıdır. Bunlar, <tt>linux/arch/i386/boot/Makefile</tt> içinde bazı seçenekler ile ilgili hedefler oluşturarak yapılır.
+      </p><p><div class="table"><p><b>Tablo 1.1. linux/arch/i386/Makefile içindeki hedefler</b></p><table cellspacing="1" cellpadding="3" summary="linux/arch/i386/Makefile içindeki hedefler" border="1"><colgroup><col><col></colgroup><thead><tr><th>Hedef</th><th>Komut</th></tr></thead><tbody><tr><td>zImage<sup>[<a name="id3" href="#ftn.id3">a</a>]</sup></td><td><b><tt>@$(MAKE) -C arch/i386/boot zImage</tt></b><sup>[<a name="id3" href="#ftn.id3">b</a>]</sup></td></tr><tr><td>bzImage</td><td><b><tt>@$(MAKE) -C arch/i386/boot bzImage</tt></b></td></tr><tr><td>zlilo</td><td><b><tt>@$(MAKE) -C arch/i386/boot BOOTIMAGE=zImage zlilo</tt></b></td></tr><tr><td>bzlilo</td><td><b><tt>@$(MAKE) -C arch/i386/boot BOOTIMAGE=bzImage zlilo</tt></b></td></tr><tr><td>zdisk</td><td><b><tt>@$(MAKE) -C arch/i386/boot BOOTIMAGE=zImage zdisk</tt></b></td></tr><tr><td>bzdisk</td><td><b><tt>@$(MAKE) -C arch/i386/boot BOOTIMAGE=bzImage zdisk</tt></b></td></tr><tr><td>install</td><td><b><tt>@$(MAKE) -C arch/i386/boot BOOTIMAGE=bzImage install</tt></b></td></tr></tbody><tbody class="footnotes"><tr><td colspan="2"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id3" href="#id3">a</a>] </sup><tt>zImage</tt> mahlası: sıkıştırılmış;</p></td></tr></table></td></tr></table><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id3" href="#id3">b</a>] </sup>
+<tt>-C</tt> makefile'ları okumadan önce dizin değiştirmek için kullanılan bir <b><tt>make</tt></b> komut satırı seçeneğidir.
+  </p><p>
+Bakınız <a class="ulink" href="http://www.gnu.org/software/make/manual/html_chapter/make_9.html#SEC102" target="_top">GNU make: Summary of Options</a> ve <a class="ulink" href="http://www.gnu.org/software/make/manual/html_chapter/make_5.html#SEC58" target="_top">GNU make: Recursive Use of make</a>.</p></td></tr></table></td></tr></table></td></tr></tbody></table></div></p><p>
+Bu makefile'ın <tt>linux/Makefile</tt> tarafından ihraç edilen bazı çevre değişkenlerini yeniden tanımlaması önemlidir. Özellikle:
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+OBJCOPY=$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S
+</pre> </td></tr></table></div>
+      </p><p>
+Etki, altdizindeki makefile'lara geçecek ve aracın davranışı değişecektir. <b><tt>objcopy</tt></b> komut satırı seçeneklerinin ayrıntıları için <a class="ulink" href="http://www.gnu.org/software/binutils/manual/html_chapter/binutils_3.html" target="_top">GNU Binary Utilities: objcopy</a>'ye bakınız.
+      </p><p>
+<tt>$(LIBS)</tt>'in niçin "$(TOPDIR)/arch/i386/lib/lib.a"'yı iki defa içerdiği belli değildir.
+      </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+LIBS := $(TOPDIR)/arch/i386/lib/lib.a $(LIBS) $(TOPDIR)/arch/i386/lib/lib.a
+</pre> </td></tr></table></div>
+      </p><p>
+Bazı araç dizileri ile ortaya çıkan ilintileme sorunları üzerinde çalıştırmak için olabilir.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-i386_boot_makefile"></a>linux/arch/i386/boot/Makefile</h3></div></dt><dd><p>
+<tt>linux/arch/i386/boot/Makefile</tt> ne <tt>linux/arch/i386/Makefile</tt> içerisine ne de <tt>linux/Makefile</tt> içerisine dahil edilmediği için biraz daha bağımsızdır.
+      </p><p>
+Bununla birlikte biraz ilişki vardır:
+      </p><p><div class="itemizedlist"><ul type="disc"><li><tt>linux/Makefile</tt>: yerleşik çekirdek görüntüsü <tt>linux/vmlinux</tt>'u üretir;
+     </li><li><tt>linux/arch/i386/boot/Makefile</tt>: önyükleme kodunu üretir;
+     </li><li><tt>linux/arch/i386/Makefile</tt>: <tt>linux/vmlinux</tt>'un önyükleme kodu oluşturulmadan önce hazır olduğunu kontrol eder ve hedefleri <tt>linux/Makefile</tt>'a ihraç eder (<tt>bzImage</tt> gibi).
+     </li></ul></div>
+      </p><p>
+<tt>zdisk, zlilo</tt> veya <tt>zdisk</tt> hedefleri için gereken $(BOOTIMAGE) değeri <tt>linux/arch/i386/Makefile</tt>'dan gelir.
+      </p><p><div class="table"><p><b>Tablo 1.2. linux/arch/i386/boot/Makefile içindeki hedefler</b></p><table cellspacing="1" cellpadding="3" summary="linux/arch/i386/boot/Makefile içindeki hedefler" border="1"><colgroup><col><col></colgroup><thead><tr><th>Hedef</th><th>Komut</th></tr></thead><tbody><tr><td>zImage</td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$(OBJCOPY) compressed/vmlinux compressed/vmlinux.out
+tools/build bootsect setup compressed/vmlinux.out $(ROOT_DEV) &gt; zImage
+</pre> </td></tr></table></div></td></tr><tr><td>bzImage</td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$(OBJCOPY) compressed/bvmlinux compressed/bvmlinux.out
+tools/build -b bbootsect bsetup compressed/bvmlinux.out $(ROOT_DEV) \
+        &gt; bzImage
+</pre> </td></tr></table></div></td></tr><tr><td>zdisk</td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+dd bs=8192 if=$(BOOTIMAGE) of=/dev/fd0
+</pre> </td></tr></table></div></td></tr><tr><td>zlilo</td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+if [ -f $(INSTALL_PATH)/vmlinuz ]; then mv $(INSTALL_PATH)/vmlinuz
+        $(INSTALL_PATH)/vmlinuz.old; fi
+if [ -f $(INSTALL_PATH)/System.map ]; then mv $(INSTALL_PATH)/System.map
+        $(INSTALL_PATH)/System.old; fi
+cat $(BOOTIMAGE) &gt; $(INSTALL_PATH)/vmlinuz
+cp $(TOPDIR)/System.map $(INSTALL_PATH)/
+if [ -x /sbin/lilo ]; then /sbin/lilo; else /etc/lilo/install; fi
+</pre> </td></tr></table></div></td></tr><tr><td>install</td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+sh -x ./install.sh $(KERNELRELEASE) $(BOOTIMAGE) $(TOPDIR)/System.map
+        "$(INSTALL_PATH)"
+</pre> </td></tr></table></div></td></tr></tbody></table></div>
+        </p><p>
+<b><tt>tools/build</tt></b> {bootsect, setup, compressed/vmlinux.out}'dan <tt>zImage</tt>'ı veya <tt>{bbootsect, bsetup, compressed/bvmlinux,out}</tt>'dan <tt>bzImage</tt>'ı derler. <tt>linux/Makefile "export ROOT_DEV = CURRENT"</tt>. Dikkat ederseniz <tt>$(OBJCOPY)</tt> <a href="../howto/linux-i386-boot-code-howto-makefiles.html#linux-i386-boot-code-howto-i386_makefile" class="xref" title="linux/arch/i386/Makefile"> linux/arch/i386/Makefile</a> içerisindeki <tt>linux/arch/i386/Makefile</tt> tarafından yeniden tanımlanmıştır.
+      </p><p><div class="table"><p><b>Tablo 1.3. linux/arch/i386/boot/Makefile içindeki hedeflerin desteklenmesi</b></p><table cellspacing="1" cellpadding="3" summary="linux/arch/i386/boot/Makefile içindeki hedeflerin desteklenmesi" border="1"><colgroup><col><col></colgroup><thead><tr><th>Hedef: Öngereksinimler</th><th>Komut</th></tr></thead><tbody><tr><td><tt>compressed/vmlinux: linux/vmlinux</tt></td><td><b><tt>@$(MAKE) -C compressed vmlinux</tt></b></td></tr><tr><td><tt>compressed/bvmlinux: linux/vmlinux</tt></td><td><b><tt>@$(MAKE) -C compressed bvmlinux</tt></b></td></tr><tr><td><tt>tools/build: tools/build.c</tt></td><td><b><tt>$(HOSTCC) $(HOSTCFLAGS) -o $@ $&lt; -I$(TOPDIR)/include</tt></b><sup>[<a name="id4" href="#ftn.id4">a</a>]</sup></td></tr><tr><td><tt>bootsect: bootsect.o</tt></td><td><b><tt>$(LD) -Ttext 0x0 -s --oformat binary bootsect.o</tt></b><sup>[<a name="id4" href="#ftn.id4">b</a>]</sup></td></tr><tr><td><tt>bootsect.o: bootsect.s</tt></td><td><b><tt>$(AS) -o $@ $&lt;</tt></b></td></tr><tr><td><tt>bootsect.s: bootsect.S ...</tt></td><td><b><tt>$(CPP) $(CPPFLAGS) -traditional $(SVGA_MODE) $(RAMDISK) $&lt; -o $@</tt></b></td></tr><tr><td><tt>bbootsect: bbootsect.o</tt></td><td><b><tt>$(LD) -Ttext 0x0 -s --oformat binary $&lt; -o $@</tt></b></td></tr><tr><td><tt>bbootsect.o: bbootsect.s</tt></td><td><b><tt>$(AS) -o $@ $&lt;</tt></b></td></tr><tr><td><tt>bbootsect.s: bootsect.S ...</tt></td><td><b><tt>$(CPP) $(CPPFLAGS) -D__BIG_KERNEL__ -traditional $(SVGA_MODE) $(RAMDISK) $&lt; -o $@</tt></b></td></tr><tr><td><tt>setup: setup.o</tt></td><td><b><tt>$(LD) -Ttext 0x0 -s --oformat binary -e begtext -o $@ $&lt;</tt></b></td></tr><tr><td><tt>setup.o: setup.s</tt></td><td><b><tt>$(AS) -o $@ $&lt;</tt></b></td></tr><tr><td><tt>setup.s: setup.S video.S ...</tt></td><td><b><tt>$(CPP) $(CPPFLAGS) -D__ASSEMBLY__ -traditional $(SVGA_MODE) $(RAMDISK) $&lt; -o $@</tt></b></td></tr><tr><td><tt>bsetup: bsetup.o</tt></td><td><b><tt>$(LD) -Ttext 0x0 -s --oformat binary -e begtext -o $@ $&lt;</tt></b></td></tr><tr><td><tt>bsetup.o: bsetup.s</tt></td><td><b><tt>$(AS) -o $@ $&lt;</tt></b></td></tr><tr><td><tt>bsetup.s: setup.S video.S ...</tt></td><td><b><tt>$(CPP) $(CPPFLAGS) -D__BIG_KERNEL__ -D__ASSEMBLY__ -traditional $(SVGA_MODE) $(RAMDISK) $&lt; -o $@</tt></b></td></tr></tbody><tbody class="footnotes"><tr><td colspan="2"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id4" href="#id4">a</a>] </sup>"$@" hedef anlamındadır, "$&lt;" ilk öngereksinim anlamındadır; Bakınız <a class="ulink" href="http://www.gnu.org/software/make/manual/html_chapter/make_10.html#SEC111" target="_top">GNU make: Automatic Variables</a>;</p></td></tr></table></td></tr></table><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id4" href="#id4">b</a>] </sup>
+<tt>--oformat binary</tt> çalıştırılabilirin bellek dökümüne eşdeğer bir ham ikilik çıktı arar; Bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_2.html#SEC3" target="_top">Using LD, the GNU linker: Command Line Options</a>.</p></td></tr></table></td></tr></table></td></tr></tbody></table></div>
+        </p><p>
+Dikkat ederseniz <tt>bootsect.S</tt> <tt>bbootsect.s</tt>'ye ve <tt>setup.S</tt> <tt>bsetup.s</tt>'ye derlendiğinde <tt>-D__BIG_KERNEL__</tt>'e sahipti. Bunların kodları Yerden Bağımsız Kod (Place Independent Code - PIC) olmalı, bu durumda <tt>-Ttext</tt> seçeneğinin ne yaptığının önemi yoktur.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-i386_boot_compressed_makefile"></a>linux/arch/i386/boot/compressed/Makefile</h3></div></dt><dd><p>
+Bu dosya görüntüsünün sıkıştırılıp çözülmesi mekanizmasını yerine getirir.
+      </p><p>
+Sıkıştırma/çözmeyi önyükleme kodundan ayırmak iyidir. Bu böl-ve-yönet çözümü bizim sıkıştırma/çözme mekanizmasını kolayca geliştirmemize veya yeni bir önyükleme yöntemi uyarlamamıza imkan sağlar.
+      </p><p>
+<tt>linux/arch/i386/boot/compressed/</tt> dizini <tt>head.S</tt> ve <tt>misc.c</tt> dosyalarını içerir.
+      </p><p><div class="table"><p><b>Tablo 1.4. linux/arch/i386/boot/compressed/Makefile içindeki hedefler</b></p><table cellspacing="1" cellpadding="3" summary="linux/arch/i386/boot/compressed/Makefile içindeki hedefler" border="1"><colgroup><col><col></colgroup><thead><tr><th>Hedef</th><th>Komut</th></tr></thead><tbody><tr><td><tt>vmlinux</tt><sup>[<a name="id5" href="#ftn.id5">a</a>]</sup></td><td><b><tt>$(LD) -Ttext 0x1000 -e startup_32 -o vmlinux head.o misc.o piggy.o</tt></b></td></tr><tr><td><tt>bvmlinux</tt></td><td><b><tt>$(LD) -Ttext 0x100000 -e startup_32 -o bvmlinux head.o misc.o piggy.o</tt></b></td></tr><tr><td><tt>head.o</tt></td><td><b><tt>$(CC) $(AFLAGS) -traditional -c head.S</tt></b></td></tr><tr><td><tt>misc.o</tt></td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$(CC) $(CFLAGS) -DKBUILD_BASENAME=$(subst $(comma),_,$(subst -,_,$(*F)))
+        -c misc.c<sup>[<a name="id5" href="#ftn.id5">b</a>]</sup>
+</pre> </td></tr></table></div></td></tr><tr><td><tt>piggy.o</tt></td><td><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+tmppiggy=_tmp_$$$$piggy; \
+rm -f $$tmppiggy $$tmppiggy.gz $$tmppiggy.lnk; \
+$(OBJCOPY) $(SYSTEM) $$tmppiggy; \
+gzip -f -9 &lt; $$tmppiggy &gt; $$tmppiggy.gz; \
+echo "SECTIONS { .data : { input_len = .; \
+        LONG(input_data_end - input_data) input_data = .; \
+        *(.data) input_data_end = .; }}" &gt; $$tmppiggy.lnk; \
+$(LD) -r -o piggy.o -b binary $$tmppiggy.gz -b elf32-i386 \
+        -T $$tmppiggy.lnk; \
+rm -f $$tmppiggy $$tmppiggy.gz $$tmppiggy.lnk
+</pre> </td></tr></table></div></td></tr></tbody><tbody class="footnotes"><tr><td colspan="2"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id5" href="#id5">a</a>] </sup>Hedef <tt>vmlinux</tt> burada <tt>linux/Makefile</tt> içinde tanımlanana göre değişiktir;</p></td></tr></table></td></tr></table><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id5" href="#id5">b</a>] </sup>"subst" bir MAKE işlevidir; Bakınız <a class="ulink" href="http://www.gnu.org/software/make/manual/html_chapter/make_8.html#SEC85" target="_top">GNU make: Functions for String Substitution and Analysis</a>.</p></td></tr></table></td></tr></table></td></tr></tbody></table></div>
+      </p><p>
+<tt>piggy.o</tt> <tt>input_len</tt> değişkeninini ve gzip ile sıkıştırılmış <tt>linux/vmlinux'ı içerir. </tt><tt>input_len</tt> <tt>piggy.o</tt>'nun başında yer alır ve <tt>input_len</tt>'in kendisi hariç <tt>piggy.o</tt>'nun boyutuna eşittir. <tt>piggy.o</tt> bağlayıcı betiğinde geniş açıklamalar için bakınız <a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/html_chapter/ld_3.html#SEC20" target="_top">Using LD, the GNU linker: Section Data Expressions</a>.
+      </p><p>
+Tam olarak söylemek gerekirse <b><tt>objcopy</tt></b> tarafından üretilen gzip ile sıkıştırılmış olan <tt>linux/vmlinux</tt>'un kendisi (ELF biçiminde) değil onun ikili görüntüsüdür. Dikkat ederseniz <tt>$(OBJCOPY), linux/arch/i386/Makefile</tt> <a href="../howto/linux-i386-boot-code-howto-makefiles.html#linux-i386-boot-code-howto-i386_makefile" class="xref" title="linux/arch/i386/Makefile"> linux/arch/i386/Makefile</a> içerisinde <tt>-O binary</tt> seçeneğini kullanarak ham ikili çıktı almak için yeniden tanımlanmıştır.
+      </p><p>
+<tt>{bootsect, setup}</tt> veya <tt>{bbootsect, bsetup}</tt> bağlandığı zaman, <tt>$(LD)</tt> onların ikili biçimde çıktı alınması için <tt>--oformat binary</tt> seçeneğini belirtir. <tt>zImage</tt> (veya <tt>bzImage</tt>) yapıldığında, $(OBJCOPY) <tt>compressed/vmlinux</tt> (veya <tt>compressed/bvmlinux</tt>)'dan da bir ara ikili çıktı üretir. <tt>zImage</tt> veya <tt>bzImage</tt>'ın tüm bileşenlerinin ham ikili biçimde olması görüntünün kendi kendini bir yükleyiciye başvurmadan yükleyebilmesi ve yerleştirebilmesi için elzemdir.
+      </p><p>
+Hem <tt>vmlinux</tt> hem de <tt>bvmlinux</tt> <tt>head.o</tt> ve <tt>misc.o</tt>'yu <tt>piggy.o</tt>'dan önce hazırlar, fakat farklı başlangıç adreslerine (0x1000 ve 0x100000) bağlanırlar.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-i386_tools_build.c"></a>linux/arch/i386/tools/build.c</h3></div></dt><dd><p>
+<tt>linux/arch/i386/tools/build.c</tt> <tt>zImage</tt> veya <tt>bzImage</tt> üretmek için konak aracıdır.
+      </p><p>
+<tt>linux/arch/i386/boot/Makefile</tt> içinde:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+tools/build bootsect setup compressed/vmlinux.out $(ROOT_DEV) &gt; zImage
+
+tools/build -b bbootsect bsetup compressed/bvmlinux.out $(ROOT_DEV) &gt; bzImage
+</pre> </td></tr></table></div>
+      </p><p>
+<tt>-b</tt> büyük_çekirdek_mi (is_big_kernel) anlamındadır, sistem görüntüsünün çok büyük olup olmadığını kontrol eder.
+      </p><p>
+<b><tt>tools/build</tt></b> aşağıdaki <tt>zImage</tt> veya <tt>bzImage</tt>'a yeniden yönlendirilen çıktıları standart çıktı birimine verir:
+      </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem"><tt>bootsect</tt> veya <tt>bbootsect</tt>: <tt>linux/arch/i386/boot/bootsect.S</tt>'dan, 512 bytes;
+          </div></li><li><div class="listitem"><tt>setup</tt> veya <tt>bsetup</tt>: <tt>linux/arch/i386/boot/setup.S</tt>'den, 4 sektör veya daha fazla, sektör hizalı;
+          </div></li><li><div class="listitem">
+aşağıdakileri de içeren, <tt>compressed/vmlinux.out</tt> veya <tt>compressed/bvmlinux.out</tt>:
+          <p></p><p><div class="orderedlist"><ol type="a"><li><div class="listitem"><tt>head.o: linux/arch/i386/boot/compressed/head.S</tt> dosyasından;
+                </div></li><li><div class="listitem"><tt>misc.o: linux/arch/i386/boot/compressed/misc.c</tt> dosyasından;
+                </div></li><li><div class="listitem"><tt>piggy.o: input_len</tt> ve gzip'li <tt>linux/vmlinux</tt> dosyasından.
+                </div></li></ol></div>
+          </p><p></p></div></li></ol></div>
+      </p><p>
+<b><tt>tools/build</tt></b> standart çıktıya yazarken <tt>bootsect</tt> veya <tt>bbootsect</tt>'ın bazı içeriklerini değiştirecektir:
+      </p><p><div class="table"><p><b>Tablo 1.5. tools/build tarafından yapılan değişiklikler</b></p><table cellspacing="1" cellpadding="3" summary="tools/build tarafından yapılan değişiklikler" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Offset</th><th>Byte</th><th>Değişken</th><th>Komut</th></tr></thead><tbody><tr><td>1F1 (497)</td><td>1</td><td>setup_sectors</td><td>kurulum sektörleri sayısı, &gt;=4</td></tr><tr><td>1F4 (500)</td><td>2</td><td>sys_size</td><td>system size in 16-bytes cinsinden sistem boyutu, küçük-biten</td></tr><tr><td>1FC (508)</td><td>1</td><td>minor_root</td><td>root dev minor</td></tr><tr><td>1FD (509)</td><td>1</td><td>major_root</td><td>root dev major</td></tr></tbody></table></div>
+      </p><p>
+Takip eden bölümde <tt>compressed/vmlinux vmlinux</tt> olarak ve <tt>compressed/bvmlinux bvmlinux</tt> olarak anılacaktır.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-makefile_ref"></a>Kaynakça</h3></div></dt><dd><p>
+      <div class="itemizedlist"><ul type="disc"><li>
+Linux Kernel Makefiles: <tt>linux/Documentation/kbuild/makefiles.txt</tt></li><li><a class="ulink" href="http://tldp.org/HOWTO/Kernel-HOWTO/" target="_top">The Linux Çekirdeği NASIL</a></li><li><a class="ulink" href="http://www.gnu.org/software/make/manual/" target="_top">GNU make</a></li><li><a class="ulink" href="http://www.gnu.org/software/binutils/manual/ld-2.9.1/" target="_top">Using LD, the GNU linker</a></li><li><a class="ulink" href="http://www.gnu.org/software/binutils/manual/" target="_top">GNU Binary Utilities</a></li><li><a class="ulink" href="http://www.gnu.org/software/bash/manual/" target="_top">GNU Bash</a></li></ul></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-bootsect.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> linux/arch/i386/boot/bootsect.S</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

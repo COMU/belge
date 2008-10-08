@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:25+03:00"><title>Özel bir öneki olmayan adresler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-addresstypes.html" title="Adres Türleri"><link rel="previous" href="../howto/ipv6-howto-addresstypes.html" title="Adres Türleri"><link rel="next" href="../howto/ipv6-howto-addresstypes-w-prefix.html" title="Adresin ağ parçası; önek diye de bilinir"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Özel bir öneki olmayan adresler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-addresstypes.html">Önceki</a> </td><th width="60%" align="center">Adres Türleri</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-addresstypes-w-prefix.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-addresstypes-wo-prefix"></a>Özel bir öneki olmayan adresler</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>Localhost adresi</h4></div></dt><dd><p>
+IPv4'te 127.0.0.1 olan geridönüş arabiriminin adresi IPv6'da şöyledir:
+  </p><p>
+<pre class="literallayout">    0000:0000:0000:0000:0000:0000:0000:0001</pre>
+  </p><p>ya da kısaca:</p><p>
+<pre class="literallayout">    ::1</pre>
+  </p><p>
+Kaynağı ya da hedefi bu adres olan paketler göndericiyi terkedemezler.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>Belirsiz Adres</h4></div></dt><dd><p>
+IPv4'ün "any" ya da "0.0.0.0" adreslerine karşılık gelen IPv6 adresi şöyledir:
+  </p><p>
+<pre class="literallayout">    0000:0000:0000:0000:0000:0000:0000:0000</pre>
+  </p><p>ya da:</p><p>
+<pre class="literallayout">    ::</pre>
+  </p><p>
+Bu adresler çoğunlukla soket bağlamada ya da yönlendirme tablolarında kullanılırlar.
+  </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Belirsiz adresler hedef adresi olarak kullanılamazlar.
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a>Gömülü olarak IPv4 içeren IPv6 adresleri</h4></div></dt><dd><p>
+IPv4 adreslerini içeren iki tür adres vardır.
+  </p><p><div class="variablelist"><dl><dt><span class="term">IPv4 eşlemli IPv6 adresleri</span></dt><dd>
+IPv6 eşlemli IPv4 adresleri bazen IPv6 tarafından etkinleştirilmiş artalan süreçleri tarafından sadece IPv4 adreslerini bağlamakta kullanılır.
+  <p></p><p>
+Bu adresler 96 karakter uzunluğunda özel bir önek ile tanımlanırlar (<tt>a.b.c.d</tt> IPv4 adresidir):
+  </p><p>
+<pre class="literallayout">    0:0:0:0:0:ffff:a.b.c.d/96</pre>
+  </p><p>ya da kısaca:</p><p>
+<pre class="literallayout">    ::ffff:a.b.c.d/96</pre>
+  </p><p>
+Örneğin <tt>1.2.3.4</tt> IPv4 adresi şu hali alır:
+  </p><p>
+<pre class="literallayout">    ::ffff:1.2.3.4</pre>
+  </p><p></p></dd><dt><span class="term">IPv4 uyumlu IPv6 adresleri</span></dt><dd>
+Otomatik tünelleme için kullanılmaktadır (<a href="http://www.faqs.org/rfcs/rfc2893.html" target="_top">RFC 2893 / Transition Mechanisms for IPv6 Hosts and Routers</a>), bu <a href="../howto/ipv6-howto-configuring-6in4-tunnels-types.html#ipv6-howto-tunelling-6to4" title="6'ya 4 Tünelleme">6'ya 4 tünelleme</a>nin yerini almıştır.
+  <p></p><p>
+<pre class="literallayout">    0:0:0:0:0:0:a.b.c.d/96</pre>
+  </p><p>ya da kısaca</p><p>
+<pre class="literallayout">    ::a.b.c.d/96</pre>
+  </p><p></p></dd></dl></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-addresstypes.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-addresstypes.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-addresstypes-w-prefix.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Adres Türleri </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Adresin ağ parçası; önek diye de bilinir</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

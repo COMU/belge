@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:27+03:00"><title>Kullanım</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-firewalling-security.html" title="Güvenlik Duvarı Oluşturmak"><link rel="previous" href="../howto/ipv6-howto-firewalling-preparation.html" title="Hazırlık"><link rel="next" href="../howto/ipv6-howto-security.html" title="Güvenlik"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kullanım</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-firewalling-preparation.html">Önceki</a> </td><th width="60%" align="center">Güvenlik Duvarı Oluşturmak</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-security.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-firewalling-usage"></a>Kullanım</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a>Desteğin kontrol edilmesi</h4></div></dt><dd><p>
+Modül olarak derlenmişse, modülü yükleyin:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>modprobe ip6_tables</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Yeteneklerini kontrol edin:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>[ ! -f /proc/net/ip6_tables_names ] &amp;&amp; echo "Kullandığınız çekirdeğin 'ip6tables' güvenlik duvarı (IPv6) desteği yok!"</tt></b>
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id23"></a><tt>ip6tables</tt> nasıl kullanılır öğrenin</h4></div></dt><dd><div class="variablelist"><dl><dt><span class="term">Tüm IPv6 netfilter girdilerini listele</span></dt><dd>
+  <div class="itemizedlist"><ul type="disc"><li>Kısa<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -L</tt></b></pre> </td></tr></table></div>
+  </p><p></p></li><li>Genişletilmiş<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -n -v --line-numbers -L</tt></b></pre> </td></tr></table></div>
+  </p><p></p></li></ul></div><p></p><p></p></dd><dt><span class="term">Belli bir kural kümesini listele</span></dt><dd>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -n -v --line-numbers -L INPUT</tt></b>
+</pre> </td></tr></table></div>
+  <p></p><p></p></dd><dt><span class="term">Gelen kural kümesine bir kayıt kuralı ekle</span></dt><dd>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables --table filter --append INPUT -j LOG --log-prefix "INPUT:" --log-level 7</tt></b>
+</pre> </td></tr></table></div>
+  <p></p><p></p></dd><dt><span class="term">Gelen kural kümesine bir durdurma kuralı ekle</span></dt><dd>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables --table filter --append INPUT -j DROP</tt></b>
+</pre> </td></tr></table></div>
+  <p></p><p></p></dd><dt><span class="term">Bir kuralı numarasıyla sil</span></dt><dd>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables --table filter --delete INPUT 1</tt></b>
+</pre> </td></tr></table></div>
+  <p></p><p></p></dd><dt><span class="term">ICMPv6'ya izin ver</span></dt><dd>
+Eski çekirdekleri kullanarak (yamanmamış 2.4.5 çekirdek ve iptables-1.2.2) tür belirtmek mümkün değildir.
+  <p></p><p><div class="itemizedlist"><ul type="disc"><li>
+Tünelden gelen ICMPv6'yı kabul et:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT -i sit+ -p icmpv6 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></li><li>
+Tünele giden ICMPv6'ya izin ver:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A OUTPUT -o sit+ -p icmpv6 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Yeni çekirdekler ICMPv6 türlerini belirtmeye izin verirler.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-request -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></li></ul></div>
+  </p><p></p></dd><dt><span class="term">Hız sınırlama</span></dt><dd>
+ICMPv6 fırtınası olabileceğinden (yazar bunu iki kez görmüştür) en azından ICMPv6 kural seti için hız kısıtlamasını kullanmanız gerekebilir. Buna ek olarak DoS ataklarından korunmak için de kısıtlamalar kullanmanız gerekebilir. Kısıtlanmış ICMPv6 örneği aşağıdakine benzer:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT --protocol icmpv6 --icmpv6-type echo-request -j ACCEPT --match limit --limit 30/minute</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term">SSH isteklerine izin verin</span></dt><dd>
+Aşağıdaki örnekte belirlenen bir IPv6 adresinden gelen SSH isteklerine izin verilmektedir.
+  <p></p><p>
+<tt>3ffe:ffff:100::1/128</tt> adresinden gelen SSH isteklerine izin ver:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT -i sit+ -p tcp -s 3ffe:ffff:100::1/128 --sport 512:65535 --dport 22 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Yanıt paketlerine izin ver (şimdilik IPv6 bağlantısının izini sürmek netfilter6 tarafından gerçekleştirilememektedir)
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A OUTPUT -o sit+ -p tcp -d 3ffe:ffff:100::1/128 --dport 512:65535 --sport 22 ! --syn j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term">IPv4 içinde IPv6 tünelini etkinleştir</span></dt><dd>
+IPv4 içinde IPv6 tünellenmiş paketleri kabul etmek için, IPv4 güvenlik duvarı yapılandırmanıza bu paketlerle ilgili kurallar eklemeniz gerekir, örneğin;
+  <p></p><div class="example"><p><b>Örnek 4.7. ppp0 arabiriminde IPv4 içinde IPv6 tünelinden gelen paketlere izin ver</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>iptables -A INPUT -i ppp0 -p ipv6 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p></div><div class="example"><p><b>Örnek 4.8. ppp0 arabiriminde IPv4 içinde IPv6 tünelinden giden paketlere izin ver</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>iptables -A OUTPUT -o ppp0 -p ipv6 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p></div><p>
+Eğer sadece bir statik tüneliniz varsa IPv4 adresini de belirleyebilirsiniz, örneğin;
+  </p><div class="example"><p><b>Örnek 4.9. ppp0 arabiriminde tünel son noktası 1.2.3.4 olan IPv4 içinde IPv6 tünelinden gelen paketlere izin ver</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>iptables -A INPUT -i ppp0 -p ipv6 -s 1.2.3.4 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p></div><div class="example"><p><b>Örnek 4.10. ppp0 arabiriminde tünel son noktası 1.2.3.4 olan IPv4 içinde IPv6 tünelinden giden paketlere izin ver</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>iptables -A OUTPUT -o ppp0 -p ipv6 -d 1.2.3.4 -j ACCEPT</tt></b>
+</pre> </td></tr></table></div>
+  </p></div><p></p></dd><dt><span class="term">Gelen TCP bağlantı isteklerine karşı koru</span></dt><dd>
+MUTLAKA ÖNERİLİR! Güvenlik gerekçeleriyle gelen TCP bağlantı isteklerini durduran bir kural eklemelisiniz. Eğer başka bir arabirim kullanıyorsanız <tt>-i</tt> seçeneğiyle bunu ayarlayın.
+  <p></p><p>
+Bu konak'a gelen TCP bağlantı isteklerini durdur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -I INPUT -i sit+ -p tcp --syn -j DROP</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Bu yönlendiricinin arkasındaki konaklara gelen TCP bağlantı isteklerini durdur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -I FORWARD -i sit+ -p tcp --syn -j DROP</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Belkide bu kurallar aşağıda başkalarıyla değiştirilecektir, ama bunun üzerinde düşünmeniz gerekir. En iyi yöntem bir betik hazırlayıp kuralları belirlenen sıra ile çalıştırmaktır.
+  </p><p></p></dd><dt><span class="term">Gelen UDP bağlantı isteklerine karşı koru</span></dt><dd>
+MUTLAKA ÖNERİLİR! Güvenlik duvarı bilgisinde söylediğim gibi giden UDP/TCP oturumlarında portları kontrol etmek mümkündür. Eğer tüm yerel IPv6 sistemleriniz örneğin 32768-60999 arası portları kullanıyorsa UDP bağlantılarını aşağıdaki gibi durdurmanız mümkündür:
+  <p></p><p>
+Bu konaktan giden isteklerin yanıtı olamayacak gelen UDP paketlerini durdur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -I INPUT -i sit+ -p udp ! --dport 32768:60999 -j DROP</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+Bu yönlendiricinin arkasındaki konaklardan yapılan isteklerin yanıtı olamayacak gelen UDP paketlerini durdur:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -I FORWARD -i sit+ -p udp ! --dport 32768:60999 -j DROP</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd></dl></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a> Açıklayıcı örnek</h4></div></dt><dd><p>
+Aşağıdaki satırlar daha karmaşık bir yapılandırma örneğini göstermektedir. Mutlu netfilter6 kural setleri hazırlamalar...
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt># ip6tables -n -v -L</tt></b>
+Chain INPUT (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 extIN      all      sit+   *       ::/0                 ::/0
+    4   384 intIN      all      eth0   *       ::/0                 ::/0
+    0     0 ACCEPT     all      *      *       ::1/128              ::1/128
+    0     0 ACCEPT     all      lo     *       ::/0                 ::/0
+    0     0 LOG        all      *      *       ::/0                 ::/0          LOG flags 0 level 7 prefix `INPUT-default:'
+    0     0 DROP       all      *      *       ::/0                 ::/0
+
+Chain FORWARD (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 int2ext    all      eth0   sit+    ::/0                 ::/0
+    0     0 ext2int    all      sit+   eth0    ::/0                 ::/0
+    0     0 LOG        all      *      *       ::/0                 ::/0         LOG flags 0 level 7 prefix `FORWARD-default:'
+    0     0 DROP       all      *      *       ::/0                 ::/0
+
+Chain OUTPUT (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 extOUT     all      *      sit+    ::/0                 ::/0
+    4   384 intOUT     all      *      eth0    ::/0                 ::/0
+    0     0 ACCEPT     all      *      *       ::1/128              ::1/128
+    0     0 ACCEPT     all      *      lo      ::/0                 ::/0
+    0     0 LOG        all      *      *       ::/0                 ::/0         LOG flags 0 level 7 prefix `OUTPUT-default:'
+    0     0 DROP       all      *      *       ::/0                 ::/0
+
+Chain ext2int (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     icmpv6    *      *       ::/0                 ::/0
+    0     0 ACCEPT     tcp       *      *       ::/0                 ::/0        tcp spts:1:65535 dpts:1024:65535 flags:!0x16/0x02
+    0     0 LOG        all       *      *       ::/0                 ::/0        LOG flags 0 level 7 prefix `ext2int-default:'
+    0     0 DROP       tcp       *      *       ::/0                 ::/0
+    0     0 DROP       udp       *      *       ::/0                 ::/0
+    0     0 DROP       all       *      *       ::/0                 ::/0
+
+Chain extIN (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     tcp       *      *       3ffe:400:100::1/128  ::/0        tcp spts:512:65535 dpt:22
+    0     0 ACCEPT     tcp       *      *       3ffe:400:100::2/128  ::/0        tcp spts:512:65535 dpt:22
+    0     0 ACCEPT     icmpv6    *      *       ::/0                 ::/0
+    0     0 ACCEPT     tcp       *      *       ::/0                 ::/0        tcp spts:1:65535 dpts:1024:65535 flags:!0x16/0x02
+    0     0 ACCEPT     udp       *      *       ::/0                 ::/0        udp spts:1:65535 dpts:1024:65535
+    0     0 LOG        all       *      *       ::/0                 ::/0        limit: avg 5/min burst 5 LOG flags 0 level 7 prefix `extIN-default:'
+    0     0 DROP       all       *      *       ::/0                 ::/0
+
+Chain extOUT (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     tcp       *      *       ::/0                3ffe:ffff:100::1/128tcp spt:22 dpts:512:65535 flags:!0x16/0x02
+    0     0 ACCEPT     tcp       *      *       ::/0                3ffe:ffff:100::2/128tcp spt:22 dpts:512:65535 flags:!0x16/0x02
+    0     0 ACCEPT     icmpv6    *      *       ::/0                 ::/0
+    0     0 ACCEPT     tcp       *      *       ::/0                 ::/0        tcp spts:1024:65535 dpts:1:65535
+    0     0 ACCEPT     udp       *      *       ::/0                 ::/0        udp spts:1024:65535 dpts:1:65535
+    0     0 LOG        all       *      *       ::/0                 ::/0        LOG flags 0 level 7 prefix `extOUT-default:'
+    0     0 DROP       all       *      *       ::/0                 ::/0
+
+Chain int2ext (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     icmpv6    *      *       ::/0                 ::/0
+    0     0 ACCEPT     tcp       *      *       ::/0                 ::/0        tcp spts:1024:65535 dpts:1:65535
+    0     0 LOG        all       *      *       ::/0                 ::/0        LOG flags 0 level 7 prefix `int2ext:'
+    0     0 DROP       all       *      *       ::/0                 ::/0
+    0     0 LOG        all       *      *       ::/0                 ::/0        LOG flags 0 level 7 prefix `int2ext-default:'
+    0     0 DROP       tcp       *      *       ::/0                 ::/0
+    0     0 DROP       udp       *      *       ::/0                 ::/0
+    0     0 DROP       all       *      *       ::/0                 ::/0
+
+Chain intIN (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     all       *       *       ::/0                fe80::/ffc0::
+    4   384 ACCEPT     all       *       *       ::/0                ff02::/16
+
+Chain intOUT (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     all       *      *       ::/0                 fe80::/ffc0::
+    4   384 ACCEPT     all       *      *       ::/0                 ff02::/16
+    0     0 LOG        all       *      *       ::/0                 ::/0        LOG flags 0 level 7 prefix `intOUT-default:'
+    0     0 DROP       all       *      *       ::/0                 ::/0
+</pre> </td></tr></table></div>
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-firewalling-preparation.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-firewalling-security.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-security.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Hazırlık </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Güvenlik</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

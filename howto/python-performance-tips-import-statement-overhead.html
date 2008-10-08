@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-02-05T19:09:14+02:00"><title>import İfadesini Ek Yükü</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/python-performance-tips.html" title="Python Performans İpuçları"><link rel="previous" href="../howto/python-performance-tips-initializing-dict-elements.html" title="Sözlük Elemanlarını İlklendirme"><link rel="next" href="../howto/python-performance-tips-data-aggregation.html" title="Veri Bütünlüğü"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">import İfadesini Ek Yükü</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/python-performance-tips-initializing-dict-elements.html">Önceki</a> </td><th width="60%" align="center">Python Performans İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/python-performance-tips-data-aggregation.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="python-performance-tips-import-statement-overhead"></a>import İfadesini Ek Yükü</h2></div></dt><dd><p>
+		import ifadesi herhangi bir yerde çalıştırılabilir. Genelde görünürlüklerini sınırlamak ve/veya ilklendirilme zamanlarını kısaltmak için fonksiyonlar içine yerleştirmek daha faydalıdır. Her ne kadar Python yorumlayıcısı aynı modulü çok sayıda import etmeyecek şekilde en iyileştirilmiş olsa da bir import ifadesinin tekrar tekrar çalıştırılması bazı durumlarda performansı etkileyebilir.
+	</p><p>
+		Aşağıdaki iki kod örneğini göz önüne alalım (Bu örnek Greg <a href="http://wiki.python.org/moin/McFarlane" target="_top">McFarlane</a>'den, bu örneği comp.lang.python <a href="mailto:python-list%C2%A0(at)%C2%A0python.org">python-list (at) python.org</a> listesinde ve daha sonra kendisine özel olarak başka bir yerde sorulmuş olarak buldum):
+	</p><div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+		def doit1():
+			import string             ###### import ifadesi fonksiyon içerisinde
+    			string.lower('Python')
+
+		for num in range(100000):
+			doit1()
+	</pre> </td></tr></table></div><p>veya</p><div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+		import string             ###### import ifadesi fonksiyon dışında
+		def doit2():
+			string.lower('Python')
+		
+		for num in range(100000):
+    			doit2()
+	</pre> </td></tr></table></div><p>
+		Her ne kadar karakter dizisine referans evrensel olsa da doit2 fonksiyonu doit1'den daha hızlı çalışacaktır. Aşağıda Python 2.3 ile ve yeni timeit modulü kullanılarak çalıştırılmış ve ikincisinin birincisinden ne kadar hızlı olduğunu gösteren bir örnek bulunmaktadır:
+	</p><div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+		&gt;&gt;&gt; def doit1():
+			import string
+			string.lower('Python')
+				...
+		&gt;&gt;&gt; import string
+		&gt;&gt;&gt; def doit2():
+			string.lower('Python')
+				...
+		&gt;&gt;&gt; import timeit
+		&gt;&gt;&gt; t = timeit.Timer(setup='from __main__ import doit1', stmt='doit1()')
+		&gt;&gt;&gt; t.timeit()
+		11.479144930839539
+		&gt;&gt;&gt; t = timeit.Timer(setup='from __main__ import doit2', stmt='doit2()')
+		&gt;&gt;&gt; t.timeit()
+4.6661689281463623
+	</pre> </td></tr></table></div><p>Karakter dizisi işlemleri Python sürüm 2.0 ile gelmiştir. Bu sürüm ile import ifadesinden tamamen kaçınma ve daha hızlı bir çalışma sağlanmıştır.</p><div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+		def doit3():
+			'Python'.lower()
+		
+		for num in range(100000):
+			doit3()
+		
+		timeit ipsatı da şu şekilde:
+		
+		&gt;&gt;&gt; def doit3():
+			'Python'.lower()
+				...
+		&gt;&gt;&gt; t = timeit.Timer(setup='from __main__ import doit3', stmt='doit3()')
+		&gt;&gt;&gt; t.timeit()
+		2.5606080293655396
+	</pre> </td></tr></table></div><p>Yukarıdaki örnek açık şekilde icat edilmiş gibi durmaktadır, fakat genel prensibi sağlamaktadır.</p><p>
+		Özellikle dahil edilen modül gereksinim duyulmayabilecekse fonksiyon içerisine import ifadesi koymak modulün ilklendirilmesini hızlandırabilir. Bu genelde "tembel" eniyileştirme olarak bilinir. Gerekli olduğunu düşündüğünüz ana kadar işten (oldukça pahalı bir import gerektiren modulü import etme) kaçınmaktır.
+	</p><p>
+		Bu, eğer modul tamamen import edilmediyse (başka bir modülden) önemli bir başarımdır. Eğer modül hali hazırda yüklenmiş ise (string ve re gibi pek çok standart modülde olduğu gibi) import idafesinden kaçınmak bir başarım sağlamayacaktır. Hangi modüllerin yüklendiğini görmek için sys.modules'e bakınız:
+	</p><div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+		email = None
+		
+		def parse_email():
+			global email
+			if email is None:
+        			import email
+	</pre> </td></tr></table></div><p>Bu şekilde email modülü parse_email() fonksiyonunun ilk çağrımında sadece bir kere import edilecektir. </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/python-performance-tips-initializing-dict-elements.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/python-performance-tips.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/python-performance-tips-data-aggregation.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Sözlük Elemanlarını İlklendirme </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Veri Bütünlüğü</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

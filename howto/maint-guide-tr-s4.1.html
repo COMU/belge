@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:17+03:00"><title>control dosyası</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s4.html" title="debian/ altında gerekli olanlar"><link rel="previous" href="../howto/maint-guide-tr-s4.html" title="debian/ altında gerekli olanlar"><link rel="next" href="../howto/maint-guide-tr-s4.2.html" title="copyright dosyası"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">control dosyası</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s4.html">Önceki</a> </td><th width="60%" align="center">debian/ altında gerekli olanlar</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s4.2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s4.1"></a><tt>control</tt> dosyası</h3></div></dt><dd><p>
+Bu dosya, paket yönetimi için kullanılacak olan <b><tt>dpkg</tt></b>, <b><tt>dselect</tt></b> ve diğer paket yönetim araçlarına gereken değerleri barındırır.
+    </p><p>
+<b><tt>dh_make</tt></b>'in bizim için oluşturduğu <tt>control</tt> dosyası:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td align="right" width="20" valign="top"><pre class="screen">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre> </td><td width="*"><pre class="screen">
+Source: gentoo
+Section: unknown
+Priority: optional
+Maintainer: Josip Rodin &lt;joy-mg@debian.org&gt;
+Build-Depends: debhelper (&gt;&gt; 3.0.0)
+Standards-Version: 3.6.2
+
+Package: gentoo
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: &lt;insert up to 60 chars description&gt;
+  &lt;insert long description, indented with spaces&gt;
+</pre> </td></tr></table></div>
+    </p><p>
+1-6 arası satırlar kaynak paketle ilgili kontrol bilgileridir.
+    </p><p>
+1. satır: kaynak paketin adı,
+    </p><p>
+2. satır: kaynak paketin dağıtımda yer aldığı bölümdür.
+    </p><p>
+Farkettiğiniz gibi, Debian bölümlere ayrılmıştır: main (özgür yazılım), non-free (özgür olmayan yazılım) ve contrib (özgür olmayan yazılıma bağımlı özgür yazılım). Bunların altında, kısaca paket türünü açıklayan mantıksal alt kısımlar vardır. Sadece-sistem yöneticisi için `admin', temel araçlar için `base', programlama araçları için `devel', belgelendirme için `doc', kütüphaneler için `libs', elektronik posta istemci ve arka planda çalışan art alan programları için `mail', ağ uygulamaları ve artalan süreçleri için `net', herhangi bir yere uymayan X11 programları için `x11' vs. alt bölümleri bulunmaktadır.
+    </p><p>
+Öyleyse onu x11 olarak değiştirelim. ("main/" öneki ima edilmiştir, dolayısiyle onu atlayabiliriz.)
+    </p><p>
+3. satır: kullanıcının bu paketi yüklemesinin ne kadar önemli olduğunu belirtmektedir. Bu alanı nasıl ayarlayacağınıza karar vermek için <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>na bakınız. "optional" önceliği genellikle yeni paketler için kullanılmaktadır.
+    </p><p>
+Section ve priority, paketleri sıralayacak veya öntanımlıları seçecekleri zaman, <b><tt>dselect</tt></b> diğer kullanıcı araçları tarafından kullanılır. Bir kere paketi Debian'a yükledikten (upload) sonra, arşiv sürdürücüleri tarafından bu iki alanın değeri değiştirilebilir, ki bu da size e-posta ile bildirilir.
+    </p><p>
+Bu, normal öncelikli bir paket olduğu ve herhangi bir şeyle çakışmadığı için, "optional" olarak bırakacağız.
+    </p><p>
+4. satır: paket bakımcısının adı ve e-posta adresidir. Bu kısmı bir epostadaki geçerli bir  "To: " başlığı olarak düzenlemeniz gerekir, çünkü paketi Debian'a gönderdikten sonra, hata izleme sistemi hataları göndermek için bu e-posta adresini kullanacaktır. Virgül, &amp; ve parantez kullanımından kaçının.
+    </p><p>
+5. satır: paketinizin derlenebilmesi (build) için gerekli paketleri listelemektedir. gcc ve make gibi bazı paketler göz ardı edilmiştir; ayrıntılar için <tt>build-essential</tt> paketini inceleyiniz. Eğer paketinizi yapmak için  standartdışı bir derleyici veya başka araçlar gerekiyorsa, bunu `Build-Depends' satırına eklemelisiniz. Birden çok girdi varsa, virgüllerle ayrılır; bu alanın sözdizimi hakkında bilgi edinmek için ikilik paketlerin bağımlıklıklar ile ilgili açıklamalarını okuyunuz.
+    </p><p>
+Bu kısımda ayrıca Build-Depends-Indep (bağımlılıklar), Build-Conflicts (çakışmalar) ve diğer alanlar olabilir. Bu veri Debian otomatik paket yapım sistemi tarafından diğer bilgisayar platformları için ikilik paket yapımında kullanılacaktır. Derleme bağımlılıkları (build-dependency) ile ilgili bilgi edinmek için <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>na, diğer platformlar (mimariler) ve bunlara yazılımların uyarlanması ile ilgili bilgi edinmek için Geliştiricilerin Başvuru Kılavuzuna (Developers' Reference) bakınız.
+    </p><p>
+Paketinizin derlenebilmesi için hangi paketlere ihtiyaç duyduğunu bulmakta kullanabileceğiniz küçük bir kod:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+strace -f -o /tmp/log ./configure
+# Paket autoconf kullanmıyorsa, ./configure yerine make kullanılsın
+for x in `dpkg -S $(grep open /tmp/log|\
+        perl -pe 's!.* open\(\"([^\"]*).*!$1!' |\
+        grep "^/"| sort | uniq|\
+        grep -v "^\(/tmp\|/dev\|/proc\)" ) 2&gt;/dev/null|\
+        cut -f1 -d":"| sort | uniq`; \
+      do \
+        echo -n "$x (&gt;=" `dpkg -s $x|grep ^Version|cut -f2 -d":"` "), "; \
+      done
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>/usr/bin/foo</tt> için derleme bağımlılıklarını el yordamıyla bulmak isterseniz,
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">objdump -p <i>/usr/bin/foo</i> | grep NEEDED
+</pre> </td></tr></table></div>
+    </p><p>
+komutunu, listelenmiş her kütüphane için (örn, <tt>libfoo.so.6</tt>),
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">dpkg -S libfoo.so.6
+</pre> </td></tr></table></div>
+    </p><p>
+komutunu kullanabilirsiniz.  Daha sonra da her paketin <tt>-dev</tt> sürümünü <tt>Build-deps</tt> girdisi olarak alırsınız. Eğer bu amaç için <b><tt>ldd</tt></b>'yi kullanırsanız, dolaylı kütüphane bağımlılıklarını da rapor edeceğinden, bu gereğinden fazla derleme bağımlılığına sebep olacaktır.
+    </p><p>
+Gentoo ayrıca derleme aşamasında <tt>xlibs-dev, libgtk1.2-dev</tt> ve <tt>libglib1.2-dev</tt>'e ihtiyaç duymaktadır, <tt>debhelper</tt>'ın yanına onları da buraya ekleyeceğiz.
+    </p><p>
+6. satır: paketin uyduğu Debian Politika standartlarının sürümüdür; paketinizi yaparken okuduğunuz <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>nun sürüm numarasıdır.
+    </p><p>
+8. satır: ikilik paketin adıdır. Bu genellikle kaynak paketin adıyla aynıdır, ama hep böyle olması gerekmemektedir.
+    </p><p>
+9. Satır: ikilik paketin derlenebileceği işlemci mimarisini açıklamaktadır. Bu kısmı "any" olarak bırakacağız, çünkü <b><tt>dpkg-gencontrol(1)</tt></b> bu kısmı paketin delenebileceği mimariye uygun değerlerle dolduracaktır.
+    </p><p>
+Eğer paketiniz mimariden bağımsızsa (mesela, bir kabuk veya bir Perl betiği ya da bir belge), bunu "all" olarak değiştirin ve daha sonra da <tt>binary-arch</tt> yerine <tt>binary-indep</tt> kurallarının kullanımı ile ilgili olarak <a href="../howto/maint-guide-tr-s4.4.html" class="xref" title="rules dosyası"> rules dosyası</a> bölümünü  okuyunuz.
+    </p><p>
+10. satır, Debian paketleme sisteminin en güçlü özelliklerinden birini göstermektedir. Paketler birbirleriyle değişik şekilde ilişkide olabilir. <tt>Depends:</tt>'den başka,  <tt>Recommends:</tt>, <tt>Suggests:</tt>, <tt>Pre-Depends:</tt>, <tt>Conflicts:</tt>, <tt>Provides:</tt> ve <tt>Replaces:</tt> ilişki alanları belirtilebilir.
+    </p><p>
+Paket yönetim araçları bu ilişkilerle muhatap olurken genelde aynı şekilde davranır; bunun aksine durumlar ileride açıklanacaktır.
+(<b><tt>dpkg(8)</tt></b>,
+<b><tt>dselect(8)</tt></b>,
+<b><tt>apt(8)</tt></b>,
+<b><tt>aptitude(1)</tt></b> v.b. kılavuz sayfalarına bakınız.)
+    </p><p>
+Paket içeriğinin çalışabilmesi için (derlenebilmesi için değil) bağımlı olduğu paketlerle ilişki alanları:
+    </p><p><div class="variablelist"><dl><dt><span class="term">Depends:</span></dt><dd>
+Paket, bağımlılığı olan paketler kurulmadan kurulmayacaktır. Bunu eğer paketiniz belli bir paket olmadan kesinlikle çalışmayacaksa (ya da ciddi bozukluklara sebep olacaksa) kullanın.
+    <p></p><p></p></dd><dt><span class="term">Recommends:</span></dt><dd>
+<b><tt>dselect</tt></b> ve <b><tt>aptitude</tt></b> gibi araçlar), paketinizle beraber bu alanda tavsiye edilen paketlerin de kurulmasını isteyip istemediğinizi soracaklardır; hatta <b><tt>dselect</tt></b> ısrar edecektir. <b><tt>dpkg</tt></b> ve <b><tt>apt-get</tt></b> bu alanı ihmal edecektir. Bunu kesinlikle zorunlu olmayan fakat genellikle program ile beraber kullanılan paketler için kullanın.
+    <p></p><p></p></dd><dt><span class="term">Suggests:</span></dt><dd>
+Bir kullanıcı programınızı kurmak istediğinde, tüm kurulum araçları bu alanda belirtilen paketlerin de kurulup kurulmayacağını soracaktır. <b><tt>dpkg</tt></b> ve <b><tt>apt-get</tt></b> bu alan önemsemezler. Bu alanı, paketinizle çalışması hoş olacak  fakat çalışması için mutlaka gerekli olmayan paketler için kullanın.
+    <p></p><p></p></dd><dt><span class="term">Pre-Depends:</span></dt><dd>
+Bu, <tt>Depends:</tt>'den daha güçlüdür. Önbağımlılıklar kurulmadan ve düzgün şekilde ayarlanmadan peketinizin kurulumu yapılmayacaktır. Bunu oldukça tutarlı bir şekilde ve debian-devel eposta listesinde tartıştıktan sonra kullanın. (Bunu, hiç kullanmayın şeklinde okuyun. <tt>:-)</tt>)
+    <p></p><p></p></dd><dt><span class="term">Conflicts:</span></dt><dd>
+Paket, çeliştiği tüm paketler kaldırılmadan kurulmayacaktır. Bunu, eğer paketiniz belli bir paketin varlığında çalışmayacak veya ciddi sorunlara yol açacaksa kullanın.
+    <p></p><p></p></dd><dt><span class="term">Provides:</span></dt><dd>
+Birden fazla alternatifi olan paletler için sanal isimler tanımlanmıştır. Tüm listeyi <tt>/usr/share/doc/debian-policy/virtual-package-names-list.txt.gz</tt> dosyasından alabilirsiniz. Bunu, eğer programınız mevcut bir sanal paketin bir işlevini yerine getiriyorsa kullanın.
+    <p></p><p></p></dd><dt><span class="term">Replaces:</span></dt><dd>
+Programınız başka bir paketin dosyaların değiştiriyorsa ya da başka bir paketin tamamen yerini alıyorsa, bunu kullanın (<tt>Conflicts:</tt> ile birlikte kullanılır). Paketinizdeki dosyalar, ismi belirtilen paketlerin dosyalarının üzerine yazılacaktır.
+    <p></p><p></p></dd></dl></div>
+    </p><p>
+Tüm bu alanların kendilerine has bir sözdizimi vardır. Paket adları virgüllerle ayrılır. Bu paket adları ayrıca `|' (boru sembolü) ile ayrılmış alternatif paket adları şeklinde belirtilebilir.
+    </p><p>
+Alanlar kendi uygulanabilirliklerini belirttikleri paketlerin belirli sürümleriyle sınırlayabilir. Bu sürümler her bir paket adından sonra parentez içinde belirtilir, ayrıca sürüm numarasının önüne şu ilişki gösterimlerinden biri eklenmelidir: <tt>&lt;&lt;</tt>, <tt>&lt;=</tt>, <tt>=</tt>, <tt>&gt;=</tt> ve <tt>&gt;&gt;</tt> (Sırayla: kesinlikle önceki, önceki ya da aynısı, kesinlikle aynısı, sonraki ya da aynısı, kesinlikle sonraki). Örnek:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+Depends: foo (&gt;= 1.2), libbar1 (= 1.3.4)
+Conflicts: baz
+Recommends: libbaz4 (&gt;&gt; 4.0.7)
+Suggests: quux
+Replaces: quux (&lt;&lt; 5), quux-foo (&lt;= 7.6)
+</pre> </td></tr></table></div>
+    </p><p>
+Bilmeniz gereken en son özellik <tt>${shlibs:Depends}</tt>'dir. Paketiniz derlenip, geçici dizine kurulduktan sonra, <b><tt>dh_shlibdeps(1)</tt></b> ikilikler ve kütüphaneler için orayı tarayacak ve <tt>libc6</tt> veya <tt>xlib6g</tt> gibi paylaşımlı kütüphane bağımlılıklarını ve bunları içeren paketleri belirleyecektir. Bunları <b><tt>dh_gencontrol(1)</tt></b>'deki listeye aktaracak ve doğru yere yerleştirilecek, bunun hakkında kaygılanmanıza gerek kalmayacaktır.
+    </p><p>
+Tüm bunları anlattıktan sonra <tt>Depends:</tt> satırını şu an olduğu gibi bırakabilir ve ardına <tt>Suggests: file</tt> satırını ekleyebiliriz, Çünkü gentoo o program/paket tarafından sunulan bazı özellikleri kullanabilmektedir.
+    </p><p>
+11. satır: kısa açıklamadır. Pekçok kimsenin ekranı 80 sütun genişliğindedir, dolayısıyle bu kısım yaklaşık 60 karakteri geçmemelidir. Bu kısmı "fully GUI configurable X file manager using GTK+" olarak değiştireceğim.
+    </p><p>
+12. satır: uzun açıklamanın yer aldığı kısımdır. Bu paket hakkında ayrıntılı bilgi veren bir paragraf olmalıdır. Her satırın ilk sütunu boş olmalıdır. Hiç boş satır olmamalıdır, fakat bir sütuna tek bir . (nokta) koyarak boş bir satır bırakılmasını sağlayabilirsiniz. Ek olarak, uzun açıklamadan sonra birden fazla boş satır olmamalıdır.
+    </p><p>
+Sonuçta, güncellenmiş <tt>control</tt> dosyası:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td align="right" width="20" valign="top"><pre class="screen">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre> </td><td width="*"><pre class="screen">
+Source: gentoo
+Section: x11
+Priority: optional
+Maintainer: Josip Rodin &lt;joy-mg@debian.org&gt;
+Build-Depends: debhelper (&gt;&gt; 3.0.0), xlibs-dev, libgtk1.2-dev, libglib1.2-dev
+Standards-Version: 3.5.2
+
+Package: gentoo
+Architecture: any
+Depends: ${shlibs:Depends}
+Suggests: file
+Description: fully GUI configurable X file manager using GTK+
+ gentoo is a file manager for Linux written from scratch in pure C. It
+ uses the GTK+ toolkit for all of its interface needs. gentoo provides
+ 100% GUI configurability; no need to edit config files by hand and re-
+ start the program. gentoo supports identifying the type of various
+ files (using extension, regular expressions, or the 'file' command),
+ and can display files of different types with different colors and icons.
+ .
+ gentoo borrows some of its look and feel from the classic Amiga file
+ manager "Directory OPUS" (written by Jonathan Potter).
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s4.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-s4.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s4.2.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">debian/ altında gerekli olanlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> copyright dosyası</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

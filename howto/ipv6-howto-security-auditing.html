@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:28+03:00"><title>IPv6 güvenlik gözden geçirmeleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-security.html" title="Güvenlik"><link rel="previous" href="../howto/ipv6-howto-security-access.html" title="Erişim kısıtlamaları"><link rel="next" href="../howto/ipv6-howto-encryption-authentication.html" title="Şifreleme ve Kimlik Denetimi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">IPv6 güvenlik gözden geçirmeleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-security-access.html">Önceki</a> </td><th width="60%" align="center">Güvenlik</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-encryption-authentication.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-security-auditing"></a>IPv6 güvenlik gözden geçirmeleri</h3></div></dt><dd><p>
+Hali hazırda bir sistemin IPv6 güvenliğini ağ üzerinden sınayabilecek araçlar bulunmamaktadır. Ne <a href="http://www.nessus.org/" target="_top">Nessus</a> ne de başka bir ticari güvenlik aracı benim bilebildiğim kadarıyla IPv6 adreslerini tarayamamaktadır.
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a>Hukuki konular</h4></div></dt><dd><p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/caution.png"></td><th>Dikkat</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Sadece kendi sistemlerinizi veya yazılı izin aldığınız sistemleri tarayabilirsiniz. Aksi durumda yasal problemlerle karşılaşabilirsiniz. Bu nedenle tarama yapmaya başlamadan hedef IPv6 adreslerini İKİ KEZ KONTROL EDİN.
+  </p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id23"></a>IPv6 uyumlu <tt>netcat</tt> kullanarak güvenlik denetimi</h4></div></dt><dd><p>
+IPv6 uyumlu <b><tt>netcat</tt></b> ile (ayrıntılı bilgi için <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-apps.html#security-auditing" target="_top">IPv6+Linux-status-apps/security-auditing</a> adresine bakabilirsiniz) bir port taraması yapabilirsiniz. Aşağıdaki gibi kullanılır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>nc6 ::1 daytime</tt></b>
+13 JUL 2002 11:22:22 CEST
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a>IPv6 uyumlu <tt>nmap</tt> kullanarak güvenlik denetimi</h4></div></dt><dd><p>
+Dünyanın en iyi port tarayıcılarından biri olan <a href="http://www.insecure.org/nmap/" target="_top">NMap</a> 3.10ALPHA1 sürümünden itibaren IPv6'yı desteklemektedir. Aşağıdaki gibi kullanılır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>nmap -6 -sT ::1</tt></b>
+Starting nmap V. 3.10ALPHA3 ( www.insecure.org/nmap/ )
+Interesting ports on localhost6 (::1):
+(The 1600 ports scanned but not shown below are in state: closed)
+Port       State       Service
+22/tcp     open        ssh
+53/tcp     open        domain
+515/tcp    open        printer
+2401/tcp   open        cvspserver
+Nmap run completed -- 1 IP address (1 host up) scanned in 0.525 seconds
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id43"></a>IPv6 uyumlu <tt>strobe</tt> kullanarak güvenlik denetimi</h4></div></dt><dd><p>
+<b><tt>strobe</tt></b> (NMap ile kıyaslandığında) daha küçük bütçeli bir port tarayıcıdır. Buna rağmen bir IPv6 yaması bulunmaktadır. (ayrıntılı bilgi için <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-apps.html#security-auditing" target="_top">IPv6+Linux-status-apps/security-auditing</a>). Aşağıdaki gibi kullanılır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>strobe ::1</tt></b>
+strobe 1.05 (c) 1995-1999 Julian Assange &lt;proff@iq.org&gt;.
+::1 2401 unassigned unknown
+::1 22 ssh Secure Shell - RSA encrypted rsh
+::1 515 printer spooler (lpd)
+::1 6010 unassigned unknown
+::1 53 domain Domain Name Server
+</pre> </td></tr></table></div>
+  </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+<b><tt>strobe</tt></b>'un geliştirilmesi devam etmediğinden, sürüm numarası da doğru değildir.
+  </p></td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id53"></a>Dinleme sonuçları</h4></div></dt><dd><p>
+Eğer dinlemeden elde ettiğiniz sonuçlar IPv6 güvenlik politikanızla uyuşmuyorsa, IPv6 güvenlik duvarı uygulamalarını, örneğin <b><tt>netfilter6</tt></b>, kullanarak açıklarınızı kapatın. (Ayrıntılı bilgiyi <a href="../howto/ipv6-howto-firewalling-netfilter6.html" title="netfilter6 kullanarak güvenlik duvarı oluşturmak"> netfilter6 kullanarak güvenlik duvarı oluşturmak</a> bölümünde bulabilirsiniz).
+  </p><p>
+IPv6 güvenliği ile ilgili daha ayrıntılı bilgiyi aşağıdaki adreslerde bulabilirsiniz:
+  </p><p><div class="itemizedlist"><ul type="disc"><li><a href="http://www.ietf.org/internet-drafts/" target="_top">Firewalling Considerations for IPv6 / draft-savola-v6ops-firewalling-??.txt</a></li><li><a href="http://www.ietf.org/internet-drafts/" target="_top">IPv6 Neighbour Discovery trust models and threats / draft-ietf-send-psreq-??.txt</a></li><li><a href="http://www.ietf.org/internet-drafts/" target="_top">Security Considerations for 6to4 / draft-savola-v6ops-6to4-security-??.txt</a></li><li><a href="http://www.ietf.org/internet-drafts/" target="_top">Access Control Prefix Router Advertisement Option for IPv6 / draft-bellovin-ipv6-accessprefix-??.txt</a></li><li><a href="http://www.ietf.org/internet-drafts/" target="_top">Requirements for Plug and Play IPsec for IPv6 applications /draft-kobayakawa-ipsec-ipv6-pnpipsec-reqts-??.txt</a></li><li><a href="http://www.ietf.org/internet-drafts/" target="_top">Security of IPv6 Routing Header and Home Address Options / draft-savola-ipv6-rh-ha-security-??.txt</a></li></ul></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-security-access.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-security.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-encryption-authentication.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Erişim kısıtlamaları </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Şifreleme ve Kimlik Denetimi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

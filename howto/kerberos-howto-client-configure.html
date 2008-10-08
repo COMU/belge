@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-06T10:10:12+03:00"><title>İstemci Yapılandırması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kerberos-howto.html" title="Kerberos Altyapısı NASIL"><link rel="previous" href="../howto/kerberos-howto-server-replication.html" title="Kerberos Sunucusunun Birebir Kopyalanması"><link rel="next" href="../howto/kerberos-howto-programming.html" title="Kerberos ile Yazılım Geliştirme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">İstemci Yapılandırması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kerberos-howto-server-replication.html">Önceki</a> </td><th width="60%" align="center">Kerberos Altyapısı NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kerberos-howto-programming.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="kerberos-howto-client-configure"></a>İstemci Yapılandırması</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-client"></a>Genel GNU/Linux İstemci Yapılandırması</h3></div></dt><dd><p>
+Kerberos'un GNU/Linux dağıtımları KDC ile Kerberos kimlik denetiminde istemcilerin ihtiyaç duyacakları bütün yazılımları ve yapılandırma dosyalarını içerirler. Fedora GNU/Linux'da bu paket <i>krb5-workstation</i> paketidir. Sisteminizin ve uygulamalarınızın Kerberos kimlik denetimi yapabilmesi için sisteminizde Kerberos'u yapılandırmanız gerekir.
+</p><p>
+Yapılandırma için <tt>/etc/krb5.conf</tt> dosyası düzenlenmelidir. Bu dosyada bölge, KDC'ler, yönetim sunucusu, öntanımlı etki alanı ve KDC bilgisi belirtilmelidir. <tt>krb5.conf</tt> dosyasında yeri belirtilen <tt>kdc.conf</tt> dosyası da düzenlenmelidir. Bu dosya öntanımlı olarak <tt>/var/Kerberos/krb5kdc/kdc.conf</tt> adresindedir. <tt>kdc.conf</tt> dosyasında bölgenin şifreleme algortima politikası bilgisi bulunur.
+</p><p>
+Kerberos kimlik denetimini gerçekleştirmek istediğiniz sistemin yapılandırma bilgisi, KDC'deki <tt>/etc/krb5.conf</tt> dosyasındaki bilginin aynısıdır.
+İstemci için örnek <tt><a href="http://cryptnet.net/fdp/admin/kerby-infra/en/krb5.conf" target="_top">krb5.conf</a></tt> ve <tt><a href="http://cryptnet.net/fdp/admin/kerby-infra/en/kdc.conf" target="_top">kdc.conf</a></tt> dosyalarını inceleyebilirsiniz.
+</p><p>
+Artık Kerberos kimlik denetimini kinit komutunu kullanarak deneyebilirsiniz:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash$ <b><tt>kinit </tt></b><i>kullanıcıismi</i>
+</pre> </td></tr></table></div>
+</p><p>
+Eğer kimlik denetimi başarısız olursa, nedenini öğrenmek için bakılacak en iyi yerler; istemcinin sistem kayıt dosyaları ve KDC kayıt dosyasıdır. Kimlik denetimi sorunlarının analizinde KDC'de bir terminal penceresi açıp kayıt dosyaları için <i>tail -f</i> komutunu çalıştırmanız oldukça yararlı olacaktır. Örnek <tt>krb5.conf</tt> dosyamızda KDC kayıt dosyası <tt>/var/log/Kerberos/krb5kdc.log</tt>'dur.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-pam"></a>PAM</h3></div></dt><dd><p>
+Birçok GNU/Linux dağıtımı ile birlikte gelen PAM (Pluggable Authentication Module) teknolojisi pam_krb5 modülü ile Kerberos'la bütünleştirilebilir. Kerberos kimlik denetimini PAM ile kullanmak için pam_krb5 modülünü yüklemeli ve PAM yapılandırma dosyalarını düzenlemelisiniz.
+</p><p>
+pam_krb5 modülü ile birlikte <tt>/usr/share/doc/pam_krb5-1.55/pam.d</tt> dizininde örnek yapılandırma dosyaları da gelir. Bu yapılandırma dosyalarında yapılacak temel değişiklik, PAM'ın kontrol ettiği servislerin Kerberos'tan kimlik denetimi yapmalarını aşağıdaki gibi sağlamaktır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">auth       required     /lib/security/pam_krb5.so use_first_pass
+</pre> </td></tr></table></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-apache"></a>Apache Web Sunucusu</h3></div></dt><dd><p>
+Kerberos Apache Web Sunucusu için bir kimlik denetimi mekanizması olarak kullanılabilir. Bu görevi bir apache modülü olan mod_auth_kerb yerine getirir. Bu modülü kullanarak, Kerberos'u <tt>httpd.conf</tt> dosyasında bir erişim denetimi türü olarak ayarlamak mümkündür. Kerberos kullanıldığı sürece, bunun kimlik denetiminde ideal mekanizma olmadığı unutulmamalıdır. Çünkü biletler istemcide değil web sunucuda tutulmaktadır. Bununla birlikte, eğer hedefiniz bir oturum açma çözümü üretmek veya hesapları bir yerde toplamaksa işinizi görecektir. mod_auth_kerb Kerberos 4'ü destekleyebiliyor olmasına rağmen Kerberos 4'ün bilinen zayıflıkları yüzünden bu özellikten bu belgede bahsedilmeyecektir.
+</p><p>
+mod_auth_kerb uygulamasının web adresi <a href="http://modauthkerb.sourceforge.net/" target="_top">http://modauthkerb.sourceforge.net/</a>'tir. mod_auth_kerb kullanan bir siteye erişilmek istendiğinde HTTPS protokolü kullanmak önemlidir çünkü mod_auth_kerb temel kimlik denetimi mekanizmasını kullanır. Temel kimlik denetimi kolaylıkla çözülebilecek 64 bit şifreleme kullandığı için kimlik denetimindeki kullanıcı adı ve parola değişiminin SSL ile şifrelenerek yapılması web sunucuya güvenli gönderilmelerini sağlamak için önemlidir.
+</p><p>
+Apache'yi mod_auth_krb modülü ile birlikte derlemek için aşağıdaki adımları takip etmelisiniz:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash$ <b><tt>export 'LIBS=-L/usr/Kerberos/lib -lkrb5 -lcrypto -lcom_err'</tt></b>
+bash$ <b><tt>export 'CFLAGS=-DKRB5 -DKRB_DEF_REALM=\\\"GNUD.IE\\\"'</tt></b>
+bash$ <b><tt>export 'INCLUDES=-I/usr/Kerberos/include'</tt></b>
+bash$ <b><tt>mkdir apache_x.x.x/src/modules/kerberos</tt></b>
+bash$ <b><tt>cp mod_auth_kerb-x.x.x.c apache_x.x.x/src/modules/kerberos</tt></b>
+bash$ <b><tt>./configure --prefix=/home/httpd --add-module=src/modules/Kerberos/mod_auth_kerb.c</tt></b>
+bash$ <b><tt>make</tt></b>
+bash$ <b><tt>make install</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Çalıştığından emin olmak için apache'yi denemelisiniz. Apache'nin SSL ile çalıştığını gördükten sonra <tt>httpd.conf</tt> dosyasını düzenleyerek belli bir dizin için Kerberos kimlik denetimini sağlayabilirsiniz:
+</p><p>
+Aşağıda belli bir dizin için Kerberos 5 kimlik denetimini etkin hale getiren bir <tt>mod_auth_kerb</tt> apache modül örneği bulacaksınız:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt;Directory "/home/httpd/htdocs/content"&gt;
+   AllowOverride None
+   AuthType KerberosV5
+   AuthName "Kerberos Login"
+   KrbAuthRealm GNUD.IE
+   require valid-user
+&lt;/Directory&gt;
+</pre> </td></tr></table></div>
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-microsoft"></a>Microsoft Windows</h3></div></dt><dd><p>
+Kerberos standardının Microsoft tarafından kusurlu uygulanması sonucu, standart MIT Kerberos ile Microsoft'un Kerberos'u arasında kısıtlı bir uyumluluk vardır. Microsoft kendi kırık Kerberos sürümünün standart Kerberos ile birlikte çalışabilmesinin kısıtlı yöntemlerini açıklayan bir belge yayınlamıştır. Belgeye <a href="http://www.microsoft.com/windows2000/techinfo/planning/security/kerbsteps.asp" target="_top">buradan</a> ulaşılabilir.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kerberos-howto-server-replication.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kerberos-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/kerberos-howto-programming.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kerberos Sunucusunun Birebir Kopyalanması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kerberos ile Yazılım Geliştirme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

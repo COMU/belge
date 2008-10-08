@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:28+03:00"><title>Dinamik Konak Yapılandırma Protokolü v6 Sunucusu (dhcp6s)</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-hints-daemons.html" title="IPv6 uyumlu Artalan Süreçleri İçin İpuçları"><link rel="previous" href="../howto/ipv6-howto-hints-daemons-radvd.html" title="Rota Bilgilendirme Sunucusu (radvd)"><link rel="next" href="../howto/ipv6-howto-hints-daemons-tcp_wrapper.html" title="tcp_wrapper"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Dinamik Konak Yapılandırma Protokolü v6 Sunucusu (dhcp6s)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-radvd.html">Önceki</a> </td><th width="60%" align="center">IPv6 uyumlu Artalan Süreçleri İçin İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-tcp_wrapper.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-hints-daemons-dhcpv6"></a>Dinamik Konak Yapılandırma Protokolü v6 Sunucusu (<tt>dhcp6s</tt>)</h3></div></dt><dd><p>
+DHCPv6 kapsamlı yapılandırmalar için kullanılabilir. Artalan sürecinin kendisinin Linux öntanımlı IPv6 yönlendiricisi üzerinde çalışması gerekmez.
+  </p><p>Radvd kullanırken yaptığınızdan daha fazla tanımlama yapabilirsiniz. Bu tanımlamalar çoğunlukla IPv4 DHCP sunucusundakilere benzer.</p><p>Artalan süreci uygun bir yapılandırmanın ardından, ICMPv6 çoğa gönderim paketleri gönderen istemcilere ff02::16 adresini göndererek karşılık verir.</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id15"></a>DHCPv6 sunucusunun (dhcp6s) yapılandırılması </h4></div></dt><dd><div class="sect4"><div> <h5 class="title"><a name="id115"></a>Basit Yapılandırma</h5></div><p>Dhcp6s'nin yapılandırma dosyası normalde <tt>/etc/dhcp6s.conf</tt> dosyasıdır. Basit bir örnek aşağıdaki gibidir: </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">interface eth0 {
+        server-preference 255;
+        renew-time 60;
+        rebind-time 90;
+        prefer-life-time 130;
+        valid-life-time 200;
+        allow rapid-commit;
+        option dns_servers 2001:db8:0:f101::1 sub.domain.example;
+        link AAA {
+                range 2001:db8:0:f101::1000 to 2001:db8:0:f101::ffff/64;
+                prefix 2001:db8:0:f101::/64;
+        };
+};
+</pre> </td></tr></table></div></p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id25"></a>DHCPv6 istemcisinin (<tt>dhcp6c</tt>) yapılandırılması</h4></div></dt><dd><div class="sect4"><div> <h5 class="title"><a name="id125"></a>Basit Yapılandırma</h5></div><p>Dhcp6c'nin yapılandırma dosyası normalde <tt>/etc/dhcp6c.conf</tt> dosyasıdır. Basit bir örnek aşağıdaki gibidir:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">interface eth0 {
+        send rapid-commit;
+        request domain-name-servers;
+};
+</pre> </td></tr></table></div></p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id35"></a>Kullanım</h4></div></dt><dd><div class="sect4"><div> <h5 class="title"><a name="id135"></a>dhcpv6 sunucu</h5></div><p>Aşağıdaki komut sunucuyu başlatır:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>service dhcp6s start</tt></b>
+</pre> </td></tr></table></div></p></div><div class="sect4"><div> <h5 class="title"><a name="id235"></a>dhcpv6 istemci</h5></div><p>Aşağıdaki komut istemciyi arka planda başlatır:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>dhcp6c -f eth0</tt></b>
+</pre> </td></tr></table></div></p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id45"></a>Hata Ayıklama</h4></div></dt><dd><div class="sect4"><div> <h5 class="title"><a name="id145"></a>dhcpv6 sunucu</h5></div><p>Sunucunun bir önplanda çalışan iki de hata ayıklamada kullanılan (her ikisi de hata ayıklama için kullanılmalıdır) seçeneği vardır, bir örnek:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>dhcp6c -d -D -f eth0</tt></b>
+</pre> </td></tr></table></div></p></div><div class="sect4"><div> <h5 class="title"><a name="id245"></a>dhcpv6 istemci</h5></div><p>İstemcinin bir önplanda çalışan iki de hata ayıklamada kullanılan seçeneği vardır, bir örnek:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>dhcp6c -d -f eth0</tt></b>
+    Oct/03/2005 17:18:16 dhcpv6 doesn't support hardware type 776
+    Oct/03/2005 17:18:16 doesn't support sit0 address family 0
+    Oct/03/2005 17:18:16 netlink_recv_rtgenmsg error
+    Oct/03/2005 17:18:16 netlink_recv_rtgenmsg error
+    Oct/03/2005 17:18:17 status code for this address is: success
+    Oct/03/2005 17:18:17 status code: success
+    Oct/03/2005 17:18:17 netlink_recv_rtgenmsg error
+    Oct/03/2005 17:18:17 netlink_recv_rtgenmsg error
+    Oct/03/2005 17:18:17 assigned address 2001:db8:0:f101::1002 prefix len is not in any RAs prefix length using 64 bit instead
+    Oct/03/2005 17:18:17 renew time 60, rebind time 9
+</pre> </td></tr></table></div>
+</p><p>Netlink hata mesajlarının bir etkisinin olmadığına dikkat edin.</p></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-radvd.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-hints-daemons.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-tcp_wrapper.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Rota Bilgilendirme Sunucusu (radvd) </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> tcp_wrapper</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

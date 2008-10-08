@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:00+03:00"><title>Düzenli İfadeler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-strings.html" title="Dizgeler"><link rel="next" href="../howto/ruby-ug-arrays.html" title="Diziler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Düzenli İfadeler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-strings.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-arrays.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-regex"></a>Düzenli İfadeler</h2></div></dt><dd><p>
+Şimdi daha ilginç bir yazılım geliştirelim. Bu sefer bir dizgenin verilen bir <span class="wordasword"><i>şablona</i></span> uyup uymadığını araştıralım:
+  </p><p>
+Bu şablonlar özel anlamları olan bazı karakterler ve karakter birleşimlerinden oluşur:
+  </p><p>
+<div class="table"><p><b>Tablo 4.1. Düzenli ifade işleçleri ve anlamları</b></p><table cellspacing="1" cellpadding="3" summary="Düzenli ifade işleçleri ve anlamları" width="100%" border="1"><colgroup><col></colgroup><tbody><tr><td align="left"><b><tt>[]</tt></b></td><td align="left">
+aralık belirtimi (Örn, <tt>[a-z]</tt>, <tt>a</tt> ile <tt>z</tt> arasındaki bir harfi belirtir.)
+</td></tr><tr><td align="left"><b><tt>\w</tt></b></td><td align="left">
+harf ya da rakam; <tt>[0-9A-Za-z]</tt> ile aynı
+</td></tr><tr><td align="left"><b><tt>\W</tt></b></td><td align="left">
+ne harf ne de rakam
+</td></tr><tr><td align="left"><b><tt>\s</tt></b></td><td align="left">
+boşluk karakteri; <tt>[ \t\n\r\f]</tt> ile aynı
+</td></tr><tr><td align="left"><b><tt>\S</tt></b></td><td align="left">
+boşluklar dışında herhangi bir karakter
+</td></tr><tr><td align="left"><b><tt>\d</tt></b></td><td align="left">
+rakam;  <tt>[0-9]</tt> ile aynı
+</td></tr><tr><td align="left"><b><tt>\D</tt></b></td><td align="left">
+rakamlar dışında herhangi bir karakter
+</td></tr><tr><td align="left"><b><tt>\b</tt></b></td><td align="left">
+tersbölü (0x08) (sadece herhangi bir aralık belirtilmişse)
+</td></tr><tr><td align="left"><b><tt>\b</tt></b></td><td align="left">
+kelime içi sınır belirtimi (aralık belirtiminin dışındayken)
+</td></tr><tr><td align="left"><b><tt>\B</tt></b></td><td align="left">
+kelime dışı sınır belirtimi
+</td></tr><tr><td align="left"><b><tt>*</tt></b></td><td align="left">
+öncelediği ifadeyi sıfır ya da daha fazla tekrarlar
+</td></tr><tr><td align="left"><b><tt>+</tt></b></td><td align="left">
+öncelediği ifadeyi bir ya da daha fazla tekrarlar
+</td></tr><tr><td align="left"><b><tt>{m,n}</tt></b></td><td align="left">
+öncelediği ifadeyi en az m en çok n kez tekrarlar
+</td></tr><tr><td align="left"><b><tt>?</tt></b></td><td align="left">
+öncelediği ifadeyi en fazla bir kere tekrarlar; <tt>{0,1}</tt> ile aynı
+</td></tr><tr><td align="left"><b><tt>|</tt></b></td><td align="left">
+önündeki veya ardındaki ifade eşleşebilir
+</td></tr><tr><td align="left"><b><tt>()</tt></b></td><td align="left">
+gruplama işleci
+</td></tr></tbody></table></div>
+  </p><p>
+Bu ilginç lügat genelde <span class="wordasword"><i>düzenli ifadeler</i></span> olarak anılır. Ruby'de, Perl'de de olduğu gibi çift tırnak koymak yerine ters bölü işareti kullanılır. Eğer daha önce düzenli ifadelerle karşılaşmadıysanız muhtemelen <i>düzenli</i> hiç birşey göremeyeceksiniz ancak alışmak için biraz zamana ihtiyacınız olduğunu unutmayın. Düzenli ifadeler, metin dizgeleri üzerinde arama, eşleştirme ve bu gibi diğer işlerle uğraşırken sizi baş ağrısından (ve satırlarca koddan) kurtaran gözle görülür bir güce sahiptir.
+  </p><p>
+Örneğin aşağıdaki tanıma uyan bir dizge aradığımızı farzedelim:
+"Küçük f harfiyle başlayan, ardından bir büyük harf gelen bundan sonra küçük harf haricinde herhangi bir karakterle devam eden" bir dizge.
+Eğer deneyimli bir C yazılımcısıysanız muhtemelen şimdiden kafanızca binlerce satır kod yazmıştınız, öyle değil mi? Kabul edin, kendinize güçlükle yardım edebilirsiniz. Ancak Ruby'de dizgeyi sadece  şu düzenli ifadeyle sınamanız yeterli olacaktır: <b><tt>/^f[A-Z](^[a-z])*$/</tt></b>.
+  </p><p>
+Köşeli parantezler içindeki bir onaltılık sayıya ne dersiniz? Hiç sorun değil.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">def chab(s)</tt>   # "parantezler içinde onaltılık içerir"
+    <tt>|   </tt><tt class="empinput">(s =~ /&lt;0(x|X)(\d|[a-f]|[A-F])+&gt;/) != nil</tt>
+    <tt>| </tt><tt class="empinput">end</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> chab "Bu değil."</tt>
+   <tt class="empoutput">false</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> chab "Belki bu? {0x35}"</tt>    # kaşlı ayraçlar kullanılmamalıydı
+   <tt class="empoutput">false</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> chab "Ya da bu? &lt;0x38z7e&gt;"</tt>    # onaltılık sayı değil
+   <tt class="empoutput">false</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> chab "Tamam, bu: &lt;0xfc0004&gt;."</tt>
+   <tt class="empoutput">true</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Düzenli ifadeler başlangıçta alengirli gibi gözükse de kısa süre içinde istediğinizi yapabilme konusunda yol katedeceksiniz.
+  </p><p>
+Aşağıda düzenli ifadeleri anlamanıza yarayacak küçük bir yazılım bulunuyor. <b><tt>regx.rb</tt></b> olarak kaydedin ve komut satırına <b><tt>ruby regx.rb</tt></b> yazarak çalıştırın.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">#ANSI terminal gerektirir!
+
+st = "\033[7m"
+en = "\033[m"
+
+while TRUE
+  print "str&gt; "
+  STDOUT.flush
+  str = gets
+  break if not str
+  str.chop!
+  print "pat&gt; "
+  STDOUT.flush
+  re = gets
+  break if not re
+  re.chop!
+  str.gsub! re, "#{st}\\&amp;#{en}"
+  print str, "\n"
+end
+print "\n"
+</pre> </td></tr></table></div>
+  </p><p>
+Yazılım bir tanesi dizge diğeri de düzenli ifade olmak üzere iki girdi alır.
+Dizge verilen düzenli ifade ile sınanır ve bütün uyuşan sonuçlar listelenir. Şu an ayrıntılara ilgilenmeyin, bu kodun analizini daha sonra yapacağız.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">str&gt; foobar
+pat&gt; ^fo+
+<tt class="empinput">foo</tt>bar
+~~~
+</pre> </td></tr></table></div>
+  </p><p>
+Programın çıktısında gördüğünüz <tt>~~~</tt> ile işaretli parça çıktıda artalan ve önalan renkleri yerdeğiştirmiş olarak çıktılanır.
+  </p><p>
+Bir kaç girdi daha deneyelim.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">str&gt; abc012dbcd555
+pat&gt; \d
+abc<tt class="empinput">012</tt>dbcd<tt class="empinput">555</tt>
+   ~~~    ~~~
+</pre> </td></tr></table></div>
+  </p><p>
+Eğer şaşırdıysanız sayfanın başındaki tabloya tekrar göz atabilirsiniz: <b><tt>\d</tt></b>'nin <b><tt>d</tt></b> karakteriyle hiçbir bağlantısı yoktur, sadece bir rakamı eşleştirmekte kullanılır.
+  </p><p>
+Eğer istediğimiz kriterlere uygun birden fazla yol varsa ne olur?
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">str&gt; foozboozer
+pat&gt; f.*z
+<tt class="empinput">foozbooz</tt>er
+~~~~~~~~
+</pre> </td></tr></table></div>
+  </p><p>
+Düzenli ifadeler olabilecek en uzun dizgeyi döndürdüğü için <b><tt>fooz</tt></b>'un yerine <b><tt>foozbooz</tt></b> eşleştirildi.
+  </p><p>
+Aşağıda iki nokta üstüste işaretiyle sınırlandırılmış bir zaman alanı bulunuyor:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">str&gt; Wed Feb  7 08:58:04 JST 1996
+pat&gt; [0-9]+:[0-9]+(:[0-9]+)?
+Wed Feb  7 <tt class="empinput">08:58:04</tt>  JST 1996
+           ~~~~~~~~
+</pre> </td></tr></table></div>
+  </p><p>
+"<b><tt>=~</tt></b>" işleci bulduğu dizgenin konumunu döndüren, aksi halde <b><tt>nil</tt></b> döndüren düzenli ifadedir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">"abcdef" =~ /d/</tt>
+  <tt class="empoutput">3</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"aaaaaa" =~ /d/</tt>
+  <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+   </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-strings.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-arrays.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Dizgeler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Diziler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:22+03:00"><title>Kullanıcı verileri ve ayarları</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-sa.html" title="SpamAssassin'in Eklenmesi"><link rel="previous" href="../howto/spam-filtering-exim-sa-config.html" title="SpamAssassin yapılandırması"><link rel="next" href="../howto/spam-filtering-exim-sign.html" title="Zarf Gönderici İmlerinin Eklenmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kullanıcı verileri ve ayarları</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sa-config.html">Önceki</a> </td><th width="60%" align="center">SpamAssassin'in Eklenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sign.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-per-user"></a>Kullanıcı verileri ve ayarları</h3></div></dt><dd><p>
+Kullanıcılarınızın bazıları kişisel SpamAssassin tercihlerini belirtebilmek isteyebilirler; örneğin, spam eşiği, posta kabul ettikleri diller ve karakter kümeleri, kara ve ak listeli kullanıcılar, vs. Hatta, SpamAssassin'in yerleşik Bayes derecelendirmesini kullanmanın bile mümkün olmasını isteyebilirler (bunun anlamlı olacağını düşünmesem de<sup>[<a name="id3" href="#ftn.id3">34</a>]</sup>).
+      </p><p>
+Bu belgede evvelce <a href="../howto/spam-filtering-usersettings.html" class="xref" title="Kullanıcı Verileri ve Ayarları"> Kullanıcı Verileri ve Ayarları</a> bölümünde açıklandığı gibi, bunu yapmanın bir yolu vardır.  Gelen her teslimattaki alıcı sayısını bir ile sınırlandırmamız gerekir. İlk <b><tt>RCPT TO:</tt></b> komutunu kabul ettikten sonra diğerlerini bir <b><tt>451</tt></b> SMTP yanıtı ile erteleriz. <a href="../howto/spam-filtering-exim-greylisting.html" class="xref" title="Grilisteleme Desteğinin Eklenmesi"> Grilisteleme Desteğinin Eklenmesi</a>nde olduğu gibi, eğer bağlanan posta aktarımcısı işini iyi bilen bir yazılımsa, bu yanıtın nasıl yorumlanacağını bilecek ve teslimatı yineleyecektir.
+      </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-exim-limit-one-user"></a>Exim'e "her teslimatı sadece bir alıcı için kabul et" demek istersek</h4></div></dt><dd><p>
+<a href="../howto/spam-filtering-acl_rcpt_to_final.html" class="xref" title="acl_rcpt_to"> acl_rcpt_to</a> ACL'sinde, alıcı adresi doğrulandıktan sonra ve uzak konaklardan yerel kullanıcılara kimlik kanıtlamasız gelen bağlantılar için bir <tt>accept</tt> deyiminin öncesine (yani, grilistelemeyi ve zarf gönderici imlerini sınamadan önceye) aşağıdaki deyimi yerleştireceğiz:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # Kullanıcı verilerini ve ayarlarını (Spamassasin gibi) destekleyebilmek
+  # için gelen her iletinin alıcı sayısını bir ile sınırlayalım.
+  #
+  # BİLGİ: Çok sayıda kullanıcınıza gönderilmiş bir postanın yerine
+  #        ulaşması her alıcı için 30 dakika veya daha fazla olmak
+  #        üzere katlanarak gecikecektir. Bu, özellikle zamanın kritik
+  #        önemde olduğu durumlarda sorunlara yol açacaktır.
+  #
+  defer
+    message      = We only accept one recipient at a time - please try later.
+    condition    = $recipients_count
+
+</pre> </td></tr></table></div>
+        </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-exim-sa-as-user"></a>SpamAssassin'e alıcının kullanıcı isminin aktarılması</h4></div></dt><dd><p>
+<a href="../howto/spam-filtering-acl_data_final.html" class="xref" title="acl_data"> acl_data</a> ACL'sinde, evvelce bahsettiğimiz <tt>spam</tt> kuralını değiştirerek, alıcı adresindeki yerel kısımda belirtilmiş kullanıcı ismini SpamAssassin'e aktaracağız.
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # $spam_score ve $spam_report'a veri sağlamak için SpamAssassin'i
+  # çağıracağız. Tasnife bağlı olarak, $acl_m9 "ham" veya "spam"
+  # değerini alacak.
+  #
+  # Alıcı adresinin kullanıcı adını SpamAssassin'e aktaralım.
+  # Bunun için adresin '=' veya '@' karakterinden önceki kısmını
+  # küçük harfe dönüştüreceğiz. Evvelce bir defadaki alıcı sayısını
+  # önceden bir ile sınırladığımızdan çok sayıda alıcı olmayacak.
+  #
+  # İleti spam olarak tasnif edilmişse, reddetmiş gibi yapacağız.
+  #
+  warn
+    set acl_m9  = ham
+    spam        = ${lc:${extract{1}{=@}{$recipients}{$value}{mail}}}
+    set acl_m9  = spam
+    control     = fakereject
+    logwrite    = :reject: Rejected spam (score $spam_score): $spam_report
+
+</pre> </td></tr></table></div>
+        </p><p>
+Dikkat ederseniz, Exim'in <tt>${local_part:...}</tt> işlevini kullanmak yerine &#8220;@&#8221; veya &#8220;=&#8221; karakterinden önceki kısmı kendimiz ayırdık. Bunun sebebi, ileride <a class="link" href="../howto/spam-filtering-exim-sign.html" title="Zarf Gönderici İmlerinin Eklenmesi">zarf gönderici imlemesi</a> için &#8220;=&#8221; karakterini kullanacak olmamızdır.
+        </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="spam-filtering-exim-per-user-sa"></a>SpamAssassin'de kullanıcı verilerinin ve ayarlarının etkinleştirilmesi</h4></div></dt><dd><p>
+SpamAssassin'e tekrar bakalım. Herşeyden önce, yapılandırma dosyasına evvelce yerleştirdiğimiz <tt>use_bayes 0</tt> atamasını silebilirsiniz. Bu durumda, her kullanıcı kendi ayarlarını belirtebilme ayrıcalığına kavuşacaktır.
+        </p><p>
+Eğer sisteminizdeki posta kutularının isimleri yerel UNIX hesaplarına göre açılmışsa bu mümkün olur. Öntanımlı olarak SpamAssassin artalan süreci, kendisine aktarılan kullanıcı ismine önce bir <tt>setuid()</tt> uygular ve kullanıcının verilerini ve ayarlarını kullanıcının ev dizinine kaydeder.
+        </p><p>
+Eğer yapınız bu işleme uygun değilse (örneğin, posta hesaplarınız Cyrus SASL veya başka bir sunucu tarafından yönetiliyordur), SpamAssassin'e kullanıcı tercihlerini ve verilerini içeren dosyaları nerede bulacağını belirtmeniz gerekir. Ayrıca, <b><tt>spamd</tt></b>'nin mevcut olmayan bir kullanıcıya <tt>setuid()</tt> yapmasını önlemek için onun belli bir yerel kullanıcı adıyla çalışmasını sağlamanız gerekir.
+        </p><p>
+Biz bu seçenekleri <b><tt>spamd</tt></b>'yi başlatırken belirteceğiz:
+        </p><p>
+        <div class="itemizedlist"><ul type="disc"><li>
+Debian'da <tt>/etc/default/spamassassin</tt> dosyasının <tt>OPTIONS=</tt> satırını düzenleyerek.
+            <p></p><p></p></li><li>
+Red Hat'ta <tt>/etc/sysconfig/spamassassin</tt> dosyasının <tt>SPAMDOPTIONS=</tt> satırını düzenleyerek.
+      <p></p><p></p></li><li>
+Diğerlerini siz bulun.
+          <p></p><p></p></li></ul></div>
+        </p><p>
+Gereken seçenekler:
+        </p><p>
+        <div class="itemizedlist"><ul type="disc"><li>
+<tt>-u</tt> <tr>kullanıcı</tr> - <b><tt>spamd</tt></b>'nin hangi kullanıcının (örn. <tt>mail</tt>) aidiyetinde çalışacağı belirtilir.
+      <p></p><p></p></li><li>
+<tt>-x</tt> - kullanıcıların ev dizinlerindeki yapılandırma dosyalarına bakılmaz.
+      <p></p><p></p></li><li>
+<tt>--virtual-config-dir=/var/lib/spamassassin/%u</tt> - kullanıcı verilerinin ve ayarlarının yeri belirtilir. &#8220;%u&#8221; SpamAssassin tarafından kullanıcı ismi ile değiştirilerek kullanılır. <b><tt>spamd</tt></b> bu dizini oluşturmaya veya bu dizinde değişiklik yapmaya yetkili olmalıdır:
+          <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# <b><tt>mkdir /var/lib/spamassassin</tt></b>
+# <b><tt>chown -R mail:mail /var/lib/spamassassin</tt></b>
+</pre> </td></tr></table></div>
+          </p><p></p></li></ul></div>
+        </p><p>
+Bu kadar, bu değişiklikleri yaptıktan sonra <b><tt>spamd</tt></b>'yi yeniden başlatmanız yetecektir.
+        </p></dd></div></dl><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id3" href="#id3">34</a>] </sup>
+Her ne kadar Bayes eğiticisi işleyiş olarak kullanıcıya özel ise de SpamAssassin'in Bayes eğiticisi naçizane fikrime göre herhalükarda o kadar da parlak değildir. Örnek olarak spam göndericiler sözlükten rasgele seçilmiş kelimeler ve öykülerle bu tür sistemleri tohumlayarak alt edebilmektedir.</p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sa-config.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-sa.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sign.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">SpamAssassin yapılandırması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Zarf Gönderici İmlerinin Eklenmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

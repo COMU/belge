@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:20+03:00"><title>Diğer Çerçeve işlevleri</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-windows.html" title="Pencereler"><link rel="previous" href="../howto/ncurses-howto-otherstuff.html" title="Örnekteki diğer kısımlar"><link rel="next" href="../howto/ncurses-howto-color.html" title="Renkler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Diğer Çerçeve işlevleri</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-otherstuff.html">Önceki</a> </td><th width="60%" align="center">Pencereler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-color.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-otherborderfuncs"></a>Diğer Çerçeve işlevleri</h3></div></dt><dd><p>
+Yukarıdaki program, her tuşa basımda bir pencerenin yıkılıp yenisinin oluşturulmasından dolayı oldukça verimsizdir. Bunun için diğer çerçeve çizimi ile ilgili işlevleri kullanarak daha verimli bir program yazalım.
+</p><p>
+Aşağıdaki programda <b><tt>mvhline()</tt></b> ve <b><tt>mvvline()</tt></b> kullanarak benzer etki sağlanmıştır. Bu iki işlev basittir. Belirtilen boyda ve belirtilen konumda yatay ve düşey çizgiler oluştururlar.
+</p><div class="example"><p><a name="ncurses-howto-botbo"></a><b>Örnek 5.13. Daha çok çerçeve işlevi</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;
+
+typedef struct _win_border_struct {
+  chtype  ls, rs, ts, bs,
+          tl, tr, bl, br;
+}WIN_BORDER;
+
+typedef struct _WIN_struct {
+  int startx, starty;
+  int height, width;
+  WIN_BORDER border;
+}WIN;
+
+void init_win_params(WIN *p_win);
+void print_win_params(WIN *p_win);
+void create_box(WIN *win, bool flag);
+
+int main(int argc, char *argv[])
+{ WIN win;
+  int ch;
+
+  initscr();                      /* curses ilklendirme           */
+  start_color();                  /* Renk özelliğini başlat       */
+  cbreak();                       /* Satır önbelleği etkisiz,     *
+                                   * herşeyi bana gönder          */
+  keypad(stdscr, TRUE);           /* Şu şeker F1'e ihtiyacım var  */
+  noecho();
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+
+  /* Pencere parametrelerini ilklendir */
+  init_win_params(&amp;win);
+  print_win_params(&amp;win);
+
+  attron(COLOR_PAIR(1));
+  printw("Çıkmak için F1'e basınız");
+  refresh();
+  attroff(COLOR_PAIR(1));
+
+  create_box(&amp;win, TRUE);
+  while((ch = getch()) != KEY_F(1))
+  { switch(ch)
+    { case KEY_LEFT:
+        create_box(&amp;win, FALSE);
+        --win.startx;
+        create_box(&amp;win, TRUE);
+        break;
+      case KEY_RIGHT:
+        create_box(&amp;win, FALSE);
+        ++win.startx;
+        create_box(&amp;win, TRUE);
+        break;
+      case KEY_UP:
+        create_box(&amp;win, FALSE);
+        --win.starty;
+        create_box(&amp;win, TRUE);
+        break;
+      case KEY_DOWN:
+        create_box(&amp;win, FALSE);
+        ++win.starty;
+        create_box(&amp;win, TRUE);
+        break;
+    }
+  }
+  endwin();                       /* Curses kipi sonu */
+  return 0;
+}
+void init_win_params(WIN *p_win)
+{
+    p_win-&gt;height = 3;
+    p_win-&gt;width = 10;
+    p_win-&gt;starty = (LINES - p_win-&gt;height)/2;
+    p_win-&gt;startx = (COLS - p_win-&gt;width)/2;
+
+    p_win-&gt;border.ls = '|';
+    p_win-&gt;border.rs = '|';
+    p_win-&gt;border.ts = '-';
+    p_win-&gt;border.bs = '-';
+    p_win-&gt;border.tl = '+';
+    p_win-&gt;border.tr = '+';
+    p_win-&gt;border.bl = '+';
+    p_win-&gt;border.br = '+';
+}
+void print_win_params(WIN *p_win)
+{
+#ifdef _DEBUG
+  mvprintw(25, 0, "%d %d %d %d", p_win-&gt;startx, p_win-&gt;starty,
+           p_win-&gt;width, p_win-&gt;height);
+  refresh();
+#endif
+}
+void create_box(WIN *p_win, bool flag)
+{ int i, j;
+  int x, y, w, h;
+
+  x = p_win-&gt;startx;
+  y = p_win-&gt;starty;
+  w = p_win-&gt;width;
+  h = p_win-&gt;height;
+
+  if(flag == TRUE)
+  { mvaddch(y, x, p_win-&gt;border.tl);
+    mvaddch(y, x + w, p_win-&gt;border.tr);
+    mvaddch(y + h, x, p_win-&gt;border.bl);
+    mvaddch(y + h, x + w, p_win-&gt;border.br);
+    mvhline(y, x + 1, p_win-&gt;border.ts, w - 1);
+    mvhline(y + h, x + 1, p_win-&gt;border.bs, w - 1);
+    mvvline(y + 1, x, p_win-&gt;border.ls, h - 1);
+    mvvline(y + 1, x + w, p_win-&gt;border.rs, h - 1);
+
+  }
+  else
+    for(j = y; j &lt;= y + h; ++j)
+      for(i = x; i &lt;= x + w; ++i)
+        mvaddch(j, i, ' ');
+
+  refresh();
+}
+</pre> </td></tr></table></div></p></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-otherstuff.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-windows.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-color.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Örnekteki diğer kısımlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Renkler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

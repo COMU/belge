@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:22+03:00"><title>SpamAssassin'in Exiscan üzerinden çağrılması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-sa.html" title="SpamAssassin'in Eklenmesi"><link rel="previous" href="../howto/spam-filtering-exim-sa.html" title="SpamAssassin'in Eklenmesi"><link rel="next" href="../howto/spam-filtering-exim-sa-config.html" title="SpamAssassin yapılandırması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">SpamAssassin'in Exiscan üzerinden çağrılması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sa.html">Önceki</a> </td><th width="60%" align="center">SpamAssassin'in Eklenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sa-config.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-sa-exiscan"></a>SpamAssassin'in Exiscan üzerinden çağrılması</h3></div></dt><dd><p>
+<tt>Exiscan-ACL</tt>'nin  &#8220;<tt>spam</tt>&#8221; kuralı hem SpamAssassin hem de Brightmail'i kullanabilir ve ileti bir döküntüyse bu kural bunu belirtecek şekilde tetiklenir. Exim öntanımlı olarak, <tt>localhost</tt> üzerinde çalışan bir SpamAssassin artalan sürecine (<tt>spamd</tt>) bağlanır. Ancak konak adresi ve port, Exim yapılandırma dosyasının <i>ana</i> bölümüne bir <tt>spamd_address</tt> ataması ile belirtilerek başka bir konaktaki SpamAssassin'in kullanılması sağlanabilir. Daha ayrıntılı bilgi için bu yamayla birlikte gelen <tt>exiscan-acl-spect.txt</tt> dosyasına bakınız.
+      </p><p>
+Bizim gerçeklenimimizde, spam olarak tasnif edilmiş iletileri reddedeceğiz. Bununla birlikte, bu tür iletilerin bir kopyasını, kullanıcı arasıra <a href="../howto/spam-filtering-glossary.html#spam-filtering-falsepos" class="xref" title="Hatalı Olumlama">Hatalı Olumlama</a>lar için bu dizini tarayabilsin diye, bir süreliğine ayrı bir posta dizininde tutacağız.
+      </p><p>
+Exim, kabul edilen bir iletiye <tt>freeze</tt> adı verilen bazı denetimler uygulayabilir. Exiscan-ACL yaması bu denetimlere, <tt>fakereject</tt> ismiyle başka denetimler ekler. Bu şöyle bir SMTP yanıtına sebep olur:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+550-FAKEREJECT id=<i>ileti-kimliği</i>
+550-İletiniz reddedildi ancak değerlendirilmek üzere tutuluyor.
+550 Eğer meşru bir iletiyse, hala alıcılarına teslim edilebilir.
+</pre> </td></tr></table></div>
+      </p><p>
+Bu özelliği kendi gerçeklenimimize aşağıdaki satırları <a href="../howto/spam-filtering-acl_data_1.html" class="xref" title="acl_data"> acl_data</a> içinde sonuncu <tt>accept</tt> deyiminden önceye yerleştirerek kullanacağız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+  # $spam_score ve $spam_report'a veri sağlamak için SpamAssassin'i
+  # çağıracağız. Tasnife bağlı olarak, $acl_m9 "ham" veya "spam"
+  # değerini alacak.
+  #
+  # İleti spam olarak tasnif edilmişse, reddetmiş gibi yapacağız.
+  #
+  warn
+    set acl_m9  = ham
+    spam        = mail
+    set acl_m9  = spam
+    control     = fakereject
+    logwrite    = :reject: Rejected spam (score $spam_score): $spam_report
+
+  # İletinin başlığına bir X-Spam-Status: satırı ekleyelim.
+  #
+  warn
+    message     = X-Spam-Status: \
+                  ${if eq {$acl_m9}{spam}{Yes}{No}} (score $spam_score)\
+                  ${if def:spam_report {: $spam_report}}
+    logwrite    = :main: Classified as $acl_m9 (score $spam_score)
+
+</pre> </td></tr></table></div>
+      </p><p>
+Bu örnekte, <tt>$acl_m9</tt> değişkeni &#8220;ham&#8221; değeriyle ilklendirildi. SpamAssassin <tt>mail</tt> kullanıcısı olarak çağrıldı. Eğer ileti spam olarak tasnif edilmişse, <tt>$acl_m9</tt>'a &#8220;spam&#8221; değeri atanıp, yukarıdaki <tt>FAKEREJECT</tt> yanıtı verildi. Bunu yapmada ana fikir, <a href="../howto/spam-filtering-glossary.html#spam-filtering-mda" class="xref" title="Posta Teslimatçısı">Posta Teslimatçısı</a>nın veya alıcının <a href="../howto/spam-filtering-glossary.html#spam-filtering-mua" class="xref" title="Posta İstemcisi">Posta İstemcisi</a>nin bu başlığı kullanarak döküntü postayı ayrı bir dizinde toplayabilmesine imkan sağlamaktır.
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sa.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-sa.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sa-config.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">SpamAssassin'in Eklenmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SpamAssassin yapılandırması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

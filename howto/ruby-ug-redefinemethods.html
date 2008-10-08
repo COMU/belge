@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Yöntemleri Yeniden Tanımlama</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-inheritance.html" title="Miras"><link rel="next" href="../howto/ruby-ug-accesscontrol.html" title="Erişim Denetimi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Yöntemleri Yeniden Tanımlama</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-inheritance.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-accesscontrol.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-redefinemethods"></a>Yöntemleri Yeniden Tanımlama</h2></div></dt><dd><p>
+Bir alt sınıfın davranışlarını, süper sınıfın yöntemlerini yeniden tanımlayarak değiştirebiliriz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput"> class Insan</tt>
+    |<tt class="empinput">   def tanimla</tt>
+    |<tt class="empinput">     print "Ben bir insanim.\n"</tt>
+    |<tt class="empinput">   end</tt>
+    |<tt class="empinput">   def tren_bileti(yas)</tt>
+    |<tt class="empinput">     if yas &lt; 12</tt>
+    |<tt class="empinput">       print "Indirimli ucret.\n";</tt>
+    |<tt class="empinput">     else</tt>
+    |<tt class="empinput">       print "Normal ucret.\n";</tt>
+    |<tt class="empinput">     end</tt>
+    |<tt class="empinput">   end</tt>
+    |<tt class="empinput"> end</tt>
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> Insan.new.tanimla</tt>
+Ben bir insanim.
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> class Ogrenci1&lt;Insan</tt>
+    |<tt class="empinput">   def tanimla</tt>
+    |<tt class="empinput">     print "Ben bir ogrenciyim.\n"</tt>
+    |<tt class="empinput">   end</tt>
+    |<tt class="empinput"> end</tt>
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> Ogrenci1.new.tanimla</tt>
+Ben bir ogrenciyim.
+  <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Örneğin süper sınıfın <b><tt>tanimla</tt></b> yöntemini tamamen yeniden tanımlamak yerine geliştirmek istediğimizi düşünelim.
+Bunun için <b><tt>super</tt></b>'i kullanıyoruz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput"> class Ogrenci2&lt;Insan</tt>
+    |<tt class="empinput">   def tanimla</tt>
+    |<tt class="empinput">     super</tt>
+    |<tt class="empinput">     print "Ben bir ogrenciyim, aynı zamanda.\n"</tt>
+    |<tt class="empinput">   end</tt>
+    |<tt class="empinput"> end</tt>
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> Ogrenci2.new.tanimla</tt>
+Ben bir insanim.
+Ben bir ogrenciyim, aynı zamanda.
+  <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>super</tt></b> bizim orijinal yönteme argüman geçmemize izin verir.
+Bazen iki tür insan olduğunu söylerler...
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput"> class Sahtekar&lt;Insan</tt>
+    |<tt class="empinput">   def tren_bileti(yas)</tt>
+    |<tt class="empinput">     super(11) # ucuz tarife istiyoruz.</tt>
+    |<tt class="empinput">   end</tt>
+    |<tt class="empinput"> end</tt>
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> Sahtekar.new.tren_bileti(25)</tt>
+Indirimli ucret.
+  <tt class="empoutput">nil</tt>
+<tt class="empinput"></tt>
+<tt>ruby&gt; </tt><tt class="empinput"> class Durust&lt;Insan</tt>
+    |<tt class="empinput">   def tren_bileti(yas)</tt>
+    |<tt class="empinput">     super(yas) # verilen argümanı gecelim</tt>
+    |<tt class="empinput">   end</tt>
+    |<tt class="empinput"> end</tt>
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> Durust.new.tren_bileti(25)</tt>
+Normal ucret.
+  <tt class="empoutput">nil</tt>
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-inheritance.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-accesscontrol.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Miras </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Erişim Denetimi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:27+03:00"><title>Sunucu soketi ataması (binding)</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-network-debugging.html" title="Ağda hata ayıklama"><link rel="previous" href="../howto/ipv6-howto-network-debugging.html" title="Ağda hata ayıklama"><link rel="next" href="../howto/ipv6-howto-network-debugging-tcpdump.html" title="Tcpdump ile paket inceleme örnekleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sunucu soketi ataması (binding)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-network-debugging.html">Önceki</a> </td><th width="60%" align="center">Ağda hata ayıklama</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-network-debugging-tcpdump.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-network-debugging-binding"></a>Sunucu soketi ataması (binding)</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>Sunucu soket atamasını denetlemek için <tt>netstat</tt> kullanımı</h4></div></dt><dd><p>
+Bir düğümdeki hangi sunucu soketlerinin etkin olduğunun incelenmesi ilgi çekicidir. <b><tt>netstat</tt></b> ile bu bilgi kolayca elde edilebilir:
+  </p><p>
+Kullanılan seçenekler: <tt>-nlptu</tt>
+  </p><p>Örnek:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>netstat -nlptu</tt></b>
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:32768           0.0.0.0:*               LISTEN      1258/rpc.statd
+tcp        0      0 0.0.0.0:32769           0.0.0.0:*               LISTEN      1502/rpc.mountd
+tcp        0      0 0.0.0.0:515             0.0.0.0:*               LISTEN      22433/lpd Waiting
+tcp        0      0 1.2.3.1:139             0.0.0.0:*               LISTEN      1746/smbd
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      1230/portmap
+tcp        0      0 0.0.0.0:6000            0.0.0.0:*               LISTEN      3551/X
+tcp        0      0 1.2.3.1:8081            0.0.0.0:*               LISTEN      18735/junkbuster
+tcp        0      0 1.2.3.1:3128            0.0.0.0:*               LISTEN      18822/(squid)
+tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN      30734/named
+tcp        0      0 ::ffff:1.2.3.1:993      :::*                    LISTEN      6742/xinetd-ipv6
+tcp        0      0 :::13                   :::*                    LISTEN      6742/xinetd-ipv6
+tcp        0      0 ::ffff:1.2.3.1:143      :::*                    LISTEN      6742/xinetd-ipv6
+tcp        0      0 :::53                   :::*                    LISTEN      30734/named
+tcp        0      0 :::22                   :::*                    LISTEN      1410/sshd
+tcp        0      0 :::6010                 :::*                    LISTEN      13237/sshd
+udp        0      0 0.0.0.0:32768           0.0.0.0:*                           1258/rpc.statd
+udp        0      0 0.0.0.0:2049            0.0.0.0:*                           -
+udp        0      0 0.0.0.0:32770           0.0.0.0:*                           1502/rpc.mountd
+udp        0      0 0.0.0.0:32771           0.0.0.0:*                           -
+udp        0      0 1.2.3.1:137             0.0.0.0:*                           1751/nmbd
+udp        0      0 0.0.0.0:137             0.0.0.0:*                           1751/nmbd
+udp        0      0 1.2.3.1:138             0.0.0.0:*                           1751/nmbd
+udp        0      0 0.0.0.0:138             0.0.0.0:*                           1751/nmbd
+udp        0      0 0.0.0.0:33044           0.0.0.0:*                           30734/named
+udp        0      0 1.2.3.1:53              0.0.0.0:*                           30734/named
+udp        0      0 127.0.0.1:53            0.0.0.0:*                           30734/named
+udp        0      0 0.0.0.0:67              0.0.0.0:*                           1530/dhcpd
+udp        0      0 0.0.0.0:67              0.0.0.0:*                           1530/dhcpd
+udp        0      0 0.0.0.0:32858           0.0.0.0:*                           18822/(squid)
+udp        0      0 0.0.0.0:4827            0.0.0.0:*                           18822/(squid)
+udp        0      0 0.0.0.0:111             0.0.0.0:*                           1230/portmap
+udp        0      0 :::53                   :::*                                30734/named
+</pre> </td></tr></table></div>
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-network-debugging.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-network-debugging.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-network-debugging-tcpdump.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Ağda hata ayıklama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Tcpdump ile paket inceleme örnekleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

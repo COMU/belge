@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:52+03:00"><title>Silinmiş bir Disk Bölümünü Kurtarmak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/partition-howto.html" title="Linux Disk Bölümleme NASIL"><link rel="previous" href="../howto/partition-howto-formatting.html" title="Bir ext2/3 disk bölümünü biçimlendirmek"><link rel="next" href="../howto/partition-howto-setting_up_swap.html" title="Takas Alanını Ayarlamak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Silinmiş bir Disk Bölümünü Kurtarmak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/partition-howto-formatting.html">Önceki</a> </td><th width="60%" align="center">Linux Disk Bölümleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/partition-howto-setting_up_swap.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="partition-howto-recovering"></a>Silinmiş bir Disk Bölümünü Kurtarmak</h2></div></dt><dd><p>
+Aşağıda silinmiş bir disk tablosunu el ile kurtarmanın adımları anlatılmıştır. <a class="ulink" href="http://www.stud.uni-hannover.de/user/76201/gpart" target="_top">gpart</a> veya <a class="ulink" href="http://www.cgsecurity.org/index.html?testdisk.html" target="_top">TestDisk</a> gibi bu işlemi oldukça kolay hale getiren uygulamalar vardır. Eğer bunu okuyor ve şansınız hiç kalmadıysa, yapacaklarınız:
+  </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+İlk disk bölümünüzün büyüklüğü kadar bir disk bölümü oluşturun. Bu kısmı asıl disk bölümünden daha büyük de yapabilirsiniz. Eğer daha küçük yaparsanız, çok hayıflanıp diş gıcırdatacaksınız.
+    <p></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>n</tt></b>
+Command action
+   e   extended
+   p   primary partition (1-4)
+<b><tt>p</tt></b>
+Partition number (1-4): <b><tt>1</tt></b>
+First cylinder (1-23361, default 1): <b><tt>&lt;RETURN&gt;</tt></b>
+Using default value 1
+Last cylinder or +size or +sizeM or +sizeK (1-22800, default 22800): <b><tt>13032</tt></b>
+
+Command (m for help): <b><tt>w</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></div></li><li><div class="listitem">
+<b><tt>dumpe2fs</tt></b>'i ilk disk bölümünde çalıştırarak blok sayısını bulun.
+  <p></p><p>Örnek:</p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">% <b><tt>dumpe2fs /dev/sda1 | grep "Block count:"</tt></b>
+Block count:              41270953
+</pre> </td></tr></table></div>
+    </p><p>
+Eğer bu değerden emin değilseniz, 1. Adımı daha büyük bir disk boyutu için tekrarlayın. Eğer blok sayısı değiştiyse, asıl disk bölümü blok sayısını iyi tahmin edememişsiniz demektir. 1. Adımı kararlı bir blok sayı bulana kadar sürdürün.
+  </p><p></p></div></li><li><div class="listitem">
+Yeni oluşturduğunuz disk bölümünü silin.
+    <p></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">Command (m for help): <b><tt>d</tt></b>
+Partition number (1-4): <b><tt>1</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></div></li><li><div class="listitem">
+Elde ettiğiniz blok sayısına bakarak yeni bir disk bölümü oluşturun. <b><tt>fdisk</tt></b>'e blok sayısı giremediğinizden, kaç tane silindir istendiğini hesaplamanız gerekmektedir. İşte formulü:
+    <p></p><p>
+<pre class="literallayout">(gerekli silindir sayısı) = (blok sayısı) / (blok büyüklüğü)
+
+(blok büyüklüğü) = (birim büyüklüğü) / 1024
+
+(birim büyüklüğü) = (kafa sayısı) * (sektör/silindir sayısı) * (bayt/sektör sayısı)
+</pre>
+  </p><p>
+1, 2, 4 ve 8 silindirlik 4 birincil disk bölümüne ayrılmış aşağıdaki disk bölümleme örneğine bakınız.
+  </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">disk /dev/sda: 16 heads, 63 sectors, 23361 cylinders
+Units = cylinders of 1008 * 512 bytes
+
+   Device Boot    Start       End    Blocks   Id  System
+/dev/sda1             1         2       976+  83  Linux
+/dev/sda2             3         5      1512   83  Linux
+/dev/sda3             6        10      2520   83  Linux
+/dev/sda4            11        19      4536   83  Linux
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>fdisk</tt></b> çıktı başlangıcında ihtiyacım olan ayar bilgisini de sunmaktadır.
+  </p><p>
+<pre class="literallayout">
+Birim büyüklüğü <b><tt>516096</tt></b>
+  = <b><tt>16</tt></b> disk kafası * <b><tt>63</tt></b> sektör/silindir * <b><tt>512</tt></b> bayt/sektör
+
+Blok büyüklüğü <b><tt>504</tt></b>
+  = <b><tt>516096 / 1024</tt></b>
+</pre>
+  </p><p>
+Dolasiyle ikinci disk bölümü için gerekli silindir sayısı <b><tt>3</tt></b>'tür (<b><tt>1512</tt></b> blok <b><tt>/ 504</tt></b>).
+  </p><p>
+Disk bölümleme tablosu da bunun gerçekten de böyle olduğunu söylüyor: ilk silindir <b><tt>3</tt></b>, ikincisi <b><tt>4</tt></b> ve en sonuncu da <b><tt>5</tt></b>, toplam 3 silindir.
+  </p><p>
+Üçüncü disk bölümü için gerekli silindir sayısı da benzer şekilde hesaplanır: <b><tt>2520</tt></b> blok <b><tt>/ 504 = 5</tt></b>, bunlar da bloklara karşı gelecek şekilde <b><tt>6,7,8,9,10</tt></b>'dur. Bu hesaplamanın ilk disk bölümünde çalışmayacağına dikkat edin (<b><tt>1008</tt></b> yerine <b><tt>976</tt></b>). Artı işareti tüm blokların fdisk uygulamasına katıldıklarını gösterir. Hesaplamayı denediğiniz zaman (<b><tt>976 / 504 </tt></b>) <b><tt>1.937</tt></b> elde edersiniz. Silindir sayısının tamsayı olması gerektiğini bilerek bunu yuvarlayabilirsiniz.
+  </p><p></p></div></li><li><div class="listitem">
+<b><tt>e2fsck</tt></b>'i çalıştırarak yeni disk bölümününün okunup okunamayağına bakın.
+  <p></p><p></p></div></li><li><div class="listitem">
+1'den 5'e kadar adımları kalan diğer disk bölümleri için de tekrarlayın.
+  <p></p><p></p></div></li></ol></div></p><p>
+Disk bölümünüzü tekrar bağlayın. Şaşırtıcı bir şekilde bilgilerinizi orada olduğunu göreceksiniz.
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+jedi sistem yöneticisi ve MGH'nin en iyisi olan Mike Vevea'a, bu ipuçlarını verdiği için teşekkürler.
+  <p></p><p></p></li></ul></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/partition-howto-formatting.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/partition-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/partition-howto-setting_up_swap.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Bir ext2/3 disk bölümünü biçimlendirmek </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Takas Alanını Ayarlamak</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

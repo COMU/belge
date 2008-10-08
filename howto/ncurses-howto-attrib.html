@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:19+03:00"><title>Öznitelikler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto.html" title="NCURSES ile Yazılım Geliştirme NASIL"><link rel="previous" href="../howto/ncurses-howto-getstrex.html" title="Bazı örnekler"><link rel="next" href="../howto/ncurses-howto-attribdetails.html" title="Özniteliklerle ilgili ayrıntılar"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Öznitelikler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-getstrex.html">Önceki</a> </td><th width="60%" align="center">NCURSES ile Yazılım Geliştirme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-attribdetails.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ncurses-howto-attrib"></a>Öznitelikler</h2></div></dt><dd><div class="toc"><p><b>İçindekiler</b></p><dl><dt>5.8.1. <a href="../howto/ncurses-howto-attribdetails.html">Özniteliklerle ilgili ayrıntılar</a></dt><dt>5.8.2. <a href="../howto/ncurses-howto-attronvsattrset.html">attron()'a karşı attrset()</a></dt><dt>5.8.3. <a href="../howto/ncurses-howto-attr_get.html">attr_get()</a></dt><dt>5.8.4. <a href="../howto/ncurses-howto-attr_funcs.html">attr_ işlevleri</a></dt><dt>5.8.5. <a href="../howto/ncurses-howto-wattrfuncs.html">wattr işlevleri</a></dt><dt>5.8.6. <a href="../howto/ncurses-howto-chgat.html">chgat() işlevleri</a></dt></dl></div><p>
+Karakterlere özel etkilerle nasıl öznitelikler kazandırılabileceğini daha önce görmüştük. Öznitelikler, özenli ayarlanmaları halinde, verilerin kolay ve anlaşılır bir şekilde basılmasını sağlarlar. Aşağıdaki program bir C dosyasını parametre olarak almakta ve  yorum satırlarını koyu olarak göstermektedir. Kodu inceleyin.
+</p><div class="example"><p><a name="ncurses-howto-bsiat"></a><b>Örnek 5.10. Basit bir öznitelik verme örneği</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/* pager functionality by Joseph Spainhour" &lt;spainhou (at) bellsouth.net&gt; */
+#include &lt;ncurses.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(int argc, char *argv[])
+{
+  int ch, prev, row, col;
+  prev = EOF;
+  FILE *fp;
+  int y, x;
+
+  if(argc != 2)
+  {
+    printf("Kullanım: %s &lt;bir dosya adı&gt;\n", argv[0]);
+    exit(1);
+  }
+  fp = fopen(argv[1], "r");
+  if(fp == NULL)
+  {
+    perror("Girdi dosyası açılamadı");
+    exit(1);
+  }
+  initscr();                            /* Curses kipi başlangıcı    */
+  getmaxyx(stdscr, row, col);           /* ekran sınırlarını bul     */
+  while((ch = fgetc(fp)) != EOF)        /* dosyayı sonuna kadar oku  */
+  {
+    getyx(stdscr, y, x);                /* o anki imleç konumunu al  */
+    if(y == (row - 1))                  /* ekranın sonunda mıyız?    */
+    {
+      printw("&lt;-Bir tuşa basınız-&gt;");
+                              /* kullanıcıya bir tuşa basmasını söyle */
+      getch();
+      clear();                          /* ekranı temizle */
+      move(0, 0);                       /* ekranın başına git */
+    }
+    if(prev == '/' &amp;&amp; ch == '*') /* Eğer sadece / ve * karakteri ise
+                                         * koyu göstermeyi etkinleştir */
+    {
+      attron(A_BOLD);                   /* koyu gösterme etkin */
+      getyx(stdscr, y, x);              /* imlecin o anki konumunu al */
+      move(y, x - 1);                   /* bir karakter geri git */
+      printw("%c%c", '/', ch);          /* esas görüntüleme burada yapılmakta */
+    }
+    else
+      printw("%c", ch);
+    refresh();
+    if(prev == '*' &amp;&amp; ch == '/')
+      attroff(A_BOLD);                  /* eğer * ve / okunduysa *
+                                         * koyu göstermeyi kapat */
+    prev = ch;
+  }
+  endwin();                             /* curses kipi sonu */
+  fclose(fp);
+  return 0;
+}
+</pre> </td></tr></table></div></p></div><p>
+Tüm şu ilklendirme ve ıvır zıvırlardan korkmayın. <tt>While</tt> döngüsüne dikkatinizi verin. Her bir karakteri okuyarak <tt>/*</tt> karakter ikilisini aranmaktadır. Bir kere örüntüyü buldu mu <b><tt>attron()</tt></b> ile BOLD (koyu gösterme) özelliğini etkin hale getirmektedir. <tt>*/</tt> karakter ikilisi okunduğunda bu öznitelik <b><tt>attroff()</tt></b> ile kapatılmaktadır.
+</p><p>
+Yukarıdaki program bize <b><tt>getyx() </tt></b> ve <b><tt>move()</tt></b> gibi iki faydalı işlevi tanıtmaktadır. İlk işlev imlecin o anki koordinatlarını <tt>y, x</tt> değerlerine alır. <tt>getyx()</tt> bir makro olduğundan işleve gösterici aktarmak zorunda değiliz.  <b><tt>move()</tt></b> işlevi imleci verilen koordinatlara hareket ettirir.
+</p><p>
+Yukarıdaki program pek de fazla bir iş yapmayan gerçekten de basit bir örnektir. Bu satırlarda birileri bir C dosyasını okuyup, onu ayrıştırıp değişik renklerde gösteren daha kullanışlı bir program yazabilir. Birisi bunu başka dillere de genişletebilir.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-getstrex.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-attribdetails.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Bazı örnekler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Özniteliklerle ilgili ayrıntılar</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

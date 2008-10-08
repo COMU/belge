@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-04-17T23:21:45+02:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/8021x-howto.html" title="802.1X Port Tabanlı Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/8021x-howto.html" title="802.1X Port Tabanlı Kimlik Kanıtlama NASIL"><link rel="next" href="../howto/8021x-howto-cert.html" title="Sertifikaların Sağlanması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/8021x-howto.html">Önceki</a> </td><th width="60%" align="center">802.1X Port Tabanlı Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/8021x-howto-cert.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="8021x-howto-intro"></a>Giriş</h2></div></dt><dd><p>
+Bu belge kimlik kanıtlama yöntemi olarak PEAP'li (PEAP/MS-CHAPv2) <a href="http://www.open1x.org" target="_top">Xsupplicant</a>'ı ve arka-uç Kimlik Kanıtlama Sunucusu olarak <a href="http://www.freeradius.org" target="_top">FreeRADIUS</a>'u kullanarak <a href="http://standards.ieee.org/getieee802/download/802.1X-2001.pdf" target="_top">IEEE 802.1X Port Tabanlı Ağ Erişim Denetimi</a>'ni kurmak ve kullanmak için yazılımı ve yordamları tanımlar.
+</p><p>
+Eğer PEAP'ten başka bir kimlik kanıtlama mekanizması tercih edilirse, örneğin, EAP-TLS veya EAP-TTLS, sadece az sayıda yapılandırma seçeneğinin değiştirilmesine gerek vardır. PEAP/MS-CHAPv2 de Windows XP SP1/Windows 2000 SP3 tarafından desteklenir.
+  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-what8021x"></a>802.1X nedir?</h3></div></dt><dd><p>
+802.1X-2001 standardı şudur:
+</p><p><table border="0" width="100%" cellspacing="0" cellpadding="0" class="blockquote" summary="Block quote"><tr><td width="10%" valign="top"> </td><td width="80%" valign="top"><p>
+&#8592;Port tabanlı ağ erişim denetimi, noktadan-noktaya bağlantı özelliklerine sahip bir yerel ağ portuna takılan cihazların <i>kimlik doğrulaması</i> ve <i>yetkilendirme</i> için, ve bu sayede kimlik doğrulaması ve yetkilendirmesi başarısız olması durumunda o portu<i>erişimden koruyarak</i> IEEE 802 yerel ağ altyapılarının fiziksel erişim özelliklerinin kullanımına olanak sağlar. Bu bağlamda bir port, yerel ağ altyapısına ekli tekil bir noktadır.&#8594;</p></td><td width="10%" valign="top"> </td></tr><tr><td colspan="2" align="right" valign="top">--<span class="attribution">802.1X-2001, sayfa 1.</span></td><td width="10%" valign="top"> </td></tr></table></p><p>
+  <div class="figure"><p><a name="8021x-howto-p8021x"></a><b>Şekil 3.1. 802.1X</b></p><div class="mediaobject"><img src="images/8021x/8021X-Overview.png" align="center" width="550"><div class="caption"><p>
+Bir kablosuz düğümün diğer yerel ağ kaynaklarına erişebilmesi için kimlik kanıtlaması yapılmalıdır.
+  </p></div></div></div>
+</p><p>
+  <div class="orderedlist"><ol type="1"><li><div class="listitem">
+Yeni bir telsiz düğüm (TD) bir yerel ağ kaynağına erişim isterse, erişim noktası (EN) TD'nin kimliğini sorar.<i>TD'nin kimliği doğrulanmadan EAP'den başka hiçbir akışa izin verilmez ("port" kapalıdır).</i>
+ <p></p><p>
+Kimlik kanıtlaması isteyen telsiz düğüme genellikle <i>İstemci</i> denir, aslında telsiz düğümün bir İstemci <i>içerdiğini</i> söylemek daha doğru olur. İstemci güven ortamını oluşturacak Kimlik Kanıtlayıcı veriye cevap  vermekle sorumludur. Aynısı erişim noktası için de geçerlidir; <i>Kimlik Kanıtlayıcı</i> erişim noktası değildir. Şöyle ki, erişim noktası bir Kimlik Kanıtlayıcı içerir ama Kimlik Kanıtlayıcı erişim noktasında olmasa da olur; harici bir unsur da olabilir.
+ </p><p>
+Kimlik kanıtlama için kullanılan EAP ilk olarak çevirmeli PPP için kullanıldı. Kimlik olarak kullanıcı adı ile birlikte PAP veya CHAP [<a href="http://www.ietf.org/rfc/rfc1994.txt" target="_top">RFC1994</a>] tarafından doğrulaması yapılacak kullanıcı parolası kullanılır. Kimlik açık (şifrelenmemiş) gönderildiği için kötü niyetli bir dinleyici kullanıcının kimliğini öğrenebilir. O zaman "Kimlik saklama" (Identity hiding) kullanılır; şifrelenmiş TLS tüneli kurulmadan gerçek kimlik gönderilmez.
+ </p><p></p></div></li><li><div class="listitem">
+Kimlik gönderildikten sonra kimlik kanıtlama süreci başlar. İstemci ve Kimlik Kanıtlayıcı arasında kullanılan protokol EAP'tır; veya daha doğru olarak EAP kaplamalı yerel ağ'dır (EAPOL). Kimlik Kanıtlayıcı EAP iletilerini RADIUS biçimine yeniden dönüştürür ve onları Kimlik Kanıtlayıcı Sunucuya aktarır.
+ <p></p><p>
+Kimlik kanıtlama süresince, Kimlik Kanıtlayıcı sadece İstemci ve Kimlik Kanıtlama Sunucusu arasında paketleri nakleder. Kimlik kanıtlama süreci bittiğinde Kimlik Kanıtlama Sunucusu başarı (veya doğrulama başarısız olursa, başarısızlık) iletisi gönderir ve <i>Kimlik Kanıtlayıcı "port"'u İstemci için açar.</i>
+ </p><p></p></div></li><li><div class="listitem">
+Başarılı bir kimlik kanıtlamadan sonra İstemci diğer yerel ağ kaynaklarına/Internete erişmeye hak kazanır.
+ <p></p><p></p></div></li></ol></div>
+</p><p>
+Açıklama için <a href="../howto/8021x-howto-intro.html#8021x-howto-p8021x" title="Şekil 3.1. 802.1X">Şekil 3.1</a>'e bakınız.
+</p><p>
+Neden "port" tabanlı kimlik kanıtlama deniyor? Çünkü, Kimlik Kanıtlayıcı <i>denetimli</i> ve <i>denetimsiz</i> portlarla uğraşır. Denetimli port da denetimsiz port da mantıksal varlıklardır (sanal portlar); ama yerel ağa aynı fiziksel bağlantıyı kullanırlar (aynı bağlama noktası).
+ </p><p>
+  <div class="figure"><p><a name="8021x-howto-port"></a><b>Şekil 3.2. 802.1X denetimli/denetimsiz port</b></p><div class="mediaobject"><img src="images/8021x/8021X-Ports.png" align="center" width="550"><div class="caption"><p>Denetimli portun yetkilendime durumu.</p></div></div></div>
+  </p><p>
+Kimlik kanıtlama öncesinde sadece denetimsiz port &#8592;açıktır&#8594;. Sadece EAPOL trafiğine izin verilir; <a href="../howto/8021x-howto-intro.html#8021x-howto-port" title="Şekil 3.2. 802.1X denetimli/denetimsiz port">Şekil 3.2</a>'de Authenticator System 1'e bakınız. İstemci kimliği kanıtlandıktan sonra, denetimli port açılır ve diğer yerel ağ kaynaklarına erişim hakkı verilir; <a href="../howto/8021x-howto-intro.html#8021x-howto-port" title="Şekil 3.2. 802.1X denetimli/denetimsiz port">Şekil 3.2</a>'de Authenticator System 2'ye bakınız.
+  </p><p>
+802.1X, yeni IEEE telsiz standardı 802.11i'de önemli bir rol oynar.
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-what80211i"></a>802.11i nedir?</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="8021x-howto-WEP"></a>WEP</h4></div></dt><dd><p>
+Asıl 802.11 standartının parçası olan Wired Equivalent Privacy (WEP) güvenilirlik sağlamalıydı. Maalesef WEP güçsüz tasarlanmıştır ve kolayca kırılır. Kimlik kanıtlama mekanizması yoktur, erişim denetimi için sadece zayıf bir form mevcuttur (iletişim kurmak için paylaşımlı anahtara sahip olunmalıdır). Daha fazlasını <a href="http://www.isaac.cs.berkeley.edu/isaac/wep-faq.html" target="_top">buradan</a> okuyun.
+     </p><p>
+WEP'in bozuk güvenliğine cevap olarak, IEEE 802.11i olarak isimlendirilen yeni bir telsiz güvenlik standartı ile gelmiştir. 802.1X bu yeni standartta önemli bir rol oynar.
+     </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="8021x-howto-RSN"></a>802.11i</h4></div></dt><dd><p>
+Haziran 2004'te onaylanan yeni güvenlik standartı, 802.11i tüm WEP zayıflıklarını onarır. Üç ana kategoriye ayrılır:
+     </p><p>
+     <div class="orderedlist"><ol type="1"><li><div class="listitem">
+<i>Geçici Anahtar Tümleşikliği Protokolü</i> (Temporary Key Integrity Protocol TKIP) tüm WEP zayıflıklarını onaran kısa-vadeli bir çözümdür. TKIP eski 802.11 ekipmanlarıyla kullanılabilir (sürücü/aygıt yazılımı güncellemesinden sonra) ve tümleşiklik ile güvenilirlik sağlar.
+     <p></p><p></p></div></li><li><div class="listitem">
+<i>CBC-MAC ile Sayaç Modu Protokolü</i> (Counter Mode with CBC-MAC Protocol CCMP) [<a href="http://www.ietf.org/rfc/rfc3610.txt" target="_top">RFC2610</a>] tepeden tırnağa yeni bir protokoldür. Şifreleme algoritması olarak AES [<a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf" target="_top">FIPS 197</a>] kullanır ve bu RC4'ten (WEP ve TKIP'ta kullanıldı) daha yoğun işlemci kullandığından yeni 802.11 donanımına ihtiyaç duyulabilir.  Bazı sürücüler yazılımda CCMP'yi uygulayabilirler. CCMP tümleşiklik ve güvenilirlik sağlar.
+     <p></p><p></p></div></li><li><div class="listitem">
+<i>802.1X Port Tabanlı Ağ Erişim Denetimi:</i> TKIP veya CCMP kullanılırken kimlik kanıtlama için 802.1X kullanılır.
+     <p></p><p></p></div></li></ol></div>
+     </p><p>
+Ek olarak, seçimlik bir şifreleme yöntemi olan "Wireless Robust Authentication Protocol" (WRAP) CCMP'nin yerine kullanılabilir. WRAP, 802.11i için AES-tabanlı asıl teklifti, ama sahiplik yükümlülükleriyle sorun yaşanınca CCMP ile değiştirildi. WRAP için destek seçime bağlıdır, ama 802.11i'de CCMP desteği zorunludur.
+     </p><p>
+802.11i bir sonraki kısımda tanımlanan genişletilmiş bir anahtar türetme/yönetim işlevine sahiptir.
+     </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="8021x-howto-Key"></a>Anahtar Yönetimi</h4></div></dt><dd><div class="sect4"><div> <h5 class="title"><a name="8021x-howto-DynKey"></a>Dinamik anahtar değişimi ve yönetimi</h5></div><p>
+Şifreleme ve tümleşiklik algoritmaları kullanarak bir güvenlik kuralları bütünü oluşturmak için anahtarlar kullanılmalıdır. Neyse ki 802.11i bir anahtar türetme/yönetim tarzını içerir.
+Aşağıdaki şekle bakınız.
+   </p><p>
+  <div class="figure"><p><a name="8021x-howto-keyman"></a><b>Şekil 3.3. 802.1X Anahtar Yönetimi</b></p><div class="mediaobject"><img src="images/8021x/8021X-KeyManagement.png" align="center" width="550"><div class="caption"><p>802.11i'de anahtar yönetimi ve dağıtımı.</p></div></div></div></p><p>
+  <div class="orderedlist"><ol type="1"><li><div class="listitem">
+İstemci (WN) ve Kimlik Kanıtlama Sunucusu (AS) doğrulama yaparken AS'den gönderilen doğrulamanın başarılı olduğunu söyleyen son iletilerden biri bir <i>Ana Anahtar</i>'dır (MK - Master Key). Gönderildikren sonra MK sadece WN ve AS tarafından bilinir. MK, WN ve AS arasındaki bu oturuma bağlıdır.
+   <p></p><p></p></div></li><li><div class="listitem">
+Hem WN hem AS, MK'dan bir <i>Ana Oturum Anahtarı</i> (PMK - Pairwise Master Key) üretir.
+ <p></p><p></p></div></li><li><div class="listitem">
+O zaman PMK AS'den Kimlik Kanıtlayıcıya (AP) taşınır. PMK'yi sadece WN ve AS türetebilir, bunun yanında AP, AS'nin yerine erişim-denetim kararları verebilir. PMK, WN ve AP arasındaki bu oturuma bağlı yepyeni bir simetrik anahtardır.
+   <p></p><p></p></div></li><li><div class="listitem">
+<i>Ana Oturum Anahtarını</i> türetmek, bağlamak ve doğrulamak için WN ve AP arasında PMK ve 4 yönlü el sıkışma kullanılır. PTK işletimsel anahtarlar topluluğudur:
+   <p></p><p><div class="itemizedlist"><ul type="disc"><li>
+<i>Anahtar Doğrulama Anahtarı</i> (KCK - Key Confirmation Key ), isminden de anlaşılacağı üzere PMK'ye sahipliği kanıtlamak ve PMK'yi AP'ye bağlamak için kullanılır.
+   <p></p><p></p></li><li>
+<i>Anahtar Şifreleme Anahtarı</i> (KEK - Key Encryption Key), <i>Grup Geçiş Anahtarı</i> (GTK - Group Transient Key) dağıtımı için kullanılır. Aşağıda tanımlanmıştır.
+   <p></p><p></p></li><li>
+<i>Geçici Anahtar 1 ve 2</i> (TK1/TK2 - Temporal Key 1 &amp; 2) şifreleme için kullanılır. TK1 ve TK2'nin kullanımı şifreleme türüne özeldir.
+     <p></p><p></p></li></ul></div>
+   </p><p>
+Ana Oturum Anahtarını göz atmak için <a href="../howto/8021x-howto-intro.html#8021x-howto-pkh" title="Şekil 3.4. Ana Oturum Anahtarı (PMK) Düzeni">Şekil 3.4</a>'e bakınız.
+   </p><p></p></div></li><li><div class="listitem">
+KEK ve 4 yönlü grup elşıkışması AS'den WN'ye <i>Grup Geçiş Anahtarı</i>nı (GTK) göndermek için kullanılır. GTK aynı Kimlik Kanıtlayıcıya bağlı tüm İstemciler (WN'ler) arasında paylaşılan bir anahtardır ve çoğa gönderimli iletişim akışını güvenli kılmak için kullanılır.
+   <p></p><p></p></div></li></ol></div>
+</p><p>
+  <div class="figure"><p><a name="8021x-howto-pkh"></a><b>Şekil 3.4. Ana Oturum Anahtarı (PMK) Düzeni</b></p><div class="mediaobject"><img src="images/8021x/8021X-KeyHierarchy.png" align="center" width="550"><div class="caption"><p>Ana Oturum Anahtarı Düzeni</p></div></div></div></p></div><div class="sect4"><div> <h5 class="title"><a name="8021x-howto-PSK"></a>Önpaylaşımlı Anahtar</h5></div><p>
+Küçük çalışma odaları / evdeki çalışma odaları, amaca-yönelik ağlar veya ev kullanımı için Önpaylaşımlı Anahtar (PSK - Pre-Shared Key) kullanılabilir. PSK kullanırken tüm 802.1X kimlik kanıtlama sürecinde birşeyler eksik olur. EAP (ve RADIUS) kullanan WPA'ya "Kurumsal WPA" veya sadece "WPA" dendiği gibi buna da "Kişisel WPA" (WPA-PSK) denmiştir.
+   </p><p>
+[<a href="http://www.ietf.org/rfc/rfc2898.txt" target="_top">RFC2898</a>]'den PBKDFv2 kullanılarak verilen bir paroladan 256 bitlik PSK üretilir ve yukarıdaki anahtar yönetim usulünde tanımlandığı gibi Ana Anahtar (MK) olarak kullanılır. Tüm ağ için tek bir PSK (emniyetsiz) veya her İstemciye bir PSK olabilir (daha emniyetli).
+   </p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="8021x-howto-WPA"></a>TSN (WPA) / RSN (WPA2)</h4></div></dt><dd><p>
+Endüstrinin 802.11i standartının tamamlanmasını bekleyecek kadar vakti yoktu. WEP sorunlarının hemen onarılmasını istediler. <a href="http://www.wi-fi.org/" target="_top">Wi-Fi Alliance</a> baskıyı hissetti, standardın (3. taslağa dayanan) "bir anlık görüntüsünü" aldı ve ona <i>Wi-Fi Korumalı Erişim</i> (WPA - Wi-Fi Protected Access) dedi. Tek gereksinim mevcut 802.11 ekipmanının WPA ile kullanılabilmesiydi, dolayısıyla WPA temelde TKIP + 802.1X'tir.
+     </p><p>
+WPA uzun vadeli çözüm değildir. <i>Çok Güvenli Ağ</i> (RSN - Robust Secure Network) elde etmek için donanım CCMP'yi desteklemeli ve kullanmalıdır. RSN temel olarak CCMP + 802.1X'tir.
+     </p><p>
+CCMP'nin yerine TKIP kullanan RSN'ye <i>Geçiş Güvenlik Ağı</i>'da(TSN - Transition Security Network) denir. RSN'ye WPA2 de denir, bu sayede piyasanın aklı karışmaz.
+     </p><p>
+Aklınız mı karıştı?
+     </p><p>
+Temel olarak:
+     </p><p>
+     <div class="itemizedlist"><ul type="disc"><li>TSN = TKIP + 802.1X = WPA(1)</li><li>RSN = CCMP + 802.1X = WPA2</li></ul></div>
+     </p><p>
+Önceki bölümde tanımlandığı gibi bunlar kendi anahtar yönetimleri ile gelir.
+     </p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-EAP"></a>EAP nedir?</h3></div></dt><dd><p>
+<i>Genişletilebilir Kimlik Kanıtlama Protokolü</i> (EAP - Extensible Authentication Protocol) [<a href="http://www.ietf.org/rfc/rfc3748.txt" target="_top">RFC 3748</a>] kimlik kanıtlama için sadece iyileştirilmiş bir iletim protokolüdür, kendisi bir kimlik kanıtlama yöntemi değildir:
+   </p><p><table border="0" width="100%" cellspacing="0" cellpadding="0" class="blockquote" summary="Block quote"><tr><td width="10%" valign="top"> </td><td width="80%" valign="top"><p>
+&#8592;EAP çoklu kimlik kanıtlama yöntemlerini destekleyen bir kimlik kanıtlama çalışma çerçevesidir. EAP tipik olarak Point-to-Point Protokol(PPP) veya IEEE 802 gibi doğrudan veri iletim katmanları üzerinde IP'ye ihtiyaç duymadan çalışır. EAP çift eleme ve tekrar iletim için kendi desteğini sağlar, ama daha düşük seviyeli garantilere güvenmek durumundadır. EAP'nin kendisinde serpiştirme desteklenmez; bununla birlikte, başka bazı EAP yöntemleri bunu destekleyebilir.&#8594;</p></td><td width="10%" valign="top"> </td></tr><tr><td colspan="2" align="right" valign="top">--<span class="attribution">RFC 3748, sayfa 3</span></td><td width="10%" valign="top"> </td></tr></table></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-auth"></a>EAP kimlik kanıtlama yöntemleri</h3></div></dt><dd><p>
+802.1X EAP kullanıyor olduğundan çok farklı kimlik kanıtlama planları eklenebilir; akıllı kartlar, Kerberos, açık anahtar, bir kerelik parolalar ve diğerleri dahil.
+    </p><p>
+En çok kullanılan EAP kimlik kanıtlama mekanizmalarından  bazıları aşağıda listelenmiştir. Kayıtlı EAP kimlik kanıtlama  türlerinin tam bir listesi IANA'da <a href="http://www.iana.org/assignments/eap-numbers" target="_top">http://www.iana.org/assignments/eap-numbers</a> adresinde mevcuttur:
+    </p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Tüm kimlik kanıtlama mekanizmalarının güvenli olduğu düşünülmez!
+    </p></td></tr></table></div></p><p>
+    <div class="itemizedlist"><ul type="disc"><li>
+<b>EAP-MD5:</b> MD5'li Kimlik Kanıtaması kullanıcı adı/parolaya gereksinim duyar ve PPP CHAP protokolünün [<a href="http://www.ietf.org/rfc/rfc1994.txt" target="_top">RFC1994</a>] eşdeğeridir. Bu yöntem sözlük saldırısı direnci, karşılıklı kimlik kanıtlama veya anahtar türetimi içermez ve telsiz kimlik kanıtlama ortamında az kullanılır.
+    <p></p><p></p></li><li>
+<b>Hafif EAP (LEAP):</b> Kimlik kanıtlama için Kimlik Kanıtlama Sunucusuna (RADIUS) bir kullanıcı adı/parola çifti gönderilir. Leap, Cisco tarafından geliştirilmiş müseccel bir protokoldür ve güvenli olduğu düşünülmez. Cisco LEAP'i PEAP niyetine sunmuştur. Yayınlanmış bir standarta en yakın şey <a href="http://lists.cistron.nl/pipermail/cistron-radius/2001-September/002042.html" target="_top">burada</a> bulunabilir.
+    <p></p><p></p></li><li>
+<b>EAP-TLS:</b> EAP ile İstemci ve Kimlik Kanıtlama Sunucusu arasında bir TLS oturumu oluşturur. Hem sunucu hem istemci(ler) geçerli bir sertifikaya (x509) ve bununla birlikte bir PKI'ya ihtiyaç duyar. bu yöntem her iki yönde kimlik kanıtlama sağlar. EAP-TLS <a href="http://www.ietf.org/rfc/rfc2716.txt" target="_top">RFC2716</a>]'da tanımlanmıştır.
+    <p></p><p></p></li><li>
+<b>EAP-TTLS:</b> Kimlik kanıtlama verisinin emniyetli iletimi için şifreli bir TLS tüneli kurar. TLS tünelinden diğer (herhangi) kimlik kanıtlama yöntemleri faydalanır. Funk Software ve Meetinghouse tarafından geliştirlmiştir ve şu an bir IETF taslağı halindedir.
+    <p></p><p></p></li><li>
+<b>Korumalı EAP (PEAP):</b> EAP-TTLS gibi şifreli bir TLS tüneli kullanır. Hem EAP-TTLS hem EAP-PEAP için istemci (WN) sertifikaları seçimliktir, ama sunucu (AS) sertifikaları gereklidir. Microsoft, Cisco ve RSA Security tarafından geliştirimiştir ve şu an bir IETF taslağıdır.
+    <p></p><p></p></li><li>
+<b>EAP-MSCHAPv2:</b> Kullanıcı adı/parolaya ihtiyaç duyar ve temel olarak MS-CHAP-v2'nin [<a href="http://www.ietf.org/rfc/rfc2759.txt" target="_top">RFC2759</a>] EAP kaplamalı olanıdır. Genellikle PEAP şifreli tünelde kullanılır. Microsoft tarafından geliştirilmiştir ve şu an bir IETF taslağıdır.
+ <p></p><p></p></li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="8021x-howto-AAA"></a>RADIUS nedir?</h3></div></dt><dd><p>
+Uzaktan Aramalı Kullanıcı Kimlik Kanıtlama Servisi (RADIUS - Remote Authentication Dial-In User Service) (ve arkadaşları) [<a href="http://www.ietf.org/rfc/rfc2865.txt" target="_top">RFC2865</a>]'te  tanımlanmıştır ve ilk olarak, kullanıcılar, ISS'nin ağını kullanmak için yetkilendirilmeden önce kullanıcı adı ve parola doğrulaması yapacak olan ISS'ler tarafından kullanılmıştır.
+    </p><p>
+802.1X ne çeşit bir arka-uç kimlik kanıtlama sunucusu olması gerektiğini belirtmez, ama RADIUS, 802.1X'te kullanılan fiili arka-uç kimlik kanıtlama sunucusudur.
+    </p><p>
+Mevcut birçok AAA (Authentication, Authorization, Accounting) protokolü yoktur, ama hem RADIUS hem DIAMETER [<a href="http://www.ietf.org/rfc/rfc3588.txt" target="_top">RFC3588</a>] (genişletmeler dahil) tam AAA desteği sağlarlar. AAA, Authentication (Kimlik Kanıtlama), Authorization (Yetkilendirme) ve Accounting (Hesap Yönetimi) kelimelerinin baş harflerinden oluşur (<a href="http://www.ietf.org/html.charters/aaa-charter.html" target="_top">IETF'nin AAA Çalışma Grubu</a>).
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/8021x-howto.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/8021x-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/8021x-howto-cert.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">802.1X Port Tabanlı Kimlik Kanıtlama NASIL </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sertifikaların Sağlanması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:00+03:00"><title>Dizgeler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-examples.html" title="Basit Örnekler"><link rel="next" href="../howto/ruby-ug-regex.html" title="Düzenli İfadeler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Dizgeler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-examples.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-regex.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-strings"></a>Dizgeler</h2></div></dt><dd><p>
+Ruby'de dizgelerle sayısal bir veriymiş gibi işlem yapabilirsiniz. Bir dizge çift ("...") ya da tek ('...') tırnaklı olabilir.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">"abc"</tt>
+  <tt class="empoutput">"abc"</tt>
+<tt>ruby&gt; </tt><tt class="empinput"> 'abc'</tt>
+  <tt class="empoutput">"abc"</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bazı durumlarda çift ve tek tırnak farklı işlevler görür. Çift tırnaklı bir dizge tersbölü öncelemeli karakterleri kullanmayı ve <b><tt>#{}</tt></b> kullanan gömülü ifadeleri çalıştırmayı mümkün kılar. Halbuki, tek tırnaklı dizgelerle bunlar yapılamaz: ne görürseniz onu alırsınız. Örneğin:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput"> print "a\nb\nc","\n"</tt>
+a
+b
+c
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">print 'a\nb\n',"\n"</tt>
+a\nb\nc
+  <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"\n"</tt>
+  <tt class="empoutput">"\n"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">'\n'</tt>
+  <tt class="empoutput">"\\n"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"\001"</tt>
+  <tt class="empoutput">"\001"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">'\001'</tt>
+  <tt class="empoutput">"\\001"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"abcd #{5*3} efg"</tt>
+  <tt class="empoutput">"abcd 15 efg"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">var = " abc "</tt>
+  <tt class="empoutput">" abc "</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"1234#{var}5678"</tt>
+  <tt class="empoutput">"1234 abc 5678"</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Ruby'nin dizge işlemleri C'ye kıyasla daha esnek ve şıktır.Örneğin <b><tt>+</tt></b> ile iki dizgeyi birleştirebilirsiniz ya da <b><tt>*</tt></b> ile bir dizgeyi birçok kez tekrar ettirebirsiniz:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">"foo" + "bar"</tt>
+   <tt class="empoutput">"foobar"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"foo" * 2</tt>
+   <tt class="empoutput">"foofoo"</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Dizgeleri birleştirme işi C'de, doğrudan bellek yönetimi nedeniyle oldukça yakışıksızdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">char *s = malloc(strlen(s1)+strlen(s2)+1);
+strcpy(s, s1);
+strcat(s, s2);
+/* ... */
+free(s);
+</pre> </td></tr></table></div>
+  </p><p>
+Ruby kullandığımız için dizgelere herhangi bir alan ayırmamıza gerek yok. Bellek yönetimi açısından tamamen özgürüz.
+  </p><p>
+Aşağıda dizgelerle yapabileceğiniz birkaç örnek var:
+  </p><div class="example"><p><b>Örnek 4.1. Birleştirme</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">word = "fo" + "o"</tt>
+  <tt class="empoutput">"foo"</tt>
+</pre> </td></tr></table></div>
+   </p></div><div class="example"><p><b>Örnek 4.2. Tekrarlatma</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">word = word * 2</tt>
+  <tt class="empoutput">"foofoo"</tt>
+</pre> </td></tr></table></div>
+  </p></div><div class="example"><p><b>Örnek 4.3. Karakterler seçimi</b></p><p>
+Ruby'de karakterlerin tamsayı olduğuna dikkat edelim:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">word[0]</tt>
+  <tt class="empoutput">102</tt>            # 102, `f' harfinin ASCII kodudur.
+<tt>ruby&gt; </tt><tt class="empinput">word[-1]</tt>
+  <tt class="empoutput">111</tt>            # 111 `o' harfinin ASCII kodudur.
+</pre> </td></tr></table></div>
+  </p><p>
+(Negatif indisler dizgenin başlangıcı yerine sonundan itibaren konumlanır.)
+  </p></div><div class="example"><p><b>Örnek 4.4. Altdizge seçimi</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">herb = "parsley"</tt>
+  <tt class="empoutput">"parsley"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">herb[0,1]</tt>
+  <tt class="empoutput">"p"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">herb[-2,2]</tt>
+  <tt class="empoutput">"ey"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">herb[0..3]</tt>
+  <tt class="empoutput">"pars"</tt>
+<tt>ruby&gt; </tt><tt class="empinput">herb[-5..-2]</tt>
+  <tt class="empoutput">"rsle"</tt>
+</pre> </td></tr></table></div>
+  </p></div><div class="example"><p><b>Örnek 4.5. Aynılığın sınanması</b></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt><tt class="empinput">"foo" == "foo"</tt>
+  <tt class="empoutput">true</tt>
+<tt>ruby&gt; </tt><tt class="empinput">"foo" == "bar"</tt>
+  <tt class="empoutput">false</tt>
+</pre> </td></tr></table></div>
+</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>ruby-1.0 sürümünde yukarıdaki sonuçlar büyük harflidir (TRUE gibi).</p></td></tr></table></div></div><p>
+Şimdi bu özelliklerin bazılarını hayata geçirelim: Bulmacamız bir "kelimeyi bil" bulmacası ama sanırım "bulmaca" kelimesi fazla mütevazi oldu <b><tt>;)</tt></b>
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># guess.rb olarak kaydedin
+words = ['kestane', 'gurgen', 'palamut']
+secret = words[rand(3)]
+
+print "tahmin et? "
+while guess = STDIN.gets
+  guess.chop!
+  if guess == secret
+    print "Bildin!\n"
+    break
+  else
+    print "Üzgünüm kaybettin.\n"
+  end
+  print "tahmin et? "
+end
+print "Kelime ", secret, ".\n"
+</pre> </td></tr></table></div>
+  </p><p>
+Şimdilik kodun ayrıntıları hakkında fazla kafa yormayalım. Aşağıda yazılımın nasıl çalışması gerektiği görülüyor:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>ruby guess.rb</tt></b>
+tahmin et? kestane
+Üzgünüm kaybettin.
+tahmin et? gurgen
+Üzgünüm kaybettin.
+tahmin et? ^D
+Kelime palamut.
+</pre> </td></tr></table></div>
+  </p><p>(1/3 olasılığa karşı biraz daha iyi yapmalıydım...)
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-examples.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-regex.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Basit Örnekler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Düzenli İfadeler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

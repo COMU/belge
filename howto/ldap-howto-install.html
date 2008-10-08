@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-26T10:50:41+03:00"><title>OpenLDAP Kurulumu ve Yapılandırması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ldap-howto.html" title="LDAP ile Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/ldap-howto-intro.html" title="LDAP Hakkında"><link rel="next" href="../howto/ldap-howto-auth.html" title="Sistem Servislerinde Kimlik Kanıtlama"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">OpenLDAP Kurulumu ve Yapılandırması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ldap-howto-intro.html">Önceki</a> </td><th width="60%" align="center">LDAP ile Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ldap-howto-auth.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ldap-howto-install"></a>OpenLDAP Kurulumu ve Yapılandırması</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-howto-installation"></a>Kurulum</h3></div></dt><dd><p>OpenLDAP bir çok Linux dağıtımının deposunda bulunabilir ve kolayca kurulur. Kaynak koddan kurulum yapmak da mümkündür. Buradaki kurulum Debian GNU/Linux 4.0 r1 "Etch" stable sürüm içindir. 
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">apt-get install slapd ldap-utils</pre> </td></tr></table></div></p><p>Bu komutla debian deposundaki OpenLDAP sunucu programını kurulumunu yapıyoruz ve istemci için gerekli programları (ldapsearch, ldapadd, vb.) kurmuş oluyoruz. Admin parolasını girdikten sonra kurulum tamamlanıyor.</p><p>OpenLDAP paketi krulduktan sonra ilk olarak <tt>/etc/ldap/slapd.conf</tt> dosyasını düzenlemek ve bir kök girdi (base entry) oluşturmak gerekir.
+	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">#vi /etc/ldap/slapd.conf
+# Schema and objectClass definitions
+include         /etc/ldap/schema/core.schema
+include         /etc/ldap/schema/cosine.schema
+include         /etc/ldap/schema/nis.schema
+include         /etc/ldap/schema/inetorgperson.schema
+database bdb
+suffix "dc=comu,dc=edu,dc=tr"
+rootdn "cn=manager,dc=comu,dc=edu,dc=tr"
+rootpw {SSHA}XyZmHH1RlnSVXTj87UvxOAOCZA8oxNCT
+directory /usr/local/var/openldap-data</pre> </td></tr></table></div></p><p>Burada sırasıyla veritabanı türünü, kuruluşumuza uygun sonek yapısını, yetkili kullanıcının ismini ve parolasını, son olarak da verilerin tutulacağı yolu belirtiyoruz. Parolayı düz metin olarak tutabileceğimiz gibi <b><tt>slappasswd</tt></b> komutuyla şifrelenmiş olarak üretebiliriz. Eğer gerekiyorsa şemayı da buraya ekliyoruz.</p><p>Sırada kök girdi oluşturulması var. 
+	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># vi base.ldif
+dn: dc=nodomain
+objectclass: dcObject
+objectclass: organization
+o: COMU
+dc: comu.edu.tr
+	
+dn: cn=admin,dc=comu,dc=edu,dc=tr
+objectclass: organizationalRole
+cn: admin
+#ldapadd -x -D "cn=admin,dc=comu,dc=edu,dc=tr" -W -f base.ldif</pre> </td></tr></table></div></p><p>Burada önce içinde kök girdi bilgileri olan bir ldif dosyası yaratıyoruz. Sonra <b><tt>ldapadd</tt></b> komutuyla bunu sunucumuza ekliyoruz. -D parametresi ile bir kullanı ile (burada admin, yani en yetkili kullanıcı) işlemi yapacağımızı, -W ile parola gireceğimizi, -x ile parola şifrelemesini (burayı düzeltelim) belirtmiş oluyoruz. İşlemler sonucunda herhangi bir hata almadıysak temel kurulum tamamlanmış demektir. ldif dosyasında fazladan bırakılacak boşluklar ve ldapadd parametrelerinin yanlış girilmesi hataya sebep olacaktır. Eğer hata alındıysa <a href="http://www.openldap.org/doc/admin24/appendix-common-errors.html" target="_top">http://www.openldap.org/doc/admin24/appendix-common-errors.html</a> adresinden hatanın sebebini öğrenmek faydalı olacaktır.</p><p>Kurulumu <b><tt>ldapsearch</tt></b> komutuyla test edebiliriz:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ldapsearch -x -b 'dc=comu,dc=edu,dc=tr' '(objectclass=*)'
+
+# extended LDIF
+#
+# LDAPv3
+# base with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# nodomain
+dn: dc=comu,dc=edu,dc=tr
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: COMU
+dc: nodomain
+
+# admin, nodomain
+dn: cn=manager,dc=comu,dc=edu,dc=tr
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-howto-conf"></a>LDAP erişim yetkilerinin yapılandırılması</h3></div></dt><dd><p>
+	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">access to attrs=userPassword,shadowLastChange
+by dn="manager,dc=comu,dc=edu,dc=tr" write // bu kullanıcı herkesin userPassword,shadowLastChange'e yazma hakkına sahiptir.
+by anonymous auth	//anonim kullanıcı sadece kanıtlama yapabilir
+by self write		//herkes kendi userPassword,shadowLastChange değiştirme hakkına sahiptir.
+by * none		// ve bunlar dışındaki herkes hiçbirşey yapamaz (geriye kim kaldı bende bilmiyorum.)</pre> </td></tr></table></div>
+Burada kullanıcı izinlerini düzenleyebiliriz. Yapılandırma işimiz bitti.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ldap-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ldap-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ldap-howto-auth.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">LDAP Hakkında </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sistem Servislerinde Kimlik Kanıtlama</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

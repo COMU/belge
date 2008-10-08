@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:12+03:00"><title>RTLinux'a Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/RTLinux-install-howto.html" title="RTLinux Kurulumu NASIL"><link rel="previous" href="../howto/RTLinux-install-howto.html" title="RTLinux Kurulumu NASIL"><link rel="next" href="../howto/RTLinux-install-howto-upandrun.html" title="Hazır ve Çalışan RTLinux"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">RTLinux'a Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/RTLinux-install-howto.html">Önceki</a> </td><th width="60%" align="center">RTLinux Kurulumu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/RTLinux-install-howto-upandrun.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="RTLinux-install-howto-intro"></a>RTLinux'a Giriş</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="RTLinux-install-howto-background"></a>RTLinux Nedir?</h3></div></dt><dd><p>
+RTLinux benzersiz patentli iki parçalı çekirdek teknolojisine sahip bir katı-gerçek zamanlı Linux genişletmesidir. Küçük bir RTLinux çekirdeği özgün Linux çekirdeğini kendisinin bir süreci gibi çalıştırır. Bu, uygulamaların iki farklı çekirdek seviyesinde çalıştırılabilmesinin kapılarını açar: gerçek zamanlı RTLinux çekirdeği ve alışılmış gerçek zamanlı olmayan Linux çekirdeği. Özgün Linux çekirdeğinin donanımı RTLinux çekirdeği aracılığı ile görmesi RTLinux'un donanım kaynakları üzerinde tam yetkili olmasına izin verir.
+  </p><p>
+<pre class="literallayout">
+             --------------------
+             I                  I
+             I     donanım      I
+             I                  I
+             --------------------
+                         ^
+             ------------I-------
+             I                  I
+             I     RTLinux      I
+             I     çekirdeği    I
+             I                  I
+             --------------------
+                ^           ^
+----------------I--      ---I---------------
+I                 I      I                 I
+I gerçek zamanlı  I      I     Linux       I
+I    süreçler     I      I     çekirdeği   I
+I                 I      I                 I
+-------------------      -------------------
+                            ^
+                         ---I----------------
+                         I                  I
+                         I gerçek zamanlı   I
+                         I olmayan süreçler I
+                         I                  I
+                         --------------------
+</pre>
+</p><p>
+RTLinux'un iki farklı sürümü bulunmaktadır: RTLinux/Free (RTLinux/Open olarak da bilinmektedir) ve RTLinux/Pro. RTLinux/Pro; FSMLabs tarafından geliştirilen tamamen ticari gerçek zamanlı bir Linux'tur. RTLinux/Free ise gönüllüler tarafından geliştirilen açık-kodlu bir sürümdür.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="RTLinux-install-howto-process"></a>Yöntem</h3></div></dt><dd><p>
+RTLinux'un derlenmesi ve kurulması süreci aşağıdaki temel adımlardan oluşur:
+    </p><p>
+<div class="itemizedlist"><ul type="disc"><li>RTLinux'un indirilmesi</li><li>Çekirdeğiniz için uygun yamanın bulunması</li><li>Özgün (temiz) Linux çekirdeğinin indirilmesi</li><li>Çekirdek kaynak koduna yama uygulanması</li><li>Çekirdeğin yapılandırılması ve derlenmesi</li><li>Bilgisayarın RTLinux'a uygun Linux çekirdeği ile yeniden başlatılması</li><li>RTLinux çekirdeğinin ve modüllerinin derlenmesi, kurulması ve test edilmesi</li><li>RTLinux çekirdeği ve modüllerinin başlatılması</li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="RTLinux-install-howto-download"></a>RTLinux'u Edinmek</h3></div></dt><dd><p>RTLinux'un son resmi sürümünü FSMLabs sitesinden indirebilirsiniz: <a class="ulink" href="http://www.fsmlabs.com" target="_top">http://www.fsmlabs.com</a>.
+</p><p>
+Çekirdek yamalarını aşağıdaki adresten indirebilirsiniz:
+</p><p>
+<a class="ulink" href="ftp://ftp.rtlinux.at/pub/rtlinux/contrib/hofrat" target="_top">ftp://ftp.rtlinux.at/pub/rtlinux/contrib/hofrat</a>
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/RTLinux-install-howto.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/RTLinux-install-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/RTLinux-install-howto-upandrun.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">RTLinux Kurulumu NASIL </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Hazır ve Çalışan RTLinux</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

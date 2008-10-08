@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:52+03:00"><title>Takas Alanını Ayarlamak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/partition-howto.html" title="Linux Disk Bölümleme NASIL"><link rel="previous" href="../howto/partition-howto-recovering.html" title="Silinmiş bir Disk Bölümünü Kurtarmak"><link rel="next" href="../howto/partition-howto-appendix.html" title="Son Söz"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Takas Alanını Ayarlamak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/partition-howto-recovering.html">Önceki</a> </td><th width="60%" align="center">Linux Disk Bölümleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/partition-howto-appendix.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="partition-howto-setting_up_swap"></a>Takas Alanını Ayarlamak</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="partition-howto-swap_partitions"></a>Takas Dosyaları</h3></div></dt><dd><p>
+Bir takas alanı oluşturmanın, ayarlamanın ve bunu /etc/fstab dosyasına eklemenin iki adımı vardır. /dev/hda6 olarak ayarlanmış bir takas alanının fstab dosyasındaki görüntüsü şu şekildedir:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/dev/hda6       swap    swap    defaults        0       0
+</pre> </td></tr></table></div>
+    </p><p>
+Sistemi yeniden başlattığınızda yazılan bu takas alanı otomatik olarak etkin olacaktır.
+    </p><p>
+Fakat, takas alanını hemen kullanmak isterseniz bunu elle yapmalısınız. root olarak şunları yazın:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+<b><tt>mkswap</tt></b> -f /dev/hda6
+<b><tt>swapon</tt></b> /dev/hda6
+</pre> </td></tr></table></div>
+        </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="partition-howto-swapfiles"></a>Takas Dosyaları</h3></div></dt><dd><p>
+Takas alanının yetersiz kaldığı durumlar olabilir, böylesi durumlarda yeniden disk bölümlendirmek ya da yeni bir tane eklemek pek pratik değildir. Tek yapmanız gereken istediğiniz büyüklükte bir dosya oluşturmak
+    </p><p>
+<b><tt>dd</tt></b><tt> if=/dev/zero of=/var/my_swap bs=1024 count=131072</tt>
+    </p><p>ve etkin kılmaktır
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+<b><tt>mkswap</tt></b> -f /var/my_swap
+<b><tt>swapon</tt></b> /var/my_swap
+</pre> </td></tr></table></div>
+    </p><p>
+Bu şekilde <tt>/var</tt> altında <tt>my_swap</tt> isimli bir dosya oluşturulur. Boyutu başlangıçta 128 Mb'tir (128 x 1024 = 131072). İlklendirme sırasında sıfırlar ile doldurulur. <b><tt>mkswap</tt></b> bu dosyayı takas alanı kullanılması için işaretler ve <b><tt>swapon</tt></b> da çekirdeğin bunu takas alanı olarak kallanmaya başlamasını söyler. İşiniz bittikten sonra,
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+<b><tt>swapoff</tt></b> /var/my_swap
+<b><tt>rm</tt></b> /var/my_swap
+</pre> </td></tr></table></div>
+    </p><p>
+komutlarını çalıştırır.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="partition-howto-multiple_swap_areas"></a>Çoklu Takas Alanları</h3></div></dt><dd><p>
+Tek bir sistem üzerinde birden fazla takas alanı kullanılabilir. Tek bir takas alanının olduğu bir fstab örneğine bakalım:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/dev/hda5   /        ext3   defaults        1   1
+/dev/hda1   /boot    ext2   defaults        1   2
+none        /dev/pts devpts gid=5,mode=620  0   0
+none        /proc    proc   defaults        0   0
+/dev/hda7   /usr     ext3   defaults        1   2
+/dev/hda6   swap     swap   defaults        0   0
+</pre> </td></tr></table></div>
+    </p><p>
+Takas alanı girdileri şu şekilde değiştirdiğimiz düşünelim:
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/dev/hda6   none    swap    sw,pri=3    0       0
+/dev/hdb2   none    swap    sw,pri=2    0       0
+/dev/hdc2   none    swap    sw,pri=1    0       0
+</pre> </td></tr></table></div>
+    </p><p>
+Bu ayarlama ile en yüksek önceliğe sahip olan (pri=3) /dev/hda6 çekirdek tarafından ilk olarak kullanılacaktır. En yüksek öncelik değeri 32767 en düşüğü ise 0'dır. Eğer ilk kullanılan yetersiz kalırsa sırasıyla önce /dev/hdb2 ve sonra da /dev/hdc2 kullanılacaktır. En yeni (en hızlı) sürücülere en büyük öncelik değerinin verildiğini düşünün. Bu durum takas alanının aşırı kullanımında hız kaybını en aza indirir.
+    </p><p>
+Her üç bölüme de aynı anda yazmak mümkündür. Çekirdek bir RAID aygıta yazar gibi her disk bölümüne aynı anda yazacaktır.
+    </p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+/dev/hda6   none   swap   sw,pri=3   0   0
+/dev/hdb2   none   swap   sw,pri=3   0   0
+/dev/hdc2   none   swap   sw,pri=3   0   0
+</pre> </td></tr></table></div>
+    </p><p>
+Bu disk bölümlerinin farklı sürücülerde olduğunu ve bunun da hız artışı için yapıldığını düşünebilirsiniz.
+    </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/partition-howto-recovering.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/partition-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/partition-howto-appendix.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Silinmiş bir Disk Bölümünü Kurtarmak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Son Söz</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

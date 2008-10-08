@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:30+03:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/apache-compile-howto.html" title="Apache Derleme NASIL"><link rel="previous" href="../howto/apache-compile-howto.html" title="Apache Derleme NASIL"><link rel="next" href="../howto/apache-compile-howto-prereqs.html" title="Ön Gereksinimler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/apache-compile-howto.html">Önceki</a> </td><th width="60%" align="center">Apache Derleme NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/apache-compile-howto-prereqs.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="apache-compile-howto-intro"></a>Giriş</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id1"></a>Katkıda Bulunanlar ve İrtibat</h3></div></dt><dd><p>
+İlk olarak bu belgenin daha iyi hazırlanmasını mümkün kılan soru ve önerilerini gönderen tüm herkese teşekkür ederim. Bu, bana, bilgiyi paylaşmanın doğru yol olduğunu gösteriyor. Bana önerilerinizi göndermek için <span class="email">&lt;luc (at) delouw.ch&gt;</span> adresine e-posta atmanız yeterli.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id2"></a>Bu belgeyi yazma nedenim</h3></div></dt><dd><p>
+Denedigim tüm Linux dağıtımları Apache'nin sıradan varsayılan kurulumuna sahipti. Buna ek olarak, yaygın dağıtımların hepsi Apache'nin güncel sürümlerine sahip değil.
+      </p><p>
+Çoğu ticari Unix ürünleri Apache kurulumsuz dağıtılıyor veya acayip bir kurulum kullanıyor.
+      </p><p>
+Farklı Unix'ler üzerine birçok özelleştirilmiş web sunucusu kurduğumdan bir metin belgesi yazdım ve websiteme koydum, bu sayede iş yerinden de erişebiliyorum. Sonraları, bir arkadaş adresi bir haberleşme listesine atmış ve ilk sorular gelmeye başladı.Bundan dolayı sayfaya daha fazla bilgi koymaya karar verdim.
+      </p><p>
+Birçok kişi belgeyi SGML'de yazılmış »resmi« NASIL olarak talep edince, ben de hazırlamaya karar verdim.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id3"></a>Bu belgenin amacı</h3></div></dt><dd><p>
+Aşağıda tanımlanan öğelerin hepsini derlemek kimsenin ezberleyemeyeceği birçok yapılandırma seçeneğine gereksinim duyar. Bu belgenin Apache ve beraberindekileri derlemek için kopyala-yapıştıra hazır bir metin olması amaçlanmıştır.
+      </p><p>
+Ayrıca, insanlar kendi kendilerine herhangi bir Linux dağıtıcısından bağımsız olarak tüm özellikleriyle Apache web sunucusunun nasıl kurulacağını öğrenmeliler.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id4"></a>Bu belgenin sizin için ne yapmaz</h3></div></dt><dd><p>
+Bu sadece bir Belgedir, sizin için işi yapan bir betik değildir. Tüm adımları kendinize göre uyarlamalısınız.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id5"></a>Platformlar</h3></div></dt><dd><p>
+Belgenin aslı, tüm başlıca Unix platformları içindi. Ama artık NASIL'lar herbir platform için ayrıldı. Aynı belgenin şu platformlar için uyarlanmış hallerini bulabilirsiniz:
+      </p><p><div class="itemizedlist"><ul type="disc"><li>Linux (Bu Belge)<p></p><p></p></li><li>IBM AIX 4.3 ve 5.1L<p></p><p></p></li><li>Sun Solaris 6/7/8<p></p><p></p></li><li>Hewlett-Packard HP-UX 11<p></p><p></p></li><li>{Free|Net|Open}-BSD<p></p><p></p></li></ul></div></p><p>
+IBM S/390 (zSeries) üzerinde Linux çalıştıran kullanıcılar için Önemli Not: PostgreSQL ve Jserv bu sistem üzerinde derlenmeyecek. NASIL'da bahsedilen diğer tüm programlar ve modüller kusursuz çalışıyor.
+      </p><p>
+Diğer Unix platformları: Unix platformunuzda bana bir misafir-hesap oluşturabilirsiniz, bu sayede farklara bakabilirim.
+      </p><p>
+Windows-Kullanıcıları: Üzgünüm, kalp krizi için daha çok gencim, Makinenizi »gerçek« bir işletim sistemine güncellemeniz gerekecek. ;-)
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apache-compile-howto-copyright"></a>Telif Hakkı Bilgisi</h3></div></dt><dd><p>
+Bu belgenin ingilizce orjinalinin telif hakkı © 2000, 2001, 2002, 2003 Luc de Louw'a, türkçe çevirisinin telif hakkı © 2005 Davut Akçiçek ve Olcay Kabal'a aittir ve aşağıda belirtilen Linux Belgelendirme Projesi lisansı koşulları altında dağıtılabilir.
+   </p><p>
+Aksi belirtilmedikçe Linux NASIL belgelerinin telif hakları yazarlarına aittir. Linux NASIL belgelerinin tamamı veya bir kısmı, fiziksel veya elektronik herhangi bir ortamda tüm kopyalar üzerinde bu telif hakkı uyarısı bulunduğu müddetçe çoğaltılabilir veya dağıtılabilir. Ticari dağıtıma izin verilir ve teşvik edilir; bununla birlikte yazar, bu tür dağıtımlardan haberdar edilmelidir.
+   </p><p>
+Herhangi bir Linux NASIL belgesiyle ilişkili bütün dönüşümler, türemiş işler veya toplu işler bu telif hakkı uyarısı ile sunulmalıdır. Yoksa, bu NASIL'dan türemiş bir iş oluşturamazsınız ve onun dağıtımı üzerine ek kısıtlamalar ilave edemezsiniz. Bu kuralların istisnaları belirli durumlar altında kabul görebilir; aşağıda verilen adresten Linux NASIL koordinatörü ile iletişim kurabilirsiniz.
+   </p><p>
+Kısacası, bu bilginin mümkün olduğu kadar çok kanaldan yayılarak gelişmesini istiyoruz. Bununla birlikte NASIL belgeleri üzerindeki telif hakkını yitirmemek arzusundayız ve NASIL'ların tekrar dağıtılması ile ilgili herhangi bir plandan haberdar olmak istiyoruz.
+   </p><p>
+Eğer herhangi bir sorunuz varsa lütfen iletiniz: <span class="email">&lt;linux-howto (at) metalab.unc.edu&gt;</span>
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apache-compile-howto-disclaimer"></a>Feragatname</h3></div></dt><dd><p>
+Bu belgenin içeriği için sorumluluk kabul edilmez. Kavramları, örnekleri ve diğer içeriği zarar olasılığını göze alıyor iseniz kullanınız. Bu, belgenin yeni bir düzenlemesi olduğu için hatalar veya yanlışlıklar olabilir ki bunlar sisteminize zarar.verebilir. Uyarıyı dikkate alınız, yazar(lar) ve dağıtıcılar bunun için herhangi bir sorumluluk altında değildir.
+   </p><p>
+Bütün telif hakları aksi özel olarak belirtilmedikçe sahiplerine aittir. Belge içinde geçen herhangi bir terim, bir ticarî isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+   </p><p>
+Ana kurulumdan önce ve düzenli aralıklarla sistemin yedeğini almanız şiddetle tavsiye edilir.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apache-compile-howto-newversions"></a>Yeni Sürümler</h3></div></dt><dd><p>
+Bu 15. Düzenleme.
+   </p><p>
+Bu belgenin yeni düzenlemeleri <a class="ulink" href="http://freshmeat.net/projects/apache-compile-howto/?topic_id=905" target="_top">http://freshmeat.net/projects/apache-compile-howto/?topic_id=905</a> adresinde duyurulacak.
+    </p><p>
+Bu belgenin en son sürümü <a class="ulink" href="http://www.delouw.ch/linux" target="_top">http://www.delouw.ch/linux</a> adresinde bulunmaktadır.
+   </p><p><div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.delouw.ch/linux/Apache-Compile-HOWTO/html/index.html" target="_top">HTML</a>.
+    </li><li><a class="ulink" href="http://www.delouw.ch/linux/Apache-Compile-HOWTO/Apache-Compile-HOWTO.ps" target="_top">Postscript (ISO A4 biçimi)</a>.
+    </li><li><a class="ulink" href="" target="_top">Acrobat PDF</a>.
+    </li><li><a class="ulink" href="" target="_top">SGML Source</a>.
+    </li><li><a class="ulink" href="http://www.delouw.ch/linux/Apache-Compile-HOWTO/Apache-Compile-HOWTO.html.tar.gz" target="_top">HTML gzipli tar paketi</a>.
+    </li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apache-compile-howto-credits"></a>Teşekkür</h3></div></dt><dd><p>
+<span class="email">&lt;discuss (at) linuxdoc.org&gt;</span>'daki bütün güzel insanlara NASIL'ları yazarken beni destekledikleri için teşekkür ederim.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apache-compile-howto-feedback"></a>Geribesleme</h3></div></dt><dd><p>
+Bu belge için geri beslemeler gelmeli. Sizlerin desteği ve katkıları olmaksızın bu belge var olamaz. Lütfen eklemelerinizi, yorumlarınızı ve eleştirilerinizi aşağıdaki adrese gönderiniz: <span class="email">&lt;luc (at) delouw.ch&gt;</span>.
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="apache-compile-howto-translations"></a>Çeviriler</h3></div></dt><dd><p>
+Şu an aşağıdaki dillerde çeviriler mevcut:
+   </p><p><div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.delouw.ch/linux/DE-Apache-Compile-HOWTO/html/index.html" target="_top">Almanca</a></li><li><a class="ulink" href="http://www.delouw.ch/linux/FR-Apache-Compile-HOWTO/html/index.html" target="_top">Fransızca</a></li></ul></div>
+   </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="id12"></a>Yazar Hakkında</h3></div></dt><dd><p>
+Luc (İngilizcede Luke) 29 yaşında, 20 yıldır bilgisayarlarla ilgileniyor. Şu an Kloten (Zürih), İsviçre'de bir BT şirketinde Unix sistem mühendisi olarak çalışıyor. Uzmanlık alanı, yeni sistemlerin Linux (ve diğer Un*x'ler) üzerinde çalışabilir türevlerini geliştirmek. Tüm yaygın Un*x platformlarında "imkansız" gibi görünen bütün işler onun masasında biter. (garip ama o bunu seviyor!)
+      </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/apache-compile-howto.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/apache-compile-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/apache-compile-howto-prereqs.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Apache Derleme NASIL </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Ön Gereksinimler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

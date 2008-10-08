@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>İstisna işlemleri: ensure</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="rescue.html">
+ <img border=0 src="a2l.gif" alt="İstisna işlemleri: rescue"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="erisgecler.html">
+ <img border=0 src="a2r.gif" alt="Erişgeçler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">İstisna işlemleri: ensure</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Bazen bir metot işini bitirdikten sonra temizlik yapılması gerekebilir. Örneğin açılmış olan bir dosyanın kapatılması ya da bir veri için ayrılan bellek gözünün boşaltılması gerekebilir. Eğer her metot için her zaman tek bir çıkış noktası olsaydı temizleme kodumuzu tek bir yere koyardık ve çalıştırılacağından emin olurduk. Ancak metot bir çok yere geri dönebilir ve temizlik kodumuz beklenmeyen istisnalardan dolayı atlanabilir.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yaziliyor...
+  file.close
+end</font></pre></td></tr></table>
+<p>Ayrıca eğer kodun dosyaya yazdığımız kısmında bir istisna meydana gelirse o zaman dosya açık bırakılabilir. Ve böyle bir fazlalığa gitmek istemeyiz:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yazdiriliyor ...
+  file.close
+rescue
+  file.close
+  fail # istisna yakalaniyor
+end</font></pre></td></tr></table>
+<p>Bu hantal bir yöntemdir; her <code>return</code> ve <code>break</code> ile ilgilenmek zorunda kaldığımız için işler çığrından çıkar.</p>
+<p>Bu yüzden "<code>begin...rescue...end</code>" şemasına <code>ensure</code> adında başka bir anahtar kelime daha ekleriz.<code> ensure</code> kodu begin kodunun başarılı olup olmadığına bakmaksızın çalıştırılır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yaziliyor ...
+rescue
+  # ... istisnalar yakalaniyor ...
+ensure
+  file.close   # ....her zaman yapilmasi gerekir
+end</font></pre></td></tr></table>
+<p><code>ensure</code> kodunu <code>rescue</code> olmadan da kullanmak mümkündür ya da tam tersi; ancak aynı <code> begin...end</code>  bloğunda birlikte kullanılıyorlarsa <code>rescue</code>, <code>ensure</code>'dan önce gelmelidir.</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="rescue.html">
+ <img border=0 src="a2l.gif" alt="İstisna işlemleri: rescue"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="Erişgeçler.html">
+ <img border=0 src="a2r.gif" alt="Erişgeçler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

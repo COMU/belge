@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:22+03:00"><title>Curses Kipini Geçici Olarak Terk Etmek</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-misc.html" title="Çeşitli Özellikler"><link rel="previous" href="../howto/ncurses-howto-cursset.html" title="curs_set()"><link rel="next" href="../howto/ncurses-howto-acsvars.html" title="ACS_ değişkenleri"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Curses Kipini Geçici Olarak Terk Etmek</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-cursset.html">Önceki</a> </td><th width="60%" align="center">Çeşitli Özellikler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-acsvars.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-templeave"></a>Curses Kipini Geçici Olarak Terk Etmek</h3></div></dt><dd><p>
+Bazen ilk işlemleri gerçekleştirdiğiniz kipe (satır tamponlu kip) geçici bir süre için geri dönmek isteyebilirsiniz. Böylesi bir durumda ilk olarak tty kiplerini <b><tt>def_prog_mode()</tt></b> çağrısı ile kaydetmeniz ve curses kipini sonlandırmak için <b><tt>endwin()</tt></b> işlevini kullanmanız gerekmektedir. Bu sizi asıl tty kipine gönderecektir. İşiniz bitip tty kipine dönmek için <b><tt>reset_prog_mode()</tt></b> işlevini çağırın. Bu işlev tty kipini <b><tt>def_prog_mode()</tt></b> ile kaydedilmiş kipe dönüştürür. Daha sonra <tt>refresh()</tt>'i kullanın ve işte yine curses kipindesiniz. Aşağıda yapılan işlemlerin sırasını gösteren bir örnek bulunmaktadır.
+</p><div class="example"><p><a name="ncurses-howto-btele"></a><b>Örnek 5.17. Geçici Olarak Curses Kipini Terk Etmek</b></p><p>
+<div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
+#include &lt;ncurses.h&gt;
+
+int main()
+{
+  initscr();                        /* Curses kipi başlangıcı */
+  printw("Merhaba Dünya !!!\n");    /* Ekrana Merhaba Dünya yaz */
+  refresh();                        /* Gerçek ekranda bunu yaz */
+  def_prog_mode();                  /* tty kiplerini kaydet */
+  endwin();                         /* Curses kipini geçici olarak sonlandır */
+  system("/bin/sh");                /* Kabukta ne yapmak istiyorsanız yapın */
+  reset_prog_mode();                /* Bir önceki tty kipine dönüş */
+  refresh();                        /* Ekran içeriğini geri yükleyelim */
+  printw("Tekrar Merhaba\n");       /* Curses'a döndük mü bakalım */
+  refresh();                        /* Ekranı tampondan tazeleyelim */
+  endwin();                         /* Curses kipinin sonu */
+
+  return 0;
+}
+</pre> </td></tr></table></div></p></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-cursset.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-misc.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-acsvars.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">curs_set() </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> ACS_ değişkenleri</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

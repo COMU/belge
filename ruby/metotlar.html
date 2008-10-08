@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Metotlar</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ny_dusunce.html">
+ <img border=0 src="a2l.gif" alt="Nesneye yönelik düşünme"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="siniflar.html">
+ <img border=0 src="a2r.gif" alt="Sınıflar"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Metotlar</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p><em>Metot</em> nedir? Nesneye yönelik programlamada, nesnenin dışından direkt veri üzerinde işlem yapmak yerine (<em>eğer nazikçe böyle yapmalarını söylerseniz</em>) nesnelerin kendilerini nasıl çalıştıracakları hakkında bilgiye sahip olması tercih edilir. Nesnelere mesajlar gönderdiğimizi ve bunların genelde bir olay tarafından gerçekleştirildiğini ya da anlamlı bir cevapla karşılandığını söyleyebilirsiniz. Bu muhtemelen bizim özellikle bilmemizi gerektiren ya da nesennin kendi içinde nasıl çalıştığına dikkat etmemizi gerektirmeyen bir olaydır. Bir nesneye gerçekleştirmesi için (ya da anlayacağı mesahlar göndermemiz için) izinli olduğumuz görevlere,  nesnenin metotları  denir.</p>
+<p> Ruby'de bir nesenin metodunu nokta notasyonuyla çağırırız (C++ ya da Java'da olduğu gibi).</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "abcdef".length</b></font>
+<font color="#50ffff"><b>   6</b></font></font></pre></td></tr></table>
+<p>Muhtemelen bu string'in  uzunluğunun ne kadar olduğu soruluyor. Teknik olarak,<code>"abcdef"</code> nesnesi için <code>length</code> metodunu çağırıyoruz.</p>
+<p>
+Diğer nesnelerin <code>length</code> metodu için biraz farklılıkları olabilir, ya da hiç olmayabilir de. Mesajlara nasıl cevap verileceği kararı programın çalıştırılması sırasında verilir, ve hangi nesnenin başvurduğuna bağlı olarak olay değişebilir.
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> foo = "abc"</b></font>
+<font color="#50ffff"><b>   "abc"</b></font>
+ruby&gt;<font color="#ffff00"><b> foo.length</b></font>
+<font color="#50ffff"><b>   3</b></font>
+ruby&gt;<font color="#ffff00"><b> foo = ["abcde", "fghij"]</b></font>
+<font color="#50ffff"><b>   ["abcde", "fghij"]</b></font>
+ruby&gt;<font color="#ffff00"><b> foo.length</b></font>
+<font color="#50ffff"><b>   2</b></font></font></pre></td></tr></table>
+<p>
+<code>length</code> metodunun, nesneye göre değişebilmesiyle neyi kastediyoruz? Yukarıdaki örnekte ilk önce <code>foo</code>'nun uzunluğunu soruyoruz, basit bir dizgiye başvuruyor ve sadece tek bir mantıklı cevabı olabilir. İkinci sefer <code>foo</code> bir diziye başvuruyor ve uzunluğunun 2, 5 ya da 10 olduğunu düşünebilirsiniz ama genelde en kabul edilebilir cevap tabii ki 2 olacaktır.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> foo[0].length</b></font>
+<font color="#50ffff"><b>   5</b></font>
+ruby&gt;<font color="#ffff00"><b> foo[0].length + foo[1].length</b></font>
+<font color="#50ffff"><b>   10</b></font></font></pre></td></tr></table>
+<p>
+
+Burada dikkat edilmesi gereken nokta bir dizinin, <em>dizi olmanın ne demek olduğunu</em> bilmesidir. Ruby'de veri parçaları beraberlerinde bilgi taşıdıkları için talepler otomatik olarak algılanabilir ve bir çok yolla gerçekleştirilebilir. Bu programcıyı, spesifik fonksiyon adlarını hatırlamaktan kurtarır. Nesneye yönelik programlamanın bu özelliği polimorfizm olarak adlandırılır.
+
+</p>
+<p>Bir nesne anlamadığı bir mesaj aldığında bir hata "meydana gelir":</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> foo = 5</b></font>
+<font color="#50ffff"><b>   5</b></font>
+ruby&gt;<font color="#ffff00"><b> foo.length</b></font>
+<font color="#50ffff"><b>ERR: (eval):1: undefined method `length' for 5(Fixnum)</b></font></font></pre></td></tr></table>
+<p>Sonuçta bir nesne için hangi metotların kabul edilebilir olduğunu bilmemiz geretiği halde, metotların nasıl işlendiğini bilmek zorunda değiliz.</p>
+<p> Eğer argümanlar bir metota verilecekse genelde parantezler tarafından çevrilirler.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">object.method(arg1, arg2)</font></pre></td></tr></table>
+<p>Ancak belirsizlik ihtiva etmedikleri sürece kullanılmayabilirler de.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">object.method arg1, arg2</font></pre></td></tr></table>
+<p>Ruby <code>self</code> adında; ne zaman bir nesne bir metodu çağırdığı zaman başvurulan özel bir değişkene sahiptir. Rahatlık için "<code>self.</code>" genelde metot çağrılırken kullanılmayabilir:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">self.method_name(args...)</font></pre></td></tr></table>
+<p>yukarıdaki ifadeyle aşağıdaki aynıdır:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">method_name(args...)</font></pre></td></tr></table>
+<p>
+Bir fonksiyon çağrısı sadece <code>self</code>'le metot çağrımının kısaltılmış şeklidir. Bu da Ruby'yi saf bir nesneye yönelik programlama dili yapan şeydir.
+</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ny_dusunce.html">
+ <img border=0 src="a2l.gif" alt="Nesneye yönelik düşünme"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="Sınıflar.html">
+ <img border=0 src="a2r.gif" alt="Sınıflar"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

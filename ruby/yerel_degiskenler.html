@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Yerel Değişkenler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ornek_degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Örnek Değişkenler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="sabitler.html">
+ <img border=0 src="a2r.gif" alt="Sınıf sabitleri"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Yerel Değişkenler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Yerel değişkenler küçük harfle ya da <code>_</code> karakteriyle başlayan isimlere sahiptirler. Yerel değişkenler globallerde ya da örnek değişkenlerde olduğu gibi, başlangıçta <code>nil</code> değerine sahip değildirler.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> $foo</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> @foo</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> foo</b></font>
+<font color="#50ffff"><b>ERR: (eval):1: undefined local variable or method `foo' for main(Object)</b></font></font></pre></td></tr></table>
+<p>Yerel bir değişkene yaptığınız ilk atama onu tanımlamakla aynı şeydir. Eğer başlangıç değeri olmayan bir yerel değişkene başvurursanız, Ruby yorumlayıcısı bunun bir metodu çalıştırma girişimi olduğunu düşünür ve aşağıdaki gibi bir hata verir.</p>
+<p>Genelde yerel bir değişkenin kapsamı aşağıdakilerden biridir:</p>
+<ul>
+<li><code>proc{</code> ... <code>}</code></li>
+<li><code>loop{</code> ... <code>}</code></li>
+<li><code>def</code> ... <code>end</code></li>
+<li><code>class</code> ... <code>end</code></li>
+<li><code>module</code> ... <code>end</code></li>
+<li>programın tamamı (yukarıdakilerden herhangi biri yoksa)</li>
+</ul>
+<p>Aşağıdaki örnekte görülen <code>defined?</code> operatörü bir tanıtıcının tanımlanıp tanımlanmadığını kontrol eder. Eğer tanımlanmışsa bir açıklama döndürür; tanımlanmamış ise <code>nil</code> değerini döndürür. Gördüğünüz gibi bar döngüde yerel, döngüden çıkınca tanımsızdır.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> foo = 44; print foo, "\n"; defined? foo</b></font>
+44
+<font color="#50ffff"><b>   "local-variable"</b></font>
+ruby&gt;<font color="#ffff00"><b> loop{bar=45; print bar, "\n"; break}; defined? bar</b></font>
+45
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Aynı alandaki prosedür nesneleri her ne varsa yine aynı alandaki yerel değişkenlerle paylaşır. Örnekte yerel değişken <code>bar</code>, <code>main</code> ve prosedür nesneleri <code>p1</code> ve <code>p2</code> tarafından paylaşılır:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> bar=0</b></font>
+<font color="#50ffff"><b>   0</b></font>
+ruby&gt;<font color="#ffff00"><b> p1 = proc{|n| bar=n}</b></font>
+<font color="#50ffff"><b>   #&lt;Proc:0x8deb0&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> p2 = proc{bar}</b></font>
+<font color="#50ffff"><b>   #&lt;Proc:0x8dce8&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> p1.call(5)</b></font>
+<font color="#50ffff"><b>   5</b></font>
+ruby&gt;<font color="#ffff00"><b> bar</b></font>
+<font color="#50ffff"><b>   5</b></font>
+ruby&gt;<font color="#ffff00"><b> p2.call</b></font>
+<font color="#50ffff"><b>   5</b></font></font></pre></td></tr></table>
+<p>Baştaki "<code>bar=0</code>"'ın çıkarılamayacağına dikkat edin; bu atama <code>bar</code>'ın <code>p1</code> ve <code>p2</code> tarafından kuşatılacağını garanti eder. Öteki türlü, <code>p1</code> ve <code>p2</code> kendi yerel bar değişkenlerini sonlandırır ve <code>p2</code>'yi çağırmak "<em>undefined local variable or method</em>" hatasına neden olabilir.</p>
+<p>Prosedürlerin argüman olarak geçilebilmesinin yanında başka bir güçlü özellikleri de paylaşılan yerel değişkenlerin eğer geçildilerse hala geçerli kalmalarıdır.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> def box</b></font>
+    |<font color="#ffff00"><b>   İçindekiler = 15</b></font>
+    |<font color="#ffff00"><b>   get = proc{İçindekiler}</b></font>
+    |<font color="#ffff00"><b>   set = proc{|n| İçindekiler = n}</b></font>
+    |<font color="#ffff00"><b>   return get, set</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> reader, writer = box</b></font>
+<font color="#50ffff"><b>   [#&lt;Proc:0x40170fc0&gt;, #&lt;Proc:0x40170fac&gt;] </b></font>
+ruby&gt;<font color="#ffff00"><b> reader.call</b></font>
+<font color="#50ffff"><b>   15</b></font>
+ruby&gt;<font color="#ffff00"><b> writer.call(2)</b></font>
+<font color="#50ffff"><b>   2</b></font>
+ruby&gt;<font color="#ffff00"><b> reader.call</b></font>
+<font color="#50ffff"><b>   2</b></font></font></pre></td></tr></table>
+<p>Ruby kapsam (<i>scope</i>) konusunda bir parça akıllıca davranır. Örneğimizde <code>contents</code> değişkeninin <code>reader</code> ve <code>writer</code> tarafından paylaşılıyordu. Aynı zamanda yukarıda tanımladığımız kutumuzdan birden çok reader-writer çiftleri oluşturabilir ve her çiftin aynı sabiti paylaşmasını sağlayabiliriz.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> reader_1, writer_1 = box</b></font>
+<font color="#50ffff"><b>   [#&lt;Proc:0x40172820&gt;, #&lt;Proc:0x4017280c&gt;]</b></font>
+ruby&gt;<font color="#ffff00"><b> reader_2, writer_2 = box</b></font>
+<font color="#50ffff"><b>   [#&lt;Proc:0x40172668&gt;, #&lt;Proc:0x40172654&gt;]</b></font>
+ruby&gt;<font color="#ffff00"><b> writer_1.call(99)</b></font>
+<font color="#50ffff"><b>   99</b></font>
+ruby&gt;<font color="#ffff00"><b> reader_1.call</b></font>
+<font color="#50ffff"><b>   99</b></font>
+ruby&gt;<font color="#ffff00"><b> reader_2.call</b></font>
+<font color="#50ffff"><b>   15</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="ornek_degiskenler.html">
+ <img border=0 src="a2l.gif" alt="Örnek Değişkenler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="sabitler.html">
+ <img border=0 src="a2r.gif" alt="Sınıf sabitleri"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

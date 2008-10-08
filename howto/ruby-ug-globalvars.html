@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:02+03:00"><title>Genel Değişkenler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"><link rel="previous" href="../howto/ruby-ug-vars.html" title="Değişkenler"><link rel="next" href="../howto/ruby-ug-instancevars.html" title="Örnek Değişkenler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Genel Değişkenler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ruby-ug-vars.html">Önceki</a> </td><th width="60%" align="center">Ruby Kullanıcı Kılavuzu</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug-instancevars.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ruby-ug-globalvars"></a>Genel Değişkenler</h2></div></dt><dd><p>
+Genel değişkenler isimlerinin başında birer <b><tt>$</tt></b> işareti bulundururlar.
+Genel değişkenlere yazılımın her hangi bir yerinden başvurulabilir. İlklendirilmeden önce <b><tt>nil</tt></b> değerine sahiptirler.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>ruby&gt; </tt> <tt class="empinput"> $foo</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> $foo = 5</tt>
+   <tt class="empoutput">5</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> $foo</tt>
+   <tt class="empoutput">5</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Genel değişkenler dikkatli kullanılmalıdırlar. Her yerden yazılabildikleri için tehlikelidirler. Genel değişkenlerin aşırı kullanılması yanlışları izole etmede zorluk çıkarabildiği gibi yazılımın iyice düşünülmeden tasarlandığına dikkat çeker.
+Genel değişken kullanmayı uygun gördüğünüz zaman, onlara anlaşılabilir isimler verdiğinizden emin olun ( <b><tt>$foo</tt></b> gibi birşeyi çağırmak oldukça kötü bir fikir değil mi?).
+  </p><p>
+Genel değişkenlerin güzel bir özelliği de izlenebilir olmalarıdır; bir değişkenin değeri ne zaman değişirse o zaman çağrılan bir yordam belirleyebilirsiniz.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>ruby&gt; </tt> <tt class="empinput"> trace_var :$x, proc{print "$x şimdi ", $x, "\n"}</tt>
+   <tt class="empoutput">nil</tt>
+<tt>ruby&gt; </tt> <tt class="empinput"> $x = 5</tt>
+$x şimdi 5
+   <tt class="empoutput">5</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Bir global değişken, değiştiği zaman bir yordamı çalıştırmak için kullanılıyorsa, <span class="wordasword"><i>etkin değişken</i></span> olarak da anılır.
+  </p><p>
+Aşağıda <b><tt>$</tt></b> işaretini takiben tek bir karakter daha içeren bir dizi özel değişken bulunuyor. Örneğin <b><tt>$$</tt></b> Ruby yorumcusunun süreç numarasını içerir ve sadece okunabilirdir. Aşağıda önemli sistem değişkenleri ve anlamları bulunuyor: (ayrıntılar için <a class="ulink" href="http://www.ruby-lang.org/en/man-1.4/" target="_top">Ruby Başvuru Kılavuzu</a>na bakınız):
+  </p><p>
+<div class="table"><p><b>Tablo 4.3. </b></p><table cellspacing="1" cellpadding="3" summary="" width="100%" border="1"><colgroup><col></colgroup><tbody><tr><td align="left"><b><tt>$!</tt></b></td><td align="left">
+son hata iletisi
+</td></tr><tr><td align="left"><b><tt>$@</tt></b></td><td align="left">
+hatanın konumu
+</td></tr><tr><td align="left"><b><tt>$_</tt></b></td><td align="left"><b><tt>gets</tt></b> tarafından okunan son dizge
+</td></tr><tr><td align="left"><b><tt>$.</tt></b></td><td align="left">
+yorumlayıcı tarafından son okunan satır numarası
+</td></tr><tr><td align="left"><b><tt>$&amp;</tt></b></td><td align="left">
+regexp tarafından son bulunan dizge
+</td></tr><tr><td align="left"><b><tt>$~</tt></b></td><td align="left">
+alt ifade (<i>subexpression</i>) dizisi olarak regexp tarafından bulunan son ifade
+</td></tr><tr><td align="left"><b><tt>$</tt></b><tt>n</tt></td><td align="left">
+son bulunan <tt>n</tt>'inci alt ifade (<b><tt>$~[</tt></b><tt>n</tt><b><tt>]</tt></b> ile aynı)
+</td></tr><tr><td align="left"><b><tt>$=</tt></b></td><td align="left">
+büyük-küçük harfe duyarsız bayrak
+</td></tr><tr><td align="left"><b><tt>$/</tt></b></td><td align="left">
+girdi kaydı ayracı (<i>input record separator</i>)
+</td></tr><tr><td align="left"><b><tt>$\</tt></b></td><td align="left">
+çıktı kaydı ayracı (<i>output record separator</i>)
+</td></tr><tr><td align="left"><b><tt>$0</tt></b></td><td align="left">
+ruby betik dosyasının adı
+</td></tr><tr><td align="left"><b><tt>$*</tt></b></td><td align="left">
+komut satırı argümanları
+</td></tr><tr><td align="left"><b><tt>$$</tt></b></td><td align="left">
+yorumcunun süreç numarası (PID)
+</td></tr><tr><td align="left"><b><tt>$?</tt></b></td><td align="left">
+son işletilen çocuk sürecin çıkış durumu
+</td></tr></tbody></table></div>
+  </p><p>
+<b><tt>$_</tt></b> ve <b><tt>$~</tt></b> için etki alanı yereldir. Her ne kadar isimleri gereği genel değişkenler olmaları gerekiyorsa da böyle daha kullanışlıdırlar.
+  </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ruby-ug-vars.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ruby-ug.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug-instancevars.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Değişkenler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Örnek Değişkenler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

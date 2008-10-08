@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:55:49+03:00"><title>RTLinux Kurulumu</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/rtlinux-howto.html" title="RTLinux NASIL"><link rel="previous" href="../howto/rtlinux-howto-intro.html" title="Giriş"><link rel="next" href="../howto/rtlinux-howto-whyrtlinux.html" title="Neden RTLinux"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">RTLinux Kurulumu</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/rtlinux-howto-intro.html">Önceki</a> </td><th width="60%" align="center">RTLinux NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/rtlinux-howto-whyrtlinux.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="rtlinux-howto-install"></a>RTLinux Kurulumu</h2></div></dt><dd><p>RTLinux çekirdeğinin derlenmesindeki ilk adım <a class="ulink" href="http://ftp.kernel.org/pub/linux/kernel/v2.2/linux-2.2.18.tar.gz" target="_top">2.2.18</a> (sadece x86 için) ya da <a class="ulink" href="http://ftp.kernel.org/pub/linux/kernel/v2.4/linux-2.4.0-test1.tar.gz" target="_top">2.4.0-test1</a> (x86, PowerPC, Alpha) sürümü önceden yamanmış çekirdeğin <tt>/usr/src/</tt> içine indirilmesi ve sıkıştırılmış dosyaların açılmasıdır. Ayrıca RTLinux çekirdeğinin yeni bir kopyasını (3.0 sürümünü) <a class="ulink" href="http://www.rtlinux.org" target="_top">http://www.rtlinux.org</a> adresinden <tt>/usr/src/rtlinux/</tt> içine koyun. (Komut satırı gösteriminde <b><tt>$</tt></b> kullanacağız).
+</p><p>
+<div class="orderedlist"><ol type="1"><li><div class="listitem">
+Şimdi RTLinux çekirdeğini yapılandıralım:
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>cd /usr/src/linux</tt></b>
+$ <b><tt>make config</tt></b>
+        ya da
+$ <b><tt>make menuconfig</tt></b>
+        ya da
+$ <b><tt>make xconfig</tt></b>
+</pre> </td></tr></table></div>
+</p><p></p></div></li><li><div class="listitem">
+Çekirdeği derlemek için:
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>make dep</tt></b>
+$ <b><tt>make bzImage</tt></b>
+$ <b><tt>make modules</tt></b>
+# <b><tt>make modules_install</tt></b>
+# <b><tt>cp arch/i386/boot/bzImage /boot/rtzImage</tt></b>
+</pre> </td></tr></table></div>
+</p><p></p></div></li><li><div class="listitem">
+Sonraki adım LILO yu biçimlendirmektir. <tt>/etc/lilo.conf</tt> dosyasına aşağıdaki satırları ekleyin:
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+image=/boot/rtzImage
+label=rtl
+read-only
+root=/dev/hda1
+</pre> </td></tr></table></div>
+</p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Yukarıda ki <tt>/dev/hda1</tt>'i sizin kök dosya sisteminiz ile değiştirin.
+Hangisi olduğunu bulmanın en kolay yolu <tt>/etc/lilo.conf</tt> dosyasındaki &#8220;root=&#8221; girdisine bakmaktır.
+</p></td></tr></table></div></p><p></p></div></li><li><div class="listitem">
+Şimdi bilgisayarınızı yeniden başlatın ve LILO komut satırına 'rtl' yazarak RTLinux çekirdeğini yükleyin. Sonra <tt>/usr/src/rtlinux/</tt> dizinine geçerek RTLinux'u yapılandırın.
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>make config</tt></b>
+         ya da
+$ <b><tt>make menuconfig</tt></b>
+         ya da
+$ <b><tt>make xconfig</tt></b>
+</pre> </td></tr></table></div>
+</p><p></p></div></li><li><div class="listitem">
+Son olarak RTLinux'u derleyin.
+<p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>make</tt></b>
+$ <b><tt>make devices</tt></b>
+# <b><tt>make install</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+En son adımda kullanıcı programları oluşturmada ve derlemede gerekli olacak RTLinux için öntanımlı kurulum dizinini içeren (başlık dosyaları, yardımcı araçlar ve belgelendirmeyi içerir) dizin oluşturulacak:
+</p><p>
+<tt>/usr/rtlinux-xx</tt> (xx sürümü gösterir)
+</p><p>
+Buna da bir sembolik bağ oluşturulacaktır:
+</p><p>
+<tt>/usr/rtlinux</tt>
+</p><p>
+Lütfen ileriye yönelik uyumluluğu sağlayabilmek için kendi RTLinux programlarınızın hepsinin  <tt>/usr/rtlinux</tt>'u  öntanımlı yol olarak kullanmalarını sağlayın.
+</p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Eğer herhangiLinux çekirdek seçeneklerinde değişiklik yaparsanız lütfen bunları da yapmayı unutmayınız:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+$ <b><tt>cd /usr/src/rtlinux</tt></b>
+$ <b><tt>make clean</tt></b>
+$ <b><tt>make</tt></b>
+# <b><tt>make install</tt></b>
+</pre> </td></tr></table></div>
+</p></td></tr></table></div></p><p></p></div></li></ol></div>
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/rtlinux-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/rtlinux-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/rtlinux-howto-whyrtlinux.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Neden RTLinux</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

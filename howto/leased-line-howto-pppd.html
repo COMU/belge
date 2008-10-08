@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-06T09:28:18+03:00"><title>PPPD</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/leased-line-howto.html" title="Kiralık Hat-Mini NASIL"><link rel="previous" href="../howto/leased-line-howto-modem.html" title="Modem"><link rel="next" href="../howto/howtos-apps.html" title="V. Oylum - Uygulamalar/Masaüstü/Çoklu Ortam"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">PPPD</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/leased-line-howto-modem.html">Önceki</a> </td><th width="60%" align="center">Kiralık Hat-Mini NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/howtos-apps.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="leased-line-howto-pppd"></a>PPPD</h2></div></dt><dd><p>
+Bir pppd'ye (Point to Point Protocol Deamon) ve nasıl çalıştığına dair makul bir bilgiye sahip olmalısınız. 
+Eğer gerekliyse ilgili RFC'lere ya da <a href="http://www.tldp.org/HOWTO/PPP-HOWTO/index.html" target="_top">
+Linux PPP NASIL</a> belgesine göz atabilirsiniz. 
+Eğer bir login prosedürü kullanmayacaksanız, (m)getty kullanmanıza ya da bağlantınızı kontrol eden
+ pppd ile ilişkilendirilmiş (sahte) bir kullanıcıya ihtiyacınız olmayacak.
+Eğer telefon etmeyecekseniz, herhangi bir konuşma betiğine de gerek kalmaz.  
+Aslında kurduğunuz modem devreleri ve yapılandırması biraz da tamamen telli boş modem kablolarına benzer. 
+ Bu da pppd'nizi boş bir modem kablosunu nasıl yapacaksanız aynı yolla yapılandırmanız gerektiği anlamına gelir. 
+</p><p>
+Güvenilir bir bağlantı için, kurulumunuz aşağıdaki kriterleri izlemelidir;
+</p><p><div class="itemizedlist"><ul type="disc"><li>
+Sisteminizin ön yüklemesinden kısa bir süre sonra pppd, RS232 portunuzda DTR sinyalini vermeli, DCD'nin çıkmasını 
+beklemeli ve  bağlantıyı müzakere etmelidir.
+</li><li>
+Eğer uzak sisteme erişilemiyorsa, pppd tekrar erişilene kadar beklemede kalmalıdır.
+</li><li>
+Eğer bağlantı geldiyse ve devam ediyorsa, pppd modemi yeniden ayarlamalı 
+(bu işlem DTR'yi düşürüp sonra da yükseltilerek yapılır), ve daha sonra yeniden bağlantı kurmaya çalışmalıdır. 
+</li><li>
+Eğer bağlantının kalitesi çok düşükse, pppd modemi yeniden ayarlamalı ve bağşantıyı yeniden kurmalıdır.
+</li><li>
+Eğer bağlantıyı kontrol eden süreç, yeni pppd ölürse bir bekçiköpeği (watchdog) pppd'yi yeniden başlatmalıdır. 
+</li></ul></div></p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="leased-line-howto-pppd-conf"></a>Yapılandırma</h3></div></dt><dd><p>
+Örneğin modemin COM2'ye bağlı olduğunu, yerel IP adresinin `Loc_Ip' olduğunu ve 
+uzak IP adresinin `Rem_Ip' olduğunu düşünelim. 
+MTU için 576'yı kullanmak istiyoruz. <tt>/etc/ppp/options.ttyS1</tt> dosyamız aşağıdaki 
+gibi olmalıdır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+crtscts
+mru 576
+mtu 576
+passive
+Loc_Ip:Rem_Ip
+-chap
+modem
+#noauth
+-pap
+persist
+#maxfail 0
+#holdoff 10
+</pre> </td></tr></table></div>
+</p><p>
+'asyncmap 0','lock', 'modem' ve '-detach' gibi şeyler muhtemelen <tt>/etc/ppp/options</tt> 
+dosyasında bulunuyordur. Eğer öyle değilse, bunları <tt>/etc/ppp/options.ttyS1</tt> dosyanıza 
+eklemelisiniz.
+Eğer yerel sisteminiz 192.168.1.1 ve uzak sisteminiz 10.1.1.1 ise, yerel sisteminizdeki 
+<tt>/etc/ppp/options.ttyS1</tt> dosyanız aşağıdaki gibi olmalıdır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+crtscts
+mru 576
+mtu 576
+passive
+192.168.1.1:10.1.1.1
+-chap
+modem
+#noauth
+-pap
+persist
+#maxfail 0
+#holdoff 10
+</pre> </td></tr></table></div>
+</p><p>
+Uzak sistemdeki ttyS1 seçenekleri şöyle olmalıdır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+crtscts
+mru 576
+mtu 576
+passive
+10.1.1.1:192.168.1.1
+-chap
+modem
+#noauth
+-pap
+persist
+#maxfail 0
+#holdoff 10
+</pre> </td></tr></table></div>
+</p><p>
+'passive' seçeneği bağlantı (ya da yeniden bağlantı) girişimlerinin sayısını sınırlar. 
+'persist' seçeneği pppd'nin ilk seferde bağlantı kuramadığı takdirde ya da bağlantı koptuğunda ayakta olmasını 
+sağlar. 
+Eğer dosya transferleri sırasında (FTP ya da internette gezinirken) çok fazla telnet kullanırsanız 
+296 gibi daha küçük bir MTU ve MRU kullanmanız daha iyi olacaktır. 
+Böylece uzak sisteminizi daha unumlu hale getirmiş olacaksınız.
+
+Eğer FTP kullanırken telnet'i fazla umursamazsanız o zaman MTU ve MRU'yu 1500 gibi büyük bir değer yapabilirsiniz.
+
+ Aynı zamanda UDP'nin parçalanamayacağını da aklınızda bulundurun. 
+ Örneğin UDP paketlerinin 512 bayt olduğunu kabul edelim. O halde asgari MTU'nun 552 bayt olması gerekecektir. 
+ 
+'noauth' seçeneği bazı yeni dağıtımlar için gerekli olabilir. 
+
+`maxfail 0'  de daha yeni PPPD'ler için gerekli olabilir. 
+
+Bağlantı kaybolduktan sonra PPPD yeniden bağlanmak için bir süre bekleyecektir.
+Bekleme süresi 'holdoff' seçeneği ile ayarlanabilir. 
+Varsayılan holdoff 30 saniye olarak kullanılırdı ancak artık sıfır kullanılıyor. holdoff seçeneği genelde 
+10 olarak kullanılır.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="leased-line-howto-scripts"></a>Betikler</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="leased-line-howto-start"></a>  pppd'yi başlatma ve ayakta tutma</h4></div></dt><dd><p>
+
+pppd formunu bir önyükleme betiğinden (rc) çalıştırabilirsiniz. Buna rağmen eğer bu yolu kullanırsanız ve pppd 
+ölürse, o zaman bir bağlantınız da olmayacaktır. Daha kararlı bir çözüm, pppd'yi <tt>/etc/inittab</tt>'dan başlatmak 
+olacaktır;
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+s1:23:respawn:/usr/sbin/pppd /dev/ttyS1 115200
+</pre> </td></tr></table></div>
+</p><p>
+
+Bu yöntem sayesinde pppd ölürse, yeniden başlatılacaktır. 
+
+
+Ancak `-detach' seçeneğiniz olduğundan (yeni sistemlerde 'nodetach') emin olun, 
+
+aksi takdirde inittab pppd'nin bir çok örneğini başlatacaktır. 
+
+</p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Bazı eski sistemler `115200' hızını kabul etmeyecektir.  
+Bu durumda hızı 38400 yapmanız ve setseral ile `spd_vhi' bayrağını ayarlamanız gerekecektir. Bazı sistemler `ttyS' aygıtı yerine `cua' kullandığınızı varsayarlar. 
+</p></td></tr></table></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="leased-line-howto-routes"></a>Rotaların Kurulumu</h4></div></dt><dd><p>
+Varsayılan rota 'defaultroute' seçeneği ile ya da 
+<tt>/etc/ppp/ip-up</tt> betiğiyle ayarlanabilir; 
+
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#!/bin/bash
+case $2 in
+     /dev/ttyS1)
+          /sbin/route add -net 0.0.0.0 gw Rem_Ip netmask 0.0.0.0
+          ;;
+esac
+</pre> </td></tr></table></div>
+</p><p>
+Ip-up aynı zamanda sistem saatinizi netdate kullanarak 
+eşzamanlamak için kullanılabilir.
+</p><p>
+
+Rotanın ip-up içide varsayılan rota olarak ayarlanması zorunlu değildir. 
+Sizin ip-up'ınız uzak ağdaki rotayı ayarlarlarken, uzak sistemdeki ip-up betiği de 
+sizin ağınıza erişmek için gereken rotayı ayarlar.
+
+Eğer ağınız 192.168.1.0 ve ppp arayüzünüz 192.168.1.1 ise, uzak sistemdeki ip-up betiği aşağıdaki gibi olmalıdır;
+
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+#!/bin/bash
+case $2 in
+   /dev/ttyS1)
+      /sbin/route add -net 192.168.1.0 gw 192.168.1.1 netmask 255.255.255.0
+      ;;
+esac
+</pre> </td></tr></table></div>
+</p><p>
+
+
+`case $2' ve `/dev/ttyS1)' bitleri birden fazla ppp bağlantınız olduğu durumlarda işinize yarar. 
+Ip-up bağlantı kurulduğu her sefer çalışacaktır, ama sadece `/dev/ttySx)' ve 
+ `;;' arasındakiler işletilecektir ve doğru ttyS için rota belirlenecektir.
+ Rotalama hakkında daha fazla bilgiyi <a href="http://www.tldp.org/HOWTO/HOWTO-INDEX/networking.html" target="_top">Linux Ağ Oluşturma NASIL</a> belgesinde bulabilirsiniz. 
+</p><p>
+Bazı sistemler temel bir tty üzerinden rota edemekdikleri zaman dinamik ttys kullanmayı tercih ederler. 
+
+Bu durumda ip adresini bir ppp arayüzüne çevirmek ve sonra da belli bir ppp arayüzünden rotalama (ve güvenlik duvarı) yapmak 
+daha elverişli olabilir. 
+Bu yüzden <tt>/etc/ppp/ip-up</tt> dosyasını aşağıdaki gibi düzenledim;
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"># Bu değişkenler çalışan-kısımlar tarafından betiklerin çalıştırılması içindir
+PPP_IFACE="$1"
+PPP_TTY="$2"
+PPP_SPEED="$3"
+PPP_LOCAL="$4"
+PPP_REMOTE="$5"
+PPP_IPPARAM="$6"
+export PPP_IFACE PPP_TTY PPP_SPEED PPP_LOCAL PPP_REMOTE PPP_IPPARAM
+
+# ip ' yi  ppp ' ye çevirme
+echo $PPP_IFACE &gt; "/var/run/ppp/if-$PPP_LOCAL"
+sleep 1
+# Güvenlik duvarını tekrar çalıştırma .
+/usr/local/sbin/rc.block
+
+# (Varsayılan) rotaya (ya da rotalara ) dikkat edilmesi
+case $PPP_LOCAL in
+        "My_Ip_Address")
+                /sbin/route add -net 0.0.0.0 gw $PPP_REMOTE netmask 0.0.0.0
+                ;;
+
+esac
+
+# Önyüklemede sabit şeyler atlandı
+if ! ( netstat -an | grep 'My_Ip_Address:53' &gt; /dev/null 2&gt;&amp;1 )
+then
+        # Just booted
+        # Sync clock
+        /usr/local/sbin/ntpdate.sh &amp;
+        # Set the null routes
+        /usr/local/sbin/null-route.sh &amp;
+        # Bind 9 needs this;
+        sleep 1
+        /etc/init.d/bind9 restart
+fi
+
+# Bir sesli uyarı ihbarı
+/bin/echo -ne "\007" &gt;&gt; /dev/tty1</pre> </td></tr></table></div>
+</p><p>'My_Ip_Address' kısmını kendi Ip adresinizle değiştirin.<tt>/usr/local/sbin/ntpdate.sh</tt> dosyası saati eşzamanlamak için kullanılır. Bu dosya NTPD'yi durdurur, ntpdate kullanarak eşzamanlamayı yapar ve NTPD'yi yeniden başlatır. <tt>/usr/local/sbin/null-route.sh</tt> boş rotaları ayarlayan bir dosyadır;</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">#!/bin/bash
+# RFC 1918
+route add -net 10.0.0.0    netmask 255.0.0.0   reject
+route add -net 172.16.0.0  netmask 255.240.0.0 reject
+route add -net 192.168.0.0 netmask 255.255.0.0 reject
+# RFC 3927
+route add -net 169.254.0.0 netmask 255.255.0.0 reject</pre> </td></tr></table></div>
+</p><p>Eğer kullanımda RFC 1918 adreslerine sahipseniz, boş rotalar daha küçük bir ağ maskesi kullanmanıza izin vermeyeceklerdir. 192.168.1.0/24 ağı boş rota 192.168.0.0/16 tarafından rahatsız edilmeyecektir;</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Kernel IP rota tespit etme tablosu
+Hedef    Ağ Geçidi         Bilgi Maskesi         Bayrak Metrik Ref    Use Iface
+255.255.255.255 0.0.0.0         255.255.255.255 UH    0      0        0 eth0
+195.190.249.4   0.0.0.0         255.255.255.255 UH    0      0        0 ppp0
+10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth1
+192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+169.254.0.0     -               255.255.0.0     !     0      -        0 -
+192.168.0.0     -               255.255.0.0     !     0      -        0 -
+172.16.0.0      -               255.240.0.0     !     0      -        0 -
+10.0.0.0        -               255.0.0.0       !     0      -        0 -
+0.0.0.0         195.190.249.4   0.0.0.0         UG    0      0        0 ppp0</pre> </td></tr></table></div>
+</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="leased-line-howto-pppd-test"></a>Test</h3></div></dt><dd><p>Her şeyi test etmek modemi test etmek gibidir. Eğer çalışırsa, bisikletinize atlayın ve uzak modemi bağlantınızın uzak tarafına taşıyın. Eğer çalışmazsa, o zaman yapmanız gereken ilk işlerden biri COM portunun hızını kontrol etmek olacaktır; genelde sıkça yapılan hatalardan biri Minicom'lu modemleri tek bir hız  kullanarak yapılandırmak ve daha sonra da başka bir tane hız kullanarak pppd'yi ayarlamaktır. Bu hiç bir zaman <b>çalışmayacaktır! </b> Her zaman aynı hızı kullanmak zorundasınız!</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/leased-line-howto-modem.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/leased-line-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/howtos-apps.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Modem </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> V. Oylum - Uygulamalar/Masaüstü/Çoklu Ortam</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************
+     $Id: config-howto.xml,v 1.20 2003/07/19 09:25:04 nilgun Exp $
+     ******************************************************************** -->
+<article id="config-howto" lang="tr">
+<articleinfo>
+<title>Yapılandırma NASIL</title>
+  <authorgroup><author role="translator">
+    <firstname>Necdet Yücel</firstname>
+    <affiliation>
+      <address><email>nyucel@comu.edu.tr</email></address>
+    </affiliation>
+  </author><author>
+    <firstname>Gilbert</firstname>
+    <surname>O'Sullivan</surname>
+    <affiliation>
+     <address><email>gearloose@fastwebnet.it</email></address>
+    </affiliation>
+  </author></authorgroup>
+  <revhistory>
+    <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+    <revision>
+      <revnumber>1.0</revnumber>
+      <date>Mayıs 2006</date>
+      <authorinitials>ny</authorinitials>
+      <revremark>İlk çeviri</revremark>
+    </revision>
+  </revhistory><revhistory>
+   <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.99.8</revnumber>
+        <date>2006-03-11</date>
+        <authorinitials>gos</authorinitials>
+        <revremark>Önemli değişiklikler</revremark>
+      </revision><revision>
+        <revnumber>1.99.7</revnumber>
+        <date>2001-11-06</date>
+        <authorinitials>gos</authorinitials>
+        <revremark>Güncellemeler ve DocBook etiket düzeltmeleri</revremark>
+      </revision><revision>
+        <revnumber>1.99.6</revnumber>
+        <date>2000-08-31</date>
+        <authorinitials>gos</authorinitials>
+      </revision>
+    </revhistory>
+  <legalnotice><title>Yasal Açıklamalar</title><para>
+Bu belgenin, <emphasis>Yapılandırma NASIL</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2006 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2006-03-16 <emphasis>Gilbert O'Sullivan</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="lgpl">GNU Kısıtlı Genel Kamu Lisansının</link> 2.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/lgpl.html"/> adresinde bulabilirsiniz.
+  </para>
+  <para>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </para>
+  </legalnotice>
+    
+  <abstract><para>Bu NASIL belgesi diğer belgelerin donanım ve servislerin yapılandırmaları için referans vereceği temel belge olacaktır.</para></abstract>
+</articleinfo>
+
+<sect1 id="config-howto-intro"><title>Giriş</title>
+<para>Kendi Linux'unuza sahip olmanız için donanımları ve yazılımları yapılandırmanız gerektiğinden bu belge LDP'nin en önemli belgelerinden biridir. Bu NASIL geliştiricilerin Altın Çağı'nda, temel olarak komut satırı için yaratıldı. Güncel dağıtımlar için çok eski ve büyük hale geldiğinden yapabildiğim kadar basitleştirerek yeniden yazdım.</para>
+<para>Temel olarak, Linux kullanıcıları sistemi yapılandırabilmek için bazı yapılandırma dosyalarına yazmak zorundadırlar. Bunu daha basitleştirmek için artık programlar ve sihirbazlar da bulunmaktadır. Bu programlar dağıtımdan dağıtıma farklılık göstermektedirler.</para>
+<para>Bu NASIL'da Mandrake-Linux ve Red-Hat hakkında konuşacağım.</para>
+
+<sect2 id="config-howto-copyright"><title>Telif Hakkı</title>
+<para>Bu belgenin telif kakkı © 2006-03-16  Gilbert O'Sullivan'a aittir. Belgeyi GNU Kısıtlı Genel Kamu Lisansı altında kopyalayabilir ve dağıtabilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/lgpl.html"/> adresinde bulabilirsiniz. LGPL'nin çeviriler dışında belgenin değiştirilmesine izin vermediğini unutmayın.</para>
+</sect2>
+
+<sect2 id="config-howto-credits"><title>Teşekkür</title>
+<para>Bildiklerimi öğrendiğim diğer NASIL'ların ve kılavuz sayfalarının yazarlarına ve bana geri bildirimde bulunan herkese çok teşekkür ederim.</para>
+</sect2>
+
+<sect2 id="config-howto-description"><title>Tanımlama</title>
+<para>Bu belgenin eski sürümlerinde çeşitli dağıtımlardan bahsetmiş olsam da bundan sonra son sürümlerine 
+kolaylıkla ulaşabileceğiniz dağıtımların önemli örneklerinden olduklarından Mandrake-Linux ve Red Hat'ten 
+bahsedeceğim. Daha fazla bilgi almak isterseniz ya da bir şey anlamadıysanız okuduğunuz bu belgenin orjinalinin 
+de aralarında bulunuğu diğer NASIL'ları içeren <ulink url="http://www.tldp.org/HOWTO/HOWTO-INDEX/howtos.html">Linux Belgelendirme Projesi</ulink>'ne göz atabilirsiniz.  
+Modem, yazıcı ve tarayıcıların x86 mimarisinde yapılandırmalarından bahsedeceğiz. Tablet'ler de oldukça yaygın olarak kullanılmaktadır.</para>
+</sect2>
+</sect1>
+
+<sect1 id="config-howto-configtools"><title>Yapılandırma Araçları</title>
+<para>Bu belge temel olarak iki bölümden oluşmaktadır. Birinci bölüm büyük sabit diskleri olan ve grafik arayüz çalıştıran
+bilgisayarlar için, ikinci bölüm ise kısıtlı kaynakları olan ve komut satırından çalışmak zorunda olduğunuz bilgisayarlar içindir.</para>
+
+<sect2 id="config-howto-controlcenter"><title>Kontrol Merkezi</title>
+<para>Elbette çalışan bir grafik arayüzünüz varsa herşeyi yapılandırmak oldukça kolay olacaktır.
+8.0 sürümünden itibaren Mandrake-Linux <emphasis>drakconf</emphasis> paketiyle birlikte gelmektedir.
+Diğer dağıtımların da kendi kontrol merkezleri vardır.
+Bu sihirbaz ile aşağıdakileri ayarlamanız mümkündür:
+<itemizedlist>
+<listitem>Kullanıcılar</listitem>
+<listitem>Önyükleyici</listitem>
+<listitem>Disk yönetimi</listitem>
+<listitem>Görüntü</listitem>
+<listitem>Güvenlik duvarı</listitem>
+<listitem>Ağ</listitem>
+<listitem>Kılavye</listitem>
+<listitem>Fare</listitem>
+<listitem>Yazıcı</listitem>
+<listitem>Servisler</listitem>
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 id="config-howto-display"><title>Görüntü</title>
+<para>Aşağıdaki iki adımla X sunucu yapılandırmasını değiştirebilirsiniz.</para>
+
+<sect3 id="config-howto-step1"><title>Birinci Adım</title>
+<para>Linux işletim sistemi Kullanıcı Grafik Arayüzü (GUI) olarak X windows system'ın özgür bir sürümü olan,
+X.org sitesinin üyeleri ve IBM'in katkılarıyla geliştirilen, XFree'yi kullanmaktadır.
+Günümüzde X sunucu yapılandırması nerdeyse otomatik hale geldiğinden eğer şanslıysanız Linux kurulumundan sonra bakinayı
+yeniden başlatabilmeniz için ilave birşey yapmanıza gerek kalmaz.
+Yine de eğer olursa, bir çok paketin kurulmasına karşın X sunucusunu başlatamadığınızı söyleyen bir mesajla karşılaşırsınız.
+Bunun nedeni monitörünüzün veya ekran kartınızın doğru algılanamamasıdır. 
+Tek yapabileceğiniz, Özet kısmına kadar tüm kurulumu güncellemektir.  
+Burada grafik arayüz ayarlarınızı değiştirebilirsiniz ama çok dikkatli olun. Şansınız yaver giderse size sorulduğunda
+yeniden başlatıldığında X sunucusunun otomatik olarak başlatılması seçeneğini pasif hale getirin.
+Böylece bilgisayarınızı metin modunda açabilirsiniz, eğer X sunucusunu başlatmak isterseniz bunu <command>startx</command> komutunu kullanarak yapabilirsiniz. 
+</para>
+</sect3>
+
+<sect3 id="config-howto-step2"><title>İkinci Adım</title>
+<para>Eğer X sunucusu hala çalışmamışsa <command>XFdrake</command> komutunu deneyin.
+Mevcut ayarlarınızı en düşük olanlarla değiştirmenize izin verecektir:</para>
+<screen>Monitor:		SVGA (not interlaced) 1024 x 768
+Frequency:		60 Hz
+Graphic card:		VGA standard
+Resolution:		640 x 480
+Colours dept.:		8 bpp
+</screen>
+<para>Bu değerleri frekans hızını geçmeyecek şekilde aşama aşama yükseltebilirsiniz. 
+Dikkatli olun mönitörünüze zarar verebilirsiniz!
+Hazır olduğunuzda <command>XFdrake</command>'i çalıştırmayı tekrar deneyin ve açılışta XFree'yi başlatmayı seçin. 
+Bu benim için her zaman çalıştığından önce bu değerleri not almanızı öneririm.</para>
+</sect3>
+</sect2>
+
+<sect2 id="config-howto-keyboard"><title>Klavye</title>
+<para>Komut satırından yazarak çalışıyorsanız klavyenizin düzgün ayarlanmış olması elbette çok önemlidir.
+Bir çok ülke ve klavye türü için uygun klavye haritaları hali hazırda mevcuttur.
+Bu sayede <command>loadkeys</command> komutunu ülkenizi simgeleyen iki harf ile birlikte kullanabilirsiniz.</para>
+</sect2>
+
+<sect2 id="config-howto-users"><title>Kullanıcılar</title>
+<para>Özellikle otomatik oturum açmak istiyorsanız mutlaka bir kullanıcı eklemelisiniz.
+Bunun için <command>adduser</command> komutunu kullanabilirsiniz. Kullanıcıyı yarattıktan sonra 
+<command>passwd -n</command> ile kullanıcının parolasını ve adını atamalısınız.</para>
+</sect2>
+
+<sect2 id="config-howto-mouse"><title>Fare</title>
+<para>Eğer sadece komut satırından çalışacaksanız farenizi yapılandırmanız gerekmez.
+Bununla birlikte, bir grafik arayüz kullanıyorsanız hatalı ayarları değiştirmek için farenizi kullanamazsınız. 
+Bir konsol açın ve root olarak <command>mousedrake</command> komutunu çalıştırın.</para>
+</sect2>
+
+<sect2 id="config-howto-printer"><title>Yazıcı</title>
+<para>Son olarak, eğer yazıcınızı yapılandırmak isterseniz CUPS sürücüsünü yüklemeniz gerekir. Bunu <command>printerdrake</command> ile yapabilirsiniz.</para>
+</sect2>
+
+<sect2 id="config-howto-bootloader"><title>Önyükleyici</title>
+<para>Açılış sırasında çekirdeği belleğe yükleyen programa önyükleyici denmektedir.
+Linux dağıtımları ile gelen önyükleyiciler LILO ve GRUB'dur.
+LILO yapılandırmanızı değiştirmek isterseniz <filename>/etc/lilo.conf</filename> dosyasını istediğiniz bir editörle açarak düzenlemeniz gerekir.
+Bu dosyada her satırın aşağıdaki gibi anlamı vardır.</para>
+<screen>boot=/dev/hda              LILO'yu MBR'ye yükle
+prompt                     Eğer başka bir bölümü seçmek isterseniz
+timeout=50                 Açılmadan önce beş saniye bekler
+default=linux              Zaman dolduktan sonra ne ile açılacağını belirler 
+
+image=/boot/vmlinuz-x.x.x
+  label=Linux              Bölüme verdiğimiz isim
+  read-only                Salt-okunur bir kök ile başlar
+  root=/dev/hda3           Kök dosya sisteminin yeri
+
+other=/dev/hdaX            Windows'un yüklendiği bölüm
+  label=windows
+</screen> 
+<para>GRUB da benzer disk ve bölüm yapılandırmalarına sahiptir.</para>
+</sect2>
+
+<sect2 id="config-howto-firewall"><title>Güvenlik Duvarı</title>
+<para>Eğer sisteminiz internete veya büyük kamusal bir ağa bağlıysa yetkisiz erişimi önlemek için güvenlik duvarını aktif edin.</para>
+</sect2>
+</sect1>
+
+<sect1 id="config-howto-others"><title>Diğerleri</title>
+<para>Bunlar ihtiyacınız olan herşeyi bulabileceğiniz web sitelerine sahiptirler.</para>
+<sect2 id="config-howto-scanner"><title>Tarayıcı</title>
+<para>SANE (Scanner Access Now Easy) paketi, tarayıcılar için destek içerir.
+<ulink url="ftp://ftp.mostang.com/pub/sane"/> adresinden indirilebilir.
+Bir çok ipuçları da bulabileceğiniz belgelendirmeleri <ulink url="http://www.mostang.com/sane">SANE</ulink> sitesinden edinebilirsiniz.</para>
+</sect2>
+
+<sect2 id="config-howto-tablet"><title>Tablet</title>
+<para><ulink url="http://linuxwacom.sourceforge.net">The Linux Wacom Project</ulink> adresinden ulaşabileceğiniz sayfalarda
+Wacom tabletleri yönetebilmek için faydalı pek çok araç bulunmaktadır: sürücüler, kütüphaneler, yapılandırma ve çalışırma 
+için gerekli belgeler.
+Hata bulmaya yönelik uygulamalar ve tabi ki eposta listeleri ve SSS da bu adreste bulunmaktadır.
+Site John E. Joganic <email>jej@j-arkadia.com</email> tarafından yönetilmektedir.</para>
+</sect2>
+</sect1>
+</article>

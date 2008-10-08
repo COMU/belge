@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE set SYSTEM "docbook/dtd/docbookx.dtd" [
+
+<!ENTITY linux-i386-boot-code-howto.xml SYSTEM "howtos/linux-i386-boot-code-howto.xml">
+<!ENTITY timesys-linux-howto.xml SYSTEM "howtos/timesys-linux-howto.xml">
+<!ENTITY rtlinux-howto.xml SYSTEM "howtos/rtlinux-howto.xml">
+<!ENTITY RTLinux-install-howto.xml SYSTEM "howtos/RTLinux-install-howto.xml">
+<!ENTITY user-auth-howto.xml SYSTEM "howtos/user-auth-howto.xml">
+<!ENTITY kerberos-howto.xml SYSTEM "howtos/kerberos-howto.xml">
+<!ENTITY p8021x-howto.xml SYSTEM "howtos/8021x-howto.xml">
+<!ENTITY freeradius-sql-howto.xml SYSTEM "howtos/freeradius-sql-howto.xml">
+<!ENTITY Disk-Encryption-HOWTO.xml SYSTEM "howtos/Disk-Encryption-HOWTO.xml">
+<!ENTITY encrypted-rootfs-howto.xml SYSTEM "howtos/encrypted-rootfs-howto.xml">
+<!ENTITY cryptoloop-howto.xml SYSTEM "howtos/cryptoloop-howto.xml">
+<!ENTITY apache-compile-howto.xml SYSTEM "howtos/apache-compile-howto.xml">
+<!ENTITY Oracle-9i-Fedora-3-Install-HOWTO.xml SYSTEM "howtos/Oracle-9i-Fedora-3-Install-HOWTO.xml">
+<!ENTITY mp3-sunucu.xml SYSTEM "howtos/mp3-sunucu.xml">
+<!ENTITY spam-filtering-howto.xml SYSTEM "howtos/spam-filtering-howto.xml">
+<!ENTITY cluster-howto.xml SYSTEM "howtos/cluster-howto.xml">
+<!ENTITY beowulf-howto.xml SYSTEM "howtos/beowulf-howto.xml">
+<!ENTITY mobil-ipv6-howto.xml SYSTEM "howtos/mobil-ipv6-howto.xml">
+<!ENTITY olsr-ipv6-howto.xml SYSTEM "howtos/olsr-ipv6-howto.xml">
+<!ENTITY ipv6-howto.xml SYSTEM "howtos/ipv6-howto.xml">
+<!ENTITY Debian-and-Windows-Shared-Printing-mini-HOWTO.xml SYSTEM "howtos/Debian-and-Windows-Shared-Printing-mini-HOWTO.xml">
+<!ENTITY leased-line-howto.xml SYSTEM "howtos/leased-line-howto.xml">
+<!ENTITY astronomy-howto.xml SYSTEM "howtos/astronomy-howto.xml">
+<!ENTITY time-precision-howto.xml SYSTEM "howtos/time-precision-howto.xml">
+<!ENTITY debian-jigdo.xml SYSTEM "howtos/debian-jigdo.xml">
+<!ENTITY tt-xfree86-howto.xml SYSTEM "howtos/tt-xfree86-howto.xml">
+<!ENTITY medicine-howto.xml SYSTEM "howtos/medicine-howto.xml">
+<!ENTITY fedora-multimedia-howto.xml SYSTEM "howtos/fedora-multimedia-howto.xml">
+<!ENTITY config-howto.xml SYSTEM "howtos/config-howto.xml">
+<!ENTITY quake-howto.xml SYSTEM "howtos/quake-howto.xml">
+<!ENTITY Debian-Binary-Package-Building-HOWTO.xml SYSTEM "howtos/Debian-Binary-Package-Building-HOWTO.xml">
+<!ENTITY Assembly-HOWTO.xml SYSTEM "howtos/Assembly-HOWTO.xml">
+<!ENTITY maint-guide.xml SYSTEM "howtos/maint-guide.xml">
+<!ENTITY ruby-ug.xml SYSTEM "howtos/ruby-ug.xml">
+<!ENTITY ncurses-howto.xml SYSTEM "howtos/ncurses-howto.xml">
+<!ENTITY apt-howto.xml SYSTEM "howtos/apt-howto.xml">
+<!ENTITY dlopen-mini-howto.xml SYSTEM "howtos/dlopen-mini-howto.xml">
+<!ENTITY mp3-sunucu.xml SYSTEM "howtos/mp3-sunucu.xml">
+<!ENTITY kahve-nasil.xml SYSTEM "howtos/kahve-nasil.xml">
+<!ENTITY partition-howto.xml SYSTEM "howtos/partition-howto.xml">
+<!ENTITY partition-rescue.xml SYSTEM "howtos/partition-rescue.xml">
+<!ENTITY touch-screen-howto.xml SYSTEM "howtos/touch-screen-howto.xml">
+<!ENTITY compaq-t1500.xml SYSTEM "howtos/compaq-t1500.xml">
+<!ENTITY gpl.xml SYSTEM "howtos/gpl.xml">
+<!ENTITY lgpl.xml SYSTEM "howtos/lgpl.xml">
+<!ENTITY encourage-women-howto.xml SYSTEM "howtos/encourage-women-howto.xml">
+<!ENTITY event-howto.xml SYSTEM "howtos/event-howto.xml">
+<!ENTITY debian-history.xml SYSTEM "howtos/debian-history.xml">
+<!ENTITY hacker-howto.xml SYSTEM "howtos/hacker-howto.xml">
+<!ENTITY reading-list.xml SYSTEM "howtos/reading-list.xml">
+<!ENTITY linux-advocacy.xml SYSTEM "howtos/linux-advocacy.xml">
+<!ENTITY installfest-howto.xml SYSTEM "howtos/installfest-howto.xml">
+<!ENTITY user-group-howto.xml SYSTEM "howtos/user-group-howto.xml">
+<!ENTITY smart-questions.xml SYSTEM "howtos/smart-questions.xml">
+<!ENTITY online-troubleshooting-howto.xml SYSTEM "howtos/online-troubleshooting-howto.xml">
+<!ENTITY cdrecord.xml SYSTEM "howtos/cdrecord.xml">
+<!ENTITY jabberd-howto.xml SYSTEM "howtos/jabberd-howto.xml">
+<!ENTITY PythonPerformanceTips.xml SYSTEM "howtos/PythonPerformanceTips.xml">
+<!ENTITY eui-64.xml SYSTEM "howtos/eui-64.xml">
+<!ENTITY secure-boot-cd.xml SYSTEM "howtos/secure-boot-cd.xml">
+<!ENTITY squashfs-howto.xml SYSTEM "howtos/squashfs-howto.xml">
+<!ENTITY ipv6-in-ipv4-tunnels.xml SYSTEM "howtos/ipv6-in-ipv4-tunnels.xml">
+<!ENTITY ldap-howto.xml SYSTEM "howtos/ldap-howto.xml">
+<!ENTITY encrypted-swap-howto.xml SYSTEM "howtos/encrypted-swap-howto.xml">
+<!ENTITY report-bug-howto.xml SYSTEM "howtos/report-bug-howto.xml">
+<!ENTITY ipsec-howto.xml SYSTEM "howtos/ipsec-howto.xml">
+]>
+<set id="index" lang="tr">
+  <?dbhtml dir="../KiTAPLIK"?>
+  <setinfo>
+    <title>Linux Kitaplığı</title>
+  </setinfo>
+  <book id="howto">
+    <?dbhtml dir="../howto"?>
+    <title>Linux Belgeleri</title>
+
+    <part id="howtos-os">
+      <title>Linux İşletim Sistemi</title>
+      &linux-i386-boot-code-howto.xml;
+      &timesys-linux-howto.xml;
+      &rtlinux-howto.xml;
+      &RTLinux-install-howto.xml;
+    </part>
+    <part id="howtos-security">
+      <title>Güvenlik</title>
+      &user-auth-howto.xml;
+      &ldap-howto.xml;
+      &kerberos-howto.xml;
+      &p8021x-howto.xml;
+      &freeradius-sql-howto.xml;
+      &Disk-Encryption-HOWTO.xml;
+      &encrypted-rootfs-howto.xml;
+      &encrypted-swap-howto.xml;
+      &cryptoloop-howto.xml;
+      &squashfs-howto.xml;
+    </part>
+    <part id="howtos-servers">
+      <title>Sunucular</title>
+      &apache-compile-howto.xml;
+      &Oracle-9i-Fedora-3-Install-HOWTO.xml;
+      &mp3-sunucu.xml;
+      &spam-filtering-howto.xml;
+      &jabberd-howto.xml;
+    </part>
+    <part id="howtos-networking">
+      <?dbhtml dir="../howto"?>
+      <title>Ağ Uygulamaları</title>
+      &cluster-howto.xml;
+      &secure-boot-cd.xml;
+      &beowulf-howto.xml;
+      &ipsec-howto.xml;
+      &ipv6-howto.xml;
+      &mobil-ipv6-howto.xml;
+      &olsr-ipv6-howto.xml;
+      &ipv6-in-ipv4-tunnels.xml;
+      &eui-64.xml;
+      &Debian-and-Windows-Shared-Printing-mini-HOWTO.xml;
+      &leased-line-howto.xml;
+    </part>
+    <part id="howtos-apps">
+      <title>Uygulamalar/Masaüstü/Çoklu Ortam</title>
+      &astronomy-howto.xml;
+      &time-precision-howto.xml;
+      &debian-jigdo.xml;
+      &tt-xfree86-howto.xml;
+      &medicine-howto.xml;
+      &fedora-multimedia-howto.xml;
+      &config-howto.xml;
+      &quake-howto.xml;
+    </part>
+    <part id="howtos-programming">
+      <title>Yazılım Geliştirme</title>
+      &Debian-Binary-Package-Building-HOWTO.xml;
+      &Assembly-HOWTO.xml;
+      &maint-guide.xml;
+      &ruby-ug.xml;
+      &ncurses-howto.xml;
+      &apt-howto.xml;
+      &dlopen-mini-howto.xml;
+      &PythonPerformanceTips.xml;
+    </part>
+    <part id="howtos-hardware">
+     <title>Donanım</title>
+     &cdrecord.xml;
+     &kahve-nasil.xml;
+     &partition-howto.xml;
+     &partition-rescue.xml;
+     &touch-screen-howto.xml;
+     &compaq-t1500.xml;
+    </part>
+    <part id="others-f">
+      <title>Felsefe, Tarih ve Genel Kültür</title>
+        &gpl.xml;
+        &lgpl.xml;
+        &encourage-women-howto.xml;
+        &event-howto.xml;
+        &debian-history.xml;
+        &hacker-howto.xml;
+        &reading-list.xml;
+        &linux-advocacy.xml;
+        &installfest-howto.xml;
+        &user-group-howto.xml;
+        &smart-questions.xml;
+	&report-bug-howto.xml;
+	&online-troubleshooting-howto.xml;	
+    </part>
+  </book>
+</set>

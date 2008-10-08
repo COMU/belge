@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:45:39+03:00"><title>İki Misli Kontrol</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/dpkg-deb-nasil.html" title="Debian İkilik Paketlerini Oluşturma Nasıl"><link rel="previous" href="../howto/dpkg-deb-nasil_uygulama.html" title="Uygulama"><link rel="next" href="../howto/dpkg-deb-nasil_ozet.html" title="Özet"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">İki Misli Kontrol</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/dpkg-deb-nasil_uygulama.html">Önceki</a> </td><th width="60%" align="center">Debian İkilik Paketlerini Oluşturma Nasıl</th><td width="20%" align="right"> <a accesskey="n" href="../howto/dpkg-deb-nasil_ozet.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="dpkg-deb-nasil_check"></a>İki Misli Kontrol</h2></div></dt><dd><p>
+Şimdi artık ilk ikilik paketinizi yaptınız ve ilk izlenime sahipsiniz, biraz daha ciddi yaklaşmanın ve ürettiğimiz paketin kalitesine bakmanın zamanı geldi.
+  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="dpkg-deb-nasil_lintian"></a><tt>lintian</tt></h3></div></dt><dd><p>
+Bizim için ne şans ki Debian projesi Debian paketlerini kontrol etmek için <b><tt>lint</tt></b> benzeri bir araç sunmaktadır. Bu araç <b><tt>lintian</tt></b> olarak isimlendirilir. Hala yüklemediyseniz şu an iyi bir zaman (<b><tt>apt-get install lintian</tt></b>).
+    </p><p>
+Şimdi bu küçük define arayıcıyı kendi paket dosyamız üzerinde kullanacağız.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>lintian linuxstatus_1.1-1_all.deb</tt></b>
+E: linuxstatus: binary-without-manpage linuxstatus
+E: linuxstatus: no-copyright-file
+W: linuxstatus: prerm-does-not-remove-usr-doc-link
+W: linuxstatus: postinst-does-not-set-usr-doc-link
+</pre> </td></tr></table></div>
+    </p><p>
+O kadar da mükemmel gözükmüyor. Bir kılavuz sayfası, <tt>copyright</tt> dosyası ve şu <tt>prerm</tt> ve <tt>postinst</tt> betiklerini atladık.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="dpkg-deb-nasil_minimal-doc"></a>Minimum Belgeleme</h3></div></dt><dd><p>
+Kılavuz sayfaları yazmak ve oluşturmakla ilgili çok fazla söz söylenecek yer burası değil, bir veya herhangi bir bölümü bu konuyla ilgili pek çok kitap ve ayrıca internetten erişebilinecek <a class="ulink" href="http://www.tldp.org/HOWTO/mini/Man-Page.html" target="_top">http://www.tldp.org/HOWTO/mini/Man-Page.html</a> adresindeki belge vardır.
+    </p><p>
+Küçük bir zaman atlaması yapalım ve betiğiniz için <tt>./man/man1/linuxstatus.1</tt> konumunda mükemmel bir kılavuz sayfasına sahip olduğunuzu varsayalım.
+    </p><p>
+Aynı durum <tt>copyright</tt> dosyası için de geçerli olsun. <b><tt>find /usr/share/doc -name "copyright"</tt></b> komutuyla <tt>/usr/share/doc</tt> dizini altında yeterince örnek bulabilirsiniz.
+    </p><p>
+İşte bizim kendi <tt>copyright</tt> dosyası örneğimiz:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+linuxstatus
+
+Copyright: Chr. Clemens Lee &lt;clemens@kclee.com&gt;
+
+2002-12-07
+
+The home page of linuxstatus is at:
+http://www.kclee.com/clemens/unix/index.html#linuxstatus
+
+The entire code base may be distributed under the terms of the GNU General
+Public License (GPL), which appears immediately below.  Alternatively, all
+of the source code as any code derived from that code may instead be
+distributed under the GNU Lesser General Public License (LGPL), at the
+choice of the distributor. The complete text of the LGPL appears at the
+bottom of this file.
+
+See /usr/share/common-licenses/(GPL|LGPL)
+</pre> </td></tr></table></div>
+    </p><p>
+<tt>prerm</tt> ve <tt>postinst</tt> betikleri için yukarıda, <tt>parted</tt> paketindeki örnekleri birebir aynı isimle kendi proje dizinimize kopyalayalım. Bu dosyalar bizim için de düzgün çalışmalı.
+    </p><p>
+Şimdi Debian paketini tekrar oluşturuyoruz. <tt>control</tt> dosyasında sürüm numarasını ilk önce 1.1-1'den 1.2-1'e yükseltiriz (yeni bir kılavuz sayfası yazdığımız için dahili sürüm numaramızı yükseltiriz). Aynı zamanda yeni dosyaları uygun konumlara kopyalamaya ihtiyacımız var.
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>mkdir -p ./debian/usr/share/man/man1</tt></b>
+<tt>$ </tt><b><tt>mkdir -p ./debian/usr/share/doc/linuxstatus</tt></b>
+<tt>$ </tt><b><tt>find ./debian -type d | xargs chmod 755</tt></b>
+<tt>$ </tt><b><tt>cp ./man/man1/linuxstatus.1 ./debian/usr/share/man/man1</tt></b>
+<tt>$ </tt><b><tt>cp ./copyright ./debian/usr/share/doc/linuxstatus</tt></b>
+<tt>$ </tt><b><tt>cp ./prerm ./postinst ./debian/DEBIAN</tt></b>
+<tt>$ </tt><b><tt>gzip --best ./debian/usr/share/man/man1/linuxstatus.1</tt></b>
+<tt>$ </tt>
+<tt>$ </tt><b><tt>dpkg-deb --build debian</tt></b>
+dpkg-deb: building package `linuxstatus' in `debian.deb'.
+<tt>$ </tt><b><tt>mv debian.deb linuxstatus_1.2-1_all.deb</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+<b><tt>gzip</tt></b> gereklidir, çünkü <b><tt>lintian</tt></b> kılavuz sayfalarının mümkün olduğunca sıkıştırılmış olmasını bekler.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="dpkg-deb-nasil_fakeroot"></a><tt>fakeroot</tt></h3></div></dt><dd><p>
+Bakalım paketimiz daha iyi bir Debian tebaası haline gelmiş mi:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>lintian linuxstatus_1.2-1_all.deb</tt></b>
+E: linuxstatus: control-file-has-bad-owner prerm clemens/clemens != root/root
+E: linuxstatus: control-file-has-bad-owner postinst clemens/clemens != root/root
+E: linuxstatus: bad-owner-for-doc-file usr/share/doc/linuxstatus/ clemens/clemens != root/root
+E: linuxstatus: bad-owner-for-doc-file usr/share/doc/linuxstatus/copyright clemens/clemens != root/root
+E: linuxstatus: debian-changelog-file-missing
+</pre> </td></tr></table></div>
+    </p><p>
+Ups, yeni şikayetler. Tamam, yılmayacağız. Çoğu hata aslında aynı hataymış gibi duruyor. Bizim dosyalarımızın hepsi <tt>clemens</tt> kullanıcı ve gurubu için paketlendi, bunu yaparken de ben pekçok insanın onları root kullanıcısı ve gurubu için yüklü tercih edeceklerini varsaydım. Bu sorun <b><tt>fakeroot</tt></b> aracı kullanılarak kolayca çözülebilir. Hadi bunu hızlı bir şekilde düzeltip kontrol edelim (<tt>changelog</tt> kısmını ihmal ediyoruz).
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>fakeroot dpkg-deb --build debian</tt></b>
+dpkg-deb: building package `linuxstatus' in `debian.deb'.
+<tt>$ </tt><b><tt>mv debian.deb linuxstatus_1.2-1_all.deb</tt></b>
+<tt>$ </tt><b><tt>lintian linuxstatus_1.2-1_all.deb</tt></b>
+E: linuxstatus: debian-changelog-file-missing
+</pre> </td></tr></table></div>
+    </p><p>
+Güzel, fakat hala pakete eklememiz gereken bir dosya var.
+    </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="dpkg-deb-nasil_more-docs"></a>Daha Fazla Belge</h3></div></dt><dd><p>
+Hemen şunu söyliyeyim, <tt>changelog</tt> dosyası yanında <tt>doc/linuxstatus</tt> dizininde <tt>changelog.Debian</tt> dosyasına da ihtiyaç vardır. Her ikisi de <b><tt>gzip</tt></b> ile sıkıştırılmış olmalıdır.
+    </p><p>
+İki örnek dosya, <tt>changelog</tt>:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">linuxstatus (1.2-1)
+
+  * Made Debian package lintian clean.
+
+  -- Chr. Clemens Lee &lt;clemens@kclee.com&gt;  2002-12-13
+</pre> </td></tr></table></div>
+    </p><p>ve <tt>changelog.Debian</tt>:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">linuxstatus Debian maintainer and upstream author are identical.
+Therefore see also normal changelog file for Debian changes.
+</pre> </td></tr></table></div>
+    </p><p>
+Debian Sözleşme (Debian Policy File) dosyası, <a class="ulink" href="http://www.debian.org/doc/debian-policy/ch-miscellaneous.html#s-dpkgchangelog" target="_top"><tt>changelog</tt> dosyasının biçimiyle</a> ilgili daha ayrıntılı bilgiye sahiptir.
+    </p><p>
+Ve nihayet son adımımız:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>cp ./changelog ./changelog.Debian ./debian/usr/share/doc/linuxstatus</tt></b>
+<tt>$ </tt><b><tt>gzip --best ./debian/usr/share/doc/linuxstatus/changelog</tt></b>
+<tt>$ </tt><b><tt>gzip --best ./debian/usr/share/doc/linuxstatus/changelog.Debian</tt></b>
+<tt>$ </tt><b><tt>fakeroot dpkg-deb --build ./debian</tt></b>
+dpkg-deb: building package `linuxstatus' in `debian.deb'.
+<tt>$ </tt><b><tt>mv debian.deb linuxstatus_1.2-1_all.deb</tt></b>
+<tt>$ </tt><b><tt>lintian linuxstatus_1.2-1_all.deb</tt></b>
+</pre> </td></tr></table></div>
+    </p><p>
+Ah, artık başka şikayet almıyoruz <tt>;-)</tt>. <tt>root</tt> olarak bu paketi eskisinin üzerine standart komutu kullanarak yükleyebilirsiniz: <b><tt>dpkg -i</tt></b>
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>root# </tt><b><tt>dpkg -i ./linuxstatus_1.2-1_all.deb</tt></b>
+(Reading database ... 97124 files and directories currently installed.)
+Preparing to replace linuxstatus 1.1-1 (using linuxstatus_1.2-1_all.deb) ...
+Unpacking replacement linuxstatus ...
+Setting up linuxstatus (1.2-1) ...
+</pre> </td></tr></table></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/dpkg-deb-nasil_uygulama.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/dpkg-deb-nasil.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/dpkg-deb-nasil_ozet.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Uygulama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Özet</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

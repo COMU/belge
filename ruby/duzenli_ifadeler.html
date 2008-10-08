@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Düzenli İfadeler</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="dizgiler.html">
+ <img border=0 src="a2l.gif" alt="Dizgiler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="diziler.html">
+ <img border=0 src="a2r.gif" alt="Diziler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Düzenli İfadeler</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>
+Şimdi daha ilginç bir program yazalım. Bu sefer verilen bir dizginin istenen bir <em>şablona</em> uyup uymadığına bakalım:
+</p>
+<p>
+Bu şablonlarda karakterler ve karakter kombinasyonları bulunur:</p>
+<p><table border="1"><tr><td><code>[]</code> </td><td>aralık belirlemek için kullanılır (örneğin, <code>[a-z]</code>, <code>a</code> ile <code>z</code> arasındaki harfleri belirtir) </td></tr>
+<tr><td>
+<code>\w</code> </td><td> rakam ya da harf, <code>[0-9A-Za-z]</code> ile aynı</td></tr>
+<tr><td>
+<code>\W</code> </td><td> rakam ya da harf değil</td></tr>
+<tr><td>
+<code>\s</code> </td><td> boşluk karakteri; <code>[ \t\n\r\f]</code> ile aynı</td></tr>
+<tr><td>
+<code>\S</code> </td><td> boşluk-harici karakter</td></tr>
+<tr><td>
+<code>\d</code> </td><td> boşluk karakteri; <code>[0-9]</code> ile aynı</td></tr>
+<tr><td>
+<code>\D</code> </td><td> rakam- harici</td></tr>
+<tr><td>
+<code>\b</code> </td><td> backspace (0x08) (sadece herhangi bir aralık belirtilmişse)</td></tr>
+<tr><td>
+<code>\b</code> </td><td> kelime sınırlaması (eğer herhangi bir aralık belirtmesi yoksa)</td></tr>
+<tr><td>
+<code>\B</code> </td><td> kelime sınırlaması</td></tr>
+<tr><td>
+<code>*</code> </td><td> sıfır ya da daha fazla tekrarlama</td></tr>
+<tr><td>
+<code>+</code> </td><td> bir ya da daha fazla tekrarlama</td></tr>
+<tr><td>
+<code>{m,n}</code> </td><td> n az m en çok n kez tekrarlama</td></tr>
+<tr><td>
+<code>?</code> </td><td>  en fazla bir kere tekrarlama <code>{0,1}</code>ile aynı</td></tr>
+<tr><td>
+<code>|</code> </td><td> uyabilecek sonraki ifade</td></tr>
+<tr><td>
+<code>()</code> </td><td> gruplama</td></tr></table>
+<p>
+Bu ilginç lügat genelde <em>düzenli ifadeler</em> olarak anılır. Ruby'de, Perl'de de olduğu gibi çift tırnak koymak yerine ters bölü işareti kullanılır. Eğer daha önce düzenli ifadelerle karşılaşmadıysanız muhtemelen <em>düzenli</em> hiç birşey göremeyeceksiniz ancak alışmak için biraz zamana ihtiyacınız olduğunu unutmayın. Düzenli ifadeler, metin dizgileri üzerinde arama, eşleştirme ve bu gibi diğer işlerle uğraşırken sizi baş ağrısından (ve satırlarca koddan) kurtaran gözle görülür bir güce sahiptir.
+</p>
+<p>Örneğin aşağıdaki tanıma uyan bir dizgi aradığımızı farzedelim: "Küçük f harfiyle başlayan, ardından bir büyük harfle devam eden bundan sonra küçük harf haricinde herhangi bir karakterle devam eden" bir dizgi. Eğer deneyimli bir C programcısıysanız muhtemelen şimdiden kafanızca binlerce satır kod yazmıştınız, öyle değil mi? Kabul edin, kendinize güçlükle yardım edebilirsiniz. Anck Ruby'de sadece dizgiyi şu düzenli ifadeyle test etmeniz yeterli olacaktır: <code>/^f[A-Z](^[a-z])*$/</code>.</p>
+<p>Köşeli parantezler içindeki bir onaltılık sayıya ne dersiniz? Hiç sorun değil.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> def chab(s)   # "koseli parantezler arasında hex rakam icerir"</b></font>
+    |<font color="#ffff00"><b>    (s =~ /&lt;0(x|X)(\d|[a-f]|[A-F])+&gt;/) != nil</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+  nil
+ruby&gt;<font color="#ffff00"><b> chab "Bu degil."</b></font>
+  false
+ruby&gt;<font color="#ffff00"><b> chab "Bu olabilir mi? {0x35}"    # yanlis parantez tipi</b></font>
+  false
+ruby&gt;<font color="#ffff00"><b> chab "Ya da bu? &lt;0x38z7e&gt;"    # bogus hex rakami</b></font>
+  false
+ruby&gt;<font color="#ffff00"><b> chab "Peki bu: &lt;0xfc0004&gt;."</b></font>
+  true</font></pre></td></tr></table>
+<p>Düzenli ifadeler başlangıçta bulmacalı gibi gözükse de kısa süre içinde istediğinizi yapabilme konusunda yol katedeceksiniz.</p>
+<p>Aşağıda düzenli ifadeleri anlamanıza yarayacak küçük bir program bulunuyor. <code>regx.rb</code> olarak kaydedin ve komut satırına "<code>ruby regx.rb</code>" yazarak çalıştırın.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="#e8e8d8"><tr><td><pre><font color="black">#ANSI terminal gerektirir!
+
+st = "\033[7m"
+en = "\033[m"
+
+while TRUE
+  print "str&gt; "
+  STDOUT.flush
+  str = gets
+  break if not str
+  str.chop!
+  print "pat&gt; "
+  STDOUT.flush
+  re = gets
+  break if not re
+  re.chop!
+  str.gsub! re, "#{st}\\&amp;#{en}"
+  print str, "\n"
+end
+print "\n"</font></pre></td></tr></table>
+<p>Program bir tanesi dizgi diğeri de düzenli ifade olmak üzere iki girdi alır. Dizgi verilen düzenli ifade ile test edilir ve bütün uyuşan sonuçlar listelenir. Şu an ayrıntılara ilgilenmeyin, bu kodun analizini daha sonra yapacağız.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">str&gt; foobar
+pat&gt; ^fo+
+<font color="red"><b>foo</b></font>bar
+~~~</font></pre></td></tr></table>
+<p><em>Programın çıktısında ne görüyorsunuz? "~~~" satırları metin- tabanlı tarayıcılara özgüdür.</em></p>
+<p>Bir kaç girdi daha deneyelim. </p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">str&gt; abc012dbcd555
+pat&gt; \d
+abc<font color="red"><b>012</b></font>dbcd<font color="red"><b>555</b></font>
+<font color="#50ffff"><b>   ~~~    ~~~</b></font></font></pre></td></tr></table>
+<p>Eğer şaşırdıysanız sayfanın başındaki tabloya tekrar göz atabilirsiniz: <code>\d</code>'nin <code>d</code> karakteriyle hiçbir bağlantısı yoktur ancak bir rakamı eşleştirmekte kullanılır.</p>
+<p>Eğer istediğimiz kriterlere uygun birden fazla yol varsa ne olur?</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">str&gt; foozboozer
+pat&gt; f.*z
+<font color="red"><b>foozbooz</b></font>er
+~~~~~~~~</font></pre></td></tr></table>
+<p>Düzenli ifadeler olabilecek en uzun dizgiyi döndürdüğü için <code>fooz</code>'un yerine <code>foozbooz</code> eşleştirildi.</p>
+<p>Aşağıda iki nokta üstüste işaretiyle sınırlandırılmış bir zaman alanı bulunuyor:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">str&gt; Wed Feb  7 08:58:04 JST 1996
+pat&gt; [0-9]+:[0-9]+(:[0-9]+)?
+Wed Feb  7 <font color="red"><b>08:58:04</b></font> JST 1996
+<font color="#50ffff"><b>           ~~~~~~~~</b></font></font></pre></td></tr></table>
+<p><code>"=~" </code>operatörü bulduğu dizginin konumunu döndüren, aksi halde <code>nil</code> döndüren düzenli ifadedir.
+
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> "abcdef" =~ /d/</b></font>
+<font color="#50ffff"><b>   3</b></font>
+ruby&gt;<font color="#ffff00"><b> "aaaaaa" =~ /d/</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="dizgiler.html">
+ <img border=0 src="a2l.gif" alt="Dizgiler"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="diziler.html">
+ <img border=0 src="a2r.gif" alt="Diziler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

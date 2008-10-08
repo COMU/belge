@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:slagell@ruby-lang.org">
+  <TITLE>Nesneye Yöneik Düşünce</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="tekrarlayicilar.html">
+ <img border=0 src="a2l.gif" alt="Tekrarlayıcılar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="metotlar.html">
+ <img border=0 src="a2r.gif" alt="Metotlar"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Nesneye Yönelik Düşünme</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Nesneye yönelik kavramı çekici bir kavramdır. Herşeyi <em>nesneye yönelik</em> olarak çağırmak kulağınıza hoş gelebilir. Ruby nesneye yönelik bir betik dili olarak adlandırılır, ancak gerçekte bu "nesneye yönelik" kavramı nedir?</p>
+<p>Bu soruya aşağı yukarı hepsi aynı kapıya çıkan bir sürü cevap bulunabilir. Çabukça toparlamak yerine, isterseniz öncelikle geleneksel programlama paradigması üzerinde duralım.
+
+</p>
+<p>Geleneksel olarak, veri üzerinde, veri temsili ve prosedürlerle gelmesi bir programlama problemi olarak adlandırılmıştır. Bu model altında, veri hareletsiz, pasif ve beceriksizdir; tamamen aktif, mantıksal ve güçlü bir prosedürün merhametine kalmıştır.
+
+</p>
+<p>Bu yaklaşımdaki problem, programları yazan programcıların sadece insan olması ve dolayısıyla bir çok detayı sadece bir sefer kafalarında net olarak tutabilmeleridir. Proje genişledikçe, prosedürel özü daha karmaşık ve hatırlaması zor bir noktaya gelir. Küçük düşünce kusurları ve yazım yanlışlarıyla sonuçta elinizde iyi-gizlenmiş program hataları kalır. Zamanla prosedür çekirdeğinde istenmeyen etkileşimler doğabilir; bu iş dokunaçlarının yüzünüze değmesine izin vermeden sinirli bir mürekkep balığı taşımaya benzer. Bu geleneksel paradigmalarla programlarken hataları azaltmak ve sınırlamak için kılavuzlar bulunmaktadır, ancak yöntemi kökten değiştirmek daha iyi bir çözüm olacaktır.</p>
+<p>Peki nesneye yönelik programlama, mantıksal işin sıradan ve tekrarlayan yönünü verinin kendisine emanet etmemizi mümkün kılmak ve veriyi pasif durumdan aktif duruma sokmamız için ne yapar? Başka bir açıdan,</p>
+<ul>
+<li>
+Her veri parçasına, erişip içindekileri etrafa fırlatmamıza izin veren kapağı açık bir kutu gibi davranmayı bıraktık.
+</li>
+<li>Her veri parçasına kapağı kapalı ve iyi işaretlenmiş anahtarları bulunan çalışan bir makine gibi davranmaya başladık.</li>
+</ul>
+<p>"makine" olarak tanımladığımız şey çok basit ya da çok karmaşık olabilir ancak bunu dışarıdan bakarak söyleyemeyiz ve makineyi açmayı (dizaynıyla ilgili bir sorun olduğunu düşünmedikçe) istmeyiz. Bu yüzden veriyle etkileşimde bulunmak için bulunmak için anahtar çeviriyor gibi işlem yapmamız gerekir. Makine birkere kurulduğu zaman nasıl çalıştığı hakkında düşünmememize gerek yoktur.</p>
+<p>Kendimize iş çıkardığımızı düşünebilirsiniz ancak bu yaklaşımla bazı şeylerin yanlış gitmesini önleyebiliriz.</p>
+<p>Şimdi açıklayıcı olması açısından basit ve küçük bir örnek görelim: Arabanızın bir yolmetresi olsun. Görevi yeniden başlatma düğmesine son basıldığından itibaren ne kadar yol katedildiği bilgisini tutar. Bu durumu bir programlama dilinde nasıl tasarlayabiliriz? C'de yolmetre sadece nümerik bir değişken olmalıdır, muthemelen bir float. Program bu değişkenin değerini küçük aralıklarla arttıracak, uygun gördüğü zamansa sıfır yapıp yeniden başalatacaktır. Burada yanlış olan nedir? Programdaki bir hata bu değişkene uydurma bir değer atayabilir ve beklenmedik sonuçlar ortaya çıkabilir. C'de programlama yapmış herhangi biri böylesine küçük ve basit bir hatayı bulmak için saatler ya da günler harcamanın ne demek olduğunu bilir (hatanın bulunma sinyali genelde alna inen yüksek sesli bir tokattır).</p>
+<p>Aynı problem nesneye yönelik bağlamda da karşımıza çıkabilirdi. Yolmetreyi tasarlayan bir programcının soracağı ilk şeylerden biri tabii ki "hangi veri yapısı bu durum için daha uygundur?" olmayacaktır. Ama "Bunun tam olarak nasıl çalışması gerekiyor?" şelkinde bir soru daha uygun olacaktır. Aradaki fark daha malumatlı olmaktır. Bir kilometre sayacının gerçekte ne işe yaradığına ve dış dünyanın onunla nasıl etkileşimde bulunmayı beklediğine karar vermek için biraz zaman ayırmamız gereklidir. Şimdi arttırabileceğimiz, yeniden başlatabileceğimiz ve değerini okuyabileceğimiz ve başka bir şey yapmayan küçük bir makine yapmaya karar verdik.</p>
+<p>Yolmetremize keyfi bir değer atamak için bir yol tanımlamadık; neden? çünkü yolmetrelerin bu şekilde çalışmadığını biliyoruz. Yolmmetreyle yapabileceğiniz pek az şey var, ki bunların hepsini yapmaya izin verdik. Bu şekilde eğer programda herhangi birşey yolmetrenin değerinin yerine geçmeye çalışırsa (örneğin arabanın klimasının derecesi) işlerin yanlış gittiğine dair uyarı alırsınız. Koşan programa (dilin doğasına göre muhtemelen derleme sırasında) Yolmetre nesnelerine keyfi değerler atamaya izni olmadığını söyledik. Mesaj tam olarak bu olmayabilir ama buna yakın birşeydir. Ancak hatayı engellemiyor, değil mi? Ancak hatanın yerini kolayca gösterir. Bu nesneye yönelik programlamanın zamanımızı boşa harcamaktan kurtaran birkaç yolundan biridir.</p>
+<p>Yukarıda soyutlamanın yalnızca bir adımını yaptık, artık makinelerden oluşan bir fabrika yapmak kolaylaştı. Tek bir yolmetreyi direkt oluşturmak yerine, basit bir kalıptan istediğimiz sayıda yolmetre yapmayı tercih etmeliyiz. Kalıp (ya da isterseniz yolmetre fabrikası) "sınıf" olarak adlandırdığımız kavrama, oluşturduğumuz yolmetre de "nesne" olarak tanımladığğımız kavrama karşılık gelmektedir. Bir çok nesneye yönelik programlama dili, herhangi bir nesne oluşturmdan önce bir sınıfın tanımlı olmasını gerekli kılar, ancak Ruby'de böyle bir durum sözkonusu değildir.</p>
+<p>Bu kullanımın nesneye yönelik dizaynı kuvvetlendirmediğini de not düşelim. Elbette her dilde, anlaşılamayan, hatalı, yarım yamalak kod yazmak mümkündür. Ruby'nin sizin için yaptığı şey (özellikle C++'ın aksine) nesneye yönelik programlama kavramını sindirmenizi sağlayarak, daha küçük bir ölçekte çalışırken çirkin bir kod yazmamak için efor sarfetmenizi önler. İlerki bölümlerde Ruby'nin takdire şayan diğer özelliklerini açıklayacağız. Hala bizimle misiniz?</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="tekrarlayicilar.html">
+ <img border=0 src="a2l.gif" alt="Tekrarlayıcılar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="Metotlar.html">
+ <img border=0 src="a2r.gif" alt="Metotlar"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

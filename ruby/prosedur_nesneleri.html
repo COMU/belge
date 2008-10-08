@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:pinar@comu.edu.tr">
+  <TITLE>Prosedür nesneleri</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="moduller.html">
+ <img border=0 src="a2l.gif" alt="moduller"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="degiskenler.html">
+ <img border=0 src="a2r.gif" alt="degiskenler"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Prosedür nesneleri</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>
+
+Beklenmeyen durumlara cevap verebilme genelde istenen bir durumdur. 
+Eğer diğer metotlara kod bloklarını argüman olarak geçebilirsek yani koda bir veriymiş gibi davranabilirsek bu işi oldukça kolaylaştırmış oluruz.</p>
+<p>Yeni bir prosedür nesnesi, <code>proc</code> kullanılarak oluşturuşur:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> quux = proc {</b></font>
+    |<font color="#ffff00"><b>   print "QUUXQUUXQUUX!!!\n"</b></font>
+    |<font color="#ffff00"><b> }</b></font>
+<font color="#50ffff"><b>   #&lt;Proc:0x4017357c&gt;</b></font></font></pre></td></tr></table>
+<p>Artık <code>quux </code>bir nesne olduğunu belirtiyor ve diğer nesneler gibi kullanılabilir özellikleri vardır. <code>call</code> metodu sayesinde bu özellikleri çalıştırabiliriz:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> quux.call</b></font>
+QUUXQUUXQUUX!!!
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Peki tüm bunlardan sonra, <code>quux</code> bir metot argümanı gibi kullanılabilir mi? Tabii ki.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> def run( p )</b></font>
+    |<font color="#ffff00"><b>   print "Bir prosedur cagirmak uzere...\n"</b></font>
+    |<font color="#ffff00"><b>   p.call</b></font>
+    |<font color="#ffff00"><b>   print "Bitti.\n"</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> run quux</b></font>
+Bir prosedur cagirmak uzere...
+QUUXQUUXQUUX!!!
+Bitti.
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p><code>trap</code> metodu aldığımız cevabı tercihimize göre istediğimiz sistem sinyaline atamamıza izin verir.
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> inthandler = proc{ print "^C was pressed.\n" }</b></font>
+<font color="#50ffff"><b>   #&lt;Proc:0x401730a4&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> trap "SIGINT", inthandler</b></font>
+<font color="#50ffff"><b>   #&lt;Proc:0x401735e0&gt;</b></font></font></pre></td></tr></table>
+<p>Normalde <code> ^C</code> 'ye basmak yorumlayıcıdan çıkmamızı sağlar. Ancak şimdi bir mesaj yazıldı ve yorumlayıcı hala çalışmaya devam ediyor, böylece yaptığınız işi kaybetmemiş oluyorsunuz. (Yorumlayıcıda sonsuza dek kapana kısılmadınız, hala <code> exit</code>  yazarak ya da <code> ^D</code> 'ye basarak çıkabilirsiniz.)
+
+</p>
+<p>Başka konulara geçmeden önce son bir not: bir prosedürü bir sinyale bağlamadan önce ona illa ki isim vermek gerekli değildir. Anonim bir prosedür nesnesi aşağıdaki gibi olabilir:
+
+</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> trap "SIGINT", proc{ print "^C was pressed.\n" }</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>ya da daha derli toplu olarak:</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> trap "SIGINT", 'print "^C was pressed.\n"'</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Bu kısaltılmış form, küçük anonim prosedürler yazdığınızda okunabilirlik sağlar.</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="moduller.html">
+ <img border=0 src="a2l.gif" alt="moduller"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="degiskenler.html">
+ <img border=0 src="a2r.gif" alt="degiskenler"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>

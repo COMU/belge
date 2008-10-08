@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2007-02-05T19:14:02+02:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/c-dlopen-mini-howto.html" title="C++ dlopen mini NASIL"><link rel="previous" href="../howto/c-dlopen-mini-howto.html" title="C++ dlopen mini NASIL"><link rel="next" href="../howto/c-dlopen-mini-howto-theproblem.html" title="Sorun"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/c-dlopen-mini-howto.html">Önceki</a> </td><th width="60%" align="center">C++ dlopen mini NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/c-dlopen-mini-howto-theproblem.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="c-dlopen-mini-howto-intro"></a>Giriş</h2></div></dt><dd><p>
+Unix C++ programcıları arasında <tt>dlopen</tt> Uygulama Programlama Arayüzü - UPA (API) kullanılarak çalışma anında işlev ve sınıf yüklemenin nasıl yapıldığı sorusu sıklıkla ortaya çıkar.
+    </p><p>
+Aslında, herzaman kolay değildir ve bazı açıklamalara ihtiyaç duyulur. Bu mini NASIL belgesi bunu yapar.
+    </p><p>
+Bu belgeyi anlamak için ortalama C, C++ ve <tt>dlopen</tt> API bilgisi gereklidir.
+    </p><p>
+Bu NASIL belgesinin özgün sürümü <a href="http://www.isotton.com/howtos/C++-dlopen-mini-HOWTO/" target="_top">http://www.isotton.com/howtos/C++-dlopen-mini-HOWTO/</a> adresinde bulunmaktadır.
+    </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="c-dlopen-mini-howto-credits"></a>Teşekkürler/Katkıda Bulunanlar</h3></div></dt><dd><p>
+Bu belgenin hazırlanmasında katkıları olanlara teşekkür ederim:
+      </p><p><div class="itemizedlist"><ul type="disc"><li>
+Düzenlemeleri için Joy Y Goodreau <span class="email">&lt;joyg (at) us.ibm.com&gt;</span>.
+<p></p><p></p></li><li>
+Biçimleme ve isim cendereleme ile ilgili birkaç husus ve ayrıca <tt>extern "C"</tt> hakkında birkaç incelik için D. Stimitis <span class="email">&lt;stimitis (at) idcomm.com&gt;</span>.
+<p></p><p>
+Bu NASIL belgesinde hataları gösteren ve ipuçları veren isimsiz diğer kişiler. Siz kendinizi biliyorsunuz!
+</p><p></p></li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="c-dlopen-mini-howto-feedback"></a>Geri Bildirim</h3></div></dt><dd><p>
+Bu belge için geribildirim memnuniyetle karşılanır. Eklemelerinizi, yorumlarınızı ve eleştirilerinizi eposta ile gönderebilirsiniz: <span class="email">&lt;aaron (at) isotton.com&gt;</span>.
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="c-dlopen-mini-howto-terms"></a>Belgede Kullanılan Terimler</h3></div></dt><dd><div class="variablelist"><dl><dt><span class="term"><tt>dlopen</tt> API</span></dt><dd>
+<tt>dlclose</tt>, <tt>dlerror</tt>, <tt>dlopen</tt> ve <tt>dlsym</tt> işlevleri <tt>dlopen(3)</tt> man sayfasında açıklanmıştır.
+<p></p><p>
+Tek bir <tt>dlopen</tt> <i>işlevi</i>nden bahsederken &#8592;<tt>dlopen</tt>&#8594; ve <i>tüm</i> uygulama geliştirme arayüzünden bahsederken &#8592;<tt>dlopen</tt> API&#8594; terimi  kullanıldı.
+</p><p></p></dd><dt><span class="term">isim cendereleme</span></dt><dd>
+İngilizce <i>name mangling</i> teriminin Türkçe karşılığı olarak kullanıldı.
+<p></p><p></p></dd><dt><span class="term">&gt;soyut sınıf</span></dt><dd>
+İngilizce <i>abstract class</i> teriminin Türkçe karşılığı olarak kullanıldı. Bazı kaynaklarda <i>özet sınıf</i> olarak da geçer.
+<p></p><p></p></dd></dl></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/c-dlopen-mini-howto.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/c-dlopen-mini-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/c-dlopen-mini-howto-theproblem.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">C++ dlopen mini NASIL </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sorun</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

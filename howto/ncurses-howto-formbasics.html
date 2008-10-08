@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:54:25+03:00"><title>Temel Bilgiler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"><link rel="previous" href="../howto/ncurses-howto-forms.html" title="Form Kütüphanesi"><link rel="next" href="../howto/ncurses-howto-compileforms.html" title="Form Kütüphanesi ile derleme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Temel Bilgiler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ncurses-howto-forms.html">Önceki</a> </td><th width="60%" align="center">Form Kütüphanesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-compileforms.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ncurses-howto-formbasics"></a>Temel Bilgiler</h3></div></dt><dd><p>
+Formlar menülerle aynı şekilde oluşturulur. Önce form ile ilgili alanlar <tt>new_field()</tt> ile oluşturulur. Alanlar için bir takım güzel özellikler ile gösterilmelerini sağlayan seçenekler tanımlayabilirsiniz: alandan imleci çekmeden önce alan içerisine yazılanı kontrol etmek v.b.. Daha sonra alanlar formlara ilintilenir. Bundan sonra form görüntülenmek için ve girdi almak için hazırdır. <tt>menu_driver()</tt> satırlarına benzer şekilde form için sürücü, <tt>form_driver()</tt> ile değiştirilir. <tt>form_driver</tt>'a bir takım istekler göndererek belli alanlara odaklanabiliriz, alanın sonuna konumlanabiliriz, v.b.. Kullanıcının alanlara veri girmesinden ve doğrulamanın yapılmasından sonra form ekrandan silinip ayrılan bellek alanları geri verilebilir.
+</p><p>
+Bir form programının genel akışı şu şekildedir:
+</p><p>
+<div class="orderedlist"><ol type="1"><li><div class="listitem">
+Curses kipini ilklendirilir
+</div></li><li><div class="listitem"><tt>new_field()</tt> kullanılarak alanlar oluşturulur. Alanın form üzerindeki konumu, yükseklik ve genişliğini tanımlayabilirsiniz.
+</div></li><li><div class="listitem">
+Formlar kendilerine ilintilenecek alanlar ile birlikte <tt>new_form()</tt> kullanarak oluşturulur.
+</div></li><li><div class="listitem"><tt>form_post()</tt> ile ekrana yazılır ve ekran tazelenir.
+</div></li><li><div class="listitem">
+Bir döngü ile kullanıcıdan gelen istekleri işlenir ve <tt>form_driver</tt> ile gerekli güncelleştirmeler yapılır.
+</div></li><li><div class="listitem">
+Form ekrandan <tt>form_unpost()</tt> ile silinir.
+</div></li><li><div class="listitem"><tt>free_form()</tt> ile tahsis edilen bellek alanını geri verilir.
+</div></li><li><div class="listitem">
+Alanlar için ayrılan bellek alanını <tt>free_item()</tt> ile geri verilir.
+</div></li><li><div class="listitem">
+Curses kipi sonlandırılır.
+</div></li></ol></div>
+</p><p>
+Gördüğünüz gibi form kütüphanesi ile çalışmak menüler üzerinde işlemler yapmaya benzemektedir. Aşağıdaki örnekler form işlemenin değişik durumlarını gösterecektir. Basit bir örnekle yolculuğumuza başlayalım.
+</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ncurses-howto-forms.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ncurses-howto-forms.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ncurses-howto-compileforms.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Form Kütüphanesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Form Kütüphanesi ile derleme</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

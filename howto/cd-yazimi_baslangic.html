@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-26T01:21:36+03:00"><title>Başlangıç</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/cd-yazimi.html" title="Linux'da CD Yazımı"><link rel="previous" href="../howto/cd-yazimi_gerekenler.html" title="Gerekli Yazılımlar"><link rel="next" href="../howto/cd-yazimi_veriler.html" title="Veri CD'lerinin Yazılması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Başlangıç</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/cd-yazimi_gerekenler.html">Önceki</a> </td><th width="60%" align="center">Linux'da CD Yazımı</th><td width="20%" align="right"> <a accesskey="n" href="../howto/cd-yazimi_veriler.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="cd-yazimi_baslangic"></a>Başlangıç</h2></div></dt><dd><p>
+      Bilgisayarınıza takılı olan CD-yazarınıza onun SCSI Bus numarası ile
+      erişeceğimiz için, öncelikle bu numarayı öğrenmemiz gerekmektedir.
+      `<b><tt>cdrecord</tt></b> <tt>-scanbus</tt>' komutunu
+      makinenizde - root hakları ile - çalıştırdığınızda, aşağıdaki gibi
+      bir çıktı ile karşılaşmalısınız:
+    </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<tt>[root@isildur iso]#</tt> <b><tt>cdrecord -scanbus</tt></b>
+Cdrecord 1.10 (i686-pc-linux-gnu) Copyright (C) 1995-2001 Jörg Schilling
+Linux sg driver version: 3.1.22
+Using libscg version 'schily-0.5'
+scsibus0:
+        0,0,0     0) *
+        0,1,0     1) *
+        0,2,0     2) *
+        0,3,0     3) *
+        0,4,0     4) 'PLEXTOR ' 'CD-R   PX-W1210S' '1.04' Removable CD-ROM
+        0,5,0     5) *
+        0,6,0     6) 'QUANTUM ' 'QM39100TD-SW    ' 'N1B0' Disk
+        0,7,0     7) *
+</pre> </td></tr></table></div>
+    </p><p>
+      Bu çıktıda 0 numarali SCSI bus üzerindeki 4 numaralı PLEXTOR isimli
+      cihazın bizim CD-yazar olarak kullanabileceğimiz bir aygıt olduğu
+      açıkça görülebilmektedir. Çıktıda cihazımıza karşılık gelen
+      <tt>0,4,0</tt> numarasını unutmayacağız. Eğer CD-yazarınız
+      yukarda vermiş olduğumuz adreste çalıştığı rapor edilmiş olan CD-yazarlar
+      arasında varsa, çekirdek sürümünüz yeterince yüksek ise, yazıcınızın
+      - herhangi bir yolla - kesinlikle çalışır vaziyette bilgisayarınıza
+      takılı olduğundan eminseniz ama yine de
+      `<b><tt>cdrecord</tt></b> <tt>-scanbus</tt>' çıktısında
+      görünmüyorsa, cihazınızı Linux'a tanıtmak için yapmanız gereken bir kaç
+      basit işlem vardır. Bunun için CD-Writing-HOWTO'dan faydalanabilirsiniz.
+      Talep gelirse, bu belgenin ileri sürümlerinde bu konudan da bahsetmeyi
+      düşünüyoruz, fakat şimdilik kendi başınasınız :(
+    </p><p>
+      <div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/caution.png"></td><th>Dikkat</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+        Muhtemelen biçok kişinin bildiği gibi, CD-yazar yazma işlemini
+        gerçekleştirirken disk ya da diğer bir kaynaktan kesintisiz gelen
+        veriyi kullanır. CD yazdığınız esnada bilgisayarınızda yaptığınız
+        işlemlerin veri akışını kesintiye uğratmaması gerekmektedir.
+      </p><p>
+        Kısa bir süreliğine dahi veri akışı kesilirse, CD yazma işlemi
+        kesilir, CD'niz ve vaktiniz de boşa harcanmış olur. Internet'te
+        gezmek ya da müzik dinlemek için kullandığınız ve disk üzerinde
+        fazla işlem yapmayan programlardan ziyade, dosya kopyalamak ya da
+        silmek CD yazma süreci için büyük tehlike arz etmektedir.
+      </p><p>
+        Diskinizden 250, 300 Mb'lık bir dosya siler ya da çok hızlı bir
+        kaynaktan (mesela kendi diskinizin bir başka parçasından ya da
+        yerel ağınızdaki ftp sunucusundan) diskinize büyük bir dosya
+        kopyalarsanız, muhtemelen CD yazıcıya yazacağı veri yeterli
+        hızda temin edilemeyecek ve CD'niz yanacaktır.
+      </p><p>
+        CD yazmak gibi narin bir işlem esnasında koşulları fazla zorlamamak,
+        başarı için yeterli olacaktır. Ayrıca, CD'ye yazma işlemini gerçekleştiren
+        lazerin, kendini yeniden konumlandırıp yazma işlemine kaldığı
+        yerden devam edemeyeceğinden dolayı sarsıntı ve fiziksel şokların
+        yaşanması muhtemel platformlar üzerinde yazma işlemi başarısız olabilir.
+      </p></td></tr></table></div>
+    </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/cd-yazimi_gerekenler.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/cd-yazimi.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/cd-yazimi_veriler.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Gerekli Yazılımlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Veri CD'lerinin Yazılması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

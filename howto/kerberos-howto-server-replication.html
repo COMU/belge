@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-06T10:10:12+03:00"><title>Kerberos Sunucusunun Birebir Kopyalanması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/kerberos-howto.html" title="Kerberos Altyapısı NASIL"><link rel="previous" href="../howto/kerberos-howto-time-sync.html" title="Eşzamanlama"><link rel="next" href="../howto/kerberos-howto-client-configure.html" title="İstemci Yapılandırması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kerberos Sunucusunun Birebir Kopyalanması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/kerberos-howto-time-sync.html">Önceki</a> </td><th width="60%" align="center">Kerberos Altyapısı NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kerberos-howto-client-configure.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="kerberos-howto-server-replication"></a>Kerberos Sunucusunun Birebir Kopyalanması</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-replication"></a>Birebir Kopyalamanın Tanımı</h3></div></dt><dd><p>
+Kerberos ana/yardımcı birebir kopyalama kümelemesine izin verecek şekilde tasarlanmıştır. Bir kerberos kümelemesinde istenilen sayıda düğüm olabilmesine rağmen en az iki adet olması önerilmektedir. Birincil sunucu olarak bir ana sunucu ve onu yedeklemek için en az bir yardımcı sunucu bulunmalıdır. Ana ve yardımcı sunucular birincil ve ikincil sunucular olarak düşünülebilirler.
+</p><p>
+Kerberos hesaplar ve kurallar ile ilgili tüm verilerini bir uygulama veritabanında tutar. Kerberos yazılımı bu verileri diğer sunuculara yedekleyecek veya kopyalayacak yazılımları da içerir.
+</p><p>
+Kerberos istemci uygulamaları eğer birincil sunucuya ulaşılamaz ise ikincil sunucudan kimlik denetimi yapmayı deneyecek şekilde tasarlanmıştır. Bu yüzden bir sistem arızası durumunda Kerberos kimlik denetimi servisinin yedekleme sunucusundan yapılması için ilave bir çaba harcamanıza gerek yoktur. Kerberos'un yönetimsel özellikleri otomatik hata telafisini içermez.
+</p><p>
+Birincil sunucunuzun erişilemez olması durumunda kadmind erişilemez olacaktır. Bu nedenle sunucu tamir edilene veya değiştirilene kadar yönetimsel işlevler çalışmayacaktır. Özellikle yetkili kullanıcı yönetimi, anahtar üretimi ve anahtar değişimi birincil sunucu çalışmadığı sürece yapılamayacaktır.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-implementation"></a>Gerçekleme</h3></div></dt><dd><p>
+Sunucunun birebir kopyalaması kprop komutu ile yapılır. kprop komutu birincil ana KDC üzerinde çalıştırılmalıdır. Zamanlandırılmış bir görev olarak çalıştırılmalı ve esas veritabanının tüm sunucularda eşzamanlı olması sağlanmalıdır.
+</p><p>
+Sunucuyu birebir kopyalamanın ilk adımı, kpropd için ACL'ler hazırlamaktır. kpropd acl dosya adları öntanımlı olarak <tt>/var/Kerberos/krb5kdc/kpropd.acl</tt> dosyasında bulunur. Bizim örneğimizde içerik aşağıdaki gibi olacaktır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">host/kerberos1.gnud.ie@GNUD.IE
+host/kerberos2.gnud.ie@GNUD.IE
+</pre> </td></tr></table></div>
+</p><p>
+<tt>kpropd.acl</tt> dosyası sadece yardımcı Kerberos sunucularında bulunmalıdır. Fedora GNU/Linux'da, <tt>/var/Kerberos/krb5kdc/kpropd.acl</tt> dosyasının bulunduğu bir Kerberos sunucusunda kadmin çalışmayacaktır.
+</p><p>
+Sıradaki adımda ana ve yardımcı Kerberos sunucularınız için konak anahtarlarını yaratmanız gerekir:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}bash# <b><tt>kadmin.local</tt></b>
+{Kerberos1}kadmin.local:  <b><tt>addprinc -randkey host/kerberos1.gnud.ie</tt></b>
+{Kerberos1}kadmin.local:  <b><tt>addprinc -randkey host/kerberos2.gnud.ie</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Şimdi bu anahtarların <tt>keytab</tt> dosyasından çıkartılması gereklidir. <tt>keytab</tt> dosyası kriptografik anahtarları içerir ve KDC ile kimlik kanıtlaması yapmak için kritik önem taşır. Anahtarların çıkartılması ktadd alt komutu ile yapılır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos1}kadmin.local:  <b><tt>ktadd host/kerberos1.gnud.ie</tt></b>
+{Kerberos1}kadmin.local:  <b><tt>ktadd host/kerberos2.gnud.ie</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Son olarak, kimlik kanıtlamasında kullanabilmeleri için <tt>keytab</tt> dosyasını yardımcı sunuculara kopyalamanız gereklidir.
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">{Kerberos2}bash# <b><tt>scp root@kerberos1.gnud.ie:/etc/krb5.keytab /etc</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Aşağıda her onbeş dakikada bir Kerberos sunucusunda çalışacak ve esas veritabanını eşleyecek crontab girdisi bulunmaktadır:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">15 * * * * /usr/local/bin/krb5prop.sh
+</pre> </td></tr></table></div>
+</p><p>
+<tt>krb5prop.sh</tt> betiğinin içeriği şöyledir:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">#!/bin/sh
+
+/usr/Kerberos/sbin/kdb5_util dump /var/Kerberos/krb5kdc/slave_datatrans
+
+/usr/Kerberos/sbin/kprop -f /var/Kerberos/krb5kdc/slave_datatrans kerberos2.gnud.ie &gt; /dev/null
+</pre> </td></tr></table></div>
+</p><p>
+Bu komutu ilk olarak elle çalıştırdığınızda aşağıdakine benzer bir çıktı almalısınız:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+{Kerberos1}bash# <b><tt>/usr/Kerberos/sbin/kdb5_util dump /var/Kerberos/krb5kdc/slave_datatrans</tt></b>
+{Kerberos1}bash# <b><tt>/usr/Kerberos/sbin/kprop -d -f /var/Kerberos/krb5kdc/slave_datatrans</tt></b> kerberos2.gnud.ie
+3234 bytes sent.
+Database propagation to kerberos2.gnud.ie: SUCCEEDED
+{Kerberos1}bash#
+</pre> </td></tr></table></div>
+</p><p>
+Yardımcı sunucu artık esas veritabanını ana sunucudan eşleyecektir.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="kerberos-howto-maintain"></a>Bakım</h3></div></dt><dd><p>
+Bu cron betikleri ile esas yayılımın yeterince otomatikleşmiş olması ve ilave bakıma ihtiyaç duymaması gerekir. Birincil KDC'nin çalışmaması durumunda arıza uzun sürmedikçe insan müdahalesine gerek olmaz.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/kerberos-howto-time-sync.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/kerberos-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/kerberos-howto-client-configure.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Eşzamanlama </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> İstemci Yapılandırması</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

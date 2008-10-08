@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:20+03:00"><title>acl_data</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-firstpass.html" title="ACL'lerin Hazırlanması - İlk Aşama"><link rel="previous" href="../howto/spam-filtering-acl_rcpt_to_1.html" title="acl_rcpt_to"><link rel="next" href="../howto/spam-filtering-exim-smtpdelays.html" title="SMTP aktarım gecikmelerinin eklenmesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">acl_data</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_rcpt_to_1.html">Önceki</a> </td><th width="60%" align="center">ACL'lerin Hazırlanması - İlk Aşama</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-smtpdelays.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-acl_data_1"></a><tt>acl_data</tt></h3></div></dt><dd><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Bu erişim denetim listesi gelen bir SMTP aktarımında ileti
+# tamamen alındıktan sonra kullanılır. Bu sınamalar alıcı adresi
+# kabul ya da red edilinceye kadar sırayla yapılır.
+
+acl_data:
+
+  # İleti kendi konaklarımızdan alınmış ve Message-ID başlığını
+  # içermiyorsa, onu biz ekleyeceğiz.
+  #
+  warn
+    condition   = ${if !def:h_Message-ID: {1}}
+    hosts       = : +relay_from_hosts
+    message     = Message-ID: &lt;E$message_id@$primary_hostname&gt;
+
+
+  # Posta yerel SMTP üzerinden alınmışsa (yani, TCP/IP bağlantısı
+  # ile gelmiyorsa), kabul ediyoruz. Bunu boş bir konak alanını
+  # sınayarak yapacağız. Ayrıca, postalarını rölelediğimiz
+  # konaklardan gelen postaları da kabul edeceğiz.
+  #
+  accept
+    hosts       = : +relay_from_hosts
+
+  # İleti, kimlik kanıtlaması yapılan bir bağlantı üzerinden
+  # geliyorsa kabul ediyoruz.
+  #
+  accept
+    authenticated = *
+
+
+  # İleti boyutu ile ilgili sınırlama aşılıyorsa iletiyi reddediyoruz.
+  #
+  deny
+    message     = Message size $message_size is larger than limit of \
+                  MESSAGE_SIZE_LIMIT
+    condition   = ${if &gt;{$message_size}{MESSAGE_SIZE_LIMIT}{true}{false}}
+
+
+  # Adres listesinin sözdizimi hatalıysa reddediyoruz.
+  #
+  deny
+    message     = Your message does not conform to RFC2822 standard
+    log_message = message header fail syntax check
+    !verify     = header_syntax
+
+
+  # Dışardan gelen ve Message-ID veya Date başlığı bulunmayan postaları
+  # reddediyoruz.
+  #
+  # Bazı özelleştirilmiş posta aktarımcılarının, örneğin posta listesi
+  # sunucularının boy gönderici adresi ile gönderdikleri postalara
+  # kendiliklerinden bir Message-ID üretmedikleri bilinmektedir;
+  # böyle durumlar için boş bir gönderici adresin varlığına da bakacağız.
+  #
+  deny
+    message     = Your message does not conform to RFC2822 standard
+    log_message = missing header lines
+    !hosts      = +relay_from_hosts
+    !senders    = : postmaster@*
+    condition   = ${if or {{!def:h_Message-ID:}\
+                           {!def:h_Date:}\
+                           {!def:h_Subject:}} {true}{false}}
+
+
+  # "Sender:", "Reply-To:" veya "From:" satırlarından en azından birindeki
+  # gönderici adres doğrulanabilir değilse, bir uyarı veriyoruz.
+  #
+  warn
+    message     = X-Sender-Verify-Failed: No valid sender in message header
+    log_message = No valid sender in message header
+    !verify     = header_sender
+
+
+  # İletiyi kabul ediyoruz
+  #
+  accept
+</pre> </td></tr></table></div>
+      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-acl_rcpt_to_1.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-firstpass.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-smtpdelays.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">acl_rcpt_to </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SMTP aktarım gecikmelerinin eklenmesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

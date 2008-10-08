@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:47:13+03:00"><title>Hazır ve Çalışan RTLinux</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/RTLinux-install-howto.html" title="RTLinux Kurulumu NASIL"><link rel="previous" href="../howto/RTLinux-install-howto-intro.html" title="RTLinux'a Giriş"><link rel="next" href="../howto/RTLinux-install-howto-other.html" title="Diğer Bilgiler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Hazır ve Çalışan RTLinux</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/RTLinux-install-howto-intro.html">Önceki</a> </td><th width="60%" align="center">RTLinux Kurulumu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/RTLinux-install-howto-other.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="RTLinux-install-howto-upandrun"></a>Hazır ve Çalışan RTLinux</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="RTLinux-install-howto-prepare"></a>Hazırlık</h3></div></dt><dd><p>
+    Bu bölümde RTLinux derlemeye hazırlık aşamalarında gerekenler anlatılmaktadır:
+    </p><p>
+<div class="itemizedlist"><ul type="disc"><li>Önceki bölümde listelenen sunuculardan birinden RTLinux/Free'yi indirin. Kaynak kodları açın, yamaların bulunduğu dizine geçerek uygun çekirdek yamalarını kontrol edin. Eğer kullanmayı planladığınız çekirdek sürümü için yama bulunmuyorsa uygun yama için destekçilerin sayfalarına bakabilirsiniz.<p></p><p></p></li><li>RTLinux yaması ile kullanmak istediğiniz Linux çekirdeğinin özgün halini <a class="ulink" href="http://kernel.org" target="_top">http://kernel.org</a> adresinden indirin.<p></p><p></p></li><li>GCC sürümünüzü kontrol edin. Eğer 2.96 ise büyük ihtimalle SMP bilgisayarlarda çekirdek derleme ve çalıştırma konusunda problemlerle karşılaşırsınız. Bu nedenle ya daha eski (2.91, 2.95) ya da daha yeni (3.x) bir sürümü kurmalısınız. <p></p><p></p></li></ul></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="RTLinux-install-howto-install"></a>RTLinux'un derlenmesi ve kurulması</h3></div></dt><dd><p>
+  Linux çekirdeğinin kaynak kodlarını <tt>/usr/src/linux</tt> dizinine açın. Eğer başka bir dizine, örneğin <tt>linux-2.4.18</tt>'e açarsanız <tt>/usr/src/linux</tt> dizinine sembolik bağ vermeniz gerekir (bu RTLinux çekirdeğinin ve modüllerin derlenebilmesi için gereklidir):
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>cd /usr/src</tt></b>
+bash# <b><tt>ln -s linux-2.4.18 linux</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+RTLinux kodunu <tt>/usr/src/rtlinux</tt> dizinine açın. RTLinux çekirdek yamasını <tt>/usr/src</tt> dizinine taşıyın (yamanın adının <tt>rtlinux-patch</tt> olduğunu kabul edeceğiz). Linux çekirdeğinin kaynak kodunun bulunduğu dizine geçin ve çekirdeğe yamayı uygulayın:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>cd /usr/src/linux</tt></b>
+bash# <b><tt>patch -p1 &lt; ../rtlinux-patch</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Şimdi tercih ettiğiniz yöntemle çekirdeği yapılandırın; <b><tt>make config</tt></b>, <b><tt>make menuconfig</tt></b> veya
+<b><tt>make xconfig</tt></b>.
+"İşlemci Türü ve Özellikleri" bölümünde CPU türü tam olarak işlemcinizi göstermelidir, bu bir zorunluluktur, aksi halde RTLinux makinanızda çalışmayacaktır. Eğer işlemciniz Pentium 4 veya Xeon ise Pentuim III veya başka bir şey yerine Pentuim 4 seçili olmalıdır. Birden fazla işlemciniz varsa SMP aktif edilmelidir. Diğer donanım sürücülerinizi ve ihtiyaç duyuduğunuz özellikleri de seçmelisiniz. APM BIOS desteğini aktif etmemeniz önerilmektedir - RTLinux ile çalışırken bazı problemlere yol açtığı rapor edilmiştir.
+</p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>kgcc kullananlar için bilgi (gcc 2.91)</th></tr><tr><td colspan="2" align="left" valign="top"><p> <tt>makefile</tt> dosyasının başlangıcındaki (<tt>/usr/src/linux/Makefile</tt>):
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CC = $(CROSS_COMPILE)gcc</pre> </td></tr></table></div>
+</p><p>
+girdisini:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CC = kgcc</pre> </td></tr></table></div>
+</p><p>
+olarak değiştirin.</p></td></tr></table></div>
+</p><p>Bağımlılıkları kontrol edin:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make dep</tt></b></pre> </td></tr></table></div>
+</p><p>
+Sıkıştırılmış çekirdeği ve modülleri oluşturun
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make bzImage</tt></b>
+bash# <b><tt>make modules</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Yeni çekirdeği ve modülleri yükleyin:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make modules_install</tt></b>
+bash# <b><tt>cp arch/i386/boot/bzImage /boot/rtlinuz</tt></b>
+</pre> </td></tr></table></div>
+</p><p>
+Yeni çekirdeğiniz için önyükleyicinize bir girdi ekleyin. Biz örnek olarak root bölümünüzün <tt>/dev/sda1</tt> olduğunu kabul edeceğiz. RTLinux çekirdeği ile problem yaşama ihtimalini düşünerek eski çekirdeğinizle ilgili girdiyi korumayı ihmal etmeyin. Aşağıda LILO için bir girdi örneği yeralmaktadır (<tt>/etc/lilo.conf</tt>):
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+        ...
+        image=/boot/rtlinuz
+                label=rtlinux
+                root=/dev/sda1
+                read-only
+        ...
+</pre> </td></tr></table></div>
+</p><p>
+Önyükleyicinizi (lilo veya grub) güncelleyin ve yeni RTLinux çekirdeğiniz ile yeniden başlatın. Eğer bilgisayarınız yeni çekirdekle başlamazsa eskisi ile açarak yeniden çekirdeği yapılandırın ve derleyin. Eski yapılandırmanızın yerine yenisini "<b><tt>make clean</tt></b>" komutuyla koyabilirsiniz.
+</p><p>
+RTLinux kaynak kodunun bulunduğu dizine geçin:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>cd /usr/src/rtlinux</tt></b></pre> </td></tr></table></div>
+</p><p>
+RTLinux'u yapılandırın:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make menuconfig</tt></b></pre> </td></tr></table></div>
+</p><p>
+Burada öntanımlı değerleri kabul edebilirsiniz.
+</p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+Eğer çekirdek <tt>Makefile</tt> dosyasında CC derleyicisini kgcc olarak değiştirmişseniz RTLinux kaynak kodundaki <tt>rtl.config</tt> dosyasında
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CC="gcc"</pre> </td></tr></table></div>
+</p><p>yerine:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">CC="kgcc"</pre> </td></tr></table></div>
+</p><p>
+olduğundan emin olun.</p></td></tr></table></div>
+</p><p>
+Şimdi bağımlılıkları kontrol edin (isteğe bağlıdır, eğer bu adımı atlarsanız "<b><tt>make</tt></b>" komutu bu görevi yerine getirecektir):
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make dep</tt></b></pre> </td></tr></table></div>
+</p><p>
+RTLinux çekirdeğini ve modülleri oluşturun:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make</tt></b></pre> </td></tr></table></div>
+</p><p>
+Aygıtları oluşturun ve RTLinux'u kurun:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make install</tt></b></pre> </td></tr></table></div>
+</p><p>
+Artık RTLinux'u ve modülleri denetleyin. RTLinux yapılandırmanızı denetlemenize yardımcı olacak bir regresyon analizi paketi ile birlikte gelmektedir.
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>make regression</tt></b></pre> </td></tr></table></div>
+</p><p>
+Bu işlem sonucunda eğer Linux çekirdeğiniz veya RTLinux hatalı yapılandırılmış ya da hatalı derlenmişse bilgisayarınız kilitlenecektir. Tüm testler "[ OK ]" ile sonuçlanmalıdır. Eğer bazıları başarısız olursa tekrar deneyin (bazı testler ilk başarısız denemeden sonra başarılı olabilmektedir!).
+  </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="RTLinux-install-howto-running"></a>RTLinux'u çalıştırmak</h3></div></dt><dd><p>
+  RTLinux'u başlatın:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>rtlinux start</tt></b></pre> </td></tr></table></div>
+</p><p>
+Bu komutun çıktılarında başarı ile yüklenmiş RTLinux modülleri (+) ile başarısız olanları ile (-) ile gösterilecektir.
+Liste sizin yapılandırmanıza bağlı olacaktır:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">        (+)rtl.o
+        (+)rtl_fifo.o
+        (+)mbuff.o
+        ...
+</pre> </td></tr></table></div>
+</p><p>
+<b><tt>rtlinux</tt></b>'un durumunu kontrol edin:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>rtlinux status</tt></b></pre> </td></tr></table></div>
+</p><p>
+Bu komut size yüklenmiş (+) ve yüklenmemiş (-) modülleri gösterecektir.
+</p><p>
+RTLinux'u durdurun:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">bash# <b><tt>rtlinux stop</tt></b></pre> </td></tr></table></div>
+</p><p>
+Bu RTLinux modüllerini boşaltacak ve aşağıdaki gibi bir çıktı verecektir:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">        (-)rtl.o
+        (-)rtl_fifo.o
+        (-)mbuff.o
+        ...
+</pre> </td></tr></table></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/RTLinux-install-howto-intro.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/RTLinux-install-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/RTLinux-install-howto-other.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">RTLinux'a Giriş </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Diğer Bilgiler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

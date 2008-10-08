@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:28+03:00"><title>Berkeley Internet Name Daemon BIND (named)</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-hints-daemons.html" title="IPv6 uyumlu Artalan Süreçleri İçin İpuçları"><link rel="previous" href="../howto/ipv6-howto-hints-daemons.html" title="IPv6 uyumlu Artalan Süreçleri İçin İpuçları"><link rel="next" href="../howto/ipv6-howto-hints-daemons-xinetd.html" title="Internet süper artalan süreci (xinetd)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Berkeley Internet Name Daemon BIND (named)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons.html">Önceki</a> </td><th width="60%" align="center">IPv6 uyumlu Artalan Süreçleri İçin İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-xinetd.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-hints-daemons-bind"></a>Berkeley Internet Name Daemon BIND (<tt>named</tt>)</h3></div></dt><dd><p>
+IPv6 desteği bind'ın 9 sürümünden itibaren verilmektedir. 9.1.3'ten önceki sürümler güvenlik açıkları içerdiğinden en azından 9.1.3 sürümü ya da daha iyisi son sürümü kullanılmalıdır.
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id11"></a>IPv6 Adreslerinde Dinlemek</h4></div></dt><dd><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+IPv4'ün aksine IPv6'nın güncel sürümleri adanmış bir IPv6 adresine bir sunucu soketi bağlamaya izin vermemektedir. Bu yüzden sadece <tt>any</tt> ya da <tt>none</tt> kullanılabilmektedir. Bu bir güvenlik konusu olabileceğinden, aşağıdaki Erişim Denetim Listeleri (ACL) bölümünü de okumanız uygun olabilir!
+  </p></td></tr></table></div></p><p>
+  <div class="variablelist"><dl><dt><span class="term">BIND named'in IPv6 adreslerinde dinlemesinin sağlanması</span></dt><dd>
+IPv6 adreslerinde dinlemek için aşağıdaki seçenek değiştirilmelidir.
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">options {
+    # sure other options here, too
+    listen-on-v6 { any; };
+};
+</pre> </td></tr></table></div>
+  </p><p>
+<b><tt>named</tt></b> yeniden başlatıldığında aşağıdaki örnekteki gibi bir çıktı üretmelidir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>netstat -lnptu |grep "named\W*$"</tt></b>
+tcp 0 0 :::53         :::*      LISTEN 1234/named # incoming TCP requests
+udp 0 0 1.2.3.4:53    0.0.0.0:*        1234/named # incoming UDP requests to IPv4 1.2.3.4
+udp 0 0 127.0.0.1:53  0.0.0.0:*        1234/named # incoming UDP requests to IPv4 localhost
+udp 0 0 0.0.0.0:32868 0.0.0.0:*        1234/named # dynamic chosen port for outgoing queries
+udp 0 0 :::53         :::*             1234/named # incoming UDP request to any IPv6
+</pre> </td></tr></table></div>
+  </p><p>Basit bir deneme:</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>dig localhost @::1</tt></b></pre> </td></tr></table></div>
+  </p><p>
+Bu, bir sonuç göstermelidir.
+  </p><p></p></dd><dt><span class="term">BIND named'in IPv6 adreslerinde dinlemesinin iptal edilmesi</span></dt><dd>
+IPv6 adreslerinde dinlemenin iptali için aşağıdaki seçenek değiştirilmelidir:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">options {
+    # sure other options here, too
+    listen-on-v6 { none; };
+};
+</pre> </td></tr></table></div>
+  </p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id21"></a>IPv6 destekli Erişim Kontrol Listeleri (ACL)</h4></div></dt><dd><p>
+IPv6 destekli ACL'ler hazırlamak mümkündür ve imkan olan heryerde kullanılmalıdır. Aşağıda bir örnek verilmiştir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">acl internal-net {
+    127.0.0.1;
+    1.2.3.0/24;
+    3ffe:ffff:100::/56;
+    ::1/128;
+    ::ffff:1.2.3.4/128;
+};
+acl ns-internal-net {
+    1.2.3.4;
+    1.2.3.5;
+    3ffe:ffff:100::4/128;
+    3ffe:ffff:100::5/128;
+};
+</pre> </td></tr></table></div>
+  </p><p>
+Bu ACL'ler istemcilerin sorguları ya da ikincil alan adı sunucularına bölge aktarımı gibi amaçlar için kullanılabilir. Bu aynı zamanda arabellekli isim sunucunuzun dışarıdan IPv6 ile kullanılmasını da önler.
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">options {
+    # sure other options here, too
+    listen-on-v6 { none; };
+    allow-query { internal-net; };
+    allow-transfer { ns-internal-net; };
+};
+</pre> </td></tr></table></div>
+  </p><p>
+Alan tanımlamalarının çoğunda <tt>allow-query</tt> ve <tt>allow-transfer</tt> seçeneklerini de eklemek mümkündür.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id31"></a>Adanmış bir IPv6 adresi ile sorguların gönderilmesi</h4></div></dt><dd><p>
+Bu seçeneğe gerek olmamakla birlikte, eğer ihtiyaç duyulursa aşağıdaki gibi kullanılabilir:
+  </p><p>
+<pre class="literallayout">   query-source-v6 address <i>ipv6adres</i>|* port <i>port</i>|*;
+</pre>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id41"></a>Alan başına tanımlanmış adanmış IPv6 adresleri</h4></div></dt><dd><p>
+Bölge başına bazı IPv6 adreslerini tanımlamak da mümkündür.
+  </p><p><div class="variablelist"><dl><dt><span class="term">Kaynak adres aktarımı</span></dt><dd>
+Kaynak adres aktarımı giden bölge aktarımlarında kullanılır:
+  <p></p><p>
+<pre class="literallayout">   transfer-source-v6 <i>ipv6adres</i>|* [port <i>port</i>];
+</pre>
+  </p><p></p></dd><dt><span class="term">Kaynak adres bildirimi</span></dt><dd>
+Kaynak adres bildirimi giden bildirim iletileri için kullanılır:
+  <p></p><p>
+<pre class="literallayout">   notify-source-v6 <i>ipv6adres</i>|* [port <i>port</i>];
+</pre>
+  </p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id51"></a>IPv6 DNS alan dosyası örnekleri</h4></div></dt><dd><p>
+Bu konu için <a href="http://www.isi.edu/%7Ebmanning/v6DNS.html" target="_top">IPv6 DNS Setup Information (article)</a> adresine bakılabilir. <a href="http://tools.fpsn.net/ipv6-inaddr/" target="_top">IPv6 Reverse DNS zone builder for BIND 8/9 (webtool)</a> adresi de yardımcı olabilir.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id61"></a>IPv6 ilişkili DNS bilgisinin sunulması</h4></div></dt><dd><p>
+IPv6'da ters DNS kaydı aramaları için yeni türler ve kök bölgeler tanımlanmıştır:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+AAAA ve ters IP6.INT: BIND 4.9.6 sürümünden itibaren kullanılabilmektedir ve <a href="http://www.faqs.org/rfcs/rfc1886.html" target="_top">RFC 1886 / DNS Extensions to support IP version 6</a> ile tanımlanmıştır.
+  </li><li>
+A6, DNAME (ARTIK ÖNERİLMİYOR) ve ters IP6.ARPA: BIND 9'dan itibaren kullanılabilmektedir ve <a href="http://www.faqs.org/rfcs/rfc2874.html" target="_top">RFC 2874 / DNS Extensions to Support IPv6 Address Aggregation and Renumbering</a> ile tanımlanmıştır, güncel bilgi için bakınız: <a href="http://www.ietf.org/internet-drafts/" target="_top">draft-ietf-dnsext-ipv6-addresses-00.txt</a></li></ul></div></p><p>
+Yukarıda verilen RFC'lerin yanısıra aşağıdaki belgeler de yardımcı olacaktır:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+AAAA ve ters IP6.INT: <a href="http://www.isi.edu/%7Ebmanning/v6DNS.html" target="_top">IPv6 DNS Setup Information</a></li><li>
+A6, DNAME (ARTIK ÖNERİLMİYOR) ve ters IP6.ARPA: BIND 9 kodu ile birlikte dağıtılan Administrator Reference Manual (ARM) belgesinin 4. ve 6. bölümlerine bakılabilir, aynı belgeye <a href="http://www.nominum.com/content/documents/bind9arm.pdf" target="_top">BIND version 9 ARM (PDF)</a> adresinden de ulaşılabilir.
+  </li></ul></div></p><p>
+IP6.INT'e karşı çıkılsa da halen kullanımda olduğu için, IPv6 bilgisini destekleyen DNS'ler her iki ters alan bilgisini de sunmalıdır.
+  </p><div class="sect4"><div> <h5 class="title"><a name="id161"></a>Güncel en iyi uygulama</h5></div><p>
+Yeni biçimlerin kullanımında sorunlar olduğundan, güncel uygulamaların en iyisi şöyledir:
+  </p><p>
+Düz arama desteği: AAAA
+  </p><p>
+Ters arama desteği:
+  </p><p><div class="itemizedlist"><ul type="disc"><li>
+ip6.int alanı için ters biçim (GERİYE UYUMLULUK İÇİN)
+  </li><li>
+bölgesel ip6.arpa alanı için ters biçim (ÖNERİLEN)
+  </li></ul></div></p></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id71"></a>IPv6-uyumlu bağlantı kontrolü</h4></div></dt><dd><p>
+BIND'ın IPv6 soketini dinleyerek bilgi gönderip göndermediği aşağıdaki örneklerdeki yöntemlerle sınanabilir.
+  </p><p><div class="variablelist"><dl><dt><span class="term">IPv6 bağlanıyor fakat ACL ile reddediliyor</span></dt><dd>
+Sorgu için bir sunucu tahsis edilerek IPv6 bağlantısı zorlanabilir:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>host -t aaaa www.6bone.net 3ffe:ffff:200:f101::1</tt></b>
+Using domain server:
+Name: 3ffe:ffff:200:f101::1
+Address: 3ffe:ffff:200:f101::1#53
+Aliases:
+Host www.6bone.net. not found: 5(REFUSED)
+</pre> </td></tr></table></div>
+  </p><p>
+Bununla ilgili günlük (log) girdisi aşağıdaki gibidir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Jan 3 12:43:32 gate named[12347]: client 3ffe:ffff:200:f101:212:34ff:fe12:3456#32770:
+ query denied
+</pre> </td></tr></table></div>
+  </p><p>
+Günlükte böyle girdiler görüyorsanız bu istemcinin taleplerine izin verilip verilmediğine bakmanız ve gerekiyorsa ACL yapılandırmanızı gözden geçirmeniz uygun olur.
+  </p><p></p></dd><dt><span class="term">Başarılı IPv6 bağlantısı</span></dt><dd>
+Başarılı bir IPv6 bağlantısı aşağıdaki gibidir:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>host -t aaaa www.6bone.net 3ffe:ffff:200:f101::1</tt></b>
+Using domain server:
+Name: 3ffe:ffff:200:f101::1
+Address: 3ffe:ffff:200:f101::1#53
+Aliases:
+www.6bone.net. is an alias for 6bone.net.
+6bone.net. has AAAA address 3ffe:b00:c18:1::10
+</pre> </td></tr></table></div>
+  </p><p></p></dd></dl></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-hints-daemons.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-xinetd.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">IPv6 uyumlu Artalan Süreçleri İçin İpuçları </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Internet süper artalan süreci (xinetd)</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

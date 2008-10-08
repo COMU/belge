@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:26+03:00"><title>Noktadan-noktaya tünel yapılandırması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-configuring-6in4-tunnels.html" title="IPv4 içinde IPv6 tüneli yapılandırmak"><link rel="previous" href="../howto/ipv6-howto-configuring-6in4-tunnels-monitoring.html" title="Varolan tünellerin görüntülenmesi"><link rel="next" href="../howto/ipv6-howto-configuring-6in4-tunnels-setting.html" title="6'ya 4 tünellerin ayarları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Noktadan-noktaya tünel yapılandırması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-configuring-6in4-tunnels-monitoring.html">Önceki</a> </td><th width="60%" align="center">IPv4 içinde IPv6 tüneli yapılandırmak</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-configuring-6in4-tunnels-setting.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-configuring-6in4-tunnels-configuring"></a>Noktadan-noktaya tünel yapılandırması</h3></div></dt><dd><p>
+Noktadan-noktaya tünellerin eklenmesi ve kaldırılması üç farklı şekilde yapılabilmektedir.
+  </p><p>
+<b><tt>ip</tt></b> komutunu kullanarak tünel yapılandırması hakkında iyi bir kaynak: <a href="http://www.deepspace6.net/docs/iproute2tunnel-en.html" target="_top">Configuring tunnels with iproute2 (article)</a> (<a href="http://mirrors.bieringer.de/www.deepspace6.net/docs/iproute2tunnel-en.html" target="_top">yansı</a>).
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a> Noktadan-noktaya tüneli eklemek</h4></div></dt><dd><div class="variablelist"><dl><dt><span class="term"><tt>ip</tt> kullanarak</span></dt><dd>
+Hali hazırdaki küçük boyutlu tünelleri oluşturmak için kullanılan yaygın yöntemdir.
+  <p></p><p>
+Tünel aygıtı oluşturmak için kullanımı şöyledir (öntanımlı TTL değeri 0 olduğundan yenisi tayin edilmelidir).
+  </p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/ip tunnel add </tt></b><i>aygıt </i><b><tt>mode sit ttl </tt></b><i>öntanımlı_ttl </i><b><tt>remote </tt></b><i>yabancı_tünelin_ipv4adresi </i><b><tt>local </tt></b><i>yerel_ipv4adres</i>
+</pre> </td></tr></table></div>
+  </p><p>Kullanım (üç tünel için genel örnek):</p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/ip tunnel add sit1 mode sit ttl </tt></b><i>öntanımlı_ttl </i><b><tt>remote </tt></b><i>1inci_yabancı_tünelin_ipv4adresi </i><b><tt>local </tt></b><i>yerel_ipv4adres</i>
+<b><tt>/sbin/ip link set dev sit1 up</tt></b>
+<b><tt>/sbin/ip -6 route add </tt></b><i>1inci_rotanın_öneki </i><b><tt>dev sit1 metric 1</tt></b>
+<b><tt>/sbin/ip tunnel add sit2 mode sit ttl </tt></b><i>öntanımlı_ttl 2nci_yabancı_tünelin_ipv4adresi </i><b><tt>local </tt></b><i>yerel_ipv4adres</i>
+<b><tt>/sbin/ip link set dev sit2 up</tt></b>
+<b><tt>/sbin/ip -6 route add </tt></b><i>2nci_rotanın_öneki </i><b><tt>dev sit2 metric 1</tt></b>
+<b><tt>/sbin/ip tunnel add sit3 mode sit ttl </tt></b><i>öntanımlı_ttl 3üncü_yabancı_tünelin_ipv4adresi </i><b><tt>local </tt></b><i>yerel_ipv4adres</i>
+<b><tt>/sbin/ip link set dev sit3 up</tt></b>
+<b><tt>/sbin/ip -6 route add </tt></b><i>3üncü_rotanın_öneki </i><b><tt>dev sit3 metric 1</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term"><tt>ifconfig</tt> ve <tt>route</tt> kullanarak (önerilmez)</span></dt><dd>
+Bu yöntem biraz garip olduğundan önerilmemektedir. Bir tünel eklenirse problem olmazken, eğer birden çok tünel yapılandırısanız, ilk yapılandırdıklarınızı kapatıp diğerlerinini çalışır halde bırakmanız kolay olmamaktadır.
+  <p></p><p>Kullanım (üç tünel için genel örnek):</p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/ifconfig sit0 up</tt></b>
+<b><tt>/sbin/ifconfig sit0 tunnel </tt></b><i>1inci_yabancı_tünelin_ipv4adresi</i>
+<b><tt>/sbin/ifconfig sit1 up</tt></b>
+<b><tt>/sbin/route -A inet6 add </tt></b><i>1inci_rotanın_öneki </i><b><tt>dev sit1</tt></b>
+<b><tt>/sbin/ifconfig sit0 tunnel </tt></b><i>2nci_yabancı_tünelin_ipv4adresi</i>
+<b><tt>/sbin/ifconfig sit2 up</tt></b>
+<b><tt>/sbin/route -A inet6 add </tt></b><i>2nci_rotanın_öneki </i><b><tt>dev sit2</tt></b>
+<b><tt>/sbin/ifconfig sit0 tunnel </tt></b><i>3üncü_yabancı_tünelin_ipv4adresi</i>
+<b><tt>/sbin/ifconfig sit3 up</tt></b>
+<b><tt>/sbin/route -A inet6 add </tt></b><i>3üncü_rotanın_öneki </i><b><tt>dev sit3</tt></b>
+</pre> </td></tr></table></div>
+  </p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Önemli Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+BU YÖNTEMİ KULLANMAYIN, çünkü böyle bir yapılandırma internetin her yerinden ulaşılabilen bir "otomatik tünelleme" sağlamaktadır. Bu göze alınamaz bir risktir.
+  </p></td></tr></table></div></p><p></p></dd><dt><span class="term">Sadece <tt>route</tt> kullanarak</span></dt><dd>
+Tünel yapılandırmasını NBMA (Non Broadcast Multiple Access) tarzında da yapmak mümkündür. Birden çok tüneli aynı anda eklemenin kolay bir yoludur. Fakat tünelleri numaralandırmak mümkün değildir (bu istenilen bir durum değildir).
+  <p></p><p>
+Kullanım (üç tünel için genel örnek):</p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/ifconfig sit0 up</tt></b>
+<b><tt>/sbin/route -A inet6 add </tt></b><i>1inci_rotanın_öneki </i><b><tt>gw ::</tt></b><i>1inci_yabancı_tünelin_ipv4adresi </i><b><tt>dev sit0</tt></b>
+<b><tt>/sbin/route -A inet6 add </tt></b><i>2nci_rotanın_öneki </i><b><tt>gw ::</tt></b><i>2nci_yabancı_tünelin_ipv4adresi </i><b><tt>dev sit0</tt></b>
+<b><tt>/sbin/route -A inet6 add </tt></b><i>3üncü_rotanın_öneki </i><b><tt>gw ::</tt></b><i>3üncü_yabancı_tünelin_ipv4adresi </i><b><tt>dev sit0</tt></b>
+</pre> </td></tr></table></div>
+  </p><p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/warning.png"></td><th>Önemli Uyarı</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+BU YÖNTEMİ KULLANMAYIN, çünkü böyle bir yapılandırma internetin her yerinden ulaşılabilen bir "otomatik tünelleme" sağlamaktadır. Bu göze alınamaz bir risktir.
+  </p></td></tr></table></div></p><p></p></dd></dl></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id23"></a>Noktadan-noktaya tüneli iptal etmek</h4></div></dt><dd><p>
+Genellikle elle yapılması gerekmez, IPv6 yapılandırmasının düzgünce kapatılması veya yeniden başlatılması için betikler tarafından kullanılır.
+  </p><p><div class="variablelist"><dl><dt><span class="term"><tt>ip</tt> kullanarak</span></dt><dd>
+Bir tünel aygıtının kaldırılması aşağıdaki gibi yapılır:
+  <p></p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/ip tunnel del </tt></b><i>aygıt</i>
+</pre> </td></tr></table></div>
+  </p><p>Kullanım (üç tünel için genel örnek):</p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/ip -6 route del </tt></b><i>1inci_rotanın_öneki </i><b><tt>dev sit1
+/sbin/ip link set sit1 down
+/sbin/ip tunnel del sit1
+/sbin/ip -6 route del </tt></b><i>2nci_rotanın_öneki </i><b><tt>dev sit2
+/sbin/ip link set sit2 down
+/sbin/ip tunnel del sit2
+/sbin/ip -6 route del </tt></b><i>3üncü_rotanın_öneki </i><b><tt>dev sit3
+/sbin/ip link set sit3 down
+/sbin/ip tunnel del sit3</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term"><tt>ifconfig</tt> ve <tt>route</tt> kullanarak (önerilmez)</span></dt><dd>
+Durdurulması da oluşturulması kadar gariptir. Tüneller geriye doğru bir sıra ile kaldırılmalıdır, yani en son yaratılan ilk sırada kaldırılmalıdır.
+  <p></p><p>Kullanım (üç tünel için genel örnek):</p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/route -A inet6 del </tt></b><i>3üncü_rotanın_öneki </i><b><tt>dev sit3
+/sbin/ifconfig sit3 down
+/sbin/route -A inet6 del </tt></b><i>2nci_rotanın_öneki </i><b><tt>dev sit2
+/sbin/ifconfig sit2 down
+/sbin/route -A inet6 add </tt></b><i>1inci_rotanın_öneki </i><b><tt>dev sit1
+/sbin/ifconfig sit1 down
+/sbin/ifconfig sit0 down</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd><dt><span class="term">Sadece <tt>route</tt> kullanarak</span></dt><dd>
+Normal IPv6 yönlendirmelerini kaldırmak gibidir.
+  <p></p><p>Kullanım (üç tünel için genel örnek):</p><p>
+<div class="synopsis" align="center"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="synopsis"><b><tt>/sbin/route -A inet6 del </tt></b><i>1inci_rotanın_öneki </i><b><tt>gw ::</tt></b><i>1inci_yabancı_tünelin_ipv4adresi </i><b><tt>dev sit0
+/sbin/route -A inet6 del </tt></b><i>2nci_rotanın_öneki </i><b><tt>gw ::</tt></b><i>2nci_yabancı_tünelin_ipv4adresi </i><b><tt>dev sit0
+/sbin/route -A inet6 del </tt></b><i>3üncü_rotanın_öneki </i><b><tt>gw ::</tt></b><i>3üncü_yabancı_tünelin_ipv4adresi </i><b><tt>dev sit0
+/sbin/ifconfig sit0 down</tt></b>
+</pre> </td></tr></table></div>
+  </p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a>Noktadan-noktaya numaralandırılmış tüneller</h4></div></dt><dd><p>
+Bazen IPv6 adresleriyle IPv4 gibi noktadan-noktaya tünel yapılandırmak gerekebilir. Bu sadece ikinci (ifconfig+route) ve üçüncü (ip+route) tür yapılandırmalar ile mümkündür. Bu durumlarda tünel arabirimine IPv6 adresini arabirim yapılandırmasında gösterildiği gibi ekleyebilirsiniz.
+  </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-configuring-6in4-tunnels-monitoring.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-configuring-6in4-tunnels.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-configuring-6in4-tunnels-setting.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Varolan tünellerin görüntülenmesi </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> 6'ya 4 tünellerin ayarları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:56:23+03:00"><title>Giden teslimatlar için yeni bir yönlendirici oluşturmak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/spam-filtering-exim-sign.html" title="Zarf Gönderici İmlerinin Eklenmesi"><link rel="previous" href="../howto/spam-filtering-exim-sign-transport.html" title="Gönderici adresini imlemek için bir Transport oluşturmak"><link rel="next" href="../howto/spam-filtering-exim-sign-router-redirect.html" title="Gelen teslimatlar için redirect yönlendiricisi oluşturmak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giden teslimatlar için yeni bir yönlendirici oluşturmak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sign-transport.html">Önceki</a> </td><th width="60%" align="center">Zarf Gönderici İmlerinin Eklenmesi</th><td width="20%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sign-router-redirect.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="spam-filtering-exim-sign-router-remote"></a>Giden teslimatlar için yeni bir yönlendirici oluşturmak</h3></div></dt><dd><p>
+Giden postalarınızı işleme sokmakta olan mevcut yönlendiricilerinizin (<i>router</i>) önüne yeni bir yönlendirici ekleyeceğiz. Bu yönlendirici uzak teslimatlar için yukarıdaki aktarımı (<i>transport</i>) kullanacak, fakat sadece kullanıcının ev dizininde bir &#8220;.return-path-sign&#8221; dosyası varsa ve alıcının alanadı bu dosyada mevcutsa. Örneğin, postanızı doğrudan internet üzerinden son hedefine gönderiyorsanız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Kullanıcının ev dizininde bir &#8220;.return-path-sign&#8221; dosyası
+# varsa ve alıcının alanadı bu dosyada mevcutsa, uzak konaklara posta
+# teslimatı yaparken zarf göndericisi adresini imleyeceğiz. Eğer dosya
+# var ama içi boşsa, zarf göndericisi adresini daima imleyeceğiz.
+#
+dnslookup_signed:
+  debug_print   = "R: dnslookup_signed for $local_part@$domain"
+  driver        = dnslookup
+  transport     = remote_smtp_signed
+  senders       = ! : *
+  domains       = ! +local_domains : !+relay_to_domains : \
+      ${if exists {/home/$sender_address_local_part/.return-path-sign}\
+                  {/home/$sender_address_local_part/.return-path-sign}\
+                  {!*}}
+  no_more
+</pre> </td></tr></table></div>
+      </p><p>
+Veya, bir göstermelik sunucu (smarthost) kullanıyorsanız:
+      </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+# Kullanıcının ev dizininde bir &#8220;.return-path-sign&#8221; dosyası
+# varsa ve alıcının alanadı bu dosyada mevcutsa, uzak konaklara posta
+# teslimatı yaparken zarf göndericisi adresini imleyeceğiz. Eğer dosya
+# var ama içi boşsa, zarf göndericisi adresini daima imleyeceğiz.
+#
+smarthost_signed:
+  debug_print   = "R: smarthost_signed for $local_part@$domain"
+  driver        = manualroute
+  transport     = remote_smtp_signed
+  senders       = ! : *
+  route_list    = * <i>göstermelik.sunucu.adresi</i>
+  host_find_failed = defer
+  domains       = ! +local_domains : !+relay_to_domains : \
+      ${if exists {/home/$sender_address_local_part/.return-path-sign}\
+                  {/home/$sender_address_local_part/.return-path-sign}\
+                         {!*}}
+  no_more
+</pre> </td></tr></table></div>
+      </p><p>
+Sizce olması gereken diğer seçenekleri de (<tt>same_domain_copy_routing = yes</tt> gibi) ekleyin, tabii mevcut yönlendiricilerinizi tamamen oluşturduktan sonra.
+      </p><p>
+Dikkat ederseniz, bu yönlendiriciyi zarf göndericisi adresi boş olan postalar için kullanmıyoruz - bunları birbirine karıştırmayalım!<sup>[<a name="id2" href="#ftn.id2">36</a>]</sup>
+      </p><div class="footnotes"><br><hr width="100" align="left"><table width="100%" summary="Footnotes" cellspacing="3" cellpading="1" class="footnote"><tr><td bgcolor="white" class="footoutline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td bgcolor="white" class="footinline"><p><sup>[<a name="ftn.id2" href="#id2">36</a>] </sup>
+Yukarıdaki örneklerde, <tt>/home//.return-path-sign</tt> dosyası mevcut olmayabileceğinden <tt>senders</tt> kuralı aslında gereksizdir. Ancak, ongunluk açısından kuralı açıkça kullanıyoruz.</p></td></tr></table></td></tr></table></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/spam-filtering-exim-sign-transport.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/spam-filtering-exim-sign.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/spam-filtering-exim-sign-router-redirect.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Gönderici adresini imlemek için bir Transport oluşturmak </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Gelen teslimatlar için redirect yönlendiricisi oluşturmak</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-27T20:43:25+03:00"><title>IPv6'ya hazır istemci programları (seçmeler)</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-systemcheck.html" title="Sistemin IPv6 Kullanımına Hazırlanması"><link rel="previous" href="../howto/ipv6-howto-systemcheck-progs.html" title="IPv6'ya hazır programlar"><link rel="next" href="../howto/ipv6-howto-systemcheck-daemons.html" title="IPv6'ya hazır sunucu programları"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">IPv6'ya hazır istemci programları (seçmeler)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-systemcheck-progs.html">Önceki</a> </td><th width="60%" align="center">Sistemin IPv6 Kullanımına Hazırlanması</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-systemcheck-daemons.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-systemcheck-clientprgs"></a>IPv6'ya hazır istemci programları (seçmeler)</h3></div></dt><dd><p>
+Aşağıdaki sınamaları çalıştırabilmeniz için sisteminizin IPv6'ya hazır olması gerekmektedir. Bazı örneklerdeki adreslere ancak bir salt6 bağlantısı olduğunda erişmek mümkündür.
+  </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id15"></a>IPv6 adreslerini çözümlemek için DNS kontrolü</h4></div></dt><dd><p>
+Son yıllardaki güvenlik güncellemeleri yüzünden tüm DNS sunucuları IPv6 adres türü olan AAAA'yı anlayan güncel programlar çalıştırmalıdır (daha yeni olan A6 ismi ise sadece BIND9 desteği olduğundan ve IP6.ARPA alanı desteklenmediğinden şimdilik sıklıkla kullanılmamaktadır). Sistemin IPv6 adreslerini çözümlemesi ile ilgili basit bir sınama aşağıdaki gibi yapılabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>host -t AAAA www.join.uni-muenster.de</tt></b>
+</pre> </td></tr></table></div>
+  </p><p>
+çıktı aşağıdaki gibi olmalıdır:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">www.join.uni-muenster.de. is an alias for tolot.join.uni-muenster.de.
+tolot.join.uni-muenster.de. has AAAA address 2001:638:500:101:2e0:81ff:fe24:37c6
+</pre> </td></tr></table></div>
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id25"></a>IPv6'ya hazır telnet istemcileri</h4></div></dt><dd><p>
+IPv6'ya hazır telnet istemcileri mevcuttur ve basitçe sınanabilir:
+  </p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>telnet 3ffe:400:100::1 80</tt></b>
+Trying 3ffe:400:100::1...
+Connected to 3ffe:400:100::1.
+Escape character is '^]'.
+HEAD / HTTP/1.0
+HTTP/1.1 200 OK
+Date: Sun, 16 Dec 2001 16:07:21
+GMT Server: Apache/2.0.28 (Unix)
+Last-Modified: Wed, 01 Aug 2001 21:34:42 GMT
+ETag: "3f02-a4d-b1b3e080"
+Accept-Ranges: bytes
+Content-Length: 2637
+Connection: close
+Content-Type: text/html; charset=ISO-8859-1
+Connection closed by foreign host.
+</pre> </td></tr></table></div>
+  </p><p>
+Eğer telnet istemcisi IPv6 adreslerinden anlamıyor ve "cannot resolve hostname" gibi bir hata döndürüyorsa IPv6 ile uyumlu değildir.
+  </p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id35"></a>IPv6'ya hazır ssh istemcileri</h4></div></dt><dd><p><div class="variablelist"><dl><dt><span class="term"><tt>openssh</tt></span></dt><dd>
+Openssh'ın güncel sürümleri IPv6 ile çalışabilmektedir. Derlemeden önceki yapılandırmasına bağlı olarak iki farklı davranış sergiler
+  <p></p><p><dl><dt><span class="glossterm"><b><tt>--without-ipv4-default</tt></b></span></dt><dd>
+İstemci önce otomatik olarak IPv6 bağlantısını dener olmazsa IPv4 bağlantısına düşer
+  <p></p></dd><dt><span class="glossterm"><b><tt>--with-ipv4-default</tt></b></span></dt><dd>
+Öntanımlı bağlantı IPv4 ile olur. IPv6 bağlantısı aşağıdaki örnekte gösterildiği gibi zorlanmalıdır:
+  <p></p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>$ </tt><b><tt>ssh -6 ::1</tt></b>
+user@::1's password: ******
+<tt>[user@ipv6host user]$</tt>
+</pre> </td></tr></table></div>
+  </p><p>
+Eğer istemciniz <tt>-6</tt> seçeneğini anlamıyorsa IPv6 uyumlu değildir.
+  </p></dd></dl>
+  </p><p></p></dd><dt><span class="term"><tt>ssh.com</tt></span></dt><dd>
+SSH.com'un IPv6'ya hazır SSH istemci ve sunucu programları kişisel ve ticari kullanım için Linux ve FreeBSD sistemlerinde özgürce kullanılabilmektedir.
+  <p></p><p></p></dd></dl></div></p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id45"></a>IPv6'ya hazır tarayıcılar (web browsers)</h4></div></dt><dd><p>
+IPv6 ili çalışabilen tarayıcıların güncel durumu <a href="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-apps.html#HTTP" target="_top">IPv6+Linux-status-apps.html#HTTP</a> adresinde bulunmaktadır.
+  </p><p>
+Sorunların çoğu henüz çözülememiştir.
+  </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
+Eğer sadece IPv4 ile çalışabilen bir vekil sunucu kullanıyorsanız, istek vekil sunucuya gönderilecek ama o isteği anlamadığı için cevap veremeyecektir. Çözüm: vekil sunucu programınızı güncelleyin.
+  <p></p><p></p></div></li><li><div class="listitem">
+Otomatik vekil sunucu ayar dosyaları (<tt>*.pac</tt>) yapılarından dolayı (java-script ile yazılmışlardır) IPv6 isteklerini de (örneğin; vekil sunucu kullanma) yorumlayacak şekilde genişletilememektedirler.
+  <p></p><p></p></div></li></ol></div></p><p>
+Ayrıca daha eski sürümler IPv6 ile kodlanmış <a href="http://%5B3ffe:400:100::1%5D/" target="_top">http://[3ffe:400:100::1]/</a> gibi URL'leri de yorumlayamamaktadırlar (<i>bu URL sadece IPv6 uyumlu bir tarayıcıyla çalışır!</i>).
+  </p><p>
+Basit bir sınama için tarayıcınıza vekil sunucu kullanmadan yukarıdaki gibi bir adresi yazmayı deneyebilirsiniz.
+  </p><div class="sect4"><div> <h5 class="title"><a name="id145"></a>Sınamak için URL'ler</h5></div><p>
+IPv6 testi için <a href="http://www.kame.net/" target="_top">http://www.kame.net/</a> adresi uygun bir başlangıç noktasıdır. Eğer sayfadaki kaplumbağa hareket ediyorsa bağlantı IPv6 ile yapılmış demektir, aksi durumda kaplumbağa hareketsiz kalacaktır.
+  </p></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-systemcheck-progs.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-systemcheck.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-systemcheck-daemons.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">IPv6'ya hazır programlar </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> IPv6'ya hazır sunucu programları</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

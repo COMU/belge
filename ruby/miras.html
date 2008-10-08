@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://docbook.org/xml/4.1.2/docbookx.dtd">
+
+<HTML><HEAD>
+  <LINK rev="made" href="mailto:slagell@ruby-lang.org">
+  <TITLE>Inheritance</TITLE>
+</HEAD>
+<BODY bgcolor="#bad1f3" text="black" vlink="#4444ff"alink="yellow" alink="4444a0">
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="siniflar.html">
+ <img border=0 src="a2l.gif" alt="Sınıflar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="metotlari_yeniden_tanimlamak.html">
+ <img border=0 src="a2r.gif" alt="Metotları Yeniden Tanımlamak"><br>Sonraki</a></td>
+ </tr></table>
+
+<hr>
+<table bgcolor="#104e8b" width="100%" cellpadding="15"  cellspacing="0" align="center" border="0"><tr><td width="10%">&nbsp;</td><td align="left" width="30%"><font face="georgia, charter" size="+2"  color="#b0d0d0">Ruby Kullanıcı Kılavuzu</font></td><td align="right" width="50%"><font face="georgia, charter" size="+2"  color="white">Miras</font></td><td width="10%">&nbsp;</td></tr></table>
+
+<p>Gerçek hayatta yaptığımız sınıflandırmalar son derece hiyerarşiktir. Örneğin bütün kedilerin memeli olduğunu ve bütün memelilerin hayvan olduğunu biliriz. Küçük sınıflar mensup oldukları büyük sınıfların karakteristik özelliklerini miras alırlar. Eğer bütün memeliler nefes alabiliyorsa, bütün kediler de nefes alabiliyor demektir.</p>
+<p>Bu durumu Ruby'de aşağıdaki gibi açıklayabiliriz: </p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Memeli</b></font>
+    |<font color="#ffff00"><b>   def nefes</b></font>
+    |<font color="#ffff00"><b>     print "nefes al ve nefes ver\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> class Kedi&lt;Memeli</b></font>
+    |<font color="#ffff00"><b>   def konus</b></font>
+    |<font color="#ffff00"><b>     print "Miyauvvvv\n"</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Örneğin bir <code>Kedi</code>'nin nasıl nefes alması gerektiğini belirtmediğimizi farz edelim. Bu durumda her kedi, <code>Kedi</code> sınıfı <code>Memeli</code> sınıfının bir alt sınıfı olarak tanımlanmışsa, bu davranışı <code>Memeli</code> sınıfından <em>miras</em> olarak alacaktır. (Nesneye yönelik terminolojide küçük sınıf alt sınıf (subclass), büyük sınıfsa süper sınıf (<em>superclass</em>) olarak isimlendirilir.) (Programcının bakış açısına göre, kediler nefes alma yeteneğini bağımsız olarak almıştır, eğer bir konuşma metodu da eklersek, artık kedilerimiz hem nefes alabilme hem de konuşabilme yeteneğine sahip olurlar.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> pisi = Kedi.new</b></font>
+<font color="#50ffff"><b>   #&lt;Kedi:0xbd80e8&gt;</b></font>
+ruby&gt;<font color="#ffff00"><b> pisi.nefes</b></font>
+nefes al ve nefes ver
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> pisi.konus</b></font>
+Miyauvvvv
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>Bazen süper sınıfta olması gereken ancak alt sınıf tarafından miras alınması istenmeyen bir özellik olabilir. Örneğin genel olarak kuşların uçmayı bildiğini ancak penguenlerin, kuşların uçamayan bir alt sınıfı olduğunu kabul edelim.</p>
+<p><table align="center" width="90%" border="1" cellpadding="6" bgcolor="black"><tr><td><pre><font color="white">ruby&gt;<font color="#ffff00"><b> class Kus</b></font>
+    |<font color="#ffff00"><b>   def gagala</b></font>
+    |<font color="#ffff00"><b>     print "Tüylerimi temizliyorum."</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b>   def uc</b></font>
+    |<font color="#ffff00"><b>     print "Uçuyorum."</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font>
+ruby&gt;<font color="#ffff00"><b> class Penguen&lt;Kus</b></font>
+    |<font color="#ffff00"><b>   def uc</b></font>
+    |<font color="#ffff00"><b>     fail "Üzgünüm. Yüzmeyi tercih ederim."</b></font>
+    |<font color="#ffff00"><b>   end</b></font>
+    |<font color="#ffff00"><b> end</b></font>
+<font color="#50ffff"><b>   nil</b></font></font></pre></td></tr></table>
+<p>
+Her yeni sınıfın her özelliğini ayrı ayrı tanımlamak yerine, sadece her alt sınıfla onun süper sınıfı arasındaki farklılıkları eklemek ya da yaniden tanımlamak daha iyidir. Mirasın bu kullanımına bazen <em>diferansiyel programlama </em>(<i>differantial programming</i>) denir. Bu nesneye yönelik programlamanın en yararlı özelliklerinden biridir.
+</p>
+
+<hr>
+
+<table align="center" border="0" cellpadding="15"><tr>
+ <td align="center" valign="bottom" width="33%">
+ <a href="Sınıflar.html">
+ <img border=0 src="a2l.gif" alt="Sınıflar"><br>Önceki</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="index.html">
+ <img border=0 src="a2u.gif" alt="İçindekiler"><br>İçindekiler</a></td>
+ <td align="center" valign="bottom" width="33%">
+ <a href="metotlari_yeniden_tanimlamak.html">
+ <img border=0 src="a2r.gif" alt="Metotları Yeniden Tanımlamak"><br>Sonraki</a></td>
+ </tr></table>
+
+</BODY></HTML>
