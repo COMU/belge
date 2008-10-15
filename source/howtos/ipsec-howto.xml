@@ -335,7 +335,7 @@ esp/tunnel/192.168.2.100-192.168.1.100/require;</screen>
 		</sect3>		
 	</sect2>
 	<sect2 id="ipsec-howto-kametools-racoon"><title>racoon kullanan otomatik anahtarlamalı bağlantılar</title>
-	<para>KAME IKE altalan süre <command>racoon</command> Linux'a da uyarlanmıştır. Bu süreç otomatik anahtarlamalı IPsec bağlantıları kurabilmektedir. Racoon kimlik denetiminde önceden paylaşılan anahtarların, X.509 sertifikaların ve Kerberos'un kullanımını desteklemektedir. Temel, saldırgan ve asıl modlarda kullanılabilir. Bu bölümde <command>racoon</command> yapılandırması önceden paylaşılan anahtar ve X.509 sertifikasıyla nasıl yapıldığı gösterilecektir (Kerberos ile ilgili bölümü yazmayı planlıyorum). Bölüm sonunda bir roadwarrior yapılandırma senaryosu özet olarak verilecektir. <note><para>Eğer Linux 2.6.10 (ya da dağıtımınız tarafından yamalanmış 2.6.9 çekirdeği kullanıyorsanız ipsec-tools'un 0.5 sürümüne ihtiyacınız vardır.</para></note></para>
+	<para>KAME IKE altalan süreci <command>racoon</command> Linux'a da uyarlanmıştır. Bu süreç otomatik anahtarlamalı IPsec bağlantıları kurabilmektedir. Racoon kimlik denetiminde önceden paylaşılan anahtarların, X.509 sertifikaların ve Kerberos'un kullanımını desteklemektedir. Temel, saldırgan ve asıl modlarda kullanılabilir. Bu bölümde <command>racoon</command> yapılandırması önceden paylaşılan anahtar ve X.509 sertifikasıyla nasıl yapıldığı gösterilecektir (Kerberos ile ilgili bölümü yazmayı planlıyorum). Bölüm sonunda bir roadwarrior yapılandırma senaryosu özet olarak verilecektir. <note><para>Eğer Linux 2.6.10 (ya da dağıtımınız tarafından yamalanmış 2.6.9 çekirdeği kullanıyorsanız ipsec-tools'un 0.5 sürümüne ihtiyacınız vardır.</para></note></para>
 		<sect3 id="ipsec-howto-kametools-racoon-keys"><title>Önceden paylaşılmış anahtarlar</title>
 			<para><command>racoon</command> kullanarak kimlik denetimi yapmanın en kolay yolu önceden paylaşılmış anahtarları kullanmaktır. Bu anahtarlar <filename>/etc/psk.txt</filename> dosyasında belirtilmelidir. Yetkisi olmayan kullanıcıların okuyamamaları gereken bu dosya (<command>chmod 400 /etc/psk.txt</command> aşağıdakine benzer olmalıdır:<screen># IPv4 Adresi
 192.168.2.100          simple psk
@@ -364,10 +364,9 @@ sainfo address 172.16.1.0/24 any address 172.16.2.0/24 any {
 	authentication_algorithm hmac_md5;
 	compression_algorithm deflate;
 }</screen></para>
-	<para>Bu dosyada ilk olarak 
-		This configuration file first defines where racoon may find the preshared keys. It then defines a peer 192.168.2.100 and the parameters to use for the phase one of the IKE negotiation. The second paragraph specifies the parameters which may be used for the setup of the security associations. This definition may be specific for defined IP addresses or general using anonymous instead of the IP addresses. Here the encryption, authentication and compression algorithms to use for the SA are defined. All three need to be defined to avoid an error during the startup of racoon.</para>
-	
-	<para>The IKE daemon racoon does not start the tunnel negotiation immediately when started. Rather racoon waits until the tunnel is needed. For this notification to occur the kernel needs to know when to notify racoon. To achieve this, the administrator needs to define security policies without the appropiate security associations. Whenever the Linux kernel needs to protect a packet according to the security policies and when no security association is available, the Linux kernel calls racoon and asks for the required security associations. Racoon will then start the IKE negotiations and will create the SAs when finished. The Linux kernel can then send the packets.</para><para>For the assumed setup the following policies are needed on 192.168.1.100: <screen>#!/usr/sbin/setkey -f
+	<para>Yapılandırma dosyasında ilk olarak <command>racoon</command>'un önceden paylaşılmış anahtarları nerede bulacağı belirtilir. Daha sonra 192.168.2.100 adresli tarafı ve IKE görüşmesinde kullanılacak parametreleri belirtmek gereklidir. İkinci paragraf ise güvenlik anlaşmasının oluşturulmasında kullanılabilecek parametreleri barındırır. Bu parametreler belirli bir IP adresine özel olabileceği gibi anonim adresler için de olabilir. Bu parametreler arsında SA için kullnaılacak şifreleme, kimlik kanıtlama ve sıkıştırma algoritmaları da bulunur. Bu üç algoritmanın tanımlanması <command>racoon</command>'un hatasız başlayabilmesi için gereklidir.</para>
+	<para><command>racoon</command>'un çalıştırıldığında hemen tünel görüşmelerine başlamaz. Bunun yerine bir tünele ihtiyaç duyulana kadar bekler. Bu bilgiyi verebilmesi için çekirdeğin <command>racoon</command>'u nasıl bilgilendireceğini bilmesi gerekir. Bunun için sistem yöneticisi güvenlik anlaşması olmadan güvenlik politikalarını tanımlamalıdır. Linux çekirdeği ne zaman bir paketi güvenlik politikası gereği korumak durumunda kalır ve uygun güvenlik anlaşması bulamazsa, ihtiyaç duyduğu güvenlik anlaşması için <command>racoon</command>'u çağırır. <command>Racoon</command> IKE görüşmelerini başlatır ve sonuçta SA'ları oluşturur. Artık Linux çekirdeği paketleri göndermeye hazırdır.</para>
+	<para>Varsayılan kurulum için 192.168.1.100 üzerinde aşağıdaki politikalara ihtiyaç vardır: <screen>#!/usr/sbin/setkey -f
 #
 # Flush SAD and SPD
 flush;
@@ -379,8 +378,8 @@ esp/tunnel/192.168.1.100-192.168.2.100/require;
 
 spdadd 172.16.2.0/24 172.16.1.0/24 any -P in ipsec
 esp/tunnel/192.168.2.100-192.168.1.100/require;</screen></para>
-	<para>Once the policies are loaded using setkey -f /etc/setkey.conf racoon may be started. For testing purposes racoon should be started using racoon -F -f /etc/racoon.conf. Again the configuration of the other peer has to be modified to reflect the different direction. The IP addresses in the files /etc/psk.txt, /etc/setkey.conf and /etc/racoon.conf must be exchanged.</para>
-	<para>The initiation of the tunnel can then be followed in the logs:
+	<para>Politikalar <command>setkey -f /etc/setkey.conf</command> komutuyla yüklendikten sonra <command>racoon</command> başlatılabilir. <command>racoon</command> deneme amacıyla kullanılacaksa <command>racoon -F -f /etc/racoon.conf</command> ile başlatılmalıdır. Diğer tarafın yapılandırması ters yönleri gösterecek şekilde yeniden düzenlenmelidir. <filename>/etc/psk.txt</filename>, <filename>/etc/setkey.conf</filename> ve <filename>/etc/racoon.conf</filename> dosyalarındaki IP adresleri değiştirilmelidir.</para>
+	<para>Tünelin kurulduğu aşağıdaki gibi günlüklerden (log) takip edilebilir:
 		
 		<screen>2003-02-21 18:11:17: INFO: main.c:170:main(): @(#)racoon 20001216 20001216
  sakane@kame.net
@@ -412,7 +411,7 @@ ed: ESP/Tunnel 192.168.2.100->192.168.1.100 spi=68291959(0x4120d77)
 		</sect3>
 		
 		<sect3 id="ipsec-howto-kametools-racoon-x509"><title>X.509 Sertifikaları</title>
-			<para>Racoon supports the usage of X.509 certificates for the authentication process. These certificates may be checked against a certificate authority (CA). The configuration is similar to the PSK configuration and differs only on the authentication part:<screen>path certificate "/etc/certs";
+	<para><command>Racoon</command> kimlik denetimi için X.509 sertifikalarının kullanımını destekler. Bu sertifikalar bir sertifika otoritesinden (CA) kontrol edilebilirler. Yapılandırma PSK yapılandırmasına çok benzer, sadece kimlik kanıtlama bölümü farklıdır:<screen>path certificate "/etc/certs";
 
 remote 192.168.2.100 {
 	exchange_mode main;
@@ -434,30 +433,23 @@ sainfo address 172.16.1.0/24 any address 172.16.2.0/24 any {
 	authentication_algorithm hmac_md5;
 	compression_algorithm deflate;
 }</screen></para>
-	<para>The certificate and the private key are stored in the certificate path /etc/certs. This path is set using the option path certificate in the configuration file. The certificates and the certificate revocation lists are stored in PEM format as generated with openssl. For the generation of certificates see the chapter on X.509 certificates. If the certificate of the peer is to be checked against a certificate authority (verify_cert on; is the default), then the certificate of the CA has to be also stored in this directory. For OpenSSL to find the certificate it has to be renamed or linked using the hashed name:
+<para>Sertifika ve özel anahtar <filename>/etc/certs</filename> dizininde bulunur. Bu dizinin yolu yapılandırma dosyasında <command>path certificate</command> değişkeninde belirtilir. Sertifikalar ve sertifika iptal listeleri <command>openssl</command> ile oluşturulan PEM dosya biçiminde saklanırlar. Bu sertifikaların oluşturulmasıyla ilgili bilgileri <xref linkend="ipsec-howto-x509"/> bölümünde bulabilirsiniz. Eğer tarafların sertifikaları bir sertifika otoritesinden kontrol edilecekse (öntanımlı değer olan <command>verify_cert on</command> ise) CA'nın sertifikası da bu dizinde bulundurulmalıdır. OpenSSL'in sertifikayı bulabilmesi için ya adı değiştirilmeli ya da hash'i alınmış (hashed) dosyaya sembolik bağ oluşturulmalıdır:
 		<screen>ln -s CAfile.pem `openssl x509 -noout -hash &lt; CAfile.pem`.0</screen></para>
-	<para>If the certificate additionally is to be checked against a certificate revocation file (CRL) the CRL must be stored in the same directory using a similar linked hashed name:
+	<para>Eğer sertifika bir CRL dosyası ile de kontrol edilecekse bu CRL dosyası da aynı dizinde, yukarıdaki gibi bir isimle bulundurulmalıdır:
 		<screen>ln -s CRLfile.pem `openssl x509 -noout -hash &lt; CAfile.pem`.r0</screen></para>
-		<para>When storing the certificates and the private key it is important to note that racoon cannot decrypt a private key. Therefore the private key must be stored in its decrypted cleartext form. If you created a crypted private key, you have to decrypt it:
-			
-			<screen># openssl rsa -in my_private_key.pem -out my_private_key.pem
+	<para>Sertifikaları ve özel anahtarı saklarken <command>racoon</command>'un özel anahtarı deşifreleyemeyeceğini unutmamak gerekir. Bu yüzden özel anahtar deşifrelenmiş düz metin formunda saklanmalıdır. Şifrelenmiş bir özel anahtarı aşağıdaki gibi deşifreleyebilirsiniz:<screen># openssl rsa -in my_private_key.pem -out my_private_key.pem
 read RSA key
 Enter PEM pass phrase: password
 writing RSA key</screen>
-		</para>
+	</para>
 		</sect3>
 		
-		<sect3 id="ipsec-howto-kametools-racoon-roadwarrior"><title>Roadwarrior</title>
-			<para>Roadwarriors are clients using unknown dynamic IP addresses to connect to a VPN gateway. In combination with racoon this poses two problems:<itemizedlist><listitem>
-				
-				The IP address is not known and cannot be specified in the racoon configuration file or in the /etc/psk.txt file. A different way to determine the identity of the client must be found. When using pre-shared keys this requires the aggressive mode! The best solution is the usage of X.509 certificates though.</listitem>
-				<listitem>
-				
-      No security policy can be created for racoon to act on, since the destination IP address is not known. racoon must create the security policy and the security association when the connection is initiated.</listitem></itemizedlist>
-</para>
-<para>To achieve this the configuration file /etc/racoon.conf needs several modifications:
-	
-	<screen>path certificate "/etc/certs";
+	<sect3 id="ipsec-howto-kametools-racoon-roadwarrior"><title>Roadwarrior</title>
+	<para>Roadwarrior bir VPN ağ geçidine bağlanmak için bilinmeyen dinamik IP adreslerini kullanan istemcilerdir. <command>racoon</command> ile birlikte kullanımında iki problem ortaya çıkar:<itemizedlist>
+		<listitem>IP adresi bilinmediğinden <command>racoon</command> yapılandırma dosyasında veya <filename>/etc/psk.txt</filename> dosyasında belirtilemez. İstemcinin kimliğini belirlemenin başka bir yolu bulunmalıdır. Önceden paylaşılmış anahtarlar kullanıldığında saldırgan mod seçilmelidir.En iyi çözüm X.509 sertifikalarını kullanmak olacaktır.</listitem>
+		<listitem>Hedef IP adresi belirsiz olduğundan <command>racoon</command> için bir güvenlik politikası yaratılamaz. <command>racoon</command> güvenlik politikasını ve güvenlik anlaşmasını bağlantı başlatıldığında oluşturmalıdır.</listitem></itemizedlist>
+	</para>
+	<para>Bunu yapabilmek için <filename>/etc/racoon.conf</filename> yapılandırma dosyasında bazı düzenlemelerin yapılması gereklidir:<screen>path certificate "/etc/certs";
 	
 remote anonymous {
 	exchange_mode main;
@@ -481,26 +473,18 @@ sainfo anonymous {
 	authentication_algorithm hmac_md5;
 	compression_algorithm deflate;
 }</screen>
-</para><para>The option generate_policy on instructs racoon to create the appropriate policy when a new connection is initiated. The option passive on tells racoon to remain passive and wait for new connection to be started from the outside. racoon may not start a connection.</para>
-	
-<para>The most important change though is the definition of anonymous in the remote and sainfo line. This instructs racoon to accept the connection from anywhere.</para>
+</para>
+	<para><command>generate_policy on</command> seçeneği <command>racoon</command>'a yeni bir bağlantı başlatıldığında uygun bir politika yaratması gerekitiğini bildirir. <command>passive on</command> seçeneği ise <command>racoon</command>'un dışarıdan yeni bir bağlatı başlatılana dek pasif halde kalmasını söyler. <command>racoon</command> bir bağlantı başlatmamalıdır.</para>
+	<para>Yine de en önemli değişiklik <command>remote</command> ve <command>sainfo</command> satırlarındaki <command>anonymous</command> tanımlamasıdır. Bu sayede <command>racoon</command> her yerden gelen bağlantıları kabul edecektir.</para>
 		</sect3>
 	</sect2>	
-	
 	<sect2 id="ipsec-howto-kametools-nattraversal"><title>Aykırı NAT</title>
-		<para>The Linux kernel 2.6 is capable of using NAT traversal in tunnel mode. Transport mode is not supported yet. This can be used by Racoon starting with version 0.3.3 of the ipsec-tools.</para>
-			
-		<para>To configure Racoon for NAT traversal several options have been added to the configuration file. These are natt_keepalive, isakmp_natt, nat_traversal.</para>
-			
-		<para>The most important option is nat_traversal. This can be set to on, off or force. When set to on this peer will use NAT traversal as soon as a NAT device is detected on the path. Off will disable this behavior. When using force NAT traversal will be used regardless wether a NAT device is found or not.</para>
-			
-		<para>Since many NAT devices forget the entries in their internal tables quite fast when no traffic is seen, racoon offers to send keepalive packets across the wire. These are send every 20 seconds by default. You can change this value using natt_keepalive. Setting this to 0 seconds will disable this feature.</para>
-			
-		<para>If you want to use NAT traversal you have to specify the IP address and the port to use in the listen section of the racoon configuration file. This is done using isakmp_natt.</para>
-		
-		<para>For clarity a typical configuration file is shown, where the peer 192.168.2.100 is hidden by a NAT gateway with the IP address 192.168.1.1:
-			
-			<screen>path pre_shared_key "/etc/psk.txt";
+		<para>Linux 2.6 çekirdeği tünel modunda aykırı NAT yapabilme kapasitesine sahiptir. Transfer modu henüz desteklenmemektedir. Bu <command>ipsec-tools</command>'un 0.3.3 sürümünden itibaren Racoon ile yapılabilir.</para>
+		<para>Racooon'un aykırı NAT için yapılandırılabilmesi için yapılandırma dosyasına bir çok seçenek eklenmiştir. Bunlar: <command>natt_keepalive</command>, <command>isakmp_natt</command>, <command>nat_traversal</command> dir.</para>
+		<para>En önemli seçenek <command>nat_traversal</command>'dir. Bu seçeneğe değer olarak <command>on</command>, <command>off</command> veya <command>force</command> değerleri atanabilir. <command>On</command> atandığında, yol üzerinde bir NAT aygıtı algılanır algılanmaz aykırı NAT kullanılmaya başlanır. <command>Off</command> bu özelliğin kullanılmasını iptal eder. <command>force</command> kullanıldığında ise bir NAT aygıtı bulunsun veya bulunmasın aykırı NAT kullanılacaktır.</para>
+		<para>NAT aygıtlarının çoğu bir trafik olmadığında hızlı bir şekilde kendi iç tablolarındaki girdileri unuttuklarından, <command>racoon</command> ağdan keepalive paketleri göndermeyi önerir. Bu paketler ön tanımlı olarak her 20 saniyede bir gönderilirler. Bu değeri <command>natt_keepalive</command> değişkenini kullanarak değiştirebilirsiniz. Eğer değer olarak 0 verirseniz bu özelliği kapatmış olursunuz.</para>
+		<para>Aykırı NAT kullanmak isterseniz racoon'un yapılandırma dosyasının <command>listen</command> bölümünde kullanılacak IP adresini ve portu belirtmeniz gerekir. Bu <command>isakmp_natt</command> kullanılarak yapılır.</para>
+		<para>Örnek olması için aşağıda 192.168.2.100 adresli tarafın 192.168.1.1 adresine sahip NAT aygıtı arkasında olduğu bir durumun yapılandırma dosyası verilmektedir:s<screen>path pre_shared_key "/etc/psk.txt";
 			
 timer  {
 	natt_keepalive 10sec;
@@ -528,9 +512,7 @@ sainfo address 172.16.1.0/24 any address 172.16.2.0/24 any {
 	authentication_algorithm hmac_md5;
 	compression_algorithm deflate;
 }</screen>
-</para><para>If you configured everything correctly NAT will be detected automatically:
-	
-	<screen>2004-12-22 07:34:53: INFO: @(#)ipsec-tools 0.4 (http://ipsec-tools.sourceforge.net)
+</para><para>Herşeyi doğru yapılandırmışsanız NAT otomatik olarak algılanacaktır:<screen>2004-12-22 07:34:53: INFO: @(#)ipsec-tools 0.4 (http://ipsec-tools.sourceforge.net)
 2004-12-22 07:34:53: INFO: @(#)This product linked OpenSSL 0.9.7a Feb 19 2003 (http://www.openssl.org/)
 2004-12-22 07:34:53: INFO: 192.168.1.100[4500] used as isakmp port (fd=6)
 2004-12-22 07:34:53: INFO: 192.168.1.100[4500] used for NAT-T
@@ -556,9 +538,8 @@ sainfo address 172.16.1.0/24 any address 172.16.2.0/24 any {
 2004-12-22 07:35:11: INFO: Adjusting peer's encmode UDP-Tunnel(3)->Tunnel(1)
 2004-12-22 07:35:11: INFO: IPsec-SA established: ESP/Tunnel 192.168.1.1->192.168.1.100 spi=95762109(0x5b536bd)
 2004-12-22 07:35:11: INFO: IPsec-SA established: ESP/Tunnel 192.168.1.100->192.168.1.1 spi=222871470(0xd48bfae)</screen>
-			</para>
-			<para>When looking at the packets on the wire you will see UDP traffic traversing back and forth:
-				
+	</para>
+	<para>Hattaki paketlere baktığınızda UDP trafiğinin geriye ve öne çapraz gittiğini göreceksiniz:
 <screen>[root@bibo root]# tcpdump
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on tap1, link-type EN10MB (Ethernet), capture size 96 bytes
@@ -578,9 +559,8 @@ listening on tap1, link-type EN10MB (Ethernet), capture size 96 bytes
 13:37:45.390612 IP 192.168.1.100.4500 > 192.168.1.1.4500: UDP, length 116
 13:37:46.395603 IP 192.168.1.1.4500 > 192.168.1.100.4500: UDP, length 116
 13:37:46.396009 IP 192.168.1.100.4500 > 192.168.1.1.4500: UDP, length 116</screen>
-			</para>
-			<para>If you are using your Racoon not in a roadwarrior setup but with fixed addresses as above you need to modify your Security Policies too. These need to reflect the natted addresses! The correct Policies for the above scenario are:
-				
+	</para>
+	<para>Eğer Racoon'u roadwarrior kurulu olmadan sabit adreslerle kullanıyorsanız yukarıdaki gibi güvenlik politikalarınızı da düzenlemeniz gerekir. Yaılacak değişiklikler nat işlemi yapıldıktan sonraki adresleri göstermek olmalıdır. Bu senaryoya uygun politikalar şöyle olmalıdır:
 <screen>#!/usr/sbin/setkey -f
 #
 # Flush SAD and SPD
@@ -592,43 +572,439 @@ spdadd 172.16.1.0/24 172.16.2.0/24 any -P out ipsec
 esp/tunnel/192.168.1.100-192.168.1.1/require;
 
 spdadd 172.16.2.0/24 172.16.1.0/24 any -P in ipsec
-esp/tunnel/192.168.1.1-192.168.1.100/require;</screen></para>
-				
-				
-<para>These policies are automatically setup if you use generate_policy on; in your Racoon configuration.</para>
+esp/tunnel/192.168.1.1-192.168.1.100/require;</screen>
+	</para>
+	<para>Racoon yapılandırmanızda <command>generate_policy on</command> yapmışsanız bu politikalar otomatik olarak oluşturulacaktır.</para>
 	</sect2>	
 </sect1>
 
 <sect1 id="ipsec-howto-isakmpd"><title>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</title>
-	<para></para>
+	<para>Thomas Walpuski has ported the IKE daemon of the OpenBSD operating system to Linux (http://bender.thinknerd.de/~thomas/IPsec/isakmpd-linux.html). The isakmpd can now be used on Linux kernel 2.5.47+ and 2.6.x to setup IPsec VPNs. This chapter will describe the installation and configuration of the isakmpd.</para>
 	<sect2 id="ipsec-howto-isakmpd-installation"><title>Kurulum</title>
-		<para></para>
+		<para>If you are using a RPM based distribution or Debian the installation may be done using the appropiate package tools. The author of this document has compiled an RPM package of the isakmpd for the Linux kernel 2.6.0 (http://www.spenneberg.org/VPN/Kernel-2_6_IPsec). Please be aware, that this package may not work on testversions, because the ABI in the kernel has been changed several times. The debian project includes a package which may be installed using apt-get install isakmpd.</para>
+			
+		<para>When installing from source you need the keynote package (http://www1.cs.columbia.edu/~angelos/keynote.html) if you want to use X.509 certificates. Additionally you need a Linux kernel 2.5.47+ or 2.6.x.</para>
+			
+		<para>To get the isakmpd sources follow the steps mentioned on the webpage of Thomas Walpuski. Then edit the GNUmakefile accordingly and activate the line OS=linux. If you are not keeping the Linux kernel in /usr/src/linux you will need to additionally modify the file sysdep/linux/GNUmakefile.sysdep.</para>
+			
+		<para>The compilation may be done using the command make.</para>
+		<para>The isakmpd comes with two additional commands: keyconv and certpatch. These tools are in the subdirectory apps and may be compiled by hand (They are part of my RPM-package). Certpatch can add a SubjectAltName to an existing certificate while keyconv converts DNSSEC to openssl keys and vice-versa.</para>
+			
+		<para>I was able to compile these tools successfully using (Your mileage may vary.):
+			
+	<screen>gcc -DMP_FLAVOUR=MP_FLAVOUR_GMP -I../.. -I../../sysdep/linux   -I /usr/src/linux-2.6.0 -lcrypto -lgmp certpatch.c -o certpatch
+gcc  -I../.. -I../../sysdep/linux   -I /usr/src/linux-2.6.0 -lcrypto -lgmp base64.c keyconv.c -o keyconv</screen></para>
+			
+			
+		<para>One last caveat: All manpages are in Latin1 format. Red Hat 9 cannot display these manpages. You have to convert them to be able to read them (done in the RPM-package): iconv --from-code LATIN1 --to-code UTF-8 --output isakmpd2.8 isakmpd.8</para>
+			
+			<para>When the isakmpd has been compiled, generate the mandatory directory structure:
+			
+			<screen>mkdir /etc/isakmpd
+mkdir /etc/isakmpd/ca
+mkdir /etc/isakmpd/certs
+mkdir /etc/isakmpd/keynote
+mkdir /etc/isakmpd/crls
+mkdir /etc/isakmpd/private
+mkdir /etc/isakmpd/pubkeys</screen>
+      </para>
 	</sect2>
-	<sect2 id="ipsec-howto-isakmpd-psk"><title>Using preshared keys (PSK)</title>
-		<para></para>
+	<sect2 id="ipsec-howto-isakmpd-psk"><title>Önceden Paylaşılan Anahtarları (PSK) Kullanmak</title>
+		<para>The isakmpd uses one configuration file and one policy file. These are the file /etc/isakmpd/isakmpd.conf and /etc/isakmpd/isakmpd.policy. The configuration uses the well known format called .INI style. Each section starts with a line like:
+			
+			<screen>[section]</screen></para>
+			
+			
+	<para>Within the section you can assign a value to a tag:
+			
+			<screen>tag=value</screen></para>
+			
+		<para>If the value is longer than one line you can use the Backslash technique to use several lines. Comments may be put anywhere using the hash mark #.</para>
+			
+			<para>To start we will look at a simple configuration which uses a preshared secret for the authentication. Please take a look at Figure 5 in the Section called Tunnel Mode for the setup.
+			
+			<screen>[General]
+Listen-on=              192.168.1.100
+
+[Phase 1]
+192.168.2.100=                ISAKMP-peer-west
+
+[Phase 2]
+Connections=            IPsec-east-west
+
+[ISAKMP-peer-west]
+Phase=                  1
+Local-address=          192.168.1.100
+Address=                192.168.2.100
+Authentication=         ThisIsThePassphrase
+
+[IPsec-east-west]
+Phase=                  2
+ISAKMP-peer=            ISAKMP-peer-west
+Configuration=          Default-quick-mode
+Local-ID=               Net-east
+Remote-ID=              Net-west
+
+[Net-west]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16.2.0
+Netmask=                255.255.255.0
+
+[Net-east]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16.1.0
+Netmask=                255.255.255.0
+
+[Default-quick-mode]
+DOI=                    IPSEC
+EXCHANGE_TYPE=          QUICK_MODE
+Suites=                 QM-ESP-3DES-MD5-PFS-SUITE</screen>
+      </para>
+      <para>This configuration file describes a tunnel between the two gateways 192.168.1.100 and 192.168.2.100. This tunnel may be used by 172.16.1.0/24 and 172.16.2.0/24. This configuration file is specifically for the gateway 192.168.1.100.</para>
+	      
+      <para>Let's look at the individual sections. The first section [General] describes the general setup. Here we define if isakmpd should bind to specific IP addresses during startup. This is recommended if you have several IP addresses on your VPN gateway.</para>
+	      
+      <para>The section [Phase 1] describes which configuration to use for the peer using the IP address 192.168.2.100. If the IP address of the peer is not known (roadwarrior) you can use default instead.</para>
+	      
+      <para>The section [Phase 2] describes the tunnels to create once a Phase 1 authentication has been established. If isakmpd may not actively start the connections use Passive-connections instead.</para>
+	      
+      <para>Now you have to define the names you referred to in the Phase 1 and Phase 2 sections. First we define the ISAKMP-peer-west. This definition is used in Phase 1 and we know the Local-address and the remote Address. If the remote address is not known, just remove this tag. Authentication should be done using a preshared key which is given in cleartext.</para>
+	      
+      <para>Next the tunnel IPsec-east-west is defined. It is used in Phase 2 and shall be established with the ISAKMP-peer ISAKMP-peer-west. We want to define the Configuration of the connection and the additional IDs for the tunnel (Local-ID and Remote-ID).</para>
+	      
+      <para>Since these IDs are referrals again, we have to define them. The ID-type may be IPV4_ADDR, IPV6_ADDR, IPV4_ADDR_SUBNET and IPV6_ADDR_SUBNET.</para>
+	      
+      <para>Last but not least we have to define the quick-mode configuration, we referred to in the description of the tunnel. We define the DOI (default: IPSEC), the EXCHANGE_TYPE (default: QUICK_MODE) and the Suites to use. This is QuickMode-Encapsulated-Security-Payload-3DES-Encryption-MD5-HMAC-Perfect-Forward-Secrecy. You can specify several suites seperated by commas. Read the man-page for all possible transforms and suites.</para>
+      <para>The isakmpd.policy file is much shorter. The next listing shows an example:
+	      
+	      <screen>KeyNote-Version: 2
+Authorizer: "POLICY"
+Licensees: "passphrase:ThisIsThePassphrase"
+Conditions: app_domain == "IPsec policy" &amp;&amp;
+esp_present == "yes" &amp;&amp;
+esp_enc_alg == "3des" &amp;&amp;
+esp_auth_alg == "hmac-md5" -&gt; "true";</screen>
+      </para>
+      <para>For testing the connection start the isakmpd using the following line:
+	      
+      <screen>isakmpd -d -4 -DA=90</screen></para>
+	      
+	<para>This will start the isakmpd in foreground (-d) using IPv4 (-4) and a debuglevel of 90.</para>
+	      
+	<para>Once the connection has started you should be able to ping from one subnet to the other subnet. If you have also installed the ipsec-tools you can use the command setkey to view the policies and security associations added by the isakmpd. If you kill the isakmpd running in foreground using ctrl-c, it does not flush the SAD and SPD. You will have to do this manually using the command setkey. If you kill the isakmpd using the command kill -TERM it will flush the SAD and SPD!</para>
 	</sect2>
-	<sect2 id="ipsec-howto-isakmpd-x509"><title>Using X.509 certificates</title>
-		<para></para>
+	<sect2 id="ipsec-howto-isakmpd-x509"><title>X.509 Sertifikalarını Kullanmak</title>
+		<para>The isakmpd may also use X.509 certificates for the authentication process. You can create your certificates using the usual tools and need for each machine, taking part in the VPN, the following files:
+			<itemizedlist><listitem>/etc/isakmpd/private/local.key The private key of the machine in .pem format. Permissions must be 600.</listitem>
+			<listitem>/etc/isakmpd/ca/ca.crt The certificate of the certificate authority you trust.</listitem>
+			<listitem>/etc/isakmpd/certs/ip-address.crt The certificate of the local machine.</listitem></itemizedlist></para>
+	<para>For isakmpd to find and use the certificate it has to include a SubjectAltName. This X.509v3 extension can be defined during generation of the certificate or later using the command certpatch. This command needs the private key of the CA, extracts the certificate, adds the extension and signs the certificate again.
+		
+	<screen>certpatch -i ip-address -k ca.key  originalcert.crt newcert.crt</screen></para>
+		
+		
+	<para>Certpatch can add an IP address, a FQDN or a UFQDN to the certificate.</para>
+	<para>Once these files are stored in the appropiate folders and have the appropiate permissions assigned, you can create the configuration and the policy file. In the configuration file just remove the line Authentication. and add a line ID=East to the ISAKMP-peer-west section. Then define East. Additionally you have to specifiy the X.509 directories. The full configuration file follows:
+		
+		<screen>[General]
+Listen-on=              192.168.1.100
+
+[Phase 1]
+192.168.2.100=                ISAKMP-peer-west
+
+[Phase 2]
+Connections=            IPsec-east-west
+
+[ISAKMP-peer-west]
+Phase=                  1
+Local-address=          192.168.1.100
+Address=                192.168.2.100
+ID=                     East
+
+[East]
+ID-type=                IPV4_ADDR
+Address=                192.168.1.100
+
+[IPsec-east-west]
+Phase=                  2
+ISAKMP-peer=            ISAKMP-peer-west
+Configuration=          Default-quick-mode
+Local-ID=               Net-east
+Remote-ID=              Net-west
+
+[Net-west]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16.1.0
+Netmask=                255.255.255.0
+
+[Net-east]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16..2.0
+Netmask=                255.255.255.0
+
+[Default-quick-mode]
+DOI=                    IPSEC
+EXCHANGE_TYPE=          QUICK_MODE
+Suites=                 QM-ESP-3DES-MD5-PFS-SUITE
+[X509-certificates]
+CA-directory=           /etc/isakmpd/ca/
+Cert-directory=         /etc/isakmpd/certs/
+Private-key=            /etc/isakmpd/private/local.key</screen>
+      </para>
+      <para>The policy file needs to be modified, too. Since you only want to allow peers using certificates signed by the trusted CA add the following line after the line Authorizer. The full policy file follows:
+	      
+	      <screen>KeyNote-Version: 2
+Authorizer: "POLICY"
+Licensees: "DN:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.Com/OU=VPN/CN=RootCA"
+Conditions: app_domain == "IPsec policy" &amp;&amp;
+esp_present == "yes" &amp;&amp;
+esp_enc_alg == "3des" &amp;&amp;
+esp_auth_alg == "hmac-md5" -> "true";</screen>
+      </para>
+      <para>The text after DN: has to match the subject line of the CA certificate:
+	      
+      <screen>openssl x509 -in ca/ca.crt -noout -subject</screen></para>
+	      
+	      
+	<para>Now you can start the isakmpd as usual to test the configuration.</para>
 	</sect2>
 
 </sect1>
 
 <sect1 id="ipsec-howto-x509"><title>X.509 Sertifikaları Oluşturmak</title>
-	<para></para>
-	<sect2 id="ipsec-howto-x509-openssl"><title>OpenSSL Kullanarak</title>
-		<para></para>
+	<para>Today almost all VPN implementations allow the usage of X.509 certificate for the authentication of the peers. These are the same certificates as used for the implementation of the Secure Socket Layer (SSL) in the HTTP protocol.</para>
+		
+	<para>This chapter will briefly cover the creation of these certificates.</para>
+	<sect2 id="ipsec-howto-x509-openssl"><title>OpenSSL Kullanmak</title>
+		<para>The easiest way to create X.509 certificates on Linux is the openssl command and the auxiliary tools. When the OpenSSL package has been installed usually an auxillary command CA and/or CA.pl, has been installed, too. We will use this command to create the certificates.</para>
+			
+		<para>First check where the command has been installed. It is usually not in your path! On Red Hat Linux distributions it is installed in /usr/share/ssl/misc/CA.</para>
+		<para>Now create your certificate authority first.
+			
+			<screen>$ mkdir certs
+$ cd certs
+$ /usr/share/ssl/misc/CA -newca
+CA certificate filename (or enter to create) &lt;enter&gt;
+	
+Making CA certificate ...
+Using configuration from /usr/share/ssl/openssl.cnf
+Generating a 1024 bit RSA private key
+................++++++
+..............++++++
+writing new private key to './demoCA/private/./cakey.pem'
+Enter PEM pass phrase: capassword
+Verifying password - Enter PEM pass phrase: capassword
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [DE]:
+State or Province Name (full name) [NRW]:
+Locality Name (eg, city) [Steinfurt]:
+Organization Name (eg, company) [Spenneberg.com]:
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []:RootCA 2003
+Email Address []:ralf@spenneberg.net</screen>
+      </para>
+      <para>Please enter the appropiate values when asked for Country Name, etc. If you would like to have the correct values proposed (like above in my case) edit your openssl.cnf file. On Red Hat Linux systems you may usually find it at /usr/share/ssl/openssl.cnf.</para>
+	      
+      <para>The created certificate authority is only valid for one year. Often you want a longer lifetime for the certificate of your CA. Since the certificates you are signing later on usually have a shorter lifetime it is not practical to edit the openssl.cnf file. Rather change the lifetime manually:
+	      
+      <screen>$ cd demoCA/
+$ openssl x509 -in cacert.pem -days 3650 -out cacert.pem
+-signkey ./private/cakey.pem
+Getting Private key
+Enter PEM pass phrase: capassword
+$ cd ..</screen>
+      </para>
+      <para>The certificate authority is now ready to go. Let's create a certificate signing request:
+	      
+	      <screen>$ /usr/share/ssl/misc/CA -newreq
+Using configuration from /usr/share/ssl/openssl.cnf
+Generating a 1024 bit RSA private key
+...............................++++++
+...................................++++++
+writing new private key to 'newreq.pem'
+Enter PEM pass phrase: certpassword
+Verifying password - Enter PEM pass phrase: certpassword
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [DE]:
+State or Province Name (full name) [NRW]:
+Locality Name (eg, city) [Steinfurt]:
+Organization Name (eg, company) [Spenneberg.com]:
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []:VPN-Gateway
+Email Address []:ralf@spenneberg.net
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+Request (and private key) is in newreq.pem</screen>
+      </para>
+      <para>The file newreq.pem contains the certificate signing request and the encrypted private key. This file can later be used as a private key for FreeS/WAN or Racoon. Once the request is created, we can sign it using the certificate authority.
+	      
+      <screen>$ /usr/share/ssl/misc/CA -sign
+Using configuration from /usr/share/ssl/openssl.cnf
+Enter PEM pass phrase: capassword
+Check that the request matches the signature
+Signature ok
+The Subjects Distinguished Name is as follows
+countryName           :PRINTABLE:'DE'
+stateOrProvinceName   :PRINTABLE:'NRW'
+localityName          :PRINTABLE:'Steinfurt'
+organizationName      :PRINTABLE:'Spenneberg.com'
+commonName            :PRINTABLE:'VPN-Gateway'
+emailAddress          :IA5STRING:'ralf@spenneberg.net'
+Certificate is to be certified until Apr 29 06:08:56 2004 GMT (365 days)
+Sign the certificate? [y/n]:y
+ 
+ 
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated</screen>
+      </para>
+      <para>Depending on the version of the command CA the certificate might be print to stdout. This will be similar to the following certificate:
+	      
+	      <screen>Certificate:
+	      Data:
+	      Version: 3 (0x2)
+	      Serial Number: 1 (0x1)
+	      Signature Algorithm: md5WithRSAEncryption
+	      Issuer: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
+	      CN=RootCA 2003/Email=ralf@spenneberg.net
+	      Validity
+	      Not Before: Apr 30 06:08:56 2003 GMT
+	      Not After : Apr 29 06:08:56 2004 GMT
+	      Subject: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
+	      CN=VPN-Gateway/Email=ralf@spenneberg.net
+	      Subject Public Key Info:
+	      Public Key Algorithm: rsaEncryption
+	      RSA Public Key: (1024 bit)
+	      Modulus (1024 bit):
+	      00:c5:3b:9c:36:3a:19:6c:a9:f2:ba:e9:d2:ed:84:
+	      33:36:48:07:b2:a3:2d:59:92:b0:86:4c:81:2c:ea:
+	      5c:ed:f3:ba:eb:17:4e:b3:3a:cc:b7:5b:5d:ca:b3:
+	      04:ed:fb:59:3c:c5:25:3e:f3:ff:b0:22:10:fb:de:
+	      72:0a:ee:42:4b:9a:d3:27:d3:b6:fb:e9:88:10:c8:
+	      47:b7:26:4f:71:40:e4:75:c4:c0:ee:6b:87:b8:6f:
+	      c9:5e:66:cf:bb:e7:ad:72:68:b8:6d:fd:8f:4c:1f:
+	      3a:a2:0d:43:25:06:b9:92:e7:20:6c:86:15:a0:eb:
+	      7f:f7:0b:9a:99:5d:14:88:9b
+	      Exponent: 65537 (0x10001)
+	      X509v3 extensions:
+	      X509v3 Basic Constraints:
+	      CA:FALSE
+	      Netscape Comment:
+	      OpenSSL Generated Certificate
+	      X509v3 Subject Key Identifier:
+	      CB:5C:19:9B:E6:8A:8A:FE:0E:C4:FD:5E:DF:F7:BF:3D:A8:
+	      18:7C:08
+	      X509v3 Authority Key Identifier:
+	      keyid:01:BB:C6:33:BE:F5:9A:5E:B0:0C:5D:BD:41:E9:78:
+	      6C:54:AD:66:8E
+	      DirName:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.com/
+	      CN=RootCA 2003/Email=ralf@spenneberg.net
+	      serial:00
+	      
+	      Signature Algorithm: md5WithRSAEncryption
+	      6f:89:2b:95:af:f1:8d:4d:b7:df:e8:6d:f7:92:fb:48:8c:c4:
+	      1a:43:68:65:97:01:87:a6:84:b5:a1:38:bd:62:74:70:db:9e:
+	      78:19:d9:0c:af:18:ad:13:77:56:7d:3f:19:61:da:ba:74:30:
+	      8e:c5:50:0e:e3:eb:ff:95:cd:8d:d6:7e:c3:0e:ab:5b:34:94:
+	      bc:16:0f:ef:dc:de:40:bb:7d:ba:a2:b8:5d:f9:74:e7:28:58:
+	      75:a0:66:d2:8d:85:ba:38:82:08:10:33:ef:be:29:c9:31:9d:
+	      63:a9:f7:e0:99:ea:a7:ed:b6:b5:33:1b:1c:4a:a4:05:40:6e:
+	      40:7b
+	      -----BEGIN CERTIFICATE-----
+	      MIIDjDCCAvWgAwIBAgIBATANBgkqhkiG9w0BAQQFADCBgjELMAkGA1UEBhMCREUx
+	      DDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3RlaW5mdXJ0MRcwFQYDVQQKEw5TcGVu
+	      bmViZXJnLmNvbTEUMBIGA1UEAxMLUm9vdENBIDIwMDMxIjAgBgkqhkiG9w0BCQEW
+	      E3JhbGZAc3Blbm5lYmVyZy5uZXQwHhcNMDMwNDMwMDYwODU2WhcNMDQwNDI5MDYw
+	      ODU2WjCBgjELMAkGA1UEBhMCREUxDDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3Rl
+	      aW5mdXJ0MRcwFQYDVQQKEw5TcGVubmViZXJnLmNvbTEUMBIGA1UEAxMLVlBOLUdh
+	      dGV3YXkxIjAgBgkqhkiG9w0BCQEWE3JhbGZAc3Blbm5lYmVyZy5uZXQwgZ8wDQYJ
+	      KoZIhvcNAQEBBQADgY0AMIGJAoGBAMU7nDY6GWyp8rrp0u2EMzZIB7KjLVmSsIZM
+	      gSzqXO3zuusXTrM6zLdbXcqzBO37WTzFJT7z/7AiEPvecgruQkua0yfTtvvpiBDI
+	      R7cmT3FA5HXEwO5rh7hvyV5mz7vnrXJouG39j0wfOqINQyUGuZLnIGyGFaDrf/cL
+	      mpldFIibAgMBAAGjggEOMIIBCjAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1P
+	      cGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUy1wZm+aKiv4O
+	      xP1e3/e/PagYfAgwga8GA1UdIwSBpzCBpIAUAbvGM771ml6wDF29Qel4bFStZo6h
+	      gYikgYUwgYIxCzAJBgNVBAYTAkRFMQwwCgYDVQQIEwNOUlcxEjAQBgNVBAcTCVN0
+	      ZWluZnVydDEXMBUGA1UEChMOU3Blbm5lYmVyZy5jb20xFDASBgNVBAMTC1Jvb3RD
+	      QSAyMDAzMSIwIAYJKoZIhvcNAQkBFhNyYWxmQHNwZW5uZWJlcmcubmV0ggEAMA0G
+	      CSqGSIb3DQEBBAUAA4GBAG+JK5Wv8Y1Nt9/obfeS+0iMxBpDaGWXAYemhLWhOL1i
+	      dHDbnngZ2QyvGK0Td1Z9Pxlh2rp0MI7FUA7j6/+VzY3WfsMOq1s0lLwWD+/c3kC7
+	      fbqiuF35dOcoWHWgZtKNhbo4gggQM+++KckxnWOp9+CZ6qfttrUzGxxKpAVAbkB7
+	      -----END CERTIFICATE-----
+	      Signed certificate is in newcert.pem</screen>
+      </para>
+      <para>It is now advisable to rename the files newreq.pem and newcert.pem to something more meaningful.
+	      
+      <screen>$ mv newcert.pem vpngateway_cert.pem
+$ mv newreq.pem vpngateway_key.pem</screen>
+      </para>
+      <para>Now have fun creating certificates for every peer in the VPN.</para>
+	      
+      <para>In case a private key gets stolen or compromised, you have to revoke it because based on its lifetime it is still valid. The revoked keys are stored in the certificate revocation list (CRL). First, create an (empty) list:
+	      
+      <screen>$ openssl ca -gencrl -out crl.pem
+Using configuration from /usr/share/ssl/openssl.cnf
+Enter PEM pass phrase: capassword</screen></para>
+	      
+	      
+      <para>You need to create the file demoCA/crlnumber manually if you get an error: No such file. Modern OpenSSL versions require this.
+	      
+	      
+      <screen>$ echo 01 > demoCA/crlnumber</screen></para>
+	      
+	      
+      <para>To revoke a certificate you need to have the certificate file. This is also stored in demoCA/newcerts/. The name of the certificate can be read in demoCA/index.txt. Then use the following command.
+	      
+      <screen>$ openssl ca -revoke compromised_cert.pem
+Using configuration from /usr/share/ssl/openssl.cnf
+Enter PEM pass phrase: capassword
+Revoking Certificate 01.
+Data Base Updated</screen></para>
+
+      <para>Once the certificate has been revoked, the certificate revocation list has to be recreated using the above command. </para>
 	</sect2>
 	<sect2 id="ipsec-howto-x509-windows"><title>Windows İstemcileri için Sertifika Oluşturmak</title>
-		<para></para>
+		<para>When generating certificates for Windows clients you have to make sure that the lifetime of the certificate lies within the lifetime of the CA. If the lifetime of the certificate exceeds the lifetime of the CA, the windows client will not accept the certificate!</para>
+			
+		<para>The easiest way to transfer certificates to a windows box is by using the PKCS#12 exchange format. Openssl can reformat the certificates to this format:
+			
+		<screen>$ openssl pkcs12 -export -inkey key.pem -in cert.pem -certfile cacert.pem -out export.p12 -name "Windows Cert"</screen></para>
+			
+			
+		<para>You are asked to specify an export password. On the windows box you can then import this file using the export password.</para>
+			
+		<para>A tool which might help in generating the PKCS#12-File is Wincert. You find the URL to the tool in the links section.</para>
 	</sect2>
 </sect1>
 
 <sect1 id="ipsec-howto-advanced"><title>Gelişmiş Yapılandırma</title>
-	<sect2 id="ipsec-howto-advanced-xauth"><title>Xauth and IKE-Mode-Config</title>
-		<para></para>
+	<sect2 id="ipsec-howto-advanced-xauth"><title>Xauth ve IKE-Mode-Config</title>
+		<para>Unfortunately Xauth and IKE-Mode-Config are broken on Linux using ipsec-tools &lt;= 0.6. As soon as Xauth is working I will put up some hints on using these.</para>
 	</sect2>
 	<sect2 id="ipsec-howto-advanced-iptables"><title>IPtables Kuralları</title>
-		<para></para>
+		<para>Using ESP in tunnel mode without compression increases the size of the packets transferred. This even happens sometimes when compression is activated. This can cause problems in tunnel mode when the client does not know that the packet is to be encapsulated. If the clients sends a packet of 1500 bytes the additional encapsulation will increase the size of the packet. For TCP-packets you can solve this problem setting the MSS on both sides of the tunnel using the iptables command:
+			
+		<screen>iptables -t mangle -A PREROUTING -p esp -j MARK --set-mark 1
+iptables -A FORWARD -m mark --mark 1 -p tcp --tcp-flags SYN,RST SYN -j
+TCPMSS --set-mss 1400</screen>
+      </para>
 	</sect2>
 </sect1>
 

@@ -1,4 +1,129 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-11T01:26:08+03:00"><title>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipsec-howto.html" title="IPsec NASIL"><link rel="previous" href="../howto/ipsec-howto-kametools.html" title="KAME-tools kullanan Linux 2.6 Çekirdeği"><link rel="next" href="../howto/ipsec-howto-x509.html" title="X.509 Sertifikaları Oluşturmak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipsec-howto-kametools.html">Önceki</a> </td><th width="60%" align="center">IPsec NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-x509.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ipsec-howto-isakmpd"></a>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</h2></div></dt><dd><p></p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-isakmpd-installation"></a>Kurulum</h3></div></dt><dd><p></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-isakmpd-psk"></a>Using preshared keys (PSK)</h3></div></dt><dd><p></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-isakmpd-x509"></a>Using X.509 certificates</h3></div></dt><dd><p></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipsec-howto-kametools.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipsec-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-x509.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">KAME-tools kullanan Linux 2.6 Çekirdeği </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> X.509 Sertifikaları Oluşturmak</td></tr><tr><td colspan="3" align="center">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-16T02:52:55+03:00"><title>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipsec-howto.html" title="IPsec NASIL"><link rel="previous" href="../howto/ipsec-howto-kametools.html" title="KAME-tools kullanan Linux 2.6 Çekirdeği"><link rel="next" href="../howto/ipsec-howto-x509.html" title="X.509 Sertifikaları Oluşturmak"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipsec-howto-kametools.html">Önceki</a> </td><th width="60%" align="center">IPsec NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-x509.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ipsec-howto-isakmpd"></a>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</h2></div></dt><dd><p>Thomas Walpuski has ported the IKE daemon of the OpenBSD operating system to Linux (http://bender.thinknerd.de/~thomas/IPsec/isakmpd-linux.html). The isakmpd can now be used on Linux kernel 2.5.47+ and 2.6.x to setup IPsec VPNs. This chapter will describe the installation and configuration of the isakmpd.</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-isakmpd-installation"></a>Kurulum</h3></div></dt><dd><p>If you are using a RPM based distribution or Debian the installation may be done using the appropiate package tools. The author of this document has compiled an RPM package of the isakmpd for the Linux kernel 2.6.0 (http://www.spenneberg.org/VPN/Kernel-2_6_IPsec). Please be aware, that this package may not work on testversions, because the ABI in the kernel has been changed several times. The debian project includes a package which may be installed using apt-get install isakmpd.</p><p>When installing from source you need the keynote package (http://www1.cs.columbia.edu/~angelos/keynote.html) if you want to use X.509 certificates. Additionally you need a Linux kernel 2.5.47+ or 2.6.x.</p><p>To get the isakmpd sources follow the steps mentioned on the webpage of Thomas Walpuski. Then edit the GNUmakefile accordingly and activate the line OS=linux. If you are not keeping the Linux kernel in /usr/src/linux you will need to additionally modify the file sysdep/linux/GNUmakefile.sysdep.</p><p>The compilation may be done using the command make.</p><p>The isakmpd comes with two additional commands: keyconv and certpatch. These tools are in the subdirectory apps and may be compiled by hand (They are part of my RPM-package). Certpatch can add a SubjectAltName to an existing certificate while keyconv converts DNSSEC to openssl keys and vice-versa.</p><p>I was able to compile these tools successfully using (Your mileage may vary.):
+			
+	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">gcc -DMP_FLAVOUR=MP_FLAVOUR_GMP -I../.. -I../../sysdep/linux   -I /usr/src/linux-2.6.0 -lcrypto -lgmp certpatch.c -o certpatch
+gcc  -I../.. -I../../sysdep/linux   -I /usr/src/linux-2.6.0 -lcrypto -lgmp base64.c keyconv.c -o keyconv</pre> </td></tr></table></div></p><p>One last caveat: All manpages are in Latin1 format. Red Hat 9 cannot display these manpages. You have to convert them to be able to read them (done in the RPM-package): iconv --from-code LATIN1 --to-code UTF-8 --output isakmpd2.8 isakmpd.8</p><p>When the isakmpd has been compiled, generate the mandatory directory structure:
+			
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mkdir /etc/isakmpd
+mkdir /etc/isakmpd/ca
+mkdir /etc/isakmpd/certs
+mkdir /etc/isakmpd/keynote
+mkdir /etc/isakmpd/crls
+mkdir /etc/isakmpd/private
+mkdir /etc/isakmpd/pubkeys</pre> </td></tr></table></div>
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-isakmpd-psk"></a>Önceden Paylaşılan Anahtarları (PSK) Kullanmak</h3></div></dt><dd><p>The isakmpd uses one configuration file and one policy file. These are the file /etc/isakmpd/isakmpd.conf and /etc/isakmpd/isakmpd.policy. The configuration uses the well known format called .INI style. Each section starts with a line like:
+			
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">[section]</pre> </td></tr></table></div></p><p>Within the section you can assign a value to a tag:
+			
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">tag=value</pre> </td></tr></table></div></p><p>If the value is longer than one line you can use the Backslash technique to use several lines. Comments may be put anywhere using the hash mark #.</p><p>To start we will look at a simple configuration which uses a preshared secret for the authentication. Please take a look at Figure 5 in the Section called Tunnel Mode for the setup.
+			
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">[General]
+Listen-on=              192.168.1.100
+
+[Phase 1]
+192.168.2.100=                ISAKMP-peer-west
+
+[Phase 2]
+Connections=            IPsec-east-west
+
+[ISAKMP-peer-west]
+Phase=                  1
+Local-address=          192.168.1.100
+Address=                192.168.2.100
+Authentication=         ThisIsThePassphrase
+
+[IPsec-east-west]
+Phase=                  2
+ISAKMP-peer=            ISAKMP-peer-west
+Configuration=          Default-quick-mode
+Local-ID=               Net-east
+Remote-ID=              Net-west
+
+[Net-west]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16.2.0
+Netmask=                255.255.255.0
+
+[Net-east]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16.1.0
+Netmask=                255.255.255.0
+
+[Default-quick-mode]
+DOI=                    IPSEC
+EXCHANGE_TYPE=          QUICK_MODE
+Suites=                 QM-ESP-3DES-MD5-PFS-SUITE</pre> </td></tr></table></div>
+      </p><p>This configuration file describes a tunnel between the two gateways 192.168.1.100 and 192.168.2.100. This tunnel may be used by 172.16.1.0/24 and 172.16.2.0/24. This configuration file is specifically for the gateway 192.168.1.100.</p><p>Let's look at the individual sections. The first section [General] describes the general setup. Here we define if isakmpd should bind to specific IP addresses during startup. This is recommended if you have several IP addresses on your VPN gateway.</p><p>The section [Phase 1] describes which configuration to use for the peer using the IP address 192.168.2.100. If the IP address of the peer is not known (roadwarrior) you can use default instead.</p><p>The section [Phase 2] describes the tunnels to create once a Phase 1 authentication has been established. If isakmpd may not actively start the connections use Passive-connections instead.</p><p>Now you have to define the names you referred to in the Phase 1 and Phase 2 sections. First we define the ISAKMP-peer-west. This definition is used in Phase 1 and we know the Local-address and the remote Address. If the remote address is not known, just remove this tag. Authentication should be done using a preshared key which is given in cleartext.</p><p>Next the tunnel IPsec-east-west is defined. It is used in Phase 2 and shall be established with the ISAKMP-peer ISAKMP-peer-west. We want to define the Configuration of the connection and the additional IDs for the tunnel (Local-ID and Remote-ID).</p><p>Since these IDs are referrals again, we have to define them. The ID-type may be IPV4_ADDR, IPV6_ADDR, IPV4_ADDR_SUBNET and IPV6_ADDR_SUBNET.</p><p>Last but not least we have to define the quick-mode configuration, we referred to in the description of the tunnel. We define the DOI (default: IPSEC), the EXCHANGE_TYPE (default: QUICK_MODE) and the Suites to use. This is QuickMode-Encapsulated-Security-Payload-3DES-Encryption-MD5-HMAC-Perfect-Forward-Secrecy. You can specify several suites seperated by commas. Read the man-page for all possible transforms and suites.</p><p>The isakmpd.policy file is much shorter. The next listing shows an example:
+	      
+	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">KeyNote-Version: 2
+Authorizer: "POLICY"
+Licensees: "passphrase:ThisIsThePassphrase"
+Conditions: app_domain == "IPsec policy" &amp;&amp;
+esp_present == "yes" &amp;&amp;
+esp_enc_alg == "3des" &amp;&amp;
+esp_auth_alg == "hmac-md5" -&gt; "true";</pre> </td></tr></table></div>
+      </p><p>For testing the connection start the isakmpd using the following line:
+	      
+      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">isakmpd -d -4 -DA=90</pre> </td></tr></table></div></p><p>This will start the isakmpd in foreground (-d) using IPv4 (-4) and a debuglevel of 90.</p><p>Once the connection has started you should be able to ping from one subnet to the other subnet. If you have also installed the ipsec-tools you can use the command setkey to view the policies and security associations added by the isakmpd. If you kill the isakmpd running in foreground using ctrl-c, it does not flush the SAD and SPD. You will have to do this manually using the command setkey. If you kill the isakmpd using the command kill -TERM it will flush the SAD and SPD!</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-isakmpd-x509"></a>X.509 Sertifikalarını Kullanmak</h3></div></dt><dd><p>The isakmpd may also use X.509 certificates for the authentication process. You can create your certificates using the usual tools and need for each machine, taking part in the VPN, the following files:
+			<div class="itemizedlist"><ul type="disc"><li>/etc/isakmpd/private/local.key The private key of the machine in .pem format. Permissions must be 600.</li><li>/etc/isakmpd/ca/ca.crt The certificate of the certificate authority you trust.</li><li>/etc/isakmpd/certs/ip-address.crt The certificate of the local machine.</li></ul></div></p><p>For isakmpd to find and use the certificate it has to include a SubjectAltName. This X.509v3 extension can be defined during generation of the certificate or later using the command certpatch. This command needs the private key of the CA, extracts the certificate, adds the extension and signs the certificate again.
+		
+	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">certpatch -i ip-address -k ca.key  originalcert.crt newcert.crt</pre> </td></tr></table></div></p><p>Certpatch can add an IP address, a FQDN or a UFQDN to the certificate.</p><p>Once these files are stored in the appropiate folders and have the appropiate permissions assigned, you can create the configuration and the policy file. In the configuration file just remove the line Authentication. and add a line ID=East to the ISAKMP-peer-west section. Then define East. Additionally you have to specifiy the X.509 directories. The full configuration file follows:
+		
+		<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">[General]
+Listen-on=              192.168.1.100
+
+[Phase 1]
+192.168.2.100=                ISAKMP-peer-west
+
+[Phase 2]
+Connections=            IPsec-east-west
+
+[ISAKMP-peer-west]
+Phase=                  1
+Local-address=          192.168.1.100
+Address=                192.168.2.100
+ID=                     East
+
+[East]
+ID-type=                IPV4_ADDR
+Address=                192.168.1.100
+
+[IPsec-east-west]
+Phase=                  2
+ISAKMP-peer=            ISAKMP-peer-west
+Configuration=          Default-quick-mode
+Local-ID=               Net-east
+Remote-ID=              Net-west
+
+[Net-west]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16.1.0
+Netmask=                255.255.255.0
+
+[Net-east]
+ID-type=                IPV4_ADDR_SUBNET
+Network=                172.16..2.0
+Netmask=                255.255.255.0
+
+[Default-quick-mode]
+DOI=                    IPSEC
+EXCHANGE_TYPE=          QUICK_MODE
+Suites=                 QM-ESP-3DES-MD5-PFS-SUITE
+[X509-certificates]
+CA-directory=           /etc/isakmpd/ca/
+Cert-directory=         /etc/isakmpd/certs/
+Private-key=            /etc/isakmpd/private/local.key</pre> </td></tr></table></div>
+      </p><p>The policy file needs to be modified, too. Since you only want to allow peers using certificates signed by the trusted CA add the following line after the line Authorizer. The full policy file follows:
+	      
+	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">KeyNote-Version: 2
+Authorizer: "POLICY"
+Licensees: "DN:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.Com/OU=VPN/CN=RootCA"
+Conditions: app_domain == "IPsec policy" &amp;&amp;
+esp_present == "yes" &amp;&amp;
+esp_enc_alg == "3des" &amp;&amp;
+esp_auth_alg == "hmac-md5" -&gt; "true";</pre> </td></tr></table></div>
+      </p><p>The text after DN: has to match the subject line of the CA certificate:
+	      
+      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">openssl x509 -in ca/ca.crt -noout -subject</pre> </td></tr></table></div></p><p>Now you can start the isakmpd as usual to test the configuration.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipsec-howto-kametools.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipsec-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-x509.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">KAME-tools kullanan Linux 2.6 Çekirdeği </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> X.509 Sertifikaları Oluşturmak</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>
