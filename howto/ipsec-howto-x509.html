@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-16T02:52:55+03:00"><title>X.509 Sertifikaları Oluşturmak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipsec-howto.html" title="IPsec NASIL"><link rel="previous" href="../howto/ipsec-howto-isakmpd.html" title="OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği"><link rel="next" href="../howto/ipsec-howto-advanced.html" title="Gelişmiş Yapılandırma"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">X.509 Sertifikaları Oluşturmak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipsec-howto-isakmpd.html">Önceki</a> </td><th width="60%" align="center">IPsec NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-advanced.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ipsec-howto-x509"></a>X.509 Sertifikaları Oluşturmak</h2></div></dt><dd><p>Today almost all VPN implementations allow the usage of X.509 certificate for the authentication of the peers. These are the same certificates as used for the implementation of the Secure Socket Layer (SSL) in the HTTP protocol.</p><p>This chapter will briefly cover the creation of these certificates.</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-x509-openssl"></a>OpenSSL Kullanmak</h3></div></dt><dd><p>The easiest way to create X.509 certificates on Linux is the openssl command and the auxiliary tools. When the OpenSSL package has been installed usually an auxillary command CA and/or CA.pl, has been installed, too. We will use this command to create the certificates.</p><p>First check where the command has been installed. It is usually not in your path! On Red Hat Linux distributions it is installed in /usr/share/ssl/misc/CA.</p><p>Now create your certificate authority first.
-			
-			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ mkdir certs
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-17T02:05:12+03:00"><title>X.509 Sertifikaları Oluşturmak</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipsec-howto.html" title="IPsec NASIL"><link rel="previous" href="../howto/ipsec-howto-isakmpd.html" title="OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği"><link rel="next" href="../howto/ipsec-howto-advanced.html" title="Gelişmiş Yapılandırma"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">X.509 Sertifikaları Oluşturmak</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipsec-howto-isakmpd.html">Önceki</a> </td><th width="60%" align="center">IPsec NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-advanced.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ipsec-howto-x509"></a>X.509 Sertifikaları Oluşturmak</h2></div></dt><dd><p>Günümüzde neredeyse bütün VPN uygulamaları tarafların kimlik kanıtlaması için X.509 sertifikalarının kullanımına izin vermektedir.Bu sertifikalar Secure Socket Layer (SSL)'ın HTTP protokolündeki uygulamasında kullanılan sertifikalarla aynıdırlar.</p><p>Bu bölümde sertifikaların oluşturulması kısaca özetlenecektir.</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-x509-openssl"></a>OpenSSL Kullanımı</h3></div></dt><dd><p>Linux'ta X.509 sertifikası oluşturmanın en kolay yolu <b><tt>openssl</tt></b> komutunu ve yardımcı araçlarını kullanmaktır. OpenSSL paketi kurulduğunda genellikle <b><tt>CA</tt></b> ve/veya <b><tt>CA.pl</tt></b> yardımcı komutları da yüklenmiş olur. Sertifikalrı oluşturmak için bu komutu kullanacağız.</p><p>İlk olarak komutun kurulu olup olmadığını denetleyin. Genellikle sizin yolunuzda (path) değildir. Red Hat Linux'ta <tt>/usr/share/ssl/misc/CA</tt> olarak bulunur.</p><p>İlk olarak sertifika otoritenizi oluşturun.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ mkdir certs
 $ cd certs
 $ /usr/share/ssl/misc/CA -newca
 CA certificate filename (or enter to create) &lt;enter&gt;
@@ -29,16 +28,14 @@ Organization Name (eg, company) [Spenneberg.com]:
 Organizational Unit Name (eg, section) []:
 Common Name (eg, your name or your server's hostname) []:RootCA 2003
 Email Address []:ralf@spenneberg.net</pre> </td></tr></table></div>
-      </p><p>Please enter the appropiate values when asked for Country Name, etc. If you would like to have the correct values proposed (like above in my case) edit your openssl.cnf file. On Red Hat Linux systems you may usually find it at /usr/share/ssl/openssl.cnf.</p><p>The created certificate authority is only valid for one year. Often you want a longer lifetime for the certificate of your CA. Since the certificates you are signing later on usually have a shorter lifetime it is not practical to edit the openssl.cnf file. Rather change the lifetime manually:
-	      
+      </p><p>Size sorulan Ülke İsmi gibi sorulara uygun yanıtlar verin. Eğer soruların öntanımlı yanıtlarını değiştirmek (benim yukarıda yaptığım gibi) istereniz <tt>openssl.cnf</tt> dosyasını düzenlemeniz yeterli olur. Bu dosya Red Hat Linux sistemlerde genellikle <tt>/usr/share/ssl/openssl.cnf</tt> adresinde bulunur.</p><p>Yaratılan sertifika otoritesi sadece bir yıl için geçerlidir ama çoğu durumda CA'nın daha uzun geçerlilik süresi olması istenir. Daha sonra imzalayacağınız sertifikaların daha kısa yaşam süreleri olacağından <tt>openssl.cnf</tt> dosyasını düzenlemek pretik bir çözüm olmaz. Bunun yerine geçerlilik süresini elle düzenlemek en iyisidir:
       <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ cd demoCA/
 $ openssl x509 -in cacert.pem -days 3650 -out cacert.pem
 -signkey ./private/cakey.pem
 Getting Private key
 Enter PEM pass phrase: capassword
 $ cd ..</pre> </td></tr></table></div>
-      </p><p>The certificate authority is now ready to go. Let's create a certificate signing request:
-	      
+      </p><p>Artık sertifika otoriteniz kullanılmaya hazırdır. Hemen bir sertifika imzalama isteği yaratalım:
 	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ /usr/share/ssl/misc/CA -newreq
 Using configuration from /usr/share/ssl/openssl.cnf
 Generating a 1024 bit RSA private key
@@ -68,9 +65,8 @@ to be sent with your certificate request
 A challenge password []:
 An optional company name []:
 Request (and private key) is in newreq.pem</pre> </td></tr></table></div>
-      </p><p>The file newreq.pem contains the certificate signing request and the encrypted private key. This file can later be used as a private key for FreeS/WAN or Racoon. Once the request is created, we can sign it using the certificate authority.
-	      
-      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ /usr/share/ssl/misc/CA -sign
+      </p><p><tt>newreq.pem</tt> dosyası sertifika imzalama talebini ve şifrelenmiş özel anahraı içerir. Bu dosya daha sonra FreeS/WAN veya Racoon için özel anahtar olarak kullanılabilir. Bir kere talep yaratıldıktan sonra sertifika otoritesini kullanarak onu imzalayabiliriz.
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ /usr/share/ssl/misc/CA -sign
 Using configuration from /usr/share/ssl/openssl.cnf
 Enter PEM pass phrase: capassword
 Check that the request matches the signature
@@ -89,50 +85,48 @@ Sign the certificate? [y/n]:y
 1 out of 1 certificate requests certified, commit? [y/n]y
 Write out database with 1 new entries
 Data Base Updated</pre> </td></tr></table></div>
-      </p><p>Depending on the version of the command CA the certificate might be print to stdout. This will be similar to the following certificate:
+      </p><p><b><tt>CA</tt></b> komutunun sürümüne bağlı olarak sertifika standart çıktıya görüntülenebilir. Aşağıdaki sertifikaya benzer yapıda olmalıdır:
 	      
-	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Certificate:
-	      Data:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Certificate:
+      Data:
 	      Version: 3 (0x2)
 	      Serial Number: 1 (0x1)
 	      Signature Algorithm: md5WithRSAEncryption
 	      Issuer: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
-	      CN=RootCA 2003/Email=ralf@spenneberg.net
-	      Validity
+CN=RootCA 2003/Email=ralf@spenneberg.net
+      Validity
 	      Not Before: Apr 30 06:08:56 2003 GMT
 	      Not After : Apr 29 06:08:56 2004 GMT
-	      Subject: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
-	      CN=VPN-Gateway/Email=ralf@spenneberg.net
-	      Subject Public Key Info:
+      Subject: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
+CN=VPN-Gateway/Email=ralf@spenneberg.net
+      Subject Public Key Info:
 	      Public Key Algorithm: rsaEncryption
 	      RSA Public Key: (1024 bit)
-	      Modulus (1024 bit):
-	      00:c5:3b:9c:36:3a:19:6c:a9:f2:ba:e9:d2:ed:84:
-	      33:36:48:07:b2:a3:2d:59:92:b0:86:4c:81:2c:ea:
-	      5c:ed:f3:ba:eb:17:4e:b3:3a:cc:b7:5b:5d:ca:b3:
-	      04:ed:fb:59:3c:c5:25:3e:f3:ff:b0:22:10:fb:de:
-	      72:0a:ee:42:4b:9a:d3:27:d3:b6:fb:e9:88:10:c8:
-	      47:b7:26:4f:71:40:e4:75:c4:c0:ee:6b:87:b8:6f:
-	      c9:5e:66:cf:bb:e7:ad:72:68:b8:6d:fd:8f:4c:1f:
-	      3a:a2:0d:43:25:06:b9:92:e7:20:6c:86:15:a0:eb:
-	      7f:f7:0b:9a:99:5d:14:88:9b
-	      Exponent: 65537 (0x10001)
-	      X509v3 extensions:
+		      Modulus (1024 bit):
+			      00:c5:3b:9c:36:3a:19:6c:a9:f2:ba:e9:d2:ed:84:
+			      33:36:48:07:b2:a3:2d:59:92:b0:86:4c:81:2c:ea:
+			      5c:ed:f3:ba:eb:17:4e:b3:3a:cc:b7:5b:5d:ca:b3:
+			      04:ed:fb:59:3c:c5:25:3e:f3:ff:b0:22:10:fb:de:
+			      72:0a:ee:42:4b:9a:d3:27:d3:b6:fb:e9:88:10:c8:
+			      47:b7:26:4f:71:40:e4:75:c4:c0:ee:6b:87:b8:6f:
+			      c9:5e:66:cf:bb:e7:ad:72:68:b8:6d:fd:8f:4c:1f:
+			      3a:a2:0d:43:25:06:b9:92:e7:20:6c:86:15:a0:eb:
+			      7f:f7:0b:9a:99:5d:14:88:9b
+		      Exponent: 65537 (0x10001)
+	X509v3 extensions:
 	      X509v3 Basic Constraints:
-	      CA:FALSE
+		      CA:FALSE
 	      Netscape Comment:
-	      OpenSSL Generated Certificate
+		      OpenSSL Generated Certificate
 	      X509v3 Subject Key Identifier:
-	      CB:5C:19:9B:E6:8A:8A:FE:0E:C4:FD:5E:DF:F7:BF:3D:A8:
-	      18:7C:08
+		      CB:5C:19:9B:E6:8A:8A:FE:0E:C4:FD:5E:DF:F7:BF:3D:A8:18:7C:08
 	      X509v3 Authority Key Identifier:
-	      keyid:01:BB:C6:33:BE:F5:9A:5E:B0:0C:5D:BD:41:E9:78:
-	      6C:54:AD:66:8E
-	      DirName:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.com/
-	      CN=RootCA 2003/Email=ralf@spenneberg.net
-	      serial:00
+		      keyid:01:BB:C6:33:BE:F5:9A:5E:B0:0C:5D:BD:41:E9:78:6C:54:AD:66:8E
+		      DirName:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.com/
+CN=RootCA 2003/Email=ralf@spenneberg.net
+		      serial:00
 	      
-	      Signature Algorithm: md5WithRSAEncryption
+	Signature Algorithm: md5WithRSAEncryption
 	      6f:89:2b:95:af:f1:8d:4d:b7:df:e8:6d:f7:92:fb:48:8c:c4:
 	      1a:43:68:65:97:01:87:a6:84:b5:a1:38:bd:62:74:70:db:9e:
 	      78:19:d9:0c:af:18:ad:13:77:56:7d:3f:19:61:da:ba:74:30:
@@ -141,47 +135,41 @@ Data Base Updated</pre> </td></tr></table></div>
 	      75:a0:66:d2:8d:85:ba:38:82:08:10:33:ef:be:29:c9:31:9d:
 	      63:a9:f7:e0:99:ea:a7:ed:b6:b5:33:1b:1c:4a:a4:05:40:6e:
 	      40:7b
-	      -----BEGIN CERTIFICATE-----
-	      MIIDjDCCAvWgAwIBAgIBATANBgkqhkiG9w0BAQQFADCBgjELMAkGA1UEBhMCREUx
-	      DDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3RlaW5mdXJ0MRcwFQYDVQQKEw5TcGVu
-	      bmViZXJnLmNvbTEUMBIGA1UEAxMLUm9vdENBIDIwMDMxIjAgBgkqhkiG9w0BCQEW
-	      E3JhbGZAc3Blbm5lYmVyZy5uZXQwHhcNMDMwNDMwMDYwODU2WhcNMDQwNDI5MDYw
-	      ODU2WjCBgjELMAkGA1UEBhMCREUxDDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3Rl
-	      aW5mdXJ0MRcwFQYDVQQKEw5TcGVubmViZXJnLmNvbTEUMBIGA1UEAxMLVlBOLUdh
-	      dGV3YXkxIjAgBgkqhkiG9w0BCQEWE3JhbGZAc3Blbm5lYmVyZy5uZXQwgZ8wDQYJ
-	      KoZIhvcNAQEBBQADgY0AMIGJAoGBAMU7nDY6GWyp8rrp0u2EMzZIB7KjLVmSsIZM
-	      gSzqXO3zuusXTrM6zLdbXcqzBO37WTzFJT7z/7AiEPvecgruQkua0yfTtvvpiBDI
-	      R7cmT3FA5HXEwO5rh7hvyV5mz7vnrXJouG39j0wfOqINQyUGuZLnIGyGFaDrf/cL
-	      mpldFIibAgMBAAGjggEOMIIBCjAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1P
-	      cGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUy1wZm+aKiv4O
-	      xP1e3/e/PagYfAgwga8GA1UdIwSBpzCBpIAUAbvGM771ml6wDF29Qel4bFStZo6h
-	      gYikgYUwgYIxCzAJBgNVBAYTAkRFMQwwCgYDVQQIEwNOUlcxEjAQBgNVBAcTCVN0
-	      ZWluZnVydDEXMBUGA1UEChMOU3Blbm5lYmVyZy5jb20xFDASBgNVBAMTC1Jvb3RD
-	      QSAyMDAzMSIwIAYJKoZIhvcNAQkBFhNyYWxmQHNwZW5uZWJlcmcubmV0ggEAMA0G
-	      CSqGSIb3DQEBBAUAA4GBAG+JK5Wv8Y1Nt9/obfeS+0iMxBpDaGWXAYemhLWhOL1i
-	      dHDbnngZ2QyvGK0Td1Z9Pxlh2rp0MI7FUA7j6/+VzY3WfsMOq1s0lLwWD+/c3kC7
-	      fbqiuF35dOcoWHWgZtKNhbo4gggQM+++KckxnWOp9+CZ6qfttrUzGxxKpAVAbkB7
-	      -----END CERTIFICATE-----
-	      Signed certificate is in newcert.pem</pre> </td></tr></table></div>
-      </p><p>It is now advisable to rename the files newreq.pem and newcert.pem to something more meaningful.
-	      
+-----BEGIN CERTIFICATE-----
+MIIDjDCCAvWgAwIBAgIBATANBgkqhkiG9w0BAQQFADCBgjELMAkGA1UEBhMCREUx
+DDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3RlaW5mdXJ0MRcwFQYDVQQKEw5TcGVu
+bmViZXJnLmNvbTEUMBIGA1UEAxMLUm9vdENBIDIwMDMxIjAgBgkqhkiG9w0BCQEW
+E3JhbGZAc3Blbm5lYmVyZy5uZXQwHhcNMDMwNDMwMDYwODU2WhcNMDQwNDI5MDYw
+ODU2WjCBgjELMAkGA1UEBhMCREUxDDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3Rl
+aW5mdXJ0MRcwFQYDVQQKEw5TcGVubmViZXJnLmNvbTEUMBIGA1UEAxMLVlBOLUdh
+dGV3YXkxIjAgBgkqhkiG9w0BCQEWE3JhbGZAc3Blbm5lYmVyZy5uZXQwgZ8wDQYJ
+KoZIhvcNAQEBBQADgY0AMIGJAoGBAMU7nDY6GWyp8rrp0u2EMzZIB7KjLVmSsIZM
+gSzqXO3zuusXTrM6zLdbXcqzBO37WTzFJT7z/7AiEPvecgruQkua0yfTtvvpiBDI
+R7cmT3FA5HXEwO5rh7hvyV5mz7vnrXJouG39j0wfOqINQyUGuZLnIGyGFaDrf/cL
+mpldFIibAgMBAAGjggEOMIIBCjAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1P
+cGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUy1wZm+aKiv4O
+xP1e3/e/PagYfAgwga8GA1UdIwSBpzCBpIAUAbvGM771ml6wDF29Qel4bFStZo6h
+gYikgYUwgYIxCzAJBgNVBAYTAkRFMQwwCgYDVQQIEwNOUlcxEjAQBgNVBAcTCVN0
+ZWluZnVydDEXMBUGA1UEChMOU3Blbm5lYmVyZy5jb20xFDASBgNVBAMTC1Jvb3RD
+QSAyMDAzMSIwIAYJKoZIhvcNAQkBFhNyYWxmQHNwZW5uZWJlcmcubmV0ggEAMA0G
+CSqGSIb3DQEBBAUAA4GBAG+JK5Wv8Y1Nt9/obfeS+0iMxBpDaGWXAYemhLWhOL1i
+dHDbnngZ2QyvGK0Td1Z9Pxlh2rp0MI7FUA7j6/+VzY3WfsMOq1s0lLwWD+/c3kC7
+fbqiuF35dOcoWHWgZtKNhbo4gggQM+++KckxnWOp9+CZ6qfttrUzGxxKpAVAbkB7
+-----END CERTIFICATE-----
+Signed certificate is in newcert.pem</pre> </td></tr></table></div>
+      </p><p><tt>newreq.pem</tt> ve <tt>newcert.pem</tt> dosyalarının isimlerini anlamlı yenileriyle değiştirmek iyi olacaktır.
       <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ mv newcert.pem vpngateway_cert.pem
 $ mv newreq.pem vpngateway_key.pem</pre> </td></tr></table></div>
-      </p><p>Now have fun creating certificates for every peer in the VPN.</p><p>In case a private key gets stolen or compromised, you have to revoke it because based on its lifetime it is still valid. The revoked keys are stored in the certificate revocation list (CRL). First, create an (empty) list:
-	      
+      </p><p>Artık her VPN bağlantısı için bir sertifika oluşturabilirsiniz.</p><p>Bir özel anahtarın çalınması veya tehlikeye girmesi durumunda onu iptal etmeniz gerekir, çünkü geçerlilik süresi dolmadığından geçerliliğini hala koruyor durumdadır. İptal edilen anahtarlar sertifika iptal listesinde (CRL) saklanırlar. İlk olarak boş bir liste yaratın:
       <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ openssl ca -gencrl -out crl.pem
 Using configuration from /usr/share/ssl/openssl.cnf
-Enter PEM pass phrase: capassword</pre> </td></tr></table></div></p><p>You need to create the file demoCA/crlnumber manually if you get an error: No such file. Modern OpenSSL versions require this.
-	      
-	      
-      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ echo 01 &gt; demoCA/crlnumber</pre> </td></tr></table></div></p><p>To revoke a certificate you need to have the certificate file. This is also stored in demoCA/newcerts/. The name of the certificate can be read in demoCA/index.txt. Then use the following command.
-	      
+Enter PEM pass phrase: capassword</pre> </td></tr></table></div></p><p>Eğer No such file hatası alırsanız <tt>demoCA/crlnumber</tt> dosyasını elle oluşturmanız gerekir. Yeni OpenSSL sürümleri bu dosyaya ihtiyaç duymaktadır.
+      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ echo 01 &gt; demoCA/crlnumber</pre> </td></tr></table></div></p><p>Bir sertifikayı iptal etmek için sertifika dosyasına ihtiyacınız vardır. Bu dosya <tt>demoCA/newcerts/</tt> dizininde de bulunur. sertifikanın ismi <tt>demoCA/index.txt</tt> dosyasından okunabilir. Bundan sonra aşağıdaki komutu kullanabilirsiniz:
       <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ openssl ca -revoke compromised_cert.pem
 Using configuration from /usr/share/ssl/openssl.cnf
 Enter PEM pass phrase: capassword
 Revoking Certificate 01.
-Data Base Updated</pre> </td></tr></table></div></p><p>Once the certificate has been revoked, the certificate revocation list has to be recreated using the above command. </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-x509-windows"></a>Windows İstemcileri için Sertifika Oluşturmak</h3></div></dt><dd><p>When generating certificates for Windows clients you have to make sure that the lifetime of the certificate lies within the lifetime of the CA. If the lifetime of the certificate exceeds the lifetime of the CA, the windows client will not accept the certificate!</p><p>The easiest way to transfer certificates to a windows box is by using the PKCS#12 exchange format. Openssl can reformat the certificates to this format:
-			
-		<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ openssl pkcs12 -export -inkey key.pem -in cert.pem -certfile cacert.pem -out export.p12 -name "Windows Cert"</pre> </td></tr></table></div></p><p>You are asked to specify an export password. On the windows box you can then import this file using the export password.</p><p>A tool which might help in generating the PKCS#12-File is Wincert. You find the URL to the tool in the links section.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipsec-howto-isakmpd.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipsec-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-advanced.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Gelişmiş Yapılandırma</td></tr><tr><td colspan="3" align="center">
+Data Base Updated</pre> </td></tr></table></div></p><p>Bir sertifika iptal edildiğinde sertifika iptal listesi yukarıdaki komutu kullanarak yeniden oluşturulmalıdır.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipsec-howto-x509-windows"></a>Windows İstemcileri için Sertifika Oluşturmak</h3></div></dt><dd><p>Windows istemciler için sertifika üretirken sertifikanızın geçerlilik süresinin CA'nın geçerlilik süresi içinde kaldığından emin olun. Eğer sertifikanızın geçerlilik süresi CA'nın geçerlilik süresinin dışında kalırsa windows istemciler sertifikayı kabuletmeyecektir!</p><p>Sertifikaların bir windows makineye taşınmasının en kolay yolu PKCS#12 değişim formatını kullanmaktır. OpenSSL sertifikanın biçemini değiştirebilir:
+		<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ openssl pkcs12 -export -inkey key.pem -in cert.pem -certfile cacert.pem -out export.p12 -name "Windows Cert"</pre> </td></tr></table></div></p><p>Bu işlem sırasında sizden bir parola girmeniz istenir. Windows makinede bu parolayı girerek sertifikayı kullanabilirsiniz.</p><p>PKCS#12 dosyası oluşturmak için Wincert aracından yararlanabilirsiniz. Bu aracın adresini <a href="../howto/ipsec-howto-links.html" title="Bağlantılar"> Bağlantılar</a> bölümünde bulabilirsiniz.</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipsec-howto-isakmpd.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipsec-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipsec-howto-advanced.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Gelişmiş Yapılandırma</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>

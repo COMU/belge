@@ -30,7 +30,7 @@
 	      <revnumber>0.9.96</revnumber>
           <date>2007-02-26</date>
           <authorinitials>RS</authorinitials>
-	  <revremark>OpenSSL needs file: crlnumber</revremark>
+	  <revremark>OpenSSL'in ihtiyaç duyduğu crlnumber dosyası hakkında bilgi eklendi.</revremark>
        </revision></revhistory>
 <copyright><year>2003-2007</year><holder>Ralf Spenneberg - Özgün belge</holder></copyright><sbr/>
 <copyright><year>2008</year><holder>Necdet Yücel - Türkçe çeviri</holder></copyright>
@@ -79,7 +79,7 @@
 	<sect2 id="ipsec-howto-theory-whatis"><title>IPsec Nedir?</title>
 		<para>IPsec IP protokolünün IP ve daha üst katmanlar için güvenlik sağlayan bir genişletmesidir. İlk olarak yeni IPv6 standadı için geliştirilmiş daha sonra IPv4 için "geriye yapılandırılmıştır". IPsec mimarisi RFC2401 belgesinde tanımlanmıştır. Aşağıdaki bir kaç paragraf IPsec icin kısa bir giriş olacaktır.</para>
 		<para>IPsec iletişimin doğruluğunu kanıtlamak, bütünlük ve gizliliğinden emin olmak için iki farklı protokol kullanır: AH ve ESP. Tüm IP datagramını koruyabileceği gibi sadece daha üst katmanların protokollerini de koruyabilir. Bu durumlar için karşılık gelen modlar tünel ve taşıma modlarıdır. Tünel modunda IP datagramı IPsec protokolünü kullanarak yeni bir IP datagramı tarafından tamamen kapsüllenir. Taşıma modunda ise IP datagramının sadece kullanıcı verisi (payload) IPsec protokolü tarafından IPsec başlığı IP başlığı ile daha üst katman protokol başlığı arasına yerleştirilerek işlenir. (<xref linkend="ipsec-howto-mods"/>'e bakınız.)</para>
-		<para><figure id="ipsec-howto-mods"><title>IPsec Tünel ve Trasport Modları</title>
+		<para><figure id="ipsec-howto-mods"><title>IPsec Tünel ve Taşıma Modları</title>
 			<mediaobject><imageobject>
 				<imagedata fileref="ipsec/mods.png" format="PNG" align="center" scalefit="1"/>
 			</imageobject></mediaobject></figure>
@@ -160,7 +160,7 @@
 	<para>Bu bölümde Linux çekirdeğinin ≥2.5.47 ve 2.6.* serilerinde doğal IPsec yığınının (stack) nasıl kullanılacağı açıklanacaktır. Bu IPsec yığınının kurulumu ve yapıladırması FreeS/WAN'dan oldukça farklıdır ve FreeBSD, NetBSD ve OpenBSD gibi *BSD türevlerine benzer.</para>
 	<para>İlk olarak Linux çekirdeğinin ve kullanıcı araçlarının kurulum ve yapılandırmalarından bahsedeceğim.  Daha sonra taşıma ve tünel modlarında elle yapılandırılan bağlantıların ayarlanmasını anlatacağım. Son olarak, önceden paylaşılmış anahtarlar ve X.509 sertifikalrı kullanan otomatik anahtarlamalı bağlantıların kurulmasının üzerinden geçeceğiz. Roadwarriors için destekle bu bölüm sonlanacak.</para>
 	<sect2 id="ipsec-howto-kametools-installation"><title>Kurulum</title>
-		<para>Kurulum için kullanacağınız Linux çekirdeği en azından 2.5.47 veya 2.6.* olmalıdır. Çekirdeğin kaynak kodlarını <ulink url="http://www.kernel.org"/> adresinden indirebilirsiniz. İndirdikten sonta açıp, yapılandırıp derlemeniz gerekecektir.<screen>cd /usr/local/src
+		<para>Kurulum için kullanacağınız Linux çekirdeği en azından 2.5.47 veya 2.6.* olmalıdır. Çekirdeğin kaynak kodlarını <ulink url="http://www.kernel.org"/> adresinden indirebilirsiniz. İndirdikten sonra açıp, yapılandırıp derlemeniz gerekecektir.<screen>cd /usr/local/src
 tar xvjf /path-to-source/linux-&lt;version&gt;.tar.bz2
 cd linux-&lt;version&gt;
 make xconfig
@@ -285,7 +285,7 @@ ah/transport//require;</screen></para>
 				<imagedata fileref="ipsec/transport.png" format="PNG" align="center" scalefit="1"/>
 			</imageobject></mediaobject></figure>
 		</para>	
-		<para>Taraflardan birinden diğerini pinglediğinizde trafik şifrelenecek ve tcpdump aşağıdaki paketleri gösterecektir:<screen>12:45:39.373005 192.168.1.100 > 192.168.2.100: AH(spi=0x00000200,seq=0x1): 
+		<para>Taraflardan birinden diğerine ping paketi gönderdiğinizde trafik şifrelenecek ve tcpdump aşağıdaki paketleri gösterecektir:<screen>12:45:39.373005 192.168.1.100 > 192.168.2.100: AH(spi=0x00000200,seq=0x1): 
 ESP(spi=0x00000201,seq=0x1) (DF)
 12:45:39.448636 192.168.2.100 > 192.168.1.100: AH(spi=0x00000300,seq=0x1): 
 ESP(spi=0x00000301,seq=0x1)
@@ -579,28 +579,20 @@ esp/tunnel/192.168.1.1-192.168.1.100/require;</screen>
 </sect1>
 
 <sect1 id="ipsec-howto-isakmpd"><title>OpenBSD'nin isakmpd aracını kullanılan Linux 2.6 Çekirdeği</title>
-	<para>Thomas Walpuski has ported the IKE daemon of the OpenBSD operating system to Linux (http://bender.thinknerd.de/~thomas/IPsec/isakmpd-linux.html). The isakmpd can now be used on Linux kernel 2.5.47+ and 2.6.x to setup IPsec VPNs. This chapter will describe the installation and configuration of the isakmpd.</para>
+	<para>Thomas Walpuski OpenBSD işletim sisteminin IKE artalan sürecini Linux'ta kullanılabilir hale getirmiştir (<ulink url="http://bender.thinknerd.de/~thomas/IPsec/isakmpd-linux.html"/>). Artık <command>isakmpd</command> Linux çekirdeği 2.5.47+ ve 2.6.x sürümlerinde IPsec VPN oluşturmak için kullanılabilmektedir. Bu bölümde <command>isakmpd</command> kurulum ve yapılandırması anlatılacaktır.</para>
 	<sect2 id="ipsec-howto-isakmpd-installation"><title>Kurulum</title>
-		<para>If you are using a RPM based distribution or Debian the installation may be done using the appropiate package tools. The author of this document has compiled an RPM package of the isakmpd for the Linux kernel 2.6.0 (http://www.spenneberg.org/VPN/Kernel-2_6_IPsec). Please be aware, that this package may not work on testversions, because the ABI in the kernel has been changed several times. The debian project includes a package which may be installed using apt-get install isakmpd.</para>
-			
-		<para>When installing from source you need the keynote package (http://www1.cs.columbia.edu/~angelos/keynote.html) if you want to use X.509 certificates. Additionally you need a Linux kernel 2.5.47+ or 2.6.x.</para>
-			
-		<para>To get the isakmpd sources follow the steps mentioned on the webpage of Thomas Walpuski. Then edit the GNUmakefile accordingly and activate the line OS=linux. If you are not keeping the Linux kernel in /usr/src/linux you will need to additionally modify the file sysdep/linux/GNUmakefile.sysdep.</para>
-			
-		<para>The compilation may be done using the command make.</para>
-		<para>The isakmpd comes with two additional commands: keyconv and certpatch. These tools are in the subdirectory apps and may be compiled by hand (They are part of my RPM-package). Certpatch can add a SubjectAltName to an existing certificate while keyconv converts DNSSEC to openssl keys and vice-versa.</para>
-			
-		<para>I was able to compile these tools successfully using (Your mileage may vary.):
+		<para>Eğer RPM tabanlı bir datığım veya Debian kullanıyorsanız kurulum işlemi paket yönetim araçlarıyla kolayca yapılabilir. Bu belgenin yazarı Linux 2.6.0 çekirdeği için bir RPM paketi derlemiştir (ulink url="http://www.spenneberg.org/VPN/Kernel-2_6_IPsec"/>). Çekirdekteki ABI bir çok kez değiştiği için bu paketin deneme sürümlerinde çalışmayacağını şimdiden söylemeliyim. Debian projesi <command>apt-get install isakmpd</command> komutuyla kurulabilecek bir paketi içermektedir.</para>
+		<para>Kurulum kaynak koddan yapılırken eğer X.509 sertifikalarını kullanmak istiyorsanız keynote paketine de ihtiyacınız olacaktır (<ulink url="http://www1.cs.columbia.edu/~angelos/keynote.html"/>). İlave olarak Linux çekirdek sürümünüz 2.5.47+ veya 2.6.x olmalıdır.</para>	
+		<para>isakmpd kaynak koduna ulaşmak için Thomas Walpuski'nin sayfasındaki yönergeleri takip etmelisiniz. Dosyayı indirdikten sonra <filename>GNUmakefile</filename> dosyasını düzenleyerek <command>OS=linux</command> satırını aktif hale getirin. Eğer çekirdek kaynak kodunu <filename>/usr/src/linux</filename> dizininden farklı bir yerde bulunduruyorsanız bunu <filename>sysdep/linux/GNUmakefile.sysdep</filename> dosyasını düzenleyerek belirtmelisiniz.</para>
+		<para>Derleme işlemi <command>make</command> komutu ile yapılır.</para>
+		<para><command>isakmpd</command> iki ilave komutla birlikte gelir: <command>keyconv</command> ve <command>certpatch</command>. Bu araçlar <filename>apps</filename> alt dizininde bulunur elle derlenmeleri gerekir (benim hazırladığım RPM paketi bu araçları da içeriyordu). <command>keyconv</command> DNSSEC  openssl anahtarına dönüştürülürken <command>Certpatch</command> ile varolan bir sertifikaya SubjectAltName eklenebilir ya da tersi yapılabilir.</para>
+		<para>Aşağıdaki komutlar bu araçları derlememe yeterlioldu (sizde farklı olabilir):
 			
 	<screen>gcc -DMP_FLAVOUR=MP_FLAVOUR_GMP -I../.. -I../../sysdep/linux   -I /usr/src/linux-2.6.0 -lcrypto -lgmp certpatch.c -o certpatch
 gcc  -I../.. -I../../sysdep/linux   -I /usr/src/linux-2.6.0 -lcrypto -lgmp base64.c keyconv.c -o keyconv</screen></para>
-			
-			
-		<para>One last caveat: All manpages are in Latin1 format. Red Hat 9 cannot display these manpages. You have to convert them to be able to read them (done in the RPM-package): iconv --from-code LATIN1 --to-code UTF-8 --output isakmpd2.8 isakmpd.8</para>
-			
-			<para>When the isakmpd has been compiled, generate the mandatory directory structure:
-			
-			<screen>mkdir /etc/isakmpd
+		<para><warning> Tüm man sayfaları Latin1 biçemindedir. Red Hat 9 bu dosyaları gösterememektedir.<footnote><para>Bu, günü geçmiş bir işletim sistemi olduğundan uyarıyı dikkate almanız gerekmez.</para></footnote> Görüntüleyebilmek için dönüştürülmeleri gereklidir: <command>iconv --from-code LATIN1 --to-code UTF-8 --output isakmpd2.8 isakmpd.8</command></warning></para>
+		<para><command>isakmpd</command> derlendiğinde zorunlu olan dizin yapısını oluşturur:
+<screen>mkdir /etc/isakmpd
 mkdir /etc/isakmpd/ca
 mkdir /etc/isakmpd/certs
 mkdir /etc/isakmpd/keynote
@@ -610,20 +602,12 @@ mkdir /etc/isakmpd/pubkeys</screen>
       </para>
 	</sect2>
 	<sect2 id="ipsec-howto-isakmpd-psk"><title>Önceden Paylaşılan Anahtarları (PSK) Kullanmak</title>
-		<para>The isakmpd uses one configuration file and one policy file. These are the file /etc/isakmpd/isakmpd.conf and /etc/isakmpd/isakmpd.policy. The configuration uses the well known format called .INI style. Each section starts with a line like:
-			
-			<screen>[section]</screen></para>
-			
-			
-	<para>Within the section you can assign a value to a tag:
-			
-			<screen>tag=value</screen></para>
-			
-		<para>If the value is longer than one line you can use the Backslash technique to use several lines. Comments may be put anywhere using the hash mark #.</para>
-			
-			<para>To start we will look at a simple configuration which uses a preshared secret for the authentication. Please take a look at Figure 5 in the Section called Tunnel Mode for the setup.
-			
-			<screen>[General]
+		<para><command>isakmpd</command> bir yapılandırma dosyası (<filename>/etc/isakmpd/isakmpd.conf</filename>), bir de politika dosyası <filename>/etc/isakmpd/isakmpd.policy</filename> kullanır. Yapılandırma iyi bilinen .INI sitilini kullanır. Her bir bölüm aşağıdaki gibi bir satırla başlar:<screen>[section]</screen>
+		</para>
+		<para>Her bölümün içinde bir değişkene değer atayabilirsiniz:<screen>tag=value</screen></para>
+		<para>Eğer değer bir satırdan uzunsa \ işareti ile birden fazla satır kullanabilirsiniz. Yorum satırları # ile başlar.</para>
+		<para>Başlangıçta kimlik kanıtlama için önceden paylaşılmış anahtarın kullanıldığı baist bit yapılandırmaya bakacağız. Kurulum için <xref linkend="ipsec-howto-tunel"/>'e bakabilirsiniz.
+<screen>[General]
 Listen-on=              192.168.1.100
 
 [Phase 1]
@@ -660,24 +644,16 @@ DOI=                    IPSEC
 EXCHANGE_TYPE=          QUICK_MODE
 Suites=                 QM-ESP-3DES-MD5-PFS-SUITE</screen>
       </para>
-      <para>This configuration file describes a tunnel between the two gateways 192.168.1.100 and 192.168.2.100. This tunnel may be used by 172.16.1.0/24 and 172.16.2.0/24. This configuration file is specifically for the gateway 192.168.1.100.</para>
-	      
-      <para>Let's look at the individual sections. The first section [General] describes the general setup. Here we define if isakmpd should bind to specific IP addresses during startup. This is recommended if you have several IP addresses on your VPN gateway.</para>
-	      
-      <para>The section [Phase 1] describes which configuration to use for the peer using the IP address 192.168.2.100. If the IP address of the peer is not known (roadwarrior) you can use default instead.</para>
-	      
-      <para>The section [Phase 2] describes the tunnels to create once a Phase 1 authentication has been established. If isakmpd may not actively start the connections use Passive-connections instead.</para>
-	      
-      <para>Now you have to define the names you referred to in the Phase 1 and Phase 2 sections. First we define the ISAKMP-peer-west. This definition is used in Phase 1 and we know the Local-address and the remote Address. If the remote address is not known, just remove this tag. Authentication should be done using a preshared key which is given in cleartext.</para>
-	      
-      <para>Next the tunnel IPsec-east-west is defined. It is used in Phase 2 and shall be established with the ISAKMP-peer ISAKMP-peer-west. We want to define the Configuration of the connection and the additional IDs for the tunnel (Local-ID and Remote-ID).</para>
-	      
-      <para>Since these IDs are referrals again, we have to define them. The ID-type may be IPV4_ADDR, IPV6_ADDR, IPV4_ADDR_SUBNET and IPV6_ADDR_SUBNET.</para>
-	      
-      <para>Last but not least we have to define the quick-mode configuration, we referred to in the description of the tunnel. We define the DOI (default: IPSEC), the EXCHANGE_TYPE (default: QUICK_MODE) and the Suites to use. This is QuickMode-Encapsulated-Security-Payload-3DES-Encryption-MD5-HMAC-Perfect-Forward-Secrecy. You can specify several suites seperated by commas. Read the man-page for all possible transforms and suites.</para>
-      <para>The isakmpd.policy file is much shorter. The next listing shows an example:
-	      
-	      <screen>KeyNote-Version: 2
+      <para>Bu yapılandırma 192.168.1.100 ve 192.168.2.100 adreslerine sahip iki ağ geçidi arasında bir tünel oluşturur. Bu tünel 172.16.1.0/24 ve 172.16.2.0/24 ağları tarafından kullanılabilir. Yukarıdaki dosya 192.168.1.100 IP adresine sahip ağ geçidinin kullanacağı dosyadır.</para>
+      <para>Şimdi her bölümü ayrıntılı olarak inceleyelim. İlk bölüm [General] genel kurulumu belirler. Burada kurulum aşamasında isakmpd'nin belirli bir IP adresine bağlanması gerekip gerekmediğini belirtiyoruz. Eğer VPN ağgeçicidinizin birden çok IP adresi varsa bunu yapmanız tavsiye edilir.</para>
+      <para>[Phase 1] bölümü 192.168.2.100 adresli taraf için hangi yapılandırmanın kullanılacağını tanımlar. Eğer karşı tarafın IP adresi belli değilse (roadwarrior) bunun yerine öntanımlı değeri kullanabilirsiniz.</para>
+      <para>[Phase 2] bölümü ise Phase 1 kimlik kanıtlaması yapıldıktan sonra oluşturulacak tüneli tanımlanır. Eğer isakmpd bağlantıları aktif olarak başlatmıyorsa bunun yerine <command>Passive-connections</command> kullanılabilir.</para>
+      <para>Bu aşamada Phase 1 ve Phase 2 bölümlerine karşılık gelecek bir isim verilmelidir. Bu örnekte ISAKMP-peer-west ismini kullandık. Bu tanımlama Phase 1'de kullanıldığından yerel ve uzak adresleri biliyoruz. Eğer uzak adres biinmiyorsa bu satırı kaldırmak yeterlidir. Kimlik kanıtlama düz metin olarak verilen önceden paylaşılan anahtarla yapılmalıdır.</para>
+      <para>Sıradaki tanımlama IPsec-east-west tünelinin tanımlamasıdır. Bu tünel Phase 2'de kullanılmıştır ve ISAKMP-peer tarafından ISAKMP-peer-west tüneline bağlanılırken kullanılmalıdır. Bağlantının yapılandırmasını ve tüneli diğer tanımlamaları da (Local-ID ve Remote-ID) burada yapılmalıdır.</para>
+      <para>Bu tanımlanacak <command>ID-type</command> şunlar olabilir: IPV4_ADDR, IPV6_ADDR, IPV4_ADDR_SUBNET ve IPV6_ADDR_SUBNET.</para>
+      <para>Son olarak quick-mode yapılandırması bölümü bulunmaktadır. Bu bölümde tünel tanımlama bilgileri bulunmaktadır. Bu bilgiler <command>DOI</command> (öntanımlı değeri: IPSEC), <command>EXCHANGE_TYPE</command> (öntanımlı değeri: QUICK_MODE) ve <command>Suites</command>. Yukarıdaki QM-ESP-3DES-MD5-PFS-SUITE değerinin açılımı QuickMode-Encapsulated-Security-Payload-3DES-Encryption-MD5-HMAC-Perfect-Forward-Secrecy'dir. birden çok değer verilecekse bunlar birbirinden virgülle ayrılmalıdır. Man dosyasında mümkün olan bütün taşımalar ve takımlar bulunmaktadır.</para>
+      <para><filename>isakmpd.policy</filename> daha kısa bir dosyadır. Aşağıda bir örneği bulunmaktadır:	      
+<screen>KeyNote-Version: 2
 Authorizer: "POLICY"
 Licensees: "passphrase:ThisIsThePassphrase"
 Conditions: app_domain == "IPsec policy" &amp;&amp;
@@ -685,26 +661,22 @@ esp_present == "yes" &amp;&amp;
 esp_enc_alg == "3des" &amp;&amp;
 esp_auth_alg == "hmac-md5" -&gt; "true";</screen>
       </para>
-      <para>For testing the connection start the isakmpd using the following line:
-	      
-      <screen>isakmpd -d -4 -DA=90</screen></para>
-	      
-	<para>This will start the isakmpd in foreground (-d) using IPv4 (-4) and a debuglevel of 90.</para>
-	      
-	<para>Once the connection has started you should be able to ping from one subnet to the other subnet. If you have also installed the ipsec-tools you can use the command setkey to view the policies and security associations added by the isakmpd. If you kill the isakmpd running in foreground using ctrl-c, it does not flush the SAD and SPD. You will have to do this manually using the command setkey. If you kill the isakmpd using the command kill -TERM it will flush the SAD and SPD!</para>
+      <para>Bağlantıyı denemek için <command>isakmpd</command> aşağıdaki gibi başlatılır:
+	      <screen>isakmpd -d -4 -DA=90</screen>
+      </para>
+      <para>Bu komutla <command>isakmpd</command>, önalanda (<command>-d</command>) IPv4 (<command>-4</command>) kullanacak şekilde ve hata ayıklama seviyesi 90 (<command>-DA=90</command>) olarak başlatılmış olur.</para>
+      <para>Bağlantı kurulduğunda bir ağdan diğerine ping paketleri gönderebiliyor olmanız gerekir. Eğer <command>ipsec-tools</command>'u da kurmuşsanız <command>isakmpd</command> tarafından eklenen politikaları ve güvenlik anlaşmalarını görüntülemek için <command>setkey</command> komutunu da kullanabilirsiniz. ctrl-c ile önalanda çalışan <command>isakmpd</command>'yi öldürmeniz SAD ve SPD'yi temizlemez. Bunu ancak <command>setkey</command> komutunu elle çalıştırarak yapabilirsiniz. Şayet <command>isakmpd</command>'yi <command>kill -TERM</command> ile öldürülürürseniz SAD ve SPD'yi temizlemiş olursunuz!</para>
 	</sect2>
 	<sect2 id="ipsec-howto-isakmpd-x509"><title>X.509 Sertifikalarını Kullanmak</title>
-		<para>The isakmpd may also use X.509 certificates for the authentication process. You can create your certificates using the usual tools and need for each machine, taking part in the VPN, the following files:
-			<itemizedlist><listitem>/etc/isakmpd/private/local.key The private key of the machine in .pem format. Permissions must be 600.</listitem>
-			<listitem>/etc/isakmpd/ca/ca.crt The certificate of the certificate authority you trust.</listitem>
-			<listitem>/etc/isakmpd/certs/ip-address.crt The certificate of the local machine.</listitem></itemizedlist></para>
-	<para>For isakmpd to find and use the certificate it has to include a SubjectAltName. This X.509v3 extension can be defined during generation of the certificate or later using the command certpatch. This command needs the private key of the CA, extracts the certificate, adds the extension and signs the certificate again.
-		
-	<screen>certpatch -i ip-address -k ca.key  originalcert.crt newcert.crt</screen></para>
-		
-		
-	<para>Certpatch can add an IP address, a FQDN or a UFQDN to the certificate.</para>
-	<para>Once these files are stored in the appropiate folders and have the appropiate permissions assigned, you can create the configuration and the policy file. In the configuration file just remove the line Authentication. and add a line ID=East to the ISAKMP-peer-west section. Then define East. Additionally you have to specifiy the X.509 directories. The full configuration file follows:
+	<para><command>isakmpd</command> kimlik kanıtlama süreçlerinde X.509 sertifikalarını kullanabilir. Kendi sertifikalarınızı her zamanki araçlarla oluşturabilirsiniz. VPN'in her iki tarafı için aşağıdaki dosyalara ihtiyacınız olacak:
+		<itemizedlist><listitem><filename>/etc/isakmpd/private/local.key</filename> Makinenin .pem biçeminde özel anahtarı. Erişim izinleri 600 olmalıdır.</listitem>
+		<listitem><filename>/etc/isakmpd/ca/ca.crt</filename> Güvendiğiniz sertifika otoritesinin sertifikası.</listitem>
+		<listitem><filename>/etc/isakmpd/certs/ip-address.crt</filename> Yerel makinenin sertifikası.</listitem></itemizedlist></para>
+	<para><command>isakmpd</command>'nin sertifikaları bulup kullanması için bir SubjectAltName içermesi gerekir. Bu X.509v3 gelişletmesi sertifikaların oluşturulma sürecinde veya daha sonra <command>certpatch</command> komutu ile tanımlanabilir. Bu komut CA'nın özel anahtarını kullanır, sertifikayı açar ve eklentiyi ekledikten sonra sertifikayı tekrar imzalar.
+	<screen>certpatch -i ip-address -k ca.key  originalcert.crt newcert.crt</screen>
+	</para>		
+	<para><command>Certpatch</command> sertifikaya bir IP adresi ekleyebileceği gibi bir FQDN veya bir UFQDN de ekleyebilir.</para>
+	<para>Bu dosyalar uygun dizinlere yerleştirildikten ve gerekli erişim yetkileri verildikten sonra yapılandırma ve politika dosyalarını oluşturabilirsiniz. Yapılandırma dosyasında Authentication satırını kaldırın ve ISAKMP-peer-west bölümüne <command>ID=East</command> satırını ekleyin. Ardından East'ı tanımlayın. Ek olarak X.509 dizinlerini de belirtmeniz gerekecektir. Tam bir yapılandırma dosyası örneği aşağıda verilmiştir:
 		
 		<screen>[General]
 Listen-on=              192.168.1.100
@@ -751,9 +723,8 @@ CA-directory=           /etc/isakmpd/ca/
 Cert-directory=         /etc/isakmpd/certs/
 Private-key=            /etc/isakmpd/private/local.key</screen>
       </para>
-      <para>The policy file needs to be modified, too. Since you only want to allow peers using certificates signed by the trusted CA add the following line after the line Authorizer. The full policy file follows:
-	      
-	      <screen>KeyNote-Version: 2
+      <para>Politika dosyası da düzenlenmeye ihtiyaç duyar. Sadece güvenilen CA tarafından imzalanan sertifikaları kullanan taraflara izin vermek istediğinizden Authorizer satırından sonra gerekli satırları ekleyin. Aşağıda eksiksiz bir politika dosyası bulunmaktadır: 
+<screen>KeyNote-Version: 2
 Authorizer: "POLICY"
 Licensees: "DN:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.Com/OU=VPN/CN=RootCA"
 Conditions: app_domain == "IPsec policy" &amp;&amp;
@@ -761,27 +732,19 @@ esp_present == "yes" &amp;&amp;
 esp_enc_alg == "3des" &amp;&amp;
 esp_auth_alg == "hmac-md5" -> "true";</screen>
       </para>
-      <para>The text after DN: has to match the subject line of the CA certificate:
-	      
+      <para><command>DN:</command> ifadesini takip eden metin CA sertifikasının konu satırıyla uyuşmalıdır:
       <screen>openssl x509 -in ca/ca.crt -noout -subject</screen></para>
-	      
-	      
-	<para>Now you can start the isakmpd as usual to test the configuration.</para>
+	<para>Yapılandırmayı denemek için her zamanki gibi <command>isakmpd</command>'yi başlatabilirsiniz.</para>
 	</sect2>
-
 </sect1>
-
 <sect1 id="ipsec-howto-x509"><title>X.509 Sertifikaları Oluşturmak</title>
-	<para>Today almost all VPN implementations allow the usage of X.509 certificate for the authentication of the peers. These are the same certificates as used for the implementation of the Secure Socket Layer (SSL) in the HTTP protocol.</para>
-		
-	<para>This chapter will briefly cover the creation of these certificates.</para>
-	<sect2 id="ipsec-howto-x509-openssl"><title>OpenSSL Kullanmak</title>
-		<para>The easiest way to create X.509 certificates on Linux is the openssl command and the auxiliary tools. When the OpenSSL package has been installed usually an auxillary command CA and/or CA.pl, has been installed, too. We will use this command to create the certificates.</para>
-			
-		<para>First check where the command has been installed. It is usually not in your path! On Red Hat Linux distributions it is installed in /usr/share/ssl/misc/CA.</para>
-		<para>Now create your certificate authority first.
-			
-			<screen>$ mkdir certs
+	<para>Günümüzde neredeyse bütün VPN uygulamaları tarafların kimlik kanıtlaması için X.509 sertifikalarının kullanımına izin vermektedir.Bu sertifikalar Secure Socket Layer (SSL)'ın HTTP protokolündeki uygulamasında kullanılan sertifikalarla aynıdırlar.</para>
+	<para>Bu bölümde sertifikaların oluşturulması kısaca özetlenecektir.</para>
+	<sect2 id="ipsec-howto-x509-openssl"><title>OpenSSL Kullanımı</title>
+		<para>Linux'ta X.509 sertifikası oluşturmanın en kolay yolu <command>openssl</command> komutunu ve yardımcı araçlarını kullanmaktır. OpenSSL paketi kurulduğunda genellikle <command>CA</command> ve/veya <command>CA.pl</command> yardımcı komutları da yüklenmiş olur. Sertifikalrı oluşturmak için bu komutu kullanacağız.</para>
+		<para>İlk olarak komutun kurulu olup olmadığını denetleyin. Genellikle sizin yolunuzda (path) değildir. Red Hat Linux'ta <filename>/usr/share/ssl/misc/CA</filename> olarak bulunur.</para>
+		<para>İlk olarak sertifika otoritenizi oluşturun.
+<screen>$ mkdir certs
 $ cd certs
 $ /usr/share/ssl/misc/CA -newca
 CA certificate filename (or enter to create) &lt;enter&gt;
@@ -810,10 +773,8 @@ Organizational Unit Name (eg, section) []:
 Common Name (eg, your name or your server's hostname) []:RootCA 2003
 Email Address []:ralf@spenneberg.net</screen>
       </para>
-      <para>Please enter the appropiate values when asked for Country Name, etc. If you would like to have the correct values proposed (like above in my case) edit your openssl.cnf file. On Red Hat Linux systems you may usually find it at /usr/share/ssl/openssl.cnf.</para>
-	      
-      <para>The created certificate authority is only valid for one year. Often you want a longer lifetime for the certificate of your CA. Since the certificates you are signing later on usually have a shorter lifetime it is not practical to edit the openssl.cnf file. Rather change the lifetime manually:
-	      
+      <para>Size sorulan Ülke İsmi gibi sorulara uygun yanıtlar verin. Eğer soruların öntanımlı yanıtlarını değiştirmek (benim yukarıda yaptığım gibi) istereniz <filename>openssl.cnf</filename> dosyasını düzenlemeniz yeterli olur. Bu dosya Red Hat Linux sistemlerde genellikle <filename>/usr/share/ssl/openssl.cnf</filename> adresinde bulunur.</para>
+      <para>Yaratılan sertifika otoritesi sadece bir yıl için geçerlidir ama çoğu durumda CA'nın daha uzun geçerlilik süresi olması istenir. Daha sonra imzalayacağınız sertifikaların daha kısa yaşam süreleri olacağından <filename>openssl.cnf</filename> dosyasını düzenlemek pretik bir çözüm olmaz. Bunun yerine geçerlilik süresini elle düzenlemek en iyisidir:
       <screen>$ cd demoCA/
 $ openssl x509 -in cacert.pem -days 3650 -out cacert.pem
 -signkey ./private/cakey.pem
@@ -821,8 +782,7 @@ Getting Private key
 Enter PEM pass phrase: capassword
 $ cd ..</screen>
       </para>
-      <para>The certificate authority is now ready to go. Let's create a certificate signing request:
-	      
+      <para>Artık sertifika otoriteniz kullanılmaya hazırdır. Hemen bir sertifika imzalama isteği yaratalım:
 	      <screen>$ /usr/share/ssl/misc/CA -newreq
 Using configuration from /usr/share/ssl/openssl.cnf
 Generating a 1024 bit RSA private key
@@ -853,9 +813,8 @@ A challenge password []:
 An optional company name []:
 Request (and private key) is in newreq.pem</screen>
       </para>
-      <para>The file newreq.pem contains the certificate signing request and the encrypted private key. This file can later be used as a private key for FreeS/WAN or Racoon. Once the request is created, we can sign it using the certificate authority.
-	      
-      <screen>$ /usr/share/ssl/misc/CA -sign
+      <para><filename>newreq.pem</filename> dosyası sertifika imzalama talebini ve şifrelenmiş özel anahraı içerir. Bu dosya daha sonra FreeS/WAN veya Racoon için özel anahtar olarak kullanılabilir. Bir kere talep yaratıldıktan sonra sertifika otoritesini kullanarak onu imzalayabiliriz.
+<screen>$ /usr/share/ssl/misc/CA -sign
 Using configuration from /usr/share/ssl/openssl.cnf
 Enter PEM pass phrase: capassword
 Check that the request matches the signature
@@ -875,50 +834,48 @@ Sign the certificate? [y/n]:y
 Write out database with 1 new entries
 Data Base Updated</screen>
       </para>
-      <para>Depending on the version of the command CA the certificate might be print to stdout. This will be similar to the following certificate:
+      <para><command>CA</command> komutunun sürümüne bağlı olarak sertifika standart çıktıya görüntülenebilir. Aşağıdaki sertifikaya benzer yapıda olmalıdır:
 	      
-	      <screen>Certificate:
-	      Data:
+<screen>Certificate:
+      Data:
 	      Version: 3 (0x2)
 	      Serial Number: 1 (0x1)
 	      Signature Algorithm: md5WithRSAEncryption
 	      Issuer: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
-	      CN=RootCA 2003/Email=ralf@spenneberg.net
-	      Validity
+CN=RootCA 2003/Email=ralf@spenneberg.net
+      Validity
 	      Not Before: Apr 30 06:08:56 2003 GMT
 	      Not After : Apr 29 06:08:56 2004 GMT
-	      Subject: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
-	      CN=VPN-Gateway/Email=ralf@spenneberg.net
-	      Subject Public Key Info:
+      Subject: C=DE, ST=NRW, L=Steinfurt, O=Spenneberg.com, 
+CN=VPN-Gateway/Email=ralf@spenneberg.net
+      Subject Public Key Info:
 	      Public Key Algorithm: rsaEncryption
 	      RSA Public Key: (1024 bit)
-	      Modulus (1024 bit):
-	      00:c5:3b:9c:36:3a:19:6c:a9:f2:ba:e9:d2:ed:84:
-	      33:36:48:07:b2:a3:2d:59:92:b0:86:4c:81:2c:ea:
-	      5c:ed:f3:ba:eb:17:4e:b3:3a:cc:b7:5b:5d:ca:b3:
-	      04:ed:fb:59:3c:c5:25:3e:f3:ff:b0:22:10:fb:de:
-	      72:0a:ee:42:4b:9a:d3:27:d3:b6:fb:e9:88:10:c8:
-	      47:b7:26:4f:71:40:e4:75:c4:c0:ee:6b:87:b8:6f:
-	      c9:5e:66:cf:bb:e7:ad:72:68:b8:6d:fd:8f:4c:1f:
-	      3a:a2:0d:43:25:06:b9:92:e7:20:6c:86:15:a0:eb:
-	      7f:f7:0b:9a:99:5d:14:88:9b
-	      Exponent: 65537 (0x10001)
-	      X509v3 extensions:
+		      Modulus (1024 bit):
+			      00:c5:3b:9c:36:3a:19:6c:a9:f2:ba:e9:d2:ed:84:
+			      33:36:48:07:b2:a3:2d:59:92:b0:86:4c:81:2c:ea:
+			      5c:ed:f3:ba:eb:17:4e:b3:3a:cc:b7:5b:5d:ca:b3:
+			      04:ed:fb:59:3c:c5:25:3e:f3:ff:b0:22:10:fb:de:
+			      72:0a:ee:42:4b:9a:d3:27:d3:b6:fb:e9:88:10:c8:
+			      47:b7:26:4f:71:40:e4:75:c4:c0:ee:6b:87:b8:6f:
+			      c9:5e:66:cf:bb:e7:ad:72:68:b8:6d:fd:8f:4c:1f:
+			      3a:a2:0d:43:25:06:b9:92:e7:20:6c:86:15:a0:eb:
+			      7f:f7:0b:9a:99:5d:14:88:9b
+		      Exponent: 65537 (0x10001)
+	X509v3 extensions:
 	      X509v3 Basic Constraints:
-	      CA:FALSE
+		      CA:FALSE
 	      Netscape Comment:
-	      OpenSSL Generated Certificate
+		      OpenSSL Generated Certificate
 	      X509v3 Subject Key Identifier:
-	      CB:5C:19:9B:E6:8A:8A:FE:0E:C4:FD:5E:DF:F7:BF:3D:A8:
-	      18:7C:08
+		      CB:5C:19:9B:E6:8A:8A:FE:0E:C4:FD:5E:DF:F7:BF:3D:A8:18:7C:08
 	      X509v3 Authority Key Identifier:
-	      keyid:01:BB:C6:33:BE:F5:9A:5E:B0:0C:5D:BD:41:E9:78:
-	      6C:54:AD:66:8E
-	      DirName:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.com/
-	      CN=RootCA 2003/Email=ralf@spenneberg.net
-	      serial:00
+		      keyid:01:BB:C6:33:BE:F5:9A:5E:B0:0C:5D:BD:41:E9:78:6C:54:AD:66:8E
+		      DirName:/C=DE/ST=NRW/L=Steinfurt/O=Spenneberg.com/
+CN=RootCA 2003/Email=ralf@spenneberg.net
+		      serial:00
 	      
-	      Signature Algorithm: md5WithRSAEncryption
+	Signature Algorithm: md5WithRSAEncryption
 	      6f:89:2b:95:af:f1:8d:4d:b7:df:e8:6d:f7:92:fb:48:8c:c4:
 	      1a:43:68:65:97:01:87:a6:84:b5:a1:38:bd:62:74:70:db:9e:
 	      78:19:d9:0c:af:18:ad:13:77:56:7d:3f:19:61:da:ba:74:30:
@@ -927,82 +884,64 @@ Data Base Updated</screen>
 	      75:a0:66:d2:8d:85:ba:38:82:08:10:33:ef:be:29:c9:31:9d:
 	      63:a9:f7:e0:99:ea:a7:ed:b6:b5:33:1b:1c:4a:a4:05:40:6e:
 	      40:7b
-	      -----BEGIN CERTIFICATE-----
-	      MIIDjDCCAvWgAwIBAgIBATANBgkqhkiG9w0BAQQFADCBgjELMAkGA1UEBhMCREUx
-	      DDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3RlaW5mdXJ0MRcwFQYDVQQKEw5TcGVu
-	      bmViZXJnLmNvbTEUMBIGA1UEAxMLUm9vdENBIDIwMDMxIjAgBgkqhkiG9w0BCQEW
-	      E3JhbGZAc3Blbm5lYmVyZy5uZXQwHhcNMDMwNDMwMDYwODU2WhcNMDQwNDI5MDYw
-	      ODU2WjCBgjELMAkGA1UEBhMCREUxDDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3Rl
-	      aW5mdXJ0MRcwFQYDVQQKEw5TcGVubmViZXJnLmNvbTEUMBIGA1UEAxMLVlBOLUdh
-	      dGV3YXkxIjAgBgkqhkiG9w0BCQEWE3JhbGZAc3Blbm5lYmVyZy5uZXQwgZ8wDQYJ
-	      KoZIhvcNAQEBBQADgY0AMIGJAoGBAMU7nDY6GWyp8rrp0u2EMzZIB7KjLVmSsIZM
-	      gSzqXO3zuusXTrM6zLdbXcqzBO37WTzFJT7z/7AiEPvecgruQkua0yfTtvvpiBDI
-	      R7cmT3FA5HXEwO5rh7hvyV5mz7vnrXJouG39j0wfOqINQyUGuZLnIGyGFaDrf/cL
-	      mpldFIibAgMBAAGjggEOMIIBCjAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1P
-	      cGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUy1wZm+aKiv4O
-	      xP1e3/e/PagYfAgwga8GA1UdIwSBpzCBpIAUAbvGM771ml6wDF29Qel4bFStZo6h
-	      gYikgYUwgYIxCzAJBgNVBAYTAkRFMQwwCgYDVQQIEwNOUlcxEjAQBgNVBAcTCVN0
-	      ZWluZnVydDEXMBUGA1UEChMOU3Blbm5lYmVyZy5jb20xFDASBgNVBAMTC1Jvb3RD
-	      QSAyMDAzMSIwIAYJKoZIhvcNAQkBFhNyYWxmQHNwZW5uZWJlcmcubmV0ggEAMA0G
-	      CSqGSIb3DQEBBAUAA4GBAG+JK5Wv8Y1Nt9/obfeS+0iMxBpDaGWXAYemhLWhOL1i
-	      dHDbnngZ2QyvGK0Td1Z9Pxlh2rp0MI7FUA7j6/+VzY3WfsMOq1s0lLwWD+/c3kC7
-	      fbqiuF35dOcoWHWgZtKNhbo4gggQM+++KckxnWOp9+CZ6qfttrUzGxxKpAVAbkB7
-	      -----END CERTIFICATE-----
-	      Signed certificate is in newcert.pem</screen>
+-----BEGIN CERTIFICATE-----
+MIIDjDCCAvWgAwIBAgIBATANBgkqhkiG9w0BAQQFADCBgjELMAkGA1UEBhMCREUx
+DDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3RlaW5mdXJ0MRcwFQYDVQQKEw5TcGVu
+bmViZXJnLmNvbTEUMBIGA1UEAxMLUm9vdENBIDIwMDMxIjAgBgkqhkiG9w0BCQEW
+E3JhbGZAc3Blbm5lYmVyZy5uZXQwHhcNMDMwNDMwMDYwODU2WhcNMDQwNDI5MDYw
+ODU2WjCBgjELMAkGA1UEBhMCREUxDDAKBgNVBAgTA05SVzESMBAGA1UEBxMJU3Rl
+aW5mdXJ0MRcwFQYDVQQKEw5TcGVubmViZXJnLmNvbTEUMBIGA1UEAxMLVlBOLUdh
+dGV3YXkxIjAgBgkqhkiG9w0BCQEWE3JhbGZAc3Blbm5lYmVyZy5uZXQwgZ8wDQYJ
+KoZIhvcNAQEBBQADgY0AMIGJAoGBAMU7nDY6GWyp8rrp0u2EMzZIB7KjLVmSsIZM
+gSzqXO3zuusXTrM6zLdbXcqzBO37WTzFJT7z/7AiEPvecgruQkua0yfTtvvpiBDI
+R7cmT3FA5HXEwO5rh7hvyV5mz7vnrXJouG39j0wfOqINQyUGuZLnIGyGFaDrf/cL
+mpldFIibAgMBAAGjggEOMIIBCjAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1P
+cGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUy1wZm+aKiv4O
+xP1e3/e/PagYfAgwga8GA1UdIwSBpzCBpIAUAbvGM771ml6wDF29Qel4bFStZo6h
+gYikgYUwgYIxCzAJBgNVBAYTAkRFMQwwCgYDVQQIEwNOUlcxEjAQBgNVBAcTCVN0
+ZWluZnVydDEXMBUGA1UEChMOU3Blbm5lYmVyZy5jb20xFDASBgNVBAMTC1Jvb3RD
+QSAyMDAzMSIwIAYJKoZIhvcNAQkBFhNyYWxmQHNwZW5uZWJlcmcubmV0ggEAMA0G
+CSqGSIb3DQEBBAUAA4GBAG+JK5Wv8Y1Nt9/obfeS+0iMxBpDaGWXAYemhLWhOL1i
+dHDbnngZ2QyvGK0Td1Z9Pxlh2rp0MI7FUA7j6/+VzY3WfsMOq1s0lLwWD+/c3kC7
+fbqiuF35dOcoWHWgZtKNhbo4gggQM+++KckxnWOp9+CZ6qfttrUzGxxKpAVAbkB7
+-----END CERTIFICATE-----
+Signed certificate is in newcert.pem</screen>
       </para>
-      <para>It is now advisable to rename the files newreq.pem and newcert.pem to something more meaningful.
-	      
+      <para><filename>newreq.pem</filename> ve <filename>newcert.pem</filename> dosyalarının isimlerini anlamlı yenileriyle değiştirmek iyi olacaktır.
       <screen>$ mv newcert.pem vpngateway_cert.pem
 $ mv newreq.pem vpngateway_key.pem</screen>
       </para>
-      <para>Now have fun creating certificates for every peer in the VPN.</para>
-	      
-      <para>In case a private key gets stolen or compromised, you have to revoke it because based on its lifetime it is still valid. The revoked keys are stored in the certificate revocation list (CRL). First, create an (empty) list:
-	      
+      <para>Artık her VPN bağlantısı için bir sertifika oluşturabilirsiniz.</para>
+      <para>Bir özel anahtarın çalınması veya tehlikeye girmesi durumunda onu iptal etmeniz gerekir, çünkü geçerlilik süresi dolmadığından geçerliliğini hala koruyor durumdadır. İptal edilen anahtarlar sertifika iptal listesinde (CRL) saklanırlar. İlk olarak boş bir liste yaratın:
       <screen>$ openssl ca -gencrl -out crl.pem
 Using configuration from /usr/share/ssl/openssl.cnf
 Enter PEM pass phrase: capassword</screen></para>
-	      
-	      
-      <para>You need to create the file demoCA/crlnumber manually if you get an error: No such file. Modern OpenSSL versions require this.
-	      
-	      
+	<para>Eğer No such file hatası alırsanız <filename>demoCA/crlnumber</filename> dosyasını elle oluşturmanız gerekir. Yeni OpenSSL sürümleri bu dosyaya ihtiyaç duymaktadır.
       <screen>$ echo 01 > demoCA/crlnumber</screen></para>
-	      
-	      
-      <para>To revoke a certificate you need to have the certificate file. This is also stored in demoCA/newcerts/. The name of the certificate can be read in demoCA/index.txt. Then use the following command.
-	      
+<para>Bir sertifikayı iptal etmek için sertifika dosyasına ihtiyacınız vardır. Bu dosya <filename>demoCA/newcerts/</filename> dizininde de bulunur. sertifikanın ismi <filename>demoCA/index.txt</filename> dosyasından okunabilir. Bundan sonra aşağıdaki komutu kullanabilirsiniz:
       <screen>$ openssl ca -revoke compromised_cert.pem
 Using configuration from /usr/share/ssl/openssl.cnf
 Enter PEM pass phrase: capassword
 Revoking Certificate 01.
 Data Base Updated</screen></para>
-
-      <para>Once the certificate has been revoked, the certificate revocation list has to be recreated using the above command. </para>
+      <para>Bir sertifika iptal edildiğinde sertifika iptal listesi yukarıdaki komutu kullanarak yeniden oluşturulmalıdır.</para>
 	</sect2>
 	<sect2 id="ipsec-howto-x509-windows"><title>Windows İstemcileri için Sertifika Oluşturmak</title>
-		<para>When generating certificates for Windows clients you have to make sure that the lifetime of the certificate lies within the lifetime of the CA. If the lifetime of the certificate exceeds the lifetime of the CA, the windows client will not accept the certificate!</para>
-			
-		<para>The easiest way to transfer certificates to a windows box is by using the PKCS#12 exchange format. Openssl can reformat the certificates to this format:
-			
+		<para>Windows istemciler için sertifika üretirken sertifikanızın geçerlilik süresinin CA'nın geçerlilik süresi içinde kaldığından emin olun. Eğer sertifikanızın geçerlilik süresi CA'nın geçerlilik süresinin dışında kalırsa windows istemciler sertifikayı kabuletmeyecektir!</para>
+		<para>Sertifikaların bir windows makineye taşınmasının en kolay yolu PKCS#12 değişim formatını kullanmaktır. OpenSSL sertifikanın biçemini değiştirebilir:
 		<screen>$ openssl pkcs12 -export -inkey key.pem -in cert.pem -certfile cacert.pem -out export.p12 -name "Windows Cert"</screen></para>
-			
-			
-		<para>You are asked to specify an export password. On the windows box you can then import this file using the export password.</para>
-			
-		<para>A tool which might help in generating the PKCS#12-File is Wincert. You find the URL to the tool in the links section.</para>
+		<para>Bu işlem sırasında sizden bir parola girmeniz istenir. Windows makinede bu parolayı girerek sertifikayı kullanabilirsiniz.</para>
+		<para>PKCS#12 dosyası oluşturmak için Wincert aracından yararlanabilirsiniz. Bu aracın adresini <xref linkend="ipsec-howto-links"/> bölümünde bulabilirsiniz.</para>
 	</sect2>
 </sect1>
-
 <sect1 id="ipsec-howto-advanced"><title>Gelişmiş Yapılandırma</title>
 	<sect2 id="ipsec-howto-advanced-xauth"><title>Xauth ve IKE-Mode-Config</title>
-		<para>Unfortunately Xauth and IKE-Mode-Config are broken on Linux using ipsec-tools &lt;= 0.6. As soon as Xauth is working I will put up some hints on using these.</para>
+		<para>Maalesef Xauth ve IKE-Mode-Config Linux üzerinde ipsec-tools'un 0.6 ve önceki sürünlerinde çalışmamaktadır. Xauth çalışmaya başlar başlamaz onunlailgili ipuçlarını buraya koyacağım.</para>
 	</sect2>
 	<sect2 id="ipsec-howto-advanced-iptables"><title>IPtables Kuralları</title>
-		<para>Using ESP in tunnel mode without compression increases the size of the packets transferred. This even happens sometimes when compression is activated. This can cause problems in tunnel mode when the client does not know that the packet is to be encapsulated. If the clients sends a packet of 1500 bytes the additional encapsulation will increase the size of the packet. For TCP-packets you can solve this problem setting the MSS on both sides of the tunnel using the iptables command:
-			
-		<screen>iptables -t mangle -A PREROUTING -p esp -j MARK --set-mark 1
-iptables -A FORWARD -m mark --mark 1 -p tcp --tcp-flags SYN,RST SYN -j
+		<para>ESP'nin tünel modunda sıkıştırılmadan kullanılması iletilen paketlerin büyüklüğünü arttırır. Bu bazen sıkıştırılma kullanıldığında bile meydana gelir. Bu tünel modunda istemcinin paketlerin kapsüllendiğini bilmediği durumlarda probleme yol açabilir. İstemcinin 1500 bytes büyüklüğünde bir paket göndermesi durumunda yapılacak ilave kapsülleme paketin büyüklüğünü arttıracaktır. TCP paketleri için bu problem tünelin iki ucuna aşağıdaki <command>iptables</command> komutunu kullanarak MSS atayarak çözümlenebilir:
+<screen>iptables -t mangle -A PREROUTING -p esp -j MARK --set-mark 1
+iptables -A FORWARD -m mark --mark 1 -p tcp --tcp-flags SYN,RST SYN -j \
 TCPMSS --set-mss 1400</screen>
       </para>
 	</sect2>
