@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-16T14:19:50+03:00"><title>Vim Kullanımı</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/vim-for-c-programmers.html" title="C Programcıları için Vim"><link rel="previous" href="../howto/vim-for-c-programmers.html" title="C Programcıları için Vim"><link rel="next" href="../howto/vim-for-c-programmers-conc.html" title="Sonuç"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Vim Kullanımı</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/vim-for-c-programmers.html">Önceki</a> </td><th width="60%" align="center">C Programcıları için Vim</th><td width="20%" align="right"> <a accesskey="n" href="../howto/vim-for-c-programmers-conc.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="vim-for-c-programmers-intro"></a>Vim Kullanımı</h2></div></dt><dd><p>
+	Nitelikli kodlama özelliklerine sahip olmak için bir IDE kullanmak zorunda değilsiniz. Otomatik değişken ismi tamamlamadan ctags ve make ile entegrasyona kadar Vim, C programcısının hayatını kolaylaştırır ve daha verimli yapar.
+</p><p>
+	Vim, Bill Joy'un 30 yıllık vi'sini temel alan fakat bir miktar ek özellikler içeren oldukça güçlü bir düzenleyicidir. Vim'i bu kadar yetenekli yapan özellikleri yeni başlayanlar için bazen korkutucu olabilir. Bu makale C programlama üzerine odaklanmış olarak vim öğrenme seviyesini arttırmayı amaçlar.
+</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="vim-for-c-programmers-intro-make"></a>make ve Derleme-Test-Düzenleme döngüsü</h3></div></dt><dd><p>
+	Tipik bir programcının işi programın istenen işi yaptığı test işlemiyle kanıtlanana kadar derleme ve düzenleme yapmaktan oluşur. Bu uzun döngüyü kısaltacak herhangi bir mekanizma programcının hayatını kolaylaştırır. Vim ve <b>make</b> entegre edilerek programın derlenmesi ve test edilmesi için düzenleyiciden çıkmak zorunda olmadığınız bir düzenleyiciye kavuşursunuz. Aktif dizindeki bir makefile ile Vim içerisinden <b><tt>:make</tt></b>'i çalıştırmak işi halleder. 
+</p><p>
+	Vim'in içerisinde <b><tt>:cd</tt></b> ile dizin değiştirebilirsiniz. Nerde olduğunuzu görmek için <b><tt>:pwd</tt></b> kullanın. FreeBSD kullanmanız durumunda ve make yerine gmake'i çağırmak istediğinizde tüm yapmanız gereken <b><tt>:set makeprg=gmake</tt></b> komutu girmektir. Şimdi make'e bazı parametreler vermek istediğinizi söyleyin. Örneğin CC=gcc296 parametresini vermek istiyorsanız:
+	<b><tt>:set makeprg=gmake\ \CC=gcc296</tt></b>
+	
+	işi halleder.
+</p><p>
+	Şimdi hataları görme, kaynak kodda uygun satıra gitme ve bunu düzeltme işine gelelim. Kaynak kodda satır numaralarını görmek isterseniz <b><tt>:se</tt></b> nu bu seçimi açar, <b><tt>:se nonu</tt></b> ise satır numaralarını göstermeyi kapatır.
+</p><p>
+	Derlemeyi yaptığınızda, Vim sizi hatalı olan ilk satıra götürür. Bir sonraki hataya gitmek için <b><tt>:cn</tt></b> komutunu kullanınız. <b><tt>:cfirst</tt></b> ve <b><tt>:clast</tt></b> sizi sırasıyla ilk ve son hatanın olduğu satıra götürür. Hatayı düzelttiğinizde yeniden derleyebilirsiniz. Hata listesini tekrar görmek isterseniz <b><tt>:clist</tt></b> bunu yapar. Kullanışlı değil mi?
+</p><p>
+	Eğer başka bir kaynak kod dosyasını açmak istiyorsanız, diyelim ki foo.c, belirli bir hatayı düzeltirken <b><tt>:e foo.c</tt></b> yazın.
+</p><p>
+	Bir önceki dosyaya dönmek için dosyanın tam adını yazmaktan kurtaran bir Vim kısayolu da <b><tt>:e #</tt></b> komutudur. Vim içerisinde herhangi bir zamanda açtığınız tüm dosyaları görmek isterseniz <b><tt>:ls</tt></b> veya <b><tt>:buffers</tt></b> komutlarını kullanabilirsiniz. 
+</p><p>
+	Eğer bir sürü dosyayı açmış ve bunlardan bazılarını kapatmak istiyorsanız <b><tt>:ls</tt></b> kullanabilirsiniz. Şöyle bir çıktı verir:
+	
+	<b><tt>2 #    "newcachain.c"                 line 5</tt></b>
+	<b><tt>3 %a   "cachain.c"                    line 1</tt></b>
+</p><p>
+	Eğer newcachain.c dosyasını kapatmak istiyorsanız <b><tt>:bd 2</tt></b> veya <b><tt>:bd newcachain.c</tt></b> bu işi yapar. 
+</p><p>
+	C kodu görüntülerken çoklu fonksiyonları hızlıca es geçmek durumunda olabilirsiniz. Komut modundayken ]] tuş kombinasyonunu kullanabilirsiniz. Dosya içinde geriye doğru görüntüleme yapmak için  [[ kullanılabilir. 
+</p><p>
+	Ayrıca, belirli imleç pozisyonlarını işaretlemek için işaretler kullanabilirsiniz. Herhangi bir küçük harfi işaret olarak kullanabilirsiniz. Örneğin 256. satırı b ismiyle işaretlemek istiyorsunuz. <b><tt>:256</tt></b> ile kolayca o satıra gidin ve komut modunda mb yazın. Vim asla komut modunda yazdığınızı göstermez ama sessizce yazdığınız komutu sizin için çalıştırır. 
+	Bir önceki pozisyona gitmek için '' (iki tek tırnak) sizi oraya götürür. 'a yazarak a etiketli yere gidersiniz vs...
+</p><p>
+	Özellikle Makefile dosyalarını düzenlerken, boşlukların sekme olup olmadığını farketmek isteyebilirsiniz. <b><tt>:se list</tt></b> yazabilirsiniz ve tab olan satılarda mavi renkte <b><tt>^I</tt></b> görünür. Bunu yamanın bir başka yolu da <b><tt>/\t</tt></b> yazmaktır. Bu sekmeleri sarı olaak gösterir. 
+</p><p>
+	Global arama ve değiştirme programcılar için temel bir iştir, ve Vim her ikisini de iyi bir şekilde destekler. Komut modundayken basitçe / yazın ve anahtar kelimeyi girin. Eğer adım adım arama yapmak isterseniz, emacs'da olduğu gibi, aramadan önce <b><tt>:se incsearch</tt></b> yazın. Bunu kaldırmak istediğinizde <b><tt>:se nois</tt></b> yazın. 
+</p><p>
+	
+	Bul ve değiştir Vim'in güçlü özelliklerinden biridir. Bunu sadece v komutuyla seçtiğiniz belirli bir alanda uygulayabilirsiniz, veya sadece belirli satırlarda veya Ctrl-V ile seçtiğiniz dikdörtgensel bölgede. 
+</p><p>
+	Bölgeyi veya satır numaraları aralıklarını seçtiğinizde, örneğin <b><tt>:25,56</tt></b> 25'den 56'ya kadar olan satırları seçer (her ikisi de dahil), veya sadece bölgeyi seçtiğinizde <b><tt>:</tt></b> yazın, <b><tt>:&lt;','&gt;</tt></b> görünür. Şimdi şimdi tüm foo yazısının geçtiği yerleri bar olarak değiştirmek içn <b><tt>s/foo/bar</tt></b>  yazın.
+</p><p>
+	Fakat bu komut her satırda sadece bir değişiklik yapar. Stır içinde çoklu değiştirme yapmak isterseniz s/foo/bar/g yazın. Eğer sadece bazılarını değiştirmek istiyorsanız &#8220;confirm&#8221; seçeneğini s/foo/bar/gc ile kullanabilirsiniz.
+</p><p>
+	Bazen metin bir başka anahtar kelimenin altmetni olarak bulunabilir. Örneğin, diyelim ki &#8220;in&#8221; değişkenini değiştirmek istiyorsunuz fakat &#8220;inta&#8221; içindekini değil. Kelimenin tamamını aramak için /\&lt;in&gt;/ yazın. 
+	</p><p>
+	Daha sıklıkla bir dosyadaki tüm karşılaşmalarda global değişiklik yapmak isteyeceksiniz. Bunu hem <b><tt>:1,$s/foo/bar/g</tt></b> ile hem de <b><tt>:%s/foo/bar/g</tt></b> ile yapabilirsiniz. Bunu açmış olduğunuz tüm dosyalarda yapmak isterseniz <b><tt>:bufdo %s/foo/bar/g</tt></b> yazabilirsiniz.
+</p><p>
+			Bir başa aram yöntemi ise komut moduna geçerek <b><tt>*</tt></b> ve anahtar kelime yazmaktır. Şimdi dosya içinde geçtiği herhangi bir yerde ışıklandırılmış olacaktır. Geriye doğru aramak da basittir; arama yaparken / yerine ? yazınız.
+			Arama bittiğinde Vim bunu hatırlar, böylece bir daha aynı anahtar kelimeyi arayacağınız zaman tüm metni yazmak yerine adece <b><tt>/</tt></b> veya <b><tt>?</tt></b> yazabilirsiniz.
+		</p><p>
+	Aramanın bir yan etkisi metinlerin ışıklandırılmış olarak kalmasıdır. Bu programları düzenlerken rahatsızlık verebilir. <b><tt>:se nohlsearch</tt></b>, <b><tt>:nohlsearch</tt></b> veya <b><tt>:nohl</tt></b> yazarak ışıklandırmayı kapatabilirsiniz. 
+</p><p>
+	Komutların tamamlanması için her zaman Tab tuşunu kullanabilirsiniz. Örneğin <b><tt>:nohl&lt;Tab&gt;</tt></b> yazdığınızda Vim sizin için bunu tamamlar. Bu genel olarak kullanılabilir, ve Vim komutu bulana kadar Tab'a basmaya devam edebilirsiniz.
+	</p><p>
+				
+				Exuberant ctags ile Vim'in kaynak kodu idare etmesi için etiketler üreten harici bir programdır. Bütün kaynak kodunuz sadece bir dizinin içinde ise o dizine geçerek şu komutu verin:
+				<b><tt>$ ctags</tt></b>
+			</p><p>
+				Bu tags isminde bir dosya üretir. Vim bunu fonksiyonlara, sayımlama sabitlerine (enum) ve #define satırlarına sıçramak için kullanır. 
+				Eğer kaynak kod değişik dizinlere dağılmışsa ctags bunları belirli bir dizine bağıl olarak üretmek zorundadır. Bunu yapmak için kaynak kodların kök dizinine gidin ve şu komutu girin:
+				
+				<b><tt>$ ctags -R</tt></b>
+			</p><p>
+				tags dosyasının üretilip üretilmediğini kontrol edin. tags dosyasını da Vim ile açıp okuyabilirsiniz ayrıca. 
+				Şimdi etiketleri kullanarak kaynak kod içinde gezinelim. ctags kullanarak kaynak kod içinde gezinmek bir programcı için en büyüleyici araçlardan biridir. 
+			</p><p>
+	tags dosyası oluşturulduktan sonra dosyayı Vim ile normal bir şekilde açın. Dosya çok derinlerde değilse kök dizinden açın. Örneğin kaynak kodunuzun dizin yapısı şöyle olsun:
+</p><p>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">common
+|
+----&gt; gui --&gt; wxpython
+|       |
+|       ------&gt;Tk
+|
+----&gt; backend --&gt; networking
+	
+include
+
+user</pre> </td></tr></table></div>
+			</p><p>
+					common/backend/networking dizini içerisindeki tcp.c dosyasını düzenlemek isterseniz 
+					<b><tt>$ cd common/backend/networking</tt></b>
+					ve
+					<b><tt>$ vim tcp.c</tt></b>
+					komutlarının yerine
+					<b><tt>$ vim common/backend/networking/tcp.c</tt></b>
+					tags dosyası common dizininin üzerinde bulunur, ve Vim otomatik olarak dosyanın yerini bu şekilde bilir. 
+					Alternatif olarak yukarıda bahsedilen ikinci metodla dosyayı açabilirsiniz ve bunu Vim'in içinden çalıştırabilirsiniz:
+					<b><tt>:se tags=../../../tags</tt></b>
+				</p><p>
+					
+					İlk metod gezinme için uygundur. Dosyayı açtığınızda bir fonksiyon tanımından diğerine <b><tt>Ctrl-]</tt></b> tuş kombinasyonuyla kolayca sıçrayabilirsiniz. 
+					Herhangi bir şeyin tanımlandığı yere gitmek için imleç onun üzerinde iken basitçe <b><tt>Ctrl-]</tt></b> tuşlayabilirsiniz. Böylece çağırıldığı yerden tanımlandığı yere gidebiliriz. Sizi oraya hangi dosya içinde olduğuna bakmazsızın götürür. tp.c içinde drawscreen()'i çağırdığımızı farzedelim, sizi otomatik olarak oraya götürür, dosya common/gui içinde olsa bile.
+				</p><p>
+	Bir önceki okuduğunuz yere dönmek isterseniz <b><tt>Ctrl-T</tt></b> tuşlayınız ve kaldığınız yere dönersiniz. Oradan tekrar <b><tt>Ctrl-]</tt></b> ile bir başka çağırıma gidebilirsiniz. Bu işlemi sınırsız olarak tekrar edebilirsiniz ve her seferinde <b><tt>Ctrl+T</tt></b> ile geri dönersiniz. 
+</p><p>
+					Bir fonksiyon tanımını bulmanın bir başka yolu eğer isminin sadece bir kısmını biliyorsanız:
+					
+					<b><tt>:ta /function</tt></b>
+					Bu komut eğer bir çok eşleşme varsa sizi ilk eşleşmeye götürür. Bir sonraki eşleşen yere :tn ile gidebilirsiniz.
+				</p><p>
+	Eğer çoklu tanımlama varsa ve bunların arasından birini seçmek isterseniz <b><tt>G Ctrl-]</tt></b> tuşlayabilirsiniz veya <b><tt>:tselect &lt;etiketadı&gt;</tt></b> komutunu girebilirsiniz. Bu şekilde etiketler arasında hangi dosyanın içinde olduğunu bilmeksizin dolaşarak kaynak kodu düzenleyebilirsiniz. 
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="vim-for-c-programmers-intro-cscope"></a>cscope ile Vim</h3></div></dt><dd><p>
+	Cscope çeşitli aramalar yapabileceğimiz güçlü bir başka kaynak kodda gezinme aracıdır. Örnek bir Cscope menu çıktısı şöyledir:
+</p><p>
+	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Find this C symbol:
+Find this global definition:
+Find functions called by this function:
+Find functions calling this function:
+Find this text string:
+Change this text string:
+Find this egrep pattern:
+Find this file:
+Find files #including this file:</pre> </td></tr></table></div>
+				</p><p>
+	Şimdi, Vim repertuarına Cscope'u da eklemiştir. Aynı özellikleri Vim'in rahatlığından Cscope içinde kullanmak programcılar için elverişlidir. Tüm yapmanız gereken <b><tt>:cs add cscope.out</tt></b> ile Cscope bağlantısını kurmaktır. 
+</p><p>ctags'dan sözederken daha önce bahsettiğimiz gibi, Cscope cscope.out isminde bir indeks üretir. Bunun için şu komutu çalıştırırız:
+						
+						<b><tt>$ cscope -Rbq</tt></b>
+</p><p>
+	Bu cscope.out dosyasını üretir. Bu da Ctags gibi kaynak kodun kök dizininden çalıştırılır. Yine önceki gibi kaynak kod kök dizinine bağıl olarak dosyayı açarsınız, ve <b><tt>:cs add cscope.out</tt></b> ile Cscope bağlantısını yaparsınız. <b><tt>:cs show</tt></b> ile varolan Cscope bağlantısını doğrulayabilirsiniz.
+</p><p>
+	Vim'in içerisinde ne aratabileceğiniz <b><tt>:cs&lt;CR&gt;</tt></b> ile görülebilir. Örneğin belirli bir dosyaya gitmek için, bir başlık veya kaynak kod dosyası için basitçe <b><tt>:cs f f stdio.h</tt></b> (stdio.h'ı açmak için) veya <b><tt>:cs f f foo.c</tt></b> yazabilirsiniz.
+</p><p>
+	foo.c fonksiyonu tarafından çağırılan bir fonksiyonu aramak için <b><tt>:cs f d foo.c</tt></b> yazınız. Bu foo.c tarafından çağırılan fonksiyonların listesini verir. foo.c'yi çağıran fonksiyonlar için <b><tt>:cs f c foo.c</tt></b>.
+</p><p>
+	Bir egrep örüntüsü için <b><tt>:cs f e varName</tt></b> vb. Kullanılabilecek seçenek listesi için <b><tt>:cs</tt></b> yazınız. Bu kullanabileceğiniz seçenek aralığını görüntüler.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="vim-for-c-programmers-intro-light"></a>Vim ve  Sözdizim Işıklandırma</h3></div></dt><dd><p>Vim'in diğer düzenleyici veya IDE'lerle karşılaştırıldığında onların bileğini bükebileceği bir özelliği varsa o da tam-donanımlı sözdizim ışıklandırmadır. Vim'de renk kullanımı kaynak kodla çalışmayı gerçek bir eğlenceye dönüştürür. Sadece hayatınızı renklendirmez, ayrıca derlemeden sonraki hatalarında kolayca vurgulanmasını sağlar. ),} veya ] eşleşmemesi gibi genel hataları kodda görmek çok kolaydır. Sizi ayrıca strinlerdeki &#8220; veya ' eksikliğinde de uyarır. Sizi açıklama satırı */ ile kapatılmadığı şeklinde veya iç içe açıklama satırı olduğu yönünde uyarır. Sözdizim ışıklandırma C sözdizimine gelindiğinde akıllıcadır.
+						</p><p>
+	Tipik olarak Vim'in sözdizim ışıklandırma özelliğini aktifleştirmek için birşey yapmanız gerekmez; <b><tt>:sy on</tt></b> dağıtımınızın bunu varsayılan olarak desteklemediği durumda kullanılır. Diğer komutlarda olduğu gibi bunu da ~/.vimrc dosyasına ekleyebilirsiniz. 
+Renkler hala gözükmezse terminalinizle ilgili bir problem var demektir. Önce onu düzeltin. <b><tt>:sy enable</tt></b> komutuna ek olarak <b><tt>:se filetype on</tt></b> bunu yapabilmenin bir başka yoludur.
+</p><p>
+	Renkleri düzgünce görüntülediğinizi farzedelim. Diyelim ki bazı renklerden hoşlanmıyorsunuz, veya mavi koyu zeminde görünmüyor diye C açıklama satırlarını okuyamıyorsunuz. İkinci problemi çözmek için sadece <b><tt>:se backgroun=dark</tt></b> yazmak yeterli. C açıklama satırları için sözdizim ışıklandırma özelliğini kaldır istiyorsanız  <b><tt>:highlight clear comment</tt></b> yazınız.
+	Renkleri değiştirmek için önce <b><tt>:syntax</tt></b> komutunu kullanarak verilen çalışma ortamı için tüm sözdizim elemanlarını listeleyin. Sonra değiştirmek istediğiniz sözdizim grubunu belirtin. Stringlerin parlak beyaz renkte gözükmesi için -ki böylece siyah zeminde daha kolay okunur- şunu yazın
+	<b><tt>:highlight String ctermfg=white</tt></b>
+	veya gvim kullanıcıları için:
+	<b><tt>:highlight String guifg=white</tt></b>
+</p><p>
+	Ayrıca herhangi bir sözdizim grubunun rengini de değiştirebilirsiniz. Tipik sözdizim grupları şunlardır: Statement, Label, Conditional, Repeat, Todo ve Special. Işıklandırmanın altı çizili veya kalın gibi özniteliklerini de ayrıca değiştirebilirsiniz. Örneğin NOTE, FIXME, TODO ve XXX gibi yazıların altı çizili görünmesini istiyorsanız şunu kullanabilirsiniz:
+	<b><tt>:highlight Todo cterm=underline</tt></b>
+	veya hem kalın hem de renk özelliğini ekleyebilirsiniz: 
+	<b><tt>:highlight Repeat ctermfg=yellow cterm=bold</tt></b>
+</p><p>
+	Kendi özel ışıklandırma komut setinizi oluşturup ~/.vimrc dosyasına yazarak her kaynak kod düzenlemesinde belirlediğiniz renkleri görebilirsiniz.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="vim-for-c-programmers-intro-var"></a>Vim ve Değişken İsmi Tamamlama</h3></div></dt><dd><p>
+Ek olarak Vim değişken ismi tamamlama özelliğine sahiptir. Yazarken Ctrl+N veya ekleme modunda Ctrl+P tuşlayınız. Unutmayın bu sadece ekleme modunda işe yarar. Yukarıda bahsi geçen tüm komutlar komut modunda çalışır. Mümkün olan diğer tamamlama seçenekleri için Ctrl+N'ye tekrar tekrar basabilirsiniz. 
+</p><p>
+	Bu yazarken hata yapmamızı engeller çünkü yapı üyeleri ve fonksiyon isimleri sıklıkla yanlış yazılabilir. Bu en iyi Vim'in ctags'ı kullandığı zaman çalışır, bu yüzden ctags dosyasının yerinde olduğundan emin olun.
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="vim-for-c-programmers-intro-source"></a>Vim ve Kaynak Kod Biçimlendirme</h3></div></dt><dd><p>
+	Vim C'yi kodu girintili gösterecek kadar iyi anlar. Varsayılan girintileme seçeneği tab kullanır. Bu bazıları için uygun olmayabilir. Kaynak koddan tabları tamamen kaldırmak için şunu giriniz:
+	<b><tt>:set expandtab</tt></b>
+	<b><tt>:retab</tt></b>
+</p><p>
+	Bu tüm tabları boşluğa dönüştürür, bu da girintilemenin devfamını sağlar. C metni yazarken Vim otomatik olarak girintilemeyi sizin için yapar. Bu eşleşen parantezleri farketmenizi sağlar. Komut modundayken ),] ve }'leri % komutuyla eşleştirebilirsiniz. Sadece imleci paranteze götürün % komutunu girin. Sizi ilgili diğer açılan veya kapanan paranteze götürür. Bu açıklama satırlarında ve #if, #ifdef ve #endif ifadelerinde de çalışır.
+</p><p>
+	Programı yazmayı bitirdikten sonra tüm dosyayı bir seferde girintilemek için gg=G komutunu girin. Sonra isterseniz yukarıda bahsedildiği gibi tüm tabları kaldırabilirsiniz. gq açıklama satırlarını girintilemek için olan komuttur. Bir bölgeyi seçip onu da = operatörüyle girintileyebilirsiniz. 
+</p><p>
+	Eğer Vim'in varsayılan tab girintilemesi kullanımı eziyetli ise <b><tt>:se nocindent</tt></b> ile bunu pasifleştirebilirsiniz. Diğer girintileme seçenekleri de mevcuttur. İki parantez arasındaki veya belirli iki satır arasındaki kodu da girintileyebilirsiniz. <b><tt>:help indent.txt</tt></b> yazarak daha fazlasını öğrenebilirsiniz.
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/vim-for-c-programmers.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/vim-for-c-programmers.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/vim-for-c-programmers-conc.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">C Programcıları için Vim </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Sonuç</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>
