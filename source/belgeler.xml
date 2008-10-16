@@ -90,6 +90,7 @@
       &ldap-howto.xml;
       &kerberos-howto.xml;
       &p8021x-howto.xml;
+      &ipsec-howto.xml;
       &freeradius-sql-howto.xml;
       &Disk-Encryption-HOWTO.xml;
       &encrypted-rootfs-howto.xml;
@@ -111,7 +112,6 @@
       &cluster-howto.xml;
       &secure-boot-cd.xml;
       &beowulf-howto.xml;
-      &ipsec-howto.xml;
       &ipv6-howto.xml;
       &mobil-ipv6-howto.xml;
       &olsr-ipv6-howto.xml;
