@@ -15,12 +15,10 @@
         <address><email>ian@excess.org</email></address>
       </affiliation>
     </author>
-    <pubdate>Temmuz 2005</pubdate>
 <copyright><year>2003, 2004, 2005</year><holder>Lan Ward - Özgün belge</holder></copyright><sbr/>
 <copyright><year>2005</year><holder>Oğuz Yarımtepe - Türkçe çeviri</holder></copyright>
     <legalnotice><title>Yasal Açıklamalar</title>
-      <para>
-Bu belgenin çevirisinin, <emphasis>Debian ve Windows Paylaşımlı Yazdırma Nasıl</emphasis> 1.0 sürümünün <emphasis role="bold"> telif hakkı © 2005 <emphasis>Oğuz Yarımtepe</emphasis></emphasis>'ye aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan GNU Özgür Belgeleme Lisansının 1.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/copyleft/fdl.html"/>  adresinde bulabilirsiniz.
+      <para>Bu belgenin çevirisinin, <emphasis>Debian ve Windows Paylaşımlı Yazdırma Nasıl</emphasis> 1.0 sürümünün <emphasis role="bold"> telif hakkı © 2005 <emphasis>Oğuz Yarımtepe</emphasis></emphasis>'ye aittir. BBu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan GNU Genel Kamu Lisansının 2.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını http://www.gnu.org/licenses/gpl.html adresinde bulabilirsiniz.
     </para><para>
 BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN
 İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ
@@ -93,6 +91,10 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
     <revremark>LaTeX'ten DocBook XML'e dönüşüm.</revremark>
    </revision>
   </revhistory>
+  <abstract>
+	  <para>Bu belgede Debian sisteminizde yazıcı yapılandırması için konsol tabanlı komutları nasıl kullanacağınız gösterilecektir. Linux'tan Windows yazıcılara nasıl belge gönderileceği ve Linux yazıcılarının Windows bilgisayarlara nasıl paylaştırılacağı açıklanacaktır. Bazı sorun giderme örnekleri de verilmiştir.</para>
+	  <para>Bu belgenin İngilizce sürümünü <ulink url="http://excess.org/docs/linux_windows_printing.html"> bu adreste</ulink> bulabilirsiniz.</para>
+     </abstract>
   </articleinfo>
 
 <sect1 id="linux_windows_printing_intro">
@@ -197,8 +199,13 @@ Eğer yazıcınız USB portuna bağlıysa veya yazıcınız için doğru aygıt 
   </sect2>
   <sect2 id="linux_windows_printing_temel">
   <title>Linux'ta Temel Yazdırma İşlemleri</title>
+  <para><figure id="linux_windows_printing_temel-yerel"><title>Yerel Yazdırma</title>
+		  <mediaobject><imageobject>
+				  <imagedata fileref="debian/printing_basics.png" format="PNG" align="center" scalefit="1"/>
+			  </imageobject></mediaobject></figure>
+  </para>
   <para>
-Belgelerin ya  <userinput>lpr</userinput> veya <userinput>lp</userinput> komutuna dosya adları ile belirtilerek yazıcı kuyruğunda bekletilmesi sağlanır. Yazıcı kuyruğunu ve yazıcının durumunu <userinput>lpstat -o</userinput> veya <userinput>lpstat -p</userinput> komutu ile görebilirsiniz. Bir yazma işini iptal etmek için <userinput>cancel</userinput> veya <userinput>lprm</userinput> komutunda yazdırma iş numarasını kullanın.
+Belgelerin ya <userinput>lpr</userinput> veya <userinput>lp</userinput> komutuna dosya adları ile belirtilerek yazıcı kuyruğunda bekletilmesi sağlanır. Yazıcı kuyruğunu ve yazıcının durumunu <userinput>lpstat -o</userinput> veya <userinput>lpstat -p</userinput> komutu ile görebilirsiniz. Bir yazma işini iptal etmek için <userinput>cancel</userinput> veya <userinput>lprm</userinput> komutunda yazdırma iş numarasını kullanın.
   </para><para>
 CUPS, yazıcı kuyruğunda bekletme artalan süreci <emphasis>cupsd</emphasis> olarak isimlendirilir. Önce belgeleri PostScript biçimine daha sonra da yazıcının anlayabileceği bir biçime çevirir. PostScript biçimini algılayamayan yazıcılar, belgeler için, ızgaralanmış (rasterized) veya biteşlem (bitmap) biçimini kullanır. Izgaralanmış belgelerin boyu PostScript halinden daha büyük olabilir ve bu da yazıcıya gönderilme zamanını arttırır.
   </para><para>
@@ -207,10 +214,14 @@ Filtreler, belgeleri bir biçimden diğerine dönüştürmek için kullanılan a
 Pek çok uygulama kendi belge biçimleri için filtreler içermez. Bu uygulamalar ile oluşturulan belgeler, yalnızca uygulamanın içerisinden yazdırılabilir, aksi halde belgenin PostScript biçimine veya başka bir biçime dönüştürülmesi gerekir.
   </para></sect2>
 </sect1>
-<sect1 id="linux_windows_printing_windowsa-yazdirma">
-  <title>Windows Makinalara Yazdırma</title>
-  <sect2 id="linux_windows_printing_windowsa-baglanma">
-  <title>Windows Makinalara Bağlanma</title>
+<sect1 id="linux_windows_printing_windowsa-yazdirma"><title>Windows Makinalara Yazdırma</title>
+  <sect2 id="linux_windows_printing_windowsa-baglanma"><title>Windows Makinalara Bağlanma</title>
+	  <para><figure id="linux_windows_printing_windowsa-baglanma-ag"><title>Ağ'da Yazdırma</title>
+			  <mediaobject><imageobject>
+					  <imagedata fileref="debian/to_windows.png" format="PNG" align="center" scalefit="1"/>
+				  </imageobject></mediaobject></figure>
+  </para>
+	  
     <para>
 SMB ve CIFS, Windows dosya ve yazıcı paylaşım protokolleridir. Bu protokolleri kullanan Windows makinalarla iletişim kurabilmek için SAMBA'yı kullanıyoruz. CUPS'u yapılandırmadan önce, Windows makinalara  <userinput>smbclient</userinput> ile bağlanabileceğimizden emin olmalıyız.
     </para><para>
@@ -269,10 +280,15 @@ Yazıcınız artık sınanmaya hazır. <userinput>lp</userinput> komutunu takip 
     </para>
   </sect2>
 </sect1>
-<sect1 id="linux_windows_printing_windows_ile_paylasim">
-  <title>Yazıcıları Windows Makinalarla Paylaşmak</title>
-  <sect2 id="linux_windows_printing_paylasim_temelleri">
-    <title>Paylaşım Temelleri</title>
+<sect1 id="linux_windows_printing_windows_ile_paylasim"><title>Yazıcıları Windows Makinalarla Paylaşmak</title>
+  <sect2 id="linux_windows_printing_paylasim_temelleri"><title>Paylaşım Temelleri</title>
+	  <para><figure id="linux_windows_printing_paylasim_temelleri-png"><title>Yazıcı Paylaşımı</title>
+			  <mediaobject><imageobject>
+					  <imagedata fileref="debian/from_windows.png" format="PNG" align="center" scalefit="1"/>
+				  </imageobject></mediaobject></figure>
+	</para>
+	  
+	  
     <para>
 Samba, <emphasis>nmbd</emphasis> ve <emphasis>smbd</emphasis> artalan süreçlerini Windows makinalarla dosya ve yazıcı paylaşmak için kullanmaktadır. <emphasis>nmbd</emphasis> Windows isimlendirme servisi gibi hareket ederek ağda bulunan Windows makinalara makina adınızı yayınlar. <emphasis>smbd</emphasis>, Windows makinalardan gelen yazıcı ve dosya isteklerini karşılar.
     </para><para>
