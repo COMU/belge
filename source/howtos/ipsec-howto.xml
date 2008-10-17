@@ -69,9 +69,9 @@
 	<para><itemizedlist>
 		<listitem><ulink url="http://www.tldp.org/HOWTO/Networking-Overview-HOWTO.html">Networking Overview HOWTO</ulink></listitem>
 		<listitem><ulink url="http://www.tldp.org/HOWTO/Net-HOWTO/index.html">Networking HOWTO</ulink></listitem>
-		<listitem><ulink url="http://www.tldp.org/HOWTO/Net-HOWTO/index.html">VPN-Masquerade HOWTO</ulink></listitem>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/VPN-Masquerade-HOWTO.html">VPN-Masquerade HOWTO</ulink></listitem>
 		<listitem><ulink url="http://www.tldp.org/HOWTO/VPN-HOWTO/">VPN HOWTO</ulink></listitem>
-		<listitem><ulink url="http://www.tldp.org/HOWTO/VPN-HOWTO/">Advanced Routing &amp; Traffic Control HOWTO</ulink></listitem>
+		<listitem><ulink url="http://www.tldp.org/HOWTO/Adv-Routing-HOWTO/">Advanced Routing &amp; Traffic Control HOWTO</ulink></listitem>
 	</itemizedlist></para>
 	</sect2>
 </sect1>
