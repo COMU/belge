@@ -46,28 +46,27 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
   </legalnotice>
     
   <abstract><para>Bu belge bir yazılımın hatasını etkin bir şekilde raporlamak için izlenmesi gerekenleri açıklamaktadır.</para>
+	  <para>Bu belgenin;
+		  
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">Almanca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">Çekce</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">Çince</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-da.html">Danca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">Fransızca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-nl.html">Hollandaca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-it.html">İtalyanca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">İspanyolca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-pl.html">Lehçe</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-hu.html">Macarca</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-br.html">Portekizce</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-ru.html">Rusça</ulink>,
+		  <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-tw.html">Tayvanca</ulink>,
+		  <ulink url="http://docs.comu.edu.tr/howto/report-bug-howto.html">Türkçe</ulink>.
+		  çevirileri bulunmaktadır.	
+  		</para>
+	  <para>	Belgenin ingilizce orjinaline <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs.html">buradan</ulink> ulaşabilirsiniz. </para>
 	  </abstract>
 </articleinfo>
-
-<bridgehead renderas='sect2'>Çeviriler</bridgehead>
-<para>
-	Çeviriler:
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">Almanca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">Çekce</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">Çince</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-da.html">Danca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">Fransızca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-nl.html">Hollandaca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-it.html">İtalyanca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-de.html">İspanyolca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-pl.html">Lehçe</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-hu.html">Macarca</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-br.html">Portekizce</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-ru.html">Rusça</ulink>,
-	<ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs-tw.html">Tayvanca</ulink>,
-	<ulink url="http://docs.comu.edu.tr/howto/report-bug-howto.html">Türkçe</ulink>.
-	Belgenin ingilizce orjinaline <ulink url="http://www.chiark.greenend.org.uk/~sgtatham/bugs.html">buradan</ulink> ulaşabilirsiniz. 
-  </para>
 
 <sect1 id="report-bug-howto-intro"><title>Giriş</title>
 	<para>Kamuya açık bir program yazan herkes en azından bir kötü hata raporu alacaktır; hiç bir şey söylemeyen raporlar ("çalışmıyor"), anlamsız raporlar, yeterli bilgi içemeyen raporlar, <emphasis>hatalı</emphasis> bilgi veren raporlar. Aslında kullanıcı hatalarından, başka programların hatalarından veya ağ problemlerinden kaynaklanan hataların raporları.</para>
@@ -76,6 +75,7 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
 	<para>Kısaca, bir hata raporunun amacı programcının yazdığı programın zayıflıklarından haberdar olmasını sağlamaktır. Hatanın nasıl oluştuğunu kişisel olarak gösterebileceğiniz gibi dikkatli ve detaylı yönlendirmelerle de tarif edebilirsiniz. Eğer programcı hatayı tekrarlayabilirse nedenini anlamak için ilave bilgiler toplayacaktır. Bunu yapamazsa gerekli bilgileri sizin toplamanızı isteyecektir.</para>
 	<para>Hata raporlarında nelerin gerçek ("Bilgisayarımdaydım ve şunlar oldu"), nelerin tahminleriniz ("Problemin bu olduğunu <emphasis>düşünüyorum</emphasis>") olduğunu olabildiğince açık bir şekilde belirtin. İsterseniz tahminlerinizi yazmayabilirsiniz ama gerçekleri saklamayın.</para>
 	<para>Bir hatayı rapor ettiğinizde bunu o hatanın giderilmesi için yaparsınız. Programcıya sövmenin ya da kasten yardımcı olmamanın anlamı yoktur: karşılaştığınız şey gerçekten onların hatası olabilir, onlara kızmakta da haklı olabilirsiniz ama onlara ihtiyaç duydukları bilgileri sağlarsanız hata daha hızlı onarılacaktır. Ayrıca kullandığınız program bir özgür yazılım ise yazarı bu programı nezaketinden sürdürüyor demektir. Eğer çok fazla kişi kaba davranırsa bu iyiliklerini devam ettirmeyebilirler.</para>
+	
 </sect1>
 <sect1 id="report-bug-howto-doesntwork"><title>"Çalışmıyor"</title>
 	<para>Programcının temel zeka seviyesine sahip olduğunu kabul edin: eğer program hiç çalışmıyor olsaydı muhtemelen bu durumun farkında olurlardı. Farkında olmadıklarına göre program onlar için çalışıyor olmalıdır. Bu yüzden ya onlardan farklı bir şey yapıyorsunuzdur ya da ortamınız onlarınkinden farklıdır. Onlara ihtiyaç duydukları bilgiyi ulaştırmak hata raporlamanın temel nedenidir. Fazla bilgi her zaman eksik bilgiden iyidir.</para>
