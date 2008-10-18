@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="computer-science-education" lang="tr">
+<articleinfo>
+	<title>Bilgisayar Bilimi Eğitimi: Yarının Yazılım Mühendisleri Nerede?</title>
+  <authorgroup>
+    <author role="translator">
+      <firstname>A.Kemal Ökmen</firstname>
+      <affiliation>
+        <address><email>kemal@comu.edu.tr</email></address>
+      </affiliation>
+    </author>
+    <author>
+	    <firstname>Robert B.K.</firstname>
+	    <surname>Dewar</surname>
+	    <affiliation>
+		    <address><email>dewar@adacore.com</email></address>
+      </affiliation>
+    </author>
+    <author>
+	    <firstname>Edmond</firstname>
+	    <surname>Schonberg</surname>
+	    <affiliation>
+		    <address><email>schonberg@adacore.com</email></address>
+      </affiliation>
+    </author>
+  </authorgroup>
+    <revhistory>
+      <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>18 Ekim 2008</date>
+        <authorinitials>AKÖ</authorinitials>
+        <revremark>İlk çeviri</revremark>
+      </revision>
+    </revhistory>
+<revhistory>
+<para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+<revision>
+        <revnumber>2008-1</revnumber>
+        <date>Ocak 2008</date>
+        <authorinitials>Rbkd es</authorinitials>
+        <revremark>CrossTalk Journal'da belgenin yayınlanması</revremark>
+    </revision>
+
+  </revhistory>
+
+  <copyright><year>2008</year><holder>Robert B.K. Dewar &amp; Edmond Schonberg</holder></copyright><sbr/>
+<copyright><year>2008</year><holder>A.Kemal Ökmen - Türkçe çeviri</holder></copyright>
+<legalnotice>
+	<title>Yasal Açıklamalar</title>
+	<para>
+		Bu belgenin, 
+		<emphasis> Bilgisayar Bilimi Eğitimi:Yarının Yazılım Mühendisleri Nerede? 
+		</emphasis> çevirisinin 1.0 sürümünün 
+		<emphasis role="bold"> telif hakkı © 2008 
+			<emphasis>A.Kemal Ökmen</emphasis>'e
+		</emphasis>, özgün İngilizce sürümünün  
+		<emphasis role="bold"> telif hakkı © 2005 
+			<emphasis>Robert B.K. Dewar</emphasis>'a ve 
+			<emphasis>Edmond Schonberg</emphasis>'e 
+		</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan GNU Genel Kamu Lisansının 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+	</para>
+	<para>
+		BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+	</para>
+	<para>
+		İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+	</para>
+	<para>
+		Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+	</para>
+</legalnotice>
+<abstract>
+	<para>Özellikle programlama ve formal yöntemler alanlarında Bilgisayar Bilimi eğitiminin ihmal edildiğini gözlemliyoruz. İlk öğrenilen programlama dili olarak Java'nın benimsenmesinin bu düşüşün sorumlusu olduğunu düşünüyoruz. Bu belgede her yazılımcının repartuarında olması gereken programlama yeteneklerini kısaca inceliyoruz.
+	</para>
+	<para>Belgenin ingilizce orjinaline <ulink url="http://www.stsc.hill.af.mil/CrossTalk/2008/01/0801DewarSchonberg.html"> buradan</ulink> ulaşabilirsiniz.
+	</para>
+</abstract>
+</articleinfo>
+
+<sect1 id="computer-science-education-intro"><title>Giriş</title>
+
+<para>
+	Konu tamamen programlama hakkında! Bilgisayar Bilimi eğitiminde geçtiğimiz birkaç yılda kaygılandırıcı eğilimler olduğunu gözlemledik. Aşağıdakiler bu eğilimleri temsil ediyor:
+</para>
+<para>
+	<orderedlist>
+		
+			<listitem>
+				<para>Bilgisayar Bilimi programlarında matematiksel bilgi gereksinimleri azalıyor.</para>
+			</listitem>
+		
+		
+			<listitem>
+				<para>
+				Bir çok programlama dilinde programlama yeteneklerinin geliştirilmesi, yerini geniş ve özel-amaçlı kütüphanelerin kullanıldığı cookbook tarzı bilgilerin kullanılmasına bırakıyor.
+			</para>
+			</listitem>
+		
+		
+			<listitem>
+				Sonuçta geliştirilen yetenekler bugünün yazılım endüstrisi için yetersiz (özellikle güvenlik alanında) ve, malesef bu, dış kaynak kullanım ( outsourcing ) endüstrisinin ileri sürdüğü şeyle benzeşiyor.
+			</listitem>
+		
+	</orderedlist>
+</para>
+<para>
+	Bu eğilimler, Association for Computing Machinery (ACM)'nin son müfredat tavsiyelerinde görülebilir. 2005 müfredatı matematiksel önkoşullarından tam olarak bahsetmiyordu ve programlama dilleri teorisinde  sadece bir derste bahsedilmişti.
+</para>
+<para>
+	Bu gelişmelere her iki açıdan da bakıyoruz: Onlarca yıldır  New York University fakülte üyesi olarak, bir çok bilgisayar bilimi bölümünde Java'nın başlangıç dili olmasından pişmanlık duyuyoruz. Bu seçimin öğrencilerimizin formasyonunu nasıl zayıflattığını gördük. Bunu aldıkları sistem ve mimari kurslarında gözlemledik. Görev-kritik sistemler için Ada programlama araçları üzerine uzmanlaşmış bir şirket kurucuları olarak, doğru temel yeteneklere sahip kalifiye elemanlar bulmanın zor olduğunu gördük. Daha önceki formal yöntemlerin sonucu olan ve programlama dillerinin bilgisayar bilimlerinin merkezinde yer aldığı daha titiz bir formasyonu savunmak istiyoruz.
+</para>
+	
+
+</sect1>
+<sect1 id="computer-science-education-formal"><title>Formal Yöntemler ve Yazılım İnşası</title>
+	<para>20 yıl önce programların doğruluğunu kanıtlamak için formal teknikler kullanımı son derece aktif bir araştırma konusuydu. Bununla birlikte, o zamanların yöntemleri (ve donanımları) bu tekniklerin yaygınlaşmasını engelledi. Sonuç olarak Bilgisayar Bilimi programlarında az ya da çok ihmal edildiler. Bu çok yazık, çünkü geliştirilen teknikler geniş-ölçekli sistemlerde ve bu sistemlerin güvenilirliğini ciddi bir şekilde katkı sağlama konusunda kullanılabilirler. Bu duruma bir örnek İngiltere'deki yer-merkezli hava trafik kontrol sisteminin yeniden yapılanmasında SPARK kullanılmasıdır (iFACTS – Interim Future Area Control Tools Support, bkz. <ulink url="http://www.nats.co.uk/article/90"/>). SPARK Ada'nın alt kümesidir ve tasarımcıya programın önemli bileşenlerini kanıtlama özellikleriyle genişletilmiştir: sonlandırma, çalışma-anı istisnalarının varlığı, sonlu bellek kullanımı vb. [2]. Açıktır ki bu tür tasarım ve analiz yöntemi (İnşaanın doğruluğu) tasarımı SPARK ile başlanılmış olan sistemin güvenilirliğini oldukça arttıracak. Bununla birlikte, SPARK'ı geliştiren ve iFACTS'ı tasarlayan şirket PRAXIS, matematiksel yeterliliği olan çalışan istihdam etmekte zorluk çekmiştir (ve bu formal yöntemlerin daha çok öğretildiği İngiltere'de bile böyledir ).
+	</para>
+	<para>
+		CS (Computer Science – Bilgisayar Bilimi) öğrencilerinin açık olmaları gerektiği bir başka formal yaklaşım ise model kontrolü ve eşzamanlı (concurrent) sistemlerin tasarımı için doğrusal geçici mantıktır. Konunun, kritik-görev yazılımlarının merkezi olan, modern bir tartışması için bakınız [3].
+	</para>
+	<para>
+
+		Bilgisayar biliminin bir başka ihmal edilmiş alanı ise kayan-noktalı (floating-point) hesaplamadır. New York Üniversitesinde nümerik metodlar ve kayan-noktalı hesaplama dersi zorunlu olmalı, fakat bu zorunluluktan yıllar önce vazgeçildi ve şimdi çok az öğrenci bu dersi alıyor. Konu tüm bilimsel ve mühendislik yazılımları için hayati önemdedir ve çok hassastır. Bu, bilimsel programlamayla ilgili tüm derslerin gerekli bir parçası olarak düşünülebilir fakat böyle düşünüenler genellikle Matlab'ı evrensel programlama aracı olarak alırlar ve konuyu tamamiyle gözardı ederler.
+	</para>
+</sect1>
+<sect1 id="computer-science-education-java"><title>İlk programlama dili olarak Javanın tehlikesi</title>
+	<para>
+		Web uygulamalarındaki popülerliği dolayısıyla ve yeni başlayanların kolayca grafiksel programlama yapmasına izin vemesinden dolayı Java, programlamaya giriş derslerinde en yaygın gösterilen bir dil haline geldi. Bunu programlamanın daha eğlenceli hale getirilmesinde yanlış bir çaba olarak görüyoruz. Belki de dot-com iflaslarına reaksiyon olarak CS kayıtları düştü. New York Üniversitesinde gözlemlediğimiz şey, Java programlama dersleri öğrencilerimizi ilk sistem dersine hazırlamıyor, en gelişmiş olanlarında bile. Öğrenciler grafik arayüzü olmayan ortamlarda program yazmakta zorlanıyorlar, kaynak kod ve program arasındaki ilişkiyi kuramıyorlar ve donanımın aslında ne yaptığını bilemiyorlar ayrıca (ve de en tehlikelisi) göstericilerin anlamını tam olarak bilmiyorlar. Bu da C ile sistem programlamayı tamamen imkansız hale getiriyor doğal olarak.
+	</para>
+	<para>
+		Şimdi şu öneriyi dikkate alalım: Programlamanın karşı konulmaz güzelliği, karmaşık formal işlemlerin çok küçük ilkel işlemlere dönüştürülmesinden gelir. Java bu güzelliği göstermek yerine programcıyı donanım satan bir firmadaki teknisyen gibi problem çözmeye yönlendirir: bir dolap yığını içinde aranmalar (Javadaki paketler) ve istediğimizi yapan bir donanım parçasının bulunmasıyla sonlanır (javadaki sınıflar gibi). Nasıl yaptığı ilgi alanımızda değildir! Bunun sonucu basit programları bir araya getirmesini bilen fakat bunun aslında nasıl çalıştığını bilmeyen öğrencidir. Javanın erken öğretilmesinin daha ileri bir tehlikesi ise öğrencinin yazdığı programın çalışma anı yükünü anlamasının imkansız olmasıdır. Çünkü herhangi bir metodun çalıştırıldığında neyi çağıracağını bilmek oldukça zordur. Bu problemin daha açık bir izahı için bkz[4].
+	</para>
+	<para>
+		Bu yaklaşıma tepkilerin de olduğunu görüyoruz. Örneğin Bjarne Stroustrup  Texas A &amp; M Üniversitesinden şöyle bildiriyor: Endüstri bu yaklaşımdan gittikçe artarak memnuniyetsizlik duyuyor. 
+	</para>
+	<para>
+		Özellikle şuna dikkat çekiyor:
+	</para>
+	<para>
+		Endüstriden Javanın ilk programlama dili olarak kullanılması hakkında bir çok şikayetler alıyorum, özellikle AT&amp;T, IBM, Intel, Bloomberg, NI, Microsoft, Lockheed-Martin şirketleri ve diğerleri[5].
+	</para>
+	<para>
+		Bu konudaki özel bir tartışmada şunları söylüyor:
+	</para>
+	<para>Texas A&amp;M öyle yaptı (Javayı başlangıç programlama dili). Sonra ben elektrik mühendisliğine C++ anlatmaya başladım ve bu öğrenciler CS öğrencilerine  out-program'a başladığında onlar da C++'a döndüler. [5]
+	</para>
+	<para>Kaç bölümün bu şekilde değişikliğe gittiğini görmek ilginç olurdu. AdaCore'da benzer sebeplerle bir çok üniversitenin başlangıç dili olarak Ada'yı kullandığının kesinlikle farkına vardık. 
+	</para>
+</sect1>
+<sect1 id="computer-science-education-real"><title>Gerçek programcı Herhangi bir Dilde Yazabilir (C, Java, Lisp, Ada)</title>
+	<para>Belirli yaşlardaki profosyonel yazılımcılar iki jenerasyon önce, yapısal programlamanın moda olduğu zamanlarda söylenen şu sloganı hatırlayacakalardır: Gerçek programcılar herhangi bir dilde Fortran yazabilir. Bu slogan, programcıların düşünce alışkanlıklarının öğrendikleri ilk programlama dilliyle nasıl etkilendiğini hatırlatır ve bütün programlama işlerinizi tek bir dille yapıyorsanız bu alışkanlıkları değiştirmenin ne kadar zor olduğunu gösterir. Diğer taraftan söylemek isteriz ki ehil bir programcı birkaç değişik programlama dilini kullanabilir ve bu dillerden birinde tercih edilen zihinsel araçları diğer programlama diliyle yazarken bile kullanabilir. Örneğin Ada veya C++ gibi imperatif bir dilin kullanıcısı özyinelemeli yapıları gerçekleştirirken Lisp ve ML<footnote><para>Bir çok programlama dili ve sistem isimleri şu anda bilinen şekilleriyle artık normal teleffuzları uygulanabilir olmayan kısaltmalardan türemişlerdir. ML, Lisp, GCC, PHP ve SPARK bu katagoride sayılabilir.</para></footnote> kullanarak kazandığı fonksiyonel stili uygulayabilmelidir. Bu, değişik programlama dillerini derinliğine öğrenmenin öneminin göstergelerinden biridir. iyi öğrenilmiş dillerin gerçek programcıların zihinsel araç setini oluşturduğunu ve bunun önemli olduğunu düşünüyoruz. Örneğin, gerçek programcı C'de kalıtım ve dinamik gönderme (dispatching), Lisp'de bilgi saklama (information hiding), Ada'da ağaç manipülasyon kütüphaneleri ve Java hariç her dilde çöp toplama yapabilmelidir. Bu yüzden öğrenilen dillerin çeşitliliği iyi yetişmiş bir programcı için vazgeçilmezdir.
+	</para>
+	<sect2 id="computer-science-education-real-c"><title>C neden önemlidir?</title>
+		<para>
+			C herkesin bilmesi gereken düşük seviye bir dildir. Taşınabilir Makine dili olarak görülebilebileceği gibi, makine seviyesini ortaya çıkarır ve öğrenciyi yazılım ve donanım arasındaki ilişkiyi anlamaya zorlar. Performans analizi daha basittir çünkü yazılımın tüm durumlarının maliyeti açıktır. Son olarak, derleyiciler (örneğin GCC) üretilen assembli kodun incelenmesini basitleştirir ve bu da Makine dilini ve mimariyi anlamanın mükemmel bir aracıdır.
+		</para>
+	</sect2>
+	<sect2 id="computer-science-education-real-cpp"><title>C++ Neden Önemlidir?</title>
+		<para>
+			C++ C'ye modern yazılım mühendisliğinin temel kavramlarını getirdi: sınıf ve isim uzaylarıyla (namespace) sarmalama, özel ve korumalı veri ve operasyonlar ile bilgi saklama, sanal metodlar ve türetilmiş sınıflarla genişleyebilme, vb. C++ ayrıca yapıcılar ve yıkıcılar ile, tam bir çöp toplama mekanizması olmadan bellek yönetimi yapmayı sağlar. 
+		</para>
+	</sect2>
+	<sect2 id="computer-science-education-real-lisp"><title>Lisp Neden Önemlidir?</title>
+		<para>
+			Her programcı fonksiyonel dilleri ve önemli bir kavram olan referans saydamlığını bilmelidir. Çoğu programcı imperatif dilleri daha sezgisel bulsa da, bir çok bağlamda fonksiyonel, durumsuz (stateless) stilin açık, doğal, anlaşılması kolay ve verimli olduğunu farkedebilmelidir.
+		</para>
+		<para>
+			Lisp kullanmanın başka bir faysadı da programın soyut sözdizim ile yazılması, böylece dahili temsilin çok kullanıldığı derleyici, ayrıştırma (parsing) ve kod üretimi konularını öğrenmeyi sağlamasıdır.  Lisp bilmk dil işleme ile ilgili herhangi bir yazılım için mükemmel bir ön hazırlıktır. 
+		</para>
+		<para>
+			Son olarak Lisp (en azından zayıf biçimi olan Scheme) çok karmaşık öz-tanımlamaları yapabilir. Lisp ile yazılmış bir Lisp yorumlayıcısını görmek tüm bilgisayar mühendislerinin tecrübe etmesi gereken bir şeydir.
+		</para>
+	</sect2>
+	<sect2 id="computer-science-education-real-java"><title>Java Neden Önemlidir?</title>
+		<para>
+			Java'nın ilk veya tek programlama dili olması hakkındaki yorumlarımıza rağmen, Java CS eğitiminde önemli bir rol oynar. Burada Java'nın, gerçek programcının yetenekleri arasında olması gereken sadece iki yönünü ele alacağız:
+		</para>
+		<para>
+			1.eş-zamanalı programlamayı anlama (iş-sıralarının (thread) temel, düşük-seviye bir model oluşturmasından dolayı).
+		</para>
+		<para>
+			2.Refleksiyon, diğer bir deyişle program kendi durumunu inceleyecek şekilde yazılabileceğinin ve dinamik olarak değişen bir ortamda kendi davranışını tespit edebileceğinin anlaşılması.
+		</para>
+	</sect2>
+	<sect2 id="computer-science-education-real-ada"><title>Ada Neden Önemlidir?</title>	
+		<para>Ada yazılım mühendislerinin dilidir. Programlama dilleri derslerinde gösterilmese bile yazılım mühendisliği derslerinde kullanılan bir dildir. Bunun sebebi Ada'nın sahip olduğu keskin yazımlı (strong typing), sarmalama (encapsulation), bilgi saklama, eş zamanlılık, generic programlama, kalıtım ve pek çok diğer özelliklerindendir. Bu özellikler dilin belirli teknik özellikleriyle ortaya çıkar. Bizim ve müşterilerimizin tecrübelerinden şunu söyleyebiliriz ki gerçek bir programcı herhangi bir dilde Ada yazabilir. Örneğin Ada'nın paket modeline alışkın bir Ada programcısı -ki öyleyse belirtimlerle gerçekleştirimleri birbirinden ayırabilir- C ile programlama yaparken Ada'daki paket stiline uygun olarak iyi tanımlanmış başlık (header) dosyaları yazma eğiliminde olacaktır. Programcı Ada programlamaya benzer bir şekilde altprogramlar arasında değişmesi muhtemel yapılar kullanırken tutarlılık ve ölçü kontrolleri ekleyecektir [6]. Eş-zamanlı programları iyi tanımlanmış senkronizasyon ve iletişim mekanizmaları ile görevlere ve korumalı  nesnelere bölerek organize edecektir. 
+		</para>
+		<para>
+			Ada'nın eş zamanlılık özelliği çağımızın çok çekirdekli mimarilerinde ayrıca önemlidir. Şunu da farketmemiz sürpriz olmuştur ki 30 yıl önce Ada güvenli yazım ve eş zamanlılık özellikleri ile tasarlandığında bu mimariler yeni yeni ortaya çıkıyorlardı. 
+		</para>
+	</sect2>
+</sect1>
+<sect1 id="computer-science-education-story"><title>Programlama Dilleri Hikayenin Tamamı Değildirler</title>
+	<para>
+		İyi düzenlenmiş bir CS müfredatı çok çeşitli dilleri içerecektir. Kolay ve kısa yazımlı diller yerine programlama işlemini daha geniş olarak anlamayı sağlayacak diller olacaktır. Programlama dillerine giriş derslerinde betik dillerin popülerliğini görmek bizi kaygılandırıyor. Bu diller (Javascript, PHP, Atlas) aslında günümüz Web uygulamalarının popüler araçlarıdır. Bu diller Java için belirttiğimiz tüm pedagojik sakıncaları içermektedir ve algoritma ve performans ölçümü ile ilgili bilgiler öğrenme fırsatını sunmaz. Bunların keskin yazımlı olmamaları deneme-yanılma stili programlamaya ve öğrencilerin tasarımı ve arayüzleri belirtimlerden ayırma alışkanlıklarının olmamasına yol açar. 
+	</para>
+	<para>
+		Bununla birlikte doğru dili öğretmek tek başına yeterli değildir. Öğrenciler, yazının başında söylediğimiz gibi, geniş ölçekli, güvenilir programlar yazmaya zorlanmalıdırlar. Bu konular, formal belirtim metodları ve ispat yöntemleri kadar yüksek güvenilir kodun gerçek dünyada nasıl onaylandığı ile de ilgili olmalıdır. Uçağa adım attığınızda hayatınızı tamamen güvenilir olması gereken bir yazılımın ellerine bırakmış olursunuz. Bir bilgisayar mühendisi olarak bu çeşit bir güvenilirliğin nasıl başarıldığı hakkında bilgi sahibi olmalısınız. İçinde bulunduğumuz günlerde ve çağımızda terörist siber saldırı tehlikesinden dolayı yazılımların sadece hatasız olması yetmemekte, ayrıca kötü niyetli saldırılara karşı da sağlam olmalıdır. Bu yüksek güvenlikli yazılımlar daha da geniş formal yöntemlerin kullanılmasını ve öğrencilerimizin bu dünyaya hazır olmasını gerektirmektedir.
+	</para>
+</sect1>
+<sect1 id="computer-science-education-where-ref"><title>Kaynakça</title>
+	<para><orderedlist><listitem>Joint Taskforce for Computing Curricula. “Computing Curricula 2005: The Overview Report.” ACM/AIS/ IEEE, 2005 &lt;www.acm.org/education /curric_vols/CC2005-March06 Final.pdf&gt;.</listitem>
+	<listitem>Barnes, John. High Integrity Ada: The Spark Approach. Addison-Wesley, 2003.</listitem>
+	<listitem>Ben-Ari, M. Principles of Concurrent and Distributed Programming. 2nd ed. Addison-Wesley, 2006.</listitem>
+	<listitem>Mitchell, Nick, Gary Sevitsky, and Harini Srinivasan. “The Diary of a Datum: An Approach to Analyzing Runtime Complexity in Framework-Based Applications.” Workshop on Library-Centric Software Design, Object-Oriented Programming, Systems, Languages, and Applications, San Diego, CA, 2005.</listitem>
+	<listitem>Stroustrup, Bjarne. Private communication. Aug. 2007. </listitem>
+	<listitem>Holzmann Gerard J. “The Power of Ten – Rules for Developing Safety Critical Code.” IEEE Computer June 2006: 93-95.</listitem></orderedlist>
+	</para>
+</sect1>
+<sect1 id="computer-science-education-where-authors"><title>Yazarlar Hakkında</title>
+	<para>
+		<emphasis role="bold">Robert B.K. Dewar, Ph.D.</emphasis>, AdaCore başkanı ve New York Üniversitesi bilgsayar bilimleri fahri profösörüdür. 1980'den beri Ada tasarımı ve gerçeleştirimi üzerine seçkin gözlemci olarak çalışmakta, Ada  Rapporteur grubunun üyeliğini yapmakta ve Gnu Ada Translator'ın şefliği görevini yapmaktadır. Algol68 komitesinin bir üyesidir ve Spitbol'ün tasarımcısı ve gerçekleştirmecisidir. Dewar, çoğunlukla programlama dilleri, yazılım mühendisliği yöntembilimi, emniyet ve güvenlik ve fikri mülkiyet hakları üzerine ders vermektedir. Chicago Üniversitesinde kimya üzerine doktorası bulunmaktadır.
+	</para>
+	<para>AdaCore</para>
+	<para>	104 Fifth AVE 15th FL</para>
+	<para>New York, NY 10011</para>
+	<para>Phone: (212) 620-7300 ext. 100</para>
+	<para>Fax: (212) 807-0162</para>
+	<para>E-posta: <email>dewar@adacore.com</email></para>
+	<para>
+		<emphasis role="bold">Edmond Schonberg, Ph.D.</emphasis>, AdaCore'un yardımcı başkanı ve New York Üniversitesi bilgisayar bilimleri fahri profösörüdür. 1981'den bu yana Ada'nın gerçekleştirimi üzerine çalışmaktadır. Robert Dewar ile ve diğer çalışanlarla birlikte Ada9X'in ilk prototip derleyicisi olan ve Ada2005'in ilk tam gerçekleştirimi olan Ada83'ün ilk geçerli gerçekleştirimini oluşturmuştur. Schonberg Chicago Üniversitesi Fizik bölümünden doktoraya sahiptir.
+	</para>
+	<para>AdaCore</para>
+	<para>	104 Fifth AVE 15th FL</para>
+	<para>New York, NY 10011</para>
+	<para>E-posta: <email>schonberg@adacore.com</email></para>
+	
+</sect1>
+
+</article>
+

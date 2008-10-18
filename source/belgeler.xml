@@ -67,6 +67,7 @@
 <!ENTITY encrypted-swap-howto.xml SYSTEM "howtos/encrypted-swap-howto.xml">
 <!ENTITY report-bug-howto.xml SYSTEM "howtos/report-bug-howto.xml">
 <!ENTITY ipsec-howto.xml SYSTEM "howtos/ipsec-howto.xml">
+<!ENTITY computer-science-education.xml SYSTEM "howtos/computer-science-education.xml">
 ]>
 <set id="index" lang="tr">
   <?dbhtml dir="../KiTAPLIK"?>
@@ -165,7 +166,8 @@
         &user-group-howto.xml;
         &smart-questions.xml;
 	&report-bug-howto.xml;
-	&online-troubleshooting-howto.xml;	
+	&online-troubleshooting-howto.xml;
+	&computer-science-education.xml;
     </part>
   </book>
 </set>
