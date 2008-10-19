@@ -8,9 +8,8 @@
         <address><email>pinar@comu.edu.tr</email></address>
       </affiliation>
     </author>
-
-<copyright><year>2007</year><holder>Pınar Yanardağ - Türkçe çeviri</holder></copyright>
-
+    <abstract><para>
+</para></abstract>
 </articleinfo>
 
 <sect1 id="eui-64-general"><title>Genel</title>
@@ -108,7 +107,7 @@ en anlamlı bit                              en az anlamlı bit</literallayout>
 <para>Bu yöntem MAC-48 ve EUI-48 tanıtıcılarına EUI-64 değerleri olarak kapsülleme ve dönüştürme (ya da atanmamış olarak bırakma) imkanı sağlar. Bunu yapmaktaki amaç OUI/company_id tabanlı genel eşsiz 64-bit tanıtıcıların tek bir formda ifade edilecek hale getirilebilir olmasını sağlamaktır.</para>   
 </sect2>
 
-<sect2 id="eui-64-tutorial-EUI-48-values"><title>Encapsulated EUI-48 values</title>
+<sect2 id="eui-64-tutorial-EUI-48-values"><title>Kapsüllenmiş EUI-48 değerleri</title>
 <para>Örneğin üreticinin IEEE tarafından atanmış company_id değerinin ACDE4816 ve üretici tarafından verilmiş tanıtıcının numarasının 23456716 olduğunu farzedelim. Bu iki değerden üretilen EUI-48 değeri ACDE4823456716 olup, bit ve bayt temsilleri aşağıdaki gibi gösterilir:</para>
 <literallayout>    |        company_id       |   uzatılmış tanıtıcısı  | alan 
     |  AC   |   DE   |   48   |   23   |   45   |   67  | hex
