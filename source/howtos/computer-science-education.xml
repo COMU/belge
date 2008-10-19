@@ -71,15 +71,15 @@
 	</para>
 </legalnotice>
 <abstract>
-	<para>Özellikle programlama ve formal yöntemler alanlarında Bilgisayar Bilimi eğitiminin ihmal edildiğini gözlemliyoruz. İlk öğrenilen programlama dili olarak Java'nın benimsenmesinin bu düşüşün sorumlusu olduğunu düşünüyoruz. Bu belgede her yazılımcının repartuarında olması gereken programlama yeteneklerini kısaca inceliyoruz.
-	</para>
+	<para>Bu belgede Java'nın bilgisayar bilimi öğrencilerine ilk programlama dili olarak öğretilmesinin yanlış bir karar olduğu, son yıllardaki bu yöndeki müfredat değişikliğinin geri alınarak tekrar eski formal yöntemlere dönülmesinin daha uygun olacağı, bunun özel sektördeki kalifiye eleman sayısını kötü yönde etkilediği çeşitli örneklerle anlatılmaya çalışılmıştır.</para>
 	<para>Belgenin ingilizce orjinaline <ulink url="http://www.stsc.hill.af.mil/CrossTalk/2008/01/0801DewarSchonberg.html"> buradan</ulink> ulaşabilirsiniz.
 	</para>
 </abstract>
 </articleinfo>
 
 <sect1 id="computer-science-education-intro"><title>Giriş</title>
-
+	<para>Özellikle programlama ve formal yöntemler alanlarında Bilgisayar Bilimi eğitiminin ihmal edildiğini gözlemliyoruz. İlk öğrenilen programlama dili olarak Java'nın benimsenmesinin bu düşüşün sorumlusu olduğunu düşünüyoruz. Bu belgede her yazılımcının repartuarında olması gereken programlama yeteneklerini kısaca inceliyoruz.
+	</para>
 <para>
 	Konu tamamen programlama hakkında! Bilgisayar Bilimi eğitiminde geçtiğimiz birkaç yılda kaygılandırıcı eğilimler olduğunu gözlemledik. Aşağıdakiler bu eğilimleri temsil ediyor:
 </para>
