@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ********************************************************************
-     $Id: repository-howto.xml,v 1.20 2003/07/19 09:25:04 nilgun Exp $
-     ******************************************************************** -->
 <article id="repository-howto" lang="tr">
   <articleinfo>
     <title>Debian Deposu NASIL</title>
@@ -22,21 +19,22 @@
     <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
     <revision>
       <revnumber>1.0</revnumber>
-      <date>Temmuz 2006</date>
+      <date>Ekim 2008</date>
       <authorinitials>ny</authorinitials>
       <revremark>İlk çeviri</revremark>
     </revision>
   </revhistory><revhistory>
    <para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
       <revision>
-        <revnumber>1.0</revnumber>
+        <revnumber>1.13</revnumber>
+	<date>14 Haziran 2006</date>
         <authorinitials>AI</authorinitials>
-        <revremark>İlk sürüm</revremark>
+        <revremark>Unuttuğum apt-update komutu eklendi.</revremark>
       </revision>
 </revhistory>    
     
   <legalnotice><title>Yasal Açıklamalar</title><para>
-Bu belgenin, <emphasis>Debian Deposu Nasıl</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2006 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2006 <emphasis>Aaron Isotton</emphasis>'na</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2.0 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+Bu belgenin, <emphasis>Debian Deposu Nasıl</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2002-2006 <emphasis>Aaron Isotton</emphasis>'na</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2.0 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
   </para>
   <para>
 BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
@@ -74,13 +72,13 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
     <para>Bu belgenin ingilizce aslını aşağıdaki adreste bulabilirsiniz: <ulink
         url="http://www.isotton.com/debian/docs/repository-howto/"/>.</para>
 
-    <section id="copyright">
+    <sect2 id="repository-howto-copyright">
       <title>Copyright and License</title>
 
       <para>This document, <emphasis>Debian Repository
           HOWTO</emphasis>, is copyrighted (c) 2002-2006 by
           <emphasis>Aaron Isotton</emphasis>.  This document is dual-licensed
-	  as follows:<para>
+	  as follows:</para>
 	  
       <para>Permission is granted to copy, distribute and/or modify this
 	  document under the terms of the GNU Free Documentation License,
@@ -91,9 +89,9 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
 	  document under the terms of the GNU General Public License, Version
 	  2.</para>
       
-    </section>
+    </sect2>
 
-    <section id="feedback">
+    <sect2 id="repository-howto-feedback">
       <title>Feedback</title>
 
       <para>
@@ -101,10 +99,10 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
         your additions, comments and criticisms to the following email
         address: <email>aaron@isotton.com</email>.
       </para>
-    </section>
-  </section>
+    </sect2>
+  </sect1>
 
-  <section id="terms">
+  <sect1 id="repository-howto-terms">
     <title>Terms Used in this Document</title>
 
     <variablelist>
@@ -125,9 +123,9 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
         </listitem>
       </varlistentry>
     </variablelist>
-  </section>
+  </sect1>
 
-  <section id="how-it-works">
+  <sect1 id="repository-howto-how-it-works">
     <title>How Repositories Work</title>
 
     <para>A repository consists of at least one directory with some
@@ -168,7 +166,7 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
     <para>Thus, once you have set up your repository, you can list and
       install all of your packages together with the ones in Debian;
       if you update a package, it'll be upgraded when the user runs
-      <command>apt-get upgrade</command>; and every user will be able
+      <command>apt-get update</command> &amp;&amp; <command>apt-get upgrade</command>; and every user will be able
       to easily see a short description and other important
       information about your packages.</para>
 
@@ -183,9 +181,9 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
       <literal>contrib</literal>.  So, especially if your software is
       cross-platform, you'll love package repositories.</para>
 
-  </section> <!-- how-it-works -->
+  </sect1>
 
-  <section id="setting-up">
+  <sect1 id="repository-howto-setting-up">
     <title>How to Set Up a Repository</title>
 
     <para>There are two types of repositories: more complex ones where
@@ -203,9 +201,8 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
     <para>Although it is not really correct, I'll call the former
       <emphasis>Automatic Repositories</emphasis> and the latter
       <emphasis>Trivial Repositories</emphasis>.</para>
-    <section>
-
-      <title>Automatic Repositories</title>
+	
+	<sect2 id="repository-howto-setting-up-auto"><title>Automatic Repositories</title>
 
       <para>The directory structure of an automatic repository with
         the standard Debian architectures and components looks like
@@ -289,8 +286,7 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
         directory as the index files, because the index files contain
         paths to the individual packages; in fact, they could be
         <emphasis>anywhere</emphasis> else in the repository.  This
-        makes it possible to create <link
-        linkend="pools">pools</link>.</para>
+        makes it possible to create <link linkend="repository-howto-setting-up-pools">pools</link>.</para>
 
       <para>You are free to create as many distributions and
         components and to call them as you wish; the ones I used in
@@ -308,11 +304,9 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
         is generally a good idea to use the standard Debian
         distributions, because that's what Debian users expect.</para>
 
-      </section>
+      </sect2>
 
-    <section>
-
-      <title>Trivial Repositories</title>
+      <sect2 id="repository-howto-setting-up-trivial"><title>Trivial Repositories</title>
 
       <para>Trivial repositories consist of one root directory and of
         as many subdirectories as you wish.  As the users have to
@@ -332,10 +326,9 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
 +-source</screen>
       </example>
 
-    </section>
+    </sect2>
 
-    <section>
-      <title>Creating the Index Files</title>
+    <sect2 id="repository-howto-setting-up-index-files"><title>Creating the Index Files</title>
 
       <para><command>dpkg-scanpackages</command> generates the
         <filename>Packages</filename> file and
@@ -383,12 +376,9 @@ $ dpkg-scansources source /dev/null | gzip -9c &gt; source/Sources.gz</screen>
         tools to simplify the syntax a bit; I leave this as an
         exercise for the reader.  (It's documented in the
         manpages).</para>
-    </section>
+    </sect2>
 
-    <section id="release">
-      <!-- todo: Release should be between <filename> tags, but then
-      xmltex won't compile it --> 
-      <title>Creating the Release files</title>
+    <sect2 id="repository-howto-setting-up-release"><title>Creating the Release files</title>
 
       <para>If you want to enable the users of your repository to use
         <emphasis>Pinning</emphasis> with your repository, you must
@@ -463,10 +453,9 @@ Architecture: <replaceable>architecture</replaceable></screen>
       <para>It is important to get <literal>Archive</literal> and
         <literal>Architecture</literal> right, as they're most used for
         pinning.  The others are less important.</para>
-    </section>
+    </sect2>
 
-    <section id="pools">
-      <title>Creating Pools</title>
+    <sect2 id="repository-howto-setting-up-pools"><title>Creating Pools</title>
 
       <para>With automatic repositories, distributing the packages in
         the different directories will quickly lead to an unmanageable
@@ -490,10 +479,9 @@ Architecture: <replaceable>architecture</replaceable></screen>
         think that such a section should be added, feel free to write
         one, and contact me.</para>
 
-    </section>
+    </sect2>
 
-    <section>
-      <title>Tools</title>
+    <sect2 id="repository-howto-setting-up-tools"><title>Tools</title>
 
       <para>There are various tools to automate and ease the creation
         of Debian archives; I've listed the most notable of them
@@ -508,12 +496,11 @@ Architecture: <replaceable>architecture</replaceable></screen>
         of Debian package files into a proper archive hierarchy as is
         used in the official Debian archive.</para>
 
-    </section>
+    </sect2>
 
-  </section> <!-- setting-up -->
+  </sect1>
 
-  <section id="using-a-repository">
-    <title>Using a Repository</title>
+  <sect1 id="repository-howto-setting-up-using-a-repository"><title>Using a Repository</title>
 
     <para>Using a repository is very simple, but it depends on what
       type of repository you have made: binary or source, and
@@ -541,8 +528,6 @@ Architecture: <replaceable>architecture</replaceable></screen>
       not end in a slash.</para>
 
     <example>
-      <!-- todo: sources.list should be tagged as <filename>, but xmltex
-      doesn't support that -->
       <title>Two Automatic Repositories from my sources.list</title>
 
       <screen>deb ftp://sunsite.cnlab-switch.ch/mirror/debian/ unstable main contrib non-free
@@ -573,52 +558,45 @@ deb-src file:///home/aisotton/rep-exact source/</screen>
         local machine; the second specifies a source repository in
         <filename>/home/aisotton/rep-exact/source</filename>.</para>
     </example>
-  </section> <!-- using-a-repository -->
+  </sect1>
 
-  <section>
-    <title>See Also</title>
+  <sect1 id="repository-howto-setting-up-see-also"><title>Kaynaklar</title>
 
     <itemizedlist>
       <listitem>
-        <para>The <command>apt-ftparchive</command>
-        documentation.</para>
+        <para><command>apt-ftparchive</command> belgeleri.</para>
       </listitem>
 
       <listitem>
-        <para>The <command>apt-get</command> documentation, and the
-        documentation for <literal>apt</literal>.</para>
+        <para><command>apt-get</command> ve <literal>apt</literal> belgeleri.</para>
       </listitem>
 
       <listitem>
-        <para>The <command>apt-move</command> documentation.</para>
+        <para><command>apt-move</command> belgeleri.</para>
       </listitem>
 
       <listitem>
-        <para><ulink url="http://www.apt-get.org/"/> for many examples
-          of real-world repositories.</para>
+        <para>Çalışan depo örnekleri için: <ulink url="http://www.apt-get.org/"/>.</para>
       </listitem>
         
       <listitem>
-        <para>The <ulink
-            url="http://www.debian.org/doc/manuals/apt-howto/">APT
-            HOWTO</ulink>.</para>
+        <para><ulink
+		    url="http://docs.comu.edu.tr/howto/apt-howto.html">APT NASIL</ulink>.</para>
       </listitem>
 
 
       <listitem>
-        <para>The <command>dpkg-scanpackages</command>
-          documentation.</para>
+        <para><command>dpkg-scanpackages</command> belgeleri.</para>
       </listitem>
 
       <listitem>
-        <para>The <command>dpkg-scansources</command>
-          documentation.</para>
+        <para><command>dpkg-scansources</command> belgeleri.</para>
       </listitem>
 
       <listitem>
-        <para>The <literal>sources.list(5)</literal> manpage.</para>
+        <para><literal>sources.list(5)</literal> man sayfası.</para>
       </listitem>
     </itemizedlist>
 
-  </section>
+  </sect1>
 </article>
