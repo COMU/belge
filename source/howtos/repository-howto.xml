@@ -56,7 +56,7 @@ Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Bel
 	<para>Bir Debian deposu özel bir dizin ağacında organize edilmiş Debian paketlerinden ve paketlerin sağlama toplamı ve katologlarını içeren bir kaç ilave dosyadan oluşur. Bir kullanıcı bir depoyu <filename>/etc/apt/sources.list</filename> dosyasına eklediğinde, o depodaki bütün paketleri Debian tarafından sağlanan paketlerle aynı şekilde görüntüleyip kurabilir.</para>
 	<para>Depoların çoğu çevirim içi olsa da çevrim dışı (örneğin CDROM üzerinde) depolar da olabilir.</para>
 	<para>Bu belge Debian depolarının nasıl çalıştığını, nasıl oluşturulduklarını ve nasıl doğru bir şekilde <filename>sources.list</filename> dosyasına ekleneceklerini anlatır.</para>
-	<para>Bu belgenin ingilizce aslını aşağıdaki adreste bulabilirsiniz: <ulink
+	<para>Bu belgenin ingilizce aslını şu adreste bulabilirsiniz: <ulink
         url="http://www.isotton.com/debian/docs/repository-howto/"/>.</para>
 	<sect2 id="repository-howto-feedback"><title>Geri Bildirim</title>
 		<para>Bu belge için geri bildirimleriniz çok önemlidir. Eklemelerinizi, yorumlarınızı ve değerlendirmelerinizi <email>aaron@isotton.com</email> adresine gönderebilirsiniz.</para>
