@@ -32,6 +32,16 @@
 				<!--revremark>Unuttuğum apt-update komutu eklendi.</revremark-->
 			</revision>
 </revhistory>
+<legalnotice><title>Yasal Açıklamalar</title><para>
+		Bu belgenin, <emphasis>Yazılım Üreticileri Ürünlerini NASIL Doğrudan DEB Formatında Dağıtabilirler</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2002 <emphasis>Aaron Isotton</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan GNU Özgür Belgeleme Lisansının 1.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="fdl.html">GNU Free Documentation License</ulink> başlıklı bölümde bulabilirsiniz.
+	</para><para>
+		BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+	</para><para>
+		İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+	</para><para>
+		Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+	</para>
+  </legalnotice>
 <abstract>
 	<para>Bu belge yazılım üreticilerinin açık veya kapalı kodlu ürünlerini nasıl Debian ile bütünleştirebileceklerini anlatır.</para>
 </abstract>
@@ -39,9 +49,6 @@
   <sect1 id="distribute-deb-intro"><title>Giriş</title>
 	  <para>Bu belge yazılım üreticilerinin ürünlerini nasıl Debian ile bütünleştirebilecekleri, ürünün lisansına bağlı olarak hangi farklı durumların ortaya çıkabileği ve üreticinin seçeneklerini ve olası durumları açıklamada bir başlangıç noktası olmayı amaçlamaktadır. Nasıl paket yapılacağından bahsedilmeyecek ama bu konuyu anlatan belgelere bağlantılar verilecektir. Eğer Debian paketi yaratma, üretme ve onları Debian dağıtımına ekleme sürecine aşina değilseniz bu belgeyi okumalısınız.</para>
 	<para>Bu belgenin ingilizce aslını şu adreste bulabilirsiniz: <ulink url="http://www.isotton.com/debian/docs/distribute-deb/"/>.</para>
-    <sect2 id="distribute-deb-copyright"><title>Telif Hakkı ve Lisans</title>
-      <para>This document, <emphasis>How Software Producers Can Distribute Their Products Directly in DEB Format</emphasis>, is copyrighted (c) 2002 by <emphasis>Aaron Isotton</emphasis>.  Permission is granted to copy,    distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts.</para>
-    </sect2>
     <sect2 id="distribute-deb-credits"><title>Katkıda Bulunanlar</title>
       <para>Bu belgede aşağıdakilere şükranlarımı sunarım (alfabetik olarak):</para>
       <itemizedlist>
@@ -79,365 +86,75 @@
     </sect2>
   </sect1>
   <sect1 id="distribute-deb-distributing-packages-yourself"><title>Paketlerinizi Kendiniz Dağıtın</title>
-    <para>Distributing packages yourself can be very simple;
-      basically, you only have to distribute the files which are
-      generated during the package process.  As a reminder, typically
-      you get five types of files when generating a package, only
-      three of which are important here.  Your users need the .deb
-      file to install the binary package, and the .orig.tar.gz and
-      .diff.gz files to install the source of the package.</para>
-
-    <para>Whether you distribute your files on CD-ROM, online or on
-      punch cards is your problem, but if your package is open source,
-      <emphasis>do</emphasis> provide the source code, i.e. the
-      <filename>.orig.tar.gz</filename> and
-      <filename>.diff.gz</filename> files.</para>
-
-    <para>If you decide <emphasis>not</emphasis> to add your packages
-      to Debian, and especially if it is closed-source, please read
-      <xref linkend="distribute-deb-special-notes-for-thirdparty-packages"/>, as
-      there are some special precautions to take.</para>
-
-<sect2 id="distribute-deb-package-repository">
-      <title>Creating a Package Repository</title>
-
-      <para>An alternative to this simple method is creating a package
-        repository.  A package repository is a directory with the DEBs
-        of your packages and a few additional special files in it; any
-        Debian user can add your package repository to his
-        <filename>sources.list</filename> file, and then your packages
-        will be listed to him together with all the others available
-        in Debian.  This is a good idea if you have many packages with
-        complicated dependencies, or often updated packages.  Of
-        course you can also create a package repository if none of the
-        above is the case, but you want to provide this additional
-        service to your users.</para>
-
-      <para>How to create a package repository is documented in detail
-        in the <ulink
-        url="http://www.isotton.com/debian/docs/repository-howto/">Debian
-        Repository HOWTO</ulink>.</para>
-    </sect2> <!-- package-repository -->
-  </sect1> <!-- distributing-packages-yourself -->
-
-  <sect1 id="distribute-deb-adding-packages-to-debian">
-    <title>Adding Your Packages to Debian</title>
-
-    <sect2 id="distribute-deb-debian-advantages">
-      <title>What You Get</title>
-
-      <para>Once you have packaged your product, you can distribute it
-        yourself, add it to Debian, or both. If you want to distribute
-        your packages only yourself, you can either distribute the
-        .deb files you got while packaging, or <link linkend="distribute-deb-package-repository">create a package
-          repository</link>.  If you want to add your package to Debian,
-        there are a few more steps to take.</para>
-
-      <para>Instead of simply uploading the .debs on your server (of
-        course you can still do that, if you want), you upload your
-        packages to the Debian archive.  To be allowed to do that, you
-        have to respect the Debian Policy, which tries to make sure
-        that all the packages are installed and uninstalled in
-        standardized ways, and that there are no conflicts among them
-        (and many other things).</para>
-
-      <para>Every package which is in Debian is automatically added to
-        the package list, and all users can easily install and
-        uninstall it using the Debian package tools.  Moreover, it
-        will automatically be compiled for all different Debian
-        platforms (IA32, IA64, Sparc and many others) if that is
-        possible, and it will be added to the Debian Bug Tracking
-        System (BTS), which makes it easy for everybody to report bugs
-        or suggest improvements.</para>
-
-      <para>The package will be mirrored worldwide on way more
-        independent servers than most companies can call their own,
-        and, if it is in the <emphasis>stable</emphasis> distribution,
-        it will also be added to the official CD images.  There are
-        also other Linux distributions which are based on Debian, and
-        it is possible that your packages will be added to those as
-        well.</para>
-
-      <para>This means that for thousands of users worldwide
-        installing your package will be as simple as typing
-        <literal>apt-get install
-          <replaceable>package-name</replaceable></literal>; that
-        average users, novices and professionals will be equally able
-        to report bugs and give suggestions; and that thousands people
-        who had never heard of your product and company will be
-        suddenly aware of their existence.</para>
-    </sect2> <!-- debian-advantages -->
-
-    <sect2 id="distribute-deb-dfsg">
-      <title>The <abbrev>DFSG</abbrev></title>
-
-      <para>An important part of Debian is the <abbrev>DFSG</abbrev>,
-        short for Debian Free Software Guidelines.  It is a set of
-        guidelines about the license of a package, and a package goes
-        into different sections of Debian depending on whether its
-        license is <abbrev>DFSG</abbrev>-compatible or not.  If it is,
-        it goes into the Debian <emphasis>main</emphasis> section; if
-        it isn't, it goes into the <emphasis>non-free</emphasis>
-        section; if it is <abbrev>DFSG</abbrev>-compatible but depends
-        on other packages in the <emphasis>non-free</emphasis>
-        section, it goes into <emphasis>contrib</emphasis>.</para>
-
-      <para>A package is basically <abbrev>DFSG</abbrev>-compatible if
-        its source code is available, and if everybody is allowed to
-        modify and distribute it; examples of compatible licenses are
-        the <ulink url="http://www.gnu.org/copyleft/gpl.html">GNU
-          General Public License</ulink>, the <ulink
-          url="http://www.debian.org/misc/bsd.license">BSD
-          License</ulink> and the <ulink
-          url="http://www.perl.com/pub/a/language/misc/Artistic.html">Artistic
-          License</ulink>.  Whether your license is among the ones
-        listed or not, you should read the <ulink
-          url="http://www.debian.org/social_contract.html">Debian Social
-          Contract</ulink> to find out more about it.</para>
-
-      <para>All this might seem only a detail, but it isn't.  Strictly
-        speaking, the <emphasis>non-free</emphasis> and the
-        <emphasis>contrib</emphasis> section are not parts of Debian;
-        they are just a service from Debian to the users who need such
-        packages.  In fact, Debian users (especially the ones involved
-        with the Debian Project) tend to prefer packages from
-        <emphasis>main</emphasis> to the others; if they can choose
-        among two similar packages from <emphasis>main</emphasis> and
-        <emphasis>non-free</emphasis> and have no special motivation
-        to prefer the latter, they will almost always install the
-        former.  It also quite often happens that if there is a
-        package in <emphasis>non-free</emphasis> with a large user
-        base and no one in <emphasis>main</emphasis> which could
-        replace it, that the Debian developers start to actively look
-        for or even to develop an alternative.  If you are interested
-        in a large user base or in the best support from the Debian
-        developers, it is thus in your own interest to adapt your
-        license if that is possible.
-      </para>
-
-      <para>To some of you, the <abbrev>DFSG</abbrev> may seem some
-        kind of half-religious institution with the only purpose of
-        generating flame wars on the mailing lists; whether this is
-        true or not, and independently of your opinion, respecting it
-        will get you much more support than adding another cool
-        feature to your software.</para>
-    </sect2> <!-- dfsg -->
-
-    <sect2 id="distribute-deb-itp">
-      <title>Filing an ITP</title>
-
-      <para>Before you start packaging, you should file an ITP (Intent
-        To Package).  That is a special bug report saying that you
-        want to package some product.  So the other developers know
-        that you're working on it and will not start working on it,
-        too.</para>
-
-      <para>You can easily file an ITP using the
-        <command>reportbug</command> tool and specifying
-        <quote>wnpp</quote> as the package you want to report a bug
-        against.</para>
+	  <para>Paketlerinizi kendiniz dağıtmak isterseniz yapacağınız işlem basitçe paketleme sürecinde oluşan dosyaları dağıtmaktır. Bu süreçte beş dosya oluşturulmasına rağmen bunlardan üçü burada önem taşımaktadır. Kullanıcılarınız .deb ikilik dosyalarına kurulum için, .orig.tar.gz ve .diff.gz kaynak dosyalarına ise paketin kaynak kodlarını kurmak için ihtiyaç duyarlar.</para>
+	  <para>Dosyalarınızı CD-ROM, çevrim içi veya kartlarla dağıtabilirsiniz ama eğer paketiniz açık kaynak kodlu ise kaynak kodu yani <filename>.orig.tar.gz</filename> ve <filename>.diff.gz</filename> dosyalarını da dağıtmak <emphasis>zorundasınız</emphasis>.</para>
+	  <para>Eğer paketlerinizi Debian'a <emphasis>eklememeye</emphasis> karar vermişseniz ve özellikle paketiniz kapalı kaynak kodlu ise <xref linkend="distribute-deb-special-notes-for-thirdparty-packages"/> bölümününde almanız gereken tedbirleri bulacaksınız.</para>
+<sect2 id="distribute-deb-package-repository"><title>Bir Paket Deposu Oluşturmak</title>
+	<para>Yukarıdaki basit yöntemin bir alternatifi bir paket deposu oluşturmaktır. Paket deposu .DEB paketlerinizin ve birkaç ilave dosyanın bulunduğu bir dizindir. Bir Debian kullanıcısı paket deponuzu <filename>sources.list</filename> dosyasına ekleyerek Debian'daki diğer bütün paketlerle birarada görüp kullanabilir. Eğer bir çok paketiniz varsa veya paketlerinizi sıklıkla güncelliyorsanız paket deposu kullanmak iyi fikir olabilir. Bunlardan biri olmasa bile kullanıcılarınıza ek bir hizmet sunmak için de bir paket deposu oluşturabilirsiniz.</para>
+      <para>Paket deposu oluşturmakla ilgili ayrıntılı bilgileri <ulink url="http://docs.comu.edu.tr/howto/repository-howto.html">Debian Deposu NASIL</ulink> belgesinde bulabilirsiniz.</para>
     </sect2>
-
+  </sect1>
+  <sect1 id="distribute-deb-adding-packages-to-debian"><title>Paketlerinizi Debian'a Eklemek</title>
+    <sect2 id="distribute-deb-debian-advantages"><title>Elde Edecekleriniz</title>
+	<para>Ürününüzü paketledikten sonra onu kendiniz dağıtabilirsiniz, Debian'a ekleyebilirsiniz veya iki yolla birden dağıtabilirsiniz. Eğer paketinizi sadece kendiniz dağıtmak istiyorsanız ya paketlerken oluşan .deb dosyalarını dağıtırsınız ya da <link linkend="distribute-deb-package-repository">bir paket deposu oluşturabilirsiniz</link>. Eğer Debian'a eklemek isterseniz bir kaç işlem daha yapmanız gerekir.</para>
+      <para>Basitçe .deb dosyalarını sunucunuza yüklemek yerine (elbette eğer isterseniz bunu yine yapabilirsiniz) onları Debian arşivine yükleyin. Bunu yapmanıza izin verilebilmesi için paketlerin standart bir şekilde kurulması ve kaldırılması ve aralarında bir çakışma olmamasını (ve daha bir çok şeyi) garantilemeye çalışan Debian Sözleşmesine uymanız gerekir.</para>
+      <para>Debian'da deposundaki her paket, paket listesine otomatik olarak eklenir ve bütün kullanıcılar Debian araçlarını kullanarak bu paketi kolayca kurabilir ve kaldırabilirler. Bunun yanında Debian tarafından desteklenen bütüm mimariler (IA32, IA64, Sparc ve diğerleri) için otomatik olarak derlenir ve kullanıcıların programın hatalarını bildirebileceği veya önerilerde bulunabileceği Debian Hata Ayıklama Sistemine (BTS) eklenir.</para>
+      <para>Paketiniz tüm dünyadaki sunucularda yansılanacak ve çoğu şirketin kendi başına yapabileceğinden çok daha fazla duyurulmuş olacaktır. Hatta eğer <emphasis>stable</emphasis> sürümde bulunursa resmi CD görüntülerinde de yer aralacaktır. Debian temmelli başka Linux dağıtımları bulunduğundan paketinizin onlara da dahil edilmesi mümkündür.</para>
+      <para>Bu, dünyadaki binlerce kullanıcının sizin paketinizi <literal>apt-get install <replaceable>paket-adı</replaceable></literal> komutunu kullanarak kurabilmesi, acemileri, ortalama kullanıcıların ve profesyonellerin programınızın hatalarını raporlayabilmeleri demektir. Bu sayede sizin ürününüzü ve şirketinizi daha önce hiç duymamış binlerce insanın birden onların farkına varmasını sağlayacaktır.</para>
+    </sect2>
+    <sect2 id="distribute-deb-dfsg">
+      <title><abbrev>DFSG</abbrev></title>
+      <para>Debian Özgür Yazılım Kılavuzunun kısaltması olan <abbrev>DFSG</abbrev> Debian'ın önemli bir parçasıdır. DFSG; paketlerin lisansları hakkında yol gösterici bir kılavuzlar bütünüdür ve bir paketin hangi Debian bileşeninde bulunacağı lisansının <abbrev>DFSG</abbrev>-uyumluluğuna bağlıdır. Eğer paketinizin lisansı <abbrev>DFSG</abbrev>-uyumlu ise <emphasis>main</emphasis> bileşeninde, değilse <emphasis>non-free</emphasis> bileşeninde, kendi lisansı uyumlu ama <emphasis>non-free</emphasis> bileşenindeki bir pakete bağımlıysa <emphasis>contrib</emphasis> bileşeninde yer alır.</para>
+      <para>Bir paketin kaynak kodu açıksa, herkesin onu değiştirmesi ve dağıtması serbest ise temel olarak <abbrev>DFSG</abbrev>-uyumludur. <ulink url="http://www.gnu.org/copyleft/gpl.html">GNU Genel Kamu Lisansı</ulink>, <ulink url="http://www.debian.org/misc/bsd.license">BSD Lisansı</ulink> ve <ulink url="http://www.perl.com/pub/a/language/misc/Artistic.html">Artistic License</ulink> <abbrev>DFSG</abbrev>-uyumlu lisanslara örnek verilebilir. Sizin kullandığını lisans bu lisanslardan biri olsun ya da olmasın <ulink	url="http://www.debian.org/social_contract.html">Debian Sosyal Sözleşmesi</ulink>ni okumalısınız.</para>
+      <para>Bunlar sadece ayrıntı olarak görülebilir ama aslında öyle değildir. Açıkça söylemek gerekirse <emphasis>non-free</emphasis> ve <emphasis>contrib</emphasis> bileşenleri Debian'ın parçaları olmamalarına rağmen bu tip paketlere ihtiyacı olan kullanıcılar için Debian'ın sunduğu birer hizmettirler. Gerçekte Debian kullanıcıları (özellikle Debian projesiyle ilgili olanlar), <emphasis>main</emphasis> bileşeninde bulunan paketleri tercih ederler. Eğer <emphasis>main</emphasis> ve <emphasis>non-free</emphasis> bileşenlerindeki iki benzer paket arasında tercih yapmaları gerekirse ve <emphasis>non-free</emphasis>'dekini seçmek konusunda özel bir nedenleri yoksa her zaman <emphasis>main</emphasis> bileşenindeki paketi yüklerler. <emphasis>non-free</emphasis> bölümünde geniş kullanıcı kitlesine sahip bir paket varken onun yerine geçebilecek bir paket <emphasis>main</emphasis> bölümünde bulunmuyorsa Debian geliştiricilerinin böyle bir paket aramaları hatta bir alternaitfi kendileri geliştirmeye başlamaları sıklıkla rastlanan bir şeydir. Eğer geniş kullanıcı kullancı tabanı veya Debian geliştiricilerinin desteği ile ilgileniyorsanız mümkünse lisansınızı <abbrev>DFSG</abbrev>-uyumlu hale getirmeniz iyi olur.</para>
+      <para><abbrev>DFSG</abbrev> bazılarınıza tek amacı eposta listelerinde tartışmalara yol açmak olan yarı-dini bir uygulama gibi görünüyor olabilir ama bu doğru olsun ya da olmasın, sizin düşüncelerinizden bağımsız olarak, onunla uyumlu olmanız yazılımıza başka bir özelik eklemenizden daha fazla destek almanızı sağlayacaktır.</para>
+    </sect2>
+    <sect2 id="distribute-deb-itp"><title>ITP Belgesi Doldurmak</title>
+	    <para>Paketlemeye başlamadan önce bir ITP (Paketleme Niyeti) belgesi doldurmanız gerekir. Bu siizn bir ürünü paketlemek istediğinizi söyleyen özel bir hata raporu türüdür. Bu sayede diğer geliştiriciler sizin bu yazılım üzerinde çalıştığınızı görür ve onunla ilgilenmezler.</para>
+	    <para>Bir ITP doldurmak için basitçe <command>reportbug</command> komutunu, paketlemek istediğiniz ürünün adı olan <quote>wnpp</quote> ile kullanabilirsiniz.</para>
+    </sect2>
     <sect2 id="distribute-deb-getting-a-sponsor">
-      <title>Getting a Sponsor and Uploading</title>
-
-      <para>As long as you aren't an accepted Debian Developer, you
-        cannot upload to the Debian archive directly.  You have to
-        package your product and to ask for a
-        <emphasis>sponsor</emphasis> on the
-        <literal>debian-mentors</literal> mailing list.  A sponsor is
-        a (generally) seasoned Debian developer who will check your
-        packages and give you hints and support until he thinks they
-        are ready to be accepted into Debian.  Then he will upload
-        them and they will be added to Debian.  Once you've proved
-        that you are able to create proper new packages and that you
-        are willing to maintain them, you can also become a Debian
-        developer, and maybe one day sponsor as well.  However, this
-        out of the scope of this document; if you are interested, you
-        can read more about this subject in the <ulink
-          url="http://www.debian.org/doc/developers-reference/">Debian
-          Developer's Reference</ulink>.</para>
-    </sect2> <!-- getting-a-sponsor -->
-  </sect1> <!-- adding-packages-to-debian -->
-
-  <appendix id="distribute-deb-appendix">
-    <title>Special Cases</title>
-
-    <sect1 id="distribute-deb-special-notes-for-thirdparty-packages">
-      <title>Special Notes for Packages Outside Debian</title>
-      
-      <para>If your package is not in Debian, and especially if it is
-        closed-source or its license doesn't allow the redistribution
-        of modified sources, you should pay special care to a few
-        subtleties of packaging to make it as flexible as
-        possible.</para>
-
-<sect2 id="distribute-deb-a1">
-        <title>The Three Distributions of Debian</title>
-
-        <para>Debian is divided into three distributions:
-          <emphasis>stable</emphasis>, <emphasis>testing</emphasis>
-          and <emphasis>unstable</emphasis>.  Whenever a new package
-          is added, or an existing package is updated, it goes into
-          unstable.  Once it has been in unstable for ten days without
-          revealing serious bugs, it automatically moves into testing.
-          When the release manager decides it's time for a new
-          release, he declares the testing distribution as
-          <emphasis>frozen</emphasis>.  This means that no new
-          packages can be added, and no existing ones may be updated.
-          Only outstanding bugs may be fixed.  Once he thinks that
-          testing is ready to be released, it becomes stable and a new
-          testing distribution is added.  Notice that the
-          distributions are also referred to as
-          <emphasis>branches</emphasis>.</para>
-
-        <para>This means that the three distributions (but especially
-          unstable and stable) are sometimes very different, and that
-          they may (and generally will) contain a different set of
-          packages and different versions of the same packages.  Thus
-          a single package may not be installable on all
-          distributions, or might not work on all of them.  This is no
-          problem when a package is in Debian, as it will
-          automatically move from unstable into testing and finally
-          together with the other packages it depends on, but it
-          certainly is a problem for packages outside Debian.</para>
-
-        <para>As unstable and testing change very frequently (daily),
-          it is very difficult to keep up with them, especially since
-          not all users do a daily upgrade of all packages, but may
-          upgrade only some the packages.  It is thus best to target
-          stable, but keeping a few things in mind to ease the
-          installation on the other distributions.</para>
+      <title>Sponsor Bulmak ve Yüklemek</title>
+      <para>Onaylanmış bir Debian geliştiricisi olmadığınız sürece doğrudan Debian deposuna yükleme yapamazsınız. Yazılımınızı paketlemeniz ve <literal>debian-mentors</literal> listesinde bir <emphasis>sponsor</emphasis> aramanız gerekir. Bir sponsor, paketinizi kontrol edecek ve onun Debian tarafından kabul edilmeye hazır olduğunu düşünene kadar size destek olacak, ipuçları verecek (genellikle) tecrübeli bir Debian geliştiricisidir. Hazır olduğunda paketlerinizi yükleyecek ve ardından paketleriniz Debian'a eklenecektir. Debian için uygun yeni paketler hazırlayabileceğinizi kanıtladıktan ve onları sürdürmeye istekli olduktan sonra belki siz de bir Debian geliştiricisi hatta bir gün bir sponsor olabilirsiniz. Bu süreç bu belgenin kapsamı dışında olduğundan eğer ilgilenirseniz daha detaylı bilgileri <ulink url="http://www.debian.org/doc/developers-reference/">Debian Geliştirici Kılavuzunda</ulink> bulabilirsiniz.</para>
+    </sect2>
+  </sect1>
+  <appendix id="distribute-deb-appendix"><title>Özel Durumlar</title>
+    <sect1 id="distribute-deb-special-notes-for-thirdparty-packages"><title>Debian Dışındaki Paketler İçin Özel Notlar</title>
+      <para>Eğer paketiniz Debian'da değilse ve özellikle kapalı-kaynak kodlu veya lisansı kaynak kodun değiştirilmiş halinin dağıtılmasına izin vermiyorsa paketinizin mümkün olduğunca esnek olabilmesi için dikkat etmeniz gereken bazı ince noktalar vardır.</para>
+      <sect2 id="distribute-deb-a1"><title>Üç Farklı Debian Dağıtımı</title>
+	      <para>Debian üç farklı şekilde dağıtılmaktadır: <emphasis>stable</emphasis>, <emphasis>testing</emphasis> ve <emphasis>unstable</emphasis>. Yeni bir paket eklendiğinde veya varolan bir paket güncellendiğinde önce unstable sürüme dahil edilir. Unstable'da ciddi bir hataya neden olmadan on gün geçiren paket otomatik olarak testing sürümüne geçirilir. Sürüm yöneticisi yeni bir sürüm için zamanın geldiğine karar verdiğinde testing sürümününün <emphasis>dondurulduğunu</emphasis> (frozen) ilan eder. Bu testing sürümüne yeni paket eklenmeyeceği ve varolanların da güncellenmeyeceği anlamına gelir. Sadece öne çıkan hatalar giderilmeye çalışılır. Tesing sürümünün yayınlanabilir olduğunu düşündüğünde ise adı stable olarak değiştirilir ve yeni bir testing sürümü eklenir. Bu sürümler <emphasis>branş</emphasis>lar olarak da adlandırılırlar.</para>
+	      <para>Yukarıdan da anlaşılacağı gibi üç Debian sürümü de (ama özellikle unstable ve stable) bazen çok farklı olabilirler ve farklı paket kümeleri ile aynı paketlerin farklı sürümlerine sahip olabilirler. Bu yüzden tek bir paket bütün dağıtımlara kurulamayabilir veya kurulsa da çalışamayabilir. Debian depolarındaki paketler için bu bir sorun değildir çünkü o paketler unstable'dan otomatik olarak testing'e oradan da bağımlı olduğu diğer paetlerle birlikte stable sürüme geçerler. Ama Debian dışındaki paketler için bu kesinlikle bir sorundur.</para>
+	      <para>Unstable ve testing sürümleri çok sık (günlük) değiştiklerinden ve özellikle kullanıların tümü günlük olarak tüm paketlerini güncellemeyip sadece bazı paketleri güncelediğinden bu dağıtımlarla güncel kalmak oldukça zordur, Bu yüzden en iyisi hedef olarak stable sürümü seçmek ama diğer dağıtımlara kurulumu kolaylaştırmak için bir kaç şeyi akılda tutmaktır.</para>
       </sect2>
-
-      <sect2 id="distribute-deb-a2">
-        <title>Versioned Dependencies</title>
-
-        <para>The single most important thing is to get the versioned
-          dependencies right.  If, for example, your package needs
-          <literal>libfoo</literal> version 1.01 or greater, and the
-          version in the current stable is 1.07, you should
-          <emphasis>not</emphasis> depend on version 1.07, but on
-          version 1.01 or greater.</para>
-
-        <para>This is very important because even if 1.07 is the last
-          released version of <literal>libfoo</literal>, sooner or
-          later a greater version will follow, and make it into
-          unstable and testing.  If your package depends on
-          <literal>libfoo</literal> 1.07 (and no other version), it
-          would suddenly become uninstallable on unstable and testing.
-          It's much better to take the (relatively small) risk of
-          creating a package which will install but not work properly
-          on testing and unstable than being 100% sure that sooner or
-          later it will just become uninstallable.</para>
-
-        <para>Still supposing that your package needs version 1.01 or
-          greater, and that the current version in stable is 1.07,
-          depending on 1.07 or greater would also be wrong.  Sure, it
-          would work in the <emphasis>current</emphasis> stable, but
-          if you depend on the smallest possible version it might
-          happen that your package can be installed and work on older
-          versions of Debian too!</para>
+      <sect2 id="distribute-deb-a2"><title>Sürüm Bağımlılıkları</title>
+	      <para>En önemli şeylerden biri de paketlerin sürüm bağımlılıklarını doğru belirlemektir. Eğer, örneğin, paketiniz <literal>libfoo</literal>'nun 1.01 veya daha yüksek bir sürümüne bağımlı ve son kararlı sürüm 1.07 ise paketiniz 1.07 sürümüne bağımlı <emphasis>olmamalıdır</emphasis>. Doğru bağımlılık 1.01 veya yukarısı şeklinde olmalıdır.</para>
+	      <para>Bu çok önemlidir çünkü her ne kadar <literal>libfoo</literal>'nun son çıkan sürümü 1.07 olsa da er ya da geç daha yeni bir sürüm çıkacak ve unstable ve testing'de yerini alacaktır. Eğer paketiniz sadece <literal>libfoo</literal> 1.07 sürümüne bağımlı olursa birden unstable ve testing dağıtımların akurulamaz hale gelecektir. Oluşturacağınız paketin testing ve unstable dağıtımlarına kurulabilir ama düzgün çalışmayabilir olması er ya da geç bu dağıtımlara kurulamaz hale geleceğini bilmekten daha kolay alınabilir bir risk olacaktır.</para>
+	      <para>Yine paketinizin ihtiyaç duyduğu sürümün 1.01 veya yukarısı olduğunu ve güncel sürümünün 1.07 olduğunu düşünelim. Paketinizin bağımlılığının 1.07 veye yukarısı yapılması da hatalı olacaktır. Elbette <emphasis>güncel</emphasis> stable dağıtımda çalışacaktır ama eğer mümkün olan en düşük sürüm bağımlılığını vermiş olsaydınız paketiniz daha eski Debian sürümlerine de kurulabilecek ve çalışabilecekti!</para>
       </sect2>
-
-      <sect2 id="distribute-deb-a3">
-        <title>Linking Statically</title>
-
-        <para>If your package depends on a rarely-used library which
-          is not packaged in Debian (for example a library of your
-          company), or on a fast changing one, linking statically to
-          it might be a good idea.  This does not mean that you should
-          link all possible libraries which might ever change in the
-          next twenty years statically, just the ones you think might
-          cause problems if linked dynamically.  Just use common sense
-          here.</para>
-
-        <warning><para>Never link statically to libc.</para></warning>
+      <sect2 id="distribute-deb-a3"><title>Statik Bağlamak</title>
+	      <para>Eğer paketiniz Debian paketi olmayan (örneğin; şirketinize ait) ve nadiren kullanılan bir kitaplığa veya sıklıkla değişen bir kitaplığa bağımlı ise statik olarak bağlamak iyi bir fikir olabilir. Elbette, bu önümüzdeki yirmi yılda değişebileceğini düşündüğünüz her kitaplığı statik bağlamanız gerektiği anlamına gelmez, sadece dinamik olarak bağlandıklarında problem çıkarabileceklerini düşündüğünüz kitaplıkları statik bağlamalısınız. Bu konuda sağduyulu davranın.</para>
+        <warning><para>Asla paketinizi libc'ye statik bağlamayın.</para></warning>
       </sect2>
-      
-      <sect2 id="distribute-deb-a4">
-        <title>Depending on Packages Which Are Not in Stable</title>
-        
-        <para>If your package depends on another package which is
-          available in unstable and/or testing, you can backport that
-          package to stable (or create a new one from scratch), supply
-          it together with your main package and depend on both
-          packages  the one currently in testing/unstable, and
-          the one you backported  using an
-          <emphasis>or</emphasis> (<quote>|</quote>) dependency.  This
-          way your package will use the original package in
-          testing/unstable and your custom version in stable.</para>
+      <sect2 id="distribute-deb-a4"><title>Kararlı Dağıtımda Olmayan Paketlere Bağımlılık</title>
+	      <para>Eğer paketiniz unstable ve/veya testing depolarında bulunan bir pakete bağımlı ise bu paketi stable dağıtımda çalışacak şekilde yeniden derleyebilirsiniz (veya baştan yeniden oluşturabilirsiniz). Böyle yaparsanız paketinizin bağımlılığını hem testing/unstable deposundaki paketi hem de sizin yeniden derlediğiniz paketi işaret edecek şekilde <emphasis>or</emphasis> (<quote>|</quote>) ile gösterebilirsiniz. Bu şekilde paketiniz testing/unstable deposundaki orjinal paketi ve sizin stable depo için hazırladığınız paketi kullanabilecektir.</para>
       </sect2>
-    </sect1> <!-- special-notes-for-thirdparty-packages -->
-
-    <sect1 id="distribute-deb-non-native-packaging">
-      <title>Creating Debian Packages on Other Operating Systems</title>
-
-      <para>It is possible to create Debian packages also on other
-        (Unix-compatible) operating systems, but it is much more
-        difficult and not a very good idea.</para>
-
-      <para>It's probably easier to set up a system with Debian as
-        native OS than trying to emulate its functionality on another,
-        but anyway, here's how to do it.</para>
-
-      <para>First, you need to obtain <command>debootstrap</command>
-        for your OS, install it, read its documentation and execute
-        it.  It will create a whole Debian directory tree in some
-        subdirectory of your choice.  Once you've done that, you only
-        have to <command>chroot</command> into that directory, and you
-        can run a Debian system (or something very similar to a real
-        Debian system, at least) under your other OS of choice.</para>
-
-      <para>Notice that this will only work for systems with proper
-        support for Unix filesystems (with permissions, and
-        everything), and with a <command>chroot</command> command.  In
-        other words, this will <emphasis>not</emphasis> work on
-        Windows.</para>
-    </sect1> <!-- non-native-packaging -->
-
-    <sect1 id="distribute-deb-asterisk-to-deb">
-      <title>Converting a package from another format to DEB</title>
-
-      <para>If you want to package a product you've already packaged
-        in another format, that might ease your task, especially if
-        the package is simple.</para>
-
-      <para>There's a program called <emphasis>alien</emphasis> which
-        can convert packages between different formats; as of this
-        writing it supports Redhat RPM, Debian DEB, Stampede SLP,
-        Slackware TGZ and Solaris PKG.  You can use it to convert your
-        package to DEB, but probably you'll have to do some editing by
-        hand until it works correctly.</para>
-
-      <para>Of course, using alien on a well-working package in
-        another format is no excuse not to test the Debian package you
-        generated and not to read the appropriate documentation; alien
-        is and will always be experimental software.</para>
-
-      <para>Alien was originally written for Debian and is available
-        as <ulink
-        url="http://packages.debian.org/unstable/admin/alien.html">Debian
-        package</ulink>, but it was ported to other platforms
-        too.</para>
-    </sect1> <!-- rpm-to-deb -->
-
-    <sect1 id="distribute-deb-easily-packageable-products">
-      <title>Making it Easy to Create both RPM and DEB Packages</title>
-
-      <para>If you think of the potential packaging problems already
-        when you are programming, you can make it much easier to
-        create RPM, DEB and any other kind of packages.</para>
-
-      <para>One of the main problems are the installation and the
-        uninstallation scripts.  You should always separate them
-        clearly from the program itself, and if possible write them in
-        a modular way.  If you do so, it'll be easy to adapt them to
-        different platforms and packaging systems.</para>
-      
-      <para>You should peruse the documentation for the different
-        platforms and package systems to learn about the differences
-        and the potential problems.</para>
-    </sect1> <!-- easily-packageable-products -->
+    </sect1>
+<sect1 id="distribute-deb-non-native-packaging"><title>Diğer İşletim Sistemleri üzerinde Debian Paketi Hazırlamak</title>
+      <para>Debian paketlerini diğer (Unix-uyumlu) işletim sistemleri üzerind ehazırlamak mümkün olsa da yapılması gerekenler çok daha zor olacağından iyi bir fikir olmayacaktır.</para>
+      <para>Paket hazırlamak için kullanmak üzere bir Debian sistemi hazırlamak başka bir işletim sistemi üzerind eonun fonksiyonlarını taklit etmekten daha kolay olacaktır ama yine de aşağıda bunun nasıl yapılacağını bulacaksınız.</para>
+      <para>İlk olarak işletim sisteminiz için <command>debootstrap</command> paketini bulun, yükleyin, belgelendirmesini okuyun ve çalıştırın. Seçtiğiniz dizinin altına bütün Debian dizin ağacını yaratacaktır. Bu işlem bittikten sonra tek yapmanız gereken bu dizine <command>chroot</command> yapmak olacaktır. Artık diğer işletim sisteminizin altında bir Debian (ya da en azından gerçek bir Debian'a çok benzer bir şey) çalıştırabilirsiniz.</para>
+      <para>Bu süreç sadece Unix dosya sistemlerine (erişimhakları ve diğer şeylerle) uygun desteği veren ve <command>chroot</command> komutunu barındıran sistemler için çalışacaktır. Diğer bir değişle Windows işletim sistemlerinde <emphasis>çalışmayacaktır</emphasis>.</para>
+    </sect1>
+    <sect1 id="distribute-deb-asterisk-to-deb"><title>Başka Bir Formattan DEB Formatına Dönüşüm</title>
+      <para>Daha önce başka bir formatta paketlediğiniz bir yazılımı paketlemek, özellikle paket basitse işinizi kolaylaştıracaktır.</para>
+      <para>Farklı formattaki paketleri birbirine dönüştüren <emphasis>alien</emphasis> isimli bir program mevcuttur. Bu belge hazırlanırken alien Redhat RPM, Debian DEB, Stampede SLP, Slackware TGZ ve Solaris PKG formatlarını desteklemekteydi. Paketinizi DEB formatına dönüştürmek için alien'i kullanabilirsiniz ama tam anlamıyla düzgün çalışması için elle bir şeyler yapmanız gerekebilir.</para>
+      <para>Elbete başka bir formatta iyi çalıştığı bilinen bir paketi alien ile DEB formatına dönüştürmek oluşan DEB paketini denememek ve belgeleri okumamamk için bir bahane olamaz; alien her zaman deneysel bir yazılım olacaktır.</para>
+      <para>Alien asıl olarak Debian için yazılmıştır ve <ulink url="http://packages.debian.org/etch/alien">Debian paketine</ulink> ulaşılabilir ama diğer platformlara da uyarlamıştır.</para>
+    </sect1>
+    <sect1 id="distribute-deb-easily-packageable-products"><title>RPM ve DEB Paketlerini Hazırlamayı Kolaylaştırmak</title>
+      <para>Eğer programlama yaparken muhtemel paketleme sorunlarını da düşünürek çalışırsanız çok daha kolay bir şekilde RPM, DEB ve diğer paket türlerinden hazırlayabilisiniz.</para>
+      <para>Temel problemlerden biri kurulum ve kaldırma betikleridir. Bunları her zaman programın kendisinden ayırmalı ve eğer mümkünse modüler bir şekilde yazmalısınız. Eğer böyle yaparsanız değişik paltformlara ve paketleme sistemlerine uyumlu hale getirilmeleri daha kolay olacaktır.</para>
+      <para>Farklı platformların ve paketleme sistemlerinin belgelerini okuyarak aralarındaki farkları ve muhtemelproblemleri öğrenmeniz iyi olacaktır.</para>
+    </sect1>
   </appendix>
 </article>
