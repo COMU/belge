@@ -1,0 +1,21 @@
+<rss version="2.0">
+
+<channel>
+<title>Belge Haberleri</title>
+<link>http://docs.comu.edu.tr/news/</link>
+<description>Linux ve Özgür Yazılım Belgelerinden Haberler</description>
+<language>tr</language>
+<copyright>GPL</copyright>
+<pubDate>Fri Oct 24 01:10:59 EST 2008</pubDate>
+<lastBuildDate>Fri Oct 24 01:10:59 EST 2008</lastBuildDate>
+<managingEditor>Necdet Yücel</managingEditor>
+<webMaster>Necdet Yücel</webMaster>
+
+<item>
+<title>Yazılım Üreticileri Ürünlerini NASIL Doğrudan DEB Formatında Dağıtabilirler belgesi eklendi.</TITLE>
+<link>http://docs.comu.edu.tr/howto/distribute-deb.html</link>
+</item>
+
+</channel>
+</rss>
+
