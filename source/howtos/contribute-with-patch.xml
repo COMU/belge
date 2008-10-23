@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="contribute-with-patch" lang="tr">
+	<articleinfo>
+		<title>Bir Özgür Yazılım Projesine Yama ile NASIL Katkıda Bulunursunuz</title>
+		<authorgroup><author role="translator">
+				<firstname>Necdet Yücel</firstname>
+				<affiliation>
+					<address><email>nyucel@comu.edu.tr</email></address>
+				</affiliation>
+			</author><author>
+				<firstname>V. Alex</firstname>
+				<surname>Brennen</surname>
+				<affiliation>
+					<address><email>vab@cryptnet.net</email></address>
+				</affiliation>
+			</author></authorgroup>
+		
+		<revhistory>
+			<para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+			<revision>
+				<revnumber>1.0</revnumber>
+				<date>Ekim 2008</date>
+				<authorinitials>ny</authorinitials>
+				<revremark>İlk çeviri</revremark>
+			</revision>
+		</revhistory><revhistory>
+			<para><emphasis role="bold">Özgün belgenin sürüm bilgileri:</emphasis></para>
+			<revision>
+				<revnumber>1.0</revnumber>
+				<date>16 Ocak 2001</date>
+				<authorinitials>VAB</authorinitials>
+			</revision>
+</revhistory>
+<legalnotice><title>Yasal Açıklamalar</title><para>
+		Bu belgenin, <emphasis>Bir Özgür Yazılım Projesine Yama ile NASIL Katkıda Bulunursunuz</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün <emphasis role="bold">telif hakkı © 2001 <emphasis> V. Alex Brennen</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+	</para><para>
+		BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+	</para><para>
+		İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+	</para><para>
+		Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+	</para>
+  </legalnotice>
+<abstract>
+	<para>Bu belgede bir özgür yazılım projesine katkıda bulunmanın yollarından biri olan yama hazırlama anlatılacaktır.</para>
+	<para>Belgenin ingilizce orjinaline <ulink url="http://cryptnet.net/fdp/prog/patch.html">buradan</ulink> ulaşabilirsiniz.</para>
+</abstract>
+</articleinfo>
+<sect1 id="contribute-with-patch-intro"><title>Giriş</title>
+	<para>The greatest strength of free software is that it allows collaboration and hyper specialization. The massive number of individuals who contribute to free software projects allows participants to focus on a specific technology, to specialize on that technology - it's theory, it's implementation and it's direction. This document is a very brief explanation of the patch system, a system used by programmers to allow collaboration on free software projects. The patch system is one of the technologies which was developed to enable hyper specialization with in the community. It plays a strong role in community development efforts, and therefor a basic understanding of it is critical for participating in development projects.</para>
+		
+	<para>The patch systems works by distributing specially formatted text files called patches. A patch is a text file which describes the differences between a modified version of source code and the original source code. A patch exists in a format which allows it to be applied (or used to change) existing original copies of the source code to match the modified version. Patches are generated and applied by a set of two different GNU utilities. The diff utility is used to generated a patch file. The GNU utility patch is used to apply patch files. The patch file generated by the diff utility can then be distributed and applied to other copies of the original source code thus reducing the need to transmit full copies of the project source and the need to scan through the code to find and understand changes. These two utilities working together in the patch system significantly reduce the complexity of collaboration on software development.</para>
+		
+	<para>Obviously though, the majority of the complexity in merging code lies in the design decisions inherent in that. Patch cannot eliminate that complexity. It is up to you, the developer, to attempt to reduce it as much as possible. To reduce the difficulty the maintainer will have in understanding and applying your patches take the following steps:</para>
+		
+	<para><orderedlist><listitem>Discuss the changes with the maintainer before you make them if they are significant</listitem>
+			<listitem>Follow the coding style of the program you're submitting the patch for</listitem>
+			<listitem>Keep your patch simple, targeted at one design or code change or a small related group of them</listitem>
+			<listitem>Include a detailed description of the patch and an explanation of why you think it is needed with your patch submission</listitem>
+			<listitem>Include comments in your code and include your name and e-mail address in those comments</listitem> </orderedlist></para>
+</sect1>
+<sect1 id="contribute-with-patch-how"><title>Nasıl Yaparsınız</title>
+	<para>Lets say that we have downloaded an instructional GPL'd program and have decided that we wish to modify the source and send the change back to the maintainer. We'll use the hello world program as an example. The version of hello world we're going to work with is version 1.0. We downloaded it in a gzipped tar ball called helloworld-1.0.tar.gz, upon extracting it we find that we can a directory called helloworld-1.0/ with the source file helloworld.c inside it. That file has the following contents:</para>
+		
+	<para>Original (helloworld-1.0/helloworld.c):
+<screen>#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    prinf("Hello World!\n");
+    return(0);
+}</screen></para>
+<para>The first step is to make a copy of the source code to modify:
+<screen>cp -R helloworld-1.0/ helloworld-1.0.new/</screen>
+</para>
+<para>Next, you'll want to modify the copy of helloworld.c in the helloworld-1.0.new directory.</para>
+
+<para>Modified Version (helloworld-1.0.new/helloworld.c): 
+<screen>#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    printf("Hello World and little green visitors!\n")
+    return(0);
+}</screen></para>
+<para>The next step (after testing the changes to the software) is to use diff to generate a patch file so that we can distribute out changes. When generating the patch file we invoke diff with the flags 'urN'. According to the diff manpage, these flags mean the following:</para>
+<para>
+        <glosslist>
+          <glossentry>
+            <glossterm>-u</glossterm>
+            <glossdef><para>Use the unified output format.
+            </para></glossdef>
+          </glossentry><glossentry>
+            <glossterm>-r</glossterm>
+            <glossdef><para>When comparing directories, recursively compare any subdirectories found.
+            </para></glossdef>
+          </glossentry><glossentry>
+            <glossterm>-N veya --new-file</glossterm>
+            <glossdef><para>In directory comparison, if a file is found in only one directory, treat it as present but empty in the other directory.
+            </para></glossdef>
+          </glossentry> </glosslist>
+</para>
+<para>As you can see the use of these flags will allow diff to recursively compare all of the files under a pair of directories, assume that any new files should be taken into account as necessary additions, and produce a single patch file. The command we'll want to execute for our example is as follows: 
+<screen>diff -urN helloworld-1.0/ helloworld-1.0.new/ > helloworld.patch</screen></para>
+<para>That command will produce a patch file with the following contents: 
+<screen>diff -urN helloworld-1.0/helloworld.c helloworld-1.0.new/helloworld.c
+--- helloworld-1.0/helloworld.c Sat Feb 19 13:11:35 2000
++++ helloworld-1.0.new/helloworld.c     Sat Feb 19 13:11:12 2000
+@@ -2,6 +2,6 @@
+ 
+ int main(void)
+ {
+-       prinf("Hello World!\n");
++       prinf("Hello World and little green visitors!\n");
+        return(0);
+ }
+</screen></para>
+<para>The format of the patch is obvious. You are referred to the patch utility source code if you want the details.</para>
+
+<para>The patch can then be sent pack to the maintainer through e-mail, posted to a mailing list like the Linux Kernel Mailing List, or posted on a web or ftp site so that others can download it.</para>
+
+<para>The patch can then be downloaded and applied to the original version of the code as shown in the following command: 
+<screen>patch -p0 &lt; helloworld.patch</screen>
+</para>
+<para>Here we tell patch with the 'p0' flag that the helloworld-1.0/ directory is in the same place on our system as it was on the system that the patch was generated on relative to the directory in which the patch was generated. Or in more simple terms, the helloworld-1.0/ directory is in our current working directory along with the patch file. The patch man page has additional information about the p flag and working with path locations.</para>
+
+<para>That's all there is to it. Now go download some GPL'd software, fix some bugs, generate patches, and send them in to the maintainers. </para>
+</sect1>	
+<sect1 id="contribute-with-patch-links"><title>Bağlantılar</title>
+<para><ulink url="http://www.cryptnet.net/">CryptNET </ulink></para>
+<para><ulink url="http://www.gnu.org/">GNU Project </ulink></para>
+<para><ulink url="http://www.fsf.org/">Free Software Foundation </ulink></para>
+<para><ulink url="http://www.cryptnet.net/mirrors/texts/cvsbook.html">Open Source Development With CVS By Karl Fogel </ulink></para>
+<para><ulink url="http://www106.pair.com/rhp/hacking.html">Havoc Pennington's Guide To Working on Free Software</ulink></para>
+</sect1>	
+</article>
