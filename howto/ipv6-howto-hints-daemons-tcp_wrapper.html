@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-17T02:13:04+03:00"><title>tcp_wrapper</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-hints-daemons.html" title="IPv6 uyumlu Artalan Süreçleri İçin İpuçları"><link rel="previous" href="../howto/ipv6-howto-hints-daemons-dhcpv6.html" title="Dinamik Konak Yapılandırma Protokolü v6 Sunucusu (dhcp6s)"><link rel="next" href="../howto/ipv6-howto-hints-daemons-vsftpd.html" title="vsftpd"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">tcp_wrapper</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-dhcpv6.html">Önceki</a> </td><th width="60%" align="center">IPv6 uyumlu Artalan Süreçleri İçin İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-vsftpd.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-hints-daemons-tcp_wrapper"></a><tt>tcp_wrapper</tt></h3></div></dt><dd><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-27T09:55:01+02:00"><title>tcp_wrapper</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-hints-daemons.html" title="IPv6 uyumlu Artalan Süreçleri İçin İpuçları"><link rel="previous" href="../howto/ipv6-howto-hints-daemons-dhcpv6.html" title="Dinamik Konak Yapılandırma Protokolü v6 Sunucusu (dhcp6s)"><link rel="next" href="../howto/ipv6-howto-hints-daemons-vsftpd.html" title="vsftpd"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">tcp_wrapper</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-dhcpv6.html">Önceki</a> </td><th width="60%" align="center">IPv6 uyumlu Artalan Süreçleri İçin İpuçları</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-vsftpd.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-hints-daemons-tcp_wrapper"></a><tt>tcp_wrapper</tt></h3></div></dt><dd><p>
 <b><tt>tcp_wrapper</tt></b> sizi servislerin hatalı kullanımından koruyan bir kütüphanedir.
   </p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id16"></a>Süzme yetenekleri</h4></div></dt><dd><p>
 <b><tt>tcp_wrapper</tt></b>'ı iki şekilde kullanabilirsiniz:
@@ -18,8 +18,8 @@ Kullanıcılara göre süzme (istemcide <b><tt>ident</tt></b> artalan sürecinin çalı
   </p><div class="example"><p><b>Örnek 4.13. Örnek <tt>/etc/hosts.allow</tt> dosyası</b></p><p>
 Bu dosyada bağlantısı kabul edilecek her servis için bir satır bulunmalıdır.
   </p><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">sshd:           1.2.3. [3ffe:ffff:100:200::]/64
-daytime-stream: 1.2.3. [3ffe:ffff:100:200::]/64
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">sshd:           1.2.3. [2001:0db8:100:200::]/64
+daytime-stream: 1.2.3. [2001:0db8:100:200::]/64
 </pre> </td></tr></table></div>
   </p><p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><p>
 IPv6 ağ tanımlaması hatalı olan bazı gösterimler de vardır: [3ffe:ffff:100:200::/64].
@@ -39,25 +39,25 @@ Syslog'un yapılandırma dosyası olan <tt>/etc/syslog.conf</tt> içindeki girdiye b
 Kayıt dosyasında <tt>daytime-stream</tt> servisi tarafından reddedilen her bağlantı için aşağıdakine benzer bir satır bulunur:
   <p></p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Jan 2 20:40:44 gate xinetd-ipv6[12346]: FAIL: daytime-stream libwrap from=::ffff:1.2.3.4
-Jan 2 20:32:06 gate xinetd-ipv6[12346]: FAIL: daytime-stream libwrap  from=3ffe:ffff:100:200::212:34ff:fe12:3456
+Jan 2 20:32:06 gate xinetd-ipv6[12346]: FAIL: daytime-stream libwrap  from=2001:0db8:100:200::212:34ff:fe12:3456
 </pre> </td></tr></table></div>
   </p><p>
 Kayıt dosyasında <b><tt>sshd</tt></b> servisi tarafından reddedilen her bağlantı için aşağıdakine benzer bir satır bulunur:
   </p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Jan 2 20:24:17 gate sshd[12345]: refused connect from ::ffff:1.2.3.4 (::ffff:1.2.3.4)
-Jan 2 20:39:33 gate sshd[12345]: refused connect from 3ffe:ffff:100:200::212:34ff:fe12:3456 (3ffe:ffff:100:200::212:34ff:fe12:3456)
+    Jan 2 20:39:33 gate sshd[12345]: refused connect from 2001:0db8:100:200::212:34ff:fe12:3456    (2001:0db8:100:200::212:34ff:fe12:3456)
 </pre> </td></tr></table></div>
   </p><p></p></dd><dt><span class="term">İzin verilen bağlantı</span></dt><dd>
 Kayıt dosyasında <tt>daytime-stream</tt> servisi tarafından izin verilen bağlantılar için aşağıdakine benzer bir satır bulunur:
   <p></p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Jan 2 20:37:50 gate xinetd-ipv6[12346]: START: daytime-stream pid=0 from=::ffff:1.2.3.4
-Jan 2 20:37:56 gate xinetd-ipv6[12346]: START: daytime-stream pid=0 from=3ffe:ffff:100:200::212:34ff:fe12:3456
+Jan 2 20:37:56 gate xinetd-ipv6[12346]: START: daytime-stream pid=0 from=2001:0db8:100:200::212:34ff:fe12:3456
 </pre> </td></tr></table></div>
   </p><p>
 Kayıt dosyasında <b><tt>sshd</tt></b> servisi tarafından izin verilen bağlantılar için aşağıdakine benzer bir satır bulunur:
   </p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">Jan 2 20:43:10 gate sshd[21975]: Accepted password for user from ::ffff:1.2.3.4 port 33381 ssh2
-Jan 2 20:42:19 gate sshd[12345]: Accepted password for user from 3ffe:ffff:100:200::212:34ff:fe12:3456 port 33380 ssh2
+Jan 2 20:42:19 gate sshd[12345]: Accepted password for user from 2001:0db8:100:200::212:34ff:fe12:3456 port 33380 ssh2
 </pre> </td></tr></table></div>
   </p><p></p></dd></dl></div></p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/ipv6-howto-hints-daemons-dhcpv6.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/ipv6-howto-hints-daemons.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-hints-daemons-vsftpd.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Dinamik Konak Yapılandırma Protokolü v6 Sunucusu (dhcp6s) </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> vsftpd</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası

@@ -2,24 +2,29 @@
 <article id="ipv6-howto" lang="tr">
   <articleinfo>
     <title>Linux IPv6 NASIL</title>
+    <author>
+	    <firstname>Peter Bieringer</firstname>
+	    <affiliation>
+		    <address><email>pb@bieringer.de</email></address>
+	    </affiliation>
+    </author>    
     <author role="translator">
       <firstname>Necdet Yücel</firstname>
       <affiliation>
         <address><email>nyucel@comu.edu.tr</email></address>
       </affiliation>
-    </author>
-    <author>
-      <firstname>Peter Bieringer</firstname>
-      <affiliation>
-        <address><email>pb@bieringer.de</email></address>
-      </affiliation>
+	</author><author role="translator">
+	<firstname>Mesut Can Gürle</firstname>
+	<affiliation>
+		<address><email>mesutcang@comu.edu.tr</email></address>
+	</affiliation>
     </author>
     <revhistory>
       <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
       <revision>
 	      <revnumber>1.4</revnumber>
-	      <date>Eylül 2008</date>
-	      <authorinitials>NY</authorinitials>
+	      <date>Ekim 2008</date>
+	      <authorinitials>MCG</authorinitials>
 	      <revremark>Özgün belgenin 0.61 sürümüne güncellendi.</revremark>
       </revision><revision>
         <revnumber>1.3</revnumber>
@@ -51,10 +56,8 @@
         <revremark>Ayrıntılı bilgi için <xref linkend="ipv6-howto-revision-history"/> bölümüne bakabilirsiniz</revremark>
      </revision>
    </revhistory>
-<copyright><year>2001-2007</year><holder>Peter Bieringer - Özgün belge</holder></copyright><sbr/>
-<copyright><year>2005-2008</year><holder>Necdet Yücel - Türkçe çeviri</holder></copyright>
     <legalnotice><title>Yasal Açıklamalar</title>
-      <para>Bu belgenin, <emphasis>Linux IPv6 NASIL</emphasis> çevirisinin 1.4 sürümünün <emphasis role="bold">telif hakkı © 2005-2008 <emphasis>Necdet Yücel</emphasis>'e</emphasis>, özgün İngilizce sürümünün  <emphasis role="bold">telif hakkı © 2001-2007 <emphasis>Peter Bieringer</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
+	    <para>Bu belgenin, <emphasis>Linux IPv6 NASIL</emphasis> çevirisinin 1.4 sürümünün <emphasis role="bold">telif hakkı © 2005-2008 <emphasis>Necdet Yücel</emphasis> ve <emphasis>Mesut Can Gürle</emphasis>'ye</emphasis>, özgün İngilizce sürümünün  <emphasis role="bold">telif hakkı © 2001-2007 <emphasis>Peter Bieringer</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
   <para>BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.</para>
   <para>İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.</para>
   <para>Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.</para>
@@ -394,16 +397,15 @@ Bu gösterim hala çok kullanışlı olmadığından (karışıklık hala olası
   </para><para>
 Kullanılabilir bir adres (adres türlerinden daha sonra bahsedeceğiz) örneği şöyledir:
   </para><para>
-<screen>   3ffe:ffff:0100:f101:0210:a4ff:fee3:9566</screen>
+<screen>   2001:0db8:0100:f101:0210:a4ff:fee3:9566</screen>
   </para><para>
 Basitlik için 16 bit'lik blokların başındaki sıfırlar ihmal edilebilir:
   </para><para>
-<screen>3ffe:ffff:0100:f101:0210:a4ff:fee3:9566 -> 3ffe:ffff:100:f101:210:a4ff:fee3:9566
-</screen>
+  <screen>2001:0db8:0100:f101:0210:a4ff:fee3:9566  -> 2001:db8:100:f101:210:a4ff:fee3:9566</screen>
   </para><para>
 Tamamen sıfırlardan oluşan bir 16 bit'lik blok yerine "<literal>::</literal>" kullanılabilir. Fakat bir seferde birden fazla kullanımı gösterimin özelliğini bozar.
   </para><para>
-<screen>3ffe:ffff:100:f101:0:0:0:1 -> 3ffe:ffff:100:f101::1</screen>
+  <screen>2001:0db8:100:f101:0:0:0:1  ->  2001:db8:100:f101::1</screen>
   </para><para>
 IPv6 ile yapılabilecek en büyük kısaltma şöyledir:
   </para><para>
@@ -411,8 +413,8 @@ IPv6 ile yapılabilecek en büyük kısaltma şöyledir:
   </para><para>
 Genel kullanımı olmayan bir diğer gösterim de 1 Nisan 1996 da <ulink url="http://www.faqs.org/rfcs/rfc1924.html">RFC 1924 / A Compact Representation of IPv6 Addresses</ulink>'te yayınlanan <literal>compact</literal> isimli gösterimdir. Belki de bir 1 nisan şakasıdır ama bir örneği şöyledir:
   </para><para>
-<screen><prompt># </prompt><command>ipv6calc --addr_to_base85 3ffe:ffff:0100:f101:0210:a4ff:fee3:9566</command>
-Itu&amp;-ZQ82s>J%s99FJXT
+<screen><prompt># </prompt><command>ipv6calc --addr_to_base85 2001:0db8:0100:f101:0210:a4ff:fee3:9566 </command>
+9R}vSQZ1W=9A_Q74Lz&amp;R 
 </screen>
   </para><para><note><title>Bilgi</title><para>
 <command>ipv6calc</command>, IPv6 adres düzenini hesaplayabilen ve dönüştürebilen bir programdır ve şu adreslerden edinilebilir: <ulink url="http://www.deepspace6.net/projects/ipv6calc.html">ipv6calc ana sayfası</ulink> (<ulink url="http://mirrors.bieringer.de/www.deepspace6.net/projects/ipv6calc.html">Yansı</ulink>)
@@ -546,14 +548,14 @@ Bazı sorunları olduğundan bu tür adreslere karşı çıkışların sürdüğ
   </para><para>
 Laboratuar testleri için bu tür adresler bence hala uygundurlar.
   </para></sect3>
-  <sect3><title>Unique Local IPv6 Unicast Addresses</title>
-  <para>Because the original defined site local addresses are not unique, this can lead to major problems, if two former independend networks would be connected later (overlapping of subnets). This and other issues lead to a new address type named RFC 4193 / Unique Local IPv6 Unicast Addresses</para>
-  <para>It begins with:
+<sect3><title> Yerel IPv6 Tekil Gönderim(unicast) Adresileri</title>
+            <para>Tanımlanan site yerel adres türleri eşsiz değildir. Eğer iki ayrı bağımsız ağ daha sonra bağlanacaksa (çakışan altağlar), bu daha büyük sorunların oluşmasına neden olabilir. Bu ve diğer konular <ulink url="http://www.faqs.org/rfcs/rfc4193.html">RFC 4193 / Unique Local IPv6 Unicast Addresses. </ulink></para>
+  <para>Adres başlangıcı:
 <screen>fdxx:
 fcxx:</screen>  
   </para>
-  <para>A part of the prefix (40 bits) are generated using a pseudo-random algorithm and its improbably, that two generated ones are equal.</para>
-  <para>Example for a prefix (generated using a web-based tool: Goebel Consult / createLULA):
+  <para> Önekin bir kısmı (40 bit) pseudo-random algoritması kullanarak üretilir ve iki üretilen değer beklenmedik bir şekilde birbirine eşittir.</para>
+  <para>Bir önek örneği (web tabanlı bir araçla üretildi: <ulink url="http://www.goebel-consult.de/ipv6/createLULA">Goebel Consult / createLULA ): </ulink>
   <screen>fd0f:8b72:ac90::/48</screen></para>
   </sect3>
   <sect3><title>Global adres türü "(Aggregatable) global unicast"</title>
@@ -678,12 +680,12 @@ Rasgele gönderim adresleri kaynak adresi olarak kullanılamazlar, sadece hedef 
   <para>
 Rasgele gönderim adresine en basit örnek alt ağ-yönlendirici rasgele gönderim adresidir. Bir düğümün aşağıdaki küresel IPv6 adresine sahip olduğunu kabul edelim:
   </para><para>
-<screen>3ffe:ffff:100:f101:210:a4ff:fee3:9566/64 &lt;==<emphasis>Düğüm adresi</emphasis>
+  <screen> 2001:db8:100:f101:210:a4ff:fee3:9566/64 &lt;==<emphasis>Düğüm adresi</emphasis>
 </screen>
   </para><para>
 Alt ağ-yönlendirici rasgele gönderim adresi en azından sondan 64 bitlik bölümün tamamiyle boş bırakılmasıyla elde edilir:
   </para><para>
-<screen>3ffe:ffff:100:f101::/64  &lt;==<emphasis>alt ağ-yönlendirici rasgele gönderim adresi</emphasis>
+  <screen> 2001:db8:100:f101::/64   &lt;==<emphasis>alt ağ-yönlendirici rasgele gönderim adresi</emphasis>
 </screen>
   </para></sect4></sect3></sect2>
   <sect2 id="ipv6-howto-addresstypes-hostpart">
@@ -699,9 +701,9 @@ Otomatik yapılandırma ile adresin konak kısmı, arabirimin MAC adresinin (eğ
   </para><para>
 Tekrar ilk örneği ele alalım:
   </para><para>
-<screen>3ffe:ffff:100:f101:210:a4ff:fee3:9566</screen>
+<screen>2001:0db8:0100:f101:0210:a4ff:fee3:9566</screen>
 </para><para>burada,</para><para>
-<screen>210:a4ff:fee3:9566</screen>
+<screen>0210:a4ff:fee3:9566</screen>
   </para><para>
 parçası konak kısmıdır ve ağ arabirim kartının MAC adresinden:
   </para><para>
@@ -719,7 +721,7 @@ Bilinen bir sorun ve çözümü <ulink url="http://www.faqs.org/rfcs/rfc3041.htm
   <para>
 Sunucular için basit adresler daha kolay hatırlanabildiklerinden bunu da ayarlamak mümkündür. Bir arabirime ilave bir IPv6 adresi atamak mümkündür, örneğin:
   </para><para>
-<screen>3ffe:ffff:100:f101::1</screen>
+<screen>2001:0db8:100:f101::1</screen>
   </para><para>
 Yukarıdaki gibi elle atanan <literal>::1</literal> gibi sonekler için yedinci önemli bit'in 0 olarak atanması gerekir. Bu işlem için ayrılan başka bit kombinasyonları da vardır.
   </para></sect3></sect2>
@@ -734,12 +736,12 @@ Bugün ise yönlendirmenin sadece bir servis sağlayıcısı olan ağlar için h
   <para>
 IPv4'te olduğu gibi yönlendirme için yönledirilebilir ağ yolu kullanılır. 128 bit için standart ağ maskesi gösterimi hoş durmadığından tasarımcılar CIDR ( <ulink url="http://www.faqs.org/rfcs/rfc1519.html">RFC 1519 / Classless Inter-Domain Routing</ulink>) isimli IP adresinin kaç bit'inin yönlendirme için kullanıldığını belirleyen gösterimi geliştirdiler. Bu gösterim "bölü çizgisi" gösterimi olarak da bilinmektedir. Örnek:
   </para><para>
-<screen>3ffe:ffff:100:1:2:3:4:5/48</screen>
+  <screen>2001:0db8:100:1:2:3:4:5/48</screen>
   </para><para>
 Bu gösterim genişletilebilir:
   </para><para><itemizedlist><listitem><para>Ağ:
   </para><para>
-<screen>3ffe:ffff:0100:0000:0000:0000:0000:0000</screen>
+<screen>2001:0db8:0100:0000:0000:0000:0000:0000</screen>
   </para></listitem><listitem><para>Ağ maskesi:
   </para><para>
 <screen>ffff:ffff:ffff:0000:0000:0000:0000:0000</screen>
@@ -750,14 +752,14 @@ Normal şartlar altında (QoS yok ise) yönlendirme tablosunun kontrolü ile yö
   </para><para>
 Örneğin bir yönledirme tablosu aşağıdaki girdileri gösteriyor ise (listenin tamamı değil):
   </para><para>
-<screen>3ffe:ffff:100::/48     ::            U  1 0 0 sit1
+  <screen>2001:0db8:100::/48       ::            U  1 0 0 sit1
 2000::/3               ::192.88.99.1 UG 1 0 0 tun6to4
 </screen>
   </para><para>
 IPv6 paketleri gösterilen aygıt üzerinden hedef adreslerine yönlendirilmişlerdir.
   </para><para>
-<screen>3ffe:ffff:100:1:2:3:4:5/48  ->  <emphasis>sit1 aygıtı üzerinden</emphasis>
-3ffe:ffff:200:1:2:3:4:5/48  ->  <emphasis>tun6to4 aygıtı üzerinden</emphasis>
+  <screen>2001:0db8:100:1:2:3:4:5/48   ->  <emphasis>sit1 aygıtı üzerinden</emphasis>
+      2001:0db8:200:1:2:3:4:5/48   ->  <emphasis>tun6to4 aygıtı üzerinden</emphasis>
 </screen>
   </para></sect3></sect2></sect1>
   <sect1 id="ipv6-howto-systemcheck"><title>Sistemin IPv6 Kullanımına Hazırlanması</title>
@@ -770,7 +772,7 @@ Modern Linux dağıtımlarının tümü zaten IPv6'ya hazır çekirdekler kullan
   </para><para>
 En güncel bilgiyi <ulink url="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-distributions.html">IPv6+Linux-Status-Distribution</ulink> belgesinde bulabilirsiniz.
   </para><para><warning><para>
-IPv6'ya hazır olmayan 2.2.x serisi çekirdekleri kullanmamalısınız.
+IPv6'ya hazır olmayan 2.2.x serisi çekirdekleri kullanmamalısınız. Aynı zamanda 2.4.x serisi çekirdekler de RFC'lerdeki son değişikliklerle uyumlu değildir. Şu an 2.6.x serisinin kullanılması önerilmektedir.
   </para></warning></para>
   <sect3><title>Çalışan çekirdeğin IPv6 desteğini kontrol edin</title>
   <para>
@@ -951,7 +953,7 @@ Bu program normal olarak <literal>iputils</literal> paketine dahildir. IPv4'de k
   </para><para>
 <screen><prompt># </prompt><command>traceroute6 www.6bone.net</command>
 traceroute to 6bone.net (3ffe:b00:c18:1::10) from 3ffe:ffff:0000:f101::2, 30 hops max, 16 byte packets
- 1 localipv6gateway (3ffe:ffff:0000:f101::1) 1.354 ms 1.566 ms 0.407 ms
+ 1 localipv6gateway (2001:0db8:0000:f101::1) 1.354 ms 1.566 ms 0.407 ms 
  2 swi6T1-T0.ipv6.switch.ch (3ffe:2000:0:400::1) 90.431 ms 91.956 ms 92.377 ms
  3 3ffe:2000:0:1::132 (3ffe:2000:0:1::132) 118.945 ms 107.982 ms 114.557 ms
  4 3ffe:c00:8023:2b::2 (3ffe:c00:8023:2b::2) 968.468 ms 993.392 ms 973.441 ms
@@ -995,26 +997,26 @@ Daha çok ICMPv6 paketlerini yakalamakta ve paketler hakkında daha fazla bilgi 
   </para><para><itemizedlist><listitem>
 <literal>-s 512</literal>: paket yakalamak için kullanılan kopma (snap) uzunluğunu 512 bayta çıkartır.
   </listitem><listitem>
-<literal>-vv</literal>: oldukça ayrıntılı bilgi verilir.
+  <literal>-vv</literal>: oldukça ayrıntılı bilgi verilir.</listitem><listitem>
 <literal>-n</literal>: adresleri isme çevirmez, eğer ters DNS çözümlemesi iyi çalışmıyorsa faydalıdır.
   </listitem></itemizedlist></para>
-  <example><title><literal>3ffe:ffff:100:f101::1</literal> adresine yerel bir bağlantı üzerinden IPv6 ping</title>
+  <example><title><literal> 2001:0db8:100:f101::1</literal> adresine yerel bir bağlantı üzerinden IPv6 ping</title>
   <para>
 <screen><prompt># </prompt><command>tcpdump -t -n -i eth0 -s 512 -vv ip6 or proto ipv6</command>
 tcpdump: listening on eth0
-3ffe:ffff:100:f101:2e0:18ff:fe90:9205 > 3ffe:ffff:100:f101::1: icmp6: echo request (len 64, hlim 64)
-3ffe:ffff:100:f101::1 > 3ffe:ffff:100:f101:2e0:18ff:fe90:9205: icmp6: echo reply (len 64, hlim 64)
+2001:0db8:100:f101:2e0:18ff:fe90:9205 > 2001:0db8:100:f101::1: icmp6: echo request (len 64, hlim 64)
+2001:0db8:100:f101::1 > 2001:0db8:100:f101:2e0:18ff:fe90:9205: icmp6: echo reply (len 64, hlim 64)
 </screen>
-  </para></example><example><title><literal>3ffe:ffff:100:f101::1</literal> adresine IPv6-in-IPv4 tüneli üzerinden yönlendirilmiş IPv6 ping</title>
+  </para></example><example><title><literal>2001:0db8:100::1</literal> adresine IPv6-in-IPv4 tüneli üzerinden yönlendirilmiş IPv6 ping</title>
   <para>
 1.2.3.4 ve 5.6.7.8 adresleri tünelin iki ucunu göstermektedir (elbette adresler örnektir)
   </para><para>
 <screen><prompt># </prompt><command>tcpdump -t -n -i ppp0 -s 512 -vv ip6 or proto ipv6</command>
 tcpdump: listening on ppp0
-1.2.3.4 > 5.6.7.8: 2002:ffff:f5f8::1 > 3ffe:ffff:100::1: icmp6: echo request (len 64, hlim 64) (DF) (ttl 64, id 0, len 124)
-5.6.7.8 > 1.2.3.4: 3ffe:ffff:100::1 > 2002:ffff:f5f8::1: icmp6: echo reply (len 64, hlim 61) (ttl 23, id 29887, len 124)
-1.2.3.4 > 5.6.7.8: 2002:ffff:f5f8::1 > 3ffe:ffff:100::1: icmp6: echo request (len 64, hlim 64) (DF) (ttl 64, id 0, len 124)
-5.6.7.8 > 1.2.3.4: 3ffe:ffff:100::1 > 2002:ffff:f5f8::1: icmp6: echo reply (len 64, hlim 61) (ttl 23, id 29919, len 124)
+1.2.3.4 > 5.6.7.8: 2002:ffff:f5f8::1 > 2001:0db8:100::1: icmp6: echo request (len 64, hlim 64) (DF) (ttl 64, id 0, len 124)
+5.6.7.8 > 1.2.3.4: 2001:0db8:100::1 > 2002:ffff:f5f8::1: icmp6: echo reply (len 64, hlim 61) (ttl 23, id 29887, len 124)
+1.2.3.4 > 5.6.7.8: 2002:ffff:f5f8::1 > 2001:0db8:100::1: icmp6: echo request (len 64, hlim 64) (DF) (ttl 64, id 0, len 124)
+5.6.7.8 > 1.2.3.4: 2001:0db8:100::1 > 2002:ffff:f5f8::1: icmp6: echo reply (len 64, hlim 61) (ttl 23, id 29919, len 124)
 </screen>
   </para></example></sect3></sect2>
   <sect2  chunkthis="1" id="ipv6-howto-systemcheck-progs"><title>IPv6'ya hazır programlar</title>
@@ -1231,7 +1233,7 @@ Elle yapılandırılmış konak için kullanım örneği:
 <screen><prompt># </prompt><command>/sbin/ip -6 addr show dev eth0</command>
 2: eth0: &lt;BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc pfifo_ fast qlen 100
 inet6 fe80::210:a4ff:fee3:9566/10 scope link
-inet6 3ffe:ffff:0:f101::1/64 scope global
+inet6 2001:0db8:0:f101::1/64 scope global
 inet6 fec0:0:0:f101::1/64 scope site
 </screen>
   </para><para>
@@ -1256,7 +1258,7 @@ valid_lft 2591997sec preferred_lft 604797sec inet6 fe80::2e0:18ff:fe90:9205/10 s
   </para><para>
 <screen><prompt># </prompt><command>/sbin/ifconfig eth0 |grep "inet6 addr:"</command>
 inet6 addr: fe80::210:a4ff:fee3:9566/10 Scope:Link
-inet6 addr: 3ffe:ffff:0:f101::1/64 Scope:Global
+inet6 addr: 2001:0db8:0:f101::1/64 Scope:Global
 inet6 addr: fec0:0:0:f101::1/64 Scope:Site
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect2>
@@ -1270,7 +1272,7 @@ Linux'ta bir IPv6 adresinin eklenmesi IPv4 adresli arabirime "IP ALIAS" adresini
 <synopsis><command>/sbin/ip -6 addr add </command><emphasis>ipv6adres</emphasis>/<emphasis>önek_uzunluğu </emphasis><command>dev </command><emphasis>arabirim</emphasis>
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>/sbin/ip -6 addr add 3ffe:ffff:0:f101::1/64 dev eth0</command>
+  <screen><prompt># </prompt><command>/sbin/ip -6 addr add 2001:0db8:0:f101::1/64 dev eth0</command>
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term><literal>ifconfig</literal> kullanarak</term>
@@ -1278,7 +1280,7 @@ Linux'ta bir IPv6 adresinin eklenmesi IPv4 adresli arabirime "IP ALIAS" adresini
 <synopsis><command>/sbin/ifconfig </command><emphasis>arabirim </emphasis><command>inet6 add </command><emphasis>ipv6adres</emphasis>/<emphasis>önek_uzunluğu</emphasis>
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>/sbin/ifconfig eth0 inet6 add 3ffe:ffff:0:f101::1/64</command>
+  <screen><prompt># </prompt><command>/sbin/ifconfig eth0 inet6 add 2001:0db8:0:f101::1/64 </command>
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect2>
   <sect2  chunkthis="1" id="ipv6-howto-configuration-address-removing">
@@ -1291,7 +1293,7 @@ Pek sık ihtiyaç duyulmaz ama varolmayan IPv6 adreslerinin kaldırılması eski
 <synopsis><command>/sbin/ip -6 addr del </command><emphasis>ipv6adres</emphasis>/<emphasis>önek_uzunluğu </emphasis><command>dev </command><emphasis>arabirim</emphasis>
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>/sbin/ip -6 addr del 3ffe:ffff:0:f101::1/64 dev eth0</command>
+  <screen><prompt># </prompt><command>/sbin/ip -6 addr del 2001:0db8:0:f101::1/64 dev eth0</command>
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term><literal>ifconfig</literal> kullanarak</term>
@@ -1299,7 +1301,7 @@ Pek sık ihtiyaç duyulmaz ama varolmayan IPv6 adreslerinin kaldırılması eski
 <synopsis><command>/sbin/ifconfig </command><emphasis>arabirim </emphasis><command>inet6 del </command><emphasis>ipv6adres</emphasis>/<emphasis>önek_uzunluğu</emphasis>
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>sbin/ifconfig eth0 inet6 del 3ffe:ffff:0:f101::1/64</command>
+  <screen><prompt># </prompt><command>sbin/ifconfig eth0 inet6 del 2001:0db8:0:f101::1/64</command>
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect2></sect1>
   <sect1 id="ipv6-howto-configuration-route">
@@ -1316,8 +1318,8 @@ Eğer kendi bağlantınızın dışına çıkıp IPv6-internetine paket gönderm
 <synopsis><command>/sbin/ip -6 route show </command>[<command>dev </command><emphasis>aygıt</emphasis>]
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>/sbin/ip -6 route show dev eth0</command>
-3ffe:ffff:0:f101::/64 proto kernel metric 256 mtu 1500 advmss 1440
+<screen><prompt># </prompt><command>/sbin/ip -6 route show dev eth0</command> 
+2001:0db8:0:f101::/64 proto kernel metric 256 mtu 1500 advmss 1440
 fe80::/10             proto kernel metric 256 mtu 1500 advmss 1440
 ff00::/8              proto kernel metric 256 mtu 1500 advmss 1440
 default               proto kernel metric 256 mtu 1500 advmss 1440
@@ -1331,7 +1333,7 @@ default               proto kernel metric 256 mtu 1500 advmss 1440
 Örnek (çıktı sadece <literal>eth0</literal> arabirimini gösterecek şekilde filtrelenmiştir). Bir arabirim üzerindeki farklı adresler için farklı IPv6 rotaları görmektesiniz.
   </para><para>
 <screen><prompt># </prompt><command>/sbin/route -A inet6 |grep -w "eth0"</command>
-3ffe:ffff:0:f101 ::/64 :: UA  256 0 0 eth0 &lt;== <emphasis>küresel adres için arabirim rotası</emphasis>
+2001:0db8:0:f101 ::/64 :: UA  256 0 0 eth0 &lt;== <emphasis>küresel adres için arabirim rotası</emphasis>
 fe80::/10        ::       UA  256 0 0 eth0 &lt;== <emphasis>yerel adres için arabirim rotası</emphasis>
 ff00::/8         ::       UA  256 0 0 eth0 &lt;== <emphasis>tüm çoğa gönderim adresleri için arabirim rotası</emphasis>
 ::/0             ::       UDA 256 0 0 eth0 &lt;== <emphasis>öntanımlı rota</emphasis>
@@ -1347,7 +1349,7 @@ Genellikle IPv6 ile bağlantınızın dışına ulaşmak istediğinizde ihtiyaç
 <synopsis><command>/sbin/ip -6 route add </command><emphasis>ipv6ağı</emphasis>/<emphasis>önek_uzunluğu </emphasis><command>via </command><emphasis>ipv6adres </emphasis>[<command>dev </command><emphasis>aygıt</emphasis>]
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>/sbin/ip -6 route add 2000::/3 via 3ffe:ffff:0:f101::1</command>
+<screen><prompt># </prompt><command>/sbin/ip -6 route add 2000::/3 via 2001:0db8:0:f101::1</command>
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term><literal>route</literal> kullanarak</term>
@@ -1357,9 +1359,9 @@ Genellikle IPv6 ile bağlantınızın dışına ulaşmak istediğinizde ihtiyaç
   </para><para>
 Eğer ağ geçidinin IPv6 adresi yerel bir adrese bağlantı ise bir aygıta da ihtiyacınız olabilir.
   </para><para>
-Aşağıdaki örnekte tüm küresel adreslere (<literal>2000::/3</literal>), <literal>3ffe:ffff:0:f101::1</literal> ağ geçidi eklenmektedir:
+Aşağıdaki örnekte tüm küresel adreslere (<literal>2000::/3</literal>), <literal>2001:0db8:0:f101::1</literal> ağ geçidi eklenmektedir:
   </para><para>
-<screen><prompt># </prompt><command>/sbin/route -A inet6 add 2000::/3 gw 3ffe:ffff:0:f101::1</command>
+<screen><prompt># </prompt><command>/sbin/route -A inet6 add 2000::/3 gw 2001:0db8:0:f101::1</command>
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect2>
   <sect2  chunkthis="1" id="ipv6-howto-configuration-route-removing">
@@ -1372,7 +1374,7 @@ Genellikle elle yapılmasına gerek olmaz. Bu işlem arabirimlerin kapanışı s
 <synopsis><command>/sbin/ip -6 route del </command><emphasis>ipv6ağı</emphasis>/<emphasis>önek_uzunluğu </emphasis><command>via </command><emphasis>ipv6adres </emphasis>[<command>dev </command><emphasis>aygıt</emphasis>]
 </synopsis>
   </para><para>Örnek:</para><para>
-<screen><prompt># </prompt><command>/sbin/ip -6 route del 2000::/3 via 3ffe:ffff:0:f101::1</command>
+<screen><prompt># </prompt><command>/sbin/ip -6 route del 2000::/3 via 2001:0db8:0:f101::1</command>
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term><literal>route</literal> kullanarak</term>
@@ -1382,7 +1384,7 @@ Genellikle elle yapılmasına gerek olmaz. Bu işlem arabirimlerin kapanışı s
   </para><para>
 Yukarıdaki örnekte eklenen rotanın kaldırılması:
   </para><para>
-<screen><prompt># </prompt><command>/sbin/route -A inet6 del 2000::/3 gw 3ffe:ffff:0:f101::1</command>
+<screen><prompt># </prompt><command>/sbin/route -A inet6 del 2000::/3 gw 2001:0db8:0:f101::1</command>
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect2>
   <sect2  chunkthis="1" id="ipv6-howto-configuration-route-addingviainterface">
@@ -2404,11 +2406,11 @@ Aşağıda sizin hata ayıklamanızda da yardımcı olabilecek, yakalanan paketl
 ¬ advertisement(chlim=64, router_ltime=30, reachable_time=0,
 ¬ retrans_time=0)(prefix info: AR valid_ltime=30, preffered_ltime=20,
 ¬ prefix=2002:0102:0304:1::/64)(prefix info: LAR valid_ltime=2592000,
-¬ preffered_ltime=604800, prefix=3ffe:ffff:0:1::/64)(src lladdr:
+¬ preffered_ltime=604800, prefix=2001:0db8:0:1::/64)(src lladdr:
 ¬ 0:12:34:12:34:50) (len 88, hlim 255)
 </screen>
   </para><para>
-Yerel bağlantı adresi <literal>fe80::212:34ff:fe12:3450</literal> olan yönlendirici ağdaki tüm düğümlerin çoğa gönderim adresi olan <literal>ff02::1</literal> adresine iki önek <literal>2002:0102:0304:1::/64</literal> (yaşam süresi 30 s) ve <literal>3ffe:ffff:0:1::/64</literal> (yaşam süresi 2592000 s) ve kendi MAC adresini <literal>0:12:34:12:34:50</literal> içeren bir bilgilendirme göndermektedir.
+  Yerel bağlantı adresi <literal>fe80::212:34ff:fe12:3450</literal> olan yönlendirici ağdaki tüm düğümlerin çoğa gönderim adresi olan <literal>ff02::1</literal> adresine iki önek <literal>2002:0102:0304:1::/64</literal> (yaşam süresi 30 s) ve <literal>2001:0db8:0:1::/64</literal> (yaşam süresi 2592000 s) ve kendi MAC adresini <literal>0:12:34:12:34:50</literal> içeren bir bilgilendirme göndermektedir.
   </para></example>
   <example><title>Yönlendirici talebi</title><para>
 <screen>15:44:21.152646 fe80::212:34ff:fe12:3456 > ff02::2: icmp6: router solicitation
@@ -2595,57 +2597,28 @@ Uzun süren tartışmalardan sonra <ulink url="http://www.faqs.org/rfcs/rfc3315.
 <ulink url="http://dhcpv6.sourceforge.net/">DHCPv6 on Sourceforge</ulink>
   </listitem></itemizedlist></para></sect1>
   <sect1 id="ipv6-howto-mobility"><title>Hareketlilik</title>
-  <para>
-Detaylı bilgi almak için <ulink url="http://www.mipl.mediapoli.com/">Mobile IPv6 for Linux(MIPL)</ulink> adresine bakabilirsiniz. Aşağıdaki bağlar da faydalı olacaktır (lütfen kırık bağları bildirin).
-  </para><para><itemizedlist><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-oneill-mipv6-cao-??.txt / MIPv6 Care of Address Option</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-mccann-mobileip-80211fh-??.txt / Mobile IPv6 Fast Handovers for 802.11 Networks</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-haberman-ipv6-anycast-rr-??.txt / IPv6 Anycast Binding using Return Routability</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-mun-aaa-localkm-mobileipv6-??.txt / Localized Key Management for AAA in MobileIPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-thubert-nemo-ro-taxonomy-??.txt / Taxonomy of Route Optimization Models in the NEMO Context</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-le-aaa-diameter-mobileipv6-??.txt / Diameter Mobile IPv6 Application</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-wakikawa-manet-globalv6-??.txt / Global Connectivity for IPv6 Mobile Ad Hoc Networks</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-ietf-mobileip-fast-mipv6-??.txt / Fast Handovers for Mobile IPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-ietf-mobileip-ipv6-??.txt / Mobility Support in IPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-ohnishi-mobileip-v6vpngateway-??.txt / Mobile IPv6 VPN using Gateway Home Agent</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-ietf-mobileip-hmipv6-??.txt / Hierarchical MIPv6 mobility management (HMIPv6)</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-mkhalil-ipv6-fastra-??.txt / IPv6 Fast Router Advertisement</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-okazaki-mobileip-abk-??.txt / Securing MIPv6 Binding Updates Using Address Based Keys (ABKs)</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-vriz-mobileip-hbhlmap-??.txt / Hop-by-Hop Local Mobility Agents Probing for Mobile IPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-thubert-nemo-reverse-routing-header-??.txt / IPv6 Reverse Routing Header and its application to Mobile Networks</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-ietf-mobileip-mipv6-ha-ipsec-??.txt / Using IPsec to Protect Mobile IPv6 Signaling between Mobile Nodes and Home Agents</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-suh-rmm-??.txt / Regional Mobile IPv6 mobility management</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-mccann-mobileip-ipv6mipv4-??.txt / IPv6 over Mobile IPv4</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-kempf-mobileip-fmipv6-sem-??.txt / Improving the Architectural Alignment for FMIPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-le-aaa-mipv6-requirements-??.txt / Mobile IPv6 Authentication, Authorization, and Accounting Requirements</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">draft-hwang-rohc-mipv6-??.txt / RObust Header Compression (ROHC): A Compression Profile for Mobile IPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.cs-ipv6.lancs.ac.uk/ipv6/MobileIP/">LANCASTER MOBILE IPv6 PACKAGE</ulink>
-  </listitem><listitem>
-<ulink url="http://gsyc.escet.urjc.es/Mobiquo/Mind/documentacion/MontajeMaquetaIPv6_en/MontajeMaquetaIPv6_en.html">Testbed for MIND project on IPv6</ulink>
-  </listitem><listitem>
-<ulink url="http://www.piuha.net/%7Ejarkko/publications/mipv6/MIPv6-Issues.html">Mobile IPv6 Issue List</ulink>
-  </listitem></itemizedlist></para></sect1>
+	  <sect2 id="ipv6-howto-mobility-intro"><title>Genel Bilgi</title>
+          <sect3><title> Düğüm Hareketliliği</title> 
+		  <para> Linux'a IPV6 hareketliliği ile ilgili destek <ulink url="http://www.mobile-ipv6.org/">http://www.mobile-ipv6.org/</ulink> 'dan temin edilebilen MIPL2 ile kullanılabilir. </para>
+		  <para>Bu uygulama RFC 3775 ile uyumludur.Bu bir çekirdek yaması ve mip6d olarak bilinen bir hareketlilik programının birleşimidir. 2.6.15 Linux çekirdeğinde 2.0.1 sürümü mevcuttur.</para>
+		  <para>Kurulum ve yapılandırması Linux Gezici IPv6 HOWTO'da:<ulink url="http://docs.comu.edu.tr/howto/mobil-ipv6-howto.html"/> bulunabilir.</para>
+	  </sect3>
+          <sect3><title>Ağ Hareketliliği</title>
+              <para>Linux'da ağ hareketliliği için, MIPL tabanlı NELP isimli bir uygulama mevcuttur. <ulink url="http://www.mobile-ipv6.org/">http://www.mobile-ipv6.org/</ulink> adresinden indirilebilir.</para>
+              <para>Kurulumu ve yapılandırmasının bulunduğu NASIL (HOWTO) belgesi <ulink url="http://www.nautilus6.org/doc/nepl-howto/">http://www.nautilus6.org/doc/nepl-howto/</ulink> adresinde mevcuttur.</para>
+      </sect3>
+          <sect3>
+              <title>Bağlantılar</title>
+              <para><itemizedlist><listitem> Mobile IPv6 for Linux (MIPL) projesi: <ulink url="http://www.mobile-ipv6.org/">http://www.mobile-ipv6.org/</ulink> </listitem>
+                      <listitem> Nautilus6 çalışma grubu: <ulink url="http://nautilus6.org/">http://nautilus6.org/</ulink></listitem>
+                      <listitem> Fast Handovers for Mobile IPv6 for Linux projesi: <ulink url="http://www.fmipv6.org/">http://www.fmipv6.org/</ulink></listitem>
+                      <listitem> <ulink url="http://www.faqs.org/rfcs/rfc3775.html">RFC 3775 / Mobility Support in IPv6</ulink></listitem>
+                      <listitem> <ulink url="http://www.faqs.org/rfcs/rfc3776.html">RFC 3776 / Using IPsec to Protect Mobile IPv6 Signaling Between Mobile Nodes and Home Agents</ulink></listitem>
+                      <listitem> <ulink url="http://www.faqs.org/rfcs/rfc3963.html">RFC 3963 / Network Mobility (NEMO)</ulink></listitem>
+                      <listitem> <ulink url="http://www.faqs.org/rfcs/rfc4068.html">RFC 4068 / Fast Handovers for Mobile IPv6</ulink></listitem> </itemizedlist></para>
+                  </sect3>
+              </sect2>
+          </sect1>
   <sect1 id="ipv6-howto-firewalling-security">
   <title>Güvenlik Duvarı Oluşturmak</title>
   <para>
@@ -2678,8 +2651,6 @@ En yeni çekirdek kaynak kodu: <ulink url="http://www.kernel.org/">http://www.ke
 En yeni iptables paketinin kaynak kodu:
   </para><para><itemizedlist><listitem>
 Kaynak tar paketi (çekirdek yamaları için): <ulink url="http://www.netfilter.org/"/>
-  </listitem><listitem>
-Red Hat sistemlerinde RPM üretmek için SRPM: <ulink url="ftp://ftp.redhat.com/redhat/linux/rawhide/SRPMS/SRPMS/"/> veya <ulink url="http://www.netcore.fi/pekkas/linux/ipv6/"/>
   </listitem></itemizedlist></para></sect3>
   <sect3><title>Kodları açın</title>
   <para>
@@ -2740,7 +2711,7 @@ Extensions found: IPv6:owner IPv6:limit IPv6:mac IPv6:multiport
   </para><para>
 <screen>
 - EXTRAVERSION =
-+ EXTRAVERSION = -iptables-sürüm+IPv6-dnm
++ EXTRAVERSION = -iptables-sürüm+IPv6-try
 </screen>
   </para><para>
 <command>configure</command> komutunu çalıştırın ve IPv6 ile ilgili yapılandırmayı yapın:
@@ -2875,13 +2846,13 @@ ICMPv6 fırtınası olabileceğinden (yazar bunu iki kez görmüştür) en azın
   <term>SSH isteklerine izin verin</term><listitem><para>
 Aşağıdaki örnekte belirlenen bir IPv6 adresinden gelen SSH isteklerine izin verilmektedir.
   </para><para>
-<literal>3ffe:ffff:100::1/128</literal> adresinden gelen SSH isteklerine izin ver:
+  <literal>2001:0db8:100::1/128</literal> adresinden gelen SSH isteklerine izin ver:
   </para><para>
-<screen><prompt># </prompt><command>ip6tables -A INPUT -i sit+ -p tcp -s 3ffe:ffff:100::1/128 --sport 512:65535 --dport 22 -j ACCEPT</command>
+  <screen><prompt># </prompt><command>ip6tables -A INPUT -i sit+ -p tcp -s 2001:0db8:100::1/128 --sport 512:65535 --dport 22 -j ACCEPT</command>
 </screen>
   </para><para>
 Yanıt paketlerine izin ver (şimdilik IPv6 bağlantısının izini sürmek netfilter6 tarafından gerçekleştirilememektedir)
-<screen><prompt># </prompt><command>ip6tables -A OUTPUT -o sit+ -p tcp -d 3ffe:ffff:100::1/128 --dport 512:65535 --sport 22 ! --syn j ACCEPT</command>
+<screen><prompt># </prompt><command>ip6tables -A OUTPUT -o sit+ -p tcp -d 2001:0db8:100::1/128 --dport 512:65535 --sport 22 ! --syn j ACCEPT</command>
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term>IPv4 içinde IPv6 tünelini etkinleştir</term><listitem><para>
@@ -2909,7 +2880,7 @@ Eğer sadece bir statik tüneliniz varsa IPv4 adresini de belirleyebilirsiniz, �
 <screen><prompt># </prompt><command>iptables -A OUTPUT -o ppp0 -p ipv6 -d 1.2.3.4 -j ACCEPT</command>
 </screen>
   </para></example></listitem></varlistentry><varlistentry>
-  <term>Gelen TCP bağlantı isteklerine karşı koru</term><listitem><para>
+  <term>Gelen TCP bağlantı isteklerine karşı koruma</term><listitem><para>
 MUTLAKA ÖNERİLİR! Güvenlik gerekçeleriyle gelen TCP bağlantı isteklerini durduran bir kural eklemelisiniz. Eğer başka bir arabirim kullanıyorsanız <option>-i</option> seçeneğiyle bunu ayarlayın.
   </para><para>
 Bu konak'a gelen TCP bağlantı isteklerini durdur:
@@ -2924,7 +2895,7 @@ Bu yönlendiricinin arkasındaki konaklara gelen TCP bağlantı isteklerini durd
   </para><para>
 Belkide bu kurallar aşağıda başkalarıyla değiştirilecektir, ama bunun üzerinde düşünmeniz gerekir. En iyi yöntem bir betik hazırlayıp kuralları belirlenen sıra ile çalıştırmaktır.
   </para></listitem></varlistentry><varlistentry>
-  <term>Gelen UDP bağlantı isteklerine karşı koru</term><listitem><para>
+  <term>Gelen UDP bağlantı isteklerine karşı koruma</term><listitem><para>
 MUTLAKA ÖNERİLİR! Güvenlik duvarı bilgisinde söylediğim gibi giden UDP/TCP oturumlarında portları kontrol etmek mümkündür. Eğer tüm yerel IPv6 sistemleriniz örneğin 32768-60999 arası portları kullanıyorsa UDP bağlantılarını aşağıdaki gibi durdurmanız mümkündür:
   </para><para>
 Bu konaktan giden isteklerin yanıtı olamayacak gelen UDP paketlerini durdur:
@@ -2937,11 +2908,66 @@ Bu yönlendiricinin arkasındaki konaklardan yapılan isteklerin yanıtı olamay
 <screen><prompt># </prompt><command>ip6tables -I FORWARD -i sit+ -p udp ! --dport 32768:60999 -j DROP</command>
 </screen>
   </para></listitem></varlistentry></variablelist></sect3>
+  <sect3><title>Fedora Core için basit bir örnek</title>
+      <para>Aşağıda Fedora Core 6 (2.6.20 çekirdek sürümü için) basit bir güvenlik duvarı yapılandırması gösterilmektedir. Bağlantı izlenmesini destekleyen, ICMPv6 paketlerini geri çeviren varsayılan (sistem güvenlik duvarı tarafından oluşturulan) güvenlik duvarının değiştirilmişidir. Gelen SSH (22. port) bağlantılarına izin verilmiştir.</para>
+      <screen><prompt>#</prompt><command>Dosya: /etc/sysconfig/ip6tables</command>
+          *filter :INPUT ACCEPT [0:0]
+          :FORWARD ACCEPT [0:0]
+          :OUTPUT ACCEPT [0:0]
+          :RH-Firewall-1-INPUT - [0:0]
+          -A INPUT -j RH-Firewall-1-INPUT
+          -A FORWARD -j RH-Firewall-1-INPUT
+          -A RH-Firewall-1-INPUT -i lo -j ACCEPT
+          -A RH-Firewall-1-INPUT -p icmpv6 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp --dport 5353 -d ff02::fb -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 22 -j ACCEPT
+          -A RH-Firewall-1-INPUT -j REJECT --reject-with icmp6-adm-prohibited
+          COMMIT
+      </screen>
+      <para> Bütünlük açısından IPv4 yapılandırması da aşağıdadır.</para>
+      <screen><prompt>#</prompt><command>Dosya: /etc/sysconfig/ip6tables</command>
+          *filter :INPUT ACCEPT [0:0]
+          :FORWARD ACCEPT [0:0]
+          :OUTPUT ACCEPT [0:0]
+          :RH-Firewall-1-INPUT - [0:0]
+          -A INPUT -j RH-Firewall-1-INPUT
+          -A FORWARD -j RH-Firewall-1-INPUT
+          -A RH-Firewall-1-INPUT -i lo -j ACCEPT
+          -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+          -A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
+          COMMIT
+      </screen>
+      <para>Kullanım:</para>
+      <itemizedlist><listitem><para>Yapılandırma dosyalarını oluşturun ve düzenleyin.</para> </listitem>
+          <listitem><para>IPv4 &amp; IPv6 güvenlik duvarlarını aktif hale getirin.</para></listitem>
+      </itemizedlist>
+      <screen>
+          <para># service iptables start</para>
+          <para># service ip6tables start </para>
+      </screen>
+      <itemizedlist><listitem>*<para>Sistemin yeniden başlatılmasından sonra kendiliğinden başlamasını sağlayın</para> </listitem> </itemizedlist>
+      <screen>
+          <para># chkconfig iptables on</para>
+          <para># chkconfig ip6tables on </para>
+      </screen>
+  </sect3>
   <sect3><title> Açıklayıcı örnek</title>
   <para>
 Aşağıdaki satırlar daha karmaşık bir yapılandırma örneğini göstermektedir. Mutlu netfilter6 kural setleri hazırlamalar...
   </para><para>
-<screen><prompt># </prompt><command># ip6tables -n -v -L</command>
+<screen><prompt># </prompt><command>ip6tables -n -v -L</command>
 Chain INPUT (policy DROP 0 packets, 0 bytes)
  pkts bytes target     prot opt in     out     source               destination
     0     0 extIN      all      sit+   *       ::/0                 ::/0
@@ -3086,18 +3112,11 @@ Eğer dinlemeden elde ettiğiniz sonuçlar IPv6 güvenlik politikanızla uyuşmu
   </para><para>
 IPv6 güvenliği ile ilgili daha ayrıntılı bilgiyi aşağıdaki adreslerde bulabilirsiniz:
   </para><para><itemizedlist><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">Firewalling Considerations for IPv6 / draft-savola-v6ops-firewalling-??.txt</ulink>
+  <ulink url="http://www.ietf.org/ids.by.wg/v6ops.html">IETF drafts - IPv6 Operations (v6ops)</ulink>
   </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">IPv6 Neighbour Discovery trust models and threats / draft-ietf-send-psreq-??.txt</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">Security Considerations for 6to4 / draft-savola-v6ops-6to4-security-??.txt</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">Access Control Prefix Router Advertisement Option for IPv6 / draft-bellovin-ipv6-accessprefix-??.txt</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">Requirements for Plug and Play IPsec for IPv6 applications /draft-kobayakawa-ipsec-ipv6-pnpipsec-reqts-??.txt</ulink>
-  </listitem><listitem>
-<ulink url="http://www.ietf.org/internet-drafts/">Security of IPv6 Routing Header and Home Address Options / draft-savola-ipv6-rh-ha-security-??.txt</ulink>
-  </listitem></itemizedlist></para></sect3></sect2></sect1>
+  <ulink url="http://www.faqs.org/rfcs/rfc3964.html">RFC 3964 / Security Considerations for 6to4</ulink>
+  </listitem>
+  </itemizedlist></para></sect3></sect2></sect1>
   <sect1 id="ipv6-howto-encryption-authentication">
   <title>Şifreleme ve Kimlik Denetimi</title>
   <para>
@@ -3427,15 +3446,15 @@ IPv6 destekli ACL'ler hazırlamak mümkündür ve imkan olan heryerde kullanılm
 <screen>acl internal-net {
     127.0.0.1;
     1.2.3.0/24;
-    3ffe:ffff:100::/56;
+    2001:0db8:100::/56; 
     ::1/128;
     ::ffff:1.2.3.4/128;
 };
 acl ns-internal-net {
     1.2.3.4;
     1.2.3.5;
-    3ffe:ffff:100::4/128;
-    3ffe:ffff:100::5/128;
+    2001:0db8:100::4/128; 
+    2001:0db8:100::5/128;
 };
 </screen>
   </para><para>
@@ -3512,17 +3531,17 @@ BIND'ın IPv6 soketini dinleyerek bilgi gönderip göndermediği aşağıdaki ö
   <term>IPv6 bağlanıyor fakat ACL ile reddediliyor</term><listitem><para>
 Sorgu için bir sunucu tahsis edilerek IPv6 bağlantısı zorlanabilir:
   </para><para>
-<screen><prompt>$ </prompt><command>host -t aaaa www.6bone.net 3ffe:ffff:200:f101::1</command>
+  <screen><prompt>$ </prompt><command>host -t aaaa www.6bone.net 2001:0db8:200:f101::1</command>
 Using domain server:
-Name: 3ffe:ffff:200:f101::1
-Address: 3ffe:ffff:200:f101::1#53
+Name: 2001:0db8:200:f101::1
+Address: 2001:0db8:200:f101::1#53
 Aliases:
 Host www.6bone.net. not found: 5(REFUSED)
 </screen>
   </para><para>
 Bununla ilgili günlük (log) girdisi aşağıdaki gibidir:
   </para><para>
-<screen>Jan 3 12:43:32 gate named[12347]: client 3ffe:ffff:200:f101:212:34ff:fe12:3456#32770:
+  <screen>Jan 3 12:43:32 gate named[12347]: client 2001:0db8:200:f101:212:34ff:fe12:3456#32770:
  query denied
 </screen>
   </para><para>
@@ -3531,13 +3550,13 @@ Günlükte böyle girdiler görüyorsanız bu istemcinin taleplerine izin verili
   <term>Başarılı IPv6 bağlantısı</term><listitem><para>
 Başarılı bir IPv6 bağlantısı aşağıdaki gibidir:
   </para><para>
-<screen><prompt>$ </prompt><command>host -t aaaa www.6bone.net 3ffe:ffff:200:f101::1</command>
+  <screen><prompt>$ </prompt><command>host -t aaaa www.6bone.net 2001:0db8:200:f101::1 </command>
 Using domain server:
-Name: 3ffe:ffff:200:f101::1
-Address: 3ffe:ffff:200:f101::1#53
+Name: 2001:0db8:200:f101::1 
+Address: 2001:0db8:200:f101::1#53 
 Aliases:
 www.6bone.net. is an alias for 6bone.net.
-6bone.net. has AAAA address 3ffe:b00:c18:1::10
+6bone.net. has AAAA address 2001:0db8:200:f101::1 
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect3></sect2>
   <sect2 id="ipv6-howto-hints-daemons-xinetd" chunkthis="1"><title>Internet süper artalan süreci (xinetd)</title>
@@ -3582,17 +3601,17 @@ Apache IPv6'yı 2.0.14 sürümünden itibaren doğal olarak desteklemektedir. Da
   </para></note>
   </para><para><variablelist><varlistentry>
   <term>Sadece IPv6 adreslerinden dinleyen sanal konak</term><listitem><para>
-<screen>Listen [3ffe:ffff:100::1]:80
-&lt;VirtualHost [3ffe:ffff:100::1]:80>
+<screen>Listen [2001:0db8:100::1]:80
+&lt;VirtualHost [2001:0db8:100::1]:80>
         ServerName ipv6only.alanadı.dom
         # ...diğer satırlar
 &lt;/VirtualHost>
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term>IPv6 ve IPv4 adreslerinden dinleyen sanal konak</term><listitem><para>
-<screen>Listen [3ffe:ffff:100::2]:80
+<screen>Listen [2001:0db8:100::2]:80
 Listen 1.2.3.4:80
-&lt;VirtualHost [3ffe:ffff:100::2]:80 1.2.3.4:80>
+&lt;VirtualHost [2001:0db8:100::2]:80 1.2.3.4:80>
         ServerName ipv6veipv4.alanadı.dom
         # ...diğer satırlar
 &lt;/VirtualHost>
@@ -3602,8 +3621,8 @@ Apache yeniden başlatıldığında aşağıdakine benzer bir sonuç alınmalıd
   </para><para>
 <screen><prompt># </prompt><command>netstat -lnptu |grep "httpd2\W*$"</command>
 tcp 0 0 1.2.3.4:80          0.0.0.0:* LISTEN 12345/httpd2
-tcp 0 0 3ffe:ffff:100::1:80 :::*      LISTEN 12345/httpd2
-tcp 0 0 3ffe:ffff:100::2:80 :::*      LISTEN 12345/httpd2
+tcp 0 0 2001:0db8:100::1:80 :::*      LISTEN 12345/httpd2
+tcp 0 0 2001:0db8:100::2:80 :::*      LISTEN 12345/httpd2
 </screen>
   </para><para>
 Basit sınamalar için telnet örneği kullanılabilir.
@@ -3635,7 +3654,7 @@ Uygun bir yapılandırmadan sonra <command>radvd</command> belirlenen arabirim �
     AdvSendAdvert on;
     MinRtrAdvInterval 3;
     MaxRtrAdvInterval 10;
-    prefix 3ffe:ffff:0100:f101::/64
+    prefix 2001:0db8:0100:f101::/64
     {
         AdvOnLink on;
         AdvAutonomous on;
@@ -3648,7 +3667,7 @@ Bunun istemci tarafındaki sonucu:
   </para><para>
 <screen><prompt># </prompt><command>ip -6 addr show eth0</command>
 3: eth0: &lt;BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast qlen 100
-    inet6 3ffe:ffff:100:f101:2e0:12ff:fe34:1234/64 scope global dynamic
+    inet6 2001:0db8:100:f101:2e0:12ff:fe34:1234/64 scope global dynamic
        valid_lft 2591992sec preferred_lft 604792sec
     inet6 fe80::2e0:12ff:fe34:1234/10 scope link
 </screen>
@@ -3814,8 +3833,8 @@ Kullanıcılara göre süzme (istemcide <command>ident</command> artalan süreci
   <para>
 Bu dosyada bağlantısı kabul edilecek her servis için bir satır bulunmalıdır.
   </para><para>
-<screen>sshd:           1.2.3. [3ffe:ffff:100:200::]/64
-daytime-stream: 1.2.3. [3ffe:ffff:100:200::]/64
+<screen>sshd:           1.2.3. [2001:0db8:100:200::]/64
+daytime-stream: 1.2.3. [2001:0db8:100:200::]/64
 </screen>
   </para><para><note><para>
 IPv6 ağ tanımlaması hatalı olan bazı gösterimler de vardır: [3ffe:ffff:100:200::/64].
@@ -3840,26 +3859,26 @@ Syslog'un yapılandırma dosyası olan <filename>/etc/syslog.conf</filename> iç
 Kayıt dosyasında <literal>daytime-stream</literal> servisi tarafından reddedilen her bağlantı için aşağıdakine benzer bir satır bulunur:
   </para><para>
 <screen>Jan 2 20:40:44 gate xinetd-ipv6[12346]: FAIL: daytime-stream libwrap from=::ffff:1.2.3.4
-Jan 2 20:32:06 gate xinetd-ipv6[12346]: FAIL: daytime-stream libwrap  from=3ffe:ffff:100:200::212:34ff:fe12:3456
+Jan 2 20:32:06 gate xinetd-ipv6[12346]: FAIL: daytime-stream libwrap  from=2001:0db8:100:200::212:34ff:fe12:3456
 </screen>
   </para><para>
 Kayıt dosyasında <command>sshd</command> servisi tarafından reddedilen her bağlantı için aşağıdakine benzer bir satır bulunur:
   </para><para>
 <screen>Jan 2 20:24:17 gate sshd[12345]: refused connect from ::ffff:1.2.3.4 (::ffff:1.2.3.4)
-Jan 2 20:39:33 gate sshd[12345]: refused connect from 3ffe:ffff:100:200::212:34ff:fe12:3456 (3ffe:ffff:100:200::212:34ff:fe12:3456)
+    Jan 2 20:39:33 gate sshd[12345]: refused connect from 2001:0db8:100:200::212:34ff:fe12:3456    (2001:0db8:100:200::212:34ff:fe12:3456)
 </screen>
   </para></listitem></varlistentry><varlistentry>
   <term>İzin verilen bağlantı</term><listitem><para>
 Kayıt dosyasında <literal>daytime-stream</literal> servisi tarafından izin verilen bağlantılar için aşağıdakine benzer bir satır bulunur:
   </para><para>
 <screen>Jan 2 20:37:50 gate xinetd-ipv6[12346]: START: daytime-stream pid=0 from=::ffff:1.2.3.4
-Jan 2 20:37:56 gate xinetd-ipv6[12346]: START: daytime-stream pid=0 from=3ffe:ffff:100:200::212:34ff:fe12:3456
+Jan 2 20:37:56 gate xinetd-ipv6[12346]: START: daytime-stream pid=0 from=2001:0db8:100:200::212:34ff:fe12:3456
 </screen>
   </para><para>
 Kayıt dosyasında <command>sshd</command> servisi tarafından izin verilen bağlantılar için aşağıdakine benzer bir satır bulunur:
   </para><para>
 <screen>Jan 2 20:43:10 gate sshd[21975]: Accepted password for user from ::ffff:1.2.3.4 port 33381 ssh2
-Jan 2 20:42:19 gate sshd[12345]: Accepted password for user from 3ffe:ffff:100:200::212:34ff:fe12:3456 port 33380 ssh2
+Jan 2 20:42:19 gate sshd[12345]: Accepted password for user from 2001:0db8:100:200::212:34ff:fe12:3456 port 33380 ssh2
 </screen>
   </para></listitem></varlistentry></variablelist></para></sect3></sect2>
   <sect2  chunkthis="1" id="ipv6-howto-hints-daemons-vsftpd"><title><literal>vsftpd</literal></title>
@@ -3890,25 +3909,2066 @@ Hepsi bu kadar.
 Bir komut satırı seçeneğinin ya da yapılandırma değerinin IPv6 uyumlu olup olmadığını kolayca öğrenebilirsiniz. Sürecin kılavuz dosyasına veya SSS belgesine bakmak yeterlidir. Bazen yetersiz destek yüzünden bir sürecin adanmış bir IPv6 adresine atanamadığı veya sadece (::) adresine atanabildiği gibi durumlar olmaktadır.
   </para></sect2></sect1>
   <sect1 id="ipv6-howto-programming-using-api">
-  <title>Yazılım Geliştirme (Uygulama Geliştirme Arayazü ile)</title>
-  <para>
-IPv6 yazılımlarını geliştirmekte hiç tecrübem yok, bu bölüm ya başkaları tarafından yazılacak ya da başka bir NASIL belgesine kaydırılacak.
-  </para><para>
-Aşağıdaki adreslerden daha fazla bilgi edinilebilir:
-  </para><para>
-<ulink url="http://www.faqs.org/rfcs/rfc2553.html">RFC 2553 / Basic Socket Interface Extensions for IPv6</ulink>
-  </para><para>
-<ulink url="http://www.ietf.org/internet-drafts/">Draft / Advanced Sockets API for IPv6 / draft-ietf-ipngwg-rfc2292bis-XY.txt</ulink>
-  </para><para>
-<ulink url="http://jungla.dit.upm.es/%7Eecastro/IPv6-web/ipv6.html">Porting applications to IPv6 HowTo</ulink>, Eva M. Castro
-  </para></sect1>
+      <title>Yazılım Geliştirme (Uygulama Geliştirme Arayazü ile)</title>
+      <sect2><title>C uygulama geliştirme arayüzünü(API) kullanarak uygulama geliştirme</title>
+          <para>İlgili RFC'ler </para>
+          <para><itemizedlist><listitem><ulink url="http://www.faqs.org/rfcs/rfc3493.html">RFC 3493 /IPv6 için temel yuva(socket) arayüz eklentileri</ulink> </listitem>
+                  <listitem><ulink url="http://www.faqs.org/rfcs/rfc3542.html">RFC 3542 / IPv6 için ileri yuva uygulama geliştirme arayüzü</ulink> </listitem></itemizedlist>
+    </para>
+    <para>Aşağıdaki bölüm John Wenker<ulink url="http://www.pt.com">http://www.pt.com</ulink> tarafından hazırlanmıştır.
+    </para>
+    <para> 
+Bu bölümde Linux işletim sisteminde nasıl IPv6 sunucu-istemci uygulaması geliştirileceği açıklanmaktadır.Bu bölümde anlatılanlar Jun-ichiro itojun Hagino tarafından yazılan "IPv6 Network Programming" kitabının 2, 3 ve 4. bölümlerinden derlenerek hazırlanmıştır. Daha ayrıntılı bilgi için bu kitabı okuyabilirsiniz. Bu kitap IPv4 uygulamalarının iletişim kurallarından (protocol) bağımsız bir şekilde nasıl IPv6 uyumlu hale getirileceğini ve bu çevrimde sık karşılaşılan sorunlar ve çözümlerini içermektedir. Bu yazının hazırlanması sırasında, nasıl IPv6 uygulamaları geliştirileceğini anlatan tek kitap budur[aynı zamanda bu yazı hazırlanırken uygulamaların nasıl IPv6'ya uyarlanacağı aynı yazarın yazısında bulunabilir: <ulink url="http://jungla.dit.upm.es/~ecastro/IPv6-web/ipv6.html">http://jungla.dit.upm.es/~ecastro/IPv6-web/ipv6.html</ulink>]. Fakat 360 sayfalık bu kitabın yaklaşık 60 bölümü kullanışlı. Bununla birlikte bu kitabın yol göstermesiyle bu yazı yazıldı ve yazarın işlerini yapmasında yardımcı oldu. Hagino kitabındaki bilgilerin çoğu (fakat hepsi değil) Linux "man" sayfalarında mevcuttur, uygulama geliştiriciler "man" sayfalarında arayarak kaybedecekleri büyük zamanı bu kitabın ilgili bölümlerini okuyarak kazanabilirler. 
+    </para>
+    <para>
+Hagino kitabından başka bu NASIL belgesinde verilen bilgiler de hatalı veya eksik olabilir. Bazı kısımlar ve açıklamalar IPv6 için tamamen doğru niteliği taşımamaktadır, fakat kullanışlı uygulamalarda çalıştığı gözlenmektedir.
+    </para>
+    <para>
+Bu kısımda okuyucunun TCP/IP soket uygulama geliştirme arayüzüyle (API) tecrübesinin olduğu varsayılmaktadır. Daha fazla bilgi için Comer &amp; Stevens' ın "Internetworking with TCP/IP"(ISBN 0-13-032071-4) serisi dökümanları incelenebilir, özellikle 3. cilt: istemci-sunucu uygulamaları, Linux/POSIX soket sürümleri. Bu NASIL belgesinde okuyucunun temel IPv6 bilgisinin olduğu ve ağ adresleme yapısını iyi bildiği varsayılmaktadır.
+    </para>
+    <sect3><title>Adres yapıları</title>
+        <para> Bu bölüm bir sunucu-istemci uygulamasındaki İnternet iletişim kurallarını kullanırken, ağ adreslerini temsil eden soket uygulama geliştirme arayüzünde sağlanan yapıları tanıtmayı amaçlamaktadır.
+        </para>
+<sect4><title>IPv4 sockaddr_in</title>
+    <para> 
+IPv4'te ağ adresleri 32 bit uzunluğundadır ve bir ağ düğümünü tanımlar. Adresler noktalı onluk sistemde yazılmıştır, 192.0.2.1 gibi, burada her sayı bir adresin sekiz bitlik bir bölümünü göstermektedir. Örnek IPv4 adresi &lt;netinet/in.h&gt;'da tanımlanmış sockaddr_in veri yapısıyla gösterilmektedir.
+    </para>
+    <para>
+        <screen>
+            struct sockaddr_in
+            {
+               sa_family_t    sin_family;
+               in_port_t      sin_port;
+               struct in_addr sin_addr;
+               /* Ayrıca uyum için bazı yardımcılar */
+            };
+</screen>
+    </para>
+    <para>
+sin_family bileşeni adres ailesini belirtmektedir. IPv4 adresleri için bu her zaman AF_INET 'e ayarlanmıştır. sin_addr alanı 32 bitlik ağ adresini barındırır. Son olarak, sin_port bileşeni taşıma katmanı port numarasını gösterir. Okurlar bu yapıyla zaten tanışmış olmalıdırlar, çünkü bu standart IPv4 adres yapısıdır.
+    </para>
+</sect4>
+<sect4>
+<title> IPv6 sockaddr_in6 </title>
+<para>
+    IPv6'daki en büyük yenilik adres uzunluğunun artmasıdır. 32 bit ağ adreslerinin yerine IPv6'da 128 bit ayrılmıştır. Adresler fe80::2c0:8cff:fe01:2345 örneğindeki gibi 16 lık düzendedir.Bu adres iki nokta üstüste ile ayrılan her biri 16 bit uzunluğundaki 16'lık düzendeki sayıları içermektedir. Ardışık iki tane iki nokta üstüste ardışık sıfırların kısa gösterimidir, ve bir adreste sadece bir ardışık iki nokta üst üste bulunabilir. IPv6 adresleri &lt;netinet/in.h&gt;'de tanımlanmış sockaddr_in6 veri yapısıyla gösterilmektedir.
+    </para>
+<para>
+<screen>
+    truct sockaddr_in6
+    {
+       sa_family_t     sin6_family;
+       in_port_t       sin6_port;
+       uint32_t        sin6_flowinfo;
+       struct in6_addr sin6_addr;
+       uint32_t        sin6_scope_id;
+    };
+</screen>
+</para>
+<para>
+sin6_family, sin6_port, and sin6_addr bileşenleri sockaddr_in yapısındaki karşılıklarıyla aynı anlamdadır. Fakat sin6_family üyesi AF_INET6'ya ayarlanmıştır, ve sin6_addr alanı 32 bit yerine 128 bit uzunluğundaki bir adresi gösterir.
+</para>
+<para>
+sin6_flowinfo alanı akış kontrolü için kullanılmaktadır fakat henüz standartlaştırılamamıştır ve ihmal edilebilir.
+</para>
+<para>
+sin6_scope_id alanın ise tek bir kullanımı vardır, IPv6 tasarımcılarının bu alanı geriye uyumluluk için düzenledikleri düşünülmektedir. Görünüşe göre 128 bit IPv6 adresleri tek değildir. Örneğin farklı ağlarda aynı yerel bağlantı adresine sahip iki düğüm olması mümkündür(Şekil 1'e bakın). Bir düğüme veri göndermek için ağ adresinden daha fazlası gerekmektedir; alan belirleyicisi belirtilmelidir. Linux'ta ağ arayüz ismi alan belirleyicisi olarak kullanılmaktadır (mesela eth0) [alan belirleyicilerinin belirlenmesi uygulama bağımlıdır]. Geçerli ağ arayüzlerini görüntülemek için "ifconfig"'i kullanın.
+</para>
+<para>
+16lık ağ adresleri, kapsamlı bir adres üretmek için alan belirleyicileriyle genişletilebilir. Yüzde işareti(%) ağ adreslerinden alan belirleyicilerini ayırmak için kullanılır. Örneğin fe80::1%eth0, 128 bit ağ adresini içeren fe80::1 IPv6 adresini ve eth0 da bir ağ arayüzünü(alan belirleyicisi) göstermektedir. Bu yüzden eğer bir düğüm iki ağda bulunacaksa, örnekteki B düğümü gibi, kullanıcı belli bir düğüme ulaşmak için hangi yolu izlemesi gerektiğini bilmelidir. Birinci şekilde, B düğümü A düğümünü fe80::1%eth0 kapsamlı adresiyle adreslemiş, C düğümü de fe80::1%eth1 ile adreslenmiştir.
+</para>
+<para>
+    <screen>
+Host A (fe80::1) ---- eth0 ---- Host B ---- eth1 ---- Host C (fe80::1)
+    </screen>
+</para>
+<para>
+sockaddr_in6 yapısına geri dönersek, sin6_scope_id alanı bulunduğu düğümün ağ arayüzlerinin listesini içerir. Sunucu uygulamalarında bu alan bir bağlantı kabul edildiğinde veya bir veri alındığında soket uygulama geliştirme arayüzü(API) tarafından kendiliğinden doldurulur. İstemci uygulamalarında eğer bir kapsamlı adres getaddrinfo(3)'ya (Bu belgede daha ileride açıklanmıştır) düğüm parametresi olarak geçerse, sin6_scope_id alanı işlevden geri dönen değer ile doldurulur; eğer bir kapsamlı adres gelmemişse sin6_scope_id alanı daha önce bağlanılmaya çalışılan sunucu olarak atanır. if_nametoindex(3) işlevi bir ağ arayüzünü onun uygun kısmına çevirmek için kullanılır. Bu &lt;net/if.h&gt;'da tanımlanmıştır.
+</para>
+</sect4>
+<sect4>
+    <title>Genel adresler </title>
+    <para>
+Her klasik TCP/IP soket uygulama geliştirme arayüzü geliştiricisinin bildiği gibi, "generic" işaretçilerle (pointer) ilgilenen çok sayıda soket metotları vardır. Örneğin genel sockaddr veri yapısını gösteren bir işaretçi bazı soket metotlarına parametre olarak geçirilebilir(örneğin connect(2) veya bind(2)). Genel sockaddr_in6 yapısı, genel sockaddr yapısından daha büyük olduğuna dikkat edilmelidir. Bu yüzden eğer uygulamanız tipi bilinen bir adres alırsa ( mesela IPv4 adres yapısı veya IPv6 adres yapısı), ona uygun saklayıcıyı seçmeniz gerekir. sockaddr_storage veri yapısı &lt;bits/socket.h&gt;'da bu amaç için tanımlanmıştır. [bu dosyayı projenize dahil etmeyin(#include), her zamanki &lt;sys/socket.h&gt;'ı kullanın ve &lt;bits/socket.h&gt; zaten dahil edilmelidir.]
+        </para>
+        <para>
+Örneğin uzak bir eşten(peer) ileti almak için kullanılan recvfrom(2) sistem çağrısını düşünün. İşleç taslağı aşağıdaki gibidir.
+        </para>
+<para>
+    <screen>
+ssize_t recvfrom( int              s,
+                  void            *buf,
+                  size_t           len,
+                  int              flags,
+                  struct sockaddr *from,
+                  socklen_t       *fromlen );
+    </screen>
+</para>
+<para>from parametresi genel bir sockaddr yapısını göstermektedir. Eğer veri bir s ile gösterilen IPv6 eşinden alınmışsa, from sockaddr_storage yapısını gösterecektir. Aşağıda örnek bir uygulama bulunmaktadır.</para>
+<para>
+    <screen>
+/*
+** Uzak bir eşten ileti okur, ve çağırana bir tampon göstericisi
+** döndürür.
+**
+** 's' soket için dosya belirleyicisidir.
+*/
+char *rcvMsg( int s )
+{
+    static char bfr[ 1025 ]; /* İletinin saklandığı yer. */
+    ssize_t count;
+    struct sockaddr_storage ss; /* Eşin adresinin bulunduğu kısım. */
+    socklen_t sslen;
+    sslen = sizeof( ss );
+    count = recvfrom( s,
+                      bfr,
+                      sizeof( bfr ) - 1,
+                      0,
+                      (struct sockaddr*) &amp;s,
+                      &amp;sslen );
+    bfr[ count ] = '\0'; /* Mesajı bitirir. */
+    return bfr;
+} /* rcvMsg()'ın sonu */
+    </screen>
+</para>
+<para>
+Yukarıda görüldüğü gibi ss ( sockaddr_storage veri yapısı nesnesi ) eşin bilgisini almak için kullanılmıştır, fakat adresi recvfrom(2) çağrımında sockaddr yapısına işaretçi çevrilmiştir.</para>
+</sect4>
+    </sect3>
+    <sect3><title> Arama Metotları</title>
+        <para>
+Çoğunlukla düğüm ismi ve servis ismi çözümlenmesi gethostbyname(3) ve getservbyname(3) metotlarıyla yapılmaktadır. Bu metotlar kullanılmaya uygundur, fakat IPv6'ya ileri uyumlulukları yoktur. Onun yerine IPv6 soket uygulama geliştirme arayüzünde yeni arama metotları bulunmaktadır. Bu arama metotları aynı zamanda IPv4'e geri uyumludur, bu yüzden geliştiriciler aynı algoritmayı uygulamalarında hem IPv4 hem de IPv6 iletişim kuralları için kullanabilirler. Bu önemli bir gelişmedir, çünkü IPv6 altyapısı birdenbire bir yere yerleştirilmemektedir. Bu yüzden, IPv4'ten IPv6'ya geçiş sürecince, istemci-sunucu uygulamaları her iki iletişim kuralı için uyumlu olarak tasarlanmalıdır. Bu bölümün sonundaki örnek uygulama tam olarak bu işi yapmaktadır.
+</para>
+<para>
+Yeni soket uygulama geliştirme arayüzündeki birincil arama metodu getaddrinfo(3)'dur. Aşağıda onun taslağı bulunmaktadır.
+</para>
+<para>
+    <screen>
+int getaddrinfo( const char             *node,
+                 const char             *service,
+                 const struct addrinfo  *hints,
+                 struct addrinfo       **res );
+    </screen>
+</para>
+<para>
+node parametresi bir düğüm ismine veya IP adresini gösteren işaretçidir. Belirtilen dizgi bir düğüm ismi, bir IPv4 adresi veya IPv6 adresi olabilir. service parametresi taşıyıcı katmanın hizmet ismine veya port numarasını gösteren işaretçidir. Bu /etc/services'te bulunan bir isim veya ondalık bir sayıdır. getaddrinfo(3) düğüm/hizmet birleşimini çözer ve adres kayıtlarını içeren bir liste döndürür; res tarafından gösterilen konuma bu listeyi gösteren bir işaretçi koyar. Örneğin bir düğüm hem IPv4 hem de IPv6 ile adreslenmiş olsun ve ilgili hizmetin /etc/services'te hem TCP hem de UDP girdisi olsun. Bu örnekte anlaşılamayan 4 adres geri döner; biri TCP/IPv6 için, biri UDP/IPv6 için, biri TCP/IPv4 için ve biri de UDP/IPv6 için.
+</para>
+<para>
+addrinfo yapısının tanımlanması &lt;netdb.h&gt; içinde bulunabilir (getaddrinfo(3)'ün tanımlanması ve bu bölümde anlatılan diğer metotların tanımlanması da bulunabilir). Yapı aşağıdaki şekildedir.
+</para>
+<para>
+    <screen>
+struct addrinfo
+{
+   int              ai_flags;
+   int              ai_family;
+   int              ai_socktype;
+   int              ai_protocol;
+   socklen_t        ai_addrlen;
+   struct sockaddr *ai_addr;
+   char            *ai_canonname;
+   struct addrinfo *ai_next;
+};
+</screen>
+</para>
+<para>getaddrinfo(3) ve çeşitli alanlarla ilgili ayrıntılı bilgi "man" sayfalarında mevcuttur; Bu belge sadece bunların bir altkümesini içermektedir, ve IPv6 ile uygulama geliştirme için temel bilgileri içermektedir.</para>
+<para>ai_family, ai_socktype, ve ai_protocol alanları socket(2) sistem çağrısındakilerle tamamen aynı anlamlara gelmektedir. ai_family alanı kayıtla ilişkili iletişim kural ailesini belirtmektedir (adres ailesini değil), ve IPv6 için PF_INET6 veya IPv4 için PF_INET olmalıdır. ai_socktype parametresi kaydı karşılayan yuvanın türünü bildirir; Güvenilir bağlantı temelli byte akışı için SOCK_STREAM, veya bağlantısız iletişim için SOCK_DGRAM. ai_protocol alanı kaydın öncelikli taşıma soketini belirtmektedir.</para>
+<para>
+    ai_addr alanı genel sockaddr yapı nesnesini göstermektedir. ai_family alanındaki değere göre bir sockaddr_in (PF_INET) yapısını veya bir struct sockaddr_in6 (PF_INET6) yapısını gösterecektir. ai_addrlen alanı ise ai_addr alanı tarafından gösterilen nesnenin boyutunu tutmaktadır.</para>
+<para>Bahsedildiği gibi getaddrinfo(3) kayıtların adres listesini geri döndürür. ai_next alanı listedeki bir sonraki kaydı gösterir. </para>
+<para>getaddrinfo(3) işlecine gönderilen hints parametresi addrinfo yapısı tipinde ve res'e dönen kayıtların adres filtreleri olarak iş görür. Eğer hint boş (NULL) ise, bütün eşleşen kayırlar geri döner; fakat hint NuLL değilse, belirtilen yapı getaddrinfo(3)'ya hints i vererek  hangi kayıtların döneceğini belirtir. hints yapısında sadece ai_flags, ai_family, ai_socktype, ve ai_protocol alanları önemlidir ve diğer
+    bütün alanlar sıfıra ayarlanmalıdır.
+</para>
+<para>
+Uygulamalar iletişim kural ailesini belirlemek için hints->ai_family 'yi kullanır. Mesela eğer PF_INET6'ya ayarlanmışsa bundan sonra sadece IPv6 adresleri dönecektir. Aynı şekilde hints->ai_family 'nin PF_INET'e ayarlanması sadece IPv4 adreslerinin dönmesini sağlayacaktır. Eğer bir uygulama hem IPv4 hem de IPv6 adreslerinin kayıtlarını istiyorsa, bu alan PF_UNSPEC olarak ayarlanmalıdır.
+</para>
+<para>
+hints->socktype alanı eğer sadece bağlantı temelli byte akışı isteniyorsa SOCK_STREAM olarak ayarlanmalıdır, eğer bağlantısız iletişimle ilgili kayıtlar isteniyorsa SOCK_DGRAM olarak, her iki durum için 0 olarak ayarlanmalıdır.
+</para>
+<para>
+
+İnternet iletişim kuralları için bağlantı temelli soketlerle ilişkili bir(TCP) iletişim kuralı vardır ve bağlantısız soketler için de bir tanedir (UDP), bu yüzden hints->ai_socktype'ı SOCK_STREAM veya SOCK_DGRAM olarak ayarlamak "Bana sadece TCP kayıtlarını ver" veya "Bana UDP kayıtlarını ver" demektir. İnternet iletişim kurallarında hints->ai_protocol alanı ve hints->ai_socktype alanları çok da önemli değildir. Yine de hints->ai_protocol sadece TCP kayıtları için IPPROTO_TCP veya sadece UDP kayıtları için IPPROTO_UDP veya her ikisi için de 0 olarak ayarlanabilir.
+</para>
+<para>
+
+    gethostbyname(3)'deki node veya service parametrelerinden yalnızca biri NULL değer alabilir. Eğer node NULL ise hints parametresinin ai_flags alanı ağ adresinin dönen bir kayıtta nasıl ayarlanacağını belirtir(örneğin dönen kaydın ai_addr bileşeninin gösterdiği nesnenin sin_addr veya sin6_addr alanı). Eğer hints'de AI_PASSIVE bayrağı kurulmuşsa dönen ağ adresi soldan çözümlenir(hepsi sıfır). Bu, sunucu uygulamalarının getaddrinfo(3)'yu nasıl kullanacağıdır. Eğer bayrak kurulmamışsa adres yerel geri dönüş adresine ayarlanır(IPv6 için ::1 veya IPv4 için 127.0.0.1). Bu bir istemci uygulamanın aynı sistem üzerindeki hedef sunucunun çalışıp çalışmadığını belirlemesi için kullanır. Eğer service parametresi NULL ise dönen adresteki port numarası çözümlenmez.
+</para>
+<para>
+getaddrinfo(3) metodu başarılı olursa sıfır değerini veya bir hata numarasını döndürür. Bir hata oluşması durumunda hata koduna karşılık gelen iletiye bir işaretçi döndüren gai_strerror(3) metodu kullanılabilir, standat C kütüphanesindeki strerror(3) gibi.
+</para>
+<para>
+Eğer adres listesine ihtiyaç kalmadıysa uygulama tarafından yok edilmelidir. Bu işlem freeaddrinfo(3) metoduyla yapılabilir.
+</para>
+<para>
+Bu bölümde bahsedilecek son metot getnameinfo(3)'tir. Bu metot getaddrinfo(3)'nin tersi işlem yapar; sockaddr veri yapısı nesnesinden bir düğüm ismi veya hizmet dizgisi yaratmakta kullanılır. Aşağıda taslağı mevcuttur.
+</para>
+<para>
+    <screen>
+int getnameinfo( const struct sockaddr *sa,
+                 socklen_t              salen,
+                 char                  *host,
+                 size_t                 hostlen,
+                 char                  *serv,
+                 size_t                 servlen,
+                 int                    flags );
+</screen>
+</para>
+<para>
+sa parametresi sorgudaki adres yapısını göstermektedir, ve salen de onun boyutunu tutmaktadır. host parametresi null ile sonlanan bir konak  adı tamponuna işaret etmektedir, hostlen parametresi ise bu tamponun boyunu tutmaktadır. Eğer adrese karşılık gelen bir konak ismi yoksa, ağ adresi düğüme yerleştirilir. Ayrıca ser parametresi yine null ile sonlanan hizmet adı dizge tamponunu işaret etmektedir, ve servlen parametresi ise bu tamponun boyunu vermektedir. flags parametresi ise metodun davranışını değiştirmektedir; NI_NUMERICHOST parametresi çevrilen düğüm isimlerinin sayısal biçimde olacağını belirtir, ve NI_NUMERICSERV bayrağı ise çevrilmiş hizmetin sayısal biçimde olacağını belirtir(port numarası).
+</para>
+<para>
+    NI_MAXHOST ve NI_MAXSERV sembolleri uygulamalarda çevrilmiş düğüm isimlerinin veya hizmet isimlerinin en çok ne kadar olacağını belirtir.    getnameinfo(3) için çıkış tamponları belirtirken bunları kullanınız.
+</para>
+</sect3>
+<sect3>
+<title>Karşılaşılan Durumlar </title>
+<para>
+    Programlama örneğine geçmeden önce okuyucunun IPv6 ile ilgili bilmesi gereken bir kaç durum söz konusudur. Bu durumların çok karşılaşılanları (daha önce anlatılan IPv6 ağ adreslerinin tekilliği konusuna ek olarak) aşağıda açıklanmıştır.
+</para>
+<sect4>
+    <title>IPv4 eşlenmiş(IPv4 Mapped) adresler</title>
+    <para>
+Güvenlik nedeniyle IPv6 uyumlu sunucu uygulamalarında IPv4 eşlenmiş adreslerin kullanımına izin verilmemektedir. Herkesin anlayabileceği bir şekilde ifade etmek gerekirse bu bir IPv6 soketine gelen IPv4 trafiğinin kabul edilmeyeceği anlamına gelir. IPv4 eşlenmiş adresler karmaşık bir biçimde ouşturulmuş adreslerdir.
+    </para>
+    <para>
+        <screen>
+            ::ffff:192.0.2.1
+        </screen>
+    </para>
+
+    <para>
+İlk bölüm IPv6 16'lık düzendeyken son kısım IPv4 10'luk düzendedir. Noktalı 10'luk düzendeki IPv6 adresi gerçek bir ağ adresidir fakat IPv6 uyumlu bir şekle eşlenmiş biçimdedir.
+ </para>
+ <para>
+Bir IPv6 soketinde IPv4 eşlenmiş adreslerin kabul edildiğini varsayarsak, sunucu uygulamalarında oluşturulan bütün IPv6 soketlerinin IPV6_V6ONLY soket yapısı seçeneğine ayarlanmalıdır [ Hagino kitabında bu durumun sadece sunucu uygulamalarını ilgilendirdiği belirtilmektedir. Fakat eğer bir istemci uygulaması hedefi belirlerken IPv4 eşlenmiş adresini kullanırsa , hedef sunucunun IPv4 eşlenmiş adresleri kabul etmediği düşünülürse, her şeye rağmen bağlantının sağlandığı yapılan denemelerde gözlenmiştir. Sunucu tarafında bağlantı bitim noktası IPv4 soketidir; fakat istemci tarafında ise bağlantının bitim noktası bir IPv6 soketidir. Hem sunucu tarafında hem de istemci tarafında IPV6_V6ONLY soket seçeneği ayarlanırsa herhangi bir bağlantının kabul edilmesi önlenmiş olur]. Burada ufak bir problem var. Görünen o ki IPV6_V6ONLY seçeneği bütün sistemlerde tanımlı değildir [en azından 2005'te Hagino kitabında yazılana göre]. Bu bölümün soundaki sunucu örneği bu problemle nasıl başa çıkılacağını götermektedir.
+ </para>
+ <para>
+Eğer IPv4 trafiği IPv6 soketlerine uygun değilse, buna göre bir sunucu uygulaması eğer her iletişim kuralından gelen isteklere cevap vermek istiyorsa ilgili ağ hizmeti için hem IPv4 hem de IPv6 soketini kullanmalıdır. Bu daha önce açıklanan esneklik konusuna bizi götürmektedir. Eğer getaddrinfo(3) çoklu adres kayıtları geri döndürüyorsa, sunucu uygulamaları bir liste oluşturmalı ve elde edilen her adres için uygun bir soket atanmalıdır.
+ </para>
+ </sect4>
+ <sect4>
+     <title>/etc/hosts 'dosyasındaki alan tanımlayıcılarını belirtmeyin </title>
+     <para>
+         /etc/hosts dosyasında bir IPv6 ağ adresini bir sistem adına atamak mümkündür. Örneğin yazarın kullandığı sistemin /etc/hosts dosyasından bir alıntı aşağıda mevcuttur.
+     </para>
+     <para>
+         <screen>
+                     ::1                        localhost
+                     127.0.0.1                  localhost
+                     fe80::2c0:8cff:fe01:2345   pt141
+                     192.0.2.1                  pt141
+         </screen>
+     </para>
+     <para>
+         "localhost" ve "pt141" konak isimleri hem IPv4 hem de IPv6 adreslerine dönüştürülebilir. Örneğin getaddrinfo(3)'ya düğüm parametresi olarak "pt141" geçirilirse, metot düğüm için hem IPv4 hem de IPv6 adres kaydı geri döndürecektir (eğer hint parametresi belirtilmemişse ). Fakat alan adresleri /etc/hosts dosyasında kullanılamamaktadır. Kullanıldığında ise getaddrinfo(3) sadece bir IPv4 kaydı döndürmektedir.
+     </para>
+ </sect4>
+ <sect4>
+     <title> Aynı sitem üzerindeki istemci ve sunucular</title>
+     <para>
+         Bir sistemin 192.0.2.1 IPv4 adresine sahip olduğunu düşünelim. Bu sistemdeki çalışan bir istemci uygulaması aynı sistemdeki sunucu uygulamasına yerel geri dönüş (loopback) adresini (127.0.0.1) veya hedef sunucunun ağ adresini(192.0.2.1) kullanarak bağlanabilir. Fakat sürpriz bir şekilde yazar, eğer bir IPv6 istemci uygulaması hedef olarak aynı sistemin ağ adresini kullarak sunucu uygulamasına bağlanamamıştır. Bu yüzden yerel geri dönüş adresi(::1) kullanılmalıdır.
+     </para>
+ </sect4>
+</sect3>
+<sect3>
+    <title>Anlattıklarımızı Biraraya Getirelim (istemci-sunucu uygulama örneği) </title>
+    <para>    Şimdiye kadar konuştuklarımızı bir sunucu-istemci uygulamasıyla toparlayalım. Bu bölümün kalanı bir uzak gün ve zaman uygulamasına bağlıdır ('daytime' internet hizmeti)[Ms Castro Porting applications to IPv6 HowTo kitabında bir 'daytime' örneği vermiştir. Şu bilinmelidir ki buradaki kaynak kod özgündür, en başından geliştirilmiştir, ve bu ve herhangi erişilebilen 'daytime' örneği arasındaki benzerlik tamamen rastlantıdır.]. Bu bölümde sunulan kaynak kod 2.6 (hatta 2.6.9) çekirdek kullanan bir RedHat Linux sürümünde geliştirilmiş ve denenmiştir. Okuyucular bu kaynak kodu özüne sadık kalındıkları sürece ücretsiz olarak kullanabilirler, fakat elbette ilk önce standart telif hakkı verilmelidir.</para>
+<note>
+    <para>
+        Her ne kadar örnek kaynak kodun hatasız çalıştığı düşünülse de yazar bunun güvenilirliğiyle ilgili hiç bir garanti vermemektedir, özellikle bazı hatalar bilerek kısaca geçilmiştir.
+    </para>
+</note>
+<para>
+    Bunu kavradığınız zaman, IPv4 ve IPv6 uygulamaları arasında çok da farklılık olmadığını göreceksiniz. IPv6 uygulamalarını kodlarken asıl iş bunu iletişim kuralına bağlı kalmadan yapmaktır, öyle ki aynı zamanda hem IPv4 ve hem IPv6 ile çalışabilsin. Bu örnek uygulama tam olarak bunu yapıyor. Örnekteki iletişim kuralı bağımlı kod sadece ayrıntılı biçimde ağ adreslerini yazdırıken kullanıldı; fakat sadece addrinfo yapısındaki ai_family alanı kontrol edildikten sonra, böylelikle uygulama o anda tam olarak hangi adres tipiyle çalıştığını bilebilsin.
+</para>
+<sect4>
+    <title>'Daytime' Sunucu Kodu</title>
+    <para>
+        Sunucu kodu tod6d.c dosyasında bulunmaktadır. İlk önce, sunucu aşağıdaki komut söz dizimi kullanılarak çalıştırılabilir (tod6d'nin çalıştırılabilir bir dosya olduğunu varsayıyorum).
+    </para>
+    <para>
+        <screen>tod6d [-v] [service]</screen>
+    </para>
+    <para>
+        <note><title>PARAMETRELER:</title>
+            <title>service</title>
+            <para>Dinlenmesini istediğiniz hizmet (veya iyi bilinen port). Varsayılan "daytime" dır. </para>
+            <title>SEÇENEKLER </title>
+            <title>-v </title>
+            <para>Ayrıntılı kipi açar. </para>
+        </note>
+    </para>
+    <para>
+        Sunucu ağdaki hem Ipv4 hem de IPv6 isteklerine cevap verebilmektedir. Sunucu kaynak kodu tod6d.c dosyasında aşağıdaki şekildedir.
+    </para>
+    <screen>
+
+/******************************************************************************
+* Dosya: tod6d.c
+* Açıklama: IPv6 uyumlu "daytime" sunucusu için kaynak kodu içerir.
+* Yazar: John Wenker, Uzman yazılım mühendisi,
+* Performance Technologies, San Diego, USA
+******************************************************************************/
+/*
+** Sistem başlık dosyaları.
+*/
+#include &lt;errno.h&gt; /* errno bildirimi &amp; hata kodları. */
+#include &lt;netdb.h&gt; /* getaddrinfo(3) */
+#include &lt;netinet/in.h&gt; /* sockaddr_in &amp; sockaddr_in6 tanımları. */
+#include &lt;stdio.h&gt; /* printf(3) */
+#include &lt;stdlib.h&gt; /* exit(2) */
+#include &lt;string.h&gt; /* Dizge işleçleri &amp; hafıza işleçleri. */
+#include &lt;sys/poll.h&gt; /* poll(2) ve ilgili bildirimler. */
+#include &lt;sys/socket.h&gt; /* Soket metotları (socket(2), bind(2), etc).*/
+#include &lt;time.h&gt; /* time(2) &amp; ctime(3). */
+#include &lt;unistd.h&gt; /* getopt(3), read(2), vb. */
+/*
+** Sabitler.
+*/
+#define DFLT_SERVICE "daytime" /* Varsayılan hizmet ismi. */
+#define INVALID_DESC -1 /* Geçersiz dosya tanımlayıcısı . */
+#define MAXCONNQLEN 3 /* Kuyruktaki en fazla bağlantı isteği sayısı. */
+#define MAXTCPSCKTS 2 /* IPv4 için bir TCP yuvası &amp; bir tane de IPv6 için. */
+#define MAXUDPSCKTS 2 /* IPv4 için bir UDP yuvası &amp; bir tane de IPv6 için. */
+#define VALIDOPTS "v" /* Geçerli komut seçeneği. */
+/*
+** Temel Boolean tip bildirimleri.
+*/
+typedef enum { false = 0, true } boolean;
+/*
+**Dahili yardımcı işleçlerin taslakları.
+*/
+static int openSckt( const char *service,
+                     const char *protocol,
+                     int desc[ ],
+                     size_t *descSize );
+static void tod( int tSckt[ ],
+                 size_t tScktSize,
+                 int uSckt[ ],
+                 size_t uScktSize );
+/*
+** Genel (bu dosya için) veri nesneleri.
+*/
+static char hostBfr[ NI_MAXHOST ]; /* w/getnameinfo(3)'nin kullanımı için. */
+static const char *pgmName; /* Program ismi w/o dizin öneki. */
+static char servBfr[ NI_MAXSERV ]; /* For use w/getnameinfo(3). */
+static boolean verbose = false; /* Ayrıntılı mod işareti. */
+/*
+** Komut sözdizim ihlalleri için makro kullanımı.
+*/
+#define USAGE                                   \
+            {                                   \
+                 fprintf( stderr,               \
+                 "Usage: %s [-v] [service]\n",  \
+                 pgmName );                     \
+                 exit( 127 );                   \
+            } /* USAGE makrosunun sonu. */
+/*
+** Eğer bir sistem çağrısı hatası meydana gelirse uygulamayı sonlandıracak makro. Sistem çağrısı
+** hata oluşması durumunda -1 döndüren bilinen bir tipte olmalıdır. Bu makro
+** Dr. V. Vinge'nin, SDSU Bilgisayar Bilimleri bölümü (emekli), yazdığı makronun değiştirilmiş bir sürümüdür... gördüğüm en iyi profesör.
+** Kararlı kodlara ek olarak bilim kurgu yazdığını da öğrendim.
+*/
+#define CHK(expr)                                                    \ 
+        do                                                           \
+        {                                                            \
+              if ( (expr) == -1 )                                    \
+              {                                                      \
+                 fprintf( stderr,                                    \
+                          "%s (line %d): System call ERROR - %s.\n", \
+                          pgmName,                                   \
+                          __LINE__,                                  \
+                          strerror( errno ) );                       \
+                 exit( 1 );                                          \
+               } /* Sistem çağrısının başarısız olması sonu. */      \
+        } while ( false )
+/******************************************************************************
+* Metot: main
+*
+* Açıklama:
+*  gün ve zaman sunucusunun ayarlanması ve ağ isteklerine cevap verme. Bu sunucu
+* hem TCP hem de UDP isteklerine cevap verebilmektedir.
+*
+* Parametreler:
+* main() işlecine geçirilen klasik argc and argv parametreleri.
+*
+* Dönüş değeri:
+* Bu değer döndürmeyen artalan bir süreçtir. Fakat soket açılaması
+* konusunda başarısız olursa, sıfır değeri döndürür.
+******************************************************************************/
+int main( int argc,
+          char *argv[ ] )
+{
+    int opt;
+    const char *service = DFLT_SERVICE;
+    int tSckt[ MAXTCPSCKTS ]; /* TCP soket belirleyici dizisi. */
+    size_t tScktSize = MAXTCPSCKTS; /* uSckt'nin boyu (# öğelerin). */
+    int uSckt[ MAXUDPSCKTS ]; /* UDP soket belirleyici dizisi. */
+    size_t uScktSize = MAXUDPSCKTS; /* uSckt'nin boyu (# öğelerin). */
+    /*
+    ** Uygulama isminin ayarlanması (w/o dizin önekleri).
+    */
+    pgmName = strrchr( argv[ 0 ], '/' );
+    pgmName = pgmName == NULL ? argv[ 0 ] : pgmName + 1;
+    /*
+    ** işlem komut seçenekleri.
+    */
+    opterr = 0; /* "invalid option" hata mesajlarını kapatır. */
+    while ( ( opt = getopt( argc, argv, VALIDOPTS ) ) &gt;= 0 )
+    {
+       switch ( opt )
+       {
+           case 'v': /* Ayrıntılı biçim. */
+           {
+                  verbose = true;
+                  break;
+            }
+            default:
+            {
+                  USAGE;
+            }
+       } /* Komut seçeneğinde SWITCH sonu. */
+    } /* İşlem seçeneklerinde WHILE sonu. */
+    /*
+    ** İşlem komut satırı parametreleri.
+    */
+    switch ( argc - optind )
+    {
+        case 0: break;
+        case 1: service = argv[ optind ]; break;
+        default: USAGE;
+    } /* Komut satırı parametrelerinin sayısının belirlenmesi SWITCH sonu. */
+    /*
+    ** hem IPv4 hem de IPv6 için hizmet isteklerinin
+    ** kabul edileceği hem TCP hem de UDP yuvasını açar.
+    */
+    if ( ( openSckt( service, "tcp", tSckt, &amp;tScktSize ) &lt; 0 ) ||
+         ( openSckt( service, "udp", uSckt, &amp;uScktSize ) &lt; 0 ) )
+    {
+        exit( 1 );
+    }
+    /*
+    ** "time-of-day" sunucusunu çalıştırır.
+    */
+    if ( ( tScktSize &gt; 0 ) || ( uScktSize &gt; 0 ) )
+    {
+         tod( tSckt,           /* tod() geri dönmez. */
+              tScktSize,
+              uSckt,
+              uScktSize );
+    }
+    /*
+    ** tod() geri dönmediğinden, eğer hiç yuva açılamazsa uygulama bu satıra gelir.
+    */
+    if ( verbose )
+    {
+        fprintf( stderr,
+                 "%s: No sockets opened... terminating.\n",
+                  pgmName );
+    }
+    return 0;
+} /* main() sonu */
+
+/******************************************************************************
+* Metot: openSckt
+*
+* Açıklama:
+* Belirtilen inet hizmet &amp; iletişim kuralı için pasif (sunucu) soketlerini açar.
+* Son cümledeki "soketlerini" sözcüğünün çoğul olduğuna dikkat edin. Herkesin IPv6'ya
+* geçişi tamamlanana kadar sunucu uygulaması bağlantıları dinlemek için
+* iki soketi de açmak zorundadır...
+* IPv4 trafiği için bir tane ve IPv6 trafiği için de bir tane.
+*
+* Parametreler:
+* service - Dinlenmek istenen iyi bilinen soketi temsil eden karakter dizisine
+* işaretçidir. (bir hizmet ismi veya 10'luk bir sayı olabilir).
+* protocol - Ulaşım katmanı iletişim kuralını belirten karakter dizisine
+* işaretçi (sadece "tcp" veya "udp" kullanılabilir).
+* desc - Açıldığında yerleştirilecek soket açıklayıcısını belirten dizgeye
+* işaretçi.
+* descSize - değer-sonuç parametresidir. Girdi olması durumunda 'desc'e yerleştirilen açıklayıcıların
+* sayılarından en fazla olanıdır (örneğin dizgedeki elemanların sayısı).
+* Döndüğü takdirde, açılan tanımlayıcıların sayısını içerecektir.
+* "desc"te kullanılmayan slotlar INVALID_DESC değerini alacaktır.
+*
+* Dönüş değeri:
+* Başarılı olması durumunda 0, hata oluşması durumunda -1.
+******************************************************************************/
+static int openSckt( const char *service,
+                     const char *protocol,
+                     int desc[ ],
+                     size_t *descSize )
+{
+    struct addrinfo *ai;
+    int aiErr;
+    struct addrinfo *aiHead;
+    struct addrinfo hints = { .ai_flags = AI_PASSIVE, /* Sunucu biçimi */
+                              .ai_family = PF_UNSPEC }; /* IPv4 veya IPv6. */
+    size_t maxDescs = *descSize;
+    /*
+    ** Çıktı parametrelerinin başlatılması. Döngü tamamlandığında *descSize ın değeri 0'dır.
+    */
+    while ( *descSize > 0 )
+    {
+        desc[ --( *descSize ) ] = INVALID_DESC;
+    }
+    /*
+    ** Hangi iletişim kuralının seçildiğini konrol edelim (sadece TCP ve UDP seçilebilir).
+    */
+    if ( strcmp( protocol, "tcp" ) == 0 ) /* TCP iletişim kuralı. */
+    {
+          hints.ai_socktype = SOCK_STREAM;
+          hints.ai_protocol = IPPROTO_TCP;
+    }
+    else if ( strcmp( protocol, "udp" ) == 0 ) /* UDP iletişim kuralı. */
+    {
+        hints.ai_socktype = SOCK_DGRAM;
+        hints.ai_protocol = IPPROTO_UDP;
+    }
+    else /* Geçersiz iletişim kuralı. */
+    {
+        fprintf( stderr,
+                 "%s (line %d): ERROR - Unknown transport "
+                 "layer protocol \"%s\".\n",
+                 pgmName,
+                 __LINE__,
+                 protocol );
+        return -1;
+    }
+
+    /*
+    ** Hizmetlerin bilinen port numaralarını inceleyin. NULL'un 'node' parametresi
+    ** olarak geçirildiğine dikkat edin, ve 'hints'teki AI_PASSIVE bayrağı belirlenmiştir.
+    ** Böylelikle uygulama adres bilgisini pasif olarak elde etmektedir.
+    ** IPv6 kayıtları için ağ adresi :: (hepsi sıfır) değeriyle, veya
+    ** IPv4 kayıtları için 0.0.0.0 değeriyle başlatılmıştır.
+    */
+    if ( ( aiErr = getaddrinfo( NULL,
+                                service,
+                                &amp;hints,
+                                &amp;aiHead ) ) != 0 )
+    {
+        fprintf( stderr,
+                 "%s (line %d): ERROR - %s.\n",
+                 pgmName,
+                 __LINE__,
+                 gai_strerror( aiErr ) );
+        return -1;
+    }
+    /*
+    ** Dönen adres kayıtlarının her biri için, bir pasif yuva kurmayı denemektedir.
+    */
+    for ( ai = aiHead;
+            ( ai != NULL ) &amp;&amp; ( *descSize &lt; maxDescs );
+          ai = ai-&gt;ai_next )
+    {
+        if ( verbose )
+        {
+            /*
+            ** O anki adres bilgisini görüntüleme. İlk önce iletişim kuralı bağımsız
+            ** alanlardan başlayalım.
+            */
+            fprintf( stderr,
+                     "Setting up a passive socket based on the "
+                     "following address info:\n"
+                     " ai_flags = 0x%02X\n"
+                     " ai_family = %d (PF_INET = %d, PF_INET6 = %d)\n"
+                     " ai_socktype = %d (SOCK_STREAM = %d, SOCK_DGRAM = %d)\n"
+                     " ai_protocol = %d (IPPROTO_TCP = %d, IPPROTO_UDP = %d)\n"
+                     " ai_addrlen = %d (sockaddr_in = %d, "
+                     "sockaddr_in6 = %d)\n",
+                     ai-&gt;ai_flags,
+                     ai-&gt;ai_family,
+                     PF_INET,
+                     PF_INET6,
+                     ai-&gt;ai_socktype,
+                     SOCK_STREAM,
+                     SOCK_DGRAM,
+                     ai-&gt;ai_protocol,
+                     IPPROTO_TCP,
+                     IPPROTO_UDP,
+                     ai-&gt;ai_addrlen,
+                     sizeof( struct sockaddr_in ),
+                     sizeof( struct sockaddr_in6 ) );
+            /*
+            ** Şimdi iletişim kuralına özel şekillendirilmiş soket adreslerini görüntüleyelim. Unutmayın ki
+            ** uygulama, konak ve hizmetleri sayısal dizgelere çevirmek için getnameinfo(3)'yu kullanmaktadır.
+            */
+            getnameinfo( ai-&gt;ai_addr,
+                         ai-&gt;ai_addrlen,
+                         hostBfr,
+                         sizeof( hostBfr ),
+                         servBfr,
+                         sizeof( servBfr ),
+                         NI_NUMERICHOST | NI_NUMERICSERV );
+            switch ( ai-&gt;ai_family )
+            {
+                case PF_INET: /* IPv4 adres kaydı. */
+                {
+                    struct sockaddr_in *p = (struct sockaddr_in*) ai-&gt;ai_addr;
+                    fprintf( stderr,
+                             " ai_addr = sin_family: %d (AF_INET = %d, "
+                             "AF_INET6 = %d)\n"
+                             " sin_addr: %s\n"
+                             " sin_port: %s\n",
+                             p-&gt;sin_family,
+                             AF_INET,
+                             AF_INET6,
+                             hostBfr,
+                             servBfr );
+                    break;
+                } /* IPv4 CASE sonu. */
+                case PF_INET6: /* IPv6 adres kaydı. */
+                {
+                    struct sockaddr_in6 *p = (struct sockaddr_in6*) ai-&gt;ai_addr;
+                    fprintf( stderr,
+                             " ai_addr = sin6_family: %d (AF_INET = %d, "
+                             "AF_INET6 = %d)\n"
+                             " sin6_addr: %s\n"
+                             " sin6_port: %s\n"
+                             " sin6_flowinfo: %d\n"
+                             " sin6_scope_id: %d\n",
+                             p-&gt;sin6_family,
+                             AF_INET,
+                             AF_INET6,
+                             hostBfr,
+                             servBfr,
+                             p-&gt;sin6_flowinfo,
+                             p-&gt;sin6_scope_id );
+                    break;
+                } /* IPv6 CASE sonu. */
+                default: /* Buraya hiçbir zaman gelinmeyecek ama sadece tamamlayıcı olması açısından dolduruldu.*/
+                {
+                    fprintf( stderr,
+                             "%s (line %d): ERROR - Unknown protocol family (%d).\n",
+                             pgmName,
+                             __LINE__,
+                             ai-&gt;ai_family );
+                    freeaddrinfo( aiHead );
+                    return -1;
+                } /* (bilinmeyen iletişim kuralı ailesi) DEFAULT durumu sonu (unknown protocol family). */
+            } /* İletişim kuralı ailesi SWITCH sonu. */
+        } /*  Ayrıntılı biçim IF sonu. */
+        /*
+        ** addrinfo yapısındaki bilgiyi kullanarak bir yuva yaratılması.
+        */
+        CHK( desc[ *descSize ] = socket( ai-&gt;ai_family,
+                                         ai-&gt;ai_socktype,
+                                         ai-&gt;ai_protocol ) );
+        /*
+        ** 22.1.3.1 numaralı bölümde açıklandığı gibi, "IPv4 haritalanmış adresler" i engellemek için kod aşağıdadır.
+        ** Eğer bir IPv6 yuvası henüz oluşturulmuşsa, IPV6_V6ONLY soket seçeneğini
+        ** işaretleyin.
+        */
+        if ( ai-&gt;ai_family == PF_INET6 )
+        {
+#if defined( IPV6_V6ONLY )
+            /*
+            ** IPv4 haritalanmış adresleri geçersiz kılın.
+            */
+            int v6Only = 1;
+            CHK( setsockopt( desc[ *descSize ],
+                             IPPROTO_IPV6,
+                             IPV6_V6ONLY,
+                             &amp;v6Only,
+                             sizeof( v6Only ) ) );
+#else
+
+/*
+** IPV6_V6ONLY seçilmemişse, böylelikle soket seçeneği belirlenemez ve bu yüzden 
+** IPv4 haritalanmış adresler etkisizleştirilemez. Bir uyarı mesajı verin ve
+** soketi kapatın. Tasarım notu: Eğer
+** #if...#else...#endif yapıları kaldırılırsa, bu uygulama
+** derlenmeyecektir. (çünkü IPV6_V6ONLY tanımlanmamış). Bu
+** kabul edilebilir bir yaklaşım; eğer uygulama kurulamamışsa 
+** IPv4 haritalanmış adresler kesinlikle uygulanabilir değildir.Fakat uygulamanın hem IPv6 hem de IPv4 soketleri
+** için çalışması tasarlandığından, uygulamanın IPV6_V6ONLY tanımlanmamış olsa bile
+** derlenmesinine izin vermeye karar verdim, ve
+** bunu derleme zamanı hatası yerine bir çalışma zamanı uyarısına çevirdim.
+** IPv4 haritalanmış adresler hala kullanılabilir değildir çünkü bütün IPv6 trafiği
+** kapatılmıştır (burada bütün IPv6 soketleri kapatılmıştır), fakat en azından sunucu bu yönden
+** IPv4 ağ trafiğine hala hizmet verebilmektedir.
+*/
+    fprintf( stderr,
+             "%s (line %d): WARNING - Cannot set IPV6_V6ONLY socket "
+             "option. Closing IPv6 %s socket.\n",
+             pgmName,
+             __LINE__,
+             ai->ai_protocol == IPPROTO_TCP ? "TCP" : "UDP" );
+    CHK( close( desc[ *descSize ] ) );
+    continue; /* w/o ve *descSize'ın güncellenmesi için FOR döngüsünün başına git! */
+#endif /* IPV6_V6ONLY */
+    } /* Bir IPv6 yuvası ise IF'i bitir. */
+    /*
+    ** Soketi bağla. addrinfo yapısından alınan bilgi kullanılmıştır.
+    */
+    CHK( bind( desc[ *descSize ],
+         ai->ai_addr,
+         ai->ai_addrlen ) );
+    /*
+    ** Eğer bu bit TCP yuvası ise, yuvayı pasif dinleme durumuna getirin
+    ** (dinleme sadece bağlantı temelli yuvalarda kullanılabilir).
+    */
+    if ( ai->ai_socktype == SOCK_STREAM )
+    {
+        CHK( listen( desc[ *descSize ],
+                     MAXCONNQLEN ) );
+    }
+    /*
+    ** Soketin kurulması işlemi tamamlandı. Dizinin bir sonraki elemanını ele alalım.
+    */
+    descSize += 1;
+    } /* Her adres bilgi yapısı döndüğünde FOR'u bitirelim. */
+
+/*
+** Kullanılmayan adres yapıları olup olmadığının kontrolü.
+*/
+if ( verbose &amp;&amp; ( ai != NULL ) )
+{
+    fprintf( stderr,
+             "%s (line %d): WARNING - Some address records were "
+             "not processed due to insufficient array space.\n",
+             pgmName,
+             __LINE__ );
+} /* İşlenilmeden kalan adres kayıtları kalması ve IF sonu. */
+/*
+** Temizleme işlemi.
+*/
+freeaddrinfo( aiHead );
+return 0;
+} /* openSckt() sonu */
+
+/******************************************************************************
+* Metot: tod
+*
+* Açıklama:
+* Belirtilen soketleri dinleyen ve o anki zaman bilgisini istemcilere
+* gönderir. Bu metot bir değer döndürmez.
+*
+* Parametreler:
+* tSckt - Dinlenilmesi istenen TCP yuvalarını gösteren dizi.
+* tScktSize - tSckt dizisinin boyu (elementlerin sayısı).
+* uSckt - Dinlenilmesi istenen UDP yuvalarını gösteren dizi.
+* uScktSize - uSckt dizisinin boyu (elementlerin sayısı).
+*
+* Dönüş değeri: Yok.
+******************************************************************************/
+static void tod( int tSckt[ ],
+                 size_t tScktSize,
+                 int uSckt[ ],
+                 size_t uScktSize )
+{
+    char bfr[ 256 ];
+    ssize_t count;
+    struct pollfd *desc;
+    size_t descSize = tScktSize + uScktSize;
+    int idx;
+    int newSckt;
+    struct sockaddr *sadr;
+    socklen_t sadrLen;
+    struct sockaddr_storage sockStor;
+    int status;
+    size_t timeLen;
+    char *timeStr;
+    time_t timeVal;
+    ssize_t wBytes;
+/*
+** poll(2) dizisi için bellek ayıralım.
+*/
+desc = malloc( descSize * sizeof( struct pollfd ) );
+if ( desc == NULL )
+{
+fprintf( stderr,
+         "%s (line %d): ERROR - %s.\n",
+         pgmName,
+         __LINE__,
+         strerror( ENOMEM ) );
+exit( 1 );
+}
+/*
+** poll(2) dizisini başlatalım.
+*/
+for ( idx = 0; idx &lt; descSize; idx++ )
+{
+desc[ idx ].fd = idx &lt; tScktSize ? tSckt[ idx ]
+: uSckt[ idx - tScktSize ];
+desc[ idx ].events = POLLIN;
+desc[ idx ].revents = 0;
+}
+/*
+** Ana zaman sunucusu döngüsü. Hem TCP hem de UDP isteklerine cevap verir. Bu
+** etkileşimli bir sunucudur, ve bütün istekler doğrudan ana döngü içerisinde
+** ele alınır.
+*/
+while ( true ) /* Sonsuz Döngü. */
+{
+    /*
+    ** Yuvaların birinde bir etkinlik olması beklenir. DO..WHILE yapısı
+    ** bir sinyal tarafından kesilmiş işlemdeki sistem çağrısını yeniden başlatmak için
+    ** kullanılır.
+    */
+    do
+    {
+        status = poll( desc,
+                       descSize,
+                       -1 /* Herhangi bir girdi olması beklenir. */ );
+    } while ( ( status &amp; 0 ) &amp;&amp; ( errno == EINTR ) );
+    CHK( status ); /* Gerçekten bir sistem çağrısı hatası olup olmadığının kontrolü. */
+    /*
+    ** o anki zaman.
+    */
+    timeVal = time( NULL );
+    timeStr = ctime( &amp;timeVal );
+    timeLen = strlen( timeStr );
+    /*
+    ** Yeni bir ağ etkinliği olduğunu belirtin.
+    */
+    if ( verbose )
+    {
+        char *s = malloc( timeLen+1 );
+        strcpy( s, timeStr );
+        s[ timeLen-1 ] = '\0'; /* zaman dizgesindeki '\n' in üzerine yazma.*/
+        fprintf( stderr,
+                 "%s: New network activity on %s.\n",
+                 pgmName,
+                 s );
+        free( s );
+    } /* IF sonu. */
+    /*
+    ** Kullanılabilir bir girdi olmuş işlem yuvası.
+    */
+    for ( idx = 0; idx &lt; descSize; idx++ )
+    {
+        switch ( desc[ idx ].revents )
+        {
+            case 0: /* Bu sokette işlem yok; sonrakini deneyin. */
+                continue;
+            case POLLIN: /* Ağ etkinliği. Bunu işleyelim. */
+                break;
+            default: /* Geçersiz eylem. */
+            {
+                fprintf( stderr,
+                         "%s (line %d): ERROR - Invalid poll event (0x%02X).\n",
+                         pgmName,
+                         __LINE__,
+                         desc[ idx ].revents );
+                exit( 1 );
+            }
+        } /* Dönen olay için SWITCH sonu. */
+    /*
+    ** Bunun bir TCP isteği mi yoksa bir UDP isteği mi olduğuna karar verme.
+    */
+    if ( idx &lt; tScktSize )
+    {
+        /*
+        ** TCP bağlantı isteği. Kabul edin. sockaddr_storage veri tipinin
+        ** kullanımını inceleyin.
+        */
+        sadrLen = sizeof( sockStor );
+        sadr = (struct sockaddr*) &amp;sockStor;
+        CHK( newSckt = accept( desc[ idx ].fd,
+                               sadr,
+                               &amp;sadrLen ) );
+        CHK( shutdown( newSckt, /* Sunucu herhangi bir şey kabul etmez. */
+                       SHUT_RD ) );
+        if ( verbose )
+        {
+            /*
+            ** Uzak istemcinin soket adresinin gösterilmesi. Adresten bağımsız
+            ** alanlarla başlar.
+            */
+            fprintf( stderr,
+                     "Sockaddr info for new TCP client:\n"
+                     " sa_family = %d (AF_INET = %d, AF_INET6 = %d)\n"
+                     " addr len = %d (sockaddr_in = %d, "
+                     "sockaddr_in6 = %d)\n",
+                     sadr-&gt;sa_family,
+                     AF_INET,
+                     AF_INET6,
+                     sadrLen,
+                     sizeof( struct sockaddr_in ),
+                     sizeof( struct sockaddr_in6 ) );
+            /*
+            ** Adrese özel alanların gösterilmesi.
+            */
+            getnameinfo( sadr,
+                         sadrLen,
+                         hostBfr,
+                         sizeof( hostBfr ),
+                         servBfr,
+                         sizeof( servBfr ),
+                         NI_NUMERICHOST | NI_NUMERICSERV );
+            /*
+            ** Şu an adres ailesini değiştirdiğimizi unutmayın, iletişim kuralı
+            ** ailesini değil.
+            */
+            switch ( sadr-&gt;sa_family )
+            {
+                case AF_INET: /* IPv4 address. */
+                {
+                    struct sockaddr_in *p = (struct sockaddr_in*) sadr;
+                    fprintf( stderr,
+                             " sin_addr = sin_family: %d\n"
+                             " sin_addr: %s\n"
+                             " sin_port: %s\n",
+                             p-&gt;sin_family,
+                             hostBfr,
+                             servBfr );
+                    break;
+                } /* End CASE of IPv4. */
+                case AF_INET6: /* IPv6 adresi. */
+                {
+                    struct sockaddr_in6 *p = (struct sockaddr_in6*) sadr;
+                    fprintf( stderr,
+                             " sin6_addr = sin6_family: %d\n"
+                             " sin6_addr: %s\n"
+                             " sin6_port: %s\n"
+                             " sin6_flowinfo: %d\n"
+                             " sin6_scope_id: %d\n",
+                             p-&gt;sin6_family,
+                             hostBfr,
+                             servBfr,
+                             p-&gt;sin6_flowinfo,
+                             p-&gt;sin6_scope_id );
+                    break;
+                    } /* IPv6 için CASE sonu. */ 
+
+                    default:   /*  Buraya asla girilmez, fakat bütünlük için yazılmıştır. */
+                 {
+                    fprintf( stderr,
+                             "%s (line %d): ERROR - Unknown address "
+                             "family (%d).\n",
+                             pgmName,
+                             __LINE__,
+                             sadr->sa_family );
+                     break;
+
+
+                  }  /* adres ailesi için SWITCH sonu. */
+            }  /* Ayrıntılı kip IF sonu. */
+
+            /*
+            ** İstemciye TOD gönderilmesi.
+            */
+            wBytes = timeLen;
+            while ( wBytes &gt; 0 )
+            {
+                  do
+                  {
+                        count = write( newSckt,
+                                       timeStr,
+                                       wBytes );
+                  } while ( ( count &lt; 0 ) &amp;&amp; ( errno == EINTR ) );
+                  CHK( count );   /* Gerçekten bir hata  olup olmadığının kontrolü. */
+                  wBytes -= count;
+            } /* Gönderilecek veri için WHILE sonu. */
+            CHK( close( newSckt ) );
+        }  /* Bir TCP bağlantı isteği için IF sonu. */
+        else
+        {
+            /*
+            ** Bu bir UDP soketidir, ve bir veri bloğu kullanılabilir durumdadır. UDP istekleri 
+            ** ile ilgili  eğlenceli konu sunucunun herhangi istemci girdisine gerek 
+            ** duymamasıdır; fakat aynı zamanda istemciden veri için istek gelmeden sunucu TOD'u 
+            ** gönderemez, ve UDP ile bu işlem sunucunun istemciden bir veri bloğu 
+            ** alması ile gerçekleşebilir. Sonuçta, sunucu herhangi bir şey almalı,
+            ** fakat bu veri bloğunun içeriği önemli değildir.
+            ** Veri bloğu okunur. Yeniden adresleri almak için sockaddr_storage'ın kullanılmasına
+            ** dikkat edilmelidir.
+            */
+
+            sadrLen = sizeof( sockStor );
+            sadr    = (struct sockaddr*) &amp;sockStor;
+            CHK( count = recvfrom( desc[ idx ].fd,
+                                   bfr,
+                                   sizeof( bfr ),
+                                   0,
+                                   sadr,
+                                   &amp;sadrLen ) );
+            /*
+            ** Stdout'ta her ne alındıysa gösterilmesi.
+            */
+            if ( verbose )
+            {
+                ssize_t rBytes = count;
+                fprintf( stderr,
+                         "%s: UDP datagram received (%d bytes).\n",
+                         pgmName,
+                         count );
+                while ( count > 0 )
+                {
+                    fputc( bfr[ rBytes - count-- ],
+                           stdout );
+                }
+                if ( bfr[ rBytes-1 ] != '\n' )
+                fputc( '\n', stdout );   /* Yeni satır stdout'u boşaltır. */
+                /*
+                ** Uzak istemcinin soket adresinin gösterilmesi. İlk önce
+                ** adresten bağımsız alanlar.
+                */
+                fprintf( stderr,
+                         "Remote client's sockaddr info:\n"
+                         "   sa_family = %d (AF_INET = %d, AF_INET6 = %d)\n"
+                         "   addr len  = %d (sockaddr_in = %d, "
+                         "sockaddr_in6 = %d)\n",
+                         sadr-&gt;sa_family,
+                         AF_INET,
+                         AF_INET6,
+                         sadrLen,
+                         sizeof( struct sockaddr_in ),
+                         sizeof( struct sockaddr_in6 ) );
+                         /*
+                         ** Adrese özel bilgilerin gösterilmesi.
+                         */
+                         getnameinfo( sadr,
+                                      sadrLen,
+                                      hostBfr,
+                                      sizeof( hostBfr ),
+                                      servBfr,
+                                      sizeof( servBfr ),
+                                      NI_NUMERICHOST | NI_NUMERICSERV );
+                         switch ( sadr-&gt;sa_family )
+                         {
+                            case AF_INET:   /* IPv4 adresi. */
+                            {
+                                struct sockaddr_in *p = (struct sockaddr_in*) sadr;
+                                fprintf( stderr,
+                                         "   sin_addr  = sin_family: %d\n"
+                                         "               sin_addr:   %s\n"
+                                         "               sin_port:   %s\n",
+                                         p-&gt;sin_family,
+                                         hostBfr,
+                                         servBfr );
+                                break;
+                            }  /* IPv4 adresinin CASE sonu. */
+                            case AF_INET6:   /* IPv6 adresi. */
+                            {
+                                struct sockaddr_in6 *p = (struct sockaddr_in6*) sadr;
+                                fprintf( stderr,
+                                         "   sin6_addr = sin6_family:   %d\n"
+                                         "               sin6_addr:     %s\n"
+                                         "               sin6_port:     %s\n"
+                                         "               sin6_flowinfo: %d\n"
+                                         "               sin6_scope_id: %d\n",
+                                         p-&gt;sin6_family,
+                                         hostBfr,
+                                         servBfr,
+                                         p-&gt;sin6_flowinfo,
+                                         p-&gt;sin6_scope_id );
+                                break;
+                            }  /* IPv6 adresinin CASE sonu. */
+                            default:   /* Buraya hiçbir zaman girilmez, fakat bütünlük için doldurulmuştur. */
+                            {
+                                fprintf( stderr,
+                                         "%s (line %d): ERROR - Unknown address "
+                                         "family (%d).\n",
+                                         pgmName,
+                                         __LINE__,
+                                         sadr-&gt;sa_family );
+                                break;
+                            }  /* DEFAULT case sonu(bilinmeyen adres ailesi). */
+                          /* Adres ailesi için SWITCH sonu. */
+                    }  /* Ayrıntılı kip için IF sonu. */
+                    /*
+                    ** İstemciye zaman bilgisinin gönderilmesi.
+                    */
+                    wBytes = timeLen;
+                    while ( wBytes &gt; 0 )
+                    {
+                        do
+                        {
+                            count = sendto( desc[ idx ].fd,
+                                            timeStr,
+                                            wBytes,
+                                            0,
+                                            sadr,        /* Adres &amp; adres uzunluğu   */
+                                            sadrLen );   /* recvfrom() ile alınan. */
+                        } while ( ( count &lt; 0 ) &amp;&amp; ( errno == EINTR ) );
+                        CHK( count );   /* Gerçekten bir hata olup olmadığının kontrolü. */
+                        wBytes -= count;
+                    }  /* Gönderilecek bir veri var ise WHILE sonu. */
+                }  /* UDP veri bloğu kullanılabilir ise ELSE sonu. */
+                desc[ idx ].revents = 0;   /* Dönen olayların temizlenmesi. */
+            }  /* Her soket belirleyicisi için FOR sonu. */
+        }  /* Sonsuz döngü sonu. */
+    }  /* tod() sonu */
+</screen>
+</sect4>
+<sect4>
+<title>TCP İstemci Kodu </title>
+<para>TCP istemci kodu tod6tc.c (IPv6 TCP istemcisi) dosyasında bulunabilir. Kurduktan sonra, TCP istemcisi aşağıdaki komut sözdizimi kullanılarak başlatılabilir (tod6tc'nin çalıştırılabilir bir dosya olduğu varsayılıyor):  </para>
+<para>
+<screen>
+tod6tc [-v] [-s scope_id] [host [service]]
+</screen>
+</para>
+<para>
+        <note><title>PARAMETRELER:</title>
+            <title>host</title>
+            <para>Hizmeti sağlayan uzak düğümün bilgisayar adı veya IP adresi (IPv4 adresi veya IPv6 adresi olabilir). Varsayılan "localhost"tur. </para>
+            <title>service</title>
+            <para> Bağlantı isteği yapılan TCP hizmeti (veya iyi bilinen port numarası). Varsayılan "daytime"dır. </para>
+            <title>SEÇENEKLER </title>
+            <title>-s </title>
+            <para>Bu seçenek sadece IPv6 adresleri için anlamlıdır, ve kapsam belirleyicisini ayarlamak için kullanılmıştır (örneğin bağlantının onaylandığı ağ arayüzü). Varsayılan "eth0"dır. Eğer konak kapsamlı bir adres ise, bu seçenek yoksayılabilir.  </para>
+            <title>-v </title>
+            <para>Ayrıntılı kipi açar. </para>
+        </note>
+    </para>
+<para>TCP istemcinin tod6tc.c içindeki kaynak kodu aşağıdadır:
+<screen>
+/******************************************************************************
+* Dosya: tod6tc.c
+* Açıklama: TCP istemcisi için IPv6 uyumlu kaynak kodu barındırır.
+* Yazar: John Wenker, Sr. Yazılım Mühendisi
+*         Performance Technologies, San Diego, USA
+******************************************************************************/
+/*
+** Sistem başlık dosyaları.
+*/
+#include &lt;errno.h&gt;        /* errno bildirimi ve hata kodları.             */
+#include &lt;net/if.h&gt;       /* if_nametoindex(3).                             */
+#include &lt;netdb.h&gt;        /* getaddrinfo(3) ve ilgili tanımlar.     */
+#include &lt;netinet/in.h&gt;   /* sockaddr_in ve sockaddr_in6 tanımları.      */
+#include &lt;stdio.h&gt;        /* printf(3) .                               */
+#include &lt;stdlib.h&gt;       /* exit(2).                                       */
+#include &lt;string.h&gt;       /* Dizge işleme ve hafıza metotları.      */
+#include &lt;sys/socket.h&gt;   /* Soket metotları (socket(2), connect(2), etc). */
+#include &lt;unistd.h&gt;       /* getopt(3), read(2), v.s.                       */
+/*
+** Sabitler ve makrolar.
+*/
+#define DFLT_HOST      "localhost"   /* Varsayılan sunucu ismi.              */
+#define DFLT_SCOPE_ID  "eth0"        /* Varsayılan alan belirleyicisi.       */
+#define DFLT_SERVICE   "daytime"     /* Varsayılan hizmet ismi.             */
+#define INVALID_DESC   -1            /* Geçersiz dosya (soket) belirleyicisi. */
+#define MAXBFRSIZE     256           /* Uzak TOD'dan okunacak en fazla tampon boyutu.    */
+#define VALIDOPTS      "s:v"         /* Geçerli komut seçenekleri.            */
+/*
+** Tip tanımları (kullanılabilirlik için).
+*/
+typedef enum { false = 0, true } boolean;
+typedef struct sockaddr_in       sockaddr_in_t;
+typedef struct sockaddr_in6      sockaddr_in6_t;
+/*
+** İç yardım metotları için taslaklar.
+*/
+static int  openSckt( const char   *host,
+                      const char   *service,
+                      unsigned int  scopeId );
+static void tod( int sckt );
+/*
+** Genel(sadece bu dosya için) veri nesneleri.
+*/
+static const char *pgmName;           /* Uygulama ismi (w/o dizini). */
+static boolean     verbose = false;   /* Ayrıntılı kip.                 */
+/*
+** Makro kullanımı.
+*/
+#define USAGE
+        {
+           fprintf( stderr,
+                    "Usage: %s [-v] [-s scope_id] [host [service]]\n",
+                    pgmName );
+           exit( 127 );
+        }  /* Makro kullanımı sonu. */
+/*
+** Bu "makro" (aslında bir metot olmasına rağmen) genel olarak Dr. V. Vinge'nin CHK() 
+** makrosuna (sunucu koduna bakın) dayanmaktadır. Status parametresi
+** hata durumunda -1 değer dönen mantıksal ifade gösteren klasik sistem çağrılarından
+** biridir. Eğer bir sistem hatası oluşursa, stderr'e bir uyarı
+** yazılır. Sistem çağrısının başarılı olması veya hata oluşması durumunda mantıksal 
+** bir değer döndürülür.
+**
+** Örnek: if ( !SYSCALL( "write",
+**                         count = write( fd, bfr, size ) ) )
+**          {
+**             // Hata işleniyor... fakat SYSCALL() stderr'da bir hata mesajı 
+**             // gösterdi bile.
+**          }
+*/
+static __inline boolean SYSCALL( const char *syscallName,
+                                 int         lineNbr,
+                                 int         status )
+{
+   if ( ( status == -1 ) &amp;&amp; verbose )
+   {
+      fprintf( stderr,
+               "%s (line %d): System call failed ('%s') - %s.\n",
+               pgmName,
+               lineNbr,
+               syscallName,
+               strerror( errno ) );
+   }
+   return status != -1;   /* Sistem çağrısı başarılı olursa true değer alır. */
+}  /* End SYSCALL() */
+/******************************************************************************
+* Metot: main
+*
+* Açıklama:
+*    Uzak bir zaman hizmetine bağlanır ve stdout'a uzak düğümün TOD'u
+*    yazar.
+*
+* Parametre:
+*    Main() uygulamasına geçirilen klasik argc &amp; argv parametreleri.
+*
+* dönüş değeri:
+*    Bu metot daima sıfır değerini döndürür.
+******************************************************************************/
+int main( int   argc,
+          char *argv[ ] )
+{
+   const char   *host     = DFLT_HOST;
+   int           opt;
+   int           sckt;
+   unsigned int  scopeId  = if_nametoindex( DFLT_SCOPE_ID );
+   const char   *service  = DFLT_SERVICE;
+   /*
+   ** Uygulama ismine karar verelim (w/o dizin öneki).
+   */
+   pgmName = (const char*) strrchr( argv[ 0 ], '/' );
+   pgmName = pgmName == NULL  ?  argv[ 0 ]  :  pgmName+1;
+   /*
+   ** Komut satırı seçenekleri işleyelim.
+   */
+   opterr = 0;   /* "invalid option" hata mesajını kapatalım. */
+   while ( ( opt = getopt( argc, argv, VALIDOPTS ) ) != -1 )
+   {
+      switch ( opt )
+      {
+         case 's':   /* Alan belirleyicisi (IPv6 çözümü(kluge)). */
+         {
+            scopeId = if_nametoindex( optarg );
+            if ( scopeId == 0 )
+            {
+               fprintf( stderr,
+                        "%s: Unknown network interface (%s).\n",
+                        pgmName,
+                        optarg );
+               USAGE;
+            }
+            break;
+         }
+         case 'v':   /* Ayrıntılı kip. */
+         {
+            verbose = true;
+            break;
+         }
+         default:
+         {
+            USAGE;
+         }
+      }  /* Komut seçeneği için SWITCH sonu. */
+   } /* Komut seçenekleri işlenmesi WHILE sonu. */
+   /*
+   ** Komut parametrelerinin işlenmesi. Üstteki döngünün sonunda, optind 
+   ** seçenek olmayan ilk argv elementidir.
+   */
+   switch ( argc - optind )
+   {
+      case 2:   /* Hem düğüm hem de hizmet komut satırında belirtilmiştir. */
+     {
+          service = argv[ optind + 1 ];
+          /***** Başarısız *****/
+      }
+      case 1:   /* Host is specified on the command line. */
+      {
+          host = argv[ optind ];
+          /***** Başarısız *****/
+      }
+      case 0:   /* Varsayılan düğüm ve hizmetin kullanılması. */
+      {
+          break;
+      }
+      default:
+      {
+         USAGE;
+      }
+   }  /* komut parametreleri için SWITCH sonu. */
+   /*
+   ** Belirtilen düğüm ve hizmete bir bağlantı oluşturalım.
+   **
+   ** Aşağıdaki üç durumdan her birinin gerçekleşmesi olasıdır, burada
+   ** alan belirleyicisi çözümlenmemiş durumdadır.
+   **    1) Varsayılan ağ arayüzü bir sebepten dolayı tanınmıyor olabilir.
+   **    2) Komut satırında -s seçeneği kullanılmamıştır.
+   **    3) Komut satırında IPv6 kapsamlı adres belirtilmemiş olabilir.
+   ** Eğer yukarıdaki üç durumla karşılaşılırsa, bu yüzden sadece IPv4 soketi
+   ** açılabilir (Ipv6 soketleri için uygun kapsam adresi ayarlanmamışsa connect(2) 
+   ** başarısız olur).
+   */
+  if ( ( sckt = openSckt( host,
+                           service,
+                           scopeId ) ) == INVALID_DESC )
+   {
+      fprintf( stderr,
+               "%s: Sorry... a connection could not be established.\n",
+               pgmName );
+      exit( 1 );
+   }
+   /*
+   ** Uzak zaman bilgisinin alınması.
+   */
+   tod( sckt );
+   /*
+   ** Bağlantıyı kapatın ve sonlandırın.
+   */
+   (void) SYSCALL( "close",
+                   __LINE__,
+                   close( sckt ) );
+   return 0;
+}  /* main() sonu */
+/******************************************************************************
+* Metot: openSckt
+*
+* Açıklama:
+*    Uzak sunucuya bir TCP bağlantısı kurar. Getaddrinfo(3) arama metotlarını
+*    gerçekleştirmek için kullanılmaktadır ve çoklu adres kayıtları döndürebilir
+*    (örneğin addrinfo yapısından kayıtların listesi). Metot listeyi gezer ve
+*    uzak sunucuya bir bağlantı oluşturmaya çalışır. Metot bir bağlantı kurulduktan
+*    veya listedeki bütün kayıtlar işlendikten sonra sonlanır.
+*
+* Parametreler:
+*    host    - Uzak sunucunun sistem  adı veya IP adresini(IPv4 veya Ipv6) gösteren 
+*              dizgeye işaretçi.
+*    service – Hizmet adı veya iyi bilinen port numarasını gösteren dizgeye işaretçi. 
+*    scopeId – Sadece Ipv6 soketleri için geçerlidir. Bağlantı kurulacak olan ağ a-
+*              rayüzüne karşılık gelen işaret. Bu parametre Ipv4 soketleri için veya
+*              düğümde belirtilen IPv6 kapsamlı adresler için ihmal edilmektedir
+*              (örneğin kapsam adresi ile arttırılmış iki nokta üst üsteli 
+*              onaltılık ağ adresi).
+*
+* Dönüş değeri:
+*    Bağlantı için bir soket açıklayıcısı döndürür, veya bütün adres kayıtları işlenirse 
+*    ve bir bağlantı kurulamazsa INVALID_DESC döndürür.
+******************************************************************************/
+static int openSckt( const char   *host,
+                     const char   *service,
+                     unsigned int  scopeId )
+{
+   struct addrinfo *ai;
+   int              aiErr;
+   struct addrinfo *aiHead;
+   struct addrinfo  hints;
+   sockaddr_in6_t  *pSadrIn6;
+   int              sckt;
+   /*
+   ** Getaddrinfo(3) için 'hints' yapısını başlatır.
+   **
+   ** Düğüm ve hizmetler için hem IPv4 hem Ipv6 adres kayıtları döndürmesi sağlayarak 
+   ** 'ai_family' alanının PF_UNSPEC'e ayarlanmış olduğundan emin olun. Çoğu zaman
+   ** kullanıcı  bağlantının IPv4 bağlantısı mı IPv6 bağlantısı mı olduğuna dikkat 
+   ** etmeyecektir; kullanıcı sadece uzak düğüme veri göndermek istemektedir ve bunun 
+   ** nasıl yapılacağı ile ilgilenmez. Fakat bazen kullanıcı özel olarak kullanılacak 
+   ** soket tipini belirtmek isteyebilir. Bu okuyucuya komut satırına kullanıcıya IP 
+   ** iletişim kuralını seçmesine izin veren bir seçenek koyması hakkında fikir 
+   ** verebilir, ve daha sonra adres listesi işlenmelidir(Bu o kadar zor değil).
+   */
+   memset( &amp;hints, 0, sizeof( hints ) );
+   hints.ai_family   = PF_UNSPEC;     /* IPv4 veya IPv6 kayıtları (önemli değil). */
+   hints.ai_socktype = SOCK_STREAM;   /* Bağlantı temelli byte akışı.   */
+   hints.ai_protocol = IPPROTO_TCP;   /* Sadece TCP taşıma katmanı iletişim kuralı. */
+   /*
+   ** Düğüm ve hizmet bilgisini arama.
+   */
+   if ( ( aiErr = getaddrinfo( host,
+                               service,
+                               &amp;hints,
+                               &amp;aiHead ) ) != 0 )
+   {
+      fprintf( stderr,
+               "%s (line %d): ERROR - %s.\n",
+               pgmName,
+               __LINE__,
+               gai_strerror( aiErr ) );
+      return INVALID_DESC;
+   }
+   /*
+   ** Bir bağlantı açmak için listeyi gezin. Bir bağlantı kurulana kadar
+   ** veya liste sonlanana kadar devam edin.
+   */
+   for ( ai = aiHead,   sckt = INVALID_DESC;
+         ( ai != NULL ) &amp;&amp; ( sckt == INVALID_DESC );
+         ai = ai-&gt;ai_next )
+   {
+      /*
+      ** IPv6 çözümü. Scope ID'nin ayarlanmış olduğundan emin olun.
+      */
+      if ( ai-&gt;ai_family == PF_INET6 )
+      {
+         pSadrIn6 = (sockaddr_in6_t*) ai-&gt;ai_addr;
+         if ( pSadrIn6-&gt;sin6_scope_id == 0 )
+         {
+            pSadrIn6-&gt;sin6_scope_id = scopeId;
+         }  /*  scope ID gönderilmemişse işlemi IF sonu. */
+      }  /* IPv6 çözümü sonu. */
+      /*
+      ** Uzak düğümün adres bilgisinin gösterilmesi.
+      */
+      if ( verbose )
+      {
+         /*
+         ** Düğüm ve hizmet için geçici dizge tamponu.
+         */
+         char hostBfr[ NI_MAXHOST ];
+         char servBfr[ NI_MAXSERV ];
+         /*
+         ** Alınan adres bilgisinin gösterilmesi. İlk önce yaygın olanlarla (iletişim 
+         ** kuralı bağımsız) başlayın.
+         */
+         fprintf( stderr,
+                  "Address info:\n"
+                  "   ai_flags     = 0x%02X\n"
+                  "   ai_family    = %d (PF_INET = %d, PF_INET6 = %d)\n"
+                  "   ai_socktype  = %d (SOCK_STREAM = %d, SOCK_DGRAM = %d)\n"
+                  "   ai_protocol  = %d (IPPROTO_TCP = %d, IPPROTO_UDP = %d)\n"
+                  "   ai_addrlen   = %d (sockaddr_in = %d, "
+                  "sockaddr_in6 = %d)\n",
+                  ai-&gt;ai_flags,
+                  ai-&gt;ai_family,
+                  PF_INET,
+                  PF_INET6,
+                  ai-&gt;ai_socktype,
+                  SOCK_STREAM,
+                  SOCK_DGRAM,
+                  ai-&gt;ai_protocol,
+                  IPPROTO_TCP,
+                  IPPROTO_UDP,
+                  ai-&gt;ai_addrlen,
+                  sizeof( struct sockaddr_in ),
+                  sizeof( struct sockaddr_in6 ) );
+         /*
+         ** İletişim kuralına özgü adreslerin gösterilmesi.
+         */
+         getnameinfo( ai-&gt;ai_addr,
+                      ai-&gt;ai_addrlen,
+                      hostBfr,
+                      sizeof( hostBfr ),
+                      servBfr,
+                      sizeof( servBfr ),
+                      NI_NUMERICHOST | NI_NUMERICSERV );
+         switch ( ai-&gt;ai_family )
+         {
+            case PF_INET:   /* IPv4 adres kaydı. */
+            {
+               sockaddr_in_t *pSadrIn = (sockaddr_in_t*) ai-&gt;ai_addr;
+               fprintf( stderr,
+                        "   ai_addr      = sin_family: %d (AF_INET = %d, "
+                        "AF_INET6 = %d)\n"
+                        "                  sin_addr:   %s\n"
+                        "                  sin_port:   %s\n",
+                        pSadrIn-&gt;sin_family,
+                        AF_INET,
+                        AF_INET6,
+                        hostBfr,
+                        servBfr );
+               break;
+            }  /* End CASE of IPv4 record. */
+            case PF_INET6:   /* IPv6 adres kaydı. */
+            {
+               pSadrIn6 = (sockaddr_in6_t*) ai-&gt;ai_addr;
+               fprintf( stderr,
+                        "   ai_addr      = sin6_family:   %d (AF_INET = %d, "
+                        "AF_INET6 = %d)\n"
+                        "                  sin6_addr:     %s\n"
+                        "                  sin6_port:     %s\n"
+                        "                  sin6_flowinfo: %d\n"
+                        "                  sin6_scope_id: %d\n",
+                        pSadrIn6-&gt;sin6_family,
+                        AF_INET,
+                        AF_INET6,
+                        hostBfr,
+                        servBfr,
+                        pSadrIn6-&gt;sin6_flowinfo,
+                        pSadrIn6-&gt;sin6_scope_id );
+               break;
+            }  /* IPv6 kaydı için CASE sonu. */
+            default:   /* Buraya asla girilmez fakat bütünlük sağlaması için doldurulmuştur. */
+            {
+               fprintf( stderr,
+                        "%s (line %d): ERROR - Unknown protocol family (%d).\n",
+                        pgmName,
+                        __LINE__,
+                        ai-&gt;ai_family );
+               break;
+            }  /* DEFAULT CASE sonu (bilinmeyen iletişim kuralı ailesi). */
+         }  /* İletişim kuralı ailesi için SWITCH sonu. */
+      }  /* Ayrıntılı kip IF sonu. */
+      /*
+      ** Bir soket oluşturun.
+      */
+      if ( !SYSCALL( "socket",
+                     __LINE__,
+                     sckt = socket( ai-&gt;ai_family,
+                                    ai-&gt;ai_socktype,
+                                    ai-&gt;ai_protocol ) ) )
+      {
+         sckt = INVALID_DESC;
+         continue;   /* Listedeki sıradaki adres kaydını deneyin. */
+      }
+      /*
+      ** Uzak düğüme bağlanın.
+      */
+      if ( !SYSCALL( "connect",
+                     __LINE__,
+                     connect( sckt,
+                              ai-&gt;ai_addr,
+                              ai-&gt;ai_addrlen ) ) )
+      {
+         (void) close( sckt );   /* Burada SYSCALL() tekrar kullanılabilir, fakat niçin? */
+         sckt = INVALID_DESC;
+         continue;   /* Listedeki sıradaki adres kaydını deneyin. */
+      }
+   }  /* Getaddrinfo(3)'dan dönen her adres kaydı için FOR sonu. */
+   /*
+   ** Temizleme ve dönüş
+   */
+   freeaddrinfo( aiHead );
+   return sckt;
+}  /* openSckt() sonu */
+/******************************************************************************
+* Metot: tod
+*
+* Açıklama:
+*    Uzak sunucudan zaman bilgisinin alınması ve bunun stdout a yazılması.
+*
+* Parametreler:
+*    sckt – Bağlantı için soket belirleyicisi.
+*
+* Dönüş değeri: Yok.
+******************************************************************************/
+static void tod( int sckt )
+{
+   char bfr[ MAXBFRSIZE+1 ];
+   int  inBytes;
+   /*
+   ** İstemci hiçbir şey yollamaz, bu yüzden bağlantının yazma kısmını kapatalım.
+   */
+   if ( !SYSCALL( "shutdown",
+                  __LINE__,
+                  shutdown( sckt, SHUT_WR ) ) )
+   {
+      return;
+   }
+   /*
+   ** Uzak sunucudan zaman bilgisinin okunması.
+   */
+   do
+   {
+      if ( !SYSCALL( "read",
+                     __LINE__,
+                     inBytes = read( sckt,
+                                     bfr,
+                                     MAXBFRSIZE ) ) )
+      {
+         return;
+      }
+      bfr[ inBytes ] = '\0';   /* Alınan dizgenin null ile sonlandırılması. */
+      fputs( bfr, stdout );    /* Dosya sonu(EOF) ise boş dizge(inBytes == 0).  */
+   } while ( inBytes &gt; 0 );
+   fflush( stdout );
+}  /* tod() sonu */
+</screen></para>
+</sect4>
+<sect4><title>UDP İstemci Kodu</title>
+<para>UDP istemci kodu tod6uc.c (UDP İstemci Kodu) dosyasında bulunabilir. Bu kodun büyük bir kısmı TCP  istemci kodundan alınmıştır (ve aslında bundan türetilmiştir), fakat bütünlük açısından bu NASIL belgesine eklenmiştir. Uygulama derlendikten sonra UDP istemcisi aşağıdaki komut sözdizimi ile çalıştırılabilir ( tod6uc'un çalıştırılabilir olduğu kabul edilmektedir):
+ 
+<screen>tod6uc [-v] [-s scope_id] [host [service]]</screen>
+</para>
+<para>
+        <note><title>PARAMETRELER:</title>
+            <title>host</title>
+            <para>Hizmeti sağlayan uzak düğümün bilgisayar adı veya IP adresi (IPv4 veya Ipv6). Varsayılan “localhost”tur.</para>
+            <title>service</title>
+            <para>Gönderilecek veri iletieri için UDP hizmeti (veya iyi bilinen port numarası). Varsayılan  "daytime"dır. </para>
+            <title>SEÇENEKLER </title>
+            <title>-s</title>
+            <para>Bu seçenek sadece IPv6 adresleri için anlamlıdır, ve alan belirleyicisini belirtmek için kullanılır   (örneğin gönderilecek veri bloklarının kullanacağı ağ arayüzü). Varsayılan "eth0"dır. Eğer konak kapsamlı bir adrese sahip ise bu seçenek yoksayılır.</para>
+            <title>-v </title>
+            <para>Ayrıntılı kipi açar. </para>
+        </note>
+</para>
+    <para>tod6uc.c dosyasında bulunan UDP istemci kaynak kodu aşağıdadır:
+    <screen>/******************************************************************************
+* Dosya: tod6uc.c
+* Açıklama: Ipv6 uyumlu UDP istemci için kaynak kodu bulundurur.
+* Yazar: John Wenker, Sr. Yazılım Mühendisi
+*         Performance Technologies, San Diego, USA
+******************************************************************************/
+/*
+** Sistem başlık dosyaları.
+*/
+#include &lt;errno.h&gt;        /* errno bildirimi ve hata kodları.               */
+#include &lt;net/if.h&gt;       /* if_nametoindex(3).                             */
+#include &lt;netdb.h&gt;        /* getaddrinfo(3) ve ilgili tanımlar.     */
+#include &lt;netinet/in.h&gt;   /* sockaddr_in ve sockaddr_in6 tanımları.      */
+#include &lt;stdio.h&gt;        /* printf(3) .                               */
+#include &lt;stdlib.h&gt;       /* exit(2).                                       */
+#include &lt;string.h&gt;       /* Dizge işleme ve hafıza metotları.      */
+#include &lt;sys/socket.h&gt;   /* Soket metotları (socket(2), connect(2), vs.). */
+#include &lt;unistd.h&gt;       /* getopt(3), recvfrom(2), sendto(2), vs.        */
+/*
+** Sabitler ve makrolar.
+*/
+#define DFLT_HOST      "localhost"   /* Varsayılan sunucu ismi.              */
+#define DFLT_SCOPE_ID  "eth0"        /* Varsayılan alan belirleyicisi.         */
+#define DFLT_SERVICE   "daytime"     /* Varsayılan hizmet ismi.             */
+#define INVALID_DESC   -1            /* Geçesiz dosya(soket) tanımlayıcısı. */
+#define MAXBFRSIZE     256           /* Uzak TOD'u okumak için en çok tampon büyüklüğü.    */
+#define VALIDOPTS      "s:v"         /* Geçerli komut seçenekleri.            */
+/*
+** Tür tanımları (kullanılabilirlik için).
+*/
+typedef enum { false = 0, true } boolean;
+typedef struct sockaddr_in       sockaddr_in_t;
+typedef struct sockaddr_in6      sockaddr_in6_t;
+/*
+** Dahili yardımcı metotlar için taslaklar.
+*/
+static int  openSckt( const char   *host,
+                      const char   *service,
+                      unsigned int  scopeId );
+static void tod( int sckt );
+/*
+** Genel (sadece bu dosya için) veri nesneleri.
+*/
+static const char *pgmName;           /* Uygulama ismi (w/o dizini). */
+static boolean     verbose = false;   /* Ayrıntılı kip.                 */
+/*
+** Makro kullanımı.
+*/
+#define USAGE                                                            \
+        {                                                                \
+           fprintf( stderr,                                              \
+                    "Usage: %s [-v] [-s scope_id] [host [service]]\n",   \
+                    pgmName );                                           \
+           exit( 127 );                                                  \
+        }  /* USAGE makro sonu. */
+/*
+** Bu "makro" (aslında bir metot olmasına rağmen) genel olarak Dr. V. Vinge'nin CHK() 
+** makrosuna (sunucu koduna bakın) dayanmaktadır. Status parametresi
+** hata durumunda -1 değer dönen mantıksal ifade gösteren klasik sistem çağrılarından
+** biridir. Eğer bir sistem hatası oluşursa, stderr'e bir uyarı
+** yazılır. Sistem çağrısının başarılı olması veya hata oluşması durumunda mantıksal 
+** bir değer döndürülür.
+** Example: if ( !SYSCALL( "write",
+**                         count = write( fd, bfr, size ) ) )
+**          {
+**             // Hata işleniyor... fakat SYSCALL() stderr'da bir hata mesajı 
+**             // gösterdi bile.
+
+**          }
+*/
+static __inline boolean SYSCALL( const char *syscallName,
+                                 int         lineNbr,
+                                 int         status )
+{
+   if ( ( status == -1 ) &amp;&amp; verbose )
+   {
+      fprintf( stderr,
+               "%s (line %d): System call failed ('%s') - %s.\n",
+               pgmName,
+               lineNbr,
+               syscallName,
+               strerror( errno ) );
+   }
+   return status != -1;   /*  Sistem çağrısı başarılı olursa true değer alır.*/
+}  /* End SYSCALL() */
+/******************************************************************************
+* Metot: main
+*
+* Açıklama:
+*    Uzak bir zaman hizmetine bağlanır ve stdout'a uzak düğümün TOD'u
+*    yazar.
+*
+* Parametre:
+*    Main() uygulamasına geçirilen klasik argc &amp; argv parametreleri.
+*
+* dönüş değeri:
+*    Bu metot daima sıfır değerini döndürür.
+******************************************************************************/
+int main( int   argc,
+          char *argv[ ] )
+{
+   const char   *host     = DFLT_HOST;
+   int           opt;
+   int           sckt;
+   unsigned int  scopeId  = if_nametoindex( DFLT_SCOPE_ID );
+   const char   *service  = DFLT_SERVICE;
+   /*
+   ** Uygulama ismine karar verelim (w/o dizin öneki).
+   */
+   pgmName = (const char*) strrchr( argv[ 0 ], '/' );
+   pgmName = pgmName == NULL  ?  argv[ 0 ]  :  pgmName+1;
+   /*
+   ** Komut satırı seçenekleri işleyelim.
+   */
+   opterr = 0;   /* "invalid option" hata mesajını kapatalım. */
+   while ( ( opt = getopt( argc, argv, VALIDOPTS ) ) != -1 )
+   {
+      switch ( opt )
+      {
+         case 's':   /* Alan belirleyicisi (IPv6 çözümü). */
+         {
+            scopeId = if_nametoindex( optarg );
+            if ( scopeId == 0 )
+            {
+               fprintf( stderr,
+                        "%s: Unknown network interface (%s).\n",
+                        pgmName,
+                        optarg );
+               USAGE;
+            }
+            break;
+         }
+         case 'v':   /* Ayrıntılı kip. */
+         {
+            verbose = true;
+            break;
+         }
+         default:
+         {
+            USAGE;
+         }
+      }  /* Komut seçeneği için SWITCH sonu. */
+   } /* Komut seçenekleri işlenmesi WHILE sonu. */
+   /*
+   ** Komut parametrelerinin işlenmesi. Üstteki döngünün sonunda, optind 
+   ** seçenek olmayan ilk argv elementidir.
+   */
+   switch ( argc - optind )
+   {
+      case 2:   /* Hem düğüm hem de hizmet komut satırında belirtilmiştir. */
+      {
+          service = argv[ optind + 1 ];
+          /***** Başarısız *****/
+      }
+      case 1:   /* Komut satırında belirtilen konak. */
+      {
+          host = argv[ optind ];
+          /***** Başarısız *****/
+      }
+      case 0:   /* Varsayılan düğüm ve hizmetin kullanılması. */
+      {
+          break;
+      }
+      default:
+      {
+         USAGE;
+      }
+   }  /* komut parametreleri için SWITCH sonu. */
+   /*
+   ** Belirtilen düğüm ve hizmete bağlantı açalım.
+   **
+   ** Aşağıdaki üç durumdan herbirinin gerçekleşmesi olasıdır, burada
+   ** alan belirleyicisi çözümlenmemiş durumdadır.
+   **    1) Varsayılan ağ arayüzü bir sebepten dolayı tanınmıyor olabilir.
+   **    2) Komut satırında -s seçeneği kullanılmamıştır.
+   **    3) Komut satırında IPv6 kapsamlı adres belirtilmemiş olabilir.
+   ** Eğer yukarıdaki üç durumla karşılaşılırsa, bu yüzden sadece IPv4 yuvası 
+   ** açılabilir (Ipv6 yuvaları için uygun kapsam adresi ayarlanmamışsa connect(2) 
+   ** başarısız olur).
+  */
+   if ( ( sckt = openSckt( host,
+                          service,
+                           scopeId ) ) == INVALID_DESC )
+   {
+      fprintf( stderr,
+               "%s: Sorry... a connectionless socket could "
+               "not be set up.\n",
+               pgmName );
+      exit( 1 );
+   }
+   /*
+   **  Uzak zaman bilgisinin alınması.
+   */
+   tod( sckt );
+   /*
+   ** Bağlantıyı kapatın ve sonlandırın.
+   */
+   (void) SYSCALL( "close",
+                   __LINE__,
+                   close( sckt ) );
+   return 0;
+}  /* End main() */
+/******************************************************************************
+* Metot: openSckt
+*
+* Açıklama:
+*    Uzak sunucuya bir TCP bağlantısı oluşturur. Getaddrinfo(3) arama metotlarını
+*    gerçekleştirmek için kullanılmaktadır ve çoklu adres kayıtları döndürebilir
+*    (örneğin addrinfo yapısından kayıtların listesi). Metot listeyi gezer ve
+*    uzak sunucuya bir bağlantı oluşturmaya çalışır. Metot bir bağlantı kurulduktan
+*    veya listedeki bütün kayıtlar işlendikten sonra sonlanır.
+*
+* Parametreler:
+*    host    - Uzak sunucunun sistem  adı veya IP adresini(IPv4 veya Ipv6) gösteren 
+*              dizgeye işaretçi.
+*    service – Hizmet adı veya iyi bilinen kapı numarasını gösteren dizgeye işaretçi. 
+*    scopeId – Sadece Ipv6 soketleri için geçerlidir. Bağlantı kurulacak olan ağ 
+*              arayüzüne karşılık gelen işaret. Bu parametre Ipv4 soketleri için veya
+*              düğümde belirtilen IPv6 kapsamlı adresler için ihmal edilmektedir
+*              (örneğin kapsam adresi ile arttırılmış iki nokta üst üsteli 
+*              onaltılık ağ adresi).
+*
+* Dönüş değeri:
+*    Bağlantı için bir soket açıklayıcısı döndürür, veya bütün adres kayıtları işlenirse 
+*    ve bir bağlantı kurulamazsa INVALID_DESC döndürür.
+******************************************************************************/
+static int openSckt( const char   *host,
+                     const char   *service,
+                     unsigned int  scopeId )
+{
+   struct addrinfo *ai;
+   int              aiErr;
+   struct addrinfo *aiHead;
+   struct addrinfo  hints;
+   sockaddr_in6_t  *pSadrIn6;
+   int              sckt;
+   /*
+   ** Getaddrinfo(3) için 'hints' yapısını başlatır.
+   **
+   ** Düğüm ve hizmetler için hem IPv4 hem IPv6 adres kayıtlarını döndürmesini sağlayarak 
+   ** 'ai_family' alanının PF_UNSPEC'e ayarlanmış olduğundan emin olun. Çoğu zaman
+   ** kullanıcı  bağlantının IPv4 bağlantısı mı IPv6 bağlantısı mı olduğuna dikkat 
+   ** etmeyecektir; kullanıcı sadece uzak düğüme veri göndermek istemektedir ve bunun 
+   ** nasıl yapılacağı ile ilgilenmez. Fakat bazen kullanıcı özel olarak kullanılacak 
+   ** soket tipini belirtmek isteyebilir. Bu okuyucuya komut satırında kullanıcıya IP 
+   ** iletişim kuralını seçmesine izin veren bir seçenek koyması hakkında fikir 
+   ** verebilir, ve daha sonra adres listesi işlenmelidir(Bu o kadar zor değil).
+   */
+   memset( &amp;hints, 0, sizeof( hints ) );
+   hints.ai_family   = PF_UNSPEC;     /* IPv4 veya IPv6 kayıtları (önemli değil). */
+   hints.ai_socktype = SOCK_DGRAM;    /* Bağlantı temelli iletişim.      */
+   hints.ai_protocol = IPPROTO_UDP;   /* Sadece UDP taşıma katmanı iletişim kuralı. */
+   /*
+   ** Konak ve hizmet bilgisini arama.
+   */
+   if ( ( aiErr = getaddrinfo( host,
+                               service,
+                               &amp;hints,
+                               &amp;aiHead ) ) != 0 )
+   {
+      fprintf( stderr,
+               "%s (line %d): ERROR - %s.\n",
+               pgmName,
+               __LINE__,
+               gai_strerror( aiErr ) );
+      return INVALID_DESC;
+   }
+   /*
+   ** Bir bağlantı açmak için listeyi gezin. Bir bağlantı kurulana kadar
+   ** veya liste sonlanana kadar devam edin.
+   */
+   for ( ai = aiHead,   sckt = INVALID_DESC;
+         ( ai != NULL ) &amp;&amp; ( sckt == INVALID_DESC );
+         ai = ai-&gt;ai_next )
+   {
+      /*
+      ** IPv6 çözümü. Scope ID'nin ayarlanmış olduğundan emin olun.
+      */
+      if ( ai-&gt;ai_family == PF_INET6 )
+      {
+         pSadrIn6 = (sockaddr_in6_t*) ai->ai_addr;
+         if ( pSadrIn6-&gt;sin6_scope_id == 0 )
+         {
+            pSadrIn6-&gt;sin6_scope_id = scopeId;
+         }  /* scope ID atanmamış ise şartı için IF sonu. */
+      }  /* IPv6 çözümü sonu. */
+      /*
+      ** Uzak düğümün adres bilgisinin gösterilmesi.
+      */
+      if ( verbose )
+      {
+         /*
+         ** Konak ve hizmet için geçici dizge tamponu.
+         */
+         char hostBfr[ NI_MAXHOST ];
+         char servBfr[ NI_MAXSERV ];
+         /*
+         ** Alınan adres bilgisinin gösterilmesi. İlk önce yaygın olanlarla (iletişim 
+         ** kuralı bağımsız) başlayın.
+         */
+         fprintf( stderr,
+                  "Address info:\n"
+                  "   ai_flags     = 0x%02X\n"
+                  "   ai_family    = %d (PF_INET = %d, PF_INET6 = %d)\n"
+                  "   ai_socktype  = %d (SOCK_STREAM = %d, SOCK_DGRAM = %d)\n"
+                  "   ai_protocol  = %d (IPPROTO_TCP = %d, IPPROTO_UDP = %d)\n"
+                  "   ai_addrlen   = %d (sockaddr_in = %d, "
+                  "sockaddr_in6 = %d)\n",
+                  ai-&gt;ai_flags,
+                  ai-&gt;ai_family,
+                  PF_INET,
+                  PF_INET6,
+                  ai-&gt;ai_socktype,
+                  SOCK_STREAM,
+                  SOCK_DGRAM,
+                  ai-&gt;ai_protocol,
+                  IPPROTO_TCP,
+                  IPPROTO_UDP,
+                  ai-&gt;ai_addrlen,
+                  sizeof( struct sockaddr_in ),
+                  sizeof( struct sockaddr_in6 ) );
+
+         /*
+         ** İletişim kuralına özgü adreslerin gösterilmesi.
+         */
+         getnameinfo( ai-&gt;ai_addr,
+                      ai-&gt;ai_addrlen,
+                      hostBfr,
+                      sizeof( hostBfr ),
+                      servBfr,
+                      sizeof( servBfr ),
+                      NI_NUMERICHOST | NI_NUMERICSERV );
+         switch ( ai-&gt;ai_family )
+         {
+            case PF_INET:   /* IPv4 adres kaydı. */
+            {
+               sockaddr_in_t *pSadrIn = (sockaddr_in_t*) ai-&gt;ai_addr;
+               fprintf( stderr,
+                        "   ai_addr      = sin_family: %d (AF_INET = %d, "
+                        "AF_INET6 = %d)\n"
+                        "                  sin_addr:   %s\n"
+                        "                  sin_port:   %s\n",
+                        pSadrIn-&gt;sin_family,
+                        AF_INET,
+                        AF_INET6,
+                        hostBfr,
+                        servBfr );
+               break;
+            }  /* IPv4 adres kaydı sonu. */
+            case PF_INET6:   /* IPv6 adres kaydı. */
+            {
+               pSadrIn6 = (sockaddr_in6_t*) ai-&gt;ai_addr;
+               fprintf( stderr,
+                        "   ai_addr      = sin6_family:   %d (AF_INET = %d, "
+                        "AF_INET6 = %d)\n"
+                        "                  sin6_addr:     %s\n"
+                        "                  sin6_port:     %s\n"
+                        "                  sin6_flowinfo: %d\n"
+                        "                  sin6_scope_id: %d\n",
+                        pSadrIn6-&gt;sin6_family,
+                        AF_INET,
+                        AF_INET6,
+                        hostBfr,
+                        servBfr,
+                        pSadrIn6-&gt;sin6_flowinfo,
+                        pSadrIn6-&gt;sin6_scope_id );
+               break;
+            }  /* IPv6 kaydının sonu. */
+            default:   /* Buraya asla girilmez fakat bütünlük sağlaması için doldurulmuştur. */
+            {
+               fprintf( stderr,
+                        "%s (line %d): ERROR - Unknown protocol family (%d).\n",
+                        pgmName,
+                        __LINE__,
+                        ai-&gt;ai_family );
+               break;
+            }  /* DEFAULT CASE sonu (bilinmeyen iletişim kuralı ailesi). */
+         }  /* İletişim kuralı ailesi için SWITCH sonu. */
+      }  /* Ayrıntılı kip IF sonu. */
+      /*
+      ** Bir soket yaratalım.
+      */
+      if ( !SYSCALL( "socket",
+                     __LINE__,
+                     sckt = socket( ai-&gt;ai_family,
+                                    ai-&gt;ai_socktype,
+                                    ai-&gt;ai_protocol ) ) )
+      {
+         sckt = INVALID_DESC;
+         continue;   /* Listedeki sıradaki adres kaydını deneyin. */
+      }
+      /*
+      ** Bu sokette uzak konak için hedef belirlenir. Bu soket
+      ** sadece belirlenmiş konak ile iletişim kurmak içindir.
+      */
+      if ( !SYSCALL( "connect",
+                     __LINE__,
+                     connect( sckt,
+                              ai-&gt;ai_addr,
+                              ai-&gt;ai_addrlen ) ) )
+      {
+         (void) close( sckt );   /* Burada SYSCALL() tekrar kullanılabilir, fakat niçin? */
+         sckt = INVALID_DESC;
+         continue;   /* Listedeki sıradaki adres kaydını deneyin. */
+      }
+   }  /* Getaddrinfo(3)'dan dönen her adres kaydı için FOR sonu. */
+   /*
+   ** Temizleme ve dönüş.
+   */
+   freeaddrinfo( aiHead );
+   return sckt;
+}  /* openSckt() sonu */
+/******************************************************************************
+* Metot: tod
+*
+* Açıklama:
+*    Uzak sunucudan zaman bilgisinin alınması ve bunun stdout a yazılması.
+*
+* Parametreler:
+*    sckt – Bağlantı için soket belirleyicisi.
+*
+* Dönüş değeri: Yok.
+******************************************************************************/
+static void tod( int sckt )
+{
+   char bfr[ MAXBFRSIZE+1 ];
+   int  inBytes;
+   /*
+   ** Sunucuyu uyandırmak için bir veri bloğu yollayın. İçeriği önemli değil,
+   ** fakat TOD bilgisini istediğimizi belirten bir şey yollanmalıdır.
+   */
+   if ( !SYSCALL( "write",
+                  __LINE__,
+                  write( sckt, "Are you there?", 14 ) ) )
+   {
+      return;
+   }
+   /*
+   ** Uzak konaktandan zaman bilgisinin okunması.
+   */
+   if ( !SYSCALL( "read",
+                  __LINE__,
+                  inBytes = read( sckt,
+                                  bfr,
+                                  MAXBFRSIZE ) ) )
+   {
+      return;
+   }
+   bfr[ inBytes ] = '\0';   /* Alınan dizgenin null ile sonlandırılması. */
+   fputs( bfr, stdout );    /* Dosya sonu(EOF) ise boş dizge(inBytes == 0).  */
+   fflush( stdout );
+}  /* tod() sonu */</screen>
+</para>
+</sect4>
+</sect3>
+     </sect2>
+<sect2>
+<title> Diğer Programalama Dilleri</title>
+<sect3><title>JAVA</title>
+<para>
+Sun Java sürümleri 1.4'ten itibaren IPv6'yı desteklemektedir, örneğin <ulink url="http://java.sun.com/j2se/1.5.0/docs/api/java/net/Inet6Address.html">Inet6Address (1.5/5.0)</ulink> sınıfına bakabilirsiniz. İncelemek isterseniz Networking IPv6 User Guide for JDK/JRE <ulink url="http://java.sun.com/j2se/1.4.2/docs/guide/net/ipv6_guide/index.html">1.4</ulink> ve <ulink url="http://java.sun.com/j2se/1.5.0/docs/guide/net/ipv6_guide/index.html">1.5 (5.0)</ulink> bağlantılarını incelebilirsiniz.
+</para>
+</sect3>
+<sect3>
+<title>Perl</title>
+<para>2007'nin Mayıs'ından beri Perl çekirdeğinin IPv6'yı desteklediği bilinmektedir. Bu destek aşağıdaki modül eklenerek sağlanabilir. </para>
+<para><itemizedlist><listitem>
+<ulink url="http://search.cpan.org/%7Eumemoto/Socket6/">Socket6</ulink>
+  </listitem></itemizedlist></para>
+<para>
+Zaten IPv6 desteği için başka modüller de mevcut (mesela Net::IP) <ulink url="http://search.cpan.org/">http://search.cpan.org/</ulink> adresinde "IPv6" diyerek aratabilirsiniz.
+</para>
+</sect3>
+</sect2>
+</sect1>
   <sect1 id="ipv6-howto-interoperability">
   <title>Birlikte çalışabilirlik</title>
   <para>
-Farklı işletim sistemlerinin IPv6 yapılandırmalarıyla birlikte çalışabilirliğini kontrol eden birkaç proje mevcuttur. Bazı adresler:
-  </para><para>
-<ulink url="http://www.tahi.org/">TAHI Project</ulink>
-  </para><para>Devam edecek...
+<ulink url="http://www.tahi.org/">TAHI Project</ulink> farklı işletim sistemlerinin IPv6 yapılandırmalarıyla birlikte çalışabilirliğini kontrol eden projedir. Linux çekirdeği <ulink url="http://www.linux-ipv6.org/v6ready/">IPv6 Ready Logo Phase 1</ulink>'ı aldı bile.
+
   </para></sect1>
   <sect1 id="ipv6-howto-information">
   <title>İlave Bilgiler ve Adresler</title>
@@ -4076,13 +6136,11 @@ Daha fazla bilgi ve URL için: <ulink url="http://www.ipv6-net.de/">ipv6-net.org
 <ulink url="http://www.join.uni-muenster.de/Dokumente/Howtos/Howto_ISATAP.php?lang=en">ISATAP (Intra-Site Automatic Tunnel Access Protocol) Information</ulink> by <ulink url="http://www.join.uni-muenster.de/">JOIN</ulink>
   </para></sect4></sect3>
   <sect3><title>En son haberler, adresler ve diğer belgeler</title>
-  <para>
-Daha sonra yazılacak...önerilerinizi bekliyoruz!
-  </para><para>
-<ulink url="http://www.ipv6-net.de/">ipv6-net.org</ulink>, German forum
-  </para><para>
+<para>
 <ulink url="http://www.estoile.com/links/ipv6">Lot of URLs to others documents</ulink> by Anil Edathara
-  </para></sect3>
+  </para>
+<para><ulink url="http://www.go6.net/">go6 -IPv6 Portalı:</ulink>Çevrimiçi wiki tabanlı IPv6 portalı, IPv6 tartışmalarının bulunduğu bir forum, güncel IPv6 haberleri ve etkinlikleri, ücretsiz IPv6 erişimi ve hizmetleri, IPv6 uygulamaları ve daha fazlası.
+</para></sect3>
   <sect3><title>Protocol referansları</title>
   <sect4><title>IPv6 ile ilişkili Yorumlar İçin Rica'lar (RFC)</title>
   <para>
@@ -4109,20 +6167,16 @@ IPv6 ile ilişkili güncel taslaklar aşağıdaki adreslerde bulunabilir:
 <ulink url="http://playground.sun.com/pub/ipng/html/ipng-main.html">Get any information about IPv6, from overviews, through RFCs &amp; drafts, to implementations</ulink> (including availability of stacks on various platforms &amp; source code for IPv6 stacks)
   </para></sect4>
   <sect4><title>Diğerleri</title>
-  <para>
-<ulink url="http://www.networksorcery.com/enp/protocol/ipv6.htm">Network Sorcery / IPv6, Internet Protocol version 6</ulink>, IPv6 protokol başlığı
-  </para><para>
+<para>
 <ulink url="http://www.switch.ch/lan/ipv6/references.html">SWITCH IPv6 Pilot / References</ulink>, IPv6 ile ilgili büyük bir referans listesi, Simon Leinen tarafından güncellenmektedir
   </para></sect4></sect3>
   <sect3><title>Daha fazla bilgi</title>
   <para>
-Daha sonra yazılacak...önerilerinizi bekliyoruz!
-  </para><para>
 <ulink url="http://www.deepspace6.net/sections/links.html">DeepSpace6 / ilgi çekici bağlantılar</ulink>
   </para><sect4><title>Linux ile ilgili</title>
   <para>
 <ulink url="http://www.deepspace6.net/">DeepSpace6 / (Not only) Linux IPv6 Portal</ulink> - İtalya (<ulink url="http://mirrors.bieringer.de/www.deepspace6.net/">Yansı</ulink>)
-  </para><para>
+</para><para>
 <ulink url="http://www.bieringer.de/linux/IPv6/">IPv6-HowTo for Linux by Peter Bieringer</ulink> - Almanya, <ulink url="ftp://ftp.bieringer.de/pub/linux/IPv6/">Bieringer / IPv6 - software archive</ulink>
   </para><para>
 <ulink url="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status.html">Linux+IPv6 status by Peter Bieringer</ulink> - Almanya (kullanılmıyor)
@@ -4138,12 +6192,16 @@ Daha sonra yazılacak...önerilerinizi bekliyoruz!
 PLD: <ulink url="http://www.pld-linux.org/">PLD Linux Distribution</ulink> (IPv6 uyumlu paketlerde "market lideri")
   </para><para>
 Red Hat: <ulink url="http://www.redhat.com/">Red Hat Linux</ulink>, <ulink url="http://www.netcore.fi/pekkas/linux/ipv6/">Pekka Savola's IPv6 packages</ulink>
-  </para><para>
+  </para>
+<para>
+Fedora Core: <ulink url="http://www.fedora.redhat.com/">Fedora Core Linux</ulink>
+  </para>
+<para>
 Debian: <ulink url="http://www.debian.org/">Debian Linux</ulink>, <ulink url="http://people.debian.org/%7Ecsmall/ipv6/">Craig Small's IPv6 information and status</ulink>, <ulink url="http://www.ruwenzori.net/ipv6/Jims_LAN_IPv6_global_connectivity_howto.html">Jim's insignificant LAN IPv6 global connectivity HOWTO</ulink>
   </para><para>
 Novell/SuSE: <ulink url="http://www.novell.com/linux/suse/">Novell/SuSE Linux</ulink>
   </para><para>
-Mandriva: <ulink url="http://www.mandriva.com">Linux Mandrake</ulink>
+Mandriva: <ulink url="http://www.mandriva.com">Mandriva</ulink>
   </para><para>
 Daha fazlası için <ulink url="http://www.bieringer.de/linux/IPv6/status/IPv6+Linux-status-distributions.html">IPv6+Linux Status Distributions</ulink> adresine bakabilirsiniz.
   </para></sect4>
@@ -4232,8 +6290,6 @@ Delphion Research: <ulink url="http://www.delphion.com/research/">Patent Search 
   </para></sect4><sect4><title>Belçika</title>
   </sect4><sect4><title>Brezilya</title>
   <para>
-<ulink url="http://www.6bone.rnp.br/">BR6bone</ulink>
-  </para><para>
 <ulink url="http://www.ipv6summit.com.br/">IPv6 Summit in Brazil</ulink>
   </para><para>
 <ulink url="http://www.ipv6dobrasil.com.br/">IPv6 do Brasil</ulink>
@@ -4241,7 +6297,7 @@ Delphion Research: <ulink url="http://www.delphion.com/research/">Patent Search 
   </sect4><sect4><title>Çek Cumhuriyeti</title>
   </sect4><sect4><title>Almanya</title>
   <para>
-<ulink url="http://www.ipv6-net.de/">IPv6-net.org</ulink> : Alman IPv6 forumu
+<ulink url="https://www.openbc.com/net/ipv6/">OpenBC / IPv6</ulink>
   </para></sect4><sect4><title>Fransa</title>
   <para>
 <ulink url="http://www.renater.fr/Projets/IPv6/index.htm">Renater</ulink> : Renater IPv6 Proje Sayfası
@@ -4249,11 +6305,7 @@ Delphion Research: <ulink url="http://www.delphion.com/research/">Patent Search 
 <ulink url="http://www.inria.fr/recherche/equipes/ipv6.fr.html">IPv6 - RSVP - ATM@INRIA</ulink>
   </para><para>
 <ulink url="http://www.netbsd.org/fr/Documentation/network/ipv6/">NetBSD IPv6 Belgesi</ulink>
-  </para></sect4><sect4><title>Macaristan</title>
-  <para>
-<ulink url="http://tipster6.ik.bme.hu/tipster6_en.html">Testing Experimental IPv6 Technology and Services in Hungary</ulink>
-  </para></sect4><sect4><title>Hindistan</title>
-  </sect4><sect4><title>Hollanda</title>
+  </para></sect4><sect4><title>Hollanda</title>
   <para>
 <ulink url="http://www.ipv6.surfnet.nl/">SURFnet</ulink> : SURFnet IPv6 Backbone
   </para><para>
@@ -4362,7 +6414,7 @@ Internet Security Systems: Security Center, <ulink url="http://www.iss.net/secur
   </para><para>
 IPv6 Forum: <ulink url="http://www.ipv6forum.com/navbar/links/v6routerlist.htm">IPv6 Router List</ulink>
   </para><sect4><title>Analiz araçları</title><para>
-<ulink url="http://ethereal.planetmirror.com/">Ethereal</ulink> - Ethereal is a free network protocol analyzer for Unix and Windows
+<ulink url="http://www.wireshark.org/">Wireshark</ulink> - (eski adı Ethereal) Linux ve Windows için ücretsiz ağ protokol çözümleyicisi.
   </para><para>
 <ulink url="http://www.ip6.com/us/analyzer.htm">Radcom RC100-WL</ulink> - Download Radcom RC100-WL protocol analyzer version 3.20
   </para></sect4><sect4><title>IPv6 Ürünleri</title><para>
@@ -4392,10 +6444,8 @@ IPv6 Forum: <ulink url="http://www.ipv6forum.com/navbar/links/v6routerlist.htm">
 <ulink url="http://www.space.net/%7Egert/RIPE/">IPv6 routing table history</ulink>, Gert Döring, <ulink url="http://www.space.net/">Space.Net</ulink>
   </para><para>
 <ulink url="http://6bone.informatik.uni-leipzig.de/ipv6/stats/stats.php3">Official 6bone Webserver list Statisic</ulink>
-  </para><para>
-<ulink url="http://www.ripe.net/ripe/meetings/archive/ripe-42/presentations/ripe42-ipv6-survey/sld001.html">IPv6 Allocation Data &amp; Survey Results</ulink>, IPv6 WG, Ripe 42, Ripe NCC
   </para></sect3><sect3><title>Internet Merkezleri</title><para>
-IPv6 Internet Merkezlerinin listeleri <ulink url="http://www.v6nap.net/">IPv6 Exchanges Web Site</ulink> veya <ulink url="http://www.euro-ix.net/isp/choosing/search/matrix.php">IPv6 status of IXPs in Europe</ulink> adreslerinde bulunabilir.
+IPv6 Internet Merkezlerinin listeleri <ulink url="http://www.euro-ix.net/isp/choosing/search/matrix.php">IPv6 status of IXPs in Europe</ulink> adreslerinde bulunabilir.
   </para><sect4><title>Estonya</title><para>
 <ulink url="http://tix.estpak.ee/">TIX</ulink> (tallinn interneti exchange with ipv6 support)
   </para></sect4><sect4><title>Avrupa</title><para>
@@ -4440,20 +6490,14 @@ IPv6 Internet Merkezlerinin listeleri <ulink url="http://www.v6nap.net/">IPv6 Ex
   </para><para>
 <ulink url="http://fix.ipv6.berkom.de/cgi-bin/tb.pl">Berkom</ulink>
   </para></sect4><sect4><title>İtalya</title><para>
-<ulink url="https://carmen.cselt.it/ipv6tb/">Centro Studi e Laboratory Telecomunicazioni</ulink> ( <ulink url="http://carmen.cselt.it/cgi-bin/download.pl?pkg=TunnelBroker">Downloadpage: TunnelBroker Version 2.1.</ulink> ) IPv6 Tunnel Broker: <ulink url="http://carmen.cselt.it/ipv6/tools/ipv6tb/Installing-ipv6tb.html">Installation instructions</ulink>
-  </para><para>
  <ulink url="http://www.comv6.com/">Comv6</ulink>
   </para><para>
  <ulink url="http://www.bersafe.it/">Bersafe</ulink> (İtalyanca)
-  </para><para>
-<ulink url="http://carmen.ipv6.tilab.com/">Telecom Italia LAB</ulink> (<ulink url="http://carmen.ipv6.tilab.com/cgi-bin/download.pl?pkg=TunnelBroker">Tunnelbroker Software Downloadpage</ulink>)
   </para></sect4><sect4><title>Japonya</title><para>
 <ulink url="http://www.iij.ad.jp/en/IPv6/">Internet Initiative Japan</ulink> (<ulink url="http://www.iij.ad.jp/IPv6/">Japonca</ulink>) - with IPv6 native line service and IPv6 tunneling Service
   </para></sect4><sect4><title>Malezya</title><para>
-<ulink url="http://tbroker.manis.net.my/">Manis</ulink>
+
   </para></sect4><sect4><title>Hollanda</title><para>
-<ulink url="http://www.xs26.net/">XS26 - "Access to Six"</ulink> - with POPs in Slovak Republic, Czech Republic, Netherlands, Germany and Hungary.
-  </para><para>
 <ulink url="http://www.ipng.nl/">IPng Netherland</ulink> - Intouch, SurfNet, AMS-IX, UUNet, Cistron, RIPE NCC and AT&amp;T are connected@the AMS-IX. It is possible (there are requirements...) to get an static tunnel.
   </para><para>
  <ulink url="http://www.ipv6.surfnet.nl/">SURFnet Customers</ulink>
@@ -4464,17 +6508,13 @@ IPv6 Internet Merkezlerinin listeleri <ulink url="http://www.v6nap.net/">IPv6 Ex
   </para></sect4><sect4><title>İsviçre</title><para>
 <ulink url="http://tunnelbroker.as8758.net/">Tunnelbroker AS8758</ulink>, Dolphins Network Systems (since 20.12.2002 online)
   </para></sect4><sect4><title>Birleşik Krallık</title><para>
-<ulink url="http://www.uk.v6.ntt.net/">NTT Europe</ulink>, <ulink url="http://www.nttv6.net/">NTT</ulink>, United Kingdom - IPv6 Trial. IPv4 Tunnel and native IPv6 leased Line connections. POPs are located in London, UK Dusseldorf, Germany New Jersey, USA (East Coast) Cupertino, USA (West Coast) Tokyo, Japan
+ <ulink url="http://www.nttv6.net/">NTT</ulink>, United Kingdom - IPv6 Trial. IPv4 Tunnel and native IPv6 leased Line connections. POPs are located in London, UK Dusseldorf, Germany New Jersey, USA (East Coast) Cupertino, USA (West Coast) Tokyo, Japan
   </para><para>
 <ulink url="https://tb.ipv6.btexact.com/">BtexacT IPv6 Tunnel Broker Service</ulink>
   </para><para>
 <ulink url="http://ipng.org.uk/">IPNG-UK</ulink>
   </para></sect4><sect4><title>ABD</title><para>
 <ulink url="http://www.es.net/hypertext/welcome/pr/ipv6.html">ESnet</ulink>, USA - Energy Sciences Network: Tunnel Registry &amp; Address Delegation for directly connected ESnet sites and ESnet collaborators.
-  </para><para>
-<ulink url="http://www.6ren.net/">6REN</ulink>, USA - The 6ren initiative is being coordinated by the Energy Sciences Network (ESnet), the network for the Energy Research program of the US Dept. of Energy, located@the University of California's Lawrence Berkeley National Laboratory.
-  </para><para>
-<ulink url="http://www.xs26.net/">XS26 Distributed Tunnel Broker</ulink>, USA &amp; Europe
   </para><para>
 <ulink url="http://ipv6tb.he.net/">Hurricane Electric</ulink>, US backbone; <ulink url="http://tunnelbroker.net/">Hurrican Electric Tunnelbroker</ulink> (also available under <ulink url="http://tunnelbroker.com/">http://tunnelbroker.com/</ulink> ) Press Release: <ulink url="http://www.he.net/releases/release6.html">Hurricane Electric Upgrades IPv6 Tunnel Broker</ulink>  <ulink url="http://ipv6.he.net/tunnelbroker-update.php">Tunnel Broker Endpoint Autoupdate</ulink>, Perl Script
   </para></sect4><sect4><title>Singapur</title><para>
@@ -4483,15 +6523,12 @@ IPv6 Internet Merkezlerinin listeleri <ulink url="http://www.v6nap.net/">IPv6 Ex
 <ulink url="http://www.kfu.com/%7Ensayer/6to4/">Public 6to4 relay routers</ulink> (MS IIE boykot!)
   </para></sect4></sect3><sect3><title>Doğal IPv6 Servisleri</title><para>
 Not: Bu servislerin çoğu sadece geçerli bir IPv6 bağlantısı ile çalışır!
-  </para><sect4><title>Net News (NNTP)</title><para>
-<ulink url="nntp://news.ipv6.scarlet-internet.nl/">news.ipv6.scarlet-internet.nl</ulink> (accessible through all the SixXS POPs)
-  </para></sect4><sect4><title>Oyun Sunucusu</title><para>
+  </para>
+  <sect4><title>Net News (NNTP)</title><para></para>
+</sect4>
+<sect4><title>Oyun Sunucusu</title><para>
 <ulink url="http://www.viagenie.qc.ca/en/ipv6/quake2/ipv6-quake2.shtml">Quake2</ulink> over IPv6
-  </para></sect4><sect4><title>IRC Sunucusu</title><para>
-<ulink url="http://ipv6.cyconet.org/?id=server">Cyconet</ulink> (Cyconet IRCnet Servers over IPv6)
-  </para></sect4><sect4><title>Radyo İstasyonları</title><para>
-<ulink url="http://aopteryx.informatik.uni-leipzig.de:8000/live.mp3">Experimental Live IPv6 Stream!</ulink>, University of Leipzig, Germany
-  </para></sect4><sect4><title>Web sunucusu</title><para>
+  </para></sect4><sect4><title>IRC Sunucusu</title></sect4><sect4><title>Radyo İstasyonları</title></sect4><sect4><title>Web sunucusu</title><para>
  <ulink url="http://www.ipv6.bieringer.de/">Peter Bieringer's Home of Linux IPv6 HOWTO</ulink>
   </para><para>
 Unuttuğum bir şey var mı? Önereceğiniz bir olursa çekinmeyin!
@@ -4515,32 +6552,18 @@ Aşağıdaki adreslerde üye olabileceğiniz e-posta listelerini bulabilirsiniz:
 </entry></row></thead>
 <tbody><row style="background:#ffffee;">
 <entry>Linux kernel networking including IPv6
-</entry><entry><email>majordomo@oss.sgi.com</email>
+</entry><entry><email>majordomo@vger.kernel.org</email>
 </entry><entry>netdev
-</entry><entry><email>netdev@oss.sgi.com</email>
+</entry><entry><email>netdev@vger.kernel.org</email>
 </entry><entry>İngilizce
-</entry><entry><ulink url="http://oss.sgi.com/projects/netdev/archive/">Arşiv</ulink>
-</entry></row><row style="background:#ffffee;">
-<entry>Linux and IPv6 in general (1)
-</entry><entry><email>majordomo@list.f00f.org</email>
-</entry><entry>linux-ipv6
-</entry><entry><email>linux-ipv6@list.f00f.org</email> (moderated)
-</entry><entry>İngilizce
-</entry><entry>
-</entry></row><row style="background:#ffffee;">
-<entry>Linux implementation of the IPv6 protocol
-</entry><entry>Web-based, see URL
-</entry><entry>
-</entry><entry><email>project6@ferrara.linux.it</email>
-</entry><entry>İngilizce
-</entry><entry><ulink url="http://project6.ferrara.linux.it/sections/lists.html">Bilgi</ulink>, <ulink url="http://mailman.ferrara.linux.it/listinfo/project6">Üyelik</ulink>
+</entry><entry><ulink url="http://vger.kernel.org/vger-lists.html#netdev">Bilgi</ulink>,<ulink url="http://www.spinics.net/lists/netdev/">Arşiv</ulink>
 </entry></row><row style="background:#ffffee;">
 <entry>Mobile IP(v6) for Linux
-</entry><entry><email>majordomo@list.mipl.mediapoli.com</email>
+</entry><entry>Web-based, see URL 
 </entry><entry>mipl
-</entry><entry><email>mipl@list.mipl.mediapoli.com</email>
+</entry><entry><email>mipl@mobile-ipv6.org</email>
 </entry><entry>İngilizce
-</entry><entry><ulink url="http://www.mipl.mediapoli.com/mailinglist.html">Bilgi</ulink>, <ulink url="http://www.mipl.mediapoli.com/mail-archive/">Arşiv</ulink>
+</entry><entry><ulink url="http://www.mobile-ipv6.org/cgi-bin/mailman/listinfo">Bilgi</ulink>, <ulink url="http://www.mobile-ipv6.org/pipermail/mipl/">Arşiv</ulink>
 </entry></row><row style="background:#ffffee;">
 <entry>Linux IPv6 users using USAGI extension
 </entry><entry><email>usagi-users-ctl@linux-ipv6.org</email>
@@ -4550,18 +6573,11 @@ Aşağıdaki adreslerde üye olabileceğiniz e-posta listelerini bulabilirsiniz:
 </entry><entry><ulink url="http://www.linux-ipv6.org/ml/index.html#usagi-users">Bilgi / Arama</ulink>, <ulink url="http://www.linux-ipv6.org/ml/usagi-users/">Arşiv</ulink>
 </entry></row><row style="background:#ffffee;">
 <entry>IPv6 on Debian Linux
-</entry><entry>Web-based, see URL
+</entry><entry>
 </entry><entry>
 </entry><entry><email>debian-ipv6@lists.debian.org</email>
 </entry><entry>İngilizce
 </entry><entry><ulink url="http://lists.debian.org/debian-ipv6/">Bilgi/Üyelik/Arşiv</ulink>
-</entry></row><row style="background:#ffffee;">
-<entry>IPv6/6bone in Germany
-</entry><entry><email>majordomo@atlan.uni-muenster.de</email>
-</entry><entry>ipv6
-</entry><entry><email>ipv6@uni-muenster.de</email>
-</entry><entry>Almanca/İngilizce
-</entry><entry><ulink url="http://www.join.uni-muenster.de/JOIN/ipv6/texte-englisch/mailingliste.html">Bilgi</ulink>, <ulink url="http://www.join.uni-muenster.de/local/majordomo/ipv6/">Arşiv</ulink>
 </entry></row><row style="background:#ffffee;">
 <entry>6bone
 </entry><entry><email>majordomo@isi.edu</email>
@@ -4570,83 +6586,38 @@ Aşağıdaki adreslerde üye olabileceğiniz e-posta listelerini bulabilirsiniz:
 </entry><entry>İngilizce
 </entry><entry><ulink url="http://www.6bone.net/6bone_email.html">Bilgi</ulink>, <ulink url="http://mailman.isi.edu/pipermail/6bone/">Arşiv</ulink>
 </entry></row><row style="background:#ffffee;">
-<entry>IPv6 discussions
-</entry><entry><email>majordomo@sunroof.eng.sun.com</email>
-</entry><entry>ipng
-</entry><entry><email>ipng@sunroof.eng.sun.com</email>
-</entry><entry>İngilizce
-</entry><entry><ulink url="http://playground.sun.com/pub/ipng/html/instructions.html">Bilgi</ulink>, <ulink url="ftp://playground.sun.com/pub/ipng/mail-archive/">Arşiv</ulink>, <ulink url="http://www.wcug.wwu.edu/lists/ipng/">Arşiv yansısı</ulink>
-</entry></row><row style="background:#ffffee;">
 <entry>IPv6 users in general
 </entry><entry><email>majordomo@ipv6.org</email>
 </entry><entry>users
 </entry><entry><email>users@ipv6.org</email>
 </entry><entry>İngilizce
-</entry><entry><ulink url="http://www.ipv6.org/mailing-lists.html">Bilgi</ulink>, <ulink url="http://news.gmane.org/thread.php?group=gmane.network.ipv6.general">Arşiv</ulink>
+</entry><entry><ulink url="http://www.ipv6.org/mailing-lists.html">Bilgi</ulink>, <ulink url="http://www.mail-archive.com/users@ipv6.org/">Arşiv</ulink>
 </entry></row><row style="background:#ffffee;">
-<entry>Bugtracking of Internet applications (2)
+<entry>Bugtracking of Internet applications (1)
 </entry><entry><email>bugtraq-subscribe@securityfocus.com</email>
 </entry><entry>
-</entry><entry><email>bugtraq@securityfocus.com</email> (moderated)
+</entry><entry><email>bugtraq@securityfocus.com</email> (2)
 </entry><entry>İngilizce
 </entry><entry><ulink url="http://online.securityfocus.com/popups/forums/bugtraq/intro.shtml">Bilgi</ulink>, <ulink url="http://online.securityfocus.com/archive/1">Arşiv</ulink>
-</entry></row><row style="background:#ffffee;">
-<entry>IPv6 in general
-</entry><entry>Web-based, see URL
-</entry><entry>
-</entry><entry><email>ipv6@ipng.nl</email>
-</entry><entry>İngilizce
-</entry><entry><ulink url="http://mailman.ipng.nl/mailman/listinfo/ipv6/">Bilgi/Üyelik</ulink>, <ulink url="http://mailman.ipng.nl/pipermail/ipv6/">Arşiv</ulink>
-</entry></row><row style="background:#ffffee;">
-<entry><email>majordomo@mfa.eti.br</email>
-</entry><entry><email>majordomo@mfa.eti.br</email>
-</entry><entry>ipv6
-</entry><entry><email>ipv6@mfa.eti.br</email>
-</entry><entry>Portekizce
-</entry><entry><ulink url="http://www.marcelo.pro.br/mailman/listinfo/ipv6">Bilgi</ulink>
 </entry></row></tbody></tgroup></informaltable>
   </para><para>
-(1) Genel Linux &amp; IPv6 konuları için önerilir.
+(1) Sunucu uygulamaları sağlıyorsanız şiddetle önerilir. 
   </para><para>
-(2) Sunucu uygulamaları sağlıyorsanız şiddetle önerilir.
+(2) Genel Linux &amp; IPv6 konuları için önerilir.
   </para><para>
 Unuttuğum bir şey varsa hatırlatmaktan çekinmeyin!
   </para><para>
 Aşağıda ulaşabileceğiniz diğer e-posta listeleri ve haber grupları bulunmaktadır:
   </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=35905">ipv6 (Fransa)</ulink> Tanımlama: ipv6 Cette liste existe pour discuter en francais de IP version 6. Elle s'adresse aux personnes desirant demarer des aujourd'hui des tests IPv6. Ce n'est en aucun cas un substitut des listes de l'IETF. Pour de plus amples informations: <ulink url="http://www.urec.fr/IPng">http://www.urec.fr/IPng</ulink>
-  </para><para>
-<ulink url="http://www.ipv6.uni-leipzig.de/%7E6bone/tb/maillist.html">Tunnelbroker Maillingliste (Almanya)</ulink>
-  </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=36611">ipv6 (Macaristan)</ulink> Tanımlama: ipv6 Az IPv6 protokoll listaja Konfiguracios es adminisztracios kerdesek az IPv6-al kapcsolatban. <ulink url="http://www.ipv6.fsz.bme.hu/mlists/ipv6/ipv6.html">(Archivum)</ulink>
-  </para><para>
 <ulink url="http://groups.yahoo.com/group/student-ipv6">student-ipv6 (Hindistan)</ulink> Tanımlama: This is the group for the Student Awareness group of IPv6 in India
-  </para><para>
-<ulink url="http://www.lsoft.com/scripts/wl.exe?SL1=IPV6-CNR&amp;H=LISTSERV.CNR.IT">IPV6-CNR@LISTSERV.CNR.IT (İtalya)</ulink> Tanımlama: Gruppo di interesse IPv6 del CNR
-  </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=14761">ipv6-jp (Japonya)</ulink>
-  </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=37305">ipv6 (Japonya)</ulink>
   </para><para>
 <ulink url="http://groups.yahoo.com/group/sun-ipv6-users">sun-ipv6-users</ulink> Tanımlama: Please report problems/suggestions regarding SUN Microsystems IPng implementation
   </para><para>
 <ulink url="http://groups.yahoo.com/group/IPv6-BITS">IPv6-BITS</ulink> Tanımlama: This List will co-ordinate the working of Project Vertebrae.
   </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=23220">openbsd-ipv6</ulink>
-  </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=35203">IPv6</ulink> Tanımlama: This mailing list is for technical discussion of the possibilities of ipv6/ipsec WRT OpenBSD.
-  </para><para>
 <ulink url="http://groups.yahoo.com/group/linux-bangalore-ipv6">linux-bangalore-ipv6</ulink> Tanımlama: The IPv6 deployment list of the Bangalore Linux User Group
   </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=32034">gab</ulink> Tanımlama: The intent is to discuss geographic addressing plans for IPv6.
-  </para><para>
-<ulink url="http://www.tile.net/lists/showlists.php?list_id=37430">ipv6-bsd-user</ulink> Tanımlama: This mailing list is about the INRIA/IMAG IPv6 implementation. Cette liste de discussion est au sujet de l'implementation INRIA/IMAG IPv6. Elle est bilingue Francais/Anglais. The mailing list is biligual, French &amp; English. If you wish to contact the implementors, try <email>ipv6-bsd-core@imag.fr</email> Si vous voulez contacter les implementeurs, essayez <email>ipv6-bsd-core@imag.fr</email>
-  </para><para>
- <ulink url="http://www.tile.net/lists/showlists.php?list_id=41375">gated-ipv6</ulink>
-  </para><para>
 <ulink url="http://groups.yahoo.com/group/packet-switching">packet-switching</ulink> Tanımlama: This mailing list provides a forum for discussion of packet switching theory, technology, implementation and application in any relevant aspect including without limitation LAPB, X.25, SDLC, P802.1d, LLC, IP, IPv6, IPX, DECNET, APPLETALK, FR, PPP, IP Telephony, LAN PBX systems, management protocols like SNMP, e-mail, network transparent window systems, protocol implementation, protocol verification, conformance testing and tools used in maintaining or developing packet switching systems.
-  </para><para>
-<ulink url="http://groups.yahoo.com/group/mumbaiinternetgroup">mumbaiinternetgroup</ulink> Tanımlama: This Forum will discuss current issues &amp; developments in the field of Internet In Asia Pacific region.. This will cover discussion on..IPv4, IPv6, Multilingual DNS, Autonomous System Numbers, Internet Governence &amp; Much more....
   </para><para>
 de.comm.protocols.tcp-ip Tanımlama: Umstellung auf IPv6 Kaynak: <ulink url="http://www.faqs.org/faqs/de-newsgroups/chartas/index.html">Chartas der Newsgruppen in de.*</ulink>
   </para><para>
@@ -4669,16 +6640,10 @@ traceroute6, whois: <ulink url="http://www.ipng.nl/">IPng.nl</ulink>
   </para><para>
 AAAA Lookup Checker <ulink url="http://www.cnri.dit.ie/cgi-bin/check_aaaa.pl">http://www.cnri.dit.ie/cgi-bin/check_aaaa.pl</ulink>
   </para><para>
-Various tools: <ulink url="http://www.ipv6tools.com/">IPv6tools</ulink>
-  </para><para>
 <ulink url="http://doc.tavian.com/ipv6util/index.htm">IPv6 adres analiz aracı</ulink> (ipv6calc'nın bilgi seçeneğine benzer)
   </para></sect3><sect3><title>Bilgi sağlayıcılar</title><para>
-<ulink url="http://www.kessens.com/%7Edavid/6bone/">6BONE Registry</ulink>
-  </para><para>
-<ulink url="http://www.dfn.de/service/ipv6/ipv6aggis.html">List of worldwide all IPv6-aggregated IP-Blocks</ulink>
+  <ulink url="http://www.dfn.de/service/ipv6/ipv6aggis.html">List of worldwide all IPv6-aggregated IP-Blocks</ulink>
   </para></sect3><sect3><title>IPv6 Looking Glasses</title><para>
-<ulink url="http://linux.uninet.edu/lg/">IPv6 Looking Glass@SURRIEL</ulink>
-  </para><para>
 <ulink url="http://www.v6.dren.net/lg/">DRENv6 Looking Glass</ulink>
   </para></sect3><sect3><title>Yardımcı uygulamalar</title><para>
 <ulink url="http://www.tdoi.org/prefcalc.php">IPv6 Prefix Calculator</ulink> by <ulink url="http://www.tdoi.org/">TDOI</ulink>
@@ -4689,12 +6654,12 @@ Various tools: <ulink url="http://www.ipv6tools.com/">IPv6tools</ulink>
   <title>Eğitimler, Seminerler</title><para>
 <ulink url="http://www.aerasec.de/workshops/ipv6.html">IPv6 Training and Workshop</ulink>, AERAsec, Almanya (Şimdilik sadece Almanca)
   </para><para>
-<ulink url="http://www.seminarinformation.com/wconnect/wc.dll?sis%7Edetails0%7E194045">Migrating to IPv6</ulink>, Learning Tree International
-  </para><para>
 <ulink url="http://www.e-trainonline.com/html/ciw_internetworking_profession.html#IPv6">CIW Internetworking Professional Training CBT CD</ulink>
   </para><para>
 <ulink url="http://www.trainingpages.net/x/category.html?kw=125">Training Pages</ulink>, U.K. - Search for IPv6 (13 Courses, 22.12.2002)
-  </para><para>
+</para><para>
+<ulink url="http://www.erion.co.uk/ipv6.html">Erion IPv6 Training</ulink>, UK
+</para><para>
 Unuttuğum bir şey varsa hatırlatmaktan çekinmeyin!
   </para></sect2>
   <sect2 id="ipv6-howto-information-online-discovery" chunkthis="1">
@@ -4729,7 +6694,11 @@ Michel Boucey <email>mboucey@free.fr</email>: Bazı yazım hatalarını ve kır�
   </para><para>
 Michele Ferritto <email>m.ferritto@virgilio.it</email>: Hatalar buldu ve belgeyi İtalyanca çevirdi.
   </para><para>
-Daniel Roesen <email>dr@cluenet.de</email>: Gramer kontrolü.
+  Daniel Roesen <email>dr@cluenet.de</email>: Gramer kontrolü.
+  </para><para>
+  Benjamin Thery <email>benjamin.thery@bull.net</email>: Güncellenen hareketlilik bölümünün yazılmasına katkıda bulundu.
+  </para><para>
+ John Wenker <email>jjw@pt.com</email>: C-API kullanarak programlama bölümüne büyük katkısı olmuştur.
   </para></sect3>
   <sect3><title>Diğer katkılar</title>
   <sect4><title>Belge tekniği ile ilgili katkılar</title>
@@ -4807,7 +6776,22 @@ Catalin Muresan <email>catalin.muresan@astral.ro</email>: Küçük hatalar rapor
 Dennis van Dok <email>dvandok@quicknet.nl</email>: Küçük hatalar raporladı.
   </para><para>
 Necdet Yücel <email>nyucel@comu.edu.tr</email>: Kırık linkler bildirdi.
-  </para></sect4></sect3></sect2>
+  </para>
+  <para>
+Bryan Vukich : Kırık linkler bildirdi.
+  </para>
+  <para>
+Daniele Masini : Hatalı iptables örneğini raporladı.
+  </para>
+  <para>
+Yao Zhao : IPv6 yönlendirmesini kaldırma açıklamasıyla ilgili hata bildirdi.
+  </para>
+  <para>
+Aaron Kunde : Kırık link ve içerikle ilgili hata bildirdi.
+</para>
+<para>
+Larry W. Burton : Yazım hatasını bildirdi.
+</para></sect4></sect3></sect2>
   <sect2  chunkthis="1" id="ipv6-howto-information-end"><title>Son</title><para>
 Okuduğunuz için teşekkürler. Umarım yardımcı olmuştur!
   </para><para>

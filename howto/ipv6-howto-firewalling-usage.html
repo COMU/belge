@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-17T02:13:03+03:00"><title>Kullanım</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-firewalling-security.html" title="Güvenlik Duvarı Oluşturmak"><link rel="previous" href="../howto/ipv6-howto-firewalling-preparation.html" title="Hazırlık"><link rel="next" href="../howto/ipv6-howto-security.html" title="Güvenlik"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kullanım</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-firewalling-preparation.html">Önceki</a> </td><th width="60%" align="center">Güvenlik Duvarı Oluşturmak</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-security.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-firewalling-usage"></a>Kullanım</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a>Desteğin kontrol edilmesi</h4></div></dt><dd><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-27T09:55:00+02:00"><title>Kullanım</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ipv6-howto-firewalling-security.html" title="Güvenlik Duvarı Oluşturmak"><link rel="previous" href="../howto/ipv6-howto-firewalling-preparation.html" title="Hazırlık"><link rel="next" href="../howto/ipv6-howto-security.html" title="Güvenlik"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kullanım</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ipv6-howto-firewalling-preparation.html">Önceki</a> </td><th width="60%" align="center">Güvenlik Duvarı Oluşturmak</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ipv6-howto-security.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ipv6-howto-firewalling-usage"></a>Kullanım</h3></div></dt><dd><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id13"></a>Desteğin kontrol edilmesi</h4></div></dt><dd><p>
 Modül olarak derlenmişse, modülü yükleyin:
   </p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>modprobe ip6_tables</tt></b>
@@ -52,13 +52,13 @@ ICMPv6 fırtınası olabileceğinden (yazar bunu iki kez görmüştür) en azından ICMPv
   </p><p></p></dd><dt><span class="term">SSH isteklerine izin verin</span></dt><dd>
 Aşağıdaki örnekte belirlenen bir IPv6 adresinden gelen SSH isteklerine izin verilmektedir.
   <p></p><p>
-<tt>3ffe:ffff:100::1/128</tt> adresinden gelen SSH isteklerine izin ver:
+  <tt>2001:0db8:100::1/128</tt> adresinden gelen SSH isteklerine izin ver:
   </p><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT -i sit+ -p tcp -s 3ffe:ffff:100::1/128 --sport 512:65535 --dport 22 -j ACCEPT</tt></b>
+  <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A INPUT -i sit+ -p tcp -s 2001:0db8:100::1/128 --sport 512:65535 --dport 22 -j ACCEPT</tt></b>
 </pre> </td></tr></table></div>
   </p><p>
 Yanıt paketlerine izin ver (şimdilik IPv6 bağlantısının izini sürmek netfilter6 tarafından gerçekleştirilememektedir)
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A OUTPUT -o sit+ -p tcp -d 3ffe:ffff:100::1/128 --dport 512:65535 --sport 22 ! --syn j ACCEPT</tt></b>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -A OUTPUT -o sit+ -p tcp -d 2001:0db8:100::1/128 --dport 512:65535 --sport 22 ! --syn j ACCEPT</tt></b>
 </pre> </td></tr></table></div>
   </p><p></p></dd><dt><span class="term">IPv4 içinde IPv6 tünelini etkinleştir</span></dt><dd>
 IPv4 içinde IPv6 tünellenmiş paketleri kabul etmek için, IPv4 güvenlik duvarı yapılandırmanıza bu paketlerle ilgili kurallar eklemeniz gerekir, örneğin;
@@ -76,7 +76,7 @@ Eğer sadece bir statik tüneliniz varsa IPv4 adresini de belirleyebilirsiniz, örn
   </p></div><div class="example"><p><b>Örnek 4.10. ppp0 arabiriminde tünel son noktası 1.2.3.4 olan IPv4 içinde IPv6 tünelinden giden paketlere izin ver</b></p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>iptables -A OUTPUT -o ppp0 -p ipv6 -d 1.2.3.4 -j ACCEPT</tt></b>
 </pre> </td></tr></table></div>
-  </p></div><p></p></dd><dt><span class="term">Gelen TCP bağlantı isteklerine karşı koru</span></dt><dd>
+  </p></div><p></p></dd><dt><span class="term">Gelen TCP bağlantı isteklerine karşı koruma</span></dt><dd>
 MUTLAKA ÖNERİLİR! Güvenlik gerekçeleriyle gelen TCP bağlantı isteklerini durduran bir kural eklemelisiniz. Eğer başka bir arabirim kullanıyorsanız <tt>-i</tt> seçeneğiyle bunu ayarlayın.
   <p></p><p>
 Bu konak'a gelen TCP bağlantı isteklerini durdur:
@@ -90,7 +90,7 @@ Bu yönlendiricinin arkasındaki konaklara gelen TCP bağlantı isteklerini durdur:
 </pre> </td></tr></table></div>
   </p><p>
 Belkide bu kurallar aşağıda başkalarıyla değiştirilecektir, ama bunun üzerinde düşünmeniz gerekir. En iyi yöntem bir betik hazırlayıp kuralları belirlenen sıra ile çalıştırmaktır.
-  </p><p></p></dd><dt><span class="term">Gelen UDP bağlantı isteklerine karşı koru</span></dt><dd>
+  </p><p></p></dd><dt><span class="term">Gelen UDP bağlantı isteklerine karşı koruma</span></dt><dd>
 MUTLAKA ÖNERİLİR! Güvenlik duvarı bilgisinde söylediğim gibi giden UDP/TCP oturumlarında portları kontrol etmek mümkündür. Eğer tüm yerel IPv6 sistemleriniz örneğin 32768-60999 arası portları kullanıyorsa UDP bağlantılarını aşağıdaki gibi durdurmanız mümkündür:
   <p></p><p>
 Bu konaktan giden isteklerin yanıtı olamayacak gelen UDP paketlerini durdur:
@@ -102,10 +102,52 @@ Bu yönlendiricinin arkasındaki konaklardan yapılan isteklerin yanıtı olamayacak 
   </p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -I FORWARD -i sit+ -p udp ! --dport 32768:60999 -j DROP</tt></b>
 </pre> </td></tr></table></div>
-  </p><p></p></dd></dl></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a> Açıklayıcı örnek</h4></div></dt><dd><p>
+  </p><p></p></dd></dl></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id33"></a>Fedora Core için basit bir örnek</h4></div></dt><dd><p>Aşağıda Fedora Core 6 (2.6.20 çekirdek sürümü için) basit bir güvenlik duvarı yapılandırması gösterilmektedir. Bağlantı izlenmesini destekleyen, ICMPv6 paketlerini geri çeviren varsayılan (sistem güvenlik duvarı tarafından oluşturulan) güvenlik duvarının değiştirilmişidir. Gelen SSH (22. port) bağlantılarına izin verilmiştir.</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>#</tt><b><tt>Dosya: /etc/sysconfig/ip6tables</tt></b>
+          *filter :INPUT ACCEPT [0:0]
+          :FORWARD ACCEPT [0:0]
+          :OUTPUT ACCEPT [0:0]
+          :RH-Firewall-1-INPUT - [0:0]
+          -A INPUT -j RH-Firewall-1-INPUT
+          -A FORWARD -j RH-Firewall-1-INPUT
+          -A RH-Firewall-1-INPUT -i lo -j ACCEPT
+          -A RH-Firewall-1-INPUT -p icmpv6 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp --dport 5353 -d ff02::fb -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 22 -j ACCEPT
+          -A RH-Firewall-1-INPUT -j REJECT --reject-with icmp6-adm-prohibited
+          COMMIT
+      </pre> </td></tr></table></div><p> Bütünlük açısından IPv4 yapılandırması da aşağıdadır.</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt>#</tt><b><tt>Dosya: /etc/sysconfig/ip6tables</tt></b>
+          *filter :INPUT ACCEPT [0:0]
+          :FORWARD ACCEPT [0:0]
+          :OUTPUT ACCEPT [0:0]
+          :RH-Firewall-1-INPUT - [0:0]
+          -A INPUT -j RH-Firewall-1-INPUT
+          -A FORWARD -j RH-Firewall-1-INPUT
+          -A RH-Firewall-1-INPUT -i lo -j ACCEPT
+          -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+          -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+          -A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
+          COMMIT
+      </pre> </td></tr></table></div><p>Kullanım:</p><div class="itemizedlist"><ul type="disc"><li>Yapılandırma dosyalarını oluşturun ve düzenleyin.<p></p><p></p></li><li>IPv4 &amp; IPv6 güvenlik duvarlarını aktif hale getirin.<p></p><p></p></li></ul></div><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+          <p># service iptables start</p>
+          <p># service ip6tables start </p>
+      </pre> </td></tr></table></div><div class="itemizedlist"><ul type="disc"><li>*<p>Sistemin yeniden başlatılmasından sonra kendiliğinden başlamasını sağlayın</p><p></p></li></ul></div><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+          <p># chkconfig iptables on</p>
+          <p># chkconfig ip6tables on </p>
+      </pre> </td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="id43"></a> Açıklayıcı örnek</h4></div></dt><dd><p>
 Aşağıdaki satırlar daha karmaşık bir yapılandırma örneğini göstermektedir. Mutlu netfilter6 kural setleri hazırlamalar...
   </p><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt># ip6tables -n -v -L</tt></b>
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><tt># </tt><b><tt>ip6tables -n -v -L</tt></b>
 Chain INPUT (policy DROP 0 packets, 0 bytes)
  pkts bytes target     prot opt in     out     source               destination
     0     0 extIN      all      sit+   *       ::/0                 ::/0
