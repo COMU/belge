@@ -29,7 +29,7 @@
 				<revnumber>2.0.0</revnumber>
 				<date>24 Ocak 2008</date>
 				<authorinitials>VAB</authorinitials>
-				<revremark>New keysigning methods, new content, clarifications, and conversion to docbook xml.</revremark>
+				<revremark>Yeni anahtar imzalama yöntemleri, yeni içerik, açıklamalar ve docbook xml biçemine dönüşüm.</revremark>
 			</revision>
 </revhistory>
 <legalnotice><title>Yasal Açıklamalar</title><para>
@@ -50,94 +50,93 @@
 <sect1 id="keysigning-party-howto-about"><title>Bu Belge Hakkında</title>
 
 	<sect2 id="keysigning-party-howto-about-general"><title>Genel Bilgiler</title>
-<para>Copyright (c) 2000-2008
-<ulink url="http://cryptnet.net/people/vab/">V. Alex Brennen</ulink> (<ulink url="http://cryptnet.net/people/vab/">VAB</ulink>).
-</para>
-<para>This document is hereby placed in the public domain.</para>
-<para>This document lives at 
-<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html">
-http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html
-</ulink> (<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.xml">DocBook XML</ulink>)
-</para>
+	<para>Telif Hakkı (c) 2000-2008 <ulink url="http://cryptnet.net/people/vab/">V. Alex Brennen</ulink> (<ulink	 url="http://cryptnet.net/people/vab/">VAB</ulink>).</para>
+	<para>Bu belge kamu malıdır.</para>
+	<para>Belgenin ingilizce orjinaline <ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html"/>, (<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.xml">DocBook XML</ulink>) adresinden ulaşılabilir.</para>
 </sect2>
 
 <sect2 id="keysigning-party-howto-about-translations"><title>Çeviriler</title>
-<para>This document is currently only available in the following languages:</para>
+	<para>Bu belgenin aşağıdaki dillerde çevirileri bulunmaktadır:</para>
 <itemizedlist>
 	<listitem>
 		<para>
-			[<ulink url="http://alfie.ist.org/projects/gpg-party/gpg-party.de.html">de</ulink>] German (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.de.html">Mirror</ulink>)
+			[<ulink url="http://alfie.ist.org/projects/gpg-party/gpg-party.de.html">de</ulink>] Almanca (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.de.html">Yansı</ulink>)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		[<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html">en</ulink>] English (<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.xml">DocBook XML</ulink>)
+		[<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html">en</ulink>] İngilizce (<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.xml">DocBook XML</ulink>)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-			[<ulink url="http://members.fortunecity.com/keyparty/gpg-party.es.html">es</ulink>] Spanish (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.es.html">Mirror</ulink>)
+			[<ulink url="http://members.fortunecity.com/keyparty/gpg-party.es.html">es</ulink>] İspanyolca (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.es.html">Yansı</ulink>)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-			[<ulink url="http://www.gnupg.org/howtos/it/keysigning_party.html">it</ulink>] Italian (<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/it/keysigning_party.html">Mirror</ulink> [<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/it/keysigning_party.xml">DocBook XML</ulink>)
+			[<ulink url="http://www.gnupg.org/howtos/it/keysigning_party.html">it</ulink>] İtalyanca (<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/it/keysigning_party.html">Yansı</ulink> [<ulink url="http://cryptnet.net/fdp/crypto/keysigning_party/it/keysigning_party.xml">DocBook XML</ulink>)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-			[<ulink url="http://ivlad.unixgods.net/gpg-party/gpg-party-howto-ru.html">ru</ulink>] Russian (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.html.ru">Mirror</ulink>)
+			[<ulink url="http://ivlad.unixgods.net/gpg-party/gpg-party-howto-ru.html">ru</ulink>] Rusça (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.html.ru">Yansı</ulink>)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-			[<ulink url="http://neonatus.net/~neonatus/GPG/gpg-party-howto-si.html">si</ulink>] Slovenian (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.si.html">Mirror</ulink>)
+			[<ulink url="http://neonatus.net/~neonatus/GPG/gpg-party-howto-si.html">si</ulink>] Slovence (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.si.html">Yansı</ulink>)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-			[<ulink url="http://www.zope.org.tw/Members/pwchi/Tech_Docs/pgp-party">zh-TW</ulink>] Traditional Chinese (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.zh-TW.html.euc-tw">Mirror</ulink>)
+			[<ulink url="http://www.zope.org.tw/Members/pwchi/Tech_Docs/pgp-party">zh-TW</ulink>] Geleneksel Çince (<ulink url="http://cryptnet.net/fdp/crypto/gpg-party/gpg-party.zh-TW.html.euc-tw">Yansı</ulink>)
+		</para>
+	</listitem>
+	<listitem>
+		<para>
+			[<ulink url="http://docs.comu.edu.tr/howto/keysigning-party-howto.html">tr</ulink>] Türkçe (<ulink url="http://docs.comu.edu.tr/source/howtos/keysigning-party-howto.howto.xml">DocBook XML</ulink>)
 		</para>
 	</listitem>
 	</itemizedlist>
-<para>If you know of a translation or would like to translate it to another language please let me know so that I can distribute or link to the translated versions.</para>
+	<para>Eğer yukarıdaki dillerden başka bir dilde yapılmış bir çeviri biliyorsanız veya başka bir dile çevirmek istiyorsanız lütfen bana haber verin ki onun adresini burada verebileyim.</para>
 </sect2>
 
 <sect2 id="keysigning-party-howto-about-contrib"><title>Katkıda Bulunanlar</title>
 <itemizedlist>
 	<listitem>
 		<para>
-		<ulink url="http://cryptnet.net/people/vab/">V. Alex Brennen</ulink> (Principal Author)
+		<ulink url="http://cryptnet.net/people/vab/">V. Alex Brennen</ulink> (Belgenin asıl yazarı)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		<ulink url="http://www.chaosreigns.com/">Darxus</ulink> (Graphing Code (sig2dot.pl &amp; sigtrace.pl))
+		<ulink url="http://www.chaosreigns.com/">Darxus</ulink> (Grafik Kodu (sig2dot.pl &amp; sigtrace.pl))
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		<ulink url="http://neonatus.net/~neonatus/">Bostjan Muller</ulink> (Slovenian Translation)
+		<ulink url="http://neonatus.net/~neonatus/">Bostjan Muller</ulink> (Slovence Çeviri)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		<ulink url="http://alfie.ist.org/">Gerfried Fuchs</ulink> (German Translation)
+		<ulink url="http://alfie.ist.org/">Gerfried Fuchs</ulink> (Almanca Çeviri)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		<ulink url="http://members.fortunecity.com/keyparty/">Alex Bergonzini</ulink> (Spanish Translation)
+		<ulink url="http://members.fortunecity.com/keyparty/">Alex Bergonzini</ulink> (İspanyolca Çeviri)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		<ulink url="mailto:cri@linux.it">Cristian Rigamonti</ulink> (Italian Translation)
+		<ulink url="mailto:cri@linux.it">Cristian Rigamonti</ulink> (İtalyanca Çeviri)
 		</para>
 	</listitem>
 	<listitem>
 		<para>
-		<ulink url="http://ivlad.unixgods.net/">Vladimir Ivanov</ulink> (Russian Translation)
+		<ulink url="http://ivlad.unixgods.net/">Vladimir Ivanov</ulink> (Rusça Çeviri)
 		</para>
 	</listitem>
 	<listitem>
@@ -146,22 +145,25 @@ http://cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html
 		<ulink url="http://formosa.muds.net:7777/mt/">clotho</ulink>, fetag,
 		<ulink url="http://blog.elixus.org/jedi/">jedi</ulink>,
 		<ulink url="mailto:kcwu%5Bat%5Dcsie.org">kcwu</ulink>,
-		<ulink url="http://pwchi.info/">pwchi</ulink>, and 
+		<ulink url="http://pwchi.info/">pwchi</ulink> ve
 		<ulink url="http://mafia.ee.ccu.edu.tw/~winfred/">winfred</ulink>
-		(Traditional Chinese Translation)
+		(Geleneksel Çince Çeviri)
 		</para>
 	</listitem>
+	<listitem>
+		<para>
+			<ulink url="mailto:nyucel@comu.edu.tr">Necdet Yücel</ulink> (Türkçe Çeviri)
+		</para>
+	</listitem>
+
 </itemizedlist>
 </sect2>
 </sect1>
-<sect1 id="keysigning-party-howto-overview"><title>Overview of A Keysigning Party</title>
-
-	<sect2 id="keysigning-party-howto-overview-definition">
-<title>What is a Keysigning Party?</title>
-<para>A key signing party is a get-together of people who use the PGP encryption system with the purpose of allowing those people to sign each others keys. Key signing parties serve to extend the web of trust to a great degree. Key signing parties also serve as great opportunities to discuss the political and social issues surrounding strong cryptography, individual liberties, individual sovereignty, and even implementing encryption technologies or perhaps future work on free encryption software. </para>
+<sect1 id="keysigning-party-howto-overview"><title>Anahtar İmzalama Partisine Genel Bakış</title>
+<sect2 id="keysigning-party-howto-overview-definition"><title>Anahtar İmzalama Partisi Nedir?</title>
+	<para>Bir anahtar imzalama partisi; başkalarının anahtarlarını imzalamak için PGP şifreleme sistemini kullanan insanların biraraya gelmesidir. Anahtar imzalama partileri güven ağını daha yüksek bir seviyeye taşımaya yardımcı olurlar. Ayrıca güçlü kriptografinin politik ve sosyal konularını, bireysel özgürlükleri, bireysel bağımsızlıkları ve hatta şifreleme teknolojilerinin uygulamalarını veya özgür şifreleme yazılımlarının geleceğini tartışmak için önemli imkanlar sunarlar.</para>
 </sect2>
-
-<sect2 id="keysigning-party-howto-overview-description"><title>What is Keysigning?</title>
+<sect2 id="keysigning-party-howto-overview-description"><title>Anahtar İmzalama Nedir?</title>
 <para>Key signing is act of digitally signing a public key packet and a user id packet that is attached to the key in that public key packet. Key signing is done to verify that a given user id and public key really do belong to the entity that appears to own the key. In more basic terms it is done to verify that the representation of identity in the user id packet is valid.  Usually, this means that the name on the PGP key matches the name on the identification the person is presenting to you when asking that you sign their key.</para>
 
 <para>The term "public key" has two meanings in PGP terminology.  It can refer both to the actual public encryption key of a key pair or it can refer to the public encryption key of a key pair and the collection of associated signatures made upon that key as well as any encryption subkeys self-signed with that public key.  To avoid confusion in this document, I will use the term "public key" when refering to the key, signatures, and 
@@ -180,7 +182,7 @@ subkeys.  I will use the term "public key packet" when refering to the public en
    <title>An Example Web Of Trust Graph</title>
 	<mediaobject>
 		<imageobject>
-			<imagedata fileref="http://cryptnet.net/fdp/crypto/keysigning_party/en/extra/wot_example_small.jpg" format="JPG"></imagedata>
+			<imagedata fileref="keysigning/wot_example_small.jpg" format="JPG"></imagedata>
 		</imageobject>
 	</mediaobject>
 </figure>

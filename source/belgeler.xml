@@ -70,6 +70,7 @@
 <!ENTITY computer-science-education.xml SYSTEM "howtos/computer-science-education.xml">
 <!ENTITY repository-howto.xml SYSTEM "howtos/repository-howto.xml">
 <!ENTITY distribute-deb.xml SYSTEM "howtos/distribute-deb.xml">
+<!ENTITY keysigning_party.xml SYSTEM "howtos/keysigning_party.xml">
 ]>
 <set id="index" lang="tr">
   <?dbhtml dir="../KiTAPLIK"?>
@@ -100,6 +101,7 @@
       &encrypted-swap-howto.xml;
       &cryptoloop-howto.xml;
       &squashfs-howto.xml;
+      &keysigning_party.xml;
     </part>
     <part id="howtos-servers">
       <title>Sunucular</title>
