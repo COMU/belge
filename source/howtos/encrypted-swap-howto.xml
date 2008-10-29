@@ -87,7 +87,7 @@ name         : md5</screen></para>
 			<screen># cat /etc/cryptab
 ...
 cryptoswap /dev/sda2 /dev/urandom cipher=aes-cbc-essiv:sha256,size=256,hash=sha256,swap</screen></para>
-	<para>Peki neden <filename>/dev/random</filename> değil de <filename>/dev/random</filename>? Çünkü random yeterli entropiyi sağlayana kadar devam etmeyecektir ama urandom'da durum böyle değildir. Bu yüzden eğer urandom yerine random kullanırsanız açılış sırasında yeterli entropi sağlanana kadar beklemeniz gerekebilir. Eğer <emphasis>gerçekten</emphasis> paranoidseniz <filename>/dev/random</filename> kullanın. Detaylar için <ulink url="https://bugs.launchpad.net/ubuntu/+source/cryptsetup/+bug/62751">bu hata raporunun</ulink> son yorumlarını okuyun.</para>
+<para>Peki neden <filename>/dev/random</filename> değil de <filename>/dev/urandom</filename>? Çünkü random yeterli entropiyi sağlayana kadar devam etmeyecektir ama urandom'da durum böyle değildir. Bu yüzden eğer urandom yerine random kullanırsanız açılış sırasında yeterli entropi sağlanana kadar beklemeniz gerekebilir. Eğer <emphasis>gerçekten</emphasis> paranoyaksanız <filename>/dev/random</filename> kullanın. Detaylar için <ulink url="https://bugs.launchpad.net/ubuntu/+source/cryptsetup/+bug/62751">bu hata raporunun</ulink> son yorumlarını okuyun.</para>
 	<para>Takas alanınızla ilgili <filename>/etc/fstab</filename> içindeki satırı değiştirin:<screen># cat /etc/fstab
 ...
 /dev/mapper/cryptoswap none swap sw 0 0</screen></para>
@@ -230,7 +230,7 @@ cryptohome /dev/vg_storage/lv_home none luks</screen></para>
 	<sect2 id="encrypted-swap-howto-part3-step1"><title>Ev dizininin /etc/fstab dosyasından çıkartılması</title>
 		<para>Eğer şifrelenmiş ev dizininizin bulunduğu disk bölümü için <filename>/etc/fstab</filename> dosyasında bir satır varsa silin. <screen># cat /etc/fstab
 ...
-/dev/mapper/cryptohome	/mnt/cryptohome ext3 relatime,errors=remount-ro 0 2 # this gotta go</screen></para>
+/dev/mapper/cryptohome	/mnt/cryptohome ext3 relatime,errors=remount-ro 0 2 # bu satır silinmeli</screen></para>
 	</sect2>
 	<sect2 id="encrypted-swap-howto-part3-step2"><title>/etc/crypttab dosyasının güncellenmesi</title>
 		<para><filename>/etc/crypttab</filename> dosyasında aşağıdaki gibi bir satır olmalıdır:<screen># cat /etc/crypttab
