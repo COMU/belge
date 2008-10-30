@@ -1,78 +1,75 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:21+03:00"><title>dpatch ve pbuilder ile paketleme örneği</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-apa.html" title="A. Örnekler"><link rel="previous" href="../howto/maint-guide-tr-apa1.html" title="Basit paketleme örneği"><link rel="next" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">dpatch ve pbuilder ile paketleme örneği</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-apa1.html">Önceki</a> </td><th width="60%" align="center">A. Örnekler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="maint-guide-tr-apa2"></a><tt>dpatch</tt> ve <tt>pbuilder</tt> ile paketleme örneği</h2></div></dt><dd><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>mkdir -p </tt></b><i>/dosya/yolu</i> # yeni bir dizin
-$ <b><tt>cd </tt></b><i>/dosya/yolu</i>
-$ <b><tt>tar -xvzf </tt></b><i>/dosya/yolu/gentoo-1.0.2</i><b><tt>.tar.gz</tt></b>
-$ <b><tt>cp -a </tt></b><i>gentoo-1.0.2 gentoo-1.0.2-orig</i>
-$ <b><tt>cd </tt></b><i>gentoo-1.0.2</i>
-$ <b><tt>dh_make -e </tt></b><i>isim@alan.dom </i><b><tt>-f </tt></b><i>/dosya/yolu/gentoo-1.0.2</i><b><tt>.tar.gz</tt></b>
-...  Soruları yanıtla.
-...  Kaynak ağacını düzelt.
-...  Paketleri "dpkg-buildpackage -rfakeroot -us -uc" ile derlemeyi dene.
-...  Kaynak paketindekileri düzenleyip derlenebeler hale getir.
-...  ../<i><tt>gentoo_1.0.2</tt></i>.orig.tar.gz dosyasını silme
-$ <b><tt>cd ..</tt></b>
-$ <b><tt>cp -a </tt></b><i>gentoo-1.0.2 gentoo-1.0.2-keep</i> # yedekle
-$ <b><tt>mv </tt></b><i>gentoo-1.0.2</i><b><tt>/debian debian</tt></b>
-$ <b><tt>diff -Nru </tt></b><i>gentoo-1.0.2-orig gentoo-1.0.2</i><b><tt> &gt; </tt></b><i>yama-dosyası</i>
-... Bunu yaparken gentoo-1.0.2 dizininin üstüne yazabilirsiniz.
-... Her ihtimale karşı gentoo-1.0.2-keep dizinini silme.
-$ <b><tt>mkdir -p debian/patches</tt></b>
-$ <b><tt>dpatch patch-template </tt></b><i>yama/dosyası </i><b><tt>\
-   -p "01_patchname" "patch-file description" \
-   &lt; </tt></b><i>yama-dosyası </i><b><tt>&gt; debian/patches/01_patchname.dpatch</tt></b>
-$ <b><tt>cd debian/patches</tt></b>
-$ <b><tt>echo 01_patchname.dpatch &gt;00list</tt></b>
-$ <b><tt>cd ../.. </tt></b> # <i>/dosya/yolu</i>'na geç.
-$ <b><tt>rm -rf </tt></b><i>gentoo-1.0.2</i>
-$ <b><tt>editor debian/rules</tt></b>
-</pre> </td></tr></table></div>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-30T22:08:05+02:00"><title>dpatch ve pbuilder ile paketleme örneği</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-apa.html" title="A. Örnekler"><link rel="previous" href="../howto/maint-guide-tr-apa1.html" title="Basit paketleme örneği"><link rel="next" href="../howto/ruby-ug.html" title="Ruby Kullanıcı Kılavuzu"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">dpatch ve pbuilder ile paketleme örneği</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-apa1.html">Önceki</a> </td><th width="60%" align="center">A. Örnekler</th><td width="20%" align="right"> <a accesskey="n" href="../howto/ruby-ug.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="maint-guide-tr-apa2"></a><tt>dpatch</tt> ve <tt>pbuilder</tt> ile paketleme örneği</h2></div></dt><dd><p>
+		    <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ mkdir -p /path/to # new empty directory
+$ cd /path/to
+$ tar -xvzf /path/from/gentoo-1.0.2.tar.gz
+$ cp -a  gentoo-1.0.2 gentoo-1.0.2-orig
+$ cd gentoo-1.0.2
+$ dh_make -e name@domain.dom -f /path/from/gentoo-1.0.2.tar.gz
+... Answer prompts.</pre> </td></tr></table></div>
       </p><p>
 <tt>debian/rules</tt> dosyasının özgün hali:
       </p><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">config.status: configure
-     ./configure --prefix=/usr --mandir=/usr/share
-build: config.status
-     ${MAKE}
+	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">configure: configure-stamp
+configure-stamp:
+dh_testdir
+# Add here commands to configure the package.
+touch configure-stamp
+build: build-stamp
+build-stamp: configure-stamp 
+dh_testdir
+# Add here commands to compile the package.
+$(MAKE)
+#docbook-to-man debian/gentoo.sgml &gt; gentoo.1
+touch $@
 clean:
-     $(testdir)
-     $(testroot)
-     ${MAKE} distclean
-     rm -rf debian/imaginary-package debian/files debian/substvars
-</pre> </td></tr></table></div>
+dh_testdir
+dh_testroot
+rm -f build-stamp configure-stamp
+# Add here commands to clean up after the build process.
+-$(MAKE) clean
+dh_clean</pre> </td></tr></table></div>
+</p><p>You change this part of debian/rules to the following by the editor to use dpatch and add dpatch to the Build-Depends: line in the debian/control file: 
       </p><p>
-<tt>debian/rules</tt> dosyasını <b><tt>dpatch</tt></b>'ın kullanabilmesi için bir metin düzenleyici ile şu hale getirin:
-      </p><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">config.status: patch configure
-     ./configure --prefix=/usr --mandir=/usr/share
-build: config.status
-     ${MAKE}
+	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">configure: configure-stamp
+configure-stamp: patch
+dh_testdir
+# Add here commands to configure the package.
+touch configure-stamp
+build: build-stamp
+build-stamp: configure-stamp 
+dh_testdir
+# Add here commands to compile the package.
+$(MAKE)
+#docbook-to-man debian/gentoo.sgml &gt; gentoo.1
+touch $@
 clean: clean-patched unpatch
 clean-patched:
-     $(testdir)
-     $(testroot)
-     ${MAKE} distclean
-     rm -rf debian/imaginary-package debian/files debian/substvars
+dh_testdir
+dh_testroot
+rm -f build-stamp configure-stamp
+# Add here commands to clean up after the build process.
+-$(MAKE) clean
+dh_clean 
 patch: patch-stamp
 patch-stamp:
-     dpatch apply-all
-     dpatch call-all -a=pkg-info &gt;patch-stamp
-
+dpatch apply-all
+dpatch call-all -a=pkg-info &gt;patch-stamp
 unpatch:
-     dpatch deapply-all
-     rm -rf patch-stamp debian/patched
-</pre> </td></tr></table></div>
+dpatch deapply-all
+rm -rf patch-stamp debian/patched</pre> </td></tr></table></div>
+</p><p>Now you are ready to repackage the source tree with dpatch system with the help of dpatch-edit-patch. 
       </p><p>
-<b><tt>dpatch</tt></b> sistemi ile kaynak ağacını yeniden paketlemek için artık hazırsınız.
-      </p><p>
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ <b><tt>tar -xvzf </tt></b><i>gentoo_1.0.2</i><b><tt>.orig.tar.gz</tt></b>
-$ <b><tt>cp -a debian/ </tt></b><i>gentoo-1.0.2</i><b><tt>/debian</tt></b>
-$ <b><tt>cd </tt></b><i>gentoo-1.0.2</i>
-$ <b><tt>sudo pbuilder update</tt></b>
-$ <b><tt>pdebuild</tt></b>
-$ <b><tt>cd /var/cache/pbuilder/result/</tt></b>
-$ <b><tt>dupload -t</tt></b><i>nm_target gentoo_1.0.2-1</i><b><tt>_i386.changes</tt></b>
-</pre> </td></tr></table></div>
+	      <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">$ dpatch-edit-patch patch 10_firstpatch
+... Fix source tree by editor
+$ exit 0
+... Try building packages with "debuild -us -uc"
+... Clean source with "debuild clean"
+... Repeat dpatch-edit-patch until making source buildable.
+$ sudo pbuilder update
+$ pdebuild
+$ cd /var/cache/pbuilder/result/
+$ dupload -t nm_target gentoo_1.0.2-1_i386.changes</pre> </td></tr></table></div>
       </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-apa1.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-apa.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/ruby-ug.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Basit paketleme örneği </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Ruby Kullanıcı Kılavuzu</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>

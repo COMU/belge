@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:17+03:00"><title>control dosyası</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s4.html" title="debian/ altında gerekli olanlar"><link rel="previous" href="../howto/maint-guide-tr-s4.html" title="debian/ altında gerekli olanlar"><link rel="next" href="../howto/maint-guide-tr-s4.2.html" title="copyright dosyası"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">control dosyası</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s4.html">Önceki</a> </td><th width="60%" align="center">debian/ altında gerekli olanlar</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s4.2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s4.1"></a><tt>control</tt> dosyası</h3></div></dt><dd><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-30T22:08:04+02:00"><title>control dosyası</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s4.html" title="debian/ altında gerekli olanlar"><link rel="previous" href="../howto/maint-guide-tr-s4.html" title="debian/ altında gerekli olanlar"><link rel="next" href="../howto/maint-guide-tr-s4.2.html" title="copyright dosyası"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">control dosyası</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s4.html">Önceki</a> </td><th width="60%" align="center">debian/ altında gerekli olanlar</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s4.2.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s4.1"></a><tt>control</tt> dosyası</h3></div></dt><dd><p>
 Bu dosya, paket yönetimi için kullanılacak olan <b><tt>dpkg</tt></b>, <b><tt>dselect</tt></b> ve diğer paket yönetim araçlarına gereken değerleri barındırır.
     </p><p>
 <b><tt>dh_make</tt></b>'in bizim için oluşturduğu <tt>control</tt> dosyası:
@@ -41,7 +41,7 @@ Farkettiğiniz gibi, Debian bölümlere ayrılmıştır: main (özgür yazılım), non-free
     </p><p>
 Öyleyse onu x11 olarak değiştirelim. ("main/" öneki ima edilmiştir, dolayısiyle onu atlayabiliriz.)
     </p><p>
-3. satır: kullanıcının bu paketi yüklemesinin ne kadar önemli olduğunu belirtmektedir. Bu alanı nasıl ayarlayacağınıza karar vermek için <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>na bakınız. "optional" önceliği genellikle yeni paketler için kullanılmaktadır.
+3. satır: kullanıcının bu paketi yüklemesinin ne kadar önemli olduğunu belirtmektedir. Bu alanı nasıl ayarlayacağınıza karar vermek için <a href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>na bakınız. "optional" önceliği genellikle yeni paketler için kullanılmaktadır.
     </p><p>
 Section ve priority, paketleri sıralayacak veya öntanımlıları seçecekleri zaman, <b><tt>dselect</tt></b> diğer kullanıcı araçları tarafından kullanılır. Bir kere paketi Debian'a yükledikten (upload) sonra, arşiv sürdürücüleri tarafından bu iki alanın değeri değiştirilebilir, ki bu da size e-posta ile bildirilir.
     </p><p>
@@ -51,7 +51,7 @@ Bu, normal öncelikli bir paket olduğu ve herhangi bir şeyle çakışmadığı için, "o
     </p><p>
 5. satır: paketinizin derlenebilmesi (build) için gerekli paketleri listelemektedir. gcc ve make gibi bazı paketler göz ardı edilmiştir; ayrıntılar için <tt>build-essential</tt> paketini inceleyiniz. Eğer paketinizi yapmak için  standartdışı bir derleyici veya başka araçlar gerekiyorsa, bunu `Build-Depends' satırına eklemelisiniz. Birden çok girdi varsa, virgüllerle ayrılır; bu alanın sözdizimi hakkında bilgi edinmek için ikilik paketlerin bağımlıklıklar ile ilgili açıklamalarını okuyunuz.
     </p><p>
-Bu kısımda ayrıca Build-Depends-Indep (bağımlılıklar), Build-Conflicts (çakışmalar) ve diğer alanlar olabilir. Bu veri Debian otomatik paket yapım sistemi tarafından diğer bilgisayar platformları için ikilik paket yapımında kullanılacaktır. Derleme bağımlılıkları (build-dependency) ile ilgili bilgi edinmek için <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>na, diğer platformlar (mimariler) ve bunlara yazılımların uyarlanması ile ilgili bilgi edinmek için Geliştiricilerin Başvuru Kılavuzuna (Developers' Reference) bakınız.
+Bu kısımda ayrıca Build-Depends-Indep (bağımlılıklar), Build-Conflicts (çakışmalar) ve diğer alanlar olabilir. Bu veri Debian otomatik paket yapım sistemi tarafından diğer bilgisayar platformları için ikilik paket yapımında kullanılacaktır. Derleme bağımlılıkları (build-dependency) ile ilgili bilgi edinmek için <a href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>na, diğer platformlar (mimariler) ve bunlara yazılımların uyarlanması ile ilgili bilgi edinmek için Geliştiricilerin Başvuru Kılavuzuna (Developers' Reference) bakınız.
     </p><p>
 Paketinizin derlenebilmesi için hangi paketlere ihtiyaç duyduğunu bulmakta kullanabileceğiniz küçük bir kod:
     </p><p>
@@ -67,7 +67,9 @@ for x in `dpkg -S $(grep open /tmp/log|\
         echo -n "$x (&gt;=" `dpkg -s $x|grep ^Version|cut -f2 -d":"` "), "; \
       done
 </pre> </td></tr></table></div>
-    </p><p>
+    </p><p>This script returns version numbers for all the "Build-depends".
+	    Please note that versioned dependencies which are fulfilable in stable
+shouldn't be specified as versioned one in the "Build-depends" stanza.</p><p>
 <tt>/usr/bin/foo</tt> için derleme bağımlılıklarını el yordamıyla bulmak isterseniz,
     </p><p>
 <div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">objdump -p <i>/usr/bin/foo</i> | grep NEEDED
@@ -82,15 +84,15 @@ komutunu kullanabilirsiniz.  Daha sonra da her paketin <tt>-dev</tt> sürümünü <t
     </p><p>
 Gentoo ayrıca derleme aşamasında <tt>xlibs-dev, libgtk1.2-dev</tt> ve <tt>libglib1.2-dev</tt>'e ihtiyaç duymaktadır, <tt>debhelper</tt>'ın yanına onları da buraya ekleyeceğiz.
     </p><p>
-6. satır: paketin uyduğu Debian Politika standartlarının sürümüdür; paketinizi yaparken okuduğunuz <a class="ulink" href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>nun sürüm numarasıdır.
+6. satır: paketin uyduğu Debian Politika standartlarının sürümüdür; paketinizi yaparken okuduğunuz <a href="http://www.debian.org/doc/debian-policy/" target="_top">Debian Politika Kılavuzu</a>nun sürüm numarasıdır.
     </p><p>
 8. satır: ikilik paketin adıdır. Bu genellikle kaynak paketin adıyla aynıdır, ama hep böyle olması gerekmemektedir.
     </p><p>
 9. Satır: ikilik paketin derlenebileceği işlemci mimarisini açıklamaktadır. Bu kısmı "any" olarak bırakacağız, çünkü <b><tt>dpkg-gencontrol(1)</tt></b> bu kısmı paketin delenebileceği mimariye uygun değerlerle dolduracaktır.
     </p><p>
-Eğer paketiniz mimariden bağımsızsa (mesela, bir kabuk veya bir Perl betiği ya da bir belge), bunu "all" olarak değiştirin ve daha sonra da <tt>binary-arch</tt> yerine <tt>binary-indep</tt> kurallarının kullanımı ile ilgili olarak <a href="../howto/maint-guide-tr-s4.4.html" class="xref" title="rules dosyası"> rules dosyası</a> bölümünü  okuyunuz.
+Eğer paketiniz mimariden bağımsızsa (mesela, bir kabuk veya bir Perl betiği ya da bir belge), bunu "all" olarak değiştirin ve daha sonra da <tt>binary-arch</tt> yerine <tt>binary-indep</tt> kurallarının kullanımı ile ilgili olarak <a href="../howto/maint-guide-tr-s4.4.html" title="rules dosyası"> rules dosyası</a> bölümünü  okuyunuz.
     </p><p>
-10. satır, Debian paketleme sisteminin en güçlü özelliklerinden birini göstermektedir. Paketler birbirleriyle değişik şekilde ilişkide olabilir. <tt>Depends:</tt>'den başka,  <tt>Recommends:</tt>, <tt>Suggests:</tt>, <tt>Pre-Depends:</tt>, <tt>Conflicts:</tt>, <tt>Provides:</tt> ve <tt>Replaces:</tt> ilişki alanları belirtilebilir.
+10. satır, Debian paketleme sisteminin en güçlü özelliklerinden birini göstermektedir. Paketler birbirleriyle değişik şekilde ilişkide olabilir. <tt>Depends:</tt>'den başka,  <tt>Recommends:</tt>, <tt>Suggests:</tt>, <tt>Pre-Depends:</tt>, <tt>Conflicts:</tt>, <tt>Provides:</tt>, ve <tt>Replaces:</tt> ilişki alanları belirtilebilir.
     </p><p>
 Paket yönetim araçları bu ilişkilerle muhatap olurken genelde aynı şekilde davranır; bunun aksine durumlar ileride açıklanacaktır.
 (<b><tt>dpkg(8)</tt></b>,

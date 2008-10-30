@@ -1,34 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:18+03:00"><title>manpage.1.ex, manpage.sgml.ex</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s5.html" title="debian/ altındaki diğer dosyalar"><link rel="previous" href="../howto/maint-guide-tr-s5.7.html" title="init.d.ex"><link rel="next" href="../howto/maint-guide-tr-s5.9.html" title="menu.ex"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">manpage.1.ex, manpage.sgml.ex</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s5.7.html">Önceki</a> </td><th width="60%" align="center">debian/ altındaki diğer dosyalar</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s5.9.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s5.8"></a><tt>manpage.1.ex</tt>, <tt>manpage.sgml.ex</tt></h3></div></dt><dd><p>
-Programın(ların)ızın bir(er) kılavuz sayfası olmalıdır. Yoksa, bu dosyaları kılavuz sayfası şablonu olarak kullanabilirsiniz. Her biri doldurabileceğiniz taslaklardır.
-    </p><p>
-Kılavuz sayfaları normalde <b><tt>nroff(1)</tt></b> ile yazılır. <tt>manpage.1.ex</tt> örneği de nroff ile yazılmıştır. Bu dosyayı nasıl düzenleyeceğinizi öğrenmek için <b><tt>man(7)</tt></b> kılavuz sayfasını inceleyiniz.
-    </p><p>
-Diğer taraftan <b><tt>nroff</tt></b> yerine SGML ile yazmayı tercih ederseniz, <tt>manpage.sgml.ex</tt> şablonunu kullanabilirsiniz. Eğer bunu yapacaksanız:
-    </p><p><div class="itemizedlist"><ul type="disc"><li><tt>docbook-to-man</tt> paketini yüklememeli,
-        </li><li><tt>control</tt> dosyasındaki <tt>Build-Depends</tt> satırına <tt>Build-Depends</tt>'ı eklemeli,
-        </li><li><tt>rules</tt> dosyanızdaki <tt>build</tt> kuralında bulunan <tt>docbook-to-man</tt> çağrısını içeren satırı açıklama satırı olmaktan çıkarmalısınız. `build' kuralındaki yorum satırını kaldırmak zorundasınız.
-        </li></ul></div>
-    </p><p>
-Ve dosyanın adını <tt>gentoo.sgml</tt> gibi birşey olarak değiştirmeyi unutmayın!
-    </p><p>
-Son kılavuz sayfası ismi belgelendirdiği programın ismini içermelidir, bundan dolayı "manpage" olan ismini "gentoo" olarak değiştireceğiz. Dosya adı ayrıca, dosyanın bir kullanıcı komutunun kılavuz sayfası olduğu anlamına geler ".1" sonekini içererecektir. Bunun doğru bölüm numarası olduğundan emin olmalısınız. Kılazuz sayfa bölümlerinin listesi:
-    </p><p>
-<pre class="literallayout">
- Bölüm No. Bölüm ismi             Açıklama
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-10-30T22:08:04+02:00"><title>manpage.1.ex, manpage.sgml.ex, manpage.xml.ex</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/maint-guide-tr-s5.html" title="debian/ altındaki diğer dosyalar"><link rel="previous" href="../howto/maint-guide-tr-s5.7.html" title="init.d.ex"><link rel="next" href="../howto/maint-guide-tr-s5.9.html" title="menu.ex"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">manpage.1.ex, manpage.sgml.ex, manpage.xml.ex</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s5.7.html">Önceki</a> </td><th width="60%" align="center">debian/ altındaki diğer dosyalar</th><td width="20%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s5.9.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect2"><dt><div> <h3 class="title"><a name="maint-guide-tr-s5.8"></a><tt>manpage.1.ex</tt>, <tt>manpage.sgml.ex</tt>, <tt>manpage.xml.ex</tt></h3></div></dt><dd><p>Programın(ların)ızın bir(er) kılavuz sayfası olmalıdır. Yoksa, bu dosyaları kılavuz sayfası şablonu olarak kullanabilirsiniz.</p><p><div class="variablelist"><dl><dt><span class="term">manpage.1.ex</span></dt><dd>
+	Kılavuz sayfaları normalde <b><tt>nroff(1)</tt></b> ile yazılır. <tt>manpage.1.ex</tt> örneği de nroff ile yazılmıştır. Bu dosyayı nasıl düzenleyeceğinizi öğrenmek için <b><tt>man(7)</tt></b> kılavuz sayfasını inceleyiniz.
+<p></p><p>
+	Son kılavuz sayfası ismi belgelendirdiği programın ismini içermelidir, bundan dolayı "manpage" olan ismini "gentoo" olarak değiştireceğiz. Dosya adı ayrıca, dosyanın bir kullanıcı komutunun kılavuz sayfası olduğu anlamına geler ".1" sonekini içererecektir. Bunun doğru bölüm numarası olduğundan emin olmalısınız. Kılazuz sayfa bölümlerinin listesi:
+</p><p>
+	<pre class="literallayout">Bölüm No. Bölüm ismi             Açıklama
 -----------------------------------------------------------------
-     1     Kullanıcı komutları    Çalıştırılabilirler ve betikler.
-     2     Sistem çağrıları       Çekirdek tarafından sağlanan işlevler.
-     3     Kütüphane çağrıları    Sistem kütüphanelerindeki işlevler.
-     4     Özel dosyalar          Genelde /dev dizinindeki aygıt dosyaları.
-     5     Dosya biçimleri        /etc/passwd gibi dosyaların biçimleri.
-     6     Oyunlar                Veye diğer değersiz programlar.
-     7     Makro paketleri        Man makroları gibi makrolar.
-     8     Sistem yönetimi        Genellikle root tarafından kullanılan komutlar.
-     9     Çekirdek yordamları    Çekirdekle ilgili standartdışı çağrılar.
-</pre>
-    </p><p>
-O halde, gentoo'nun kılavuz sayfası <tt>gentoo.1</tt> olarak isimlendirilmelidir. X programları için bölüm numarasının sonuna bir "x" ilave edebilirsiniz, örn. <tt>gentoo.1x</tt>. Bir <tt>gentoo.1</tt> kılavuz sayfası orjinal kaynakta yoktu, örnekleri ve üstdüzey belgeleri okuyarak bir tane yazdım.
-      </p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s5.7.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-s5.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s5.9.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">init.d.ex </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> menu.ex</td></tr><tr><td colspan="3" align="center">
+1     Kullanıcı komutları    Çalıştırılabilirler ve betikler.
+2     Sistem çağrıları       Çekirdek tarafından sağlanan işlevler.
+3     Kütüphane çağrıları    Sistem kütüphanelerindeki işlevler.
+4     Özel dosyalar          Genelde /dev dizinindeki aygıt dosyaları.
+5     Dosya biçimleri        /etc/passwd gibi dosyaların biçimleri.
+6     Oyunlar                Veye diğer değersiz programlar.
+7     Makro paketleri        Man makroları gibi makrolar.
+8     Sistem yönetimi        Genellikle root tarafından kullanılan komutlar.
+9     Çekirdek yordamları    Çekirdekle ilgili standartdışı çağrılar.</pre>
+</p><p>
+	O halde, gentoo'nun kılavuz sayfası <tt>gentoo.1</tt> olarak isimlendirilmelidir. X programları için bölüm numarasının sonuna bir "x" ilave edebilirsiniz, örn. <tt>gentoo.1x</tt>. Bir <tt>gentoo.1</tt> kılavuz sayfası orjinal kaynakta yoktu, örnekleri ve üstdüzey belgeleri okuyarak bir tane yazdım.
+      </p><p></p></dd><dt><span class="term">manpage.sgml.ex</span></dt><dd>
+			Diğer taraftan <b><tt>nroff</tt></b> yerine SGML ile yazmayı tercih ederseniz, <tt>manpage.sgml.ex</tt> şablonunu kullanabilirsiniz. Eğer bunu yapacaksanız:
+		<p></p><p><div class="itemizedlist"><ul type="disc"><li><tt>docbook-to-man</tt> paketini yüklememeli,
+				</li><li><tt>control</tt> dosyasındaki <tt>Build-Depends</tt> satırına <tt>Build-Depends</tt>'ı eklemeli,
+				</li><li><tt>rules</tt> dosyanızdaki <tt>build</tt> kuralında bulunan <tt>docbook-to-man</tt> çağrısını içeren satırı açıklama satırı olmaktan çıkarmalısınız. `build' kuralındaki yorum satırını kaldırmak zorundasınız.
+				</li></ul></div>
+		</p><p>
+			Ve dosyanın adını <tt>gentoo.sgml</tt> gibi birşey olarak değiştirmeyi unutmayın!
+    </p><p></p></dd><dt><span class="term">manpage.xml.ex</span></dt><dd>
+			If you prefer XML over SGML, you can use the manpage.xml.ex template. If you do this, you have two choices: 
+			<div class="itemizedlist"><ul type="disc"><li>install the docbook-xsl package and an XSLT processor like xsltproc (recommended) </li><li>add the docbook-xsl, docbook-xml and xsltproc packages to the Build-Depends line in the control file </li><li>add a rule to the `build' target of your rules file:<pre class="literallayout">
+xsltproc --nonet \
+--param make.year.ranges 1 \
+--param make.single.year.ranges 1 \
+--param man.charmap.use.subset 0 \
+-o debian/ \
+/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl \
+debian/manpage.xml</pre></li></ul></div><p></p><p>Alternatively: <div class="itemizedlist"><ul type="disc"><li>install the docbook2x package</li><li>add the docbook2x package to the Build-Depends line in the control file </li><li>add a rule to the `build' target of your rules file: <pre class="literallayout">docbook2man debian/manpage.xml</pre></li></ul></div></p><p>Rename the source file(s) to something like gentoo.1.xml or so and check the package documentations for stylesheet parameters and output options.</p><p></p></dd></dl></div></p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/maint-guide-tr-s5.7.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/maint-guide-tr-s5.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/maint-guide-tr-s5.9.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">init.d.ex </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> menu.ex</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>
