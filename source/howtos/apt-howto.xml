@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--DOCTYPE article SYSTEM "../../docbook/dtd/docbookx.dtd"-->
-<!-- ********************************************************************
-     $Id: apt-howto.xml,v 1.2 2002/10/17 23:07:50 nilgun Exp $
-     ******************************************************************** -->
-
 <article id="apt-howto" lang="tr">
   <articleinfo>
-    <!-- Use "HOWTO", "mini HOWTO", "FAQ" in title, if appropriate -->
     <title>APT NASIL</title>
     <authorgroup>
       <author role="translator">
@@ -28,7 +22,6 @@
     </authorgroup>
 
      <pubdate>Ocak 2006</pubdate>
-     <!-- Most recent revision goes at the top; list in descending order -->
      <revhistory>
     <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
       <revision>
@@ -53,14 +46,12 @@
        </revision>
      </revhistory>
 
-     <!-- Provide a good abstract; a couple of sentences is sufficient -->
      <abstract>
         <para>
 Bu belge Debian paket yönetim uygulaması APT hakkında genel kullanım bilgileri vermeyi amaçlamaktadır. APT'nin amacı Debian kullanıcılarının hayatını kolaylaştırmak ve sistemin yönetiminin daha iyi, anlaşılır şekilde yapılabilmesini sağlamaktır. APT Debian dağıtımı olarak kullanıcıları daha çok desteklemek amacıyla, Debian projesi için geliştirilmiştir.
         </para>
      </abstract>
   </articleinfo>
-<!-- Content follows...include introduction, license information, feedback -->
   <sect1 id="apt-howto_intro">
     <title>Başlarken</title>
     <para>
@@ -1197,16 +1188,14 @@ Jon Åslund <email>d98-jas@nada.kth.se</email>
     <para>
 Bu belge <ulink url="http://www.debian-br.org/">Debian-BR</ulink> projesi kapsamında üretilmiş olup, herkesin Debian kullanımına yardımcı olmak amacıyla oluşturulmuştur.
     </para><para>
-Belgenin yeni sürümlerine her zaman Debian Belgelendirme Projesi sayfalarından erişebilirsiniz: <ulink url="http://www.debian.org/doc/ddp">http://www.debian.org/doc/ddp</ulink>.
+	    Belgenin yeni sürümlerine her zaman Debian Belgelendirme Projesi sayfalarından erişebilirsiniz: <ulink url="http://www.debian.org/doc/manuals/apt-howto/">http://www.debian.org/doc/ddp</ulink>.
     </para><para>
 Her türlü yorum ve görüşlerinizi <email>kov@debian.org</email> adresinden bana gönderebilirsiniz.
     </para>
   </sect1>
   <sect1 id="apt-howto_legal">
       <title>Yasal Açıklamalar</title>
-    <!-- Legal Sections -->
-    <sect2>
-      <title>Telif Hakkı ve Lisans</title><para>
+    <sect2><title>Telif Hakkı ve Lisans</title><para>
 Bu belge çevirisinin, <emphasis>APT NASIL</emphasis>,
 1.8.11 sürümünün <emphasis role="bold"> telif hakkı © 2006 <emphasis>Oğuz Yarımtepe</emphasis></emphasis>'ye,
 1.8.3 sürümünün çevirisinin <emphasis role="bold"> telif hakkı © 2003 <emphasis>Murat Demirten</emphasis></emphasis>'e

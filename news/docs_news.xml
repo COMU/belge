@@ -12,6 +12,11 @@
 <webMaster>Necdet Yücel</webMaster>
 
 <item>
+	<title>Debian Paket Bakımcılarının Kılavuzu belgesi güncellendi.</TITLE>
+	<link>http://docs.comu.edu.tr/howto/maint-guide-tr.html</link>
+</item>
+
+<item>
     <title>Linux IPv6 NASIL belgesi güncellendi.</TITLE>
     <link>http://docs.comu.edu.tr/howto/ipv6-howto.html</link>
 </item>

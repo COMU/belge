@@ -92,60 +92,60 @@ Bu belgenin bu sürümü Debian 2.2 (`potato') ve 3.0 (`woody') dağıtımların
 Aşağıdaki paketler standart Debian kurulumunda gelmektedir, dolayısiyle muhtemelen sisteminizde bulunmaktadır (bağımlı oldukları diğer ek paketlerle beraber). Gene de <userinput>dpkg -s </userinput><emphasis>paketadı</emphasis> ile kontrol etmelisiniz.
       </para><para><variablelist><varlistentry>
       <term><literal>dpkg-dev</literal></term><listitem><para>
-Bu paket Debian kaynak paketlerini açmak (unpack), derlemek (build), karşıya yüklemek (upload) için gerekli araçları içerir. (<userinput>dpkg-source(1)</userinput> kılavuz sayfasına bakınız.)
+Bu paket Debian kaynak paketlerini açmak (unpack), derlemek (build), karşıya yüklemek (upload) için gerekli araçları içerir. (<link linkend="tr-man1-dpkg-source"><userinput>dpkg-source(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>file</literal></term><listitem><para>
-Bu kullanışlı araçla bir dosyanın türünü belirleyebilir. (<userinput>file(1)</userinput> kılavuz sayfasına bakınız.)
+Bu kullanışlı araçla bir dosyanın türünü belirleyebilir. (<link linkend="tr-man1-file"><userinput>file(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>gcc</literal></term><listitem><para>
-GNU C derleyicisi, eğer pek çok diğer program gibi sizinki de C dilinde yazıldıysa gerelidir. (<userinput>gcc(1)</userinput> kılavuz sayfasına bakınız.) Bu paket ayrıca C önişlemcisi <command>cpp</command> (<userinput>cpp(1)</userinput> kılavuz sayfasına bakınız.) ve nesne dosyalarını çevirmek ve ilintilemek için kullanılan araçları içeren <literal>binutils</literal> (binutils-doc paketi içerisindeki <userinput>info binutils</userinput>'e bakınız) gibi çeşitli paketlere de nüfuz eder.
+GNU C derleyicisi, eğer pek çok diğer program gibi sizinki de C dilinde yazıldıysa gerelidir. (<link linkend="tr-man1-gcc"><userinput>gcc(1)</userinput></link> kılavuz sayfasına bakınız.) Bu paket ayrıca C önişlemcisi <command>cpp</command> (<link linkend="tr-man1-cpp"><userinput>cpp(1)</userinput></link> kılavuz sayfasına bakınız.) ve nesne dosyalarını çevirmek ve ilintilemek için kullanılan araçları içeren <literal>binutils</literal> (binutils-doc paketi içerisindeki <userinput>info binutils</userinput>'e bakınız) gibi çeşitli paketlere de nüfuz eder.
       </para></listitem></varlistentry><varlistentry>
       <term><literal>g++</literal></term><listitem><para>
-GNU C++ derleyicisi, eğer programınız C++ ile yazılmışsa gereklidir. (<userinput>g++(1)</userinput> kılavuz sayfasına bakınız.)
+GNU C++ derleyicisi, eğer programınız C++ ile yazılmışsa gereklidir. (<link linkend="tr-man1-g++"><userinput>g++(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>libc6-dev</literal></term><listitem><para>
-gcc'nin nesne dosyalarını oluştururuken ilintilemesi gereken C kütüphaneleri ve başlık dosyaları.
+gcc'nin nesne dosyalarını oluştururuken ilintilemesi gereken C kütüphaneleri ve başlık dosyaları. (<xref linkend="glibc"/>'na bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>make</literal></term><listitem><para>
 Genellikle bir programın oluşturulması birkaç adım alır, aynı komutları tekrar tekrar yazmak yerine, bu programı kullanarak `Makefile' dosyaları oluşturup işlemi otomatikleştirebilirsiniz. (<userinput>info make</userinput>'e bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>patch</literal></term><listitem><para>
-Bu pek faydalı araç, farklılıklar listesi içeren bir dosyayı alır (<command>diff</command> uygulaması tarafından oluşturulmuş) ve onu orjinal dosyaya uygular, sonucunda da yamalı sürüm üretilir. (<userinput>patch(1)</userinput> kılavuz sayfasına bakınız.)
+Bu pek faydalı araç, farklılıklar listesi içeren bir dosyayı alır (<command>diff</command> uygulaması tarafından oluşturulmuş) ve onu orjinal dosyaya uygular, sonucunda da yamalı sürüm üretilir. (<link linkend="tr-man1-patch"><userinput>patch(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>perl</literal></term><listitem><para>
-Perl, genellikle "Unix'in İsviçre Çakısı" olarak ifade edilen, günümüz Unix-benzeri sistemlerde en çok kullanılan betik dillerinden biridir. (<userinput>perl(1)</userinput> kılavuz sayfasına bakınız.)
+Perl, genellikle "Unix'in İsviçre Çakısı" olarak ifade edilen, günümüz Unix-benzeri sistemlerde en çok kullanılan betik dillerinden biridir. (<link linkend="tr-man1-perl"><userinput>perl(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry></variablelist></para><para>
  Muhtemelen aşağıdaki paketkeri de yüklemek isteyeceksiniz:
       </para><para><variablelist><varlistentry>
       <term><literal>autoconf</literal> ve <literal>automake</literal></term><listitem><para>
-Pek çok yeni program bu tür araçların yardımıyla önişleme tabi tutulan <filename>configure</filename> betikleri ve <filename>Makefile</filename> dosyaları  kullanmaktadır.
+Pek çok yeni program bu tür araçların yardımıyla önişleme tabi tutulan <filename>configure</filename> betikleri ve <filename>Makefile</filename> dosyaları  kullanmaktadır. (<xref linkend="autobook"/> ekitabına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>dh-make</literal> ve <literal>debhelper</literal></term><listitem><para>
-<command>dh-make</command> örnek paketimizin iskeletini oluşturmak için gereklidir ve paketi oluşturuken de <command>debhelper</command> araçlarından bazılarını kullanacaktır. Bunlar paket oluşturmak için gerekli değildir, fakat ilk defa paket hazırlayan bakımcılar için şiddetle tavsiye edilmektedir. Başlangıçta ve sonrasında kontrol ederken bütün işlemi çok basit bir hale getirmektedir. (<userinput>dh_make(1)</userinput>, <userinput>debhelper(1)</userinput> kılavuz sayfalarına ve <filename>/usr/share/doc/debhelper/README</filename> dosyasına bakınız.)
+<command>dh-make</command> örnek paketimizin iskeletini oluşturmak için gereklidir ve paketi oluşturuken de <command>debhelper</command> araçlarından bazılarını kullanacaktır. Bunlar paket oluşturmak için gerekli değildir, fakat ilk defa paket hazırlayan bakımcılar için şiddetle tavsiye edilmektedir. Başlangıçta ve sonrasında kontrol ederken bütün işlemi çok basit bir hale getirmektedir. (<link linkend="tr-man1-dh_make"><userinput>dh_make(1)</userinput></link>, <link linkend="tr-man1-debhelper"><userinput>debhelper(1)</userinput></link> kılavuz sayfalarına ve <filename>/usr/share/doc/debhelper/README</filename> dosyasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>devscripts</literal></term><listitem><para>
 Bu paket, paket bakımcılarına yardımı olabilecek bazı hoş ve faydalı betikler içermektedir, fakat bunlar paket oluşturmak için gerekli değildir. (<filename>/usr/share/doc/devscripts/README.gz</filename> dosyasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>fakeroot</literal></term><listitem><para>
-Bu araç yapım derleme aşamasının bazı yerlerinde root gibi davranmanıza izin vermektedir. (<userinput>fakeroot(1)</userinput> kılavuz sayfasına bakınız.)
+Bu araç yapım derleme aşamasının bazı yerlerinde root gibi davranmanıza izin vermektedir. (<link linkend="tr-man1-fakeroot"><userinput>fakeroot(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>gnupg</literal></term><listitem><para>
-Paketleri sayısal olarak imzalamayı sağlayan bir araçtır. Bu eğer özellikle paketinizi başkalarına dağıtmak isterseniz önemlidir ve elbette çalışmanız Debian projesine dahil olunca da bunu yapıyor olacaksınız. (<userinput>gpg(1)</userinput> kılavuz sayfasına bakınız.)
+Paketleri sayısal olarak imzalamayı sağlayan bir araçtır. Bu eğer özellikle paketinizi başkalarına dağıtmak isterseniz önemlidir ve elbette çalışmanız Debian projesine dahil olunca da bunu yapıyor olacaksınız. (<link linkend="tr-man1-gpg"><userinput>gpg(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>g77</literal></term><listitem><para>
-GNU Fortran 77 derleyicisi, eğer programınız Fortran dilinde yazıldıysa gereklidir. (<userinput>g77(1)</userinput> kılavuz sayfasına bakınız.)
+GNU Fortran 77 derleyicisi, eğer programınız Fortran dilinde yazıldıysa gereklidir. (<link linkend="tr-man1-g77"><userinput>g77(1)</userinput></link> kılavuz sayfasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>gpc</literal></term><listitem><para>
-GNU Pascal derleyicisi, eğer programınız Pascal dilinde yazıldıysa gereklidir. Bu işte iyi olan ve işaret etmeye değer bir tanesi de <command>fp-compiler</command>, Özgür Pascal Derleyicisidir (Free Pascal Compiler). (<userinput>gpc(1)</userinput> ve <userinput>ppc386(1)</userinput> kılavuz sayfalarına bakınız.)
+GNU Pascal derleyicisi, eğer programınız Pascal dilinde yazıldıysa gereklidir. Bu işte iyi olan ve işaret etmeye değer bir tanesi de <command>fp-compiler</command>, Özgür Pascal Derleyicisidir (Free Pascal Compiler). (<link linkend="tr-man1-gpc"><userinput>gpc(1)</userinput></link> ve <link linkend="tr-man1-ppc386"><userinput>ppc386(1)</userinput></link> kılavuz sayfalarına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>xutils</literal></term><listitem><para>
-Genelde X11 uygulamalarını yapmak için yapılmış bazı programlar, ayrıca bu programlar bazı makro işlev kümelerinden Makefile dosyalarını üretmek için de kullanılır. (<userinput>imake(1)</userinput> ve <userinput>xmkmf(1)</userinput> kılavuz sayfalarına bakınız.)
+Genelde X11 uygulamalarını yapmak için yapılmış bazı programlar, ayrıca bu programlar bazı makro işlev kümelerinden Makefile dosyalarını üretmek için de kullanılır. (<link linkend="tr-man1-imake"><userinput>imake(1)</userinput></link> ve <link linkend="tr-man1-xmkmf"><userinput>xmkmf(1)</userinput></link> kılavuz sayfalarına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>lintian</literal></term><listitem><para>
-Bu, siz Debian paketi yaptıktan sonra genel hataları bilmenizi sağlayan ve bulduğu hataları açıklayan Debian paket denetimcisidir. (<userinput>lintian(1)</userinput> kılavuz sayfasına ve <filename>/usr/share/doc/lintian/lintian.html/index.html</filename> dosyasına bakınız.)
+Bu, siz Debian paketi yaptıktan sonra genel hataları bilmenizi sağlayan ve bulduğu hataları açıklayan Debian paket denetimcisidir. (<link linkend="tr-man1-lintian"><userinput>lintian(1)</userinput></link> kılavuz sayfasına ve <filename>/usr/share/doc/lintian/lintian.html/index.html</filename> dosyasına bakınız.)
       </para></listitem></varlistentry><varlistentry>
       <term><literal>pbuilder</literal></term><listitem><para>
-Bu paket <literal>chroot</literal> ortamını oluşturmak ve bakımını yapmak için gerekli paketleri içerir. Debian paket derleyici, bu chroot ortamında, gerekli derleme bağımlılıklarının doğrulanmasını ve FTBFS hatalarından kaçınabilmeyi sağlar. (<userinput>pbuilder(1)</userinput> ve <userinput>pdebuild(1)</userinput> kılavuz sayfalarına bakınız.)
+Bu paket <literal>chroot</literal> ortamını oluşturmak ve bakımını yapmak için gerekli paketleri içerir. Debian paket derleyici, bu chroot ortamında, gerekli derleme bağımlılıklarının doğrulanmasını ve FTBFS hatalarından kaçınabilmeyi sağlar. (<link linkend="tr-man1-pbuilder"><userinput>pbuilder(1)</userinput></link> ve <link linkend="tr-man1-pdebuild"><userinput>pdebuild(1)</userinput></link> kılavuz sayfalarına bakınız.)
       </para></listitem></varlistentry></variablelist>
       </para><para>
 Aşağıdakiler bu belge ile beraber okumanız gereken <emphasis>çok önemli</emphasis> belgelerdir:
@@ -188,12 +188,9 @@ Eğer paket yeniyse ve siz de onu Debian içerisinde görmeye karar verdiyseniz,
 <ulink url="http://www.de.debian.org/devel/wnpp/being_packaged">Üzerinde çalışılan paketler listesini</ulink> paket üzerinde herhangi biri çalışıyor mu diye kontrol edin. Eğer halihazırda birileri çalışıyorsa, ihtiyaç duyarsanız onlarla iletişime geçin. Ya da henüz bir paket bakımcısı atanmamış başka bir paket bulun.
         </para></listitem><listitem><para>
 Programın bir lisansı <command>olmalıdır</command>.
-<itemizedlist><listitem>For the <emphasis>main</emphasis> section, it must be compliant to all the
-		<ulink url="http://www.debian.org/social_contract#guidelines">Debian Free Software Guidelines</ulink> (DFSG) and
-		<command>must not</command> require a package outside of <emphasis>main</emphasis> for
-			compilation or execution as required by the Debian Policy. This is desired case.</listitem>
-		<listitem>For the contrib section, it must be compliant to all the DSFG but it may require a package outside of main for compilation or execution. </listitem>
-		<listitem>For the non-free section, it may not be compliant to some of the DSFG but it must be distributable. </listitem>
+<itemizedlist><listitem><emphasis>main</emphasis> bölümü için,    <ulink url="http://www.debian.org/social_contract#guidelines">Debian Free Software Guidelines</ulink> (DFSG) kurallarına tamamen uymalıdır ve Debian Politikası gereği derlenme ve çalışması sırasında <emphasis>main</emphasis>'in dışından bir pakete ihtiyaç <command>duymamalıdır</command>. Bu istenilen durumdur.</listitem>
+		<listitem>contrib bölümü için, paket bütün DSFG kurallarına uymalıdır fakat derlenme ve çalışma için main'in dışında bir pakete ihtiyaç duyabilir. </listitem>
+		<listitem>non-free bölümü için, paket DSFG'nin bazı kurallarına uymayabilir fakat dağıtılabilir olmalıdır.</listitem>
 </itemizedlist>
 
 Eğer paketin nereye ait olacağından emin değilseniz, lisans metnini <email>debian-legal@lists.debian.org</email> adresine postalayarak yardım isteyiniz.
@@ -250,7 +247,7 @@ Programın kaynak dizininde olduğundan emin olun ve şunu komutu girin:
 <screen>dh_make -e <emphasis>kullanıcı@adres</emphasis> -f ../gentoo-0.9.12.tar.gz
 </screen>
       </para><para>
-Elbette ki, <varname>kullanıcı@adres</varname> kısmını <filename>ChangeLog</filename> ve diğer dosyalarda yer alması için kendi e-posta adresinizle, dosya adını da kendi orjinal kaynak arşivinizle değiştireceksiniz. (Ayrıntılar için dh_make(1) kılavuz sayfasına bakınız.)
+Elbette ki, <varname>kullanıcı@adres</varname> kısmını <filename>ChangeLog</filename> ve diğer dosyalarda yer alması için kendi e-posta adresinizle, dosya adını da kendi orjinal kaynak arşivinizle değiştireceksiniz. (Ayrıntılar için <link linkend="tr-man1-dh_make">dh_make(1)</link> kılavuz sayfasına bakınız.)
       </para><para>
 Bazı bilgiler su yüzüne çıkacaktır. Size ne tür bir paket oluşturmak istediğinizi soracaktır. Gentoo tek bir ikilik pakettir - sadece bir ikilik, yani bir <filename>.deb</filename> dosyası oluşacaktır - dolayısiyle ilk seçeneği `s' anahtarı ile seçeceğiz, ekrandaki bilginin doğruluğunu kontrol edip &lt;enter>'a basınız.
       </para><para>
@@ -276,9 +273,9 @@ Bunlar da çok zor değildir, fakat biraz daha bilgiye ihtiyaç gösterirler ve 
     </sect2>
   </sect1><sect1 id="maint-guide-tr-s3">
     <title>Kaynak paketinde değişiklik</title><para>
-Normal olarak programlar kendilerini <filename>/usr/local</filename> dizini altındaki dizinlere yükler. Fakat, bu kısım sistem yöneticilerinin (veya kullanıcıların) özel kullanımlarına ayrıldığı için, Debian paketleri bu dizini kullanmamalıdır. Bu da paketin derlenme sistemine, genel olarak da Makefile ile başlayarak bakmak demektir. Makefile, programın derlenmesini ve kurulmasını otomatikleştirecek bir <command>make(1)</command> betiğidir. Makefile ile ilgili daha ayrıntılı bilgi için <xref linkend="maint-guide-tr-s4.4"/> bölümüne bakınız.
+Normal olarak programlar kendilerini <filename>/usr/local</filename> dizini altındaki dizinlere yükler. Fakat, bu kısım sistem yöneticilerinin (veya kullanıcıların) özel kullanımlarına ayrıldığı için, Debian paketleri bu dizini kullanmamalıdır. Bu da paketin derlenme sistemine, genel olarak da Makefile ile başlayarak bakmak demektir. Makefile, programın derlenmesini ve kurulmasını otomatikleştirecek bir <link linkend="tr-man1-make"><command>make(1)</command></link> betiğidir. Makefile ile ilgili daha ayrıntılı bilgi için <xref linkend="maint-guide-tr-s4.4"/> bölümüne bakınız.
     </para><para>
-Eğer programınız GNU <command>automake(1)</command> ve/veya <command>autoconf(1)</command> kullanıyorsa, ki bu da kaynak paketinin <filename>Makefile.am</filename> ve/veya <filename>Makefile.in</filename> dosyalarını içermesi demektir, sırasıyla, bu dosyaları değiştirmeniz gerekir. Bunun sebebi, her bir <command>automake</command> çağrımının  <filename>Makefile.am</filename> dosyasında üretilen bilgilerin <filename>Makefile.in</filename> dosyasına tekrar yazılmasını, her bir <command>./configure</command> çağrımının da <filename>Makefile.in</filename> dosyalarında üretilen bilgi ile benzer işlemi <filename>Makefile</filename> dosyasıda gerçekleştirecek olmasıdır. <filename>Makefile.am</filename> dosyasını düzenlemek biraz yöntemleri vardır; çalıştırılabilirler $PATH'e eklenir, ayrıca belgeleri ve kılavuz sayfalarını da yaygın kullanılan yerlerde bulursunuz. Yine de, bu şekilde yaptığınız zaman, programınız sisteminizde var olan herşeyin arasına yüklenecektir. Bu da paketleme araçlarını zora sokacak ve hangi dosyalar pakete ait hangileri değil tespiti zorlaşacaktır.
+Eğer programınız GNU <link linkend="tr-man1-automake"><command>automake(1)</command></link> ve/veya <link linkend="tr-man1-autoconf"><command>autoconf(1)</command></link> kullanıyorsa, ki bu da kaynak paketinin <filename>Makefile.am</filename> ve/veya <filename>Makefile.in</filename> dosyalarını içermesi demektir, sırasıyla, bu dosyaları değiştirmeniz gerekir. Bunun sebebi, her bir <command>automake</command> çağrımının  <filename>Makefile.am</filename> dosyasında üretilen bilgilerin <filename>Makefile.in</filename> dosyasına tekrar yazılmasını, her bir <command>./configure</command> çağrımının da <filename>Makefile.in</filename> dosyalarında üretilen bilgi ile benzer işlemi <filename>Makefile</filename> dosyasıda gerçekleştirecek olmasıdır. <filename>Makefile.am</filename> dosyasını düzenlemek biraz yöntemleri vardır; çalıştırılabilirler $PATH'e eklenir, ayrıca belgeleri ve kılavuz sayfalarını da yaygın kullanılan yerlerde bulursunuz. Yine de, bu şekilde yaptığınız zaman, programınız sisteminizde var olan herşeyin arasına yüklenecektir. Bu da paketleme araçlarını zora sokacak ve hangi dosyalar pakete ait hangileri değil tespiti zorlaşacaktır.
     </para><para>
 Bunun için farklı bir şeyler yapmalısınız: programı, paketleme araçlarının çalışan bir <filename>.deb</filename> paketi yapabileceği bir geçici alt dizine kurun. Bir kullanıcının bu paketi kurmak istemesi durumunda, bu dizinin içerdiği herşey  sistemine kurulacaktır, tek farkla ki, <command>dpkg</command> dosyaları geçici alt dizine değil kök dizin altına kuruyor olacaktır.
     </para><para>
@@ -437,9 +434,7 @@ for x in `dpkg -S $(grep open /tmp/log|\
       done
 </screen>
     </para>
-    <para>This script returns version numbers for all the "Build-depends".
-	    Please note that versioned dependencies which are fulfilable in stable
-shouldn't be specified as versioned one in the "Build-depends" stanza.</para>
+    <para>Bu betik bütün bağımlılıklarının (Build-depends) sürüm numaralarını döndürmektedir. Sürüm numaraları belirtilmiş, kararlı olarak karşılanabilen bağımlılıkların, "Build-depends" bölümünde belirli tek bir sürüm numarasıyla belirtilmemiş olması gerekmektedir.</para>
     <para>
 <literal>/usr/bin/foo</literal> için derleme bağımlılıklarını el yordamıyla bulmak isterseniz,
     </para><para>
@@ -459,17 +454,17 @@ Gentoo ayrıca derleme aşamasında <filename>xlibs-dev, libgtk1.2-dev</filename
     </para><para>
 8. satır: ikilik paketin adıdır. Bu genellikle kaynak paketin adıyla aynıdır, ama hep böyle olması gerekmemektedir.
     </para><para>
-9. Satır: ikilik paketin derlenebileceği işlemci mimarisini açıklamaktadır. Bu kısmı "any" olarak bırakacağız, çünkü <command>dpkg-gencontrol(1)</command> bu kısmı paketin delenebileceği mimariye uygun değerlerle dolduracaktır.
+9. Satır: ikilik paketin derlenebileceği işlemci mimarisini açıklamaktadır. Bu kısmı "any" olarak bırakacağız, çünkü <link linkend="tr-man1-dpkg-gencontrol"><command>dpkg-gencontrol(1)</command></link> bu kısmı paketin delenebileceği mimariye uygun değerlerle dolduracaktır.
     </para><para>
 Eğer paketiniz mimariden bağımsızsa (mesela, bir kabuk veya bir Perl betiği ya da bir belge), bunu "all" olarak değiştirin ve daha sonra da <literal>binary-arch</literal> yerine <literal>binary-indep</literal> kurallarının kullanımı ile ilgili olarak <xref linkend="maint-guide-tr-s4.4"/> bölümünü  okuyunuz.
     </para><para>
 10. satır, Debian paketleme sisteminin en güçlü özelliklerinden birini göstermektedir. Paketler birbirleriyle değişik şekilde ilişkide olabilir. <literal>Depends:</literal>'den başka,  <literal>Recommends:</literal>, <literal>Suggests:</literal>, <literal>Pre-Depends:</literal>, <literal>Conflicts:</literal>, <literal>Provides:</literal>, ve <literal>Replaces:</literal> ilişki alanları belirtilebilir.
     </para><para>
 Paket yönetim araçları bu ilişkilerle muhatap olurken genelde aynı şekilde davranır; bunun aksine durumlar ileride açıklanacaktır.
-(<command>dpkg(8)</command>,
-<command>dselect(8)</command>,
-<command>apt(8)</command>,
-<command>aptitude(1)</command> v.b. kılavuz sayfalarına bakınız.)
+(<link linkend="tr-man8-dpkg"><command>dpkg(8)</command></link>,
+<link linkend="tr-man8-dselect"><command>dselect(8)</command></link>,
+<link linkend="tr-man8-apt"><command>apt(8)</command></link>,
+<link linkend="tr-man1-aptitude"><command>aptitude(1)</command></link> v.b. kılavuz sayfalarına bakınız.)
     </para><para>
 Paket içeriğinin çalışabilmesi için (derlenebilmesi için değil) bağımlı olduğu paketlerle ilişki alanları:
     </para><para><variablelist><varlistentry><term>Depends:</term>
@@ -507,7 +502,7 @@ Suggests: quux
 Replaces: quux (&lt;&lt; 5), quux-foo (&lt;= 7.6)
 </screen>
     </para><para>
-Bilmeniz gereken en son özellik <literal>${shlibs:Depends}</literal>'dir. Paketiniz derlenip, geçici dizine kurulduktan sonra, <command>dh_shlibdeps(1)</command> ikilikler ve kütüphaneler için orayı tarayacak ve <filename>libc6</filename> veya <filename>xlib6g</filename> gibi paylaşımlı kütüphane bağımlılıklarını ve bunları içeren paketleri belirleyecektir. Bunları <command>dh_gencontrol(1)</command>'deki listeye aktaracak ve doğru yere yerleştirilecek, bunun hakkında kaygılanmanıza gerek kalmayacaktır.
+Bilmeniz gereken en son özellik <literal>${shlibs:Depends}</literal>'dir. Paketiniz derlenip, geçici dizine kurulduktan sonra, <link linkend="tr-man1-dh_shlibdeps"><command>dh_shlibdeps(1)</command></link> ikilikler ve kütüphaneler için orayı tarayacak ve <filename>libc6</filename> veya <filename>xlib6g</filename> gibi paylaşımlı kütüphane bağımlılıklarını ve bunları içeren paketleri belirleyecektir. Bunları <link linkend="tr-man1-dh_gencontrol"><command>dh_gencontrol(1)</command></link>'deki listeye aktaracak ve doğru yere yerleştirilecek, bunun hakkında kaygılanmanıza gerek kalmayacaktır.
     </para><para>
 Tüm bunları anlattıktan sonra <literal>Depends:</literal> satırını şu an olduğu gibi bırakabilir ve ardına <literal>Suggests: file</literal> satırını ekleyebiliriz, Çünkü gentoo o program/paket tarafından sunulan bazı özellikleri kullanabilmektedir.
     </para><para>
@@ -582,7 +577,7 @@ On Debian systems, the complete text of the GNU General Public
 License can be found in the file `/usr/share/common-licenses/GPL-2'.
 </screen></para>
 <para>(Satır numaralarını ben ekledim.)</para>
-<para>Please follow the HOWTO from the debian-devel-announce: <ulink url="http://lists.debian.org/debian-devel-announce/2006/03/msg00023.html"/> </para>
+<para>debian-devel-announce listesindeki NASIL belgelerini takip edin: <ulink url="http://lists.debian.org/debian-devel-announce/2006/03/msg00023.html"/> </para>
     </sect2><sect2 id="maint-guide-tr-s4.3" chunkthis="1">
       <title><filename>changelog</filename> dosyası</title><para>
 Bu, <ulink url='http://www.debian.org/doc/debian-policy/'>Debian Politika Kılavuzu</ulink>nun 4.4 "debian/changelog" bölümünde tanımlanan özel bir biçime sahip gerekli bir dosyadır. Bu biçim <command>dpkg</command> ve diğer araçlar tarafından sürüm, gözden geçirme, dağıtım ve paketinizin aciliyet bilgisini alırken kullanılır.
@@ -602,7 +597,7 @@ gentoo (0.9.12-1) unstable; urgency=low
     </para><para>
 1. satır: paket adı, sürüm, dağıtım ve aciliyettir. İsim kaynak paket adıyla uyuşmalıdır, dağıtım ya <literal>unstable</literal> (veya hatta <literal>experimental</literal>) olmalıdır ve aciliyet de (<literal>urgency</literal>) <literal>low</literal> olmalı, daha yükseğe değiştirilmemelidir. <literal>:-)</literal>
     </para><para>
-3. satırdan 5. satıra kadar: günlük kayıtlarıdır (log entry), paket içinde yaptığınız değişiklikleri belgelendirdiğiniz yerdir (üst düzey değişiklikleri değil - bu amaç için üst düzey geliştirici tarafından oluşturulmuş bir dosya vardır, ki daha sonra bunu <filename>/usr/share/doc/gentoo/changelog.gz</filename> olarak kuracaksınız). Her yeni günlük kaydı yıldız (`*') ile başlayan en üst satırlardan önce eklenmelidir. Bunu <command>dch(1)</command> ile veya bir metin düzenleyici ile kendiniz yapabilirsiniz.
+3. satırdan 5. satıra kadar: günlük kayıtlarıdır (log entry), paket içinde yaptığınız değişiklikleri belgelendirdiğiniz yerdir (üst düzey değişiklikleri değil - bu amaç için üst düzey geliştirici tarafından oluşturulmuş bir dosya vardır, ki daha sonra bunu <filename>/usr/share/doc/gentoo/changelog.gz</filename> olarak kuracaksınız). Her yeni günlük kaydı yıldız (`*') ile başlayan en üst satırlardan önce eklenmelidir. Bunu <link linkend="tr-man1-dch"><command>dch(1)</command></link> ile veya bir metin düzenleyici ile kendiniz yapabilirsiniz.
     </para><para>
 Sonuç şöyle birşey olacak:
     </para><para>
@@ -621,7 +616,7 @@ gentoo (0.9.12-1) unstable; urgency=low
       </para>
     </sect2><sect2  id="maint-guide-tr-s4.4" chunkthis="1">
       <title><filename>rules</filename> dosyası</title><para>
-Artık şimdi <command>dpkg-buildpackage(1)</command>'in asıl paketi oluşturmak için kullanacağı gerçek kurallara bakmalıyız. Bu dosya aslında bir diğer Makefile dosyasıdır, fakat üst düzey kaynaktaki(ler)den farklıdır. <filename>debian/</filename> içindeki diğer dosyalardan farklı olarak, bu çalıştırılabilir olarak imlenmiştir.
+Artık şimdi <link linkend="tr-man1-dpkg-buildpackage"><command>dpkg-buildpackage(1)</command></link>'in asıl paketi oluşturmak için kullanacağı gerçek kurallara bakmalıyız. Bu dosya aslında bir diğer Makefile dosyasıdır, fakat üst düzey kaynaktaki(ler)den farklıdır. <filename>debian/</filename> içindeki diğer dosyalardan farklı olarak, bu çalıştırılabilir olarak imlenmiştir.
     </para><para>
 Her <filename>rules</filename> dosyası, diğer Makefile dosyaları gibi, kaynağın nasıl işleneceği ile ilgili çeşitli kurallar içerir. Her kural gerçeklenmesi gereken hedeflerden, dosya adlarından veya eylem adlarından (örn. <literal>build:</literal> veya <literal>install:</literal>) oluşur. Çalıştırmak istediğiniz kurallar komut satırı argümanları olarak çağrılır (<command>./debian/rules build</command> veya <command>make -f rules install</command> gibi). Hedef isminden sonra, bağımlılığı, kuralın bağlı olduğu program veya dosyanın ismini kullanabilirsiniz. Bundan sonra, sekme ile ayrılmış herhangi bir sayıda komut gelebilir. Yeni bir kural ilk sütunda yeni bir hedef bildirimi ile başlar. Boş satırlar ve `#' (diyez) ile başlayan satırlar yorum satırı olarak algılanır ve göz ardı edilir.
     </para><para>
@@ -706,13 +701,13 @@ Gerçek <filename>debian/rules</filename> dosyasında, satırbaşlarındaki boş
     </para><para>
 1. satırdakine benzer satırlara muhtemelen daha önce kabuk veya Perl betiklerinizden aşınasınızdır. Bu, işletim sistemine bu dosyanın <filename>/usr/bin/make</filename> ile yorumlanacağını söyler.
     </para><para>
-8 ve 9. satırlardaki DH_* değişkenlerinin anlamları kısa açıklamalardan anlaşılıyor olmalı. <literal>DH_COMPAT</literal> ile ilgili ayrıntılı bilgi için, <command>debhelper(1)</command> kılavuz sayfasının "Debhelper uyumluluk seviyeleri" ("Debhelper compatibility levels") bölümünü okuyunuz.
+8 ve 9. satırlardaki DH_* değişkenlerinin anlamları kısa açıklamalardan anlaşılıyor olmalı. <literal>DH_COMPAT</literal> ile ilgili ayrıntılı bilgi için, <link linkend="tr-man1-debhelper"><command>debhelper(1)</command></link> kılavuz sayfasının "Debhelper uyumluluk seviyeleri" ("Debhelper compatibility levels") bölümünü okuyunuz.
     </para><para>
 11'den 16'ya kadar olan satırlar <literal>DEB_BUILD_OPTIONS</literal> parametreleri için destek iskeleti görevi görür, <ulink url='http://www.debian.org/doc/debian-policy/'>Debian Politika Kılavuzu</ulink>nun 11.1 "İkilikler" ("Binaries") bölümünde anlatılmıştır. Temelde, bu şeyler ikilik paketin hata ayıklama sembolleriyle beraber mi oluşturulacağını ve kurulum sırasında bunların ayıklanıp ayıklanmayacağını kontrol eder. Yine, bu sadece bir iskelettir, yapmanız gerekenler için bir ipucudur. Üst düzey derleme sisteminin (upstream build system) hata ayıklama sembollerini nasıl dahil ettiğini, kurulumda bunları nasıl ayırdığını ve bunu sizin nasıl gerçekleyeceğinizi incelemelisiniz.
     </para><para>
 Genellikle <literal>CFLAGS</literal> değişkenini kullanarak <command>gcc</command>'ye <option>-g</option> seçeneğiyle derlemesini söyleyebilirsiniz - eğer bu sizin paketiniz için uygunsa; <literal>build</literal> kuralı içerisindeki <literal>$(MAKE)</literal> çağrısının sonuna <literal>CFLAGS="$(CFLAGS)"</literal> ekleyerek değişkeni türetiniz (aşağıya bakınız). Alternatif olarak, eğer paketiniz bir autoconf <filename>configure</filename> betiğini kullanıyorsa, yukarıdaki dizgeyi <literal>build</literal> kuralındaki <filename>./configure</filename>'nin öncesine ekleyebilirsiniz.
     </para><para>
-Hata ayıklama sembollerin ayıklama konusuna gelirsek, programlar genelde ayıklanmamış olarak kurulacak şekilde yapılandırılmışlardır ve çoğunlukla bunu değiştirecek bir seçenek yoktur. Ne büyük şans ki, <literal>DEB_BUILD_OPTIONS=nostrip</literal> bayrağını tespit edip sessizce çıkacak olan <command>dh_strip(1)</command> aracına sahipsiniz.
+Hata ayıklama sembollerin ayıklama konusuna gelirsek, programlar genelde ayıklanmamış olarak kurulacak şekilde yapılandırılmışlardır ve çoğunlukla bunu değiştirecek bir seçenek yoktur. Ne büyük şans ki, <literal>DEB_BUILD_OPTIONS=nostrip</literal> bayrağını tespit edip sessizce çıkacak olan <link linkend="tr-man1-dh_strip"><command>dh_strip(1)</command></link> aracına sahipsiniz.
     </para><para>
 18'den 26'ya kadar olan satırlar <literal>build</literal> kuralını (ve onun çocuğu olan <literal>build-stamp</literal>) açıklar. Bu kural, <command>make</command>'i bu programı derlemek için kullanılacak olan kendi Makefile dosyası ile çalıştırır. Eğer programınız ikilikleri derlemek için GNU yapılandırma araçlarını kullanıyorsa, kesinlikle <filename>/usr/share/doc/autotools-dev/README.Debian.gz</filename> dosyasını okuyunuz. Docbook'tan kılavuz sayfası üretme örneğine ileride <xref linkend="maint-guide-tr-s5.8"/> bölümünde değineceğiz.
     </para><para>
@@ -728,30 +723,30 @@ Eğer paketiniz `Architecture: all' (Tüm mimarilerde derlenir) türü bir paket
     </para><para>
 <command>debhelper</command> araçlarının isimleri <literal>dh_</literal> ile başlar ve devamı aracın ne yaptığının açıklamasıdır. İsimleri yeterince açıklayıcı olmasına rağmen bir miktar daha açıklama yapabiliriz:
     </para><para><itemizedlist><listitem>
-<command>dh_testdir(1)</command> doğru dizinde olup olmadığınızı kontrol eder (örn. kaynak ağacının kökü).
+<link linkend="tr-man1-dh_testdir"><command>dh_testdir(1)</command></link> doğru dizinde olup olmadığınızı kontrol eder (örn. kaynak ağacının kökü).
     </listitem><listitem>
-<command>dh_testroot(1)</command> <literal>binary-arch</literal>, <literal>binary-indep</literal> ve <literal>clean</literal> kuralları için gerekli root izinlerine sahip olup olmadığınızı kontrol eder.
+<link linkend="tr-man1-dh_testroot"><command>dh_testroot(1)</command></link> <literal>binary-arch</literal>, <literal>binary-indep</literal> ve <literal>clean</literal> kuralları için gerekli root izinlerine sahip olup olmadığınızı kontrol eder.
     </listitem><listitem>
-<command>dh_installman(1)</command> kılavuz sayfalarını hedef dizindeki doğru yere yükleyecektir, sadece ona kaynak paketinin kök dizinine göre kılavuz sayfalarının yerlerini belirtmelisiniz.
+<link linkend="tr-man1-dh_installman"><command>dh_installman(1)</command></link> kılavuz sayfalarını hedef dizindeki doğru yere yükleyecektir, sadece ona kaynak paketinin kök dizinine göre kılavuz sayfalarının yerlerini belirtmelisiniz.
     </listitem><listitem>
-<command>dh_strip(1)</command> daha küçük hale getirmek için çalıştırılabilir dosyalar ve kütüphanelerden hata ayıklama başlıklarını temizler.
+<link linkend="tr-man1-dh_strip"><command>dh_strip(1)</command></link> daha küçük hale getirmek için çalıştırılabilir dosyalar ve kütüphanelerden hata ayıklama başlıklarını temizler.
     </listitem><listitem>
-<command>dh_compress(1)</command> 4 kB'tan büyük belgeleri ve kılavuz sayfalarını <command>gzip(1)</command> ile sıkıştırır.
+<link linkend="tr-man1-dh_compress"><command>dh_compress(1)</command></link> 4 kB'tan büyük belgeleri ve kılavuz sayfalarını <link linkend="tr-man1-gzip"><command>gzip(1)</command></link> ile sıkıştırır.
     </listitem><listitem>
-<command>dh_installdeb(1)</command> paketle ilgili dosyaları (örn. bakımcı betiklerini) <filename>debian/gentoo/DEBIAN</filename> dizinine kopyalar.
+<link linkend="tr-man1-dh_installdeb"><command>dh_installdeb(1)</command></link> paketle ilgili dosyaları (örn. bakımcı betiklerini) <filename>debian/gentoo/DEBIAN</filename> dizinine kopyalar.
     </listitem><listitem>
-<command>dh_shlibdeps(1)</command> kütüphanelerin ve çalışan dosyaların paylaşımlı kütüphane bağımlılıklarını hesaplar.
+<link linkend="tr-man1-dh_shlibdeps"><command>dh_shlibdeps(1)</command></link> kütüphanelerin ve çalışan dosyaların paylaşımlı kütüphane bağımlılıklarını hesaplar.
     </listitem><listitem>
-<command>dh_gencontrol(1)</command> <filename>control</filename> dosyasının düzgün ayarlanmış bir sürümünü <filename>debian/gentoo/DEBIAN</filename> altına yükler.
+<link linkend="tr-man1-dh_gencontrol"><command>dh_gencontrol(1)</command></link> <filename>control</filename> dosyasının düzgün ayarlanmış bir sürümünü <filename>debian/gentoo/DEBIAN</filename> altına yükler.
     </listitem><listitem>
-<command>dh_md5sums(1)</command> paketteki tüm dosyalar için MD5 sağlama toplamları üretir.
+<link linkend="tr-man1-dh_md5sums"><command>dh_md5sums(1)</command></link> paketteki tüm dosyalar için MD5 sağlama toplamları üretir.
     </listitem></itemizedlist>
     </para><para>
-Tüm bu <filename>dh_*</filename> betiklerinin ne yaptıkları ve seçeneklerinin neler olduğu ile ilgili bilgi almak için kendi kılavuz sayfalarını okuyunuz. Başka (muhtemelen çok faydalı) ve burada bahsedilememiş <filename>dh_*</filename> betikleri de var. Eğer onlara ihtiyaç durarsanız, <command>debhelper(7)</command> kılavuz sayfasını okuyunuz.
+Tüm bu <filename>dh_*</filename> betiklerinin ne yaptıkları ve seçeneklerinin neler olduğu ile ilgili bilgi almak için kendi kılavuz sayfalarını okuyunuz. Başka (muhtemelen çok faydalı) ve burada bahsedilememiş <filename>dh_*</filename> betikleri de var. Eğer onlara ihtiyaç durarsanız, <link linkend="tr-man7-debhelper"><command>debhelper(7)</command></link> kılavuz sayfasını okuyunuz.
     </para><para>
 <literal>binary-arch</literal> kısmı gerçekten de ihtiyacınız olmayan özellikleri içeren satırları çıkarmanız gereken kısımdır. gentoo için, cron, init, man, info ve örneklerle ilgili satırları iptal edeceğim, çünkü gentoo bunlara ihtiyaç duymuyor. Ayrıca 68. satırda, <filename>FIXES</filename>'i üstdüzey changelog dosyasının adı olan <filename>ChangeLog</filename> ile değiştireceğim.
     </para><para>
-Son iki satır (ve burada bahsedilmeyen diğer satırlarla beraber) bazı az veya çok gerekli şeylerdir, ki bunları <command>make(1)</command> kılavuz sayfasında ve <ulink url='http://www.debian.org/doc/debian-policy/'>Debian Politika Kılavuzu</ulink>nda okuyabilirsiniz. Şu an için, bilmek o kadar da önemli değil.
+Son iki satır (ve burada bahsedilmeyen diğer satırlarla beraber) bazı az veya çok gerekli şeylerdir, ki bunları <link linkend="tr-man1-make"><command>make(1)</command></link> kılavuz sayfasında ve <ulink url='http://www.debian.org/doc/debian-policy/'>Debian Politika Kılavuzu</ulink>nda okuyabilirsiniz. Şu an için, bilmek o kadar da önemli değil.
       </para>
     </sect2>
   </sect1>
@@ -806,7 +801,7 @@ Eğer programınızn bir <literal>conffile</literal> dosyası olarak imlenebilec
       <title><filename>cron.d.ex</filename></title><para>
 Eğer paketiniz düzenli aralıklarla gerçeklenmesi gereken görevler gerektiriyorsa, bu dosyayı bunu ayarlamak için kullanabilirsiniz.
     </para><para>
-Bu günlük döndürmeyi (log rotation) içermemektedir, bunu için <command>dh_installlogrotate(1)</command> ve <command>logrotate(8)</command> kılavuz sayfalarına bakınız.
+Bu günlük döndürmeyi (log rotation) içermemektedir, bunu için <link linkend="tr-man1-dh_installlogrotate"><command>dh_installlogrotate(1)</command></link> ve <link linkend="tr-man8-logrotate"><command>logrotate(8)</command></link> kılavuz sayfalarına bakınız.
     </para><para>
 Gerekmiyorsa, dosyayı silin.
       </para>
@@ -845,7 +840,7 @@ README.gtkrc
 TODO
 </screen>
     </para><para>
-Bu dosyayı kaldırıbiliriz de, bunun yerine bu dosyaları <literal>rules</literal> dosyasında <literal>dh_installdocs</literal> komutuna komut satırı argümanları olarak ekleyebiliriz:
+Bu dosyayı kaldırabiliriz de, bunun yerine bu dosyaları <literal>rules</literal> dosyasında <literal>dh_installdocs</literal> komutuna komut satırı argümanları olarak ekleyebiliriz:
     </para><para>
 <screen>        dh_installdocs BUGS CONFIG-CHANGES CREDITS ONEWS README \
                        README.gtkrc TODO
@@ -857,13 +852,13 @@ Yine de, kaynak dosyanızda böyle herhangi bir dosyaya ihtiyaç duymayabilirsin
       <title><filename>emacsen-*.ex</filename></title><para>
 Eğer paketiniz, kurulum sırasında baytderlemeli olması gereken Emacs dosyaları sağlıyorsa, bunun gerçekleşmesi için bu dosyayı kullanabilirsiniz.
     </para><para>
-Bu dosyalar <command>dh_installemacsen(1)</command> tarafından geçici bir dizine kurulur. Eğer bu dosyayı kullanırsanız, <filename>rules</filename> dosyasındaki ilgili satırları etkinleştirmeyi unutmayın.
+Bu dosyalar <link linkend="tr-man1-dh_installemacsen"><command>dh_installemacsen(1)</command></link> tarafından geçici bir dizine kurulur. Eğer bu dosyayı kullanırsanız, <filename>rules</filename> dosyasındaki ilgili satırları etkinleştirmeyi unutmayın.
       </para>
     </sect2><sect2 id="maint-guide-tr-s5.7" chunkthis="1">
       <title><filename>init.d.ex</filename></title><para>
 Eğer paketiniz sistemin başlatılırken çalışması gereken bir artalan süreciyse, açık bir şekilde benim ilk başlardaki önerimi göz ardı etmişsiniz demektir, değil mi? <literal>:-)</literal>
     </para><para>
-Bu, bir <filename>/etc/init.d/</filename> betiği için genel iskelet dosyasıdır, dolayısiyle sıklıkla düzenlemek zorunda kalacaksınız. Geçici dizine <command>dh_installinit(1)</command> tarafından kurulur.
+Bu, bir <filename>/etc/init.d/</filename> betiği için genel iskelet dosyasıdır, dolayısiyle sıklıkla düzenlemek zorunda kalacaksınız. Geçici dizine <link linkend="tr-man1-dh_installinit"><command>dh_installinit(1)</command></link> tarafından kurulur.
     </para><para>
 Eğer ihtiyacınız yoksa, bu dosyayı silin.
       </para>
@@ -872,7 +867,7 @@ Eğer ihtiyacınız yoksa, bu dosyayı silin.
 	<para>Programın(ların)ızın bir(er) kılavuz sayfası olmalıdır. Yoksa, bu dosyaları kılavuz sayfası şablonu olarak kullanabilirsiniz.</para>
 	    <para><variablelist><varlistentry>
 	<term>manpage.1.ex</term><listitem><para>
-	Kılavuz sayfaları normalde <command>nroff(1)</command> ile yazılır. <filename>manpage.1.ex</filename> örneği de nroff ile yazılmıştır. Bu dosyayı nasıl düzenleyeceğinizi öğrenmek için <command>man(7)</command> kılavuz sayfasını inceleyiniz.
+	Kılavuz sayfaları normalde <link linkend="tr-man1-nroff"><command>nroff(1)</command></link> ile yazılır. <filename>manpage.1.ex</filename> örneği de nroff ile yazılmıştır. Bu dosyayı nasıl düzenleyeceğinizi öğrenmek için <link linkend="tr-man7-man"><command>man(7)</command></link> kılavuz sayfasını inceleyiniz.
 </para><para>
 	Son kılavuz sayfası ismi belgelendirdiği programın ismini içermelidir, bundan dolayı "manpage" olan ismini "gentoo" olarak değiştireceğiz. Dosya adı ayrıca, dosyanın bir kullanıcı komutunun kılavuz sayfası olduğu anlamına geler ".1" sonekini içererecektir. Bunun doğru bölüm numarası olduğundan emin olmalısınız. Kılazuz sayfa bölümlerinin listesi:
 </para><para>
@@ -883,7 +878,7 @@ Eğer ihtiyacınız yoksa, bu dosyayı silin.
 3     Kütüphane çağrıları    Sistem kütüphanelerindeki işlevler.
 4     Özel dosyalar          Genelde /dev dizinindeki aygıt dosyaları.
 5     Dosya biçimleri        /etc/passwd gibi dosyaların biçimleri.
-6     Oyunlar                Veye diğer değersiz programlar.
+6     Oyunlar                Veya diğer değersiz programlar.
 7     Makro paketleri        Man makroları gibi makrolar.
 8     Sistem yönetimi        Genellikle root tarafından kullanılan komutlar.
 9     Çekirdek yordamları    Çekirdekle ilgili standartdışı çağrılar.</literallayout>
@@ -906,11 +901,11 @@ Eğer ihtiyacınız yoksa, bu dosyayı silin.
 			Ve dosyanın adını <filename>gentoo.sgml</filename> gibi birşey olarak değiştirmeyi unutmayın!
     </para></listitem></varlistentry><varlistentry>
 	<term>manpage.xml.ex</term><listitem><para>
-			If you prefer XML over SGML, you can use the manpage.xml.ex template. If you do this, you have two choices: 
+			Eğer SGML yerine XML'i tercih etmek isterseniz manpage.xml.ex taslağını inceleyebilirsiniz. Eğer XML'i seçerseniz iki seçeneğiniz bulunur: 
 			<itemizedlist>
-				<listitem>install the docbook-xsl package and an XSLT processor like xsltproc (recommended) </listitem>
-				<listitem>add the docbook-xsl, docbook-xml and xsltproc packages to the Build-Depends line in the control file </listitem>
-				<listitem>add a rule to the `build' target of your rules file:<literallayout>
+				<listitem>docbook-xsl paketini ve xsltproc (önerilir) gibi bir XSLT editörünü sisteminize kurun </listitem>
+				<listitem>docbook-xsl, docbook-xml ve xsltproc paketlerini control dosyasındaki Build-Depends satırına ekleyin </listitem>
+				<listitem>Kural dosyalarınızın 'build' hedefine bir kural ekleyin:<literallayout>
 xsltproc --nonet \
 --param make.year.ranges 1 \
 --param make.single.year.ranges 1 \
@@ -918,11 +913,11 @@ xsltproc --nonet \
 -o debian/ \
 /usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl \
 debian/manpage.xml</literallayout></listitem></itemizedlist></para>
-<para>Alternatively: <itemizedlist>
-		<listitem>install the docbook2x package</listitem>
-		<listitem>add the docbook2x package to the Build-Depends line in the control file </listitem>
-		<listitem>add a rule to the `build' target of your rules file: <literallayout>docbook2man debian/manpage.xml</literallayout></listitem></itemizedlist></para>
-<para>Rename the source file(s) to something like gentoo.1.xml or so and check the package documentations for stylesheet parameters and output options.</para>
+<para>Alternatif olarak: <itemizedlist>
+		<listitem>docbook2x paketini kurun</listitem>
+		<listitem>docbook2x paketini control dosyasındaki Build-Depends satırına ekleyin </listitem>
+		<listitem>Kural dosyalarınızın 'build' hedefine bir kural ekleyin: <literallayout>docbook2man debian/manpage.xml</literallayout></listitem></itemizedlist></para>
+<para>gentoo.1.xml benzeri kaynak dosya(larınızı) yeniden isimlendirin veya stil şablonu (stylesheet) parametreleri ve çıktı parametreleri için paket dökümantasyonunu inceleyin.</para>
 		</listitem></varlistentry></variablelist></para>
 	    
 	    
@@ -950,12 +945,12 @@ Artık menü girdisini şu şekilde değiştirebiliriz:
      </para><para>
 <screen>?package(gentoo): needs="X11" section="Apps/Tools" title="Gentoo" command="gentoo"
 </screen>
-Ayrıca <literal>longtitle</literal>, <literal>icon</literal>, <literal>hints</literal>, v.b gibi başka bölümler de ekleyebilirsiniz. Ayrıntılı bilgi için <command>menufile(5)</command>, <command>update-menus(1)</command> ve <ulink url='http://www.debian.org/doc/debian-policy/'>Debian Politika Kılavuzu</ulink>na bakınız.
+Ayrıca <literal>longtitle</literal>, <literal>icon</literal>, <literal>hints</literal>, v.b gibi başka bölümler de ekleyebilirsiniz. Ayrıntılı bilgi için <link linkend="tr-man5-menufile"><command>menufile(5)</command></link>, <link linkend="tr-man1-update_menus"><command>update-menus(1)</command></link> ve <ulink url='http://www.debian.org/doc/debian-policy/'>Debian Politika Kılavuzu</ulink>na bakınız.
       </para>
     </sect2>
     <sect2 id="maint-guide-tr-s5.10" chunkthis="1">
       <title><filename>watch.ex</filename></title><para>
-Bu dosya (<filename>devscripts</filename> paketindeki) <command>uscan(1)</command> ve <command>uupdate(1)</command> programlarını yapılandırmak için kullanılır. Bunlar orjinal kaynağı aldığınız siteyi gözlemlemek için kullanılır.
+Bu dosya (<filename>devscripts</filename> paketindeki) <link linkend="tr-man1-uscan"><command>uscan(1)</command></link> ve <link linkend="tr-man1-uupdate"><command>uupdate(1)</command></link> programlarını yapılandırmak için kullanılır. Bunlar orjinal kaynağı aldığınız siteyi gözlemlemek için kullanılır.
      </para><para>
 Dosyaya koyduklarım:
      </para><para>
@@ -969,7 +964,7 @@ Internete bağlanın, dosyayı oluşturduktan sonra <command>uscan</command>'i �
     </sect2>
     <sect2  id="maint-guide-tr-s5.11" chunkthis="1">
       <title><filename>ex.package.doc-base</filename></title><para>
-Eğer paketinizin kılavuz sayfaları ve bilgilendirme (info) belgeleri dışında belgelendirmesi varsa, <filename>doc-base</filename>'i kullanarak onu kayıtlı hale getirmelisiniz. Böylece kullanıcı bu belgeleri örn. <command>dhelp(1)</command>, <command>dwww(1)</command> veya <command>doccentral(1)</command> gibi programlarla bulabilir.
+Eğer paketinizin kılavuz sayfaları ve bilgilendirme (info) belgeleri dışında belgelendirmesi varsa, <filename>doc-base</filename>'i kullanarak onu kayıtlı hale getirmelisiniz. Böylece kullanıcı bu belgeleri örn. <link linkend="tr-man1-dhelp"><command>dhelp(1)</command></link>, <link linkend="tr-man1-dwww"><command>dwww(1)</command></link> veya <link linkend="tr-man1-doccentral"><command>doccentral(1)</command></link> gibi programlarla bulabilir.
      </para><para>
 Bu daha çok <filename>/usr/share/doc/paketadı/</filename> altına yerleştirilen HTML, PS ve PDF dosyalarını içermektedir.
      </para><para>
@@ -984,7 +979,7 @@ Index: /usr/share/doc/gentoo/html/index.html
 Files: /usr/share/doc/gentoo/html/*.html
 </screen>
      </para><para>
-Dosya biçimiyle ilgili daha fazla bilgi almak için, <filename>/usr/share/doc/doc-base/doc-base.html/</filename> içindeki <filename>doc-base</filename>'e ve <command>install-docs(8)</command> kılavuz sayfasına bakınız.
+Dosya biçimiyle ilgili daha fazla bilgi almak için, <filename>/usr/share/doc/doc-base/doc-base.html/</filename> içindeki <filename>doc-base</filename>'e ve <link linkend="tr-man8-install_docs"><command>install-docs(8)</command></link> kılavuz sayfasına bakınız.
      </para><para>
 Ek belgelerin kurulması ile ilgili ayrıntılar için <xref linkend="maint-guide-tr-s3.1"/> bölümüne bakınız.
       </para>
@@ -1041,11 +1036,11 @@ Bu, orjinal kaynak kodun sıkıştırılmış arşiv dosyasıdır, sadece paket 
       </para></listitem></varlistentry><varlistentry>
       <term><filename>gentoo_0.9.12-1.dsc</filename></term>
       <listitem><para>
-Kaynak kodun içeriğinin bir özetidir. Sizin <filename>control</filename> dosyanızdan oluşturulmuştur ve kaynak paketi <command>dpkg-source(1)</command> ile açarken kullanılır. Bu dosya GPG imzalıdır, böylece başkaları dosyanın gerçekten size ait olduğuna emin olabilir.
+Kaynak kodun içeriğinin bir özetidir. Sizin <filename>control</filename> dosyanızdan oluşturulmuştur ve kaynak paketi <link linkend="tr-man1-dpkg_source"><command>dpkg-source(1)</command></link> ile açarken kullanılır. Bu dosya GPG imzalıdır, böylece başkaları dosyanın gerçekten size ait olduğuna emin olabilir.
       </para></listitem></varlistentry><varlistentry>
       <term><filename>gentoo_0.9.12-1.diff.gz</filename></term>
       <listitem><para>
-Bu sıkıştırılmış dosya orjinal kaynak paketinde yaptığınız her değişikliği tekilleştirilmiş fark dosyası ("unified diff") biçiminde içerir. <command>dpkg-source(1)</command> ile oluşturulur ve onun tarafından kullanılır. Uyarı: Eğer orjinal kaynak paketinin ismini <filename>paketismi_sürüm.orig.tar.gz</filename> şeklince oluşturmazsanız, <command>dpkg-source</command> <filename>.diff.gz</filename> dosyasını düzgün oluşturmada başarısız olacaktır.
+Bu sıkıştırılmış dosya orjinal kaynak paketinde yaptığınız her değişikliği tekilleştirilmiş fark dosyası ("unified diff") biçiminde içerir. <link linkend="tr-man1-dpkg_source"><command>dpkg-source(1)</command></link> ile oluşturulur ve onun tarafından kullanılır. Uyarı: Eğer orjinal kaynak paketinin ismini <filename>paketismi_sürüm.orig.tar.gz</filename> şeklince oluşturmazsanız, <command>dpkg-source</command> <filename>.diff.gz</filename> dosyasını düzgün oluşturmada başarısız olacaktır.
       </para><para>
 Eğer birisi paketinizi baştan yeniden oluşturmak isterse, yukarıdaki üç dosyayı kullanarak bunu kolaylıkla başarabilir. Dosyaları açma işlemi oldukça basittir: Sadece dosyaları bir yere kopyalayın ve <command>dpkg-source -x gentoo_0.9.12-1.dsc</command> komutunu çalıştırın.
       </para></listitem></varlistentry><varlistentry>
@@ -1060,7 +1055,7 @@ Bu dosya o anki paket gözden geçirimiyle ilgili yapılmış tüm değişiklikl
 Paket üstünde çalışırken, paketin davranışı değişecek ve yeni özellikler eklenecektir. Paketi indirenler bu dosyaya bakarak yapılmış değişiklikleri kolayca görebilir. Debian arşivinin bakımını yapan programlar bu dosyanın içeriğini ayrıca <literal>debian-devel-changes</literal> ileti listesine de postalayacaktır.
         </para></listitem></varlistentry></variablelist>
       </para><para>
-<filename>.dsc</filename> ve <filename>.changes</filename> dosyalarındaki uzun sayısal dizgeler, yukarıda bahsedilen dosyalar için MD5 sağlamalarıdır (MD5 checksum). Dosyalarınızı indiren biri <command>md5sum(1)</command> ile sınayıp, sayıların uyuşmaması durumunda dosyaların bozulduğunu veya üzerinde oynandığını anlayabilir.
+<filename>.dsc</filename> ve <filename>.changes</filename> dosyalarındaki uzun sayısal dizgeler, yukarıda bahsedilen dosyalar için MD5 sağlamalarıdır (MD5 checksum). Dosyalarınızı indiren biri <link linkend="tr-man1-md5sum"><command>md5sum(1)</command></link> ile sınayıp, sayıların uyuşmaması durumunda dosyaların bozulduğunu veya üzerinde oynandığını anlayabilir.
       </para>
     </sect2>
     <sect2 id="maint-guide-tr-s6.2" chunkthis="1">
@@ -1075,7 +1070,7 @@ Ayarlamanız bittikten sonra, yukarıdaki adımları takip ederek herşeyi olmas
     </sect2>
     <sect2 id="maint-guide-tr-s6.3" chunkthis="1">
       <title><literal>debuild</literal> komutu</title><para>
-Paket oluşturma işlemini <command>debuild</command> komutu ile otomatik hale getirebilirsiniz. (<command>debuild(1)</command> kılavuz sayfasına bakınız.)
+Paket oluşturma işlemini <command>debuild</command> komutu ile otomatik hale getirebilirsiniz. (<link linkend="tr-man1-debuild"><command>debuild(1)</command></link> kılavuz sayfasına bakınız.)
       </para><para>
 <command>debuild</command> komutunu <filename>/etc/devscripts.conf</filename> veya <filename>~/.devscripts</filename> üzerinden özelleştirebilirsiniz. En azından şu öğelerin bulunmasını öneririm:
       </para><para>
@@ -1096,11 +1091,11 @@ debuild
       </para><para>
 	      Yama kümesinin bakımı ve Debian paketleriyle kullanımı için pekçok yöntem önerilmiştir. <literal>dpatch</literal> ve <literal>quilt</literal> sistemleri önerilen bu yama sürdürme sistemlerinin en basitleridir. Diğerleri dbs, cdbs, v.s., dir.
       </para><para>
-	      <literal>dpatch</literal> veya <literal>quilt</literal> ile paketlenmiş bir pakette kaynak kodda yapılan yapılan değişiklikler <filename>debian/patches/</filename> altında yama dosyaları olarak ve açık bir şekilde belgelendirilir ve <filename>debian/</filename> dizini dışındaki kaynak ağacına dokunulmaz. Eğer paketinizi gönderecek bir sponsor arıyorsanız, sponsorunuzun paketinizi incelemesini hızlandırmak için bu tür açık ayrımlar ve belgelendirmeler önemlidir. The usage method of dpatch and quilt is explained in dpatch(1), dpatch-edit-patch(1) and quilt(1). Both programs provide convenience files to include in debian/rules: /usr/share/dpatch/dpatch.make and /usr/share/quilt/quilt.make. 
-      </para><para>When someone (including yourself) provides you with a patch to the source later, then the package modification is quite simple: 
+      <literal>dpatch</literal> veya <literal>quilt</literal> ile paketlenmiş bir pakette kaynak kodda yapılan yapılan değişiklikler <filename>debian/patches/</filename> altında yama dosyaları olarak ve açık bir şekilde belgelendirilir ve <filename>debian/</filename> dizini dışındaki kaynak ağacına dokunulmaz. Eğer paketinizi gönderecek bir sponsor arıyorsanız, sponsorunuzun paketinizi incelemesini hızlandırmak için bu tür açık ayrımlar ve belgelendirmeler önemlidir. dpatch ve quilt 'in kullanımı dpatch(1), dpatch-edit-patch(1) ve quilt(1)'da açıklanmaktadır. Her iki uygulama da debian/rules'da belirtilmek için uyumlu dosyalara sahiptir /usr/share/dpatch/dpatch.make ve /usr/share/quilt/quilt.make. 
+      </para><para>Eğer birisi (bu siz de olabilirsiniz) kaynak koda bir yama yaptığında pakette basit değişiklikler yapılmalıdır: 
       </para><para><itemizedlist>
         <listitem>
-		Edit patch to make it a -p1 patch to the source tree. 
+		Kaynak ağacında -p1 yaması olması için yamayı düzenleyin. 
         </listitem>
         <listitem>
 <literal>dpatch patch-template</literal> komutunu kullanarak başlığı ekleyin.
@@ -1109,7 +1104,7 @@ debuild
 Bunu <filename>debian/patches</filename> altına koyun.
         </listitem>
         <listitem>
-		Add the patch filenames to debian/patches/00list (for dpatch) or debian/patches/series (for quilt). 
+		Yama dosyalarının isimlerini debian/patches/00list'e  ( dpatch için) veya  debian/patches/series'e (quilt için) ekleyin. 
         </listitem>
       </itemizedlist>
       </para><para>
@@ -1128,20 +1123,20 @@ Paketinizi ilk defa arşive gönderiyorsanız, orjinal <filename>orig.tar.gz</fi
     <sect2 id="maint-guide-tr-s7.1" chunkthis="1">
       <title><literal>lintian</literal> paketi</title>
       <para>
-<filename>.changes</filename> dosyası üzerinde <command>lintian(1)</command> komutunu çalıştırdığınızda bu program pekçok paket hatasını denetleyecektir:
+<filename>.changes</filename> dosyası üzerinde <link linkend="tr-man1-lintian"><command>lintian(1)</command></link> komutunu çalıştırdığınızda bu program pekçok paket hatasını denetleyecektir:
       </para><para>
 <screen>$ <command>lintian -i gentoo_0.9.12-1_i386.changes</command></screen>
       </para><para>
 Elbetteki, dosya adını paketiniz için üretilen <filename>.changes</filename> dosyasının adıyla değiştirmelisiniz. Eğer bazı hatalar gözüküyorsa (<literal>E:</literal> ile başlayan satırlar), açıklamaları okuyup (<literal>N:</literal> ile başlayan satırları) hataları düzeltin ve <xref linkend="maint-guide-tr-s6.1"/> bölümünde anlatıldığı gibi paketi tekrar oluşturun. Eğer <literal>W:</literal> ile başlayan satırlar varsa, bunlar uyarıdır, bu durumda paketi ayarlayın veya uyarı mesajlarının ilgisiz olduğundan emin olun (ve Lintian değişikliklerini uygulayın, bunun için belgesine bakınız.)
       </para><para><note><para>
-<command>dpkg-buildpackage</command> ile paketi oluşturabilir, <command>lintian</command> komutunu <command>debuild(1)</command> komutu ile tek bir komut olarak kullanabilirsiniz.
+<command>dpkg-buildpackage</command> ile paketi oluşturabilir, <command>lintian</command> komutunu <link linkend="tr-man1-debuild"><command>debuild(1)</command></link> komutu ile tek bir komut olarak kullanabilirsiniz.
       </para></note></para>
     </sect2>
     <sect2 id="maint-guide-tr-s7.2" chunkthis="1">
       <title><literal>mc</literal> komutu</title><para>
-<command>dpkg-deb(1)</command> ile <filename>*.deb</filename> paketlerini açabilirsiniz. Üretilmiş bir Debian paketinin içeriğini de <command>debc(1)</command> ile listeleyebilirsiniz.
+<link linkend="tr-man1-dpkg-deb"><command>dpkg-deb(1)</command></link> ile <filename>*.deb</filename> paketlerini açabilirsiniz. Üretilmiş bir Debian paketinin içeriğini de <link linkend="tr-man1-debc"><command>debc(1)</command></link> ile listeleyebilirsiniz.
       </para><para>
-Bu işlem,  sadece <filename>*.deb</filename> dosyalarının içeriğini değil aynı zamanda <filename>*.diff.gz</filename> ve <filename>*.tar.gz</filename> dosyalarının içeriğine de göz atmanızı sağlayan <command>mc(1)</command> gibi bir dosya yöneticisi kullanılarak sezgisel bir hale getirilebilir.
+Bu işlem,  sadece <filename>*.deb</filename> dosyalarının içeriğini değil aynı zamanda <filename>*.diff.gz</filename> ve <filename>*.tar.gz</filename> dosyalarının içeriğine de göz atmanızı sağlayan <link linkend="tr-man1-mc"><command>mc(1)</command></link> gibi bir dosya yöneticisi kullanılarak sezgisel bir hale getirilebilir.
       </para><para>
 Gerek ikilik gerekse kaynak paketlerde, ilave istenmeyen dosyalara veya sıfır boyutlu dosyalara dikkat edin. Sıklıkla, yapılan paket başarılı bir şekilde temizlenemez, bunun için <filename>rules</filename> dosyanızı bu durumu telafi edecek şekilde ayarlayınız.
       </para><para><tip><para>
@@ -1150,17 +1145,17 @@ Gerek ikilik gerekse kaynak paketlerde, ilave istenmeyen dosyalara veya sıfır 
     </sect2>
     <sect2 id="maint-guide-tr-s7.3" chunkthis="1">
       <title><literal>debdiff</literal> komutu</title><para>
-<command>debdiff(1)</command> komutu ile iki Debian ikilik paketinini dosya listelerini karışılaştırabilirsiniz. Bu, paketi güncellerken farkında olmadan dosyaların yerdeğiştirilmemiş veya kaldırılmamış veya herhangi bir gözden kaçmış hatanın yapılmamış olduğunu doğrulamak için faydalıdır. Aynı gruptaki <filename>*.deb</filename> dosyalarına basitçe <command>debdiff eski-paket.changes yeni-paket.changes</command> ile bakabilirsiniz.
+<link linkend="tr-man1-debdiff"><command>debdiff(1)</command></link> komutu ile iki Debian ikilik paketinini dosya listelerini karışılaştırabilirsiniz. Bu, paketi güncellerken farkında olmadan dosyaların yerdeğiştirilmemiş veya kaldırılmamış veya herhangi bir gözden kaçmış hatanın yapılmamış olduğunu doğrulamak için faydalıdır. Aynı gruptaki <filename>*.deb</filename> dosyalarına basitçe <command>debdiff eski-paket.changes yeni-paket.changes</command> ile bakabilirsiniz.
       </para>
     </sect2>
     <sect2 id="maint-guide-tr-s7.4" chunkthis="1">
       <title><literal>interdiff</literal> komutu</title><para>
-İki <filename>.diff.gz</filename> dosyasını <command>interdiff(1)</command> komutu ile karşılaştırabilirsiniz. Bu, kaynak kod güncellenirken herhangi bir istenmeyen değişikliğin yapılmadığını doğrulamak için kullanılır: <command>interdiff -z eski-paket.diff.gz yeni-paket.diff.gz</command>.
+İki <filename>.diff.gz</filename> dosyasını <link linkend="tr-man1-interdiff"><command>interdiff(1)</command></link> komutu ile karşılaştırabilirsiniz. Bu, kaynak kod güncellenirken herhangi bir istenmeyen değişikliğin yapılmadığını doğrulamak için kullanılır: <command>interdiff -z eski-paket.diff.gz yeni-paket.diff.gz</command>.
       </para>
     </sect2>
     <sect2 id="maint-guide-tr-s7.5" chunkthis="1">
       <title><literal>debi</literal> komutu</title><para>
-<command>debi(1)</command> komutunu root olarak kullanarak paktinizi denemek için kurabilirsiniz. Kurulum ve çalıştırma işlemini kendi makinanız dışındakilerde deneyerek gerek yükleme gerekse çalıştırma sırasında karşılaştığınız uyarı ve hataları dikkatlice inceleyiniz.
+<link linkend="tr-man1-debi"><command>debi(1)</command></link> komutunu root olarak kullanarak paketinizi denemek için kurabilirsiniz. Kurulum ve çalıştırma işlemini kendi makinanız dışındakilerde deneyerek gerek yükleme gerekse çalıştırma sırasında karşılaştığınız uyarı ve hataları dikkatlice inceleyiniz.
       </para>
     </sect2>
     <sect2 id="maint-guide-tr-s7.6" chunkthis="1">
@@ -1196,7 +1191,7 @@ Bu, üretilen paketleri <filename>~/.gnupg/</filename> dizinindeki kendi GPG ana
       </para><para>
 <option>--override-config</option> seçeneğine <literal>chroot</literal> ortamında apt-kaynaklarının güncellenmesi için ihtiyaç vardır.
       </para><para>
-<ulink url="http://www.netfort.gr.jp/~dancer/software/pbuilder.html"/> adresine, <command>pdebuild(1)</command>, <command>pbuilderrc(5)</command> ve <command>pbuilder(8)</command> kılavuz sayfalarına bakınız.
+<ulink url="http://www.netfort.gr.jp/~dancer/software/pbuilder.html"/> adresine, <link linkend="tr-man1-pdebuild"><command>pdebuild(1)</command></link>, <link linkend="tr-man5-pbuilderrc"><command>pbuilderrc(5)</command></link>, ve <link linkend="tr-man8-pbuilder"><command>pbuilder(8)</command></link> kılavuz sayfalarına bakınız.
       </para>
     </sect2>
   </sect1>
@@ -1207,7 +1202,7 @@ Bu, üretilen paketleri <filename>~/.gnupg/</filename> dizinindeki kendi GPG ana
     </para>
     <sect2 id="maint-guide-tr-s8.1" chunkthis="1">
       <title>Paketlerin Debian arşivine gönderilmesi</title><para>
-Resmen bir geliştirici olduktan sonra paketi Debian arşivine yüklemeniz gerekecektir. Bunu elle yapabilirsiniz, fakat <command>dupload(1)</command> ve <command>dput(1)</command> gibi bu amaç için geliştirilmiş araçları kullanmak işinizi kolaylaştırır.
+Resmen bir geliştirici olduktan sonra paketi Debian arşivine yüklemeniz gerekecektir. Bunu elle yapabilirsiniz, fakat <link linkend="tr-man1-dupload"><command>dupload(1)</command></link> ve <link linkend="tr-man1-dput"><command>dput(1)</command></link> gibi bu amaç için geliştirilmiş araçları kullanmak işinizi kolaylaştırır.
       </para><para>
 Önce, <command>dupload</command> komutunun yapılandırma dosyasını düzenlemelisiniz. Bunun için ya <filename>/etc/dupload.conf</filename> dosyasını veya kendi <filename>~/.dupload.conf</filename> dosyanızda bazı yerleri değiştirmelisiniz. Dosyaya aşağıdakine benzer satırlar koyun:
       </para><para>
@@ -1225,7 +1220,7 @@ $cfg{'anonymous-ftp-master'} = {
 
 1;
 </screen>
-      </para><para>Dosyadaki her bir seçeneğin ne anlama geldiğini anlamak için <command>dupload.conf(5)</command> kılavuz sayfasını okuyunuz.
+      </para><para>Dosyadaki her bir seçeneğin ne anlama geldiğini anlamak için <link linkend="tr-man5-dupload.conf"><command>dupload.conf(5)</command></link> kılavuz sayfasını okuyunuz.
       </para><para>
 <literal>$default_host</literal> seçeneği en yanıltıcı olanıdır - hangi yükleme kuyruğunun öntanımlı olarak kullanılacağını belirler. "<filename>anonymous-ftp-master</filename>", birincil olandır, fakat daha hızlı bir tane eklemek isteyeceksinizdir. Yükleme kuyruklarıyla ilgili daha fazla bilgi için  Geliştiricilerin Referansında (Developers' Reference) "Paket Yükleme" ("Uploading a package") bölümünü (<filename>/usr/share/doc/developers-reference/ch-pkgs.en-us.iso-8859-1.html#s-upload</filename> dosyasındadır) okuyunuz.
       </para><para>
@@ -1319,13 +1314,13 @@ Eski kaynak dizinine giriniz ve aşağıdaki komutu çalıştırınız:
 <screen>$ <command>uupdate -u gentoo-0.9.13.tar.gz</command>
 </screen>
         </para><para>
-Elbetteki bu dosya adını programınızın yeni kaynak adıyla değiştiriniz. <command>uupdate(1)</command> tar paketini düzgün şekilde isimlendirecek, <filename>.diff.gz</filename> dosyasından değişikleri uygulamaya çalışacak ve yeni <filename>debian/changelog</filename> dosyasını güncelleyecektir.
+Elbetteki bu dosya adını programınızın yeni kaynak adıyla değiştiriniz. <link linkend="tr-man1-uupdate"><command>uupdate(1)</command></link> tar paketini düzgün şekilde isimlendirecek, <filename>.diff.gz</filename> dosyasından değişikleri uygulamaya çalışacak ve yeni <filename>debian/changelog</filename> dosyasını güncelleyecektir.
         </para></listitem><listitem><para>
 <filename>../gentoo-0.9.13</filename> dizinine geçin ve <xref linkend="maint-guide-tr-s6.1"/>, <xref linkend="maint-guide-tr-s7"/> ve <xref linkend="maint-guide-tr-s8"/> bölümlerinde yaptıklarınızı tekrar yapınız.
         </para></listitem>
       </itemizedlist>
       </para><para>
-Eğer <filename>debian/watch</filename> dosyasını <xref linkend="maint-guide-tr-s5.10"/> bölümünde anlatıldığı gibi düzenlerseniz, <command>uscan(1)</command>'i kullanarak otomatik ve sihirli bir şekilde gözden geçirilmiş kaynak kodları bulabilir ve daha sonra da onları indirip <command>uupdate</command>'i çalıştırabilirsiniz.
+Eğer <filename>debian/watch</filename> dosyasını <xref linkend="maint-guide-tr-s5.10"/> bölümünde anlatıldığı gibi düzenlerseniz, <link linkend="tr-man1-uscan"><command>uscan(1)</command></link>'i kullanarak otomatik ve sihirli bir şekilde gözden geçirilmiş kaynak kodları bulabilir ve daha sonra da onları indirip <command>uupdate</command>'i çalıştırabilirsiniz.
       </para>
     </sect2>
     <sect2  id="maint-guide-tr-s9.3" chunkthis="1">
@@ -1373,16 +1368,8 @@ Yeni paket sürümü, üstdüzey sürüm numarasına <literal>-1</literal> Debia
 Eğer yama/birleştir (patch/merge) temiz bir şekilde uygulanmazsa, neyin hatalı gitmiş olabileceğini araştırın (ipuçları <filename>.rej</filename> dosyalarındadır). Genellikle sorun, yaptığınız yamanın üstdüzey kodlara zaten uygulanmış olması nedeniye yamanın ilgisiz kalmasıdır.
           </para></listitem><listitem><para>
 Yeni sürüme geçiş sessiz ve rahatsız etmeden olmalıdır (var olan kullanıcılar yeni sürüme geçişi, eski hataların düzeltildiğini ve yeni özelliklerinin eklendiğini farketmeleri dışında farketmemelidir).<footnote><para>
-Please make your package properly updates the config file upon upgrades
-using well designed <literal>postinst</literal> etc., so that it
-<emphasis role="bold">doesn't</emphasis> do things not wanted by the user!  These are
-the enhancements that explain <emphasis role="bold">why</emphasis> people choose Debian.
-When the upgrade is necessarily intrusive (eg., config files scattered
-through various home directories with totally different structure), you
-may consider to set package to the safe default (e.g., disabled service)
-and provide proper documentations required by the policy
-(<filename>README.Debian</filename> and <filename>NEWS.Debian</filename> ) as the last
-resort. But don't bother with the debconf note.
+İyi tasarlanmış <literal>postinst</literal> kullanarak paketinizin, güncellemeleri yapılandırma dosyalarında doğru olarak yenileştirmesini sağlayın, kullanıcının istemeyeceği değişiklikleri <emphasis role="bold">yapmayın</emphasis>! Bunlar insanların <emphasis role="bold">neden</emphasis> Debian'ı seçtiklerini daha iyi açıklamaktadır.
+Eğer güncelleme zorunlu değişiklikler gerektirirse (örneğin, yapılandırma dosyalarının tamamen farklı bir yapıda çeşitli ev dizinlerine dağıtılması), paketi varsayılan güvelinir duruma ayarlayabilirsiniz (örneğin, devredışı kalmış hizmet) ve son çare olarak politika (<filename>README.Debian</filename> and <filename>NEWS.Debian</filename> )  gereği gerekli dökümanları hazırlayabilirsiniz. Fakat debconf notunu değiştirmeyin.
 </para></footnote>
           </para></listitem><listitem><para>
 Eğer silinmiş şablon dosyaları herhangi bir nedenle eklemek ihtiyacı duyarsanız, <command>dh_make</command> komutunu <option>-o</option> seçeneği ile zaten debianlaşmış dizinde çalıştırıp daha sonra da bunları düzenleyiniz.
@@ -1530,7 +1517,7 @@ rm -f build-stamp configure-stamp
 # Add here commands to clean up after the build process.
 -$(MAKE) clean
 dh_clean</screen>
-</para><para>You change this part of debian/rules to the following by the editor to use dpatch and add dpatch to the Build-Depends: line in the debian/control file: 
+</para><para> debian/rules dosyasının bu bölümünü bir editör yardımıyla aşağıdaki gibi dpatch kullanması için değiştirebilirsiniz ve  Build-Depends'e dpatch'i ekleyebilirsiniz: debian/control'ün ilgili satırları: 
       </para><para>
 	      <screen>configure: configure-stamp
 configure-stamp: patch
@@ -1559,7 +1546,7 @@ dpatch call-all -a=pkg-info >patch-stamp
 unpatch:
 dpatch deapply-all
 rm -rf patch-stamp debian/patched</screen>
-</para><para>Now you are ready to repackage the source tree with dpatch system with the help of dpatch-edit-patch. 
+</para><para> Şimdi dpatch-edit-patch yardımıyla ve dpatch sistemiyle kaynak ağacını yeniden paketlemeye hazırız. 
       </para><para>
 	      <screen>$ dpatch-edit-patch patch 10_firstpatch
 ... Fix source tree by editor
