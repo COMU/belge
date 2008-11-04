@@ -19,7 +19,7 @@
 			<para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
 			<revision>
 				<revnumber>1.0</revnumber>
-				<date>Ekim 2008</date>
+				<date>Kasım 2008</date>
 				<authorinitials>ny</authorinitials>
 				<revremark>İlk çeviri</revremark>
 			</revision>
@@ -164,7 +164,8 @@
 	<para>Bir anahtar imzalama partisi; başkalarının anahtarlarını imzalamak için PGP şifreleme sistemini kullanan insanların biraraya gelmesidir. Anahtar imzalama partileri güven ağını daha yüksek bir seviyeye taşımaya yardımcı olurlar. Ayrıca güçlü kriptografinin politik ve sosyal konularını, bireysel özgürlükleri, bireysel bağımsızlıkları ve hatta şifreleme teknolojilerinin uygulamalarını veya özgür şifreleme yazılımlarının geleceğini tartışmak için önemli imkanlar sunarlar.</para>
 </sect2>
 <sect2 id="keysigning-party-howto-overview-description"><title>Anahtar İmzalama Nedir?</title>
-<para>Key signing is act of digitally signing a public key packet and a user id packet that is attached to the key in that public key packet. Key signing is done to verify that a given user id and public key really do belong to the entity that appears to own the key. In more basic terms it is done to verify that the representation of identity in the user id packet is valid.  Usually, this means that the name on the PGP key matches the name on the identification the person is presenting to you when asking that you sign their key.</para>
+<para>
+	Key signing is act of digitally signing a public key packet and a user id packet that is attached to the key in that public key packet. Key signing is done to verify that a given user id and public key really do belong to the entity that appears to own the key. In more basic terms it is done to verify that the representation of identity in the user id packet is valid.  Usually, this means that the name on the PGP key matches the name on the identification the person is presenting to you when asking that you sign their key.</para>
 
 <para>The term "public key" has two meanings in PGP terminology.  It can refer both to the actual public encryption key of a key pair or it can refer to the public encryption key of a key pair and the collection of associated signatures made upon that key as well as any encryption subkeys self-signed with that public key.  To avoid confusion in this document, I will use the term "public key" when refering to the key, signatures, and 
 subkeys.  I will use the term "public key packet" when refering to the public encryption key of a key pair.</para> 
