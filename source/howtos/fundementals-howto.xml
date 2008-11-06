@@ -41,167 +41,179 @@
 	    </para>
   </legalnotice>  
   <abstract>
-	  <para>This document describes the working basics of PC-class computers, Unix-like operating systems, and the Internet in non-technical language. </para><para>Bu belgenin İngilizce son sürümünü <ulink url="http://www.tldp.org/HOWTO/Unix-and-Internet-Fundamentals-HOWTO/index.html"/> adresinde bulabilirsiniz.</para>
+	  <para>Bu belge PC-sınıfı bilgisayarların, Unix yürevi işletim sistemlerinin, ve Internet'in çalışma temellerini teknik olmayan dilde anlatıyor. </para><para>Bu belgenin İngilizce son sürümünü <ulink url="http://www.tldp.org/HOWTO/Unix-and-Internet-Fundamentals-HOWTO/index.html"/> adresinde bulabilirsiniz.</para>
     </abstract>
   </articleinfo>
 
   <sect1 id="fundementals-howto-intro"><title>Giriş</title>
-	  <sect2 id="fundementals-howto-intro-purpose"><title>Purpose of this document</title>
-		  <para>This document is intended to help Linux and Internet users who are learning by doing. While this is a great way to acquire specific skills, sometimes it leaves peculiar gaps in one's knowledge of the basics — gaps which can make it hard to think creatively or troubleshoot effectively, from lack of a good mental model of what is really going on.</para>
-		  <para>I'll try to describe in clear, simple language how it all works. The presentation will be tuned for people using Unix or Linux on PC-class machines. Nevertheless, I'll usually refer simply to ‘Unix’ here, as most of what I will describe is constant across different machines and across Unix variants.</para>
-		  <para>I'm going to assume you're using an Intel PC. The details differ slightly if you're running an PowerPC or some other kind of computer, but the basic concepts are the same.</para>
-		  <para>I won't repeat things, so you'll have to pay attention, but that also means you'll learn from every word you read. It's a good idea to just skim when you first read this; you should come back and reread it a few times after you've digested what you have learned.</para>
-		  <para>This is an evolving document. I intend to keep adding sections in response to user feedback, so you should come back and review it periodically.</para>		  
+	  <sect2 id="fundementals-howto-intro-purpose"><title>Amaç</title>
+		  <para>Bu belge, yaparak öğrenmeye çalışan Unix ve Internet kullanıcılarına yardımcı olmak için tasarlanmıştır. Bu yöntem belli becerileri ortaya çıkarmak için çok iyi bir yöntem oluyorken, bazen kişinin bilgi temelinde tuhaf boşluklar bırakabiliyor - tuhaf boşluklar dediğimiz şey, yaratıcı düşünme ve etkin hata ayıklamayı güçleştiren faktördür.</para> 
+		  <para>Tüm işlerin nasıl işlediğini basit ve sade bir şekilde anlatmaya çalışacağım. Sunum Unix ya da PC-sınıfı makinelerdeki Linux kullanıcılarına göre ayarlanacaktır. Bununla beraber, genellikle Unix' e değineceğim, sıklıkla anlatacağım sabit olan şeyleri ise farklı makinelere ve Unix türevlerine göre anlatacağım. </para>
+		  <para>Intel PC kullandığınızı varsayıyorum. Eğer PowerPC ya da başka bir çeşit bilgisayar kullanıyorsanız, ayrıntılar ufak farklılıklar göterebilir.</para>
+		  <para>Söylemiş olduğum şeyleri tekrarlamayacağım, bu yüzden dikkatinizi vermelisiniz, ancak bu demek değildir ki okuduğunuz her kelimeyi öğreneceksiniz. İlk defa okuduğunuz şeyleri üstünkörü bir şekilde okumanız iyi fikir; öğrendiğiniz şeyleri kavradığınız zaman birkaç kere geriye dönüp tekrar okuyabilirsiniz.</para>
+		  <para>Bu sürekli gelişen bir belgedir. Bölümleri kullanıcının geribildirimlerine yanıt olarak ekliyorum, bu yüzden periyodik olarak geriye dönüp tekrar gözden geçirmelisiniz.</para>
 	</sect2>
-	<sect2 id="fundementals-howto-intro-new"><title>New versions of this document</title>
-		<para>New versions of the Unix and Internet Fundamentals HOWTO will be periodically posted to comp.os.linux.help and comp.os.linux.announce and news.answers. They will also be uploaded to various websites, including the Linux Documentation Project home page.</para>
-		<para>You can view the latest version of this on the World Wide Web via the URL http://www.tldp.org/HOWTO/Unix-and-Internet-Fundamentals-HOWTO/index.html. </para>
-		<para>This document has been translated into: Polish, Spanish.</para>
+	<sect2 id="fundementals-howto-intro-new"><title>Belgenin yeni sürümleri</title>
+		<para>Unix ve Internetin Temelleri NASIL'ın yeni sürümleri periyodik olarak comp.os.linux.help,comp.os.linux.announce ve news.answers'a postalanır. Bu sürümler Linux Documentation Project anasayfasında da belirtilen çeşitli websitelerine yüklenir. </para>			
+		<para>Son sürümünü http://www.tldp.org/HOWTO/Unix-and-Internet-Fundamentals-HOWTO/index.html URL vasıtasıyla görüntüleyebilirsiniz.</para>		
+		<para>Bu belge Lehçe(Polca), İspanyolca ve Türkçe dillerine çevrilmiştir.</para>
 	</sect2>	
-	<sect2 id="fundementals-howto-intro-feedback"><title>Feedback and corrections</title>
-		<para>If you have questions or comments about this document, please feel free to mail Eric S. Raymond, at esr@thyrsus.com. I welcome any suggestions or criticisms. I especially welcome hyperlinks to more detailed explanations of individual concepts. If you find a mistake with this document, please let me know so I can correct it in the next version. Thanks.</para>
+	<sect2 id="fundementals-howto-intro-feedback"><title>Geribildirim ve düzeltmeler</title>
+		<para>Eğer bu belge ile ilgili herhangi bir sorunuz veya yorumunuz varsa, lütfen Eric S. Raymond'a  esr@thyrsus.com'dan mail atmaktan çekinmeyiniz. Her türlü öneri ve eleştirilerinize açığımdır. Özellikle her kavramın detaylı açıklanmış hiperbağlaçlara ilgili olanlara açığımdır. Eğer bu belgede bir hata bulursanız, lütfen bana bildirin, böylelikle ben de bir sonraki sürümde yanlışları düzeltebileyim. Teşekkürler.</para>
 	</sect2>
-	<sect2 id="fundementals-howto-intro-related"><title>Related resources</title>
-		<para>If you're reading this in order to learn how to hack, you should also read the How To Become A Hacker FAQ. It has links to some other useful resources.</para>
+	<sect2 id="fundementals-howto-intro-related"><title>Başvurulan kaynaklar</title>
+		<para>Eğer bu belgeyi nasıl hackleme yapabileceğini öğrenmek için okuyorsanız, Nasıl Hacker Olunur SSS'i de okumalısınız. Bu belge bazı diğer kullanışlı kaynakların bağlantılanı içeriyor.</para>
 	</sect2>
 </sect1>
 
-<sect1 id="fundementals-howto-basic-anatomy"><title>Basic anatomy of your computer</title>
-	<para>Your computer has a processor chip inside it that does the actual computing. It has internal memory (what DOS/Windows people call "RAM" and Unix people often call "core"; the Unix term is a folk memory from when RAM consisted of ferrite-core donuts). The processor and memory live on the motherboard, which is the heart of your computer.</para>
+<sect1 id="fundementals-howto-basic-anatomy"><title>Bilgisayarınızın temel anatomisi</title>
+	<para>Bilgisayarınızın içinde asıl işi yapan bir işlemci çipi bulunur. Bu çipin dahili belleği bulunur (DOS/Windows camiası "RAM", Unix camiası ise çoğu kez "çekirdek" olarak çağırır; Unix terminolojisinde bellek demir parçalarından oluşan RAM'dir. Bilgisayarınızın kalbi olan işlemci ve bellek anakartta bulunur.</para>
+	
+	<para>Bilgisayarınızın bir ekranı ve klavyesi vardır. Sabit diski ve bir CD-ROM'u veya bir floppy disk'i vardır. Bu cihazlardan bazıları anakarta yerleştirilmis denetleyici kartlar ile çalışır; diğer cihazlar ise, direk olarak anakartta bulunan, denetleyici kartlar ile aynı fonksiyonlara sahip, özelleşmiş çipsetler aracılığı ile çalışırlar. Klavyeniz ayrı bir karta ihitiyaç duyacak kadar basittir; denetleyici ise klavyedeki şasesine gömülüdür.</para>
+	
+	<para>Bu cihazların nasıl çalıştığı konusundaki detaylara daha sonra gireceğiz. Şimdilik, birlikte nasıl çalıştıkları konusunda ,aklımızda kalması için temel birkaç şey :</para>
+	
+	<para>Bilgisayarınızın kasası içindeki her parça bir veriyolu ile bağlıdır. Fiziksel olarak veriyolu, denetleyici kartlarınızın takılı olduğu şeydir (görüntü kartı, disk denetleyici, varsa ses kartı). Veriyolu, işlemciniz, ekranınız, diskiniz ve diğer herşeyiniz arasındaki veri anayoludur.</para>
+	
+	<para>(PC'lerle bağlantıda 'ISA', 'PCI' ve 'PCMIA' kaynaklarını gördüyseniz ve anlamadıysanız, bunlar veriyolu tipleridir. ISA ufak detaylardan hariçtir, aynı veriyolu IBM' in 1980 deki orjinal PC'lerinde kullanılmıştır; şimdilerde kullanım dışıdır. PCI, Çevresel Bileşen Bağlantısı, çoğu modern PC'lerde ve Macintosh'larda kullanılan veriyoludur. PCMIA, dizüstü bilgisayarlarda kullanılan, daha ufak fiziksel konnektörleri olan ISA'nın değişik bir biçimidir.) </para>
 		
-	<para>Your computer has a screen and keyboard. It has hard drives and a CD-ROM and maybe a floppy disk. Some of these devices are run by controller cards that plug into the motherboard and help the computer drive them; others are run by specialized chipsets directly on the motherboard that fulfill the same function as a controller card. Your keyboard is too simple to need a separate card; the controller is built into the keyboard chassis itself.</para>
+	<para>Herşeyi yürüten işlemci aslında diğer parçaları direk olarak göremez; bu parçalarla veriyolu hattı aracılığı ile haberleşmek zorundadır. Sadece diğer altsistem, belleğe (çekirdek) hızlı ve doğrudan erişime sahiptir. Programların sırayla çalışması için,  çekirdek (bellek) içinde bulunmalıdırlar.</para>
+	
+	<para>Bilgisayarınız diskten bir program ya da veri okuduğu zaman, aslında işlemci disk okuma isteğini disk denetleyicisine gönderirken veriyolunu kullanıyordur. Biraz zaman sonra disk denetleyicisi, veriyi okuma ve belleğin belirli bir yerine koyma için işlemciye sinyal göndermek için veriyolunu kullanır. İşlemci daha sonra bu veriye bakmak için veriyolunu kullanabilir.</para>
 		
-	<para>We'll go into some of the details of how these devices work later. For now, here are a few basic things to keep in mind about how they work together:</para>
-		
-	<para>All the parts of your computer inside the case are connected by a bus. Physically, the bus is what you plug your controller cards into (the video card, the disk controller, a sound card if you have one). The bus is the data highway between your processor, your screen, your disk, and everything else.</para>
-		
-	<para>(If you've seen references to ‘ISA’, ‘PCI’, and ‘PCMCIA’ in connection with PCs and have not understood them, these are bus types. ISA is, except in minor details, the same bus that was used on IBM's original PCs in 1980; it is passing out of use now. PCI, for Peripheral Component Interconnection, is the bus used on most modern PCs, and on modern Macintoshes as well. PCMCIA is a variant of ISA with smaller physical connectors used on laptop computers.)</para>
-		
-	<para>The processor, which makes everything else go, can't actually see any of the other pieces directly; it has to talk to them over the bus. The only other subsystem that it has really fast, immediate access to is memory (the core). In order for programs to run, then, they have to be in core (in memory).</para>
-		
-	<para>When your computer reads a program or data off the disk, what actually happens is that the processor uses the bus to send a disk read request to your disk controller. Some time later the disk controller uses the bus to signal the processor that it has read the data and put it in a certain location in memory. The processor can then use the bus to look at that data.</para>
-		
-	<para>Your keyboard and screen also communicate with the processor via the bus, but in simpler ways. We'll discuss those later on. For now, you know enough to understand what happens when you turn on your computer.</para>
+	<para>Klavyeniz ve ekranınız da işlemci ile veriyolu aracılığı ile haberleşir, ancak daha basit yollardan. Bunralı daha sonra tartışacağız. Şimdilik, bilgisayarınızı açtığınız zaman neler olduğunu anlamanız yeterli olacaktır.</para>	
 </sect1>
 
-<sect1 id="fundementals-howto-switch-on"><title>What happens when you switch on a computer?</title>
-	<para>A computer without a program running is just an inert hunk of electronics. The first thing a computer has to do when it is turned on is start up a special program called an operating system. The operating system's job is to help other computer programs to work by handling the messy details of controlling the computer's hardware.</para>
-		
-	<para>The process of bringing up the operating system is called booting (originally this was bootstrapping and alluded to the process of pulling yourself up "by your bootstraps"). Your computer knows how to boot because instructions for booting are built into one of its chips, the BIOS (or Basic Input/Output System) chip.</para>
-		
-	<para>The BIOS chip tells it to look in a fixed place, usually on the lowest-numbered hard disk (the boot disk) for a special program called a boot loader (under Linux the boot loader is called Grub or LILO). The boot loader is pulled into memory and started. The boot loader's job is to start the real operating system.</para>
-		
-	<para>The loader does this by looking for a kernel, loading it into memory, and starting it. When you boot Linux and see "LILO" on the screen followed by a bunch of dots, it is loading the kernel. (Each dot means it has loaded another disk block of kernel code.)</para>
-		
-	<para>(You may wonder why the BIOS doesn't load the kernel directly — why the two-step process with the boot loader? Well, the BIOS isn't very smart. In fact it's very stupid, and Linux doesn't use it at all after boot time. It was originally written for primitive 8-bit PCs with tiny disks, and literally can't access enough of the disk to load the kernel directly. The boot loader step also lets you start one of several operating systems off different places on your disk, in the unlikely event that Unix isn't good enough for you.)</para>
-		
-	<para>Once the kernel starts, it has to look around, find the rest of the hardware, and get ready to run programs. It does this by poking not at ordinary memory locations but rather at I/O ports — special bus addresses that are likely to have device controller cards listening at them for commands. The kernel doesn't poke at random; it has a lot of built-in knowledge about what it's likely to find where, and how controllers will respond if they're present. This process is called autoprobing.</para>
-		
-	<para>Most of the messages you see at boot time are the kernel autoprobing your hardware through the I/O ports, figuring out what it has available to it and adapting itself to your machine. The Linux kernel is extremely good at this, better than most other Unixes and much better than DOS or Windows. In fact, many Linux old-timers think the cleverness of Linux's boot-time probes (which made it relatively easy to install) was a major reason it broke out of the pack of free-Unix experiments to attract a critical mass of users.</para>
-		
-	<para>But getting the kernel fully loaded and running isn't the end of the boot process; it's just the first stage (sometimes called run level 1). After this first stage, the kernel hands control to a special process called ‘init’ which spawns several housekeeping processes.</para>
-		
-	<para>The init process's first job is usually to check to make sure your disks are OK. Disk file systems are fragile things; if they've been damaged by a hardware failure or a sudden power outage, there are good reasons to take recovery steps before your Unix is all the way up. We'll go into some of this later on when we talk about how file systems can go wrong.</para>
-		
-	<para>Init's next step is to start several daemons. A daemon is a program like a print spooler, a mail listener or a WWW server that lurks in the background, waiting for things to do. These special programs often have to coordinate several requests that could conflict. They are daemons because it's often easier to write one program that runs constantly and knows about all requests than it would be to try to make sure that a flock of copies (each processing one request and all running at the same time) don't step on each other. The particular collection of daemons your system starts may vary, but will almost always include a print spooler (a gatekeeper daemon for your printer).</para>
-		
-	<para>The next step is to prepare for users. Init starts a copy of a program called getty to watch your console (and maybe more copies to watch dial-in serial ports). This program is what issues the login prompt to your console. Once all daemons and getty processes for each terminal are started, we're at run level 2. At this level, you can log in and run programs.</para>
-		
-	<para>But we're not done yet. The next step is to start up various daemons that support networking and other services. Once that's done, we're at run level 3 and the system is fully ready for use.</para>
+<sect1 id="fundementals-howto-switch-on"><title>Bilgisayarı açtığınızda neler olur ?</title>
+	<para>Çalışan bir program olmadığında, bir bilgisayar sadece elektroniğin hareketsiz, iri bir parçasıdır. İlk olarak bir bilgisayar açıldığı zaman başlangıçta, işletim sistemi denen özel bir programı çalıştırmak zorundadır. İşletim sisteminin görevi; diğer bilgisayar programlarının çalışmasına, bilgisayar donanımının kontrolündeki düzensizlikleri ele alarak yardımcı olmaktır.</para>
+	
+	<para>İşletim sistemini getiren süreç, önyükleme (boot etme) olarak adlandırılır (***aslında bu ***). Bilgisayarınız nasıl önyükleme yapacağını bilir, çünkü önyükleme için gerekli ifadeler bir tane çipe yerleştirilmiştir, BIOS (Basic Input/Output System - Temel Giriş/Çıkış Sitemi) çipi.</para>
+	
+	<para>BIOS çipi bilgisayarınıza, önyükleme yükleyicisi (Linux'ta önyükleme yükleyicisi Grub ya da LILO olarak çağrılır) denilen özel bir program için, genellikle en düşük numaralı sabit disk (önyükleme diski) olan belirli bir yer bakmasını söyler. Önyükleme yükleyicisi belleğe çekilir ve başlatılır. Önyükleme yükleyicisinin işi; gerçek işletim sistemini başlatmaktır.</para>	
+			
+	<para>Yükleyici bu işi bir çekirdek aramak, onu belleğe yüklemek ve başlatmak için yapar. Linux'u başlattığınız ve LILO ekranını izleyen bir nokta demeti gördüğünüz zaman, çekirdek yükleniyordur. (Her nokta ,çekirdek kodunun farklı bir disk bloğunun yüklendiğini gösterir.)</para>
+	
+	<para>(Neden BIOS'un çekirdeği direk olarak yüklemediği ve önyükleme yükleyicisi ile iki adımlık bir sürec olduğuna şaşırabilirsiniz. BIOS pek de akıllı değildir. Aslında çok aptaldır ve Linux onu önyükleme zamanından sonra bir daha kullanmaz. Başlangıçta BIOS, 8 bitlik ilkel PC'lerin ufak diskleri için yazılmıştı ve çekirdeği direk olarak yüklemek için diske yeteri kadar erişemiyordu. Önyükleme yükleyici adımı, diskinizin farklı bölümlerindeki diğer işletim sistemlerini de başlatma imkanı verir. Kötü olan olay ise; bu konuda Unix pek iyi değildir.)</para>
+	
+	<para>Bir kere çekirdek başladığı zaman etrafına bakar, uyuyan donanımları bulur ve programları çalıştırmaya hazır hale getirir. Bu işi ise sıradan bellek yerlerini uyarmaktan ziyade, giriş/çıkış portları ile yapar - uygun özel veriyolu adresleri, komutlar için bu portları dinleyen denetleyici kartlarına sahiptir. Çekirdek rastgele uyarı yapmaz; denetleyicilerin hazır olanları nerede bulacağı ve nasıl yanıt vereceği konusunda pek çok bilgiye sahiptir. Bu işleme ise ***autoprobing*** denir.</para>
+	
+	<para>Önyükleme zamanıda mesajların çoğunu, çekirdeğinizin girişi/çıkış portları etrafındaki donanımı ***autoprobe etmesi, ...  *** Linux çekirdeği bu konuda, pek çok diğer Unix'lerden ve DOS veya Windows'tan çok daha iyidir. Aslında, birçok tecrübeli Linux kullanıcıları,*** Linux'un önyükleme zamanı incelemesinin becerisi (yükleme işini oldukça kolay yaptığını) hakkında düşünürler. ***</para>
+	
+	<para>Ancak çekirdeğin tamamen yüklenmesi ve çalışması önyükleme işleminin sonu değildir; bu sadece ilk bölümdür (bazen 1. seviye çalışması denir). Bu ilk bölümden sonra çekirdek, 'init' denilen, ev idaresi süreçleri yumurtlayan özel bir sürecin kontrolünü ele alır.</para>
+	
+	<para>İnit sürecinin ilk işi; genellikle disklerinizi tamam olduğundan emin olmak için denetlemektir. Disk dosya sistemleri narin şeylerdir; eğer bir donanım hatası veya elektrik kesintisi nedeniyle hasar görürse, Unix'inizin gidişatından önce kurtarma adımlarını uygulamanız için yeterli nedenleriniz var demektir. Bu konuya daha sonra, dosya sistemlerinde işlerin nasıl yanlış gittiği konusunda konuştuğumuz zaman gireceğiz.</para>
+	
+	<para>İnitin sonraki işi ise birkaç artalan sürecini çalıştırmaktır. Artalan süreci, arkaplanda gizlenip birşeylerin olması bekleyen yazıcı kuyruklayıcısı, posta dinleyicisi ya da WWW sunucusu gibi bir programdır. Bu özel programlar, sıklıkla birkaç isteğin çakışmasını düzenlemekle yükümlüdürler. ***Onlar artalan sürecleridir, çünkü sabit olarak çalışan ve bir kopya sürüsünün () birbirlerine girmediğinden emin olmak*** </para>
+	
+	<para>Bir sonraki adım ise kullanıcılara hazırlanmaktır. İnit konsolunuzu izlemek için, 'getty' denilen bir programın kopyasını başlatır (ve dial-in seri portlarını izlemek için belki daha fazla kopya). Bu program konsola giriş isteğinizi dağıtır. Bir kere her terminal için tüm artalan süreçleri ve getty süreçleri başladığında, 2. seviyede çalışıyoruz demektir. Bu seviyede, giriş yapabilir ve programları çalıştırabilirsiniz.</para>
+
+	<para>Ancak henüz bitmedi. Bir sonraki adım; ağ işlemlerini ve diğer servisleri destekleyen çeşitli artalan süreçlerini çalıştırmaktır. Bir kere bu işlem yapıdığında, 3. seviyede çalışıyoruz demektir ve sistem tam olarak kullanıma hazırdır.</para>
 </sect1>
 
-<sect1 id="fundementals-howto-login"><title>What happens when you log in?</title>
-	<para>When you log in (give a name to getty) you identify yourself to the computer. It then runs a program called (naturally enough) login, which takes your password and checks to see if you are authorized to be using the machine. If you aren't, your login attempt will be rejected. If you are, login does a few housekeeping things and then starts up a command interpreter, the shell. (Yes, getty and login could be one program. They're separate for historical reasons not worth going into here.)</para>
-		
-	<para>Here's a bit more about what the system does before giving you a shell (you'll need to know this later when we talk about file permissions). You identify yourself with a login name and password. That login name is looked up in a file called /etc/passwd, which is a sequence of lines each describing a user account.</para>
-		
-	<para>One of these fields is an encrypted version of the account password (sometimes the encrypted fields are actually kept in a second /etc/shadow file with tighter permissions; this makes password cracking harder). What you enter as an account password is encrypted in exactly the same way, and the login program checks to see if they match. The security of this method depends on the fact that, while it's easy to go from your clear password to the encrypted version, the reverse is very hard. Thus, even if someone can see the encrypted version of your password, they can't use your account. (It also means that if you forget your password, there's no way to recover it, only to change it to something else you choose.)</para>
-		
-	<para>Once you have successfully logged in, you get all the privileges associated with the individual account you are using. You may also be recognized as part of a group. A group is a named collection of users set up by the system administrator. Groups can have privileges independently of their members’ privileges. A user can be a member of multiple groups. (For details about how Unix privileges work, see the section below on permissions.)</para>
-		
-	<para>(Note that although you will normally refer to users and groups by name, they are actually stored internally as numeric IDs. The password file maps your account name to a user ID; the /etc/group file maps group names to numeric group IDs. Commands that deal with accounts and groups do the translation automatically.)</para>
-		
+<sect1 id="fundementals-howto-login"><title>Giriş yaptığınız zaman ne olur ?</title>
+	
+	<para>Giriş yaptığınız zaman (getty'e bir isim veriyoruz) bilgisayara kendinizi tanıtmış olursunuz. Daha sonra, sizin parolanızı alan ve makineyi kullanmak için yetkili kişi olup olmadığınızı kontrol eden login adında bir program çalıştırılır. Eğer değilseniz, giriş isteğiniz reddedilecektir. Eğer yetkili kişi iseniz, login ev idaresi ile ilgili birkaç şey yapar ve bir komut yorumlayıcısını çalıştırır, kabuğu. (Evet, getty ve login bir program olabilirdi. Bu programlar, burada olan kıymetsiz tarihsel nedenlerden dolayı ayrılmış durumdadır.)</para>
+	
+	<para>Burada, sistem size kabuğu vermeden önce neler yaptığı konusunda daha çok şey vardır (bu konuya dosya izinleri konusunda konuştuğumuz zaman ihtiyaç duyabilirsiniz). Kendinizi bir login adı ve parolası ile tanıtırsınız. Bu login adı, her satırı bir kullanıcı hesabını tanımlayan bir satır dizisi olan, /etc/passwd olarak adlandırılan dosyanın içerisinde aranır.</para>	
+	
+	<para>Bu alanlardan biri, hesap parolasının şifrelenmiş halidir (kimi zaman şifrelenmiş alanlar, aslında daha kısıtlı izinlerle /etc/shadow dosyasının içinde tutulur; bu durum parolanın kırılmasını zorlaştırır). Hesap parolası olarak girmiş olduğunuz şey tamamen aynı yolla şifrelenir ve login programı uyumluluğunu kontrol eder. Bu metodun güvenliği şu gerçeğe bağlıdır: parolanızın sade halinden şifrelenmiş haline geçiş kolay oluyorken, tersi durum çok zordur. Böylece, parolanızın şifrelenmiş halini görseler bile, hesabınızı kullanamazlar. (Bu demek oluyor ki, parolanızı unuttuğunuz taktirde, geri almanızın bir yolu yoktur, sadece sizin seçtiğiniz şeylere bağlı olarak değiştirme imkanınız vardır.)</para>	
+	
+	<para>Bir kere başarılı bir giriş yaptığınızda, kullanıyor olduğunuz kişisel hesabınızla ilişkilendirilmiş hakların tümüne sahip olursunuz. Bir grup, sistem yöneticisi tarafından kurulan, kullanıcıların toplamına verilen addır. Grupların, üyelerinin haklarından bağımsız olarak kendi hakları olabilir. (Unix haklarının nasıl çalıştığı ile ilgili detaylar için, aşağıdaki haklar ile ilgili bölümüe göz atabilirsiniz.)</para>
+	
+	<para>(Şunu not edelim: kullanıcılara ve gruplara ismiyle hitap edecek olsanız da, aslında sayısal ID'ler olarak tutulurlar. Otomatik olarak hesaplar ve gruplar arasındaki dönüşümle ilgilenen komutlardır.)</para>
+	
 	<para>Your account entry also contains your home directory, the place in the Unix file system where your personal files will live. Finally, your account entry also sets your shell, the command interpreter that login will start up to accept your commmands.</para>
+	
+	<para>Hesap girdiniz, Unix dosya sisteminde kişisel dosyalarınızın bulunacağı yer olan ev dizinizi de içerir. Son olarak hesap girdiniz, login'in çalıştıracağı, komutlarınızı kabul edecek komut yorumlayıcısı olan kabuğunuzu da ayarlar.</para>
 </sect1>
 
 <sect1 id="fundementals-howto-run-programs"><title>What happens when you run programs from the shell?</title>
-	<para>The shell is Unix's interpreter for the commands you type in; it's called a shell because it wraps around and hides the operating system kernel. It's an important feature of Unix that the shell and kernel are separate programs communicating through a small set of system calls. This makes it possible for there to be multiple shells, suiting different tastes in interfaces.</para>
+	
+	<para>Kabuk, girmiş olduğunuz komutlar için Unix'in yorumlayıcısıdır; kabuk diye çağırılmasının sebebi işletim sistemi çekirdeğini sarıyor ve gizliyor olmasıdır. Unix'in önemli bir özelliği; kabuğun ve çekirdeğin bir seri sistem çağrılarıyla iletişiminde ayrı programlar olmasıdır. Bu durum, arayüzlerdeki farklı tatlara uygun çoklu kabuğu mümkün kılıyor.</para>
+	
+	<para>Giriş yaptıktan sonra, normal kabuğun vermiş olduğu'$' bilgi ekranını görürsünüz (başka birşey olacak şekilde özelleştirmediyseniz). Ekranda görebileceğiniz kabuk sözdizimi ve kolay şeylerden bahsetmeyeceğiz; onun yerine bilgisayarınızdaki görüntünün arkasındaki kısım olan sahne arkasına bakacağız.</para>
 		
-	<para>The normal shell gives you the ‘$’ prompt that you see after logging in (unless you've customized it to be something else). We won't talk about shell syntax and the easy things you can see on the screen here; instead we'll take a look behind the scenes at what's happening from the computer's point of view.</para>
-		
-	<para>After boot time and before you run a program, you can think of your computer as containing a zoo of processes that are all waiting for something to do. They're all waiting on events. An event can be you pressing a key or moving a mouse. Or, if your machine is hooked to a network, an event can be a data packet coming in over that network.</para>
-		
-	<para>The kernel is one of these processes. It's a special one, because it controls when the other user processes can run, and it is normally the only process with direct access to the machine's hardware. In fact, user processes have to make requests to the kernel when they want to get keyboard input, write to your screen, read from or write to disk, or do just about anything other than crunching bits in memory. These requests are known as system calls.</para>
-		
-	<para>Normally all I/O goes through the kernel so it can schedule the operations and prevent processes from stepping on each other. A few special user processes are allowed to slide around the kernel, usually by being given direct access to I/O ports. X servers (the programs that handle other programs’ requests to do screen graphics on most Unix boxes) are the most common example of this. But we haven't gotten to an X server yet; you're looking at a shell prompt on a character console.</para>
-		
-	<para>The shell is just a user process, and not a particularly special one. It waits on your keystrokes, listening (through the kernel) to the keyboard I/O port. As the kernel sees them, it echoes them to your screen. When the kernel sees an ‘Enter’ it passes your line of text to the shell. The shell tries to interpret those keystrokes as commands.</para>
-		
-	<para>Let's say you type ‘ls’ and Enter to invoke the Unix directory lister. The shell applies its built-in rules to figure out that you want to run the executable command in the file /bin/ls. It makes a system call asking the kernel to start /bin/ls as a new child process and give it access to the screen and keyboard through the kernel. Then the shell goes to sleep, waiting for ls to finish.</para>
-		
-	<para>When /bin/ls is done, it tells the kernel it's finished by issuing an exit system call. The kernel then wakes up the shell and tells it it can continue running. The shell issues another prompt and waits for another line of input.</para>
-		
-	<para>Other things may be going on while your ‘ls’ is executing, however (we'll have to suppose that you're listing a very long directory). You might switch to another virtual console, log in there, and start a game of Quake, for example. Or, suppose you're hooked up to the Internet. Your machine might be sending or receiving mail while /bin/ls runs.</para>
+	<para>Önyükleme anından sonra ve bir program çalıştırmadan önce bilgisayarınızı, bir hayvanat bahçesi kadar, birşeyler yapmak için bekleyen süreci içeren birşey olarak düşünebilirsiniz. Bunların tümü olaylara hizmet vermek için beklerler. Bir olay bir tuşa basmanız veya fareyi hareket ettirmeniz olabilir. Ya da eğer makineniz bir ağa takılmış durumda ise, ağ üzerinden bir veri paketinin geldiği bir olay olabilir.</para>
+
+	<para>Çekirdek ise bu süreçlerden biridir. Özel bir tanesidir, çünkü diğer süreçler çalışabildiğinde o kontrol eder ve genelde makinenin donanımına direk erişebilen tek süreç çekirdektir. Aslında, kullanıcı süreçleri klavye girişi almak, ekranınıza yazmak, diskten okuma ve yazma yapmak ya da bellekteki bitleri çatır çatır çiğnemek dışında herhangi birşey yapmak istediğinde çekirdekten istekte bulunmak zorundadır. Bu istekler sistem çağrıları olarak bilinirler.</para>
+	
+	<para>Genelde, tüm giriş/çıkış'lar çekirdek üzerinden yürür, böylelikle çekirdek işlemleri programlayabilir ve süreçlerin birbirinin üzerine çıkmasına engel olur. Genellikle giriş/çıkış portların direk erişiminin verildiği birkaç özel sürecin çekirdeği es geçmesine izin verilmiştir. X sunucuları (çoğu Unix makinelerinde ekran grafiklerini oluşturmak için öteki program isteklerini idare eden programlardır) bunun en genel örneğidir. Ancak henüz bir komut satırımız yok; şu an komut satırına bakıyor durumdasınız.</para>	
+	
+	<para>Kabuk yalnızca bir kullanıcı sürcidir ve bilhassa özel bir tanesi değildir. Klavye giriş/çıkış portlarını dinleyerek (çekirdek vasıtasıyla) tuş darbelerini bekler. Çekidek bunları görecek olursa, ekranınıza yansıtır. Eğer çekirdek bir 'Enter' gördüğü zaman, metninizin satırını kabuğa geçirir. Kabuk da bu tuş darbelerini komut olarak yorumlamaya çalışır.</para>
+	
+	<para>Unix dizin listeleyicisini çağırmak için 'ls' yazın ve 'Enter'a basın. Kabuk, /bin/ls dosyası içerisindeki çalıştırılabilir dosyayı yürütmek için yerleşik kurallara başvurur. /bin/ls'yi bir alt süreç olarak başlatmak ve çekirdek vasıtasıyla ekrana ve klavyeye erişim izni vermek için çekirdeğe bir sistem çağrısı yapar. Daha sonra kabuk, ls'nin bitmesi için beklerken uykuya geçer.</para>
+	
+	<para>/bin/ls yapıldığı zaman, çekirdeğe bir sistem çağrısı yayarak bittiğini söyler. Daha sonra çekirdek kabuğu uyandırır ve çalışmaya devam edebileceğini söyler. Kabuk başka bir bilgi sistemi yayınlar ve başka bir giriş satırı için bekler.</para>
+	
+	<para>'ls' çalıştığı sırada başka şeyler çalışıyor olmalı, ancak(çok uzun bir dizin listelediğinizi farzetmek zorundayız). Başka bir sanal konsol açabilir, giriş yapabilir ve bir Quake oyununa başlayabilirsiniz örneğin. Ya da, Internet'e takıldığınızı farzedin. /bin/ls çalıştığı sırada, makineniz posta gönderiyor veya alıyor olabilir.</para>
 </sect1>
 
-<sect1 id="fundementals-howto-input-devices"><title>How do input devices and interrupts work?</title>
-	<para>Your keyboard is a very simple input device; simple because it generates small amounts of data very slowly (by a computer's standards). When you press or release a key, that event is signalled up the keyboard cable to raise a hardware interrupt.</para>
+<sect1 id="fundementals-howto-input-devices"><title>Giriş cihazları ve kesmeler nasıl çalışır?</title>
+	<para>Klavyeniz çok basit bir giriş cihazıdır; basittir çünkü az miktarda veriyi çok yavaş bir şekilde üretir(bilgisayar standartları ile). Bir tuşa bastığınızda ya da bıraktığınızda bu durum, klavye kablosuna bir donanım kesmesi için sinyal gönderir.</para>	
+	
+	<para>Bu tarz kesmeleri izleme işi de işletim sisteminin görevidir. Olası her bir kesme çeşidi için, kesmelerle beraber verileri (tuşa basma/bırakma değerleri gibi) çalıştırılıncaya dek saklayan bir kesme işleyicisi olacaktır.</para>
+	
+	<para>Aslında kesme işleyicisi klavyeniz için tuş değerlerini belleğin yanında bulunan bir sistem alanına gönderir. Orada ise, işletim sisteminin klavyeden okuma yapması beklenen programa kontrolü verdiği zaman, inceleme için kullanılabilir hale gelecektir.</para>		
+	
+	<para>Disk veya ağ kartı gibi pek çok karmaşık giriş cihazları benzer yollarla çalışırlar. Daha önce, yerine getirilmiş olan bir disk istek sinyalini göndermek için kullanan bir disk denetleyicisinden bahsetmiştim. Aslında disk bir kesme çıkardığında ne olur. Disk kesme denetleyicisi, isteği yapan programın daha sonraki kullanımı için tekrar getirilen veriyi belleğe kopyalar.</para>
+
+	<para>Her bir çeşit kesmenin kendisi ile ilişkilendirilmiş bir öncelik seviyesi vardır. Düşük seviyeli kesmeler (klavye durumları gibi) yüksek öncelikli kesmeleri (saat darbeleri veya disk durumları) beklemek zorundadır. Unix, makinenin yanıt düzenini korumak için, hızlıca işlenmesi gereken durumlara yüksek öncelik verecek şekilde tasarlanmışır.</para>
+
+	<para>İşletim sisteminizin önyükleme zamanı mesajlarında, IRQ numaralarını görüyor olmalısınız. Neden olduğunu anlamadan şundan haberdar olun; donanımın yapılandırılamamasının en genel yolu, iki farklı cihazın aynı IRQ' yu kullanmaya çalışmasıdır.</para>
 		
-	<para>It's the operating system's job to watch for such interrupts. For each possible kind of interrupt, there will be an interrupt handler, a part of the operating system that stashes away any data associated with them (like your keypress/keyrelease value) until it can be processed.</para>
-		
-	<para>What the interrupt handler for your keyboard actually does is post the key value into a system area near the bottom of memory. There, it will be available for inspection when the operating system passes control to whichever program is currently supposed to be reading from the keyboard.</para>
-		
-	<para>More complex input devices like disk or network cards work in a similar way. Earlier, I referred to a disk controller using the bus to signal that a disk request has been fulfilled. What actually happens is that the disk raises an interrupt. The disk interrupt handler then copies the retrieved data into memory, for later use by the program that made the request.</para>
-		
-	<para>Every kind of interrupt has an associated priority level. Lower-priority interrupts (like keyboard events) have to wait on higher-priority interrupts (like clock ticks or disk events). Unix is designed to give high priority to the kinds of events that need to be processed rapidly in order to keep the machine's response smooth.</para>
-		
-	<para>In your operating system's boot-time messages, you may see references to IRQ numbers. You may be aware that one of the common ways to misconfigure hardware is to have two different devices try to use the same IRQ, without understanding exactly why.</para>
-		
-	<para>Here's the answer. IRQ is short for "Interrupt Request". The operating system needs to know at startup time which numbered interrupts each hardware device will use, so it can associate the proper handlers with each one. If two different devices try use the same IRQ, interrupts will sometimes get dispatched to the wrong handler. This will usually at least lock up the device, and can sometimes confuse the OS badly enough that it will flake out or crash.</para>
+	<para>Yanıtı burada. IRQ (Interrupt Request - Kesme İsteği) nin kısaltmasıdır. İşletim sistemi, açılması esnasında hangi numaralı kesmelerin her bir donanımını kullanacak olduğunu bilmeye ihtiyacı vardır. Böylece her biri ile uygun olan işleyiciyi ilişkilendirir. Eğer iki farklı cihaz aynı IRQ'yu kullanmaya çalışırsa, kimi zaman kesmeler yanlış işleyiciye gönderilir. Genellikle bu durum cihazın kilitlenmesine ve işletim sisteminin uyku moduna geçmesine ya da çökmesine neden olacak şekilde işletim sistemini kötü bir biçimde yanıltır.</para>	
 </sect1>
 
-<sect1 id="fundementals-howto-timesharing"><title>How does my computer do several things at once?</title>
-	<para>It doesn't, actually. Computers can only do one task (or process) at a time. But a computer can change tasks very rapidly, and fool slow human beings into thinking it's doing several things at once. This is called timesharing.</para>
-		
-	<para>One of the kernel's jobs is to manage timesharing. It has a part called the scheduler which keeps information inside itself about all the other (non-kernel) processes in your zoo. Every 1/60th of a second, a timer goes off in the kernel, generating a clock interrupt. The scheduler stops whatever process is currently running, suspends it in place, and hands control to another process.</para>
-		
-	<para>1/60th of a second may not sound like a lot of time. But on today's microprocessors it's enough to run tens of thousands of machine instructions, which can do a great deal of work. So even if you have many processes, each one can accomplish quite a bit in each of its timeslices.</para>
-		
-	<para>In practice, a program may not get its entire timeslice. If an interrupt comes in from an I/O device, the kernel effectively stops the current task, runs the interrupt handler, and then returns to the current task. A storm of high-priority interrupts can squeeze out normal processing; this misbehavior is called thrashing and is fortunately very hard to induce under modern Unixes.</para>
-		
-	<para>In fact, the speed of programs is only very seldom limited by the amount of machine time they can get (there are a few exceptions to this rule, such as sound or 3-D graphics generation). Much more often, delays are caused when the program has to wait on data from a disk drive or network connection.</para>
-		
-	<para>An operating system that can routinely support many simultaneous processes is called "multitasking". The Unix family of operating systems was designed from the ground up for multitasking and is very good at it — much more effective than Windows or the old Mac OS, which had multitasking bolted into them as an afterthought and do it rather poorly. Efficient, reliable multitasking is a large part of what makes Linux superior for networking, communications, and Web service.</para>
+<sect1 id="fundementals-howto-timesharing"><title>Bilgisayarım birkaç işi tek seferde nasıl yapar?</title>
+	<para>Aslında yapmaz. Bilgisayarlar bir zaman diliminde yalnızca bir görevi (ya da süreci) yapabilir. Ancak bir bilgisayar görevleri çok hızlı bir şekilde değiştirebilir ve ağır olan insan duyularını, birkaç işi sanki tek bir seferde yapıyormuş gibi düşündürerek kandırır. Bu işleme "zaman paylaşımı-timesharing" denir.</para>
+
+	<para>Çekirdeğin işlerinden birisi, zaman paylaşımını yönetmektir. Çekirdeğin, planlayıcı adında, hayvanat bahçenizdeki diğer tüm (çekirdek olmayan) süreçleri hakkındaki bilgileri kendi içinde tutan bir parçası vardır. Her 1/60 saniyede, bir zamanlayıcı çekirdekteki işini bir saat kesmesi üreterek tamamlar. Planlayıcı, o anda çalışan süreçlerin hepsini durdurur, askıya alır ve başka bir sürecin kontrolüne el verir.</para>
+
+	<para>1/60 saniye uzun bir zaman gibi görünmeyebilir. Ancak günümüz mikroişlemcileri, çok miktarda iş yapan on binlerce makine komutunu çalıştırabilirler. Çok fazla süreciniz olsa bile, her biri kendi zaman diliminde bir miktar işi tamamlayabilirler.</para>
+
+	<para>Pratikte, bir program zaman diliminin tamamını almamalıdır. Eğer bir giriş/çıkış cihazından bir kesme gelirse, çekirdek etkin olarak mevcut görevi durdurur, kesme işleyicisini çalıştırır ve daha sonra mevcut göreve geri döner. Bir yüksek öncelikli kesme fırtınası normal süreci tamamen çıkarabilir; bu yanlış davranış 'dayak' olarak adlandırılır. İyi ki modern Unixlerde bu işlemin gerçekleşmesi oldukça zordur.</para>
+
+	<para>Aslında, programların hızları, alabilecekleri bir miktar makine zamanı (bu kuralda birkaç istisnai durum vardır, örneğin ses veya üç boyutlu grafik nesli) tarafından nadiren limitlenir. Çok daha fazla sıklıkla, gecikmeler program disk sürücüsünden veya ağ bağlantısından veri beklemek zorunda olduğu zaman meydana gelir.</para>
+	
+	<para>Bir işletim sistemi, "Çok görevlilik" olarak adlandırılan çok sayıda eşzamanlı süreçleri düzenli olarak destekleyebilir. İşletim  sistemlerinin Unix ailesi baştan başa çok görevlilik için tasarlanmıştır ve bu işte oldukça iyidir - daha sonradan düşünülerek eklenilen ve oldukça başarısız bir biçimde yapılan Windows'lardan ya da eski Mac OS'lardan çok daha etkindir. Etkin, güvenilir çok görevlililiğin çok büyük bir kısmı, ağda, iletişimde ve web servisinde Linux'u üstün kılar.</para>	
 </sect1>
 
-<sect1 id="fundementals-howto-memory-management"><title>How does my computer keep processes from stepping on each other?</title>
-	<para>The kernel's scheduler takes care of dividing processes in time. Your operating system also has to divide them in space, so that processes can't step on each others'; working memory. Even if you assume that all programs are trying to be cooperative, you don't want a bug in one of them to be able to corrupt others. The things your operating system does to solve this problem are called memory management.</para>
-		
-	<para>Each process in your zoo needs its own area of memory, as a place to run its code from and keep variables and results in. You can think of this set as consisting of a read-only code segment (containing the process's instructions) and a writeable data segment (containing all the process's variable storage). The data segment is truly unique to each process, but if two processes are running the same code Unix automatically arranges for them to share a single code segment as an efficiency measure.</para>
-	<sect2 id="fundementals-howto-memory-management-simple"><title>Virtual memory: the simple version</title>
-		<para>Efficiency is important, because memory is expensive. Sometimes you don't have enough to hold the entirety of all the programs the machine is running, especially if you are using a large program like an X server. To get around this, Unix uses a technique called virtual memory. It doesn't try to hold all the code and data for a process in memory. Instead, it keeps around only a relatively small working set; the rest of the process's state is left in a special swap space area on your hard disk.</para>
-			
-		<para>Note that in the past, that "Sometimes" last paragraph ago was "Almost always" — the size of memory was typically small relative to the size of running programs, so swapping was frequent. Memory is far less expensive nowadays and even low-end machines have quite a lot of it. On modern single-user machines with 64MB of memory and up, it's possible to run X and a typical mix of jobs without ever swapping after they're initially loaded into core.</para>
+<sect1 id="fundementals-howto-memory-management"><title>Bilgisayarım süreçlerinin birbiri üzerine çıkmasına nasıl engel olur?</title>
+	<para>Çekirdek planlayıcısı, süreçlerin bir zamanda dilimine bölünmesi işine bakar. işletim sisteminiz de bu bu süreçleri bir alana bölmek zorundadır, böylece süreçler birbirinin üzerine çıkamazlar, bellek çalışması. Tüm programların işbirliği içinde olmaya çalıştığını varsaysanız bile, içlerinden birindeki, diğerlerin işini bozabilecek bir hatanın olmasını istemezsiniz. İşletim sisteminizin bu problemi çözmek için yaptığı işe bellek yönetimi denir.</para>
+
+	<para>Hayvanat bahçenizdeki her süreç, kodu çalıştıracağı ve değişkenleri ve sonuçları içinde tutacağı kendi bellek alanına ihtiyaç duyar. Bu takımın salt okunur bir kod parçasından (süreç komutlarını içeren) ve yazılabilir veri parçalarından (süreç değişken belleğinin tümünü içeren) oluştuğunu düşünebilirsiniz. Veri parçası her süreç için gerçekten tektir. Ancak aynı kodu iki süreç çalıştırırsa, Unix otomatik olarak bu süreçleri yalnız bir kod parçasını paylaşacak şekilde verimli bir ölçüde düzenler.</para>
+	
+	
+	
+	<sect2 id="fundementals-howto-memory-management-simple"><title>Sanal bellek: basit sürüm</title>
+		<para>Verimlilik önemlidir, çünkü bellek pahalıdır. Kimi zaman tüm programların tamamını yeterince tutmak zorunda olmayabilirsiniz, özellikle X sunucusu gibi büyük bir programı kullanıyorsanız. Bundan kaçınmak için  Unix, sanal bellek denilen bir tekniği kullanır. Sanal bellek, bellekteki bir süreç için kodun ve verinin tamamını tutmaya çalışmaz. Onun yerine, yalnızca nispeten daha kısa bir çalışma takımını bulundurur; işlemcinin rahat olması durumu ise diskinizdeki özel bir takas alanında saklıdır.</para>		
+
+		<para>Dikkat edin, bir önceki paragraftaki "kimi zaman", "hemen hemen her zaman" anlamında. Genellikle bellek alanınızın boyutu çalışan programların boyutlarıyla az miktarda ilişkilidir, bu sebeple takaslama yaygındır. Bugünlerde bellek daha az pahalıdır ve alt uç makineler bile pek çoğuna sahiptir. 64 MB'lık tek kullanıcılı makinelerde ve sonrakilerde, X'i ve tipik bir görev karışımı başlangıçta çekirdeğe yüklendikten sonra, takaslama olmadan çalıştırmak mümkündür.</para>	
 	</sect2>
-	<sect2 id="fundementals-howto-memory-management-detailed"><title>Virtual memory: the detailed version</title>
-		<para>Actually, the last section oversimplified things a bit. Yes, programs see most of your memory as one big flat bank of addresses bigger than physical memory, and disk swapping is used to maintain that illusion. But your hardware actually has no fewer than five different kinds of memory in it, and the differences between them can matter a good deal when programs have to be tuned for maximum speed. To really understand what goes on in your machine, you should learn how all of them work.</para>
-			
-		<para>The five kinds of memory are these: processor registers, internal (or on-chip) cache, external (or off-chip) cache, main memory, and disk. And the reason there are so many kinds is simple: speed costs money. I have listed these kinds of memory in increasing order of access time and decreasing order of cost. Register memory is the fastest and most expensive and can be random-accessed about a billion times a second, while disk is the slowest and cheapest and can do about 100 random accesses a second.</para>
-			
-		<para>Here's a full list reflecting early-2000 speeds for a typical desktop machine. While speed and capacity will go up and prices will drop, you can expect these ratios to remain fairly constant — and it's those ratios that shape the memory hierarchy.</para>
+	<sect2 id="fundementals-howto-memory-management-detailed"><title>Sanal bellek: detaylı sürüm</title>
+		<para>Aslında, son kısım birşeyleri biraz olsun basitleştirmiştir. Evet, programlar belleğinizi fiziksel bellekten daha büyük, yassı bir adres bankası ve disk takaslamayı da bu ilüzyonun bakımında kullanılıyor olarak görür. Ancak donanımınız aslında, içerisinde beş farklı tür bellekten daha azına bulundurmaz ve programların maksimum hız için ayarlanması zorunluluğu olduğu zaman aralarındaki farklılıklar iyi bir anlaşma konusu olabilir. Gerçekten makinenizde neler olup bittiğini anlamak için, nasıl çalıştıklarını anlamalısınız.</para>
+		
+		<para>Beş bellek türü şunlardır : işlemci yazmaçları, dahili (veya çip üstü) önbellek, harici (veya çip dışı) önbellek, ana bellek ve disk. Çok tür olmasının nedeni ise basittir: hız para demektir. Bellek türlerini erişim zamanına göre artan, maliyete göre ise azalan sırada listeledim. Disk en yavaş, en ucuz ve saniyede 100 rastgele erişim yapabiliyor iken, yazmaç belleği en hızlı, en pahalı ve saniyede milyarlarca kez rastgele erişilebilir bir bellektir.</para>
+
+		<para>Burada, tipik bir masaüstü makinesi için ilk 2000 hızı yansıtan bir listenin tamamı vardır. Hız ve kapasite artıp, fiyatlar düşüyor iken, bu oranların adil bir şekilde sabit olarak kalacağını ve o oranların bellek hiyerarşisini biçimlendirdiğini düşünebilirsiniz.</para>
+		
 		<para>Disk
 			
 			Size: 13000MB Accesses: 100KB/sec</para>
-		<para>Main memory
+		
+		<para>Ana Bellek
 			
 			Size: 256MB Accesses: 100M/sec</para>
-		<para>External cache
+		
+		<para>Harici Önbellek
 			
 			Size: 512KB Accesses: 250M/sec</para>
-		<para>Internal Cache
+		
+		<para>Dahili Cache
 			
 			Size: 32KB Accesses: 500M/sec</para>
-		<para>Processor
+		
+		<para>İşlemci
 			
 			Size: 28 bytes Accesses: 1000M/sec</para>
 			
@@ -474,22 +486,4 @@ Content-Type: text/html</screen></para>
 <sect1 id="fundementals-howto-more"><title>To Learn More</title>
 	<para>There is a Reading List HOWTO that lists books you can read to learn more about the topics we have touched on here. You might also want to read the How To Become A Hacker document.</para>
 </sect1>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </article>

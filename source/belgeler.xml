@@ -71,6 +71,7 @@
 <!ENTITY repository-howto.xml SYSTEM "howtos/repository-howto.xml">
 <!ENTITY distribute-deb.xml SYSTEM "howtos/distribute-deb.xml">
 <!ENTITY keysigning_party.xml SYSTEM "howtos/keysigning_party.xml">
+<!ENTITY fundementals-howto.xml SYSTEM "howtos/fundementals-howto.xml">
 ]>
 <set id="index" lang="tr">
   <?dbhtml dir="../KiTAPLIK"?>
@@ -174,6 +175,7 @@
 	&report-bug-howto.xml;
 	&online-troubleshooting-howto.xml;
 	&computer-science-education.xml;
+	&fundementals-howto.xml;
     </part>
   </book>
 </set>
