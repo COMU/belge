@@ -70,7 +70,6 @@
 <!ENTITY computer-science-education.xml SYSTEM "howtos/computer-science-education.xml">
 <!ENTITY repository-howto.xml SYSTEM "howtos/repository-howto.xml">
 <!ENTITY distribute-deb.xml SYSTEM "howtos/distribute-deb.xml">
-<!ENTITY keysigning_party.xml SYSTEM "howtos/keysigning_party.xml">
 <!ENTITY fundementals-howto.xml SYSTEM "howtos/fundementals-howto.xml">
 <!ENTITY honeypots.xml SYSTEM "howtos/honeypots.xml">
 ]>
@@ -104,7 +103,6 @@
       &cryptoloop-howto.xml;
       &squashfs-howto.xml;
       &honeypots.xml;
-      &keysigning_party.xml;
     </part>
     <part id="howtos-servers">
       <title>Sunucular</title>
