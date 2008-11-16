@@ -122,8 +122,6 @@
 	
 	<para>(Şunu not edelim: kullanıcılara ve gruplara ismiyle hitap edecek olsanız da, aslında sayısal ID'ler olarak tutulurlar. Otomatik olarak hesaplar ve gruplar arasındaki dönüşümle ilgilenen komutlardır.)</para>
 	
-	<para>Your account entry also contains your home directory, the place in the Unix file system where your personal files will live. Finally, your account entry also sets your shell, the command interpreter that login will start up to accept your commmands.</para>
-	
 	<para>Hesap girdiniz, Unix dosya sisteminde kişisel dosyalarınızın bulunacağı yer olan ev dizinizi de içerir. Son olarak hesap girdiniz, login'in çalıştıracağı, komutlarınızı kabul edecek komut yorumlayıcısı olan kabuğunuzu da ayarlar.</para>
 </sect1>
 
@@ -216,65 +214,99 @@
 		<para>İşlemci
 			
 			Size: 28 bytes Accesses: 1000M/sec</para>
-			
-		<para>We can't build everything out of the fastest kinds of memory. It would be way too expensive — and even if it weren't, fast memory is volatile. That is, it loses its marbles when the power goes off. Thus, computers have to have hard disks or other kinds of non-volatile storage that retains data when the power goes off. And there's a huge mismatch between the speed of processors and the speed of disks. The middle three levels of the memory hierarchy (internal cache, external cache, and main memory) basically exist to bridge that gap.</para>
-			
-		<para>Linux and other Unixes have a feature called virtual memory. What this means is that the operating system behaves as though it has much more main memory than it actually does. Your actual physical main memory behaves like a set of windows or caches on a much larger "virtual" memory space, most of which at any given time is actually stored on disk in a special zone called the swap area. Out of sight of user programs, the OS is moving blocks of data (called "pages") between memory and disk to maintain this illusion. The end result is that your virtual memory is much larger but not too much slower than real memory.</para>
-			
-		<para>How much slower virtual memory is than physical depends on how well the operating system's swapping algorithms match the way your programs use virtual memory. Fortunately, memory reads and writes that are close together in time also tend to cluster in memory space. This tendency is called locality, or more formally locality of reference — and it's a good thing. If memory references jumped around virtual space at random, you'd typically have to do a disk read and write for each new reference and virtual memory would be as slow as a disk. But because programs do actually exhibit strong locality, your operating system can do relatively few swaps per reference.</para>
-			
-		<para>It's been found by experience that the most effective method for a broad class of memory-usage patterns is very simple; it's called LRU or the "least recently used" algorithm. The virtual-memory system grabs disk blocks into its working set as it needs them. When it runs out of physical memory for the working set, it dumps the least-recently-used block. All Unixes, and most other virtual-memory operating systems, use minor variations on LRU.</para>
-			
-		<para>Virtual memory is the first link in the bridge between disk and processor speeds. It's explicitly managed by the OS. But there is still a major gap between the speed of physical main memory and the speed at which a processor can access its register memory. The external and internal caches address this, using a technique similar to virtual memory as I've described it.</para>
-			
-		<para>Just as the physical main memory behaves like a set of windows or caches on the disk's swap area, the external cache acts as windows on main memory. External cache is faster (250M accesses per sec, rather than 100M) and smaller. The hardware (specifically, your computer's memory controller) does the LRU thing in the external cache on blocks of data fetched from the main memory. For historical reasons, the unit of cache swapping is called a line rather than a page.</para>
-			
+		
+		<para>Herşey, bu türdeki en hızlı bellekler üzerine inşa edilemez. Bu yol çok maliyetli olabilir ve eğer öyle olmasa bile, hızlı bellek geçicidir. Güç kesildiği zaman üzerindeki verileri kaybedecektir. Böylece, bilgisayarların sabit diske veya güç kesildiği zaman verileri tutabilen geçici olmayan türdeki depolama cihazlarına sahip olması şarttır. İşlemciler ile disklerin hızları arasında devasa bir uyumsuzluk vardır. Bellek hiyerarşisinin üç orta seviyesi (dahili önbellek, harici önbellek ve ana bellek), temelde bu uçurumda bir köprü görevi görmek için vardır.</para>
+
+		<para>Linux ve diğer Unixler sanal bellek denilen bir özelliğe sahiptir. Bu demek oluyor ki işletim sistemi sahip olduğundan daha fazla ana bellek varmış gibi davranır. Gerçek fiziksel ana belleğiniz, gerçekte herhangi bir zaman diliminde takas alanı denilen diskteki özel bir bölümde, çok daha büyük bir sanal bellek alanı üzerindeki pencere ya da önbellek takımı gibi davranır. Kullanıcı programlarının görüşlerinin dışında, işletim sistemi bu ilüzyonu sürdürebilmek için bellek ve disk arasında veri bloklarını ("pages")taşır. Sonuç olarak, sanal belleğiniz gerçek bellekten çok daha büyüktür, ancak çok daha yavaş değildir.</para>
+		
+		<para>Sanal belleğinizin fiziksel bellekten ne kadar yavaş olduğu, işletim sisteminin takaslama algoritmalarının, programlarınızın sanal belleği kullanan yolu ile ne kadar uyumlu olduğuna bağlıdır. İyi ki bellek, birbirine yakın, ayrıca kümelemeye eğilimli olanları bellek uzayından okur ve yazar. Bu eğilim, yerellik veya usulen daha fazla kaynak yerelliği olarak adlandırılır ve bu iyi birşeydir. Eğer bellek kaynakları rastgele sanal uzaydan geçerse; bir disk kadar yavaş olabilecek her yeni kaynak ve sanal bellek için diskten okuma veya yazma yapmalısınız. Ancak programların aslında sağlam bir yerellik sergilemesinden dolayı, işletim sisteminiz kaynak başına nispeten az takasmalama yapabilir.</para>	
+		
+		<para>Tecrübelere dayanılarak, bellek kullanım modellerinin geniş bir sınıfı için en etkili metodun oldukça basit olduğu saptanmıştır. Bu metot, LRU veya "least recently used - yakın zamanda en az kullanılan" algotiması olarak adlandırılır. Sanal bellek sistemi disk bloklarını, çalışma kümesi içine ihtiyaç duyduğu gibi yakalar. Çalışma kümesi için fiziksel bellek dışında çalıştığı zaman, yakın zamanda en az kullanılmış bloğu atar. Tüm Unixler ve diğer pekçok sanal bellek işletim sistemi, LRU'da az varyasyon kullanır.</para>
+	
+		<para>Sanal bellek disk ve işlemci hızları arasındaki köprünün ilk bağlantısıdır. Açıkça işletim sistemi tarafından yönetilir. Ancak fiziksel ana belleğin ve bir işlemcinin yazmaç belleklerine erişebileceği hızları arasında hala önemli bir uçurum vardır. Harici ve dahili önbellek, bu duruma bahsettiğim gibi sanal belleğe benzer bir teknik kullanarak adresler.</para>
+
+		<para>Nitekim fiziksel ana bellek, disk takas alanındaki pencere veya önbellek kümesi gibi davranır, harici önbellek ana bellekte pencereler rolünü görür. Harici önbellek daha hızlı (100 M'den ziyade, saniyede 250M erişim) ve daha küçüktür. Donanım (özellikle, bilgisayarınızın bellek denetleyicisi) LRU işini, harici önbellekteki ana bellekten getirilmiş veri blokları üzerinde yapar. Tarihsel nedenlerden dolayı önbellek takaslama ünitesi, bir sayfadan ziyade hat olarak adlandırılır.</para>
+		
 		<para>But we're not done. The internal cache gives us the final step-up in effective speed by caching portions of the external cache. It is faster and smaller yet — in fact, it lives right on the processor chip.</para>
-			
-		<para>If you want to make your programs really fast, it's useful to know these details. Your programs get faster when they have stronger locality, because that makes the caching work better. The easiest way to make programs fast is therefore to make them small. If a program isn't slowed down by lots of disk I/O or waits on network events, it will usually run at the speed of the smallest cache that it will fit inside.</para>
-			
-		<para>If you can't make your whole program small, some effort to tune the speed-critical portions so they have stronger locality can pay off. Details on techniques for doing such tuning are beyond the scope of this tutorial; by the time you need them, you'll be intimate enough with some compiler to figure out many of them yourself.</para>
+		<para>Ancak henuz bitirmedik. ***Dahili önbellek, harici önbellek kısımlarını önbellekleyerek, etkin hızdaki en son verir.*** Şimdi daha hızlı ve küçüktür - aslında işlemci çipinin sağında yer alır.</para>
+
+		<para>Eğer gerçekten programlarınızı hızlandırmak istiyorsanız, bu detayları bilmek faydalı olacaktır. Sağlam bir yerellik olduğu zaman programlarınız daha hızlı çalışır, çünkü bu iş önbellekleme işini daha iyi yapar. Bu nedenle programları hızlı bir hale getirmenin en kolay yolu onları küçültmektir. Eğer bir program birçok giriş/çıkış veya ağ olaylarındaki beklemeler tarafından yavaşlatılmamışsa, genellikle uygun olacağı en küçük önbellek hızında çalışacaktır.</para>
+				
+		<para>Eğer programınızı bir bütün olarak küçültemiyorsanız, kritik hızdaki parçaları ayarlamak biraz çaba gerektirecektir. Böylelikle faydalı olabilecek daha sağlam bir yerelliğe sahip olacaklardır. Bu tarzdaki ayarlama tekniklerinin detayları, bu bilgilendirici rehberin de ötesinde bir alandadır. Bunlara ihtiyaç duyacağınız zamana kadar, pekçoğunu kendi kendinize çözebilecek kadar, epey bir derleyiciyle içli dışlı olacaksınız.</para>		
+		
 	</sect2>
-	<sect2 id="fundementals-howto-memory-management-mmu"><title>The Memory Management Unit</title>
-		<para>Even when you have enough physical core to avoid swapping, the part of the operating system called the memory manager still has important work to do. It has to make sure that programs can only alter their own data segments — that is, prevent erroneous or malicious code in one program from garbaging the data in another. To do this, it keeps a table of data and code segments. The table is updated whenever a process either requests more memory or releases memory (the latter usually when it exits).</para>
-			
-		<para>This table is used to pass commands to a specialized part of the underlying hardware called an MMU or memory management unit. Modern processor chips have MMUs built right onto them. The MMU has the special ability to put fences around areas of memory, so an out-of-bound reference will be refused and cause a special interrupt to be raised.</para>
+	<sect2 id="fundementals-howto-memory-management-mmu"><title>Bellek Yönetim Ünitesi</title>
+		<para>Takaslamadan sakınacak kadar fiziksel çekirdeğiniz olduğu zaman bile, bellek yöneticisi adında işletim sisteminizin bir parçasının hala yapacağı önemli bir işi vardır. Bellek yöneticisi, programların yalnızca kendi veri parçalarını değiştirebileceklerinden emin olmalıdır. Bu işlem, bir programdaki, başka bir veride çöplük yaratacak, hatalı veya kötü niyetli kodlara engel olur. Bunu yapmak için, veri ve kod parçalarının bir tablosunu tutar. Tablo, süreçlerin ikisinden birisi daha fazla bellek istediğinde veya belleği serbest bıraktığında (çıkışta genellikle ikincisi) güncellenir.</para>
+
+		<para>Bu tablo, komutların donanımın temelinde bulunan, MMU veya bellek yönetim ünitesi diye adlandırılan özelleştirilmiş parçasına geçirilmesinde kullanılır. Modern işlemci çipleri, dosdoğru üzerlerine inşa edilmiş MMU'lara sahiptir. MMU'nun bellek alanları etrafına set çekmek gibi bir yeteneği vardır. Böylelikle dışarıdaki bir başvuru reddedilecek ve özel bir kesme sinyalinin çıkarılmasına neden olacaktır.</para>
 			
 		<para>If you ever see a Unix message that says "Segmentation fault", "core dumped" or something similar, this is exactly what has happened; an attempt by the running program to access memory (core) outside its segment has raised a fatal interrupt. This indicates a bug in the program code; the core dump it leaves behind is diagnostic information intended to help a programmer track it down.</para>
-			
-		<para>There is another aspect to protecting processes from each other besides segregating the memory they access. You also want to be able to control their file accesses so a buggy or malicious program can't corrupt critical pieces of the system. This is why Unix has file permissions which we'll discuss later.</para>
+		
+		<para>Eğer hiç "Parçalama Hatası(Segmentation Fault)", "Çekirdek Boşaltıldı(Core Dumped)" veya benzer bir Unix mesajı gördüyseniz, tam olarak ne olur; kendi parçası dışındaki belleğe(çekirdeğe) erişmeye çalışan bir program tarafından bulunulan bir girişim, ölümcül bir kesme çıkarır. Bu, program kodunda bir hata olduğunu gösterir. *** programcıya izini sürmede yardımcı olur.***</para>
+
+		<para>Bir diğer yaklaşım; süreçlerin, eriştikleri belleği ayırmasının yanında, birbirlerinden korumasıdır. Onların eriştikleri dosyaları kontrol edebiliyor olmak da istersiniz. Böylece, hatalı ya da kötü niyetli bir program, sistemin önemli parçalarını bozamaz. Bu nedenle Unix'te, daha sonra bahsedeceğimiz dosya izinleri vardır.</para>
 	</sect2>
 </sect1>
 
-<sect1 id="fundementals-howto-store-in-memory"><title>How does my computer store things in memory?</title>
-	<para>You probably know that everything on a computer is stored as strings of bits (binary digits; you can think of them as lots of little on-off switches). Here we'll explain how those bits are used to represent the letters and numbers that your computer is crunching.</para>
-		
-	<para>Before we can go into this, you need to understand about the word size of your computer. The word size is the computer's preferred size for moving units of information around; technically it's the width of your processor's registers, which are the holding areas your processor uses to do arithmetic and logical calculations. When people write about computers having bit sizes (calling them, say, "32-bit" or "64-bit" computers), this is what they mean.</para>
-		
+<sect1 id="fundementals-howto-store-in-memory"><title>Bilgisayarım birşeyleri bellekte nasıl saklar?</title>
+	<para>Muhtemelen, bilgisayarınızdaki herşeyin sıralı bitler (ikili sayılar; bunları bir sürü ufak açma-kapama anahtarı olarak düşünebilirsiniz) olarak saklandığını biliyorsunuzdur. Burada, bu bitlerin bilgisayarınızın çatır çutur yediği harfleri ve sayıları temsil etmede nasıl kullanıldıklarından bahsedeceğiz.</para>"
+	
+	<para>Buraya girmeden önce, bilgisayarınızın kelime uzunluğu hakkında bilgi sahibi olmanız gerekmektedir. Kelime uzunluğu, bilgisayarınızdaki bilgi ünitelerini taşımak için öncelikli olan boyuttur. Teknik olarak, işlemcinizin aritmetik ve mantıksal hesaplamalarında kullanmak için tuttuğu alanlar olan yazmaçların genişliğidir. İnsanların, bilgisayarınızın bit boyutu("32-bit" veya "64-bit" olarak çağırırlar) hakkında yazdığında, kastettikleri şey budur.</para>
+	
 	<para>Most computers (including 386, 486, and Pentium PCs) have a word size of 32 bits. The old 286 machines had a word size of 16. Old-style mainframes often had 36-bit words. The AMD Opteron, Intel Itanium, and the Alpha from what used to be DEC and is now Compaq have 64-bit words.</para>
+	
+	
+	<para>Çoğu bilgisayarlar (386,486 ve Pentium PC'ler dahil), 32 bitlik bir kelime uzunluğuna sahiptir. Eski 286 makineleri 16 bitlik bir kelime uzunluğuna sahipti. Eski model anabilgisayarlar çoğu kez 36 bitlik kelimelere sahipti. ***Eski DEC'lerden, AMD Opteron, Intel Itanium ve Alpha ve şimdiki Compaq 64 bitlik kelimelere sahiptir.***</para>
+	
+	<para>Bilgisayarınız belleğinizi, bellek boyutuna bağlı olarak, sıfırdan çok büyük değerlere kadar numaralandırılmış kelime dizisi olarak görür. Bu değer, 286 gibi daha eski makinelerdeki programların, belleğinizin geniş miktarını adreslemek için açıklı eğilimlerde bulunmak zorunda kaldığı kelime uzunluğunuz tarafından limitlenmiştir. Onları burda anlatmayacağım; onlar hala eski programacıların kabusu oluyorlar.</para>	
+	
+	<sect2 id="fundementals-howto-store-in-memory-numbers"><title>Sayılar</title>
+		<para>Integer sayılar, işlemcinizin kelime uzunluğuna bağlı olarak, kelimeler ya da kelime çiflerinden birisi olarak temsil edilirler. Bir 32 bitlik makine kelimesi, en genel integer temsilidir.</para>
 		
-	<para>The computer views your memory as a sequence of words numbered from zero up to some large value dependent on your memory size. That value is limited by your word size, which is why programs on older machines like 286s had to go through painful contortions to address large amounts of memory. I won't describe them here; they still give older programmers nightmares.</para>
-	<sect2 id="fundementals-howto-store-in-memory-numbers"><title>Numbers</title>
-		<para>Integer numbers are represented as either words or pairs of words, depending on your processor's word size. One 32-bit machine word is the most common integer representation.</para>
+		<para>Integer aritmetiği, ikili tabandaki matematiğe tam olarak olmasa da yakındır. Düşük değerli bir 1, sonraki 2, daha sonra 4 ve böylece bundan sonrası saf ikilidir. Ancak işaretli sayılar ikiye tümleyen gösteriminde temsil edilirler. Yüksek değerli bit, niceliği negatif yapan işaret bitidir ve her negatif sayı, tüm bitlerin ters çevrilerek ve bir eklenerek elde edilen uygun olan pozitif değerden elde edilebilir. Bu nedenle, 32 bitlik bir makinedeki integerların -2^31 den 2^31-1'e kadar bir alanı vardır. Bu 32. bit işaret için kullanılıyor; 0, pozitif bir sayı veya sıfır, 1 ise negatif bir sayı anlamına gelir.</para>
+				
+		<para>Kimi bilgisayar dilleri, yalnızca sıfır ve pozitif sayılı olan 2'li tabana doğru olan işaretsiz aritmetiğe erişiminize izin verir.</para>		
 			
-		<para>Integer arithmetic is close to but not actually mathematical base-two. The low-order bit is 1, next 2, then 4 and so forth as in pure binary. But signed numbers are represented in twos-complement notation. The highest-order bit is a sign bit which makes the quantity negative, and every negative number can be obtained from the corresponding positive value by inverting all the bits and adding one. This is why integers on a 32-bit machine have the range -231 to 231 - 1. That 32nd bit is being used for sign; 0 means a positive number or zero, 1 a negative number.</para>
+		<para>Most processors and some languages can do operations in floating-point numbers (this capability is built into all recent processor chips). Floating-point numbers give you a much wider range of values than integers and let you express fractions. The ways in which this is done vary and are rather too complicated to discuss in detail here, but the general idea is much like so-called ‘scientific notation’, where one might write (say) 1.234 * 10^23; the encoding of the number is split into a mantissa (1.234) and the exponent part (23) for the power-of-ten multiplier (which means the number multiplied out would have 20 zeros on it, 23 minus the three decimal places).</para>
 			
-		<para>Some computer languages give you access to unsigned arithmetic which is straight base 2 with zero and positive numbers only.</para>
-			
-		<para>Most processors and some languages can do operations in floating-point numbers (this capability is built into all recent processor chips). Floating-point numbers give you a much wider range of values than integers and let you express fractions. The ways in which this is done vary and are rather too complicated to discuss in detail here, but the general idea is much like so-called ‘scientific notation’, where one might write (say) 1.234 * 1023; the encoding of the number is split into a mantissa (1.234) and the exponent part (23) for the power-of-ten multiplier (which means the number multiplied out would have 20 zeros on it, 23 minus the three decimal places).</para>
+		<para>Çoğu işlemciler ve bazı diller, işlemleri kayan noktalı sayılarla (bu yetenek tüm günümüz işlemci çiplerine inşa edilmiştir) yapabilir. Kayan noktalı sayılar, integerlardan çok daha geniş bir değer aralığını size sunar ve parçaları ifade etmenize izin verir. ***Bunun yapıldığı çeşitli yollarda ve ***; sayının şifresi, 10'un kuvvet çarpanı (çarpılan sayının üzerinde 20 sıfır, üç ondalık yerde ise 23 eksi bulundurabileceği anlamına gelir) için mantis(1.234) ve üs(23) kısmına ayrılır.</para>
 	</sect2>
-	<sect2 id="fundementals-howto-store-in-memory-characters"><title>Characters</title>
-		<para>Characters are normally represented as strings of seven bits each in an encoding called ASCII (American Standard Code for Information Interchange). On modern machines, each of the 128 ASCII characters is the low seven bits of an octet or 8-bit byte; octets are packed into memory words so that (for example) a six-character string only takes up two memory words. For an ASCII code chart, type ‘man 7 ascii’ at your Unix prompt.</para>
+	<sect2 id="fundementals-howto-store-in-memory-characters"><title>Karakterler</title>
+		<para>Normalde karakterler, herbiri ASCII(American Standard Code for Information Interchange) kodu olan, yedi bitle temsil edilir. Modern makinelerde, her 128 ASCII karakteri bir oktetin veya 8 bitlik bayt'ın düşük yedi bitidir. Oktetler bellek kelimeleri olarak paketlenmiştir. Böylece (örneğin) altı karakterli bir string, iki bellek kelimesi kadar yer kaplar. Bir ASCII kod tablosu için, Unix isteminizde 'man 7 ascii' yazınız.</para>
+		
+		
+		
 			
 		<para>The preceding paragraph was misleading in two ways. The minor one is that the term ‘octet’ is formally correct but seldom actually used; most people refer to an octet as byte and expect bytes to be eight bits long. Strictly speaking, the term ‘byte’ is more general; there used to be, for example, 36-bit machines with 9-bit bytes (though there probably never will be again).</para>
+		
+		
+		<para>Önceki paragraf iki yolda yanıltıcıdır. Önemsiz olanı, 'octet' terimi formal olarak doğrudur, ancak gerçekten nadiren kullanılır. Çoğu insan octetten bayt olarak bahseder ve baytları da sekiz bit uzunluğunda farzeder. </para>
+		
+		
 			
 		<para>The major one is that not all the world uses ASCII. In fact, much of the world can't — ASCII, while fine for American English, lacks many accented and other special characters needed by users of other languages. Even British English has trouble with the lack of a pound-currency sign.</para>
+		
+		
+		<para></para>
 			
+		
+		
 		<para>There have been several attempts to fix this problem. All use the extra high bit that ASCII doesn't, making it the low half of a 256-character set. The most widely-used of these is the so-called ‘Latin-1’ character set (more formally called ISO 8859-1). This is the default character set for Linux, older versions of HTML, and X. Microsoft Windows uses a mutant version of Latin-1 that adds a bunch of characters such as right and left double quotes in places proper Latin-1 leaves unassigned for historical reasons (for a scathing account of the trouble this causes, see the demoroniser page).</para>
+		
+		
+		<para></para>
+		
+		
 			
 		<para>Latin-1 handles western European languages, including English, French, German, Spanish, Italian, Dutch, Norwegian, Swedish, Danish, and Icelandic. However, this isn't good enough either, and as a result there is a whole series of Latin-2 through -9 character sets to handle things like Greek, Arabic, Hebrew, Esperanto, and Serbo-Croatian. For details, see the ISO alphabet soup page.</para>
+		<para></para>
+		
+		
 			
 		<para>The ultimate solution is a huge standard called Unicode (and its identical twin ISO/IEC 10646-1:1993). Unicode is identical to Latin-1 in its lowest 256 slots. Above these in 16-bit space it includes Greek, Cyrillic, Armenian, Hebrew, Arabic, Devanagari, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam, Thai, Lao, Georgian, Tibetan, Japanese Kana, the complete set of modern Korean Hangul, and a unified set of Chinese/Japanese/Korean (CJK) ideographs. For details, see the Unicode Home Page. XML and XHTML use this character set.</para>
+		
+		
+		<para></para>
 	</sect2>
 </sect1>
 
