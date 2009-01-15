@@ -72,6 +72,7 @@
 <!ENTITY distribute-deb.xml SYSTEM "howtos/distribute-deb.xml">
 <!ENTITY fundementals-howto.xml SYSTEM "howtos/fundementals-howto.xml">
 <!ENTITY honeypots.xml SYSTEM "howtos/honeypots.xml">
+<!ENTITY contribute-with-patch.xml SYSTEM "howtos/contribute-with-patch.xml">
 ]>
 <set id="index" lang="tr">
   <?dbhtml dir="../KiTAPLIK"?>
@@ -149,6 +150,7 @@
       &apt-howto.xml;
       &dlopen-mini-howto.xml;
       &PythonPerformanceTips.xml;
+      &contribute-with-patch.xml;
     </part>
     <part id="howtos-hardware">
      <title>Donanım</title>
