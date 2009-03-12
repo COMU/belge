@@ -6,10 +6,15 @@
 <description>Linux ve Özgür Yazılım Belgelerinden Haberler</description>
 <language>tr</language>
 <copyright>GPL</copyright>
-<pubDate>Fri Oct 24 01:10:59 EST 2008</pubDate>
+<pubDate>Thu Mar 12 01:10:59 EST 2008</pubDate>
 <lastBuildDate>Fri Oct 24 01:10:59 EST 2008</lastBuildDate>
 <managingEditor>Necdet Yücel</managingEditor>
 <webMaster>Necdet Yücel</webMaster>
+
+<item>
+	<title>Dosya Sistemi Sıradüzeni Standardı belgesi eklendi.</TITLE>
+	<link>http://docs.comu.edu.tr/howto/file-system-hierarchy-standard-howto.html</link>
+</item>
 
 <item>
 	<title>Bir Özgür Yazılım Projesine Yama ile NASIL Katkıda Bulunursunuz belgesi eklendi.</TITLE>
