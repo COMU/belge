@@ -1,0 +1,3479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article id="file-system-hierarchy-standard-howto" lang="tr">
+<articleinfo>
+  <title>Dosya Sistemi Sıradüzeni Standardı</title>
+  <authorgroup>
+    <author role="translator">
+      <firstname>A.Kemal Ökmen</firstname>
+      <affiliation>
+        <address><email>kemal@comu.edu.tr</email></address>
+      </affiliation>
+    </author>
+    <author>
+	    <firstname>Rusty </firstname>
+	    <surname>Russell</surname>
+	    <email>rusty@rustcorp.com.au</email>
+    </author>
+    <author>
+	    <firstname>Daniel  </firstname>
+	    <surname>Quinlan</surname>
+	    <email>quinlan@pathname.com</email>
+    </author>
+    <author>
+	    <firstname>Christopher  </firstname>
+	    <surname>Yeoh</surname>
+	    <email>cyeoh@samba.org</email>
+    </author>
+    <othercredit>
+	    <firstname>Brandon S. </firstname><surname>Allbery</surname>
+	    <email>bsa@kf8nh.wariat.org</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Keith </firstname><surname>Bostic</surname>
+	    <email>bostic@cs.berkeley.edu</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Drew </firstname><surname>Eckhardt</surname>
+	    <email>drew@colorado.edu</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Rik </firstname><surname>Faith</surname>
+	    <email>faith@cs.unc.edu</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Stephen</firstname><surname>Harris</surname>
+	    <email>sweh@spuddy.mew.co.uk</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Ian</firstname><surname>Jackson</surname>
+	    <email>ijackson@cus.cam.ac.uk</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Andreas</firstname><surname>Jaeger</surname>
+	    <email>aj@suse.de</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>John A.</firstname><surname>Martin</surname>
+	    <email>jmartin@acm.org</email>
+    </othercredit>
+    
+    <othercredit>
+	    <firstname>Ian</firstname><surname>McCloghrie</surname>
+	    <email>ian@ucsd.edu</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>Chris</firstname><surname>Metcalf</surname>
+	    <email>metcalf@lcs.mit.edu</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>Ian</firstname><surname>Murdock</surname>
+	    <email>imurdock@debian.org</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>David C.</firstname><surname>Niemi</surname>
+	    <email>niemidc@clark.net</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>Eric S.</firstname><surname>Raymond</surname>
+	    <email>esr@thyrsus.com</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>Mike</firstname><surname>Sangrey</surname>
+	    <email>mike@sojurn.lns.pa.us</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>David H.</firstname><surname>Silber</surname>
+	    <email>dhs@glowworm.firefly.com</email>
+    </othercredit>    
+    <othercredit>
+	    <firstname>Thomas</firstname><surname>Sippel-Dau</surname>
+	    <email>t.sippel-dau@ic.ac.uk</email>
+    </othercredit>
+    <othercredit>
+	    <firstname>Theodore</firstname><surname>Ts'o</surname>
+	    <email>tytso@athena.mit.edu</email>
+    </othercredit>
+    <othercredit>
+	    <firstname>Stephen</firstname><surname>Tweedie</surname>
+	    <email>sct@dcs.ed.ac.uk</email>
+    </othercredit>
+    <othercredit>
+	    <firstname>Fred N.</firstname><surname>van Kempen</surname>
+	    <email>waltje@infomagic.com</email>
+    </othercredit>
+    <othercredit>
+	    <firstname>Bernd</firstname><surname>Warken</surname>
+	    <email>bwarken@mayn.de</email>
+    </othercredit>
+  </authorgroup>
+    <revhistory>
+      <para><emphasis role="bold">Bu çevirinin sürüm bilgileri:</emphasis></para>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>12 Mart 2009</date>
+        <authorinitials>AKÖ</authorinitials>
+        <revremark>İlk çeviri</revremark>
+      </revision>
+    </revhistory>
+
+
+    <copyright><year>1994,2004</year><holder>Daniel Quinlan</holder><year>2001,2004</year><holder>Paul 'Rusty' Russell</holder><year>2003,2004</year><holder>Christopher Yeoh</holder></copyright><sbr/>
+<copyright><year>2009</year><holder>A.Kemal Ökmen - Türkçe çeviri</holder></copyright>
+    <legalnotice><title>Yasal Açıklamalar</title>
+      <para>
+	      Bu belgenin, <emphasis>Dosya Sistemi Sıradüzeni Standardı</emphasis> çevirisinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2009 <emphasis>A.Kemal Ökmen</emphasis>'e</emphasis>, özgün İngilizce sürümünün  <emphasis role="bold">telif hakkı © 1994,2004 <emphasis>Daniel Quinlan</emphasis>'a © 2001,2004 <emphasis>Paul 'Rusty' Russell</emphasis>'a © 2003,2004 <emphasis>Christopher Yeoh</emphasis>'a </emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan GNU Özgür Belgeleme Lisansının 1.1 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/copyleft/fdl.html"/> adresinde bulabilirsiniz.
+  </para>
+  <para>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </para>
+  <para>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </para>
+  <para>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </para>
+    </legalnotice>
+  <abstract><para>
+UNIX-benzeri işletim sistemlerinde dosya ve dizin yerleşimi için talimatname ve standartlar bulunmaktadır. Bunlar uygulamaların birlikte çalışabilirliği,sistem yönetim araçları, geliştirme araçları, ve betikler için olduğu kadar bu sistemlerin geniş belgelendirmelerinin tek biçimliliğini sağlamak için de kullanılmaktadır. Bu belge bu standartları ve talimatnameleri anlatmaktadır.
+</para><para>Belgenin ingilizce orjinaline <ulink url="http://www.pathname.com/fhs/pub/fhs-2.3.html">buradan</ulink> ulaşabilirsiniz.</para></abstract>
+</articleinfo>
+<sect1 id="file-system-hierarchy-standard-howto-intro"><title>Giriş</title>
+	<sect2 id="file-system-hierarchy-standard-howto-intro-purpose"><title>Amaç</title>
+		<para>
+			Bu standartlar şunlara olanak tanır:
+			<itemizedlist>
+				<listitem>Yazılımların kurulan dosya ve dizinlerin yerini belirleyebilmesini ve
+				</listitem>
+				<listitem>
+					Kullanıcıların kurulan dosya ve dizinlerin yerini belirleyebilmesi.
+				</listitem>
+			</itemizedlist>
+			Bunları şu şekilde yaparız:
+			<itemizedlist>
+				<listitem>
+					Dosya sisteminin her bir alanı için yönerge prensiplerini belirtebilme,
+				</listitem>
+				<listitem>
+					Gerekli olan asgari dosya ve dizini belirtebilme,
+				</listitem>
+				<listitem>
+					Prensiplerin istisnalarını saymak ve,
+				</listitem>
+				<listitem>
+					
+					Tarihsel çelişme bulunan özel durumları saymak
+				</listitem>
+			</itemizedlist>
+			FHS belgelerinin kullanıldığı yerler
+			<itemizedlist>
+				<listitem>
+					FHS uyumlu uygulama oluşturan bağımsız yazılım sağlayıcılar ve FHS uyumlu dağıtımlarla çalışanlar,
+				</listitem>
+				<listitem>
+					FHS uyumlu bir işletim sistemi yapanalar,
+				</listitem>
+				<listitem>
+					FHS uyumlu sistemlerin yönetimini yapan kulanıcılar.
+				</listitem>
+			</itemizedlist>
+			FHS belgelerinin kapsam sınırları:
+			<itemizedlist>
+				<listitem>
+					Yerel dosyaları yerleştirilmesi yerel bir konudur, bu yüzden FHS sistem yöneticisinin haklarını gasp etmek istemez.
+				</listitem>
+				<listitem>
+					 FHS, yerel siteler, dağıtımlar, uygulamalar, belgeler vb, dosya yerleşiminin bir çok parti arasında koordine edilmesi gereken konularla ilgilidir.
+				</listitem>
+			</itemizedlist>
+		</para>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-intro-conventions"><title>Belgenin Kullanımı</title>
+		<para>
+			Bu belgenin düz metin sürümü yerine biçimlendirilmiş sürümünü okumanızı öneriyoruz. Biçimlendirilmiş sürümde dosya ve dizin isimleri sabit genişlikli font ile gösterilmektedir. 
+		</para>
+		<para>
+			Çeşitlilik gösteren dosya isim bileşenleri <emphasis>"&lt;"</emphasis> ve <emphasis>"&gt;"</emphasis> karakterleri arasında gösterilmiştir. Elektronik posta adresleri de <emphasis>"&lt;"</emphasis> ve <emphasis>"&gt;"</emphasis> karakterleri arasına yazılmıştır fakat normal yazı fontundadır.
+		</para>
+		<para>
+			Dosya isimlerinin seçimlik bileşenleri <emphasis>"["</emphasis> ve <emphasis>"]"</emphasis> karakterleri arasına yazılmıştır ve <emphasis>"&lt;"</emphasis> ve <emphasis>"&gt;"</emphasis> biçimiyle birlikte kullanılabilir. Örneğin bir dosyanın uzantısının olup olmaması seçimlik ise şöyle gösterilir: <emphasis>&lt;dosyaadı&gt;[.&lt;uzantı&gt;]</emphasis>.
+		</para>
+		<para>
+			Dosya ve dizin isimlerinin değişken olabilen alt metinleri "*" ile gösterilmiştir.
+		</para>
+		<para>
+			<emphasis>Mantıksal Temel</emphasis> olarak etiketlenmiş kısımlar açıklama içindir ve biçimsel değildir.
+		</para>
+	</sect2>
+</sect1>
+
+<sect1 id="file-system-hierarchy-standard-howto-fs"><title>Dosya Sistemi</title>
+	<para>
+		
+		Bu standart FHS uyumlu dosya sistemi tabanlı olan bir işletim sistemi, bir çok UNIX dosya sisteminde bulunan aynı temel güvenlik özelliklerini destekler.
+	</para>
+		<para>
+		
+		Dosyalar arasında iki bağımsız farklılık tanımlamak mümkündür: "paylaşılabilir" veya "paylaşılamaz", "değisken" veya "statik". Genelde, bu açılardan herhangi birinden farklılık gösteren dosyalar farklı dizinlere yerleştirilirler. Böylece farklı kullanım karakteristiklerine sahip dosyaların farklı dosya sistemlerinde saklanması basitleştirilmiş olur. 
+	</para>
+		<para>
+		"Paylaşılabilir" dosyalar bir sunucuda bulundurulan ve diğerinden kullanılan dosyalardır. "Paylaşılamaz"dosyalar paylaşılabilir olmayan dosyalardır. Örneğin kullanıcı ev dizinleri paylaşılabilirken aygıt kilit dosyaları paylaşılamaz.
+	</para>
+		<para>
+		"Statik" dosyalar, ikililer, kütüphaneler, belgelendirme dosyaları dahil olmak üzere, sistem yöneticisi müdehalesiyle değişmeyen diğer dosyalardır.
+	</para>
+	<caution>	<title>Mantıksal Temel</title>
+		<para>
+			Paylaşılabilir dosyalar bir sunucuda saklanırlar ve bir çok diğer sunucudan kullanılabilirler. Bununla birlikte, tipik olarak dosya sistemi sıradüzenindeki tüm dosyalar paylaşılabilir değildir yani her sistem paylaşılabilir olmayan en azından kendi yerel bir depolamasına sahiptir. Bir sistemin ihtiyacı olan ve uzak bir sistemde bulunan dosyalar olduğu zaman bir veya bir kaç dizinin bağlanması uygun bir yöntemdir.
+		</para>
+	</caution>
+	<para>
+		Statik ve değişken dosyalar ayrılmış olmalıdır çünkü statik dosyalar değişken dosyalardan farklı olarak salt okunur ortamlarda saklanabilirler ve değişken olanlarla aynı periyodlarla yedeklenmeleri gerekmez. 
+	</para>
+	<para>
+		Geçmiş UNIX-benzeri dosya sistemi sıradüzenleri statik ve değişken dosyaları hem <filename>/usr</filename> hem de <filename>/etc</filename> altında içerirler. Yukarıda bahsedilen avantajları farketmek için <filename>/var</filename> sıradüzeni oluşturulmuş ve tüm değişken dosyalar <filename>/usr</filename>'den <filename>/var</filename>'a aktarılmıştır. Sonuç olarak /usr şimdi salt okunur olarak bağlanabilir (eğer ayrı bir dosya sistemi ise). Değişken dosyalar <filename>/etc</filename>'den <filename>/var</filename>'a, teknoloji izin verdiği için daha uzun bir zaman önce aktarılmıştır. 
+	</para>
+	<para>
+		Bu örnek bir FHS-uyumlu sistemdir. (Başka FHS-uyumlu yerleşimler mümkündür).
+	</para>
+	
+	<para>
+		<table class="preinline" id="file-system-hierarchy-standard-howto-fs-tbl1">
+			<tgroup cols="3" border="0" title="asd">
+				<thead>
+					<row>
+						<entry></entry>
+						<entry>paylaşılabilir</entry>
+						<entry>paylaşılamaz</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>statik</entry>
+						<entry><filename>/usr</filename></entry>
+								<entry><filename>/etc</filename></entry>
+					</row>
+					<row>
+						<entry></entry>
+						<entry><filename>/opt</filename></entry>
+								<entry><filename>/boot</filename></entry>
+					</row>
+					<row>
+						<entry>değişken</entry>
+						<entry><filename>/var/mail</filename></entry>
+								<entry><filename>/var/run</filename></entry>
+					</row>
+					<row>
+						<entry></entry>
+						<entry><filename>/var/spool/news</filename></entry>
+								<entry><filename>/var/lock</filename></entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</para>
+</sect1>
+
+<sect1 id="file-system-hierarchy-standard-howto-rootfs"><title>Kök Dosya Sistemi</title>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-purpose"><title>Amaç</title>
+		<para>
+			Kök dosya sisteminin içeriği sistemin ön yüklemesi (boot), geri yüklemesi, kurtarması ve/veya tamiri için elverişli olmalıdır.
+			<itemizedlist>
+				<listitem>
+					Bir sistemi önyüklemek için kök bölümde diğer blümleri bağlamak için yeterli araçlar olmalıdır. Bunlara araçlar, yapılandırmalar, ön yükleyici bilgileri ve diğer önemli açılış verileri dahildir. <filename>/usr, /opt</filename>, ve <filename>/var</filename> dizinleri diğer disk bölümlerinde veya dosya sistemlerinde saklanabilecek şekilde tasarlanmışlardır. 
+				</listitem>
+				<listitem>
+					Bir sistemin kurtarılması ve onarılmasını sağlayabilmek için deneyimli bir sistem bakımcısı tarafından ihtiyaç duyulan sorunun teşhisi ve zarar gören sistemin yeniden inşası için araçlar kök dizinde bulunmalıdır.
+				</listitem>
+				<listitem>
+					Sistem yedeklerinden (disket, teyp sürücü vb.) bir sistemi geri getirmek için gerekli olan araçlar kök dosya sisteminde bulunmalıdır.
+				</listitem>
+			</itemizedlist>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					Kök dizinde bir çok şeyin bulunması düşüncelesini dengelemek için birincil iş kök dosya sistemini olabildiğince küçük tutmaktır. Bir çok sebepten kök dosya sisteminin küçük olması istenir:
+					<itemizedlist>
+						<listitem>
+							Kök dosya sistemi bazen küçük bir ortamdan bağlanır.
+						</listitem>
+						<listitem>
+							Kök dosya sistemi bir çok sistem-spesifik yapılandırma dosyaları içerir. Muhtemel örnekler arasında sisteme özel çekirdek, özel bir sunucu adı vb. sayılabilir. Bunun anlamı kök dosya sistemi ağ ortamlarında paylaşılabilir olmamalıdır. Ağa bağlı sunucularda küçük tutulması paylaşılamaz dosyaların bulunduğu alanı sınırlandırmayı sağlar. Ayrıca iş istasyonlarının daha küçük sabit disk ile kullanılabilmesine olanak verir.
+						</listitem>
+						<listitem>
+							Büyük bir disk bölümü üzerinde bir kök dosya sistemine sahip olabilseniz de, ve bunu istediğiniz içeriklerle doldurabilseniz de, daha küçük disk bölümüne sahip kişiler de olacaktır. Daha fazla kurulu dosyalarınız olduğunda, küçük kök dosya sistemi kullanan sistemlerle uyumsuzluklarla karşılaşacaksınız. Bir geliştirici iseniz çok sayıda kullanıcı için varsayımınızı bir probleme dönüştüreceksiniz.
+						</listitem>
+						<listitem>
+							Kök dosya sisteminde verinin bozulması ile ilgili disk hataları diğer dosya sistemlerde olanlardan daha büyük bir problemdir. Küçük bir kök dosya sistemi sistem çökmelerinde daha az bozulma eğiliminde olacaktır. 
+						</listitem>
+					</itemizedlist>
+					
+				</para>
+			</caution>
+			Uygulamalar kök dosya sisteminde asla özel dosya veya alt dizinleri oluşturmayacak veya bunlara ihtiyaç duymayacaktır.FHS sıradüzününde diğer konumlar herhangi bir paket için yeterli esneklikten daha fazlasını sunar.
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					Kök dosya sistemi altında yeni bir altdizin oluşturmanın engellenmesinin bir çok sebebi vardır:
+					<itemizedlist>
+						<listitem>
+							Bu, performans veya güvenlik sebeplerinden dolayı sistem yöneticisinin küçük tutmak istediği kök disk bölümünden yer istemektir.
+						</listitem>
+						<listitem>
+							Bu, düzen ne olursa olsun, sistem yöneticisinin bağlanabilir birimler arasında standart dosya sıradüzenini dağıtık olarak tutmasını engeller. 
+						</listitem>
+					</itemizedlist>
+					Dağıtımlar kök dosya sisteminde uygulamanın taşınabilirliği konusunu ve diğer sonuçları son derece dikkatli ele almadan yeni bir dizin oluşturmamalıdırlar. 
+				</para>
+			</caution>
+			
+		</para>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-req"><title>Gereksinimler</title>
+		<para>
+			Aşağıdaki dizinler veya dizinlere sembolik linkler <emphasis>/</emphasis> içerisinde gereklidir.
+		</para>
+		<informaltable frame="none" style=";background:#ffffff;">
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Dizin</entry>
+						<entry>Tanımlama</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><filename>bin</filename>	</entry>
+						<entry>Önemli komut dosyaları</entry>
+					</row>
+					
+					<row>
+						<entry><filename>boot</filename></entry>	
+								<entry>Önyükleyicinin statik dosyaları</entry>
+					</row>
+					<row>
+						<entry><filename>dev</filename></entry>	
+								<entry>Aygıt dosyaları</entry>
+					</row>
+					<row>
+						<entry><filename>etc</filename></entry>	
+								<entry>Sunucu-spesifik sistem yapılandırmaları</entry>
+					</row>
+					<row>
+						<entry><filename>lib</filename></entry>	
+								<entry>Önemli paylaşılan kütüphaneler ve çekirdek modülleri</entry>
+					</row>
+					<row>
+						<entry><filename>media</filename></entry>	
+								<entry>Çıkarılabilir ortamlar için bağlama noktası</entry>
+					</row>
+					<row>
+						<entry><filename>mnt</filename></entry>	
+								<entry>Geçici olarak bağlanacak dosya sistemlerinin bağlama noktası</entry>
+					</row>
+					<row>
+						<entry><filename>opt</filename></entry>	
+								<entry>Ek uygulama yazılım paketleri</entry>
+					</row>
+					<row>
+						<entry><filename>sbin</filename></entry>	
+								<entry>Önemli sistem ikilileri</entry>
+					</row>
+					<row>
+						<entry><filename>srv</filename></entry>	
+								<entry>Sistem tarafından sağlanan servisler için veri</entry>
+					</row>
+					<row>
+						<entry><filename>tmp</filename></entry>	
+								<entry>Geçici dosyalar</entry>
+					</row>
+					<row>
+						<entry><filename>usr</filename></entry>	
+								<entry>İkincil sıradüzen</entry>
+					</row>
+					<row>
+						<entry><filename>var</filename></entry>	
+								<entry>Değişken veri</entry>
+					</row>
+					
+				</tbody>
+			</tgroup>
+		</informaltable>
+		
+		<para>
+			Yukarıda listenen her bir dizin aşağıda ayrıntılı olarak tanımlanmıştır. <filename>/usr</filename> ve <filename>/var</filename> dizinleri karmaşıklıklarından dolayı bu belgede ayrı bölümler olarak ele alınmıştır.
+		</para>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-spo"><title>Özel Seçenekler</title>
+		<para>
+			Aşağıdaki diznler veya dizinlere sembolik linkler eğer ilgili alt sistem kurulmuş ise <filename>/</filename> dizini içerisinde bulunmalıdır:
+		</para>
+		
+		<informaltable frame="none" style=";background:#ffffff;">
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Dizin</entry>
+						<entry>Tanımlama</entry>
+					</row>
+				</thead>
+				<tbody>
+					
+					<row>
+						<entry><filename>home</filename></entry>	
+								<entry>Kullanıcı ev dizinleri (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>lib&lt;qual&gt;</filename></entry>	
+								<entry>Önemli paylaşılan kütüphaneler diğer biçimi (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>root</filename></entry>	
+								<entry>root kullanıcısı ev dizini (seçimlik)</entry>
+							</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+		
+		
+		
+	</sect2>	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-bin"><title>/bin : Önemli kullanıcı komut ikilileri (tüm kullanıcıların kullanımı için)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-bin-purp"><title>Amaç</title>
+			<para>
+				<filename>/bin</filename> hem sistem yöneticileri hem de kullanıcılar tarafından kullanılabilecek, fakat diğer dosya sistemlerinin bağlanmadığında (örn. tekil kullanıcı modu) gerekli komutları içerir. Ayrıca betikler tarafından dolaylı olara kullanılan komutları da içerebilir. <footnote>
+					<para>
+						<filename>/bin</filename> içerisine girecek kadar önemli olmayan komut ikilileri bunun yerine <filename>/usr/bin</filename> içerisine yerleştirilmelidir. Sadece root olmayan kullanıcılar tarafından ihtiyaç duyulan öğeler ( X Window Systme, chsh, vb.) genellikle kök bölüme konacak kadar önemli değildirler.
+					</para>
+</footnote>
+		</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-bin-req"> <title>Gereksinimler</title>
+			<para>
+				<filename>/bin</filename> içerisinde alt dizin olmamalıdır.
+			</para>
+			<para>
+				Aşağıdaki komutlar veya komutlara sembolik linkler <filename>/bin</filename> içerisinde bulunmalıdır.
+			</para>
+			
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Komut</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><command>cat</command></entry>	
+									<entry>Dosyaları standart çıktıya bitiştirme aracı</entry>
+						</row>
+						<row>
+							
+							<entry><command>chgrp</command></entry>	
+									<entry>Dosya grubu sahipliğini değiştirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>chmod</command></entry>	
+									<entry>Dosya erişim yetkilerini değiştirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>chown</command></entry>	
+									<entry>Dosya sahibi ve grubunu değiştirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>cp</command></entry>	
+									<entry>Dosya ve dizinleri kopyalama aracı</entry>
+						</row>
+						<row>
+							<entry><command>date</command></entry>	
+									<entry>Sistem tarihi ve saatini değiştirme aracı</entry>
+						</row>
+						<row>
+							
+							<entry><command>dd</command></entry>	
+									<entry>Bir dosyayı dönüştürme ve kopyalama aracı</entry>
+						</row>
+						<row>
+							<entry><command>df</command></entry>	
+									<entry>Dosya sistemi disk boşluğu kullanımını bildirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>dmesg</command></entry>	
+									<entry>Çekirdek mesaj tamponunu yazdırma veya kontrol etme aracı</entry>
+						</row>
+						<row>
+							<entry><command>echo</command></entry>	
+									<entry>Bir satır metni görüntüleme aracı</entry>
+						</row>
+						<row>
+							<entry><command>false</command></entry>	
+									<entry>Başarısız bir şekilde hiç bir şey yapmama aracı</entry>
+						</row>
+						<row>
+							<entry><command>hostname</command></entry>	
+									<entry>Sistem sunucu adını gösterme veya ayarlama aracı</entry>
+						</row>
+						<row>
+							<entry><command>kill</command></entry>	
+									<entry>İşlemlere sinyal gönderme aracı</entry>
+						</row>
+						<row>
+							<entry><command>ln</command></entry>	
+									<entry>Dosyalar arasında bağlantı kurma aracı</entry>
+						</row>
+						<row>
+							<entry><command>login</command></entry>	
+									<entry>Sistemde oturum başlatma aracı</entry>
+						</row>
+						<row>
+							<entry><command>ls</command></entry>	
+									<entry>Dizin içeriğini gösterme aracı</entry>
+						</row>
+						<row>
+							<entry><command>mkdir</command></entry>	
+									<entry>Dizin oluşturma aracı</entry>
+						</row>
+						<row>
+							<entry><command>mknod</command>	</entry>
+									<entry>Blok veya karakter özel dosyalarını oluşturma aracı</entry>
+						</row>
+						<row>
+							<entry><command>more</command></entry>	
+									<entry>Metni sayfa sayfa görüntüleme aracı</entry>
+						</row>
+						<row>
+							<entry><command>mount</command></entry>	
+									<entry>Dosya sistemi bağlama aracı</entry>
+						</row>
+						<row>
+							<entry><command>mv</command></entry>	
+									<entry>Dosyaları taşıma/yenden isimlendirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>ps</command></entry>	
+									<entry>İşlem durumunu görüntüleme aracı</entry>
+						</row>
+						<row>
+							<entry><command>pwd</command></entry>	
+									<entry>Bulunulan çalışma dizini ismini yazdırma aracı</entry>
+						</row>
+						<row>
+							<entry><command>rm</command></entry>	
+									<entry>Dosya veya dizin silme aracı</entry>
+						</row>
+						<row>
+							<entry><command>rmdir</command></entry>	
+									<entry>Boş dizinleri silme aracı</entry>
+						</row>
+						<row>
+							<entry><command>sed</command></entry>	
+							<entry>`sed' akış düzenleyicisi</entry>
+						</row>
+						<row>
+							<entry><command>sh</command></entry>	
+									<entry>Bourne komut kabuğu</entry>
+						</row>
+						<row>
+							<entry><command>stty</command></entry>	
+									<entry>Terminal satır ayarlarını görüntüleme veya değiştirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>su</command></entry>	
+									<entry>Kullanıcı değiştirme aracı</entry>
+						</row>
+						<row>
+							<entry><command>sync</command></entry>	
+									<entry>Dosya sistemi tampon belleğini alma (flush) aracı</entry>
+						</row>
+						<row>
+							<entry><command>true</command></entry>	
+									<entry>Başarılı bir şekilde hiçbir şey yapmama aracı</entry>
+						</row>
+						<row>
+							<entry><command>umount</command></entry>	
+									<entry>Dosya sistemi ayırma aracı</entry>
+						</row>
+						<row>
+							<entry><command>uname</command></entry>	
+									<entry>Sistem bilgisi yazdırma aracı</entry>
+						</row>
+					</tbody>
+				</tgroup>
+		</informaltable>
+		
+			
+			<para>
+				Eğer <command>/bin/sh</command> gerçek Bourne kabuğu değil ise sıkı veya sembolik olarak gerçek kabuk komutuna bağlanmalıdır.
+			</para>
+			<para>
+				<command>[</command>ve<command>test</command> komutları birlikte ya <filename>/bin</filename> içerisinde ya da <filename>/usr/bin</filename> içerisinde bulunmalıdır.
+			</para>
+			
+			<para>
+				
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						Örneğin bash sh veya bash olarak çağırıldığında farklı davranmaktadır. Sembolik link kullanmak ayrıca kullanıcının <filename>/bin/sh</filename>'ın gerçek Bourne kabuğu olmadığını kolayca görmesini sağlar.
+					</para>
+					<para>
+						<command>[</command>ve<command>test</command> komutlarının ikililer olarak dahil edilme gereksinimi (kabuk içerisinde dahili olarak gerçekleştirilseler bile) POSIX.2 standardıyla ortaktır.
+					</para>
+				</caution>
+				
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-bin-spo"><title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki programlar veya programlara sembolik linkler ilgili alt sistemler kurulmuş ise <filename>/bin</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Komut</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><command>csh</command></entry>	
+									<entry>C kabuğu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>ed</command></entry>	
+									<entry>`ed' düzenleyici (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>tar</command></entry>	
+									<entry>tar arşivleme aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>cpio</command></entry>	
+									<entry>cpio arşivleme aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>gzip</command></entry>	
+									<entry>GNU sıkıştırma aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>gunzip</command></entry>	
+									<entry>GNU açma aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>zcat</command></entry>	
+									<entry>GNU açma aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>netstat</command></entry>	
+									<entry>Ağ istatistikleri aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>ping</command></entry>	
+									<entry>ICMP ağ test aracı (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+		
+			
+			
+			<para>
+				Eğer <command>gunzip</command> ve <command>zcat</command> programları mevcut ise bunlar gzip'e sıkı veya sembolik olarak bağlanmalıdır. <filename>/bin/csh /bin/tcsh</filename>'a veya <filename>/usr/bin/tcsh</filename>'a sembolik bağlı olabilir.
+			</para>
+			<para>
+				<caution>	<title>Mantıksal Temel</title>
+					<para>
+						tar, gzip ve cpio komutları sistem restorasyınunu sağlamak için eklenmişlerdir ( <filename>/</filename> bozulmadığı sürece).
+					</para>
+				</caution>
+			</para>
+			<para>
+				Diğer taraftan kök disk bölümünden hiç resterasyon beklenmiyorsa bu ikililer ihmal edilebilir (örn. bir ROM çip kökü NFS üzerinde <filename>/usr</filename>'ye bağlanabilir) Eğer sistem resterasyonunun ağ üzerinden yapılacağı planlanmışsa <command>ftp</command> veya <command>tftp</command> (ftp bağlantısı için gerekli olan her şey) kök dizininden erişilebilir olmalıdır.
+			</para>
+		</sect3>
+
+		
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-boot"><title>/boot : Ön yükleyicinin statik dosyaları</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-boot-purp"> <title>Amaç</title>
+			<para>
+				Bu dizin önyükleme işlemi için gereken her şeyi, önyükleme sırasında lazım olmayan yapılandırma dosyaları ve harita kurucu hariç, içerir. Böylece <filename>/boot</filename> çekirdeğin kullanıcı-modu programlarını çalıştırılmaya başlanmasından önce kullanılan verileri saklar. Bunlar esas önyükleme sektörleri ve sektör harita dosyalarını da içerebilir. <footnote>
+					<para>
+						 Önyükleyicinin bir dosyayı yükleyebilmesi için gereken programlar <filename>/sbin</filename> içerisine konulmalıdır. Öyükleyici için yapılandırma dosyaları <filename>/etc</filename> içinde olmalıdır.
+						GRUB önyükleyici kendi yapılandırma dosyalarını önyükleme işleminden okur, bu yüzden bunlar /<filename>boot</filename> içine yerleştirilmelidir. Diğer taraftan, bu bir yapılandırma dosyasıdır ve <filename>/etc</filename> içinde bulunmalıdır. Cevap <filename>/etc/grub/menu.lst -&gt; /boot/menu.lst</filename> gibi bir sembolik bağdır.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-boot-spo"> <title>Özel Seçenekler</title>
+			<para>
+				İşletim sistemi çekirdeği ya <filename>/</filename> ya da <filename>/boot</filename> içerisinde bulunmalıdır <footnote>
+					<para>
+						[3] Bazı i386 makinelerde donanım sınırlamalarından dolayı <filename>/boot</filename> dizininin, tamamıyla silindir 1024 altında bulunacak şekilde ayrı bir bölümde bulunması gerekebilir. 
+						Belirli MIPS sistemler <filename>/boot</filename> bölümünün MS-DOS dosya sistemine veya gömülü yazılım (firmware) tarafından erişilebilecek herhangi başka bir dosya sistemine bağlanmasını gerektirebilir. Bu, /boot içinde kullanılabilecek dosya isimleri açısından bir sınırlama olarak sonuçlanabilir (sadece etkilenen sistemler için).
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-dev"><title>/dev : Aygıt dosyaları</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-dev-purp"> <title>Amaç</title>
+			<para>
+				<filename>/dev</filename> dizini özel dosyaların veya aygıt dosyalarının bulunduğu yerdir.
+			</para>
+		</sect3>
+		
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-dev-spo"> <title>Özel Seçenekler</title>
+			<para>
+				Eğer mümkünse <filename>/dev</filename> elle oluşturulmalı, <filename>/dev</filename> gerektiğinde aygıt dosyası oluşturabilen <command>MAKEDEV</command> isimli komutu içermelidir. Ayrıca yerel aygıtlar için <filename>MAKEDEV.local</filename> içermelidir.
+				
+			</para>
+			<para>
+				Eğer gerekliyse <command>MAKEDEV</command>, sadece belirli uygulamaların kurdukları aygıtları değil, sistemde bulunabilen herhangi bir aygıtı oluşturmak için hükme sahip olmalıdır.
+			</para>
+		</sect3>
+
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-etc"><title>/etc : Host-specific system configuration</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-purp"> <title>Amaç</title>
+			<para>
+				<filename>/etc</filename> dizini yapılandırma dosyaları içerir. Bir "yapılandırma dosyası" bir programın işlemesinin kontrolünde kullanılan yerel bir dosyadır; statik olmalı ve çalıştırılabilir bir ikili olmamalıdır. <footnote>
+					<para>
+						[4] Önyükleme zamanında çağırılan komut betiklerinin kurulumu System V, BSD veya diğer modellere benzeyebilir. Bu konuda daha geniş belirtimler bu standardın gelecek sürümlerinde eklenebilir.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-req"> <title>Requirements</title>
+			<para>
+				<filename>/etc</filename> içine hiç bir ikili yerleştirilmemelidir. <footnote>
+					<para>
+						 Bu dosyaların doğrudan <filename>/etc</filename> yerine <filename>/etc</filename> içindeki bir altdizinde saklanması tavsiye edilir.
+					</para>
+</footnote>
+			</para>
+			<para>
+				
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/</filename> içerisinde bulunmalıdır: are required in <filename>/etc</filename>:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>opt</filename></entry>	
+									<entry>Configuration for <filename>/opt</filename></entry>
+						</row>
+						<row>
+							<entry><filename>X11</filename>	</entry>
+									<entry>Configuration for the X Window system (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>sgml</filename></entry>	
+									<entry>Configuration for SGML (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>xml</filename></entry>	
+									<entry>Configuration for XML (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+		
+			
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-spo"> <title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlantılar eğer ilgili alt sistemler kurulmuş ise <filename>/etc</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>opt</entry>
+							<entry><filename>/opt</filename> için yapılandırma</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+			
+			<para>
+				
+				Aşağıdaki dosyalar veya dosyalara sembolik bağlar eğer ilgili alt sistemler kurulmuş ise <filename>/etc</filename> içerisinde bulunmalıdır: <footnote>
+					<para>
+						 Gölge parola grubu kullanan sistemler <filename>/etc</filename> içerisinde (<filename>/etc/shadow</filename> ve diğerleri) ek yapılandırma dosyalarına ve <filename>/usr/sbin</filename> içerinde ek programlara sahip olacaktır. 
+					</para>
+</footnote>
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dosya</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>csh.login</filename></entry>	
+								<entry>C kabuğu oturumlarının sistem çapında başlatılma
+									dosyaları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>exports</filename></entry>	
+							<entry>NFS dosya sistemi erişim kontrol listesi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>fstab</filename></entry>	
+							<entry>Dosya sistemleri hakkında statik bilgiler (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>ftpusers</filename></entry>	
+							<entry>FTP daemon kullanıcı erişim kontrol listesi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>gateways</filename>	</entry>
+							<entry>Yönlendirilecek ağ geçidi listeleri dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>gettydefs</filename></entry>	
+							<entry>getty tarafından kullanılan hız ve terminal (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>group</filename></entry>	
+							<entry>Kullanıcı grup dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>host.conf</filename></entry>	
+							<entry>Çözümleyici yapılandırma dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>hosts</filename></entry>	
+							<entry>Sunucu isimleri hakkında statik bilgi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>hosts.allow</filename>	</entry>
+							<entry>TCP paket sargıları için sunucu erişim dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>hosts.deny</filename>	</entry>
+							<entry>TCP paket sargıları için sunucu erişim dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>hosts.equiv</filename>	</entry>
+							<entry>rlogin, rsh, rcp için güvenilir sunucular listesi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>hosts.lpd</filename>	</entry>
+							<entry>lpd için güvenilir sunucular listesi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>inetd.conf</filename></entry>
+							<entry>inetd için yapılandırma dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>inittab</filename></entry>	
+							<entry>init için yapılandırma dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>issue</filename>	</entry>
+							<entry>Ön-oturum mesajı ve belirtim dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>ld.so.conf</filename></entry>
+							<entry>Paylaşılan kütüphanelerin aranacağı ek dizinler listesi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>motd</filename></entry>	
+							<entry>Günün post-login mesajı dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>mtab</filename></entry>	
+							<entry>Dosya sistemi hakkında dinamik bilgi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>mtools.conf</filename>	</entry>
+							<entry>mtools için yapılandırma dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>networks</filename>	</entry>
+							<entry>Ağ isimleri hakkında statik bilgi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>passwd</filename>	</entry>
+							<entry>Parola dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>printcap</filename>	</entry>
+							<entry>yazıcı kabiliyetleri veritabanı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>profile</filename>	</entry>
+							<entry>sh kabuk oturumları için sistem çapında ilklendirme dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>protocols</filename>	</entry>
+							<entry>IP protokol listeleme (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>resolv.conf</filename></entry>	<entry>Çözümleyici yapılandırma dosyası (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>rpc</filename>	</entry>
+							<entry>RPC protokol listeleme (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>securetty</filename>	</entry>
+							<entry>root oturumu için TTY erişim kontrolü (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>services</filename></entry>	
+							<entry>Ağ servisleri için port isimleri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>shells</filename></entry>	
+							<entry>Geçerli oturum kabukları yolları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>syslog.conf</filename>	</entry>
+							<entry>syslogd için yapılandırma dosyası (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+			
+			<para>
+
+				mtab <filename>/etc</filename>'nin statik doğasına tam olarak uymaz: geçmiş uygulamalardan dolayı bulunabilir <footnote>
+					<para>
+						Linux sistemlerde bu, <filename>/proc/mounts</filename> dizinine bir sembolik bağ olabilir. Bu durumda bu istisna gerekli değildir.
+					</para>
+</footnote> 
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-opt"> <title>/etc/opt : /opt için yapılandırma dosyaları</title>
+			<sect4 id="file-system-hierarchy-standard-howto-rootfs-etc-opt-purp"> 
+				<title>Amaç</title>
+				<para>
+					Eklenti uygulama yazılımı paketleri için konağa özel yapılandırma dosyaları <filename>/etc/opt/&lt;subdir&gt;</filename> içine kurulmalıdır. Burada &lt;subdir&gt; saklanan paketin statik verilerinin <filename>/opt</filename> içindeki altağacının ismidir.
+				</para>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-rootfs-etc-opt-req"> 
+				<title>Gereksinimler</title>
+				<para>
+					<filename>/etc/opt/&lt;subdir&gt;</filename> dizini iç düzeni için herhangi bir yapı oluşturulmamıştır.
+				</para>
+				<para>
+					Eğer bir yapılandırma dosyası, paketin veya sistemin doğru çalışması için farklı bir konumda bulunmalıysa, <filename>/etc/opt/&lt;altdizin&gt;</filename> dışında bir yere yerleştirilmiş olabilir.
+					<caution>	<title>Mantıksal Temel</title>
+						<filename>/opt</filename> için olan Mantıksal Temele bakınız
+					</caution>
+				</para>
+			</sect4>
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-x11"> <title>/etc/X11 : X Window System için yapılandırma dosyası (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-rootfs-etc-x11-purp"> 
+				<title>Amaç</title>
+				<para>
+					<filename>/etc/X11</filename> tüm X11 sunucu-spesifik yapılandırmaları için konumdur. Bu dizin eğer <filename>/usr</filename> salt okunur olarak bağlandıysa yerel kontrole izin vermek için gereklidir.
+				</para>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-rootfs-etc-x11-spo"> 
+				<title>Özel Seçenekler</title>
+				<para>
+					Aşağıdaki dosyalar veya dosyalara sembolik bağlar ilgili alt sistemler kurulmuş ise <filename>/etc/X11</filename> içerisinde bulunmalıdır:
+				</para>
+				
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dosya</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>Xconfig</filename> </entry>	
+								<entry>XFree86'nın eski sürümleri için yapılandırma dosyası (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>XF86Config</filename></entry>	<entry>XFree86 sürüm 3 ve 4 için yapılandırma dosyası (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>Xmodmap</filename></entry>	<entry>Global X11 klavye değiştirme dosyası (seçimlik)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+				
+				
+				<para>
+					<filename>/etc/X11</filename>'in alt dizinleri xdm için olanları ve bunlara ihtiyaç duyan herhangi programlar (bazı pencere yöneticileri örneğin) için olanları içerebilir. <footnote>
+						<para>
+							<filename>/etc/X11/xdm</filename> xdm için yapılandırma dosyalarını tutar. Bunlar daha önce çoğu <filename>/usr/lib/X11/xdm</filename> içinde bulunan dosyalardır. xdm için bazı yerel değişken veriler <filename>/var/lib/xdm</filename> içinde saklanır. 
+						</para>
+					</footnote> Pencere yöneticilerinin varsayılan olarak <filename>.*wmrc</filename> olan sadece bir yapılandırma dosyasının <filename>system.*wmrc</filename> olarak isimlendirilmesini (geniş kabul gören başka bir isim olmadığı sürece) ve altdizin kullanmamasını tavsiye ediyoruz. Herhangi bir pencere yöneticisi altdizini geçerli pencere yöneticisi ikilisi ile aynı isimlendirilmelidir.
+				</para>
+			</sect4>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-sgml"> 
+			<title>/etc/sgml : SGML için yapılandırma dosyası (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-rootfs-etc-sgml-purp"> 
+				<title>Amaç</title>
+				<para>
+					SGML sistemlerin yüksek-seviye  parametrelerini tanımlayan yapılandırma dosyaları burada kuruludur. <filename>*.conf</filename> şeklindeki dosya isimleri genel yapılandırma dosyalarını ifade eder. <filename>*.cat</filename> şeklindeki dosya isimleri verilen DTD'yi kullanması gereken tüm diğer katolog referanslarını içeren DTD-spesifik merkezileştirilmiş katologlardır. Süper katolog dosyası <filename>catalog</filename> tüm merkezileştirilmiş katologların referanslarını katologlar.
+				</para>
+			</sect4>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-etc-xml"> 
+			<title>/etc/xml : XML için yapılandırma dosyaları (seçimlik) </title>
+			<sect4 id="file-system-hierarchy-standard-howto-rootfs-etc-xml-purp"> 
+				<title>Amaç</title>
+				<para>
+					XML sistemlerin yüksek-seviye parametrelerini tanımlayan yapılandırma dosyaları burada kuruludur. <filename>*.conf</filename> şeklindeki dosya isimleri genel yapılandırma dosyalarını ifade eder. Süper katolog dosyası <filename>catalog</filename> tüm merkezileştirilmiş katologların referanslarını katologlar.
+				</para>
+			</sect4>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-home"><title>/home :Kullanıcı ev dizinleri (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-home-purp"><title>Amaç</title>
+			<para>
+				<filename>/home</filename> oldukça yaygın bir standarttır, fakat açık bir biçimde siteye-özel dosya sistemidir. <footnote>
+					<para>
+						 Farklı kişiler kullanıcı hesaplarını çeşitli yerlere yerleştirirler. Bu bölüm sadece kullanıcı ev dizinleri için önerilen yerleşimi tanımlar; bununla birlikte tüm FHS-uyumlu datımcıların ev dizinleri için bunu varsayılan olarak kullanmasını tavsiye ederiz.
+						
+						Küçük sistemler üzerinde her kullanıcının dizini <filename>/home/smith, /home/torvalds, /home/operator</filename> vs. gibi tipik olarak <filename>/home</filename> içindeki birçok dizinden biridir. Büyük sistemlerde (özellikle /home dizininin NFS ile birçok konak arasında paylaşıldığında) kullanıcı ev dizinlereini alt gruplara ayırmak kullanışlıdır. Alt gruplara ayırma <filename>/home/staff, /home/guests, /home/students</filename>, vb. altdizinler kullanılarak yapılabilir.
+					</para>
+				</footnote> Kurulum sunucudan sunucuya değişiklik gösterecektir. Bu yüzden bu konumda hiç bir program bulunmamalıdır. <footnote>
+					<para>
+						 Eğer bir kullanıcının ev dizinini bulmak isterseniz, <filename>/etc/passwd</filename> dosyasına bakmak yerine getpwent(3) kütüphane fonksiyonunu kullanmalısınız çünkü kullanıcı bilgileri NIs gibi uzaktan kullanılan bir sistemle tutuluyor olabilir.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-home-req"><title>Gereksinimler</title>
+			<para>
+				Uygulamalar için kullanıcıya özel yapılandırma dosyaları kullanıcı ev dizininde . ile başlayan dosyalarda tutulurlar ("noktalı dosya").  Eğer bir uygulamanın birden fazla bu tür dosya oluşturması gerekirse bunlar . ile başlayan bir altdizinde tutulmalıdır ("noktalı dizin"). Bu durumda yapılandırma dosyaları . ile başlamamalıdır. <footnote>
+					<para>
+						 Otomatik kaydetme ve kilit dosyaları dışında programların ev dizini içinde kullanıcının bilgisi dışında noktalı dosyalar veya dizinler oluşturmaktan imtina etmeleri tavsiye edilir. 
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-lib"><title>/lib : Önemli paylaşılan kütüphaneler ve çekirdek modülleri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-lib-purp"><title>Amaç</title>
+			<para>
+				<filename>/lib</filename> dizini sistemin önyüklemesinde ve kök dosya sisteminde çalıştırılan komutlar için gerekli paylaşılan kütüphane kalıplarını içerir. örn. <filename>/bin</filename> ve <filename>/sbin</filename>'deki ikililer. <footnote>
+					<para>
+						 Sadece <filename>/usr</filename> içindeki ikililer tarafından ihtiyaç duyulan paylaşılan kütüphaneler (X Window ikilileri gibi) <filename>/lib</filename> içinde olmamalıdır. Burada yalnızca <filename>/bin</filename> ve <filename>/sbin</filename> içinedki ikililerin ihtiyaç duyduğu paylaşılan kütüphaneler bulunmalıdır. Özellikle, <filename>libm.so.*</filename> kütüphanesi eğer <filename>/bin</filename> veya <filename>/sbin </filename>içindeki herhangi biri için gerekli değilse <filename>/usr/lib</filename> dizinine yerleştirilmelidir.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-lib-req"><title>Gereksinimler</title>
+			<para>
+				En azından aşağıdaki dosya adı örüntülerinden biri gereklidir (dosya veya sembolik bağlantı olabilir):
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dosya</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>libc.so.*</filename>	</entry>
+							<entry>Dinamik bağlı C kütüphaneleri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>ld*</filename>	</entry>
+							<entry>Çalışma anı bağlayıcı/yükleyici (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+				
+				<para>
+				
+					Eğer bir C önişlemcisi kurulu ise, eski sebeplerden dolayı, <filename>/lib/cpp</filename> bunu göstermelidir. <footnote>
+						<para>
+							 Bu ikilinin olağan yeri <filename>/usr/bin/cpp</filename> dizinidir.
+						</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-lib-spo"><title>Özel Gereksinimler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili alt sistem kurulmuş ise, <filename>/lib</filename> dizininde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>modules</filename></entry>
+							<entry>Yüklenebilir çekirdek modülleri (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+		</informaltable>
+			
+				
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-libq"><title>/lib&lt;qual&gt; : Diğer biçim önemli paylaşılan kütüphaneler (seçimlik)</title>
+			<sect3 id="file-system-hierarchy-standard-howto-rootfs-libq-purp"><title>Amaç</title>
+				<para>
+					Sistemlerdeki <filename>/lib</filename> dizinlerinin ayrı kütüphaneler gerektiren birden fazla ikili biçimini destekleyen bir veya daha fazla çeşidi olabilir. <footnote>
+						<para>
+							 Bu yaygın olarak 64-bit veya 32-bit çoklu ikili biçimi destekleyen sistemler üzerinde kullanılır, fakat aynı isimde kütüphaneleri gerektirir. Bu durumda, <filename>/lib32</filename> ve <filename>/lib64</filename> kütüphane dizinleri ve <filename>/lib</filename> bunlardan birine sembolik bağ olabilir.
+						</para>
+</footnote>
+				</para>
+			</sect3>
+			<sect3 id="file-system-hierarchy-standard-howto-rootfs-libq-req"> <title>Gereksinimler</title>
+				<para>
+					Eğer bu dizinlerden bir ya da daha fazla bulunuyorsa bunların gereksinimleri normal <filename>/lib</filename> diziniyle aynıdır. <filename>/lib&lt;qual&gt;/cpp</filename> gerekli değilse hariç. <footnote>
+						<para>
+							<filename>/lib&lt;qual&gt;/cpp</filename> dizinine halen izin verilir: bu  <filename>/lib</filename> ve <filename>/lib&lt;qual&gt;</filename> dizinlerinin aynı olmasına izin verir (biri diğerine sembolik bağ).
+						</para>
+</footnote>
+				</para>
+		</sect3>
+	</sect2>
+	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-media"><title>/media : Çıkarılabilir ortamlar için bağlama noktası
+</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-media-purp"><title>Amaç</title>
+			<para>
+				Bu dizin disket sürücüler gibi, cdrom ve zip sürücüler gibi çıkarılabilir ortamlar için bağlama noktası olan altdizinleri içerir.
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						Tarihsel olarak çıkarılabilir ortamlar için <filename>/cdrom, /mnt, /mnt/cdrom</filename> gibi farklı konumlar kullanılmıştır. tüm çıkarılabilir ortamlar için bağlama noktalarını doğrudan kök dizini içerinde tutmak <filename>/</filename> içerinde fazladan dizin oluşturulmasıyla sonuçlanacaktır. Buna rağmen <filename>/mnt</filename> içinde altdizin kullanımı son zamanlarda yaygın hale gelmiştir ve bu eski bir alışkanlık olan <filename>/mnt</filename>'nin geçici ortamlar için doğrudan bağlama noktası olmasıyla çelişir. 
+					</para>
+				</caution>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-media-spo"> <title>Özel Seçenekler</title>
+			<para>
+				
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/media</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>floppy</filename>	</entry>
+							<entry>Disket sürücü (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>cdrom</filename></entry>	
+							<entry>CD-ROM sürücü (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>cdrecorder</filename>	</entry>
+							<entry>CD yazıcı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>zip</filename>	</entry>
+							<entry>Zip sürücü (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+				
+				<para>
+				
+					Belirli tür bir ortam için birden fazla cihazın bulunduğu sistemlerde bağlama dizinleri isimlerinin sonuna '0'dan başlayan rakamlar eklenerek oluşturulur. Ancak mutlak isimleri de ayrıca bulunmalıdır. <footnote>
+						<para>
+							İki CDROM sürücü ile uyumlu bir gerçekleştirim <filename>/media/cdrom0</filename> ve <filename>/media/cdrom1</filename> dizinlerine sahip olabilir ve <filename>/media/cdrom</filename> bunlardan birine sembolik bağdır.
+						</para>
+</footnote> 
+			</para>
+		</sect3>
+	</sect2>
+	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-mount"><title>/mnt : Geçici olarak bağlaan cihazlar için bağlama noktası
+		</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-mount-purp"><title>Amaç</title>
+			<para>
+				Bu dizin sistem yöneticisinin geçici olarak bir dosya sisteminin bağlamak istediğinde kullanması içindir. Bu dizinin içeriği yerel bir konudur ve çalışan herhangi bir programı etkilememlidir.
+			</para>
+			<para>
+				Bu dizin programların kurulması için kullanılmamalıdır: bunun yerine sistem tarafından kullanılmayan geçici bir dizin kullanılmalıdır.
+			</para>
+		</sect3>
+	</sect2>
+	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-opt">
+		<title>/opt : Eklenti uygulama yazılım paketleri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-opt-purp"><title>Amaç</title>
+			<para>
+				<filename>/opt</filename> eklenti uygulama yazılım paketleri için ayrılmıştır.
+			</para>
+			<para>
+				<filename>/opt</filename> içinde kurulu bir paket statik dosyalarını ayrı bir <filename>/opt/&lt;paket&gt;</filename> or <filename>/opt/&lt;provider&gt;</filename> dizinine yerleştirmelidir. Burada paket yazılım paketinin adını belirtir ve tedarikçi de yazılım tedarikçisinin LANANA kayıt ismini belirtir.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-opt-req"> <title>Gereksinimler</title>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>&lt;package&gt;</filename></entry>
+							<entry>Statik paket nesneleri</entry>
+						</row>
+						<row>
+							<entry><filename>&lt;provider&gt;</filename></entry>
+							<entry>LANANA kayıtlı tedarikçi ismi</entry>
+						</row>
+					</tbody>
+				</tgroup>
+		</informaltable>
+			
+				
+			<para>
+				
+				<filename>/opt/bin, /opt/doc, /opt/include, /opt/info, /opt/lib</filename>, ve <filename>/opt/man</filename> dizinleri yerel sistem yöneticisinin kullanımı için ayrılmıştır. Paketler, bu ayrılmş dizinlerde sistem yöneticisi tarafından kullanılacak ön-uç dosyalar bulundurabilirler. Fakat bu ayrılmış dizinler olmadan da çalışabilmelidirler.
+			</para>
+			<para>
+				Kullanıcılar tarafından çağırılacak programlar <filename>/opt/&lt;paket&gt;/bin</filename> veya <filename>/opt/&lt;provider&gt;</filename> dizininde bulunmalıdır. Eğer paket UNIX kılavuz (man) dosyaları içeriyorlarsa bunlar <filename>/opt/&lt;paket&gt;/share/man</filename> veya <filename>/opt/&lt;provider&gt;</filename> dizinlerinde bulunmalıdırlar ve <filename>/usr/share/man</filename> diziniyle aynı sıradüzene sagip olmalıdırlar.
+			</para>
+			<para>
+				Değişken olan paket isimleri (normal işletimde değişen) <filename>/var/opt</filename> içerisinde kurulu olmalıdır. Daha fazla bilgi için <filename>/var/opt</filename> bölümüne bakınız.
+			</para>
+			<para>
+				Sunucu-özle yapılandırma dosyaları /etc/opt dizini altında bulunmalıdır. Daha fazla bilgi için /etc bölümüne bakınız.
+			</para>
+			<para>
+				Doğru çalışabilmesi için dosya sisteminin belirli yerlerinde olması gereken pakaetler dışında, <filename>/opt</filename>, <filename>/var/opt</filename>, ve /etc/opt sıradüzeni dışarısında başka bir paket bulunmamalıdır. Örneğin aygıt kilit dosyaları <filename>/var/lock</filename> altında ve aygıt dosyaları da <filename>/dev</filename> altında bulunmalıdır.
+			</para>
+			<para>
+				Dağıtımlar yazılımları <filename>/opt</filename> içerisine kurabilirler fakat yerel sistem yöneticisinin rızası olmadan sistem yöneticisinin kurduğu yazılımları silmemel veya değiştirmemelidirler.
+			</para>			
+			<caution>	<title>Mantıksal Temel</title>
+				<para>
+					<filename>/opt</filename>'nin eklenti yazılımlar için kullanımı UNIX camiasında yerleşmiş uygulamalardır. Sistem V Uygulama İkili Arayüzü [AT&amp;T 1990], Sistem V Arayüz tanımlamasını temel almaktadır (Üçüncü Basım), ve burada tanımlanan <filename>/opt</filename> yapısına çok benzer bir yapısı sunar.
+				</para>
+				<para>
+					Ayrıca Intel İkili Uyumluluk Standardı v. 2 (iBCS2) da <filename>/opt</filename> için benzer bir yapı sunar.
+				</para>
+				<para>
+					Genellikle bir sistemdeki paketin desteklemesi gereken tüm veriler <filename>/opt/&lt;paket&gt;</filename> içinde bulunmalıdır. Bu dosyalara <filename>/etc/opt/&lt;package&gt;</filename> ve <filename>/var/opt/&lt;package&gt;</filename> dizinlerine kopyalanacak dosyalar dahil olduğu gibi /opt içinde bulunan ayrılmış dizinler de dahildir.
+				</para>
+				<para>
+					<filename>/opt</filename> kullanan dağıtımlardaki küçük sınırlandırmalar gereklidir çünkü dağıtımların kurduğu ve yerel olarak kurulan yazılımlar arasında çakışma, özellikle bazı yazılım ikililerinde sabit sistem yolu bulunması durumunda, muhtemeldir.
+				</para>
+				<para>
+					<filename>/opt/&lt;tedarikçi&gt;</filename> dizini altındaki dizinlerin yapısı yazılım paketleyicisine bırakılmıştır. Bu yüzden bu paketlerin <filename>/opt/&lt;tedarikçi&gt;/&lt;paket&gt;</filename> içerisine kurulmasını ve /opt/paket için de benzer bir yol izlenmesini öneriyoruz. Bu yapıya bağlı kalmamak için geçerli bir sebep  <filename>/opt/&lt;tedarikçi&gt;/lib</filename> veya <filename>/opt/&lt;tedarikçi&gt;/bin</filename> içerisinde dosyaları olabilecek paketleri desteklemektir. 
+				</para>
+			</caution>
+			
+		</sect3>
+		
+	</sect2>
+	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-root"><title>/root : root kullanıcısı için ev dizini (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-root-purp"><title>Amaç</title>
+			<para>
+				root kullanıcısının ev dizini geliştirici veya yerel özelliklerle belirlenebilir fakat burada bahsedilen tavsiye edilen varsayılan konumdur.<footnote>
+					<para>
+						 Eğer root hesabının ev dizini kök bölümde saklanmıyorsa bunu <filename>/</filename> olarak belirlemek gerekecektir. Yetkisiz kullanıcının yapabileceği işleri root kullanıcısı ile yapmamak, bu hesabı sadece sistem yönetimi için kullanmak tavsiye edilir. Bu yüzden, mail ve diğer uygulamaların dizinleri root'un ev dizininde olmamalı, root, postmaster ve webmaster gibi yönetim rolleri için gelen epostalar uygun hesaba yönlendirilmelidir.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-sbin"><title>/sbin : Sistem İkilileri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-sbin-purp"><title>Amaç</title>
+			<para>
+				Sistem yöneticisi için olan araçlar (ve sadece root'un  kullanabileceği diğer komutlar) <filename>/sbin, /usr/sbin</filename>, ve <filename>/usr/local/sbin</filename> içerisinde bulunurlar. /sbin, /bin içindekilere ek olarak, önyükleme, geriyükleme, kurtarma ve/veya bakım için önemli olan ikilileri içerir. <footnote>
+					<para>
+						 Orjinal olarak /<filename>sbin</filename> ikilileri <filename>/etc</filename> içinde tutulur.
+					</para>
+				</footnote> <filename>/usr</filename> bağlandıktan sonra (herhangi bir problem olmadığında) buradan çalıştırılan programlar genellikle <filename>/usr/sbin</filename> içerisine yerleştirilir. Yerel olarak kurulmuş sistem yönetim programları <filename>/usr/local/sbin</filename> içerisine yerleştirilmelidir. <footnote>
+					<para>
+						 Hangi şeylerin "<filename>sbin</filename>" dizinine gireceğine karar vermek kolaydır: eğer normal (sistem yöneticisi olmayan) bir kullanıcı bunu doğrudan çalıştıracaksa "<filename>bin</filename>" dizinlerinden birine yerleştirilmelidir.Sıradan kullanıcılar herhangi bir sbin dizinini sistem yoluna eklememelidir. 
+						Örneğin, <command>chfn</command> gibi kullanıcıların nadiren kullandığı programlar da <filename>/usr/bin</filename> içine yerleştirilmelidir. Bunun yanında <command>ping</command>, kesin bir şekilde root için lazım olsa da (ağ bakımı ve teşhisi) sıklıkla kullanıcılar tarafından da kullanılır ve bu yüzden <filename>/bin</filename> içinde bulunamalıdır.
+						Kullanıcıların, belki belirli <command>setuid</command> ve <command>setgid</command> programları dışında, <filename>/sbin</filename> içindeki herşeyi okuma ve çalıştırma izinlerine sahip olmaları tavsiye edilir. <filename>/bin</filename> ve <filename>/sbin</filename> arasındaki fark güvenlik sebeplerinden veya kullanıcıların işletim sistemini görmemeleri için değil, herkezin kullanıdığı ikililer ile birincil olarak yönetim görevlerinde kullanılan ikililerin iyi bir şekilde ayırımı için oluşturulmuştur. <filename>/sbin</filename> dizinini kullanıcılar için sınırsız yapmanın buna bağlı bir güvenlik avantajı yoktur. 
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-sbin-req"><title>Gereksinimler</title>
+			<para>
+				Aşağıdaki komutlar veya komutlara sembolik bağlar <filename>/sbin</filename> içerinde bulunmalıdır 
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Komut</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><command>shutdown</command></entry>
+							<entry>Sistemi kapatmaya yarayan komut.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+				
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-sbin-spo"><title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki komutlar veya komutlara sembolik bağlar, ilgili altsistem kurulmuş ise <filename>/sbin</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Komut</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><command>fastboot</command></entry>	
+							<entry>Sistemin disklerin kontrol edilmeden yeniden başlatılması (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>fasthalt</command></entry>	
+							<entry>Sistemin disklerin kontrol edilmeden kapatılması (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>fdisk</command>	</entry>
+							<entry>Bölümleme tablosu işleyicisi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>fsck</command>	</entry>
+							<entry>Dosya sistemi kontrol ve onarım aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>fsck.*</command></entry>	
+							<entry>Özel bir dosya sistemi için kontrol ve onarım aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>getty</command>	</entry>
+							<entry>getty programı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>halt</command>	</entry>
+							<entry>Sistemi durduran komut (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>ifconfig</command></entry>	
+							<entry>Ağ arayüzü yapılandırıcısı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>init</command>	</entry>
+							<entry>İlk süreçler (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>mkfs</command>	</entry>
+							<entry>Dosya sistemi oluşturma komutu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>mkfs.*</command></entry>	
+							<entry>Özel bir dosya sistemi oluşturma komutu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>mkswap</command></entry>	
+							<entry>Takas alanı oluşturma komutu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>reboot</command></entry>	
+							<entry>Sistemi yeniden başlatma komutu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>route</command>	</entry>
+							<entry>IP yönlendirme tablosu aracı (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>swapon</command></entry>	
+							<entry>Sayfalamayı ve değiş-tokuşu etkinleştirir (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>swapoff</command></entry>	
+							<entry>Sayfalamayı ve değiş-tokuşu pasifleştirir (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>update</command></entry>	
+							<entry>Sistem tamponunu düzenli olarak alma (flush) süreci (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+			
+		</sect3>
+	</sect2>
+	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-srv"><title>/srv : Sistem tarafından sağlanan hizmetler için veri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-srv-purp"><title>Amaç</title>
+			<para>
+				/srv sistem tarafından sunulan konuma-özel verileri içerir.
+				
+				<caution>	<title>Mantıksal Temel</title>
+					<para>
+						Bunu belirtmenin ana sebebi kullanıcıların belirli bir hizmet için verilerin bulunduğu dizinleri bulabilmeleri, ve salt-okunur, yazılabilir, betik veriler için tekil ağaç isteyen hizmetlerin, uygun bir şekilde yerleştirilebilmesidir. Sadece belirli bir kullanıcıyı ilgilendiren veriler kullanıcının ev dizininde bulunmalıdır.
+					</para>
+					<para>
+						<filename>/srv</filename>'nin altdizinlerini isimlendirme yöntemi hankkında bir belirtim yoktur çünkü bunun nasıl yapılacağı hakkında bir fikir birliği oluşmamıştır. <filename>/srv</filename> altındaki verileri yapılandırmayla ilgili bir yöntem protokol tabanlıdır. Örn. ftp, rsync, www ve cvs. Geniş sistemlerde <filename>/srv</filename>'yi yönetimsel açıdan yapılandırmak kullanışlı olabilir. <filename>/srv/physics/www, /srv/compsci/cvs</filename> vb. Bu kurulum sistemden sisteme değişir. Bu yüzden <filename>/srv</filename> altında belirli bir dizinde bulunan programlar veya <filename>/srv</filename> altında saklanması gereken veriler yoktur. Bununla birlikte <filename>/srv</filename> FHS uyumlu sistemlerde herzaman mevcuttur ve böyle veriler için varsayılan konumdur. 
+					</para>
+					<para>
+						Dağıtımlar bu dizin içinde bulunan yerel olarak kurulmuş dosyaları yönetici izni olmadan kaldırmamaya dikkat etmelidirler. <footnote>
+							<para>
+								 Bu, bu alanlar sıklıkla dağıtımcı tarafından kurulan her iki dosyayı da içerdiğinden ve sistem yöneticileri tarafından eklendiğinden özellikle önemlidir.
+							</para>
+</footnote>
+					</para>
+				</caution>
+			</para>
+		</sect3>
+	</sect2>
+	
+	<sect2 id="file-system-hierarchy-standard-howto-rootfs-tmp"><title>/tmp : Geçici dosyalar
+</title>
+		<sect3 id="file-system-hierarchy-standard-howto-rootfs-tmp-purp"><title>Amaç</title>
+			<para>
+				<filename>/tmp</filename> dizini geçici dosya kullanması gereken programlar için erişilebilir olmalıdır. 
+			</para>
+			<para>
+				Programlar <filename>/tmp</filename> içerisindeki herhangi bir dosya veya dizinin programın bir sonraki çalıştırmasında da bulunacağını varsaymamalıdır.
+				<caution>	<title>Mantıksal Temel</title>
+					<para>
+						IEEE P1003.2 standardı (POSIX, bölüm 2) yukarıdaki bölümle benzer gereksinimler sunar. 
+					</para>
+					<para>
+						<filename>/tmp</filename> içinde saklanan veriler konuma özel biçimde silinebilse de <filename>/tmp</filename> içindeki dosya ve dizinlerin sistemin önyüklemesi sırasında silinmesi tavsiye edilir.
+					</para>
+					<para>
+						FHS bu tavsiyeyi tarihsel emsalleri ve yaygın uygulamaları temel alarak eklemiştir, fakat bunu bir gereklilik yapmamıştır çünkü sistem yönetimi bu standardın kapsamı içinde değildir.
+					</para>
+				</caution>
+			</para>
+		</sect3>
+	</sect2>
+	
+</sect1>
+
+<sect1 id="file-system-hierarchy-standard-howto-usr"><title>/usr Sıradüzeni</title>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-purp"><title>Amaç</title>
+		<para>
+			<filename>/usr</filename> sistemin ikinci büyük bölümüdür. <filename>/usr</filename> paylaştırılabilir salt-okunur verilerdir. Bunun anlamı <filename>/usr</filename> diğer FHS uyumlu konaklar arasında paylaştırılabilir ve yazılabilir olmamalıdır. Konağa özel veya zamanla değişen herhangi bir bilgi başka bir yerde bulunmalıdır.
+		</para>
+		<para>
+			Büyük yazılım paketleri <filename>/usr</filename> sıradüzeninin doğrudan altdizinini kullanmamalıdır.
+		</para>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-req"><title>Gereksinimler</title>
+		<para>
+			
+			Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr</filename> içerisinde bulunmalıdır:
+		</para>
+		<informaltable frame="none" style=";background:#ffffff;">
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Dizin</entry>
+						<entry>Tanımlama</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><filename>bin</filename>	</entry>
+						<entry>Çoğu kullanıcı komutu</entry>
+					</row>
+					<row>
+						<entry><filename>include</filename>	</entry>
+						<entry>C programları tarafından dahil edilen başlık dosyaları</entry>
+					</row>
+					<row>
+						<entry><filename>lib</filename>	</entry>
+						<entry>Kütüphaneler</entry>
+					</row>
+					<row>
+						<entry><filename>local</filename></entry>	
+						<entry>Yerel sıradüzen (Temel kurulumdan sonra boştur)</entry>
+					</row>
+					<row>
+						<entry><filename>sbin</filename></entry>	
+						<entry>Hayati olmayan sistem ikilileri</entry>
+					</row>
+					<row>
+						<entry><filename>share</filename>	</entry>
+						<entry>Mimari bağımsız veriler</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+
+		
+				
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-spo"><title>Özel Seçenekler</title>
+		<informaltable frame="none" style=";background:#ffffff;">
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Dizin</entry>
+						<entry>Tanımlama</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><filename>X11R6</filename></entry>	
+						<entry>XWindow System, sürüm 11 yayım 6 (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>games</filename></entry>	
+						<entry>Oyunlar ve eğitimsel ikililer (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>lib&lt;qual&gt;</filename>	</entry>
+						<entry>Başka Biçim Kütüphaneler (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>src</filename>	</entry>
+						<entry>Kaynak kod (seçimlik)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+			</informaltable>
+
+		
+				
+		<para>
+			Bir çok örneği ve geniş kabul gören uygulamalarından dolayı X Window System için bir istisna yapılmıştır.
+		</para>
+		<para>
+			Aşağıdaki dizin sembolik bağları bulunmalıdır. Bu imkan eski sistemlerin tüm uygulamaları <filename>/var</filename> sıradüzeninde kabul etmelerine kadar uyumluluğu sağlamak için yapılmıştır.
+		</para>
+		<screen>
+/usr/spool -> /var/spool
+/usr/tmp -> /var/tmp
+/usr/spool/locks -> /var/lock</screen>
+		<para>
+			Eğer istenirse, bir sistem bu sembolik bağlardan herhangi birine ihtiyaç duymuyorsa bunlar kaldırılabilir.
+		</para>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-x11R6">
+		<title>/usr/X11R6 : X Window System, Sürüm 11 Yayım 6 (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-x11R6-purp">
+			<title>Amaç</title>
+			<para>
+				Bu sıradüzen X Window System, sürüm 11 yayım 6, ve ilgili dosyalar için ayrılmıştır.
+			</para>
+			<para>
+				Konuları basitleştirmek için ve XFree86'nın diğer sistemler üzerindeki X Window System ile daha uyumlu olabilmesi için <filename>/usr/X11R6</filename> dizini varsa aşağıdaki sembolik bağlar bulunmalıdır:
+			</para>
+			<screen>
+/usr/bin/X11 -> /usr/X11R6/bin
+/usr/lib/X11 -> /usr/X11R6/lib/X11
+/usr/include/X11 -> /usr/X11R6/include/X11</screen>
+			<para>
+				Genelde yazılımlar yukarıdaki sembolik bağlar üzerinden kurulurlar veya yönetilirler. Sadece kullanıcıların kullanımı amaçlanmaktadır. Zorluk sürümlerinin yayımının çevirileri ile ilgilidir - kullanımda olan X11 yayımını bilmek mümkün değildir.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-x11R6-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				<filename>/usr/X11R6/lib/X11</filename> içerisinde konağa özel veriler açıklama dosyaları olarak yorumlanmalıdırlar. Aktif konak hakkında bilgilere ihtiyaç duyan uygulamalar <filename>/etc/X11</filename> içindeki bir yapılandırma dosyasına başvurmalıdır. Bu dosyaya <filename>/usr/X11R6/lib</filename> içinden bir link oluşturulmuş olabilir.<footnote>
+					<para>
+						 Bu tür yapılandırma dosyalarına örnek olarak <filename>Xconfig, XF86Config</filename> veya <filename>system.twmrc</filename>.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-bin">
+		<title>/usr/bin : Bir çok kullanıcı komutu</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-bin-purp"><title>Amaç</title>
+			<para>
+				Bu, sistemdeki çalıştırılabilir komutların birincil dizinidir.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-bin-spo"><title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr/bin</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>mh</filename></entry>
+							<entry>MH posta yönetim sistemi için komutlar (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+
+			
+			<para>
+				Eğer varsa, <filename>/usr/bin/X11 /usr/X11R6/bin</filename>'e sembolik olarak bağlanmalıdır.
+			</para>
+			<para>
+				
+				Aşağıdaki dosyalar veya dosyalara sembolik bağlar, ilgili altsistemler kurulmuş ise, <filename>/usr/bin</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Komut</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><command>perl</command>	</entry>
+							<entry>The Practical Extraction and Report Language (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>python</command></entry>	
+							<entry>Python yorumlama dili (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>tclsh</command>	</entry>
+							<entry>Tcl yorumlayıcı içere basit kabuk (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>wish</command>	</entry>
+							<entry>Basit Tcl/Tk pencereleme kabuğu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>expect</command></entry>	
+							<entry>Etkileşimli diyaloglar için program (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+
+				
+			<caution>	<title>Mantıksal Temel</title>
+				<para>
+					Kabuk betik yrumlayıcıları (ilk satırında <command>#!&lt;sistem yolu&gt;</command> ile çağırılan kabuk betikleri) bir sistem yolunda bulunmazlar, bunun avantajı konumlarının standartlarştırılmasıdız. The Bourne shell ve C-shel kabukları halihazırda <filename>/bin</filename> içinde olacak şekilde ayarlanmışlardır, fakat Perl, Python, ve Tcl sıklıkla farklı yerlerde bulunmaktadır. Bunlar kabuk yorumlarının fiziksel yerlerine sembolik bağlanmış olabilirler. 
+				</para>
+			</caution>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-inc">
+		<title>/usr/include : Başlık dosyaları standart dizini.</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-inc-purp">
+			<title>Amaç</title>
+			<para>
+				Burası C Programlama dili için sistem genelinde kullanılan başlık dosyalarının bulunduğu yerdir.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-inc-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr/include</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>bsd</filename></entry>
+							<entry>BSD uyumluluğu başlık dosyaları (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+				
+			<para>
+				<filename>/usr/include/X11</filename> eğer varsa <filename>/usr/X11R6/include/X11</filename>'e bağlanmalıdır.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-lib">
+		<title>/usr/lib : Programlama ve paketler için kütüphaneler</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-lib-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/usr/lib</filename> nesne dosyaları, kütüphaneler ve kullanıcılar veya kabuk betikleri tarafından doğrudan çağırılmayacak dahili ikililer içerir.  <footnote>
+					<para>
+						 Çeşitli mimari-bağımsız uygulama-özel statik dosyalar ve aldizinler <filename>/usr/share</filename> içine yerleştirilmelidir.
+					</para>
+</footnote>
+			</para>
+			<para>
+				<filename>/usr/lib</filename> altında uygulamalar tekil dizinler kullanabilirler. Eğer bir uygulama altdizin kullanıyorsa, tüm mimari bağımlı ve sadece bu uygulama tarafından kullanılan veri bu altdizin altında bulunmalıdır. <footnote>
+					<para>
+						 Örneğin Perl 5 modülleri ve kütüphaneleri için <filename>perl5 </filename>altdizini.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-lib-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				Tarihsel sebeplerden, <command>/usr/lib/sendmail</command> eğer varsa <command>/usr/sbin/sendmail</command>'e sembolik olarak bağlanmalıdır. <footnote>
+					<para>
+						 <command>makewhatis</command> ve <command>sendmail</command> gibi çalıştırılabilir komutlar da ayrıca geleneksel olarak <filename>/usr/lib</filename> dizininde yer almıştır. <command>makewhatis</command> dahili bir ikilidir ve bir ikili dizininde yer almalıdır; kullanıcılar sadece <command>catman</command>'a erişir. Yeni sendmail ikilileri şimdilerde varsayılan olarak <filename>/usr/sbin</filename> içine yerleştirilir. Ek olarak sendmail uyumlu eposta transfer ajanı kullanan sistemler <filename>/usr/sbin/senmail</filename>'i uygun bir çalıştırılabilir dosyaya sembolik bağ olarak sağlamalıdır. 
+					</para>
+</footnote>
+				
+
+			</para>
+			<para>
+				Eğer <filename>/lib/X11</filename> varsa, <filename>/usr/lib/X11 /lib/X11</filename>'e veya <filename>/lib/X11</filename>'in sembolik olarak bağlandığı yere bağlanmalıdır. <footnote>
+					<para>
+						 X Window System için konağa özel veri <filename>/usr/lib/X11</filename> içinde saklanmamalıdır. <filename>Xconfig</filename> veya <filename>XF86Config</filename> gibi konağa özel yapılandırma dosyaları <filename>/etc/X11</filename> içerisinde saklanmalıdır. Buna, sadece global bir yapılandırma dosyasına sembolik bağ ile yapılsa da (muhtemelen /<filename>usr/X11R6/lib/X11</filename> içinde), <filename>system.wmrc</filename> gibi yapılandırma dosyaları da dahildir
+					</para>
+</footnote>
+			</para>
+			
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-libq">
+		<title>/usr/lib&lt;qual&gt; : Diğer biçim kütüphaneler (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-libq-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/usr/lib&lt;qual&gt;</filename> başka ikili biçimi için <filename>/usr/lib</filename> ile aynı görevi görür. Buna <filename>/usr/lib&lt;qual&gt;/sendmail</filename> ve <filename>/usr/lib&lt;qual&gt;/X11</filename> içindeki gerekli olmayan sembolik bağlar dahil değildir. <footnote>
+					<para>
+						 <filename>/usr/lib</filename> ve <filename>/usr/lib&lt;qual&gt;</filename>'nin aynı olması durumunda (biri diğerine sembolik bağ) bu dosyalar ve uygulama altdizinleri olacaktır.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-local">
+		<title>/usr/local : Yerel sıradüzen</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-local-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/usr/local</filename> sıradüzeni sistem yöneticisinin yerel bir yazılım kurduğunda kullanması içindir. Sistem yazılımı güncellendiğinde üzerine yazılacağından emniyetli olması gerekir. Bir grup konak arasında paylaşılan programlar veya veriler olabilir fakat <filename>/usr</filename>'de bulunmaz.
+			</para>
+			<para>
+				Yerel olarak kurulan yazılımlar, <filename>/usr</filename> içindeki kurulu olanların güncellenmesi veya değiştirilmesi durumları dışında, <filename>/usr</filename>'den ziyade <filename>/usr/local</filename>'de bulunmalıdır. <footnote>
+					<para>
+						 <filename>/</filename> veya <filename>/usr</filename> içine yerleştirilen yazılımların güncelleme sırasında üzerine yazılabilir (overwrite) (bu yüzden dağıtımların bu durumlarda /etc içindeki verinin üzerine yazmamasını tavsiye ederiz). Bu sebepten iyi bir sebebi olmadığı sürece yerel yazılımlar <filename>/usr/local</filename> dışında bulunmamalıdır.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-local-req">
+			<title>Gereksinimler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr/local</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>bin</filename>	</entry>
+							<entry>Yerel ikililer</entry>
+						</row>
+						<row>
+							<entry><filename>etc</filename>	</entry>
+							<entry>Yerel ikililer için konağa özel sistem yapılandırmaları </entry>
+						</row>
+						<row>
+							<entry><filename>games</filename></entry>
+							<entry>Yerel oyun ikilileri</entry>
+						</row>
+						<row>
+							<entry><filename>include</filename></entry>	
+							<entry>Yerel C başlık dosyaları</entry>
+						</row>
+						<row>
+							<entry><filename>lib</filename>	</entry>
+							<entry>Yerel kütüphaneler</entry>
+						</row>
+						<row>
+							
+							<entry><filename>man</filename>	</entry>
+							<entry>Yerel çevrimiçi kılavuzlar</entry>
+						</row>
+						<row>
+							<entry><filename>sbin</filename></entry>	
+							<entry>Yerel sistem ikilileri</entry>
+						</row>
+						<row>
+							<entry><filename>share</filename></entry>	
+							<entry>Yerel mimari-bağımsız sıradüzen</entry>
+						</row>
+						<row>
+							<entry><filename>src</filename>	</entry>
+							<entry>Yerel kaynak kod</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+				
+			<para>
+				Aşağıda listelenenler dışında FHS uyumlu bir sistemin ilk kurulumundan sonra gerekli başka dizinler yoktur.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-local-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				Eğer <filename>/lib&lt;qual&gt;</filename> veya <filename>/usr/lib&lt;qual&gt;</filename> dizinleri mevcutsa, eşdeğer dizinler ayrıca <filename>/usr/local</filename> içerisinde de bulunmalıdır.
+			</para>
+			<para>
+				<filename>/usr/local/etc /etc/local</filename> dizinine sembolik bağlı olabilir.
+			</para>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					<filename>/usr/local/etc</filename> tutarlılığı kurulumlarda faydalıdır ve diğer sistemlerde de kullanılır. Tüm <filename>/usr/local</filename> dizininin sistemin yeniden yüklenmesinde kullanılmak üzere yedeklenmesi gerektiği için sistem bakımında ek bir yük getirmez. Fakat eğer sistemin tüm yapılandırma dosyalarının bir sıradüzende bulunması isteniyorsa <filename>/etc/local</filename> sembolik bağı uygundur.
+				</para>
+			</caution>
+			<para>
+				Dikkat ediniz,<filename> /usr/etc</filename>'ye yine de izin verilmemektedir: <filename>/usr</filename> içindeki programlar yapılandırma dosyalarını <filename>/etc</filename> içerisinde bulundurmalıdırlar.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-local-share">
+			<title>/usr/local/share</title>
+			<para>
+				Bu dizinin içeriği için gereksinimler <filename>/usr/share</filename> ile aynıdır. Yalnızca ek bir zorunluluk <filename>/usr/local/share/man</filename> ve <filename>/usr/local/man</filename> dizinlerinin adaş olmasıdır (genellikle bunun anlamı birinden diğerine sembolik bağdır). <footnote>
+					<para>
+						 <filename>/usr/local/man</filename> belki FHS'nin gelecekteki sürümlerinden kaldırılacak, bu yüzden eğer diğer tümü aynıysa bunu sembolik bağ yapmak mantıklıdır.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-sbin">
+		<title>/usr/sbin : Önemli olmayan standart sistem ikilileri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-sbin-purp">
+			<title>Amaç</title>
+			<para>
+				Bu dizin sadece sistem yöneticisi tarafından kullanılan önemli olmayan ikilileri içerir. Sistem bakımı, onarımı, <filename>/usr</filename>'nin bağlanması veya diğer önemli fonksiyonlar için gerekli olan sistem yönetim araçları <filename>/sbin</filename> içerisinde olmalıdır. <footnote>
+					<para>
+						 Yerel olarak kurulan sistem yönetimi programları <filename>/usr/local/sbin</filename> içine yerleştirilmelidir.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-share">
+		<title>/usr/share : Mimari bağımsız veri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/usr/share</filename> sıradüzeni tüm salt okunur mimari bağımsız veri dosyaları içindir. <footnote>
+					<para>
+						 Bu verilerin çoğu orjinal olarak <filename>/usr</filename> (man, doc) veya <filename>/usr/lib</filename> (lib, terminfo, zoneinfo) içindeydi.
+					</para>
+</footnote>
+			</para>
+			<para>
+				Bu sıradüzen bir işletim sisteminin diğer tüm platformlar arasında paylaşım yapması amacıyla kullanılmaktadır; yani, örneğin, i386 mimarisinde bir site, Alpha ve PPC platformlarının bakımı merkezi olarak bağlanmış tek bir <filename>/usr/share</filename> dizininden yapılabilir. Bununla birlikte dikkat ediniz, <filename>/usr/share</filename> farklı işletim sistemleri veya aynı işletim sisteminin değişik yayımları arasındaki paylaşım amacıyla kullanılmamaktadır.
+			</para>
+			<para>
+				Değiştirilmeis gerekmeyen verileri içeren herhangi bir program veya paket bu verileri <filename>/usr/share</filename> içinde saklamalıdır (yerel kurulmuş ise <filename>/usr/local/share</filename> içerisinde). Bunun için <filename>/usr/share</filename> altında bir aldizin kullanılması tavsiye edilmektedir.
+			</para>
+			<para>
+				<filename>/usr/share/games</filename> içerisindeki oyun verileri tamamen statik veri olmalıdır. Herhangi değiştirilebilir dosyalar, oyun dereceleri, oyun kayıtları ve benzerleri gibi dosyalar <filename>/var/games</filename> içine yerleştirilmelidir.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-req">
+			<title>Gereksinimler</title>
+			<para>
+				
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, /usr/share içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>man</filename>	</entry>
+							<entry>Çevrimiçi kılavuzlar</entry>
+						</row>
+						<row>
+							<entry><filename>misc</filename></entry>	
+							<entry>Çeşitli mimari bağımsız veriler</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+				
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr/share</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>dict</filename>	</entry>
+							<entry>Kelime listeleri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>doc</filename>	</entry>
+							<entry>Çeşitli belgelendirmeler (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>games</filename></entry>	
+							<entry>/usr/games için statik dosyalar (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>info</filename>	</entry>
+							<entry>GNU Info sistemi birincil dizini (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>locale</filename></entry>	
+							<entry>Yerel bilgi (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>nls</filename>	</entry>
+							<entry>Doğal dil desteği için mesaj katalogları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>sgm</filename>	</entry>
+							<entry>SGML veri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>terminfo</filename>	</entry>
+							<entry>terminfo vberitabanı için dizinler (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>tmac</filename></entry>	
+							<entry>groff ile dağıtılmayan troff makroları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>xml</filename>	</entry>
+							<entry>XML veri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>zoneinfo</filename>	</entry>
+							<entry>Saat dilimi bilgisi ve yapılandırması (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+				
+			<para>
+				Uygulama-özel, mimari bağımsız dizinlerin burada bulundurulması tavsiye edilmektedir. Bun dizinlere <command>groff</command>, <command>perl</command>, <command>ghostscript</command>, <command>texmf</command>, ve <command>kbd</command> (Linux) veya <command>syscons</command> (BSD) da dahildir. Bununla birlikte dağıtımcının takdirine göre bunlar geriye dönük uyumluluk için <filename>/usr/lib</filename> içerisinde bulunabilirler. Benzer olarak, <filename>/usr/lib/games</filename> sıradüzeni, eğer dağıtımcı bazı oyun verilerini burada bulundurmak isterse <filename>/usr/share/games</filename> sıradüzenine ek olarak kullanılabilir. 
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-dic">
+			<title>/usr/share/dict : Kelime listeleri (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-dic-purp">
+				<title>Amaç</title>
+				<para>
+					Bu dizin sistem üzerindeki kelime listelerinin ev dizinidir; Geleneksel olarak bu dizin sadece , <command>look(1)</command> veya imla yazılımları tarafından kullanılan, İngilizce <filename>words</filename> dosyasını içerir. <filename>words</filename> Amerikan veya Britanya yazımı için de kullanılabilir.
+				</para>
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						Kelime listesi dosyalarının sadece burada bulunmasının sebebi bunların yazım kontrolü yapan programlar için ortak olarak kullanılmasıdır.
+					</para>
+				</caution>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-dic-spo">
+				<title>Özel Seçenekler</title>
+				<para>
+					
+					Aşağıdaki dosyalar veya dosyalara sembolik bağlar, ilgili altsistemler kurulmuş ise, /usr/share/dict içerinde bulunmalıdır: 
+				</para>
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dosya</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>words</filename></entry>
+								<entry>İngilizce kelimeler listesi (seçimlik)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+				<para>
+					Hem Amerikan hem de Britanya imlası gerektiren yerlerde <filename>/usr/share/dict/american-english</filename> veya <filename>/usr/share/dict/british-english</filename> sembolik bağı kullanılabilir.
+				</para>
+				<para>
+					Diğer diller için listeler o dilin İngilizce ismiyle eklenebilir, örn., <filename>/usr/share/dict/french, /usr/share/dict/danish</filename>, vb. Bunlar, eğer mümkünse o dile uygun ISO 8859 karakter setini kullanmalıdır, mümkünse Latin1 (ISO 8859-1) karakter seti kullanılmalıdır (bu genellikle mümkün değildir.
+				</para>
+				<para>
+					Varsa diğer kelime listeleri burada bulunmalıdır
+				</para>
+				
+			</sect4>
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-man">
+			<title>/usr/share/man : Kılavuz sayfaları</title>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-man-purp">
+				<title>Amaç</title>
+				<para>
+					Bu bölüm sistem genelinde bulunan kılavuz sayfalarının organizasyonu için kullanılır. Ayrıca <filename>/var/cache/man</filename> bölümüne bakınız 
+				</para>
+				<para>
+					Sistemin birincil <filename>&lt;kılavuzdizini&lt; /usr/share/man</filename>'dır.  <filename>/usr/share/man</filename> komutlar, <filename>/</filename> ve <filename>/usr</filename> dosya sistemi altındaki veriler için kılavuz dosyalarını içerir. <footnote>
+						<para>
+							 Açıkça, <filename>/</filename> içinde hiçbir kılavuz sayfası yoktur, çünkü bunlar önyükleme zamanında veya acil durumlarda bunlara ihtiyaç yoktur. Gerçekten.
+						</para>
+</footnote>
+					</para>
+				<para>
+					Kılavuz dosyaları <filename>&lt;kılavuzdizini&gt;/&lt;locale&gt;/man&lt;section&gt;/&lt;arch&gt;</filename> içinde saklanır. <filename>&lt;kılavuzdizini&gt;, &lt;locale&gt;, &lt;section&gt;, and &lt;arch></filename> için açıklamalar aşağıdadır.
+				</para>
+				<para>
+					section için açıklama:
+				</para>
+				<itemizedlist>
+				<listitem>
+					man1: Herkes tarafından erişilebilen kullanıcı programlarını tanımlayan Kılavuz sayfaları bu bölümde toplanır. Bir kullanıcının ihtiyaç duyacağı bir çok programın belgelendirmesi buradadır. 
+				</listitem>
+				<listitem>
+					man2: Sistem çağırıları. Bu bölüm tüm sistem çaığırılarını (çekirdeğin işlemleri gerçekleştirmesi için kullandığı) tanımlar.
+				</listitem>
+				<listitem>
+					man3: Kütüphane fonksiyonları ve altyordamlar. Bölüm 3, çekirdek servislerini doğrudan çağırmayan program kütüphaneleri yordamlarını tanımlar. Bu bölüm ve bölüm 2 sadece programlamayla ilgilenenler içindir. 
+				</listitem>
+				<listitem>
+					man4: Özel dosyalar. Bölüm 4, sürücü fonksiyonlar ve sistemde sağlanan ağ desteği ile ilgili özel dosyaları tanımlar. Tipik olarak <filename>/dev</filename> içindeki cihaz dosyalarını ve desteklenen ağ protokollerinin çekirdek arayüzlerini tanımlar.
+				</listitem>
+				<listitem>
+					man5:Bir çok veri dosyası dosya biçimleri. 5. bölümde tanımlanmıştır. Bunlara çeşitli başlık dosyaları, program çıktı dosyalarıve sistem dosyaları da dahildir. 
+				</listitem>
+				<listitem>
+					man6:Oyunlar. Bu bölüm oyunları, demoları ve genellikle süreli programları tanımlar. Farklı kişiler bunun ne kadar önemli olduğu ile ilgili çeşitli fikirlere sahiptir. 
+				</listitem>
+				<listitem>
+					man7: Çeşitli. Sınıflandırmanın zor olduğu kılavuz sayfaları için bölüm 7 tasarlanmıştır. "troff" ve diğer metin işleme makro aketleri burada bulunur.
+				</listitem>
+				<listitem>
+					man8: Sistem yönetimi. Sistem yöneticileri tarafından kullanılan sistem işlemleri ve bakım programları burada belgelendirilmiştir. Bu programlardan bazıları nadir olarak normal kullanıcılar için de kullanışlıdır.
+				</listitem>
+			</itemizedlist>
+				
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-man-spo">
+				<title>Özel Seçenekler</title>
+				<para>
+					Aşağıdaki dizinler veya dizinlere sembolik bağlar, içleri boş olmadığı sürece, <filename>/usr/share/&lt;mandir&gt;/&lt;locale&gt;</filename> içerisinde bulunmalıdır: <footnote>
+						<para>
+							Örneğin eğer <filename>/usr/local/man</filename> bölüm 4'te hiç bir kılavuz sayfasına sahip değilse <filename>/usr/local/man/man4</filename> ihmal edilebilir.
+						</para>
+</footnote>
+				</para>
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dizin</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>man1</filename></entry>	
+								<entry>Kullanıcı programları (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man2</filename></entry>	
+								<entry>Sistem çağırıları (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man3</filename></entry>	
+								<entry>Kütüphane çağırıları (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man4</filename></entry>	
+								<entry>Özel dosyalar (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man5</filename></entry>	
+								<entry>Dosya biçimleri (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man6</filename></entry>	
+								<entry>Oyunlar (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man7</filename></entry>	
+								<entry>Çeşitli (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>man8</filename></entry>	
+								<entry>Sistem yönetimi (seçimlik)</entry>
+							</row>
+							
+							<row>
+								<entry>&lt;section&gt;</entry>
+								<entry>kılavuz bölümünü belirtir section.</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+				<para>
+					<filename>/usr/share/man</filename> yapısı, içerisinde farklı (veya çoklu) dillerde yazılmış kılavuz sayfalarına izin vermelidir. Bunlar bu kılavuz sayfalarının saklanmasını ve bunlara yapılacak atıfları dikakte almalıdırlar. Dikkat edilmesi gereken diğer faktörler de dil (coğrafi farklılıklar da dahil) ve karakter kod kümesidir. 
+				</para>
+				<para>
+					<filename>/usr/share/man</filename> dizininin dil ile ilgili altdizinlerinin isimlendirilmesi, yerel beliritimleri tanımlayan POSIX 1003.1 standardının Ek E bölümünü temel alır - kültürel çevreyi tanımlayan en çok kabul gören metod. &lt;locale&gt; tanımlaması:
+				</para>
+				<para>
+					<filename>&lt;language&gt;[_&lt;territory&gt;][.&lt;character-set&gt;][,&lt;version&gt;]</filename>
+				</para>
+				<para>
+					<filename>&lt;language&gt;</filename> alanı ISO 639'dan (dil isimlerini göstermek için bir kod) alınmalıdır. Uzunluğu iki karakter ve sadece küçük harf olmalıdır.
+				</para>
+				<para>
+					<filename>&lt;territory&gt;</filename> alanı, eğer mümkünse, ISO 3166'dakilerin (ülkeleri gösteren belirtim) iki harfli kodu olmalıdır. (Bir çok kişi, e-posta adreslerinden, ülkelerin iki harfli koduna aşikardır). İki karakter uzunluğunda ve sadece büyük harf olmalıdır. <footnote>
+						<para>
+							 Bu kurala başlıca bir istisna, ISO 3166'da `GB' fakat epostalarda `UK'olan, Birleşik Krallıktır.
+						</para>
+</footnote>
+				</para>
+				<para>
+					<filename>&lt;character-set&gt;</filename> alanı karakter kümseini temsil belirten standardı temsil etmelidir. Eğer ­<filename>&lt;character-set&gt;</filename> alanı sadece rakamsal bir belirtimse, rakamlar karakter kümesini belirten uluslararası standardı temsil eder. Mümkünse bunun rakamsal olması tavsiye edilir (özellikle ISO standartları). Ek noktalama işaretleri ve herhangi bir küçük harf dahil değildir. 
+				</para>
+				<para>
+					Profilin <filename>&lt;version&gt;</filename> özelliğini belirten bir parametre <filename>­&lt;character-set&gt;</filename> alanından sonra, virgülle ayırılmış olarak bulunmalıdır. Bui farklı kültürel ihtiyaçları ayrıştırmak için kullanılabilir, örneğin sözlük sıralamasına karşın daha sistem-tabanlı harmanlama sıralaması.Bu standart, gerekli olmadıkça, <filename>&lt;version&gt;</filename> alanını kullanmamayı önerir.
+				</para>
+				<para>
+					Tüm kılavuz sayfaları için tek bir dil ve kod seti kullanan sistemler için <filename>&lt;locale&gt;</filename> alt metni gözardı edilebilir ve tüm kılavuz sayfaları <filename>&lt;mandir&gt;</filename> içide bulunabilir. Örneğin, sadece ASCII olarak kodlanmış İngilizce kılavuz sayfaları olan bir sistem (<filename>man&lt;section&gt;</filename> dizinleri) kılavuz sayfalarını doğrudan <filename>/usr/share/man</filename> içerisinde tutabilir. (Aslında bu geleneksel bir durum ve düzenlemedir.) 
+				</para>
+				<para>
+					Yaygın kabul görmüş standart kod seti olan ülkeler <filename>­&lt;character-set&gt;</filename> alanını ihmal edebilirler, fakat bunun eklenmesi şiddetle tavsiye edilir, özellikle bir çok alternatif standardı olan ülkeler için. 
+				</para>
+				<para>
+					Çeşitli örnekler
+				</para>
+				
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='4'>
+						<thead>
+							<row>
+								<entry>Dil</entry>
+								<entry>Alan</entry>
+								<entry>Karakter Seti</entry>
+								<entry>Dizin</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>English</entry>
+								<entry>—</entry>	
+								<entry>ASCII	</entry>
+								<entry><filename>/usr/share/man/en</filename></entry>
+							</row>
+							<row>
+								<entry>English</entry>
+								<entry>United Kingdom	</entry>
+								<entry>ISO 8859-15</entry>	<entry><filename>/usr/share/man/en_GB</filename></entry>
+							</row>
+							<row>
+								<entry>English	</entry>
+								<entry>United States	</entry>
+								<entry>ASCII	</entry>
+								<entry><filename>/usr/share/man/en_US</filename></entry>
+							</row>
+							<row>
+								<entry>French	</entry>
+								<entry>Canada</entry>	
+								<entry>ISO 8859-1</entry>	<entry><filename>/usr/share/man/fr_CA</filename></entry>
+							</row>
+							<row>
+								<entry>French</entry>	
+								<entry>France</entry>	
+								<entry>ISO 8859-1</entry>	<entry><filename>/usr/share/man/fr_FR</filename></entry>
+							</row>
+							<row>
+								<entry>German</entry>
+								<entry>Germany</entry>
+								<entry>ISO 646</entry>	<entry><filename>/usr/share/man/de_DE.646</filename></entry>
+							</row>
+							<row>
+								<entry>German</entry>	
+								<entry>Germany</entry>	
+								<entry>ISO 6937</entry>	<entry><filename>/usr/share/man/de_DE.6937</filename></entry>
+							</row>
+							<row>
+								<entry>German</entry>	
+								<entry>Germany</entry>	
+								<entry>ISO 8859-1</entry>	<entry><filename>/usr/share/man/de_DE.88591</filename></entry>
+							</row>
+							<row>
+								<entry>German</entry>	
+								<entry>Switzerland</entry>	
+								<entry>ISO 646</entry>
+								<entry><filename>/usr/share/man/de_CH.646</filename></entry>
+							</row>
+							<row>
+								<entry>Japanese	</entry>
+								<entry>Japan	</entry>
+								<entry>JIS</entry>	<entry><filename>/usr/share/man/ja_JP.jis</filename></entry>
+							</row>
+							<row>
+								<entry>Japanese</entry>
+								<entry>Japan</entry>
+								<entry>SJIS	</entry>
+								<entry><filename>/usr/share/man/ja_JP.sjis</filename></entry>
+							</row>
+							<row>
+								<entry>Japanese</entry>
+								<entry>Japan</entry>
+								<entry>UJIS (or EUC-J)</entry>
+								<entry><filename>/usr/share/man/ja_JP.ujis</filename></entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+		
+				
+				
+				<para>
+					Benzer olarak, hazırlıklar mimari-bağımsız olan kılavuz sayfaları için yapılmalıdır, mesela cihaz-sürücüleri veya düşük-seviye sistem yönetim komutları hakkında belgelendirme. Bunlar uygun <filename>man&lt;section&gt;</filename> dizini içinde bir <filename>&lt;arch&gt;</filename> dizinine yerleştirilmelidir. Örneğin i386 ctrlaltdel(8) komutu için kılavuz sayfası <filename>/usr/share/man/&lt;locale&gt;/man8/i386/ctrlaltdel.8</filename> dizinine yerleştirilmelidir.
+				</para>
+				<para>
+					<filename>/usr/local</filename> içideki komutlar ve veriler için kılavuz sayfaları <filename>/usr/local/man</filename> içinde bulunmalıdır. X11R6 için kılavuz sayfaları <filename>/usr/X11R6/man</filename> içinde bulunmalıdır. Sistemdeki tüm kılavuz sayfaları buna benzer olarak <filename>/usr/share/man</filename> ile aynı yapıyı kullanırlar. 
+				</para>
+				<para>
+					Biçimlendirilmiş kılavuz sayfası girdilerini içeren cat sayfası bölümleri (<filename>cat&lt;section&gt;</filename>) ayrıca <filename>&lt;mandir&gt;/&lt;locale&gt;</filename> altdizinlerinde bulunabilir, fakat gerekli değildir ve nroff kaynak kılavuz sayfalarının yerinde dağıtılabilir değildir. 
+				</para>
+				<para>
+					"1" den "8" e kadar numaralandırılmış bölümler geleneksel olarak tanımlanmıştır. Genelde, belirli bir bölümde yerleştirilmiş kılavuz sayfaları için dosya ismi .<filename>&lt;section&gt;</filename> ile biter.
+				</para>
+				<para>
+					Ek olarak, bazı geniş uygulama-özel kılavuz sayfaları setleri dosya isimlerine eklenen fazladan bir soneke sahiptirler. Örneğin MH e-posta yönetim sistemi kılavuz sayfaları tüm MH kılavuzları için mh ekine sahip olmalıdırlar. Tüm X Window System kılavuz sayfaları dosya isimlerine x eklenmelidir. 
+				</para>
+				<para>
+					Çeşitli dillere kılavuz sayfalarını ugyun <filename>/usr/share/man</filename> altdizininde yerleştirmekle ilgili uygulamalar ayrıca diğer kılavuz sayfalarına da uygulanır. Örneğin <filename>/usr/local/man</filename> ve <filename>/usr/X11R6/man</filename>.  (Standardın bu kısmı ayrıca bu bölümün ilerlerindeki seçimlik <filename>/var/cache/man</filename> yapısı üzerinde de uygulanır. 
+				</para>
+			</sect4>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-misc">
+			<title>/usr/share/misc : Çeşitli mimari-bağımsız veri</title>
+			<para>
+				Bu dizin <filename>/usr/share</filename> dizini altında ayrı bir altdizin gerektirmeyen çeşitli mimari bağımsız dosyaları içerir. 
+			</para>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-misc-spo">
+				<title>Özel Seçenekler</title>
+				<para>
+					Aşağıdaki dosyalar veya dosyalara sembolik bağlar, ilgili altsistemler kurulmuş ise, <filename>/usr/share/misc</filename> içerinde bulunmalıdır: 
+				</para>
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dosya</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>ascii</filename></entry>	
+								<entry>ASCII karakter set tablosu (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>magic</filename></entry>	
+								<entry>file komutu için varsayılan sihirli rakamlar listesi (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>termcap</filename></entry>	
+								<entry>Terminal kabiliyet veritabanı (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>termcap.db</filename>	</entry>
+								<entry>Terminal kabiliyet veritabanı (seçimlik)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+				<para>
+					Diğer (uygulama-özel) dosyalar burada görünebilir, fakat bir dağıtımcı takdirinde bunlar <filename>/usr/lib</filename> içinde yerleştirilebilir.<footnote>
+						<para>
+							 Böyle bazı dosyalar: <filename> airport, birthtoken, eqnchar, getopt, gprof.callg, gprof.flat, inter.phone, ipfw.samp.filters, ipfw.samp.scripts, keycap.pcvt, mail.help, mail.tildehelp, man.template, map3270, mdoc.template, more.help, na.phone, nslookup.help, operator, scsi_modes, sendmail.hf, style, units.lib, vgrindefs, vgrindefs.db, zipcodes</filename>
+						</para>
+</footnote>
+				</para>
+			</sect4>
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-sgml">
+			<title>/usr/share/sgml : SGML veri (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-sgml-purp">
+				<title>Amaç</title>
+				<para>
+					<filename>/usr/share/sgml</filename>, sıradan kataloglar (merkezi olanlar değil, bkz.<filename>/etc/sgml</filename>), DTDler, girdiler veya stil sayfaları gibi SGML uygulamaları tarafından kullanılan dosyaları içerir.
+				</para>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-sgml-spo">
+				<title>Özel Seçenekler</title>
+				<para>
+					
+					Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr/share/sgml</filename> içerisinde bulunmalıdır:
+				</para>
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dizin</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>docbook</filename></entry>	
+								<entry>docbook DTD (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>tei</filename>	</entry>
+								<entry>tei DTD (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>html</filename></entry>	
+								<entry>html DTD (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>mathml</filename></entry>
+								<entry>mathml DTD (seçimlik)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+				<para>
+					Bir DTD'ye özel olmayan diğer dosyalar kendi dizinlerinde bulunabilir. 
+				</para>
+			</sect4>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-share-xml">
+			<title>/usr/share/xml : XML veri (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-xml-purp">
+				<title>Amaç</title>
+				<para>
+					<filename>/usr/share/xml</filename>, sıradan kataloglar (merkezi olanlar değil, bkz.<filename>/etc/sgml</filename>), DTDler, girdiler veya stil sayfaları gibi XML uygulamaları tarafından kullanılan mimari bağımsız dosyaları içerir. 
+				</para>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-usr-share-xml-spo">
+				<title>Özel Seçenekler</title>
+				<para>
+					Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/usr/share/xml</filename> içerisinde bulunmalıdır:
+				</para>
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dizin</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>docbook</filename></entry>	
+								<entry>docbook XML DTD (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>xhtml</filename></entry>	
+								<entry>XHTML DTD (seçimlik)</entry>
+							</row>
+							<row>
+								<entry><filename>mathml</filename></entry>	
+								<entry>MathML DTD (seçimlik)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+			</sect4>
+			
+		</sect3>
+		
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-usr-src">
+		<title>/usr/src : Kaynak kod (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-usr-src-purp">
+			<title>Amaç</title>
+			<para>
+				Kaynak kod, sadece atıf amacıyla, bu dizin içerisine yerleştirilebilir. <footnote>
+					<para>
+						 Genellikle kaynak bu sıradüzenin içinde inşa edilmemelidir.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+	</sect2>
+	
+</sect1>
+<sect1 id="file-system-hierarchy-standard-howto-var"><title>/var Sıradüzeni</title>
+	<sect2 id="file-system-hierarchy-standard-howto-var-purp">
+		<title>Amaç</title>
+		<para>
+			<filename>/var</filename> değişken veri dosyalarını içerir. Bunlara spool dizinleri ve dosyaları, yönetimsel ve kayıtlama verileri, geçici ve eğreti dosyalar da dahildir. 
+		</para>
+		<para>
+			<filename>/var</filename>'ın bazı kısımları farklı sistemler arasında paylaşılır değildir. Örneğin, <filename>/var/log, /var/lock</filename>, ve <filename>/var/run</filename>. Diğer kısımları paylaşılır olabilir, bilhassa <filename>/var/mail, /var/cache/man, /var/cache/fonts</filename>, ve <filename>/var/spool/news</filename>.
+		</para>
+		<para>
+			Burada <filename>/var, /usr</filename>'nin salt okunur olarak bağlabilmesi için belirtilmiştir. Bir zamanlar <filename>/usr</filename> içinde olan ve sistem işlemleri sırasında yazılabilen herşey (kurulum ve yazılım bakımının aksine) <filename>/var</filename> içinde bulunmalıdır. 
+		</para>
+		<para>
+			Eğer <filename>/var</filename> ayrı bir disk bölümü yapılamıyor ise, <filename>/var</filename>'ın kök dizinden çıkarılarak <filename>/usr</filename> bölümüne bağlanması çoğunlukla tercih edilebilir. (Bu bazen kök dizinin boyutunu düşürmek için veya kök dizindeki boşluğun azalması durumunda yapılır.) Bununla birlikte, <filename>/var /usr</filename>'ye bağlanmamalıdır çünkü bu <filename>/usr</filename> ve <filename>/var</filename> ayrıştırmasını daha zor kılar ve isim çakışmasını muhtemel yapar. Bunun yerine, <filename>/var</filename>'ı <filename>/usr/var</filename>'a bağlayın.
+		</para>
+		<para>
+			Uygulamalar genellikle <filename>/var</filename> dizininin en üstüne dizin eklemezler. Bu dizinler sadece eğer bunlar bazı sistem-çapında çıkarımlara sahipse ve FHS e-posta listesinden görüş alınarak eklenmelidir.
+		</para>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-req">
+		<title>Gereksinimler</title>
+		<para>
+			Aşağıdaki dizinler veya dizinlere sembolik bağlar <filename>/var</filename> içerisinde bulunmalıdır:
+		</para>
+		<informaltable frame="none" style=";background:#ffffff;">
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Dizin</entry>
+						<entry>Tanımlama</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><filename>cache	</filename></entry>
+						<entry>Uygulama tampon verileri</entry>
+					</row>
+					<row>
+						<entry><filename>lib</filename>	</entry>
+						<entry>Değişken durum bilgileri</entry>
+					</row>
+					<row>
+						<entry><filename>local</filename>	</entry>
+						<entry>/usr/local için değişken veriler</entry>
+					</row>
+					<row>
+						<entry><filename>lock</filename></entry>	
+						<entry>Kilit dosyaları</entry>
+					</row>
+					<row>
+						<entry><filename>log</filename>	</entry>
+						<entry>Kilit dosyaları ve dizinler</entry>
+					</row>
+					<row>
+						<entry><filename>opt</filename>	</entry>
+						<entry>/opt için değişken veriler</entry>
+					</row>
+					<row>
+						<entry><filename>run</filename>	</entry>
+						<entry>Çalışan süreçlerle ilgili veriler</entry>
+					</row>
+					<row>
+						<entry><filename>spool</filename></entry>	
+						<entry>Uygulama spool verileri</entry>
+					</row>
+					<row>
+						<entry><filename>tmp</filename>	</entry>
+						<entry>Sistemin yeniden açılmaları arasında saklanan geçici dosyalar</entry>
+						
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+				
+		<para>
+			Çeşitli dizinler, bazı uygulamaların keyfi olarak kullanmasını engellemek için 'ayırılmış'tır. Çünkü bunlar geçmiş ve/veya yerel kullanımlarla çakışabilir. Bunlar:
+		</para>
+		<screen>
+/var/backups
+/var/cron
+/var/msgs
+/var/preserve</screen>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-spo">
+		<title>Özel Seçenekler</title>
+		<para>
+			Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/var</filename> içerisinde bulunmalıdır:
+		</para>
+		<informaltable frame="none" style=";background:#ffffff;">
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Dizin</entry>
+						<entry>Tanımlama</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><filename>account</filename>	</entry>
+						<entry>Süreç muhasebe kayıtları (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>crash</filename></entry>	
+						<entry>Sistem çökme dökümü (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>games</filename>	</entry>
+						<entry>Değişken oyun verileri (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>mail</filename></entry>	
+						<entry>Kullanıcı e-posta-kutusu dosyaları (seçimlik)</entry>
+					</row>
+					<row>
+						<entry><filename>yp</filename>	</entry>
+						<entry>Network Information Service (NIS) veritabanı dosyaları (seçimlik)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+				
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-account">
+		<title>/var/account : Süreç hesap kayıtları (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-account-purp">
+			<title>/var/account : Süreç hesap kayıtları (seçimlik)</title>
+			<para>
+				Bu dizin geçerli aktif süreçlerin hesap kayıtlarını ve karmaşık süreç kullanım verilerini (bazı UNIX-benzeri sistemlerde <command>lastcomm</command> ve <command>sa</command> tarafından kullanıldığı gibi) tutar.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-cache">
+		<title>/var/cache : Uygulama tampon verileri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-cache-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/var/cache</filename> uygulamalardan gelen tampon verileri tutmak amacıyla kullanırlır. Bu tür veriler, zaman alan I/O veya hesaplama işlemleri sonucunda, yerel olarak üretilir. Uygulama veriyi yeniden oluşturabilmeli veya geri yükleyebilmelidir. <filename>/var/spool</filename>'dan farklı olarak, tamponlanmış dosyalar veri kaybı olmaksızın silinebilirler. Veri, uygulamalar veya sistemin yeniden başlatılmaları arasında, geçerli kalmalıdır.
+			</para>
+			<para>
+				<filename>/var/cache</filename> altında bulunan dosyalar, uygulama özel bir bağlamda, sistem yöneticisi tarafında veya her iki durumda, süresi geçmiş olabilir. Uygulama her zaman bu dosyaların harici olarak silinmesini kurtarabilmelidir (genellikle disk boşluğu sıkıntısından dolayı). Tampon dizinlerin veri biçimi hakkında başkaca bir gereksinim yoktur.
+			</para>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					Tamponlanmış veri için ayrı dizinlerin olması sistem yöneticisinin <filename>/var</filename> içindeki diğer dizinlerden farklı disk ve yedekleme politikası uygulamasına izin verir.
+				</para>
+			</caution>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-cache-spo">
+			<title>Özel Seçenekler</title>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>fonts</filename></entry>	
+							<entry>Yerel olarak üretilen fontlar (seçimlik)</entry>
+						</row>
+						<row>	
+							<entry><filename>man</filename>	</entry>
+							<entry>Yerel olarak biçimlendirilmiş kılavuz dosyaları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>www</filename>	</entry>
+							<entry>WWW proxy veya tampon veri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>&lt;package&gt;</filename>	</entry>
+							<entry>Paket özel tanpon veri (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-cache-fonts">
+			<title>/var/cache/fonts : Yerel olarak üretilen fontlar (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-cache-fonts-purp">
+				<title>Amaç</title>
+				<para>
+					<filename>/var/cache/fonts</filename> dinamik olarak oluşturulan herhangi bir  fontları saklamak için kullanılmalıdır. Özellikle, <command>mktexpk</command> tarafından dinamik olarak oluşturulan tüm fontlar <filename>/var/cache/fonts</filename> dizini içinde uygun isimlerde oluşturulan altdizinlerde bulunmalıdır. <footnote>
+						<para>
+							 Bu standarda şu an TeX Directory Structure (TeX dosyalar ve dizinlerin yerleşimini tanımlayan bir belge), fakat okumak faydalı olabilir. <ulink href="ftp://ctan.tug.org/tex/">ftp://ctan.tug.org/tex/</ulink> adresinde bulunmaktadır.
+						</para>
+</footnote>
+				</para>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-var-cache-fonts-spo">
+				<title>Özel Seçenekler</title>
+				<para>
+					Diğer dinamik olarak oluşturulan fontlar da ayrıca bu ağaç içerisinde, <filename>/var/cache/fonts</filename>'nin uygun isimlendirilmiş altdizinlerinde, bulunabilir.
+				</para>
+			</sect4>
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-cache-man">
+			<title>/var/cache/man : Locally-formatted manual pages (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-cache-man-purp">
+				<title>Amaç</title>
+				<para>
+					Bu dizin salt-okunur <filename>/usr</filename> bölümü sağlayan yerler için standart bir yerdir fakat yerel-biçimlendirilmiş kılavuz sayfalarının öncelleklemensi arzu edilir. <filename>/usr</filename> dizinini yazılabilir olarak bağlayan yerler (örneğin tekil kullanıcılı kurulumlar) <filename>/var/cache/man</filename> dizinini kullanmamayı seçebilir ve biçimlendirilmiş kılavuz sayfalarını <filename>/usr/share/man</filename> içindeki <filename>cat&lt;section&gt;</filename> dizinleri içerisine yazabilirler. Bunun yerine bir çok yerde kullanılan aşağıdaki seçeneklerden birini tavsiye ederiz:
+				</para>
+				<para>
+					Biçimlendirilmemiş sürümlerinin yanında, tüm kılavuz sayfalarını önbiçimlendirin. Biçimlendirilmiş kılavuz sayfalarının önbelleklenmesine izin vermeyin ve bir kılavuz sayfasının her gösteriminde biçimlendirmenin tamamlanmış olması gereksin.
+					<filename>/var/cache/man</filename> içindeki biçimlendirilmiş kılavuz sayfalarının yerel önbelleklenmesine izin verin. <filename>/var/cache/man</filename> yapısı hem çoklu kılavuz sayfaları sıradüzenini hem de çoklu dil desteği ihtimalini gözönüne almak zorundadır. 
+				</para>
+				<para>
+					Biçimlendirilmiş kılavuz sayfaları <filename>&lt;path&gt;/man/&lt;locale&gt;/man&lt;section&gt;</filename> içinde bulunsun, biçimlendirilmişler <filename>/var/cache/man/&lt;catpath&gt;/&lt;locale&gt;/cat&lt;section&gt;</filename> içinde. Burada <filename>&lt;catpath&gt; &lt;path&gt;</filename>'den önündeki usr ve/veya takip eden ortak yol isminin çıkartılması ile türetilmiştir. (Dikkat ediniz, <filename>&lt;locale&gt;</filename> bileşeni eksik olabilir.) <footnote>
+						<para>
+							 Örneğin <filename>/usr/share/man/man1/ls.1</filename> dizini <filename>/var/cache/man/cat1/ls.1</filename> içine  ve <filename>/usr/X11R6/man/&lt;locale&gt;/man3/XtClass.3x</filename> de <filename>/var/cache/man/X11R6/&lt;locale&gt;/cat3/XtClass.3x</filename> biçimlendirilmiştir.
+						</para>
+</footnote>
+				</para>
+				<para>
+					<filename>/var/cache/man</filename>'a yazılmış kılavuz sayfaları sonradan kaynak man sıradüzeni içinde uygun önbiçimlendirilmiş dizinlere aktarılabilir veya süresi geçebilir; benzer şekilde kaynak man sıradüzeni içinde biçimlendirilmiş kılavuz sayfalarının, eğer bir süre boyunca bunlara hiç erişim olmadıysa, süreleri geçebilir. 
+				</para>
+				<para>
+					Eğer önbiçimlendirilmiş kılavuz sayfaları salt-okunur ortam (örn. CD-ROM) üzerinde bir sistem ile gelirse, bunlar kaynak man dizinine kurulmalıdırlar (örn. <filename>/usr/share/man/cat&lt;section&gt;</filename>). <filename>/var/cache/man</filename> dizini biçimlendirilmiş kılavuz sayfaları için yazılabilir tampon olarak ayrılmıştır.
+				</para>
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						Standardın 1.2 yayımı bu dizin için <filename>/var/catman</filename> belirtmiştir. Yol, biçimlendirilmiş kılavuz sayfalarının dinamik özelliğinni daha iyi yansıtmak için <filename>/var/cache</filename> altına taşınmıştır. Dizin isimleri, sıradüzeni daha geliştirmek, PostScript, HTML veya DVI gibi "cat" dışındaki biçimleri de dahil etmek için değiştirilmiştir.
+					</para>
+				</caution>
+			</sect4>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-crash">
+		<title>/var/crash : System crash dumps (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-crash-purp">
+			<title>Amaç</title>
+			<para>
+				Bu dizin sistem çökme yığınlarını (dump) tutar. Standardın geçmiş yayımlarında, sistem çökme yığınları Linux'da desteklenmemişti fakat FHS uyumlu diğer sistemler tarafından desteklenmiş olabilir.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-games">
+		<title>/var/games : Variable game data (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-games-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/usr</filename> içinceki oyunlarla ilişkili herhangi bir değişken veri burada  bulunur. <filename>/var/games</filename> daha önce <filename>/usr</filename> içinde bulunan değişken verileri saklamalı; durağan veriler, örneğin yardım metinleri, seviye (level) tanımlamaları ve benzerleri başka yerde bulunmalıdır; örneğin <filename>/usr/share/games</filename>.
+			</para>
+			<caution> <title>Mantıksal Temel</title>
+				<para>
+					<filename>/var/games</filename>, yayım 1.2'deki gibi eski <filename>/var/lib</filename> ile birleşmekten ziyade, kendi sıradüzeni ile verilmiştir. Bunları birbirinden ayırmak yedekleme stratejilerinin, izinlerin, ve disk kullanımının yerel kontrolüne izin vermekle birlikte konaklar arası paylaşımı ve <filename>/var/lib</filename> içindeki karışıklığı azaltmayı da sağlar. Ek olarak, <filename>/var/games</filename> BSD'nin geleneksel olrak kullandığı bir yoldur. 
+				</para>	
+			</caution>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-lib">
+		<title>/var/lib : Variable state information</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lib-purp">
+			<title>Amaç</title>
+			<para>
+				Bu dizin bir uygulamaya veya sisteme ait durum bilgisini tutar. Durum bilgisi programların çalışırlarken değiştirdiği bir veridir ve belirli tek bir konağa aittir. Kullanıcılar hiç bir zaman bir paketin işlemlerini yapılandırmak için <filename>/var/lib</filename> içindeki dosyaları değiştirmek zorunda değildir. 
+			</para>
+			<para>
+				Durum bilgisi genellikle bir uygulama ile bunun çağırımları veya aynı uygulamanın diğer örnekleri (instance) arasındaki durumu tutmak için kullanılır (veya bir grup ilişkili uygulamaların) Durum bilgisi genellikle sistemin yeniden başlatılmasından sonra geçerli kalmalı, kayıt çıktısı olmamalı ve kuyruklu veri (spooled data) olmamalıdır.
+			</para>
+			<para>
+				Bir uygulama (veya bir grup ilişkili uygulamalar) kendi verileri için <filename>/usr/lib</filename> içerisinde bir altdizin kullanmalıdırlar. gerekli altdizinleden biri, <filename>/var/lib/misc</filename>, altdizin gerektirmeyen durum dosyalarını tutmak içindir; diğer altdizinler sadece eğer bu uygulama dağıtıma dahil edilmiş ise bulunmalıdır. <footnote>
+					<para>
+						Standardın bu ve önceki sürümü arasındaki önemli bir fark uygulamaların artık <filename>/var/lib</filename> dizinini kullanması gerektiğidir.
+					</para>
+</footnote>
+			</para>
+			<para>
+				<filename>/var/lib/&lt;name&gt;</filename> tüm dağıtım destekli paketlerin kullanması gereken yerdir. Değişik dağıtımlar değişik isimler kullanabilirler tabii ki.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lib-req">
+			<title>Gereksinimler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, <filename>/var/lib</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>misc</filename></entry>
+							<entry>Çeşitli durum verisi</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lib-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/var/lib</filename> içerisinde bulunmalıdır:
+				
+				
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>&lt;editor&gt;</filename></entry>	
+							<entry>Düzenleyici yedek dosyaları ve durumlar (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>&lt;pkgtool&gt;</filename></entry>	
+							<entry>Paketleme destek dosyaları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>&lt;package&gt;</filename>	</entry>
+							<entry>Paketler ve altsistemler için durum verileri (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>hwclock</command></entry>	
+							<entry>hwclock için durum (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><command>xdm</command>	</entry>
+							<entry>X display manager değişken verileri (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lib-edi">
+			<title>/var/lib/&lt;editor&gt; : Düzenleyici yedek dosyaları ve durum (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-lib-edi-purp">
+				<title>Amaç</title>
+				<para>
+					Bu dizinler bir düzenleyicinin (örn. elvis, jove, nvi) beklenmeyen bir şekilde sonlandığı durumlarda kaydedilen dosyaları içerir. 
+					Diğer düzenleyiciler çökme-kurtarma için bir dizin gerektirmeyebilirler, fakat düzenleyici çalışırken diğer bilgilerin saklanacağı iyi tanımlanmış bir yere ihtiyaç duyabilirler. Bu bilgiler <filename>/var/lib</filename> içerisinde bir altdizinde saklanmalıdır (örneğin, GNU Emacs kilit dosyalarını <filename>/var/lib/emacs/lock</filename> içine yerleştirecektir)
+					
+					Gelecek düzenleyiciler çökme-kurtarma dosyaları ve kilit dosyaları ötesinde ek durum bilgilerine ihtiyaç duyabilirler - bu bilgiler de <filename>/var/lib/&lt;editor&gt;</filename> altında yer almalıdır.
+				</para>
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						Önceki Linux yayımları, tüm ticari sağlayıcılar gibi, vi veya klonları için <filename>/var/preserve</filename> dizinini kullanır. Bununle birlikte, her düzenleyici bu çökme-kurtama dosyaları için kendi biçimlerini kullanırlar, bu yüzden her bir düzenleyici için ayrı bir dizin gereklidir.
+					</para>
+				</caution>
+				<para>
+					Düzenleyici-özel kilit dosyaları genellikle cihaz dosyalarında veya <filename>/var/lock</filename> içinde duran kaynak kilit dosyalarından oldukça farklıdır, bu yüzden <filename>/var/lib</filename> altında bulunurlar.
+				</para>
+			</sect4>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lib-hwclock">
+			<title>/var/lib/hwclock : hwclock için durum dizini (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-lib-hwclock-purp">
+				<title>Amaç</title>
+				<para>
+					Bu dizin <filename>/var/lib/hwclock/adjtime</filename> dosyasını içerir.
+				</para>
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						FHS 2.1'de bu dosya <filename>/etc/adjtime</filename> idi, fakat <command>hwclock</command> bunu güncelleştirdiği için bu yer açıkça doğru değildi.
+					</para>
+				</caution>
+			</sect4>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lib-misc">
+			<title>/var/lib/misc : Çeşitli değişken veriler</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-lib-misc-purp">
+				<title>Amaç</title>
+				<para>
+					Bu dizin <filename>/var/lib</filename> içinde bir altdizine yerleştirilmemiş olan değişken verileri içerir. İsim çakışmasından sakınmak için bu dizin içindeki dosyaların bağıl olarak biricik olması sağlanmalıdır. <footnote>
+						<para>
+							 Bu sıradüzen şu anki BSD yayımlarında <filename>/var/db</filename> içinde saklı dosyalar içermelidir. Bunlara locate.database, mountdtab ve çekirdek sembol veritaban(lar)ı da dahildir.
+						</para>
+</footnote> 
+				</para>
+			</sect4>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-lock">
+		<title>/var/lib/misc : Kilit dosyaları</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-lock-purp">
+			<title>Amaç</title>
+			<para>
+				Kilit dosyaları /var/lock dizin yapısı içinde saklanmalıdır.
+				
+				Cihazlar ve diğer kaynaklar için kilit dpsyaları çoklu uygulamalar tarafından paylaşılabilir. Örneğin orjinal olarak <filename>/usr/spool/locks</filename> veya <filename>/usr/spool/uucp</filename> altında bulunan seri cihaz kilit dosyaları artık <filename>/var/lock</filename> içinde saklanmaldır. Kullanılması gereken isimlendirme kuralı "LCK.." ve bunu takip eden cihaz ismidir. Örneğin <filename>/dev/ttyS0</filename> dosyasını kilitlemek için "<filename>LCK..ttyS0</filename>" dosyası yaratılır. <footnote>
+					<para>
+						 Öyleyse <filename>/dev/ttyS0</filename>'ı kullanmak isteyen herhangi birşey kilit dosyasını okuyabilir ve buna göre hareket eder (<filename>/var/lock</filename> içindeki tüm kilitler herkes tarafından okunabilir olmalıdır).
+					</para>
+</footnote>
+			</para>
+			<para>
+				Böyle kilit dosyalarının içeriği için kullanılan biçim HDB UUCP kilit dosya biçimi olmalıdır. HDB biçimi süreçrtecini (PID) on byte ASCII onluk sayıyı takip eden bir satır başı biçiminde tutar. Örneğin eğer 1230 numaralı süreç bir kilit dosyayı tutsaydı bu onbir karakterden oluşurdu: boşluk, boşluk, boşluk, boşluk, boşluk, boşluk, bir, iki, üç, sıfır, ve satır başı.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-log">
+		<title>/var/log : Kayıt dosyaları ve dizinler</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-log-purp">
+			<title>Amaç</title>
+			<para>
+				Bu dizin çeşitli kayıt dosyalarını içerir. Bir çok kayıt bu dizin içerisinde veye uygun bir altdizinde tutulmalıdır.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-log-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki dosyalar veya dosyalara sembolik bağlar, ilgili altsistemler kurulmuş ise, <filename>/var/log</filename> içerinde bulunmalıdır: 
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dosya</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>lastlog</filename></entry>	
+							<entry>her bir kullanıcı için son oturum açma kaydı</entry>
+						</row>
+						<row>
+							<entry><filename>messages</filename>	</entry>
+							<entry><command>syslogd</command>'den sistem mesajları</entry>
+						</row>
+						<row>
+							
+							<entry><filename>tmp</filename>	</entry>
+							<entry>tüm oturum açma ve kapamaların kaydı</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+			
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-mail">
+		<title>/var/mail : Kullanıcı eposta kutusu dosyaları (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-mail-purp">
+			<title>Amaç</title>
+			<para>
+				Eposta kuyruğu <filename>/var/mail</filename> üzerinden erişilebilir olmalı ve eposta kuyruğu <filename>&lt;username&gt;</filename> biçiminde olmalıdır. <footnote>
+					<para>
+						 <filename>/var/mail</filename> dizininin başka bir dizine sembolik bağ olabileceğine dikkat ediniz.
+					</para>
+</footnote>
+			</para>
+			<para>
+				Buradaki kullanıcı eposta kutusu dosyaları standart UNIX eposta kutusu biçiminde saklanmalıdır. 
+			</para>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					Bu dizin için mantıksal yer <filename>/var/spool/mail</filename> dizininden FHS'ye bağlı olarak /<filename>var/mail</filename> olarak değiştirilmiştir. Bu değişim birlikte çalışabilirlik için önemlidir çünkü <filename>/var/mail</filename> sıklıkla bir çok konak ve UNIX uygulamaları arasında (NFS kilitleme konuları dışında) paylaşılmaktadır. 
+				</para>
+			</caution>
+			<para>
+				Fiziksel olarak eposta kuyruğunun bu yere taşınmasının gerekmediğine dikkat etmek önemlidir. Bununla birlikte programlar ve başlık dosyaları <filename>/var/mail</filename> dizinini kullanacak şekilde değiştirilmelidir.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-opt">
+		<title>/var/opt : /opt için değişken veriler</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-opt-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/opt</filename> içindeki paketlerin değişken verileri <filename>/var/opt/&lt;subdir&gt;</filename> içine kurulmalıdır. Burada <filename>&lt;subdir&gt;</filename>, eğer <filename>/etc</filename> içinde yerine kullanılan başka bir dosya yoksa, <filename>/opt</filename> içindeki ilave yazılım paketlerinin durağan verilerinin saklandığı altağaç ismi olmalıdır. <filename>/var/opt/&lt;subdir&gt;</filename> dizininin iç düzenlenmesi üzerine dayatılan bir yapı yoktur.
+			</para>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					<filename>/opt</filename> için Mantıksal Temel'e bakınız.
+				</para>
+			</caution>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-run">
+		<title>/var/run : Çalışma-anı değişken veriler</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-run-purp">
+			<title>Amaç</title>
+			<para>
+				Bu dizin sistemin önyüklemeden (boot) itibaren sistemi tanımlayan verileri içerir. Bu dizin altındaki dosyalar önyükleme sürecinin başında temizlenmelidir (silme veya budama). Programların <filename>/var/run</filename> içinde altdizinleri bulunabilir; bu, brden fazla çalışma-anı dosyası kullanan programlar için teşvik edilir.<footnote>
+					<para>
+						<filename>/var/run</filename> yetkisiz kullanıcılar tarafından yazılamaz olmalıdır (root veya süreci çalıştıran kullanıcılar); herhangi bir kullanıcının bu dizine yazabilmesi başlıca bir güvenlik açığıdır.
+					</para>
+</footnote> Orjinal olarak <filename>/etc</filename> içinde bulunan süreç belirteç (PID) dosyaları <filename>/var/run</filename> içinde bulunmalıdır. PID dosyaları için isimlendirme kuralı <filename>&lt;program-name&gt;</filename>.pid şeklindedir. Örneğin <command>crond</command> PID dosyası <filename>/var/run/crond.pid</filename> şeklinde isimlendirilir.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-run-req">
+			<title>Gereksinimler</title>
+			<para>
+				PID dosyalarının dahili biçimi değiştirilmemiştir. Dosya süreç belirtecinin ASCII-kodlanmış onluk sayısını takip eden satır başı karakterinden oluşur. Örneğin, eğer <command>crond</command> süreç numarası 25 ise, <filename>/var/run/crond.pid</filename> üç karakterden oluşur: iki, beş, ve satır başı.
+			</para>
+			<para>
+				PID dosyalarını okuyan programlar kabul ettikleri şeylerle ilgili bir şekilde esnek olmalıdırlar: örn. fazladan boşlukları, baştaki sıfırları, satır başı karakterinin bulunmamasını veya PID dosyasında fazladan satır bulunmasını gözardı etmelidirler. PID dosyası üreten programlar yukarıdaki paragrafta açıklanan basit biçimi kullanmalıdırlar.
+			</para>
+			<para>
+				Sistemi o anda kimin kullandığı bilgisini tutan utmp dosyası bu dizinde bulunur.
+			</para>
+			<para>
+				Geçişli UNIX-alan adı soketlerini sürdüren sistem programları bu dizinde bulunmalıdırlar.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-spool">
+		<title>/var/spool : Uygulama kuyruk verileri</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-spool-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/var/spool</filename> sonradan işlenmek üzere bekleyen bir takım süreç verilerini içerir. <filename>/var/spool</filename> içindeki veriler gelecek zamanda tamamlanacak (bir program, kullancı ve yönetici tarafından) işleri temsil eder; genellikle veri işlendikten sonra silinir. <footnote>
+					<para>
+							UUCP kilit dosyaları <filename>/var/lock</filename> içine yerleştirilmelidir. <filename>/var/lock</filename>'la ilgili yukarıdaki bölüme bakınız.
+					</para>
+</footnote>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-spool-spo">
+			<title>Özel Seçenekler</title>
+			<para>
+				Aşağıdaki dizinler veya dizinlere sembolik bağlar, ilgili atlsistem kurulmuş ise, <filename>/var/spool</filename> içerisinde bulunmalıdır:
+			</para>
+			<informaltable frame="none" style=";background:#ffffff;">
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Dizin</entry>
+							<entry>Tanımlama</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filename>lpd</filename>	</entry>
+							<entry>Yazıcı kuyruk dizini (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>mqueue</filename>	</entry>
+							<entry>Giden posta kuyruğu (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>news</filename>	</entry>
+							<entry>Haber kuyruk dizini (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>rwho</filename></entry>	
+							<entry><command>Rwhod</command> dosyaları (seçimlik)</entry>
+						</row>
+						<row>
+							<entry><filename>uucp</filename></entry>	
+							<entry>UUCP için kuyruk dizini (seçimlik)</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+				
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-spool-lpd">
+			<title>/var/spool/lpd : Hat-yazıcı artalan süreci yazma kuyrukları (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-spool-lpd-purp">
+				<title>Amaç</title>
+				<para>
+					<command>lpd</command> için kilit dosyası, <filename>lpd.lock</filename>, <filename>/var/spool/lpd</filename> içine yerleştirilmelidir. Her bir yazıcı için kilit dosyasının kuruk dizini içine özel yazıcı ve kilit ismiyle yerleştirilmesi tavsiye edilir.
+				</para>
+			</sect4>
+			<sect4 id="file-system-hierarchy-standard-howto-var-spool-lpd-spo">
+				<title>Özel Seçenekler</title>
+				<informaltable frame="none" style=";background:#ffffff;">
+					<tgroup cols='2'>
+						<thead>
+							<row>
+								<entry>Dizin</entry>
+								<entry>Tanımlama</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry><filename>printer</filename></entry>
+								<entry>Özel bir yazıcı için kuyruklar (seçimlik)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</informaltable>
+				
+			</sect4>
+			
+			
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-var-spool-rwho">
+			<title>/var/spool/rwho : Rwhod dosyaları (seçimlik)</title>
+			<sect4 id="file-system-hierarchy-standard-howto-var-spool-rwho-purp">
+				<title>Amaç</title>
+				<para>
+					Bu dizin yerel ağdaki diğer sistemler için <command>rwhod</command> bilgisini tutar.
+				</para>
+				<caution><title>Mantıksal Temel</title>
+					<para>
+						Bazı BSD yayımları bu veri için <filename>/var/rwho</filename> dizinini kullanır; diğer sistemlerde tarihsel olarak <filename>/vat/spool</filename> içinde bulunması ve kuyruk (spool) tanımlamasına tam olarak uyması dolayısıyla bu yerin daha uygun olduğu düşünülmüştür.
+					</para>
+				</caution>
+			</sect4>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-tmp">
+		<title>/var/tmp : Sistemin yeniden başatılmaları arasında geçici dosyalar</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-tmp-purp">
+			<title>Amaç</title>
+			<para>
+				<filename>/var/tmp</filename> dizini, sistemin yeniden başlatılmaları arasında geçici dosya veya dizine ihtiyaç duyan programların kullanması içindir. Bu yüzden <filename>/var/tmp</filename> içindeki verilerin kalıcılığı <filename>/tmp</filename> içindekilerden daha fazladır.
+			</para>
+			<para>
+				<filename>/var/tmp</filename> içindeki dosyalar ve dizinler önyükleme (boot) sırasında silinmemelidir. <filename>/var/tmp</filename> içindek tutulan veri tipik olarak silinecek olsa da silme işleminin <filename>/tmp</filename> içindekilere göre daha az sıklıkta olması tavsiye edilir.
+			</para>
+		</sect3>
+	</sect2>
+	<sect2 id="file-system-hierarchy-standard-howto-var-yp">
+		<title>/var/yp : Ağ Bilgi Sistemi (NIS) veritabanı dosyaları (seçimlik)</title>
+		<sect3 id="file-system-hierarchy-standard-howto-var-yp-purp">
+			<title>Amaç</title>
+			<para>
+				Ağ Bilgi Sistemi (NIS), daha önceki bilinen ismiyle Sun Yellow Pages (YP), ile ilgili değişken veriler bu dizine yerleştirilmelidir.
+			</para>
+			<caution>
+				<title>Mantıksal Temel</title>
+				<para>
+					<filename>/var/yp</filename> NIS (YP) için standart dizindir ve hemen hemen yalnızca NIS belgelendirmelerinde ve sistemlerinde kullanılmaktadır.  <footnote>
+						<para>
+							NIS, başka bir dizin olan <filename>/var/nis</filename>'i kullanan Sun NIS+ ile karıştırılmamalıdır, 
+						</para>
+</footnote>
+				</para>
+			</caution>
+		</sect3>
+	</sect2>
+			
+	
+</sect1>
+<sect1 id="file-system-hierarchy-standard-howto-sspe"><title>İşletim Sistemi Özel İlaveler</title>
+	<para>
+		Bu bölüm sadece özel bir işletim sistemine uygulanacak ilave gereksinimler ve tavsiyeler içindir. Buradaki materyaller temel standarla asla çelişmemelidir. 
+	</para>
+	<sect2 id="file-system-hierarchy-standard-howto-sspe-linux">
+		<title>Linux</title>
+		<para>
+			Bu ek Linux işletim sistemi içindir.
+		</para>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-root">
+			<title>/ : Kök dizin</title>
+			<para>
+				Linux sistemlerde, eğer çekirde <filename>/</filename> dizinine yerleştirilmiş ise, yakın geçmişteki Linux çekirdek kaynak paketlerinde kullanılan vmlinux veya vmlinuz isimlerinin kullanılmasını tavsiye ederiz.
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-bin">
+			<title>/bin : Önemli kullanıcı komut ikilileri (tüm kullanıcılar için)</title>
+			<para>
+				Bu ilave dosyaları <filename>/bin</filename> içine koymayı gerektiren Linux sistemler: 
+			</para>
+			<para>
+				<command>setserial</command>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-dev">
+			<title>/dev : Aygıt dosyaları ve özel dosyalar</title>
+			<para>
+				Aşağıdaki aygıtlar <filename>/dev</filename> içinde bulunmalıdır.
+			</para>
+			<para>
+				
+				<filename>/dev/null</filename>
+			</para>
+			<para>
+				Bu aygıta yazılan tüm veriler atılır. Bu aygtıttan yapılan okuma EOF (dosya sonu) durmunu döndürür. 
+				<filename>/dev/zero</filename>
+			</para>
+			<para>
+				
+				Bu aygıt sıfırlanmış verilerin kaynağıdır. Bu aygıta yazılan tüm veriler atılır. Bu aygıttan yapılan okuma ne kadar istekte bulunulduysa o kadar byte sıfır değerini döndürecektir.
+				<filename>/dev/tty</filename>
+			</para>
+			<para>
+				Bu cihaz bir sürecin uçbirimini kontrol etmekle eşanlamlıdır. Bu aygıt açıldığında yapılan tüm yazma ve okumalar aktif kontrol uçbirim aygıtı açılmış gibi davranacaktır.
+			</para>
+			<caution>
+				<title>Mantıksal Temel</title>
+				<para>
+					FHS'nin önceki sürümü <filename>/dev </filename>için daha katıydı. Diğer cihazlar da ayrıca <filename>/dev</filename> içinde bulunabilir. Aygıt isimleri <filename>/dev</filename> içinde veya aldizinlerinde bulunan diğer aygıt düğümlerine sembolik bağ olarak bulunabilir. major/minor sayılarla ilgili herhangi bir gereksinim yoktur.
+				</para>
+			</caution>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-etc">
+			<title>/etc : Konak-özel sistem yapılandırması</title>
+			<para>
+				Bu ilave dosyaları <filename>/etc</filename> içine koymayı gerektiren Linux sistemler:
+				
+				
+						<filename>lilo.conf</filename>
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-lib3264">
+			<title>/lib64 ve /lib32 : 64/32-bit kütüphaneler (mimari bağımlı)</title>
+			<para>
+				64 bit mimarileer PPC64, s390x, sparc64 ve AMD64 64-bit kütüphaneleri <filename>/lib64</filename> içine ve 32-bit (veya s390 üzerinde 32 bit) kütüphaneleri <filename>/lib</filename> içine yerleştirmelidir. 
+			</para>
+			<para>
+				64-bit mimari IA64 64-bit kütüphaneleri /lib içine yerleştirmelidir.
+			</para>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					Bu, <filename>/lib&lt;qual&gt;</filename> ve <filename>/usr/lib&lt;qual&gt;</filename> ile ilegili kuralların iyileştirilmesidir. Mimari PPC64, s390x, sparc64 ve AMD64 hem 32-bit (s390 için daha doğrusu 31-bit) ve 64-bit programları destekler. lib'i 32-bit ikililer için kullanmak 32-bit sistemlerden gelen varolan uygulamaları değiştirmeden çalıştırmaya izin verir: bu ikililerin çok sayıda olması beklenir. IA-64 değişik bir şema kullanır, bu mimaride 32-bit ikililerin (aynı zamanda kütüphanelerin) kullanılmasına karşı çıkar.
+				</para>
+			</caution>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-proc">
+			<title>/proc : Çekirdek ve süreç bilgisi sanal dosya sistemi</title>
+			<para>
+				<filename>proc</filename> dosya sistemi, <filename>/dev/kmem</filename> ve benzer methodlardan ziyade, süreç yönetimi ve sistem bilgisi için defakto Linux standardıdır. Bunu süreç bilgilerinin saklanması ve getirilmesi için olduğu kadar diğer çekirdek ve bellek bilgileri için de kullanılmasını şiddetle tavsiye ederiz. 
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-sbin">
+			<title>/sbin : Önemli sistem ikilileri</title>
+			<para>
+				Linux sistemler bu ilave dosyaları <filename>/sbin</filename> içine  yerleştirirler.
+			<itemizedlist>
+				<listitem>
+					İkinci genişletilmiş dosya sistemi komutları (seçimlik):
+					<itemizedlist>
+						<listitem>
+							<command>badblocks</command>
+						</listitem>
+						<listitem>
+							<command>dumpe2fs</command>
+						</listitem>
+						<listitem>
+							<command>e2fsck</command>
+						</listitem>
+						<listitem>
+							<command>mke2fs</command>
+						</listitem>
+						<listitem>
+							<command>mklost+found</command>
+						</listitem>
+						<listitem>
+							<command>tune2fs</command>				
+						</listitem>
+					</itemizedlist>
+				</listitem>
+				<listitem>
+					Boot-loader map installer (seçimlik):
+					<itemizedlist>
+						<listitem>
+							<command>lilo</command>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+			<filename>/sbin</filename> için seçimlik dosyalar
+			<itemizedlist>
+				<listitem>
+					Statik ikililer:
+					<itemizedlist>
+						<listitem>
+							<command>ldconfig</command>
+						</listitem>
+						<listitem>
+							<command>sln</command>	
+						</listitem>
+						<listitem>	
+							<command>ssync</command>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+			</para>
+	
+			<para>
+				Bir şeyler yanlış gittiği zaman durağan ln (Static ln, <command>sln</command>) ve durağan sync (<command>ssync</command>) kullanışlıdır. <command>sln</command>'nin birincil kullanımı (kötü yönetilen güncellemenin ardından <filename>/lib</filename> içindeki bozuk sembolik bağların onarımı) artık, ldconfig programının olmasıyla (genellikle <filename>/usr/sbin</filename> içindedir) , ve dinamik kütüphanelerin güncellenmesinde kılavuz görevi görmesiyle birlikte, önemli bir konu olmaktan çıktı. Durağan sync bazı acil durumlarda kullanışlıdır. Dikkat ediniz, bunlar standart <command>ln</command> ve <command>sync</command>'nin durağan olarak bağlanmış sürümleri olmak zorunda değildirler, ama olabilirler. 
+			</para>
+			<para>
+				<command>ldconfig</command> ikilisi, bir sistemin ldconfig'i yalnızca paylaşılan kütüphanelerin güncellenmesi sırasında değil de önyükleme zamanında çalıştırmayı seçebileceğinden, <filename>/sbin</filename> için seçimliktir. (<command>ldconfig</command>'in her önyükleme zamanında çalıştırılmasının avantaj veya dezavantaj olduğu tam açık değildir.) Öyle olsa da bazı insanlar <command>ldconfig</command>'i aşağıdaki durumlarda (tümü oldukça yaygın) severler:
+			</para>
+			<para>
+				<itemizedlist>
+					<listitem>
+						<filename>/lib/&lt;file&gt;</filename> dosyasını henüz sildim.
+					</listitem>
+					<listitem>
+						Kütüphanenin ismini bilmiyorum çünkü ls dinamik olarak bağlı, içinde tümleşik olarak <command>ls</command> olmayan bir kabuk kullanıyorum, ve "<command>echo *</command>" komutunu değiştirme yapmak için kullanmayı bilmiyorum.
+					</listitem>
+					<listitem>
+						Durağan <command>sln</command> komutu var fakat bağı nasıl çağıracağımı bilmiyorum
+					</listitem>
+				</itemizedlist>
+			</para>
+			<para>
+			<itemizedlist>
+				<listitem>
+					Çeşitli:
+				
+					<itemizedlist>
+						<listitem>
+							<command>ctrlaltdel</command>
+						</listitem>
+						<listitem>
+							<command>kbdrate</command>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+		</para>
+			<para>
+				Bazı klavyelerin kullanışsız olan yüksek tekrarlama hızıyla başa çıkmak için bazı sistemlerde kbdrate <filename>/sbin</filename> içine kurulmuş olabilir.
+			</para>
+			<para>
+				Ctrl-alt-del tuş kombinasyonunun varsayılan etkisi sistemin ani yeniden başlatılması olduğu için, bu davranışı kök dosya sisteminin okunur-yazılır bağlanmasından önce pasifleştirilmesi genellikle tavsiye edilebilir. Bazı <command>init</command> takımları Ctrl-alt-del'i pasifleştiirebilirler, fakat diğerleri -ki bu sistemlerde <filename>/sbin</filename> altında kuruludur- <command>ctrlaltdel</command> programına ihtiyaç duyabilirler. 
+			</para>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-usrinc">
+			<title>/usr/include : C programcıları tarafından eklenen başlık programcıları</title>
+			<para>
+				Bu sembolik bağlar eğer bir C veya C++ derleyicisi kurulu olduğunda ve glibc tabanlı olmayan sistemlerde gereklidir.
+			</para>
+			<screen>
+/usr/include/asm -> /usr/src/linux/include/asm-&lt;arch&gt;
+/usr/include/linux -> /usr/src/linux/include/linux</screen>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-usrsrc">
+			<title>/usr/src : Kaynak kod</title>
+			<para>
+				glibc tabanlı sistemler için, bu dizin için belirli bir kılavuz yoktur. Öncek Linux libc revizyonu tabanlı sistemlerde aşağıdaki kılavuz ve Mantıksal Temel uygulanır:
+			</para>
+			<para>
+				Belirli bir yere yerleştirilmesi gereken tek kaynak kod Linux çekirdeği kaynak kodudur. <filename>/usr/src/linux</filename> içine yerleştirilir.
+			</para>
+			<para>
+				Eğer bir C veya C++ derleyicisi kurulmuş ise, fakat tüm Linux çekirdeği kaynak kodu kurulmamış ise, çekirdek kaynak kodu başlık dosyaları şu dizinler içine yerleştirilmelidir:
+			</para>
+			<screen>
+/usr/src/linux/include/asm-&lt;arch&gt;
+/usr/src/linux/include/linux</screen>
+			<para>
+				<filename>&lt;arch&gt;</filename> sistem mimarisi ismidir.
+			</para>
+			<note>
+				<filename>/usr/src/linux</filename> çekirdek kaynak kod ağacına sembolik bağ olabilir.
+			</note>
+			<caution><title>Mantıksal Temel</title>
+				<para>
+					Çekirdek kaynak kodlarının <filename>/usr/include</filename> içine değil de <filename>/usr/src/linux</filename> içine yerleştirilmesi önemlidir, böylece sistem yöneticisi çekirdek sürümünü ilk güncelleştirmesi sırasında problem yaşamayacaktır. 
+				</para>
+			</caution>
+		</sect3>
+		<sect3 id="file-system-hierarchy-standard-howto-sspe-linux-varspoolcron">
+			<title>/var/spool/cron : cron ve at işleri</title>
+			<para>
+				Bu dizin <command>cron</command> ve <command>at</command> programları için değişken verileri içerir.
+			</para>
+		</sect3>
+	</sect2>
+</sect1>
+<sect1 id="file-system-hierarchy-standard-howto-app">
+	<title>EKler</title>
+	<appendix id="file-system-hierarchy-standard-howto-fhs"><title>FHS e-posta Listesi</title>
+		<para>
+			FHS eposta listesi &lt;freestandards-fhs-discuss@lists.sourceforge.net&gt; 'dir. Bu listeye <ulink url="http://sourceforge.net/projects/freestandards/">http://sourceforge.net/projects/freestandards/</ulink> adresinden üye olabilirsiniz. 
+		</para>
+		<para>
+			San Diego  California Üniversitesine bize mükemmel bir eposta liste sunucusu kullanmaya izin verdikleri için teşekkürler.
+		</para>
+		<para>
+			Girişte belirtildiği gibi, FHS editörü veya liste yöneticisi ile bağlantıya geçmeden eposta listesine eposta göndermeyiniz. 
+		</para>
+	</appendix>
+	<appendix id="file-system-hierarchy-standard-howto-app-bfhs"><title>FHS'nin Geçmişi</title>
+		<para>
+			Standart bir dosya sistemi oluşturulması çalışmaları 1993 Ağustosunda Linux'un dosya ve dizin yapısının yeniden oluşturulması çabalarıyla başladı. FSSTND, Linux işletim sistemine özel dosya sistemi sıradüzeni standardı, 14 Şubat 1994'de yayımlandı. Müteakip reviztonlar 9 Ekim 1994 ve 28 Mart 1995'de yayımlandı.
+		</para>
+		<para>
+			1995'in ilk aylarında FSSTND'nin sadece Linux'a özel olmayan, diğer UNIX-benzeri sistemleri de içeren daha kapdamlı sürümünün geliştirlmesi amacı BSD geliştirme topluluğu üyelerinin yardımı ile benimsendi. Sonuç olarak, birleşen çabalar  genel UNIX-benzeri sistemler üzerine odaklandı. Kapsamın genişlemesi farkedilerek standardı ismi Dosyasistemi Sıradüzeni Standarı ( Filesystem Hierarchy Standard) veya kısaca FHS oldu. 
+		</para>
+		<para>
+			Bu standarda yaygın bir şekilde katılan gönüllüler belgenin sonunda listelenmiştir. Bu standar bu ve diğer katılımcıların ortak görüşünü temsil eder.
+		</para>
+	</appendix>
+	<appendix id="file-system-hierarchy-standard-howto-gguide"><title>Genel Kılavuzlar</title>
+		<para>
+			Bu standardın geliştirilmesinde kullanılan bazı ilkeler şunlardır:		</para>
+		<para>
+			<itemizedlist>
+				<listitem>
+			Geçiş zorluklarını sınırlarken teknik problemleri çöz.
+		</listitem>
+		<listitem>
+			Belirtimleri makul oranda kararlı yap.
+		</listitem>
+		<listitem>
+			Katılımcıların, geliştiricilerin ve diğer ilgili geliştirmelerde karar verenlerin onayını al ve katılımlarını teşvik et.
+		</listitem>
+		<listitem>
+			Farklı UNIX-benzeri sistemlerin gerçekleştiricileri için çekici bir standart sağla.
+		</listitem>
+		</itemizedlist>
+		
+		</para>
+	</appendix>
+	<appendix id="file-system-hierarchy-standard-howto-scope"><title>Kapsam</title>
+		<para>
+			Bu belge dosya ve dizinlerin yerlerini ve bazı sistem dosyalarının içeriklerini belirterek FHS dosya sistemi için standardı oluşturur.
+		</para>
+		<para>
+			Bu standart sistem oluşturucuları, paket geliştiricileri ve FHS uyumlu dosya sistemlerinin bakımını ve oluşturmasını yapan sistem yöneticileri tarafından kullanılması için tasarlanmıştır. Birincil olarak dosya sisteminin nasıl uygunlaştırılacağı üzerine bir belgeden ziyade referans bir belge olması amaçlandı.
+		</para>
+		<para>
+			FHS, FSSTND'nin (Linux işletim sistemi için dosya sistemi organizasyon standardı) önceki çalışmalarından ortaya çıktı ve büyüdü. FSSTND'yi geliştirerek sadece Linux topluluğu içinde değil, 4.4BSD-tabanlı işletim sistemlerini de içeren daha geniş bir alanda birlikte çalışabilirlik konularından bahseder. BSD dünyasından öğrenilenlerle çoklu-mimari desteği olan ve heterojen ağ isteği olan başka yerleri de birleştirir. 
+		</para>
+		<para>
+			Bu belge, dosya sistemi sıradüzeni satandardı üzerine yapılan önceki çabalara göre daha kapsamlı olsa da gelişen teknolojide gereksinimlerin değişeceğinden düzenli güncellemeler gerekli olabilir. Ayrıca, ileride burada bahsedilen problemlere daha iyi çözümler bulunabilir ve böylece bizim çözümlerimiz en iyi çözümler olmayabilir. Tamamlayıcı taslaklar bu belgenin düzenli güncellemelerine ek olarak yayımlanabilir. Bununla birlikte, belirli bir amaç da bu belgenin bir yayımıyla sonraki yayımı arasında geriye dönük uyumluluktur. 
+		</para>
+		<para>
+			Bu standartlarla ilgili yorumlar gönderebilirsiniz. Herhangi bir yorum veya öneri FHS editörüne (Daniel Quinlan &lt;quinlan@pathname.com&gt;) veya FHS eposta listesine gönderilebilir. Yazım veya 
+		</para>
+		<para>
+			Eposta listesine eposta göndermeden önce FHS editörüyle iletişim kurup eski konuların fazladan tekrar tartışılmasından kaçınmak önerilir.
+		</para>
+		<para>
+			Bu belgedeki öğelerin nasıl yorumlanacağı sorusu sıklıkla karşılaşılır. Açıklamaya ihtiyaç duyuyorsanız lütfen FHS editörüyle iletişime geçiniz. Bu standart bir çok katılımcının ortak görüşünü yansıttığından dolayı herhangi bir yorumun da ayrıca onların kesin bir şekilde ortak fikrini yansıttığı önemlidir. Bu sebepten dolayı inceleme önceki tartışmanın konusu olmadığı sürece hızlı bir cevap sağlanması mümkün olmayabilir. 
+		</para>
+	</appendix>
+	<appendix id="file-system-hierarchy-standard-howto-ack"><title>Teşekkür</title>
+		<para>
+			FHS geliştiricleri geliştiricilere, sistem yöneticilerine ve bu standarda katkıları önemli olan kullanıcılara teşekkür etmek ister. Bu standardın yazımında, derlenmesinde ve oluşturulmasında yardımcı olan bütün katılımcılara teşekkür etmek isteriz.
+		</para>
+		<para>
+			FHS Grubu ayrıca bu standardın selefi olan FSSTND'yi destekleyen Linux geliştiricilerine de teşekkür etmek ister. Eğer onlar FSSTND'nin yararlı olduğunu göstermemiş olsalardı FHS asla ortaya çıkmayacaktı
+		</para>
+	</appendix>
+	<appendix id="file-system-hierarchy-standard-howto-con"><title>Katılımcılar</title>
+		<para>
+			Brandon S. Allbery	&lt;bsa@kf8nh.wariat.org&gt;
+		</para>
+		<para>Keith Bostic	&lt;bostic@cs.berkeley.edu&gt;
+		</para>
+		<para>Drew Eckhardt	&lt;drew@colorado.edu&gt;
+		</para>
+		<para>Rik Faith	&lt;faith@cs.unc.edu&gt;
+		</para>
+		<para>Stephen Harris	&lt;sweh@spuddy.mew.co.uk&gt;
+		</para>
+		<para>Ian Jackson	&lt;ijackson@cus.cam.ac.uk&gt;
+		</para>
+		<para>Andreas Jaeger	&lt;aj@suse.de&gt;
+		</para>
+		<para>John A. Martin	&lt;jmartin@acm.org&gt;
+		</para>
+		<para>Ian McCloghrie	&lt;ian@ucsd.edu&gt;
+		</para>
+		<para>Chris Metcalf	&lt;metcalf@lcs.mit.edu&gt;
+		</para>
+		<para>Ian Murdock	&lt;imurdock@debian.org&gt;
+		</para>
+		<para>David C. Niemi	&lt;niemidc@clark.net&gt;
+		</para>
+		<para>Daniel Quinlan	&lt;quinlan@pathname.com&gt;
+		</para>
+		<para>Eric S. Raymond	&lt;esr@thyrsus.com&gt;
+		</para>
+		<para>Rusty Russell	&lt;rusty@rustcorp.com.au&gt;
+		</para>
+		<para>Mike Sangrey	&lt;mike@sojurn.lns.pa.us&gt;
+		</para>
+		<para>David H. Silber	&lt;dhs@glowworm.firefly.com&gt;
+		</para>
+		<para>Thomas Sippel-Dau	&lt;t.sippel-dau@ic.ac.uk&gt;
+		</para>
+		<para>Theodore Ts'o	&lt;tytso@athena.mit.edu&gt;
+		</para>
+		<para>Stephen Tweedie	&lt;sct@dcs.ed.ac.uk&gt;
+		</para>
+		<para>Fred N. van Kempen	&lt;waltje@infomagic.com&gt;
+		</para>
+		<para>Bernd Warken	&lt;bwarken@mayn.de&gt;
+		</para>
+		<para>Christopher Yeoh&lt;cyeoh@samba.org&gt;
+		</para>
+	</appendix>
+	
+</sect1>
+
+</article>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-03-12T15:07:03+02:00"><title>İşletim Sistemi Özel İlaveler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/file-system-hierarchy-standard-howto.html" title="Dosya Sistemi Sıradüzeni Standardı"><link rel="previous" href="../howto/file-system-hierarchy-standard-howto-var.html" title="/var Sıradüzeni"><link rel="next" href="../howto/file-system-hierarchy-standard-howto-app.html" title="EKler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">İşletim Sistemi Özel İlaveler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/file-system-hierarchy-standard-howto-var.html">Önceki</a> </td><th width="60%" align="center">Dosya Sistemi Sıradüzeni Standardı</th><td width="20%" align="right"> <a accesskey="n" href="../howto/file-system-hierarchy-standard-howto-app.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="file-system-hierarchy-standard-howto-sspe"></a>İşletim Sistemi Özel İlaveler</h2></div></dt><dd><p>
+		Bu bölüm sadece özel bir işletim sistemine uygulanacak ilave gereksinimler ve tavsiyeler içindir. Buradaki materyaller temel standarla asla çelişmemelidir. 
+	</p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux"></a>Linux</h3></div></dt><dd><p>
+			Bu ek Linux işletim sistemi içindir.
+		</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-root"></a>/ : Kök dizin</h4></div></dt><dd><p>
+				Linux sistemlerde, eğer çekirde <tt>/</tt> dizinine yerleştirilmiş ise, yakın geçmişteki Linux çekirdek kaynak paketlerinde kullanılan vmlinux veya vmlinuz isimlerinin kullanılmasını tavsiye ederiz.
+			</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-bin"></a>/bin : Önemli kullanıcı komut ikilileri (tüm kullanıcılar için)</h4></div></dt><dd><p>
+				Bu ilave dosyaları <tt>/bin</tt> içine koymayı gerektiren Linux sistemler: 
+			</p><p>
+				<b><tt>setserial</tt></b>
+			</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-dev"></a>/dev : Aygıt dosyaları ve özel dosyalar</h4></div></dt><dd><p>
+				Aşağıdaki aygıtlar <tt>/dev</tt> içinde bulunmalıdır.
+			</p><p>
+				
+				<tt>/dev/null</tt>
+			</p><p>
+				Bu aygıta yazılan tüm veriler atılır. Bu aygtıttan yapılan okuma EOF (dosya sonu) durmunu döndürür. 
+				<tt>/dev/zero</tt>
+			</p><p>
+				
+				Bu aygıt sıfırlanmış verilerin kaynağıdır. Bu aygıta yazılan tüm veriler atılır. Bu aygıttan yapılan okuma ne kadar istekte bulunulduysa o kadar byte sıfır değerini döndürecektir.
+				<tt>/dev/tty</tt>
+			</p><p>
+				Bu cihaz bir sürecin uçbirimini kontrol etmekle eşanlamlıdır. Bu aygıt açıldığında yapılan tüm yazma ve okumalar aktif kontrol uçbirim aygıtı açılmış gibi davranacaktır.
+			</p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/caution.png"></td><th>Mantıksal Temel</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+					FHS'nin önceki sürümü <tt>/dev </tt>için daha katıydı. Diğer cihazlar da ayrıca <tt>/dev</tt> içinde bulunabilir. Aygıt isimleri <tt>/dev</tt> içinde veya aldizinlerinde bulunan diğer aygıt düğümlerine sembolik bağ olarak bulunabilir. major/minor sayılarla ilgili herhangi bir gereksinim yoktur.
+				</p></td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-etc"></a>/etc : Konak-özel sistem yapılandırması</h4></div></dt><dd><p>
+				Bu ilave dosyaları <tt>/etc</tt> içine koymayı gerektiren Linux sistemler:
+				
+				
+						<tt>lilo.conf</tt>
+			</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-lib3264"></a>/lib64 ve /lib32 : 64/32-bit kütüphaneler (mimari bağımlı)</h4></div></dt><dd><p>
+				64 bit mimarileer PPC64, s390x, sparc64 ve AMD64 64-bit kütüphaneleri <tt>/lib64</tt> içine ve 32-bit (veya s390 üzerinde 32 bit) kütüphaneleri <tt>/lib</tt> içine yerleştirmelidir. 
+			</p><p>
+				64-bit mimari IA64 64-bit kütüphaneleri /lib içine yerleştirmelidir.
+			</p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/caution.png"></td><th>Mantıksal Temel</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+					Bu, <tt>/lib&lt;qual&gt;</tt> ve <tt>/usr/lib&lt;qual&gt;</tt> ile ilegili kuralların iyileştirilmesidir. Mimari PPC64, s390x, sparc64 ve AMD64 hem 32-bit (s390 için daha doğrusu 31-bit) ve 64-bit programları destekler. lib'i 32-bit ikililer için kullanmak 32-bit sistemlerden gelen varolan uygulamaları değiştirmeden çalıştırmaya izin verir: bu ikililerin çok sayıda olması beklenir. IA-64 değişik bir şema kullanır, bu mimaride 32-bit ikililerin (aynı zamanda kütüphanelerin) kullanılmasına karşı çıkar.
+				</p></td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-proc"></a>/proc : Çekirdek ve süreç bilgisi sanal dosya sistemi</h4></div></dt><dd><p>
+				<tt>proc</tt> dosya sistemi, <tt>/dev/kmem</tt> ve benzer methodlardan ziyade, süreç yönetimi ve sistem bilgisi için defakto Linux standardıdır. Bunu süreç bilgilerinin saklanması ve getirilmesi için olduğu kadar diğer çekirdek ve bellek bilgileri için de kullanılmasını şiddetle tavsiye ederiz. 
+			</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-sbin"></a>/sbin : Önemli sistem ikilileri</h4></div></dt><dd><p>
+				Linux sistemler bu ilave dosyaları <tt>/sbin</tt> içine  yerleştirirler.
+			<div class="itemizedlist"><ul type="disc"><li>
+					İkinci genişletilmiş dosya sistemi komutları (seçimlik):
+					<div class="itemizedlist"><ul type="round"><li><b><tt>badblocks</tt></b></li><li><b><tt>dumpe2fs</tt></b></li><li><b><tt>e2fsck</tt></b></li><li><b><tt>mke2fs</tt></b></li><li><b><tt>mklost+found</tt></b></li><li><b><tt>tune2fs</tt></b></li></ul></div></li><li>
+					Boot-loader map installer (seçimlik):
+					<div class="itemizedlist"><ul type="round"><li><b><tt>lilo</tt></b></li></ul></div></li></ul></div>
+			<tt>/sbin</tt> için seçimlik dosyalar
+			<div class="itemizedlist"><ul type="disc"><li>
+					Statik ikililer:
+					<div class="itemizedlist"><ul type="round"><li><b><tt>ldconfig</tt></b></li><li><b><tt>sln</tt></b></li><li><b><tt>ssync</tt></b></li></ul></div></li></ul></div>
+			</p><p>
+				Bir şeyler yanlış gittiği zaman durağan ln (Static ln, <b><tt>sln</tt></b>) ve durağan sync (<b><tt>ssync</tt></b>) kullanışlıdır. <b><tt>sln</tt></b>'nin birincil kullanımı (kötü yönetilen güncellemenin ardından <tt>/lib</tt> içindeki bozuk sembolik bağların onarımı) artık, ldconfig programının olmasıyla (genellikle <tt>/usr/sbin</tt> içindedir) , ve dinamik kütüphanelerin güncellenmesinde kılavuz görevi görmesiyle birlikte, önemli bir konu olmaktan çıktı. Durağan sync bazı acil durumlarda kullanışlıdır. Dikkat ediniz, bunlar standart <b><tt>ln</tt></b> ve <b><tt>sync</tt></b>'nin durağan olarak bağlanmış sürümleri olmak zorunda değildirler, ama olabilirler. 
+			</p><p>
+				<b><tt>ldconfig</tt></b> ikilisi, bir sistemin ldconfig'i yalnızca paylaşılan kütüphanelerin güncellenmesi sırasında değil de önyükleme zamanında çalıştırmayı seçebileceğinden, <tt>/sbin</tt> için seçimliktir. (<b><tt>ldconfig</tt></b>'in her önyükleme zamanında çalıştırılmasının avantaj veya dezavantaj olduğu tam açık değildir.) Öyle olsa da bazı insanlar <b><tt>ldconfig</tt></b>'i aşağıdaki durumlarda (tümü oldukça yaygın) severler:
+			</p><p>
+				<div class="itemizedlist"><ul type="disc"><li><tt>/lib/&lt;file&gt;</tt> dosyasını henüz sildim.
+					</li><li>
+						Kütüphanenin ismini bilmiyorum çünkü ls dinamik olarak bağlı, içinde tümleşik olarak <b><tt>ls</tt></b> olmayan bir kabuk kullanıyorum, ve "<b><tt>echo *</tt></b>" komutunu değiştirme yapmak için kullanmayı bilmiyorum.
+					</li><li>
+						Durağan <b><tt>sln</tt></b> komutu var fakat bağı nasıl çağıracağımı bilmiyorum
+					</li></ul></div>
+			</p><p>
+			<div class="itemizedlist"><ul type="disc"><li>
+					Çeşitli:
+				
+					<div class="itemizedlist"><ul type="round"><li><b><tt>ctrlaltdel</tt></b></li><li><b><tt>kbdrate</tt></b></li></ul></div></li></ul></div>
+		</p><p>
+				Bazı klavyelerin kullanışsız olan yüksek tekrarlama hızıyla başa çıkmak için bazı sistemlerde kbdrate <tt>/sbin</tt> içine kurulmuş olabilir.
+			</p><p>
+				Ctrl-alt-del tuş kombinasyonunun varsayılan etkisi sistemin ani yeniden başlatılması olduğu için, bu davranışı kök dosya sisteminin okunur-yazılır bağlanmasından önce pasifleştirilmesi genellikle tavsiye edilebilir. Bazı <b><tt>init</tt></b> takımları Ctrl-alt-del'i pasifleştiirebilirler, fakat diğerleri -ki bu sistemlerde <tt>/sbin</tt> altında kuruludur- <b><tt>ctrlaltdel</tt></b> programına ihtiyaç duyabilirler. 
+			</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-usrinc"></a>/usr/include : C programcıları tarafından eklenen başlık programcıları</h4></div></dt><dd><p>
+				Bu sembolik bağlar eğer bir C veya C++ derleyicisi kurulu olduğunda ve glibc tabanlı olmayan sistemlerde gereklidir.
+			</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+/usr/include/asm -&gt; /usr/src/linux/include/asm-&lt;arch&gt;
+/usr/include/linux -&gt; /usr/src/linux/include/linux</pre> </td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-usrsrc"></a>/usr/src : Kaynak kod</h4></div></dt><dd><p>
+				glibc tabanlı sistemler için, bu dizin için belirli bir kılavuz yoktur. Öncek Linux libc revizyonu tabanlı sistemlerde aşağıdaki kılavuz ve Mantıksal Temel uygulanır:
+			</p><p>
+				Belirli bir yere yerleştirilmesi gereken tek kaynak kod Linux çekirdeği kaynak kodudur. <tt>/usr/src/linux</tt> içine yerleştirilir.
+			</p><p>
+				Eğer bir C veya C++ derleyicisi kurulmuş ise, fakat tüm Linux çekirdeği kaynak kodu kurulmamış ise, çekirdek kaynak kodu başlık dosyaları şu dizinler içine yerleştirilmelidir:
+			</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+/usr/src/linux/include/asm-&lt;arch&gt;
+/usr/src/linux/include/linux</pre> </td></tr></table></div><p>
+				<tt>&lt;arch&gt;</tt> sistem mimarisi ismidir.
+			</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/note.png"></td><th>Not</th></tr><tr><td colspan="2" align="left" valign="top"><tt>/usr/src/linux</tt> çekirdek kaynak kod ağacına sembolik bağ olabilir.
+			</td></tr></table></div><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/caution.png"></td><th>Mantıksal Temel</th></tr><tr><td colspan="2" align="left" valign="top"><p>
+					Çekirdek kaynak kodlarının <tt>/usr/include</tt> içine değil de <tt>/usr/src/linux</tt> içine yerleştirilmesi önemlidir, böylece sistem yöneticisi çekirdek sürümünü ilk güncelleştirmesi sırasında problem yaşamayacaktır. 
+				</p></td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="file-system-hierarchy-standard-howto-sspe-linux-varspoolcron"></a>/var/spool/cron : cron ve at işleri</h4></div></dt><dd><p>
+				Bu dizin <b><tt>cron</tt></b> ve <b><tt>at</tt></b> programları için değişken verileri içerir.
+			</p></dd></div></dl></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/file-system-hierarchy-standard-howto-var.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/file-system-hierarchy-standard-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/file-system-hierarchy-standard-howto-app.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">/var Sıradüzeni </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> EKler</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

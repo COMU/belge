@@ -73,6 +73,7 @@
 <!ENTITY fundementals-howto.xml SYSTEM "howtos/fundementals-howto.xml">
 <!ENTITY honeypots.xml SYSTEM "howtos/honeypots.xml">
 <!ENTITY contribute-with-patch.xml SYSTEM "howtos/contribute-with-patch.xml">
+<!ENTITY file-system-hierarchy-standard-howto.xml SYSTEM "howtos/file-system-hierarchy-standard-howto.xml">
 ]>
 <set id="index" lang="tr">
   <?dbhtml dir="../KiTAPLIK"?>
@@ -86,6 +87,7 @@
     <part id="howtos-os">
       <title>Linux İşletim Sistemi</title>
       &linux-i386-boot-code-howto.xml;
+      &file-system-hierarchy-standard-howto.xml;
       &timesys-linux-howto.xml;
       &rtlinux-howto.xml;
       &RTLinux-install-howto.xml;

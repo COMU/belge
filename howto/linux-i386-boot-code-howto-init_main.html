@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>linux/init/main.c</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-kernel_head.html" title="linux/arch/i386/kernel/head.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-smpboot.html" title="SMP Önyükleme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/init/main.c</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-smpboot.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-init_main"></a>linux/init/main.c</h2></div></dt><dd><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-03-12T15:06:13+02:00"><title>linux/init/main.c</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-kernel_head.html" title="linux/arch/i386/kernel/head.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-smpboot.html" title="SMP Önyükleme"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/init/main.c</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-smpboot.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-init_main"></a>linux/init/main.c</h2></div></dt><dd><p>
 Bu bölümü yazarken kendimi suçlu hissettim çünkü yeterince olmasa bile hakkında çok sayıda belge var. <tt>start_kernel()</tt> destekli işlevler, sürekli gelişen işletim sistemi dahili bileşenlerine bağımlı olduğu için, sürümden sürüme değişir. Sık sık belge güncellemek için vaktim olmadığından bu bölümü olabildiğince basit tutmaya karar verdim.
     </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-start_kernel"></a>start_kernel()</h3></div></dt><dd><p>
 <div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
 ///////////////////////////////////////////////////////////////////////////////
-<a class="ulink" href="http://kernelnewbies.org/faq/index.php3#asmlinkage" target="_top">asmlinkage</a> void <a class="ulink" href="http://www.tldp.org/LDP/lki/lki-1.html#ss1.8" target="_top">__init</a> start_kernel(void)
+<a href="http://kernelnewbies.org/faq/index.php3#asmlinkage" target="_top">asmlinkage</a> void <a href="http://www.tldp.org/LDP/lki/lki-1.html#ss1.8" target="_top">__init</a> start_kernel(void)
 {
   char * command_line;
   extern char saved_command_line[];
@@ -14,13 +14,13 @@ Bu bölümü yazarken kendimi suçlu hissettim çünkü yeterince olmasa bile hakkında 
   lock_kernel();
   printk(linux_banner);
 
-  /* <a class="ulink" href="http://www.symonds.net/~abhi/files/mm/mm.html" target="_top">Linux'da bellek yönetimi</a>, esp. for setup_arch()
-    * <a class="ulink" href="http://linux-mm.org/docs/initialization.html" target="_top">Linux-2.4.4 MM Başlangıç durumuna getirme</a> */
+  /* <a href="http://www.symonds.net/~abhi/files/mm/mm.html" target="_top">Linux'da bellek yönetimi</a>, esp. for setup_arch()
+    * <a href="http://linux-mm.org/docs/initialization.html" target="_top">Linux-2.4.4 MM Başlangıç durumuna getirme</a> */
   setup_arch(&amp;command_line);
   printk("Kernel command line: %s\n", saved_command_line);
 
   /* <tt>linux/Documentation/kernel-parameters.txt</tt>
-    * <a class="ulink" href="http://www.tldp.org/HOWTO/BootPrompt-HOWTO.html" target="_top">The Linux BootPrompt-HowTo</a> */
+    * <a href="http://www.tldp.org/HOWTO/BootPrompt-HOWTO.html" target="_top">The Linux BootPrompt-HowTo</a> */
   parse_options(command_line);
 
   trap_init() {
@@ -65,7 +65,7 @@ Bu bölümü yazarken kendimi suçlu hissettim çünkü yeterince olmasa bile hakkında 
   kmem_cache_init();
   sti();
 
-  // <a class="ulink" href="http://www.tldp.org/HOWTO/BogoMips.html" target="_top">BogoMips mini-Howto</a>
+  // <a href="http://www.tldp.org/HOWTO/BogoMips.html" target="_top">BogoMips mini-Howto</a>
   calibrate_delay();
 
   // <tt>linux/Documentation/initrd.txt</tt>
@@ -123,7 +123,7 @@ Bu bölümü yazarken kendimi suçlu hissettim çünkü yeterince olmasa bile hakkında 
     do { } while (0);
 # endif
 #else
-    /* Check <a href="../howto/linux-i386-boot-code-howto-smpboot.html#linux-i386-boot-code-howto-smp_init" class="xref" title="smp_init()"> smp_init()</a>. */
+    /* Check <a href="../howto/linux-i386-boot-code-howto-smpboot.html#linux-i386-boot-code-howto-smp_init" title="smp_init()"> smp_init()</a>. */
 #endif
   }
 
@@ -181,7 +181,7 @@ static int init(void * unused)
 }
 </pre> </td></tr></table></div>
       </p><p>
-Kullanıcı kipi "init" süreciyle ilgili bilgiler için <b><tt>man init</tt></b> veya <a class="ulink" href="http://freshmeat.net/projects/sysvinit" target="_top">SysVinit</a>'e bakınız.
+Kullanıcı kipi "init" süreciyle ilgili bilgiler için <b><tt>man init</tt></b> veya <a href="http://freshmeat.net/projects/sysvinit" target="_top">SysVinit</a>'e bakınız.
       </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-idle_proc"></a>cpu_idle()</h3></div></dt><dd><p>
 "Idle" süreç:
       </p><p>
@@ -247,7 +247,7 @@ void default_idle(void)
       </p><p>
 İşlemci bir kesme eylemcisinden dönen "hlt"yi takip eden komut ile kod çalıştırmaya devam edecektir.
       </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-main_ref"></a>Kaynakça</h3></div></dt><dd><p>
-      <div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.tldp.org/LDP/lki/index.html" target="_top"> Linux Kernel 2.4 Internals</a></li><li><a class="ulink" href="http://kernelnewbies.org/documents/" target="_top">Kerneldoc</a></li><li><a class="ulink" href="http://www.tldp.org/HOWTO/HOWTO-INDEX/index.html" target="_top">LDP HOWTO-INDEX</a></li><li><a class="ulink" href="http://www.xml.com/ldd/chapter/book" target="_top">Linux Device Drivers, 2nd Edition</a></li></ul></div>
+      <div class="itemizedlist"><ul type="disc"><li><a href="http://www.tldp.org/LDP/lki/index.html" target="_top"> Linux Kernel 2.4 Internals</a></li><li><a href="http://kernelnewbies.org/documents/" target="_top">Kerneldoc</a></li><li><a href="http://www.tldp.org/HOWTO/HOWTO-INDEX/index.html" target="_top">LDP HOWTO-INDEX</a></li><li><a href="http://www.xml.com/ldd/chapter/book" target="_top">Linux Device Drivers, 2nd Edition</a></li></ul></div>
       </p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-kernel_head.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-smpboot.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/arch/i386/kernel/head.S </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> SMP Önyükleme</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>

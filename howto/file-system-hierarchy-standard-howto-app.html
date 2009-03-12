@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-03-12T15:07:03+02:00"><title>EKler</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/file-system-hierarchy-standard-howto.html" title="Dosya Sistemi Sıradüzeni Standardı"><link rel="previous" href="../howto/file-system-hierarchy-standard-howto-sspe.html" title="İşletim Sistemi Özel İlaveler"><link rel="next" href="../howto/file-system-hierarchy-standard-howto-fhs.html" title="Ek A. FHS e-posta Listesi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">EKler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/file-system-hierarchy-standard-howto-sspe.html">Önceki</a> </td><th width="60%" align="center">Dosya Sistemi Sıradüzeni Standardı</th><td width="20%" align="right"> <a accesskey="n" href="../howto/file-system-hierarchy-standard-howto-fhs.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="file-system-hierarchy-standard-howto-app"></a>EKler</h2></div></dt><dd><div class="appendix"> <div class="titlepage"><div><div class="head2"><a name="file-system-hierarchy-standard-howto-fhs"></a>Ek A. FHS e-posta Listesi</div></div></div><dl><dd><p>
+			FHS eposta listesi &lt;freestandards-fhs-discuss@lists.sourceforge.net&gt; 'dir. Bu listeye <a href="http://sourceforge.net/projects/freestandards/" target="_top">http://sourceforge.net/projects/freestandards/</a> adresinden üye olabilirsiniz. 
+		</p><p>
+			San Diego  California Üniversitesine bize mükemmel bir eposta liste sunucusu kullanmaya izin verdikleri için teşekkürler.
+		</p><p>
+			Girişte belirtildiği gibi, FHS editörü veya liste yöneticisi ile bağlantıya geçmeden eposta listesine eposta göndermeyiniz. 
+		</p></dd></dl></div><div class="appendix"> <div class="titlepage"><div><div class="head2"><a name="file-system-hierarchy-standard-howto-app-bfhs"></a>Ek B. FHS'nin Geçmişi</div></div></div><dl><dd><p>
+			Standart bir dosya sistemi oluşturulması çalışmaları 1993 Ağustosunda Linux'un dosya ve dizin yapısının yeniden oluşturulması çabalarıyla başladı. FSSTND, Linux işletim sistemine özel dosya sistemi sıradüzeni standardı, 14 Şubat 1994'de yayımlandı. Müteakip reviztonlar 9 Ekim 1994 ve 28 Mart 1995'de yayımlandı.
+		</p><p>
+			1995'in ilk aylarında FSSTND'nin sadece Linux'a özel olmayan, diğer UNIX-benzeri sistemleri de içeren daha kapdamlı sürümünün geliştirlmesi amacı BSD geliştirme topluluğu üyelerinin yardımı ile benimsendi. Sonuç olarak, birleşen çabalar  genel UNIX-benzeri sistemler üzerine odaklandı. Kapsamın genişlemesi farkedilerek standardı ismi Dosyasistemi Sıradüzeni Standarı ( Filesystem Hierarchy Standard) veya kısaca FHS oldu. 
+		</p><p>
+			Bu standarda yaygın bir şekilde katılan gönüllüler belgenin sonunda listelenmiştir. Bu standar bu ve diğer katılımcıların ortak görüşünü temsil eder.
+		</p></dd></dl></div><div class="appendix"> <div class="titlepage"><div><div class="head2"><a name="file-system-hierarchy-standard-howto-gguide"></a>Ek C. Genel Kılavuzlar</div></div></div><dl><dd><p>
+			Bu standardın geliştirilmesinde kullanılan bazı ilkeler şunlardır:		</p><p>
+			<div class="itemizedlist"><ul type="disc"><li>
+			Geçiş zorluklarını sınırlarken teknik problemleri çöz.
+		</li><li>
+			Belirtimleri makul oranda kararlı yap.
+		</li><li>
+			Katılımcıların, geliştiricilerin ve diğer ilgili geliştirmelerde karar verenlerin onayını al ve katılımlarını teşvik et.
+		</li><li>
+			Farklı UNIX-benzeri sistemlerin gerçekleştiricileri için çekici bir standart sağla.
+		</li></ul></div>
+		
+		</p></dd></dl></div><div class="appendix"> <div class="titlepage"><div><div class="head2"><a name="file-system-hierarchy-standard-howto-scope"></a>Ek D. Kapsam</div></div></div><dl><dd><p>
+			Bu belge dosya ve dizinlerin yerlerini ve bazı sistem dosyalarının içeriklerini belirterek FHS dosya sistemi için standardı oluşturur.
+		</p><p>
+			Bu standart sistem oluşturucuları, paket geliştiricileri ve FHS uyumlu dosya sistemlerinin bakımını ve oluşturmasını yapan sistem yöneticileri tarafından kullanılması için tasarlanmıştır. Birincil olarak dosya sisteminin nasıl uygunlaştırılacağı üzerine bir belgeden ziyade referans bir belge olması amaçlandı.
+		</p><p>
+			FHS, FSSTND'nin (Linux işletim sistemi için dosya sistemi organizasyon standardı) önceki çalışmalarından ortaya çıktı ve büyüdü. FSSTND'yi geliştirerek sadece Linux topluluğu içinde değil, 4.4BSD-tabanlı işletim sistemlerini de içeren daha geniş bir alanda birlikte çalışabilirlik konularından bahseder. BSD dünyasından öğrenilenlerle çoklu-mimari desteği olan ve heterojen ağ isteği olan başka yerleri de birleştirir. 
+		</p><p>
+			Bu belge, dosya sistemi sıradüzeni satandardı üzerine yapılan önceki çabalara göre daha kapsamlı olsa da gelişen teknolojide gereksinimlerin değişeceğinden düzenli güncellemeler gerekli olabilir. Ayrıca, ileride burada bahsedilen problemlere daha iyi çözümler bulunabilir ve böylece bizim çözümlerimiz en iyi çözümler olmayabilir. Tamamlayıcı taslaklar bu belgenin düzenli güncellemelerine ek olarak yayımlanabilir. Bununla birlikte, belirli bir amaç da bu belgenin bir yayımıyla sonraki yayımı arasında geriye dönük uyumluluktur. 
+		</p><p>
+			Bu standartlarla ilgili yorumlar gönderebilirsiniz. Herhangi bir yorum veya öneri FHS editörüne (Daniel Quinlan &lt;quinlan@pathname.com&gt;) veya FHS eposta listesine gönderilebilir. Yazım veya 
+		</p><p>
+			Eposta listesine eposta göndermeden önce FHS editörüyle iletişim kurup eski konuların fazladan tekrar tartışılmasından kaçınmak önerilir.
+		</p><p>
+			Bu belgedeki öğelerin nasıl yorumlanacağı sorusu sıklıkla karşılaşılır. Açıklamaya ihtiyaç duyuyorsanız lütfen FHS editörüyle iletişime geçiniz. Bu standart bir çok katılımcının ortak görüşünü yansıttığından dolayı herhangi bir yorumun da ayrıca onların kesin bir şekilde ortak fikrini yansıttığı önemlidir. Bu sebepten dolayı inceleme önceki tartışmanın konusu olmadığı sürece hızlı bir cevap sağlanması mümkün olmayabilir. 
+		</p></dd></dl></div><div class="appendix"> <div class="titlepage"><div><div class="head2"><a name="file-system-hierarchy-standard-howto-ack"></a>Ek E. Teşekkür</div></div></div><dl><dd><p>
+			FHS geliştiricleri geliştiricilere, sistem yöneticilerine ve bu standarda katkıları önemli olan kullanıcılara teşekkür etmek ister. Bu standardın yazımında, derlenmesinde ve oluşturulmasında yardımcı olan bütün katılımcılara teşekkür etmek isteriz.
+		</p><p>
+			FHS Grubu ayrıca bu standardın selefi olan FSSTND'yi destekleyen Linux geliştiricilerine de teşekkür etmek ister. Eğer onlar FSSTND'nin yararlı olduğunu göstermemiş olsalardı FHS asla ortaya çıkmayacaktı
+		</p></dd></dl></div><div class="appendix"> <div class="titlepage"><div><div class="head2"><a name="file-system-hierarchy-standard-howto-con"></a>Ek F. Katılımcılar</div></div></div><dl><dd><p>
+			Brandon S. Allbery	&lt;bsa@kf8nh.wariat.org&gt;
+		</p><p>Keith Bostic	&lt;bostic@cs.berkeley.edu&gt;
+		</p><p>Drew Eckhardt	&lt;drew@colorado.edu&gt;
+		</p><p>Rik Faith	&lt;faith@cs.unc.edu&gt;
+		</p><p>Stephen Harris	&lt;sweh@spuddy.mew.co.uk&gt;
+		</p><p>Ian Jackson	&lt;ijackson@cus.cam.ac.uk&gt;
+		</p><p>Andreas Jaeger	&lt;aj@suse.de&gt;
+		</p><p>John A. Martin	&lt;jmartin@acm.org&gt;
+		</p><p>Ian McCloghrie	&lt;ian@ucsd.edu&gt;
+		</p><p>Chris Metcalf	&lt;metcalf@lcs.mit.edu&gt;
+		</p><p>Ian Murdock	&lt;imurdock@debian.org&gt;
+		</p><p>David C. Niemi	&lt;niemidc@clark.net&gt;
+		</p><p>Daniel Quinlan	&lt;quinlan@pathname.com&gt;
+		</p><p>Eric S. Raymond	&lt;esr@thyrsus.com&gt;
+		</p><p>Rusty Russell	&lt;rusty@rustcorp.com.au&gt;
+		</p><p>Mike Sangrey	&lt;mike@sojurn.lns.pa.us&gt;
+		</p><p>David H. Silber	&lt;dhs@glowworm.firefly.com&gt;
+		</p><p>Thomas Sippel-Dau	&lt;t.sippel-dau@ic.ac.uk&gt;
+		</p><p>Theodore Ts'o	&lt;tytso@athena.mit.edu&gt;
+		</p><p>Stephen Tweedie	&lt;sct@dcs.ed.ac.uk&gt;
+		</p><p>Fred N. van Kempen	&lt;waltje@infomagic.com&gt;
+		</p><p>Bernd Warken	&lt;bwarken@mayn.de&gt;
+		</p><p>Christopher Yeoh&lt;cyeoh@samba.org&gt;
+		</p></dd></dl></div></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/file-system-hierarchy-standard-howto-sspe.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/file-system-hierarchy-standard-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/file-system-hierarchy-standard-howto-fhs.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">İşletim Sistemi Özel İlaveler </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Ek A. FHS e-posta Listesi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

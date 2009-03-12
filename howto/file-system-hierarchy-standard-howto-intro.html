@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-03-12T15:07:00+02:00"><title>Giriş</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/file-system-hierarchy-standard-howto.html" title="Dosya Sistemi Sıradüzeni Standardı"><link rel="previous" href="../howto/file-system-hierarchy-standard-howto.html" title="Dosya Sistemi Sıradüzeni Standardı"><link rel="next" href="../howto/file-system-hierarchy-standard-howto-fs.html" title="Dosya Sistemi"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Giriş</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/file-system-hierarchy-standard-howto.html">Önceki</a> </td><th width="60%" align="center">Dosya Sistemi Sıradüzeni Standardı</th><td width="20%" align="right"> <a accesskey="n" href="../howto/file-system-hierarchy-standard-howto-fs.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="file-system-hierarchy-standard-howto-intro"></a>Giriş</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="file-system-hierarchy-standard-howto-intro-purpose"></a>Amaç</h3></div></dt><dd><p>
+			Bu standartlar şunlara olanak tanır:
+			<div class="itemizedlist"><ul type="disc"><li>Yazılımların kurulan dosya ve dizinlerin yerini belirleyebilmesini ve
+				</li><li>
+					Kullanıcıların kurulan dosya ve dizinlerin yerini belirleyebilmesi.
+				</li></ul></div>
+			Bunları şu şekilde yaparız:
+			<div class="itemizedlist"><ul type="disc"><li>
+					Dosya sisteminin her bir alanı için yönerge prensiplerini belirtebilme,
+				</li><li>
+					Gerekli olan asgari dosya ve dizini belirtebilme,
+				</li><li>
+					Prensiplerin istisnalarını saymak ve,
+				</li><li>
+					
+					Tarihsel çelişme bulunan özel durumları saymak
+				</li></ul></div>
+			FHS belgelerinin kullanıldığı yerler
+			<div class="itemizedlist"><ul type="disc"><li>
+					FHS uyumlu uygulama oluşturan bağımsız yazılım sağlayıcılar ve FHS uyumlu dağıtımlarla çalışanlar,
+				</li><li>
+					FHS uyumlu bir işletim sistemi yapanalar,
+				</li><li>
+					FHS uyumlu sistemlerin yönetimini yapan kulanıcılar.
+				</li></ul></div>
+			FHS belgelerinin kapsam sınırları:
+			<div class="itemizedlist"><ul type="disc"><li>
+					Yerel dosyaları yerleştirilmesi yerel bir konudur, bu yüzden FHS sistem yöneticisinin haklarını gasp etmek istemez.
+				</li><li>
+					 FHS, yerel siteler, dağıtımlar, uygulamalar, belgeler vb, dosya yerleşiminin bir çok parti arasında koordine edilmesi gereken konularla ilgilidir.
+				</li></ul></div>
+		</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="file-system-hierarchy-standard-howto-intro-conventions"></a>Belgenin Kullanımı</h3></div></dt><dd><p>
+			Bu belgenin düz metin sürümü yerine biçimlendirilmiş sürümünü okumanızı öneriyoruz. Biçimlendirilmiş sürümde dosya ve dizin isimleri sabit genişlikli font ile gösterilmektedir. 
+		</p><p>
+			Çeşitlilik gösteren dosya isim bileşenleri <i>"&lt;"</i> ve <i>"&gt;"</i> karakterleri arasında gösterilmiştir. Elektronik posta adresleri de <i>"&lt;"</i> ve <i>"&gt;"</i> karakterleri arasına yazılmıştır fakat normal yazı fontundadır.
+		</p><p>
+			Dosya isimlerinin seçimlik bileşenleri <i>"["</i> ve <i>"]"</i> karakterleri arasına yazılmıştır ve <i>"&lt;"</i> ve <i>"&gt;"</i> biçimiyle birlikte kullanılabilir. Örneğin bir dosyanın uzantısının olup olmaması seçimlik ise şöyle gösterilir: <i>&lt;dosyaadı&gt;[.&lt;uzantı&gt;]</i>.
+		</p><p>
+			Dosya ve dizin isimlerinin değişken olabilen alt metinleri "*" ile gösterilmiştir.
+		</p><p>
+			<i>Mantıksal Temel</i> olarak etiketlenmiş kısımlar açıklama içindir ve biçimsel değildir.
+		</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/file-system-hierarchy-standard-howto.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/file-system-hierarchy-standard-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/file-system-hierarchy-standard-howto-fs.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Dosya Sistemi Sıradüzeni Standardı </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Dosya Sistemi</td></tr><tr><td colspan="3" align="center">
+                  Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
+                </td></tr></table></td></tr></table></td></tr></table></body></html>

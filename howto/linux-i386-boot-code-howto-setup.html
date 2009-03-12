@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-04-25T01:53:03+03:00"><title>linux/arch/i386/boot/setup.S</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-bootsect.html" title="linux/arch/i386/boot/bootsect.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-compressed_head.html" title="linux/arch/i386/boot/compressed/head.S"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/arch/i386/boot/setup.S</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-bootsect.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-setup"></a>linux/arch/i386/boot/setup.S</h2></div></dt><dd><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-03-12T15:06:12+02:00"><title>linux/arch/i386/boot/setup.S</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/linux-i386-boot-code-howto.html" title="Linux i386 Önyükleme Kodu NASIL"><link rel="previous" href="../howto/linux-i386-boot-code-howto-bootsect.html" title="linux/arch/i386/boot/bootsect.S"><link rel="next" href="../howto/linux-i386-boot-code-howto-compressed_head.html" title="linux/arch/i386/boot/compressed/head.S"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">linux/arch/i386/boot/setup.S</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-bootsect.html">Önceki</a> </td><th width="60%" align="center">Linux i386 Önyükleme Kodu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="linux-i386-boot-code-howto-setup"></a>linux/arch/i386/boot/setup.S</h2></div></dt><dd><p>
 <tt>setup.S</tt> sistem verilerinin BIOS'dan alınmasından ve onların uygun bir bellek bölgesine yerleştirilmesinden sorumludur.
       </p><p>
-<a class="ulink" href="http://www.gnu.org/software/grub" target="_top">GNU GRUB</a> ve <a class="ulink" href="http://freshmeat.net/projects/lilo" target="_top">LILO</a> gibi diğer önyükleyiciler de <tt>bzImage</tt>'ı yükleyebilirler. Bu tür önyükleyiciler <tt>bzImage</tt>'ı belleğe yüklemeli ve "gerçek-biçim çekirdek başlıkları"nı kurmalıdırlar, özellikle <tt>type_of_loader</tt>; sonra denetimi <tt>bsetup</tt>'a devreder. <tt>setup.S</tt> şunları varsayar:
+<a href="http://www.gnu.org/software/grub" target="_top">GNU GRUB</a> ve <a href="http://freshmeat.net/projects/lilo" target="_top">LILO</a> gibi diğer önyükleyiciler de <tt>bzImage</tt>'ı yükleyebilirler. Bu tür önyükleyiciler <tt>bzImage</tt>'ı belleğe yüklemeli ve "gerçek-biçim çekirdek başlıkları"nı kurmalıdırlar, özellikle <tt>type_of_loader</tt>; sonra denetimi <tt>bsetup</tt>'a devreder. <tt>setup.S</tt> şunları varsayar:
       </p><p><div class="itemizedlist"><ul type="disc"><li>
 <tt>bsetup</tt> veya <tt>setup</tt> SETUPSEG:0'a yüklenmemiş olabilir, örn. denetim <tt>setup.S</tt>'ye geçtiğinde CS SETUPSEG'e eşit olmayabilir;
         <p></p><p></p></li><li>
@@ -164,13 +164,13 @@ trampoline()
 // tüm kodun yüklenip yüklenmediğini görmek için imzayı kontrol et
 start_of_setup()
 {
-  // Bootlin bunun daha önce yapılmasına bağlıdır, bakınız <a class="ulink" href="http://ftp.us.xemacs.org/ftp/pub/linux/suse/suse/i386/7.3/dosutils/bootlin/technic.doc" target="_top">bootlin:technic.doc</a>
+  // Bootlin bunun daha önce yapılmasına bağlıdır, bakınız <a href="http://ftp.us.xemacs.org/ftp/pub/linux/suse/suse/i386/7.3/dosutils/bootlin/technic.doc" target="_top">bootlin:technic.doc</a>
   int13/AH=15h(AL=0, DL=0x81);
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0639.htm" target="_top">int13/AH=15h: DİSK - DİSK TÜRÜNÜ AL</a>
+  // <a href="http://www.ctyme.com/intr/rb-0639.htm" target="_top">int13/AH=15h: DİSK - DİSK TÜRÜNÜ AL</a>
 
 #ifdef SAFE_RESET_DISK_CONTROLLER
   int13/AH=0(AL=0, DL=0x80);
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0605.htm" target="_top">int13/AH=00h: DİSK - DİSK SİSTEMİNİ RESETLE</a>
+  // <a href="http://www.ctyme.com/intr/rb-0605.htm" target="_top">int13/AH=00h: DİSK - DİSK SİSTEMİNİ RESETLE</a>
 #endif
 
   DS = CS;
@@ -268,7 +268,7 @@ loader_ok()
 #ifndef STANDARD_MEMORY_BIOS_CALL
   (byte)DS:[0x1E8] = 0;                   // E820NR
 
-  /* method E820H: bakınız <a class="ulink" href="http://www.acpi.info" target="_top">ACPI spec</a>
+  /* method E820H: bakınız <a href="http://www.acpi.info" target="_top">ACPI spec</a>
     * bellek haritası (from hell).  e820h belleği farklı türlerden
     * bir bütün deste olarak sınıflandırılmış şekilde döndürür, ve
     * bellek deliklerine ve herşeye izin verir. Biz bu bellek
@@ -280,7 +280,7 @@ meme820:
   do {
 jmpe820:
     int15/EAX=E820h(EDX='SMAP', EBX, ECX=20, ES:DI=DS:DI);
-    // <a class="ulink" href="http://www.ctyme.com/intr/rb-1741.htm" target="_top">int15/AX=E820h: GET SYSTEM MEMORY MAP</a>
+    // <a href="http://www.ctyme.com/intr/rb-1741.htm" target="_top">int15/AX=E820h: GET SYSTEM MEMORY MAP</a>
     if (failed || 'SMAP'!=EAX) break;
     // if (1!=DS:[DI+16]) continue; // kullanışsız
 good820:
@@ -302,7 +302,7 @@ meme801:
   stc;            // hatalı BIOSlar için uğraş
   CX = DX = 0;
   int15/AX=E801h;
-  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1739.htm" target="_top">int15/AX=E801h: &gt;64M YAPILANDIRMALAR İÇİN BELLEK BOYUTUNU AL</a>
+  /* <a href="http://www.ctyme.com/intr/rb-1739.htm" target="_top">int15/AX=E801h: &gt;64M YAPILANDIRMALAR İÇİN BELLEK BOYUTUNU AL</a>
     *   AX = K cinsinden 1M ve 16M arasında bellek boyutu (en çok 3C00 = 15MB)
     *   BX = genişletilmiş bellek, 16M üzeri, 64K bloklar halinde
     *   CX = K cinsinden 1M'dan 16M'a yapılandırılmış bellek
@@ -318,7 +318,7 @@ e801usecxdx:
 
 mem88:  // eski geleneksel yöntem
   int15/AH=88h;
-  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1529.htm" target="_top">int15/AH=88h: SİSTEM - GENİŞLETİLMİŞ BELLEK BOYUTU</a>
+  /* <a href="http://www.ctyme.com/intr/rb-1529.htm" target="_top">int15/AH=88h: SİSTEM - GENİŞLETİLMİŞ BELLEK BOYUTU</a>
    *   AX = mutlak 100000h adresinden başlayan sürekli kB'ların sayısı */
   DS:[2] = AX;
 }</pre> </td></tr></table></div></p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-hw_support"></a>Donanım Desteği</h3></div></dt><dd><p>
@@ -327,7 +327,7 @@ Klavye, ekran kartı, harddisk, MCA bus'ı ve işaretleme cihazı gibi donanımların 
 <div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">{
   // klavye tekrarlama oranını en çoğa ayarla
   int16/AX=0305h(BX=0);
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1757.htm" target="_top">int16/AH=03h: KEYBOARD - SET TYPEMATIC RATE AND DELAY</a>
+  // <a href="http://www.ctyme.com/intr/rb-1757.htm" target="_top">int16/AH=03h: KEYBOARD - SET TYPEMATIC RATE AND DELAY</a>
 
   /* Ekran kiplerini kullanıcıya göstermek için
     *   ekran kartını ve parametrelerini kontrol et. */
@@ -335,12 +335,12 @@ Klavye, ekran kartı, harddisk, MCA bus'ı ve işaretleme cihazı gibi donanımların 
 
   // hd0 ve hd1 verisini al
   hd0 verisini (*int41)'dan CS-DELTA_INITSEG:0080'ya (16 bytes) kopyala;
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-6135.htm" target="_top">int41: SYSTEM DATA - HARD DISK 0 PARAMETRE TABLO ADRESİ</a>
+  // <a href="http://www.ctyme.com/intr/rb-6135.htm" target="_top">int41: SYSTEM DATA - HARD DISK 0 PARAMETRE TABLO ADRESİ</a>
   hd1 verisini (*int46)'dan CS-DELTA_INITSEG:0090'ya (16 bytes) kopyala;
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-6184.htm" target="_top">int46: SYSTEM DATA - HARD DISK 1 PARAMETRE TABLE ADRESİ</a>
+  // <a href="http://www.ctyme.com/intr/rb-6184.htm" target="_top">int46: SYSTEM DATA - HARD DISK 1 PARAMETRE TABLE ADRESİ</a>
   // hd1 var mı kontrol et
   int13/AH=15h(AL=0, DL=0x81);
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0639.htm" target="_top">int13/AH=15h: DISK - DİSK TÜRÜNÜ AL</a>
+  // <a href="http://www.ctyme.com/intr/rb-0639.htm" target="_top">int13/AH=15h: DISK - DİSK TÜRÜNÜ AL</a>
   if (failed || AH!=03h) {        // AH==03h eğer harddisk ise
 no_disk1:
     temizle CS-DELTA_INITSEG:0090 (16 bytes);
@@ -350,7 +350,7 @@ is_disk1:
   // Mikro Kanal veriyolu (Micro Channel-MCA bus) için kontrol et
   CS-DELTA_INITSEG:[0xA0] = 0;    // tablo uzunluğunu 0'a ayarla
   int15/AH=C0h;
-  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1594.htm" target="_top">int15/AH=C0h: SİSTEM - YAPILANDIRMAYI AL</a>
+  /* <a href="http://www.ctyme.com/intr/rb-1594.htm" target="_top">int15/AH=C0h: SİSTEM - YAPILANDIRMAYI AL</a>
     *   ES:BX = ROM yapılandırma tablosu */
   if (failed) goto no_mca;
     ROM yapılandırma tablosunu (ES:BX)'den CS-DELTA_INITSEG:00A0 adresine taşı;
@@ -360,7 +360,7 @@ no_mca:
   // PS/2 noktalama cihazlarını (pointing device) kontrol et
   CS-DELTA_INITSEG:[0x1FF] = 0;   // varsayılan noktalama cihazı 0
   int11h();
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-0575.htm" target="_top">int11h: BIOS - EKİPMAN LİSTESİNİ AL</a>
+  // <a href="http://www.ctyme.com/intr/rb-0575.htm" target="_top">int11h: BIOS - EKİPMAN LİSTESİNİ AL</a>
   if (AL &amp; 0x04) {                // fare kuruldu
           DS:[0x1FF] = 0xAA;
   }
@@ -373,15 +373,15 @@ BIOS APM desteğini kontrol et.
 {
   DS:[0x40] = 0;                  // sürüm = 0 APM BIOS olmadığı anlamına gelir
   int15/AX=5300h(BX=0);
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1394.htm" target="_top">int15/AX=5300h: Advanced Power Management v1.0+ - INSTALLATION CHECK</a>
+  // <a href="http://www.ctyme.com/intr/rb-1394.htm" target="_top">int15/AX=5300h: Advanced Power Management v1.0+ - INSTALLATION CHECK</a>
   if (failed || 'PM'!=BX || !(CX &amp; 0x02)) goto done_apm_bios;
   // (CX &amp; 0x02) 32 bit desteklendiği anlamına gelir
   int15/AX=5304h(BX=0);
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">int15/AX=5304h: Advanced Power Management v1.0+ - DISCONNECT INTERFACE</a>
+  // <a href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">int15/AX=5304h: Advanced Power Management v1.0+ - DISCONNECT INTERFACE</a>
   EBX = CX = DX = ESI = DI = 0;
   int15/AX=5303h(BX=0);
-  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1397.htm" target="_top">int15/AX=5303h: Advanced Power Management v1.0+</a>
-    *   <a class="ulink" href="http://www.ctyme.com/intr/rb-1397.htm" target="_top">- CONNECT 32-BIT PROTMODE INTERFACE</a> */
+  /* <a href="http://www.ctyme.com/intr/rb-1397.htm" target="_top">int15/AX=5303h: Advanced Power Management v1.0+</a>
+    *   <a href="http://www.ctyme.com/intr/rb-1397.htm" target="_top">- CONNECT 32-BIT PROTMODE INTERFACE</a> */
   if (failed) {
 no_32_apm_bios:                     // no_32_apm_bios etiketini buraya taşıdım
     DS:[0x4C] &amp;= ~0x0002;   // 32 bit destekleme bitini kaldır
@@ -394,15 +394,15 @@ no_32_apm_bios:                     // no_32_apm_bios etiketini buraya taşıdım
   DS:[0x4E] = ESI, APM BIOS kod bölütü uzunluğu;
   DS:[0x52] = DI, APM BIOS veri bölütü uzunluğu;
   int15/AX=5300h(BX=0);     // tekrar kontrol et
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1394.htm" target="_top">int15/AX=5300h: Advanced Power Management v1.0+ - INSTALLATION CHECK</a>
+  // <a href="http://www.ctyme.com/intr/rb-1394.htm" target="_top">int15/AX=5300h: Advanced Power Management v1.0+ - INSTALLATION CHECK</a>
   if (success &amp;&amp;  'PM'==BX) {
           DS:[0x40] = AX, APM version;
           DS:[0x4C] = CX, APM flags;
   } else {
 apm_disconnect:
     int15/AX=5304h(BX=0);
-    /* <a class="ulink" href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">int15/AX=5304h: Advanced Power Management v1.0+</a>
-     * <a class="ulink" href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">- DISCONNECT INTERFACE</a> */
+    /* <a href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">int15/AX=5304h: Advanced Power Management v1.0+</a>
+     * <a href="http://www.ctyme.com/intr/rb-1398.htm" target="_top">- DISCONNECT INTERFACE</a> */
   }
 done_apm_bios:
 }
@@ -439,7 +439,7 @@ do_move:
 end_move:
 </pre> </td></tr></table></div>
       </p><p>
-<tt>code32_start</tt>'ın <tt>zImage</tt> için <tt>0x1000</tt> adresi ile  <tt>bzImage</tt> için ise <tt>0x100000</tt> adresi ile ilklendirildiğine dikkat edin. <tt>code32</tt> değeri denetimin <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-switch_protmode" class="xref" title="Korumalı Kipe Geç"> Korumalı Kipe Geç</a> içindeki<tt>linux/arch/i386/boot/compressed/head.S</tt>'e geçirilmesi için kullanılacaktır. <tt>zImage</tt> önyüklemesi yapılırsa <tt>vmlinux</tt>'u <tt>0100:0</tt>'a taşır; <tt>bzImage</tt> önyüklemesi yapılırsa <tt>bvmlinux start_sys_seg:0</tt>'da kalır. Taşıma adresi <tt>linux/arch/i386/boot/compressed/Makefile</tt> içindeki <tt>-Ttext</tt> seçeneğiyle uyuşmalıdır. Bakınız <a href="../howto/linux-i386-boot-code-howto-makefiles.html#linux-i386-boot-code-howto-i386_boot_compressed_makefile" class="xref" title="linux/arch/i386/boot/compressed/Makefile"> linux/arch/i386/boot/compressed/Makefile</a>.
+<tt>code32_start</tt>'ın <tt>zImage</tt> için <tt>0x1000</tt> adresi ile  <tt>bzImage</tt> için ise <tt>0x100000</tt> adresi ile ilklendirildiğine dikkat edin. <tt>code32</tt> değeri denetimin <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-switch_protmode" title="Korumalı Kipe Geç"> Korumalı Kipe Geç</a> içindeki<tt>linux/arch/i386/boot/compressed/head.S</tt>'e geçirilmesi için kullanılacaktır. <tt>zImage</tt> önyüklemesi yapılırsa <tt>vmlinux</tt>'u <tt>0100:0</tt>'a taşır; <tt>bzImage</tt> önyüklemesi yapılırsa <tt>bvmlinux start_sys_seg:0</tt>'da kalır. Taşıma adresi <tt>linux/arch/i386/boot/compressed/Makefile</tt> içindeki <tt>-Ttext</tt> seçeneğiyle uyuşmalıdır. Bakınız <a href="../howto/linux-i386-boot-code-howto-makefiles.html#linux-i386-boot-code-howto-i386_boot_compressed_makefile" title="linux/arch/i386/boot/compressed/Makefile"> linux/arch/i386/boot/compressed/Makefile</a>.
       </p><p>
 Sonra, eğer gerekliyse, kod <tt>CS-DELTA_INITSEG:0</tt>'dan (<tt>bbootsect</tt> ve <tt>bsetup</tt>) <tt>INITSEG:0</tt>'a taşınır.
       </p><p>
@@ -475,7 +475,7 @@ end_move_self:
       </p><p>
 Tekrar dikkat edin, <tt>bvmlinux</tt>'u yüklediğinde <tt>bootsect_helper()</tt> tarafından <tt>type_of_loader</tt>'un değeri <tt>0x20</tt> olarak değiştirilmektedir.
       </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-enable_a20"></a>A20'yi Etkinleştir</h3></div></dt><dd><p>
-A20 sorunu ve çözümü için <a class="ulink" href="http://www.win.tue.nl/~aeb/linux/kbd/A20.html" target="_top">A20 - a pain from the past</a>'e başvurun.
+A20 sorunu ve çözümü için <a href="http://www.win.tue.nl/~aeb/linux/kbd/A20.html" target="_top">A20 - a pain from the past</a>'e başvurun.
       </p><p>
 <div class="programlisting" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="programlisting">
   A20_TEST_LOOPS          =  32   # Bekleme başına adım sayısı
@@ -497,7 +497,7 @@ a20_none:
   // Sonra, BIOS'u (INT 0x15, AX=0x2401) dene
 a20_bios:
   int15/AX=2401h;
-  // <a class="ulink" href="http://www.ctyme.com/intr/rb-1336.htm" target="_top">Int15/AX=2401h: SYSTEM - later PS/2s - ENABLE A20 GATE</a>
+  // <a href="http://www.ctyme.com/intr/rb-1336.htm" target="_top">Int15/AX=2401h: SYSTEM - later PS/2s - ENABLE A20 GATE</a>
   if (a20_test()) goto a20_done;  // testi geçti
 
   // Klavye denetleyici üzerinden A20'yi etkinleştirmeye çalış
@@ -541,7 +541,7 @@ a20_err_msg:
   .byte   13, 10, 0
 </pre> </td></tr></table></div>
       </p><p>
-I/O port işlemleri için, <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-setup_ref" class="xref" title="Kaynakça"> Kaynakça</a> içindeki ilgili başvuru materyallerine bakın.
+I/O port işlemleri için, <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-setup_ref" title="Kaynakça"> Kaynakça</a> içindeki ilgili başvuru materyallerine bakın.
       </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-switch_protmode"></a>Korumalı Kipe Geç</h3></div></dt><dd><p>
 Tüm 32 bitlik IA-32 işlemcileri ile kod uyumluluğunu sağlamak için, aşağıdaki korumalı kipe geçmeyi sağlayacak adımları yerine getirin:
       </p><p><div class="orderedlist"><ol type="1"><li><div class="listitem">
@@ -598,7 +598,7 @@ flush_instr:
 
   // __KERNEL_CS:[(uint32*)code32]'e git;
   .byte   0x66, 0xea
-code32: .long   0x1000          // <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-prepare_protmode" class="xref" title="Korumalı Kip için Hazırlık"> Korumalı Kip için Hazırlık</a> içinde üstüne yazılır
+code32: .long   0x1000          // <a href="../howto/linux-i386-boot-code-howto-setup.html#linux-i386-boot-code-howto-prepare_protmode" title="Korumalı Kip için Hazırlık"> Korumalı Kip için Hazırlık</a> içinde üstüne yazılır
   .word   __KERNEL_CS     // bölüt 0x10
   // bakınız linux/arch/i386/boot/compressed/head.S:startup_32
 }
@@ -606,7 +606,7 @@ code32: .long   0x1000          // <a href="../howto/linux-i386-boot-code-howto-
       </p><p>
 Uzak <tt>jmp</tt> komutu (0xea) CS kaydedicisini günceller. kalan bölüt kaydedicileri (DS, SS, ES, FS ve GS) içeriği daha sonra yeniden yüklenmelidir. terim boyutu öneki (0x66) <tt>jmp</tt>'ı 32 bitlik terim <tt>code32</tt>'ye kadar çalıştırılmasına zorlamak için kullanılır. Terim boyutu öneki ayrıntıları için bakınız: IA-32 Manual (Vol.1. Ch.3.6. Operand-size and Address-size Attributes, and Vol.3. Ch.17. Mixing 16-bit and 32-bit Code).
       </p><p>
-Denetim <tt>linux/arch/i386/boot/compressed/head.S:startup_32</tt>'ye geçirilir. <tt>zImage</tt> için 0x1000 adresinde; <tt>bzImage</tt> için 0x100000 adresinde. Bakınız: <a href="../howto/linux-i386-boot-code-howto-compressed_head.html" class="xref" title="linux/arch/i386/boot/compressed/head.S"> linux/arch/i386/boot/compressed/head.S</a>.
+Denetim <tt>linux/arch/i386/boot/compressed/head.S:startup_32</tt>'ye geçirilir. <tt>zImage</tt> için 0x1000 adresinde; <tt>bzImage</tt> için 0x100000 adresinde. Bakınız: <a href="../howto/linux-i386-boot-code-howto-compressed_head.html" title="linux/arch/i386/boot/compressed/head.S"> linux/arch/i386/boot/compressed/head.S</a>.
       </p><p>
 ESI toplanan sistem verilerinin bellek alanını gösterir. 16 bitlik gerçek kip çekirdek kodundan 32 bitlik kısma parametre geçirmek için kullanılır. Ayrıntılar için <tt>linux/Documentation/i386/zero-page.txt</tt> dosyasına bakınız.
       </p><p>
@@ -628,7 +628,7 @@ kernel_version: .ascii  UTS_RELEASE
 
 ///////////////////////////////////////////////////////////////////////////////
 default_switch() { cli; outb(0x80, 0x70); } /* Kesmeleri ve NMI'yi iptal et */
-bootsect_helper(ES:BX); /* bkz. <a href="../howto/linux-i386-boot-code-howto-bootsect.html#linux-i386-boot-code-howto-bootsect_helper" class="xref" title="Bootsect Yardımcısı"> Bootsect Yardımcısı</a> */
+bootsect_helper(ES:BX); /* bkz. <a href="../howto/linux-i386-boot-code-howto-bootsect.html#linux-i386-boot-code-howto-bootsect_helper" title="Bootsect Yardımcısı"> Bootsect Yardımcısı</a> */
 
 ///////////////////////////////////////////////////////////////////////////////
 a20_test()
@@ -669,7 +669,7 @@ no_output:} else if (!(AL &amp; 2)) return;   // girdi yok
 gettime()
 {
   int1A/AH=02h();
-  /* <a class="ulink" href="http://www.ctyme.com/intr/rb-2273.htm" target="_top">int1A/AH=02h: SAAT - GERÇEK SAAT ZAMANINI AL</a>
+  /* <a href="http://www.ctyme.com/intr/rb-2273.htm" target="_top">int1A/AH=02h: SAAT - GERÇEK SAAT ZAMANINI AL</a>
     * DH = BCD gösterimli saniye*/
   AL = DH &amp; 0x0F;
   AH = DH &gt;&gt; 4;
@@ -750,8 +750,8 @@ vid1:
 </pre> </td></tr></table></div>
       </p><p>
 /* YAPILACAKLAR: video() ayrıntıları */
-      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-setup_ref"></a>Kaynakça</h3></div></dt><dd><div class="itemizedlist"><ul type="disc"><li><a class="ulink" href="http://www.win.tue.nl/~aeb/linux/kbd/A20.html" target="_top">A20 - a pain from the past</a></li><li><a class="ulink" href="http://www.student.cs.uwaterloo.ca/~cs452/postscript/book.ps" target="_top">Real-time Programming</a> Appendix A: Complete I/O Port List
-          </li><li><a class="ulink" href="http://developer.intel.com/design/pentium4/manuals/" target="_top"> IA-32 Intel Architecture Software Developer's Manual</a></li><li>
+      </p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="linux-i386-boot-code-howto-setup_ref"></a>Kaynakça</h3></div></dt><dd><div class="itemizedlist"><ul type="disc"><li><a href="http://www.win.tue.nl/~aeb/linux/kbd/A20.html" target="_top">A20 - a pain from the past</a></li><li><a href="http://www.student.cs.uwaterloo.ca/~cs452/postscript/book.ps" target="_top">Real-time Programming</a> Appendix A: Complete I/O Port List
+          </li><li><a href="http://developer.intel.com/design/pentium4/manuals/" target="_top"> IA-32 Intel Architecture Software Developer's Manual</a></li><li>
 Summary of empty_zero_page layout (kernel point of view): <tt>linux/Documentation/i386/zero-page.txt</tt></li></ul></div></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/linux-i386-boot-code-howto-bootsect.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/linux-i386-boot-code-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/linux-i386-boot-code-howto-compressed_head.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">linux/arch/i386/boot/bootsect.S </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> linux/arch/i386/boot/compressed/head.S</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>
