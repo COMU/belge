@@ -251,7 +251,8 @@ replyItem   Tunnel-Private-Group-Id        radiusTunnelPrivateGroupId</screen></
 </sect3>
 </sect2>
 	
-<sect2 id="ldap-howto-auth-jabber"><title>Jabber</title><para>Bu belge hazırlanırken jabber 2.2.1 sürümü kullanılmıştır.</para><para>Jabber programında yapacağımız yalnızca kimlik kanıtlanmasını yapılacaktır. Kullanıcıların diğer bilgilerini seçilebilecek başka bir veri tabanında ( mysql, postgresql, gibi) tutulacak şeklinde hazırlanmıştır bu ayarlar.</para><para>Jabber kurulumunu kaynak koddan Kurulmuştur.</para><para>Jabber sunucusunu ldap ile kimlik kanıtlamak için configure sırasında <command>--enable-ldap  --enable-idn</command> eklenmelidir. Jabber sunucusunun kurulum aşaması bittikten sonra <filename>/usr/local/etc/</filename> altında gerekli olan ayar dosyalarına gerekli değişiklikleri yapabiliriz.</para><para><filename>/usr/local/etc/c2s.xml</filename> dosyasında aşağıdaki değişiklikler yapılmalıdır.</para><para><screen>&lt; authreg &gt; 
+<sect2 id="ldap-howto-auth-jabber"><title>Jabber</title><para>Bu belge hazırlanırken jabber 2.2.1 sürümü kullanılmıştır.</para><para>Jabber programında yapacağımız yalnızca kimlik kanıtlanmasını yapılacaktır. Kullanıcıların diğer bilgilerini seçilebilecek başka bir veri tabanında ( mysql, postgresql, gibi) tutulacak şeklinde hazırlanmıştır bu ayarlar.</para><para>Jabber kurulumunu kaynak koddan kurulmuştur.</para><para>Jabber sunucusunu ldap ile kimlik kanıtlamak için configure sırasında <command>--enable-ldap  --enable-idn</command> eklenmelidir. Jabber sunucusunun kurulum aşaması bittikten sonra <filename>/usr/local/etc/</filename> altında gerekli olan ayar dosyalarına gerekli değişiklikleri yapabiliriz.</para>
+	<para><filename>/usr/local/etc/c2s.xml</filename> dosyasında aşağıdaki değişiklikler yapılmalıdır.</para><para><screen>&lt; authreg &gt; 
 &lt; module &gt; ldap &lt;/ module &gt;
 &lt;/ authreg &gt;
 ...

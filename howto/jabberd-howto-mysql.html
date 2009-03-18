@@ -1,23 +1,65 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2006-11-09T01:49:04+02:00"><title>Mysql Üzerinde Jabberd Kurulumu</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/jabberd-howto.html" title="Jabber Sunucusu NASIL"><link rel="previous" href="../howto/jabberd-howto-config-postgre.html" title="Yapılandırma"><link rel="next" href="../howto/jabberd-howto-config-mysql.html" title="Yapılandırma"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Mysql Üzerinde Jabberd Kurulumu</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/jabberd-howto-config-postgre.html">Önceki</a> </td><th width="60%" align="center">Jabber Sunucusu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/jabberd-howto-config-mysql.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="jabberd-howto-mysql"></a>Mysql Üzerinde Jabberd Kurulumu</h2></div></dt><dd><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-03-18T19:33:40+02:00"><title>Kullanıcıların Mysql'de Tutulması</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/jabberd-howto.html" title="Jabber Sunucusu NASIL"><link rel="previous" href="../howto/jabberd-howto-postgresql.html" title="Kullanıcıların Postgresql'de tutulması"><link rel="next" href="../howto/jabberd-howto-ldap.html" title="Kullanıcıların OpenLDAP'ta Tutulması"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Kullanıcıların Mysql'de Tutulması</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/jabberd-howto-postgresql.html">Önceki</a> </td><th width="60%" align="center">Jabber Sunucusu NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/jabberd-howto-ldap.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="jabberd-howto-mysql"></a>Kullanıcıların Mysql'de Tutulması</h2></div></dt><dd><dl><div class="sect2"><dt><div> <h3 class="title"><a name="jabberd-howto-mysql-install"></a>Kurulum</h3></div></dt><dd><p>Jabberd'yi Mysql ile birlikte kullanmak istiyorsanız, öncelikle Jabberd 2 dağıtımı içindeki kurulum betiğini çalıştırmanız gerekmektedir. Öncelikle '[Jabberd Source Files]/tools' dizinine geçin ve MySQL konsolunu başlatın (MySQL sunucusu zaten çalışıyor olmalıdır). MySQL konsolundan aşağıdaki komutu çalıştırın:
 
-Jabberd'yi Mysql ile birlikte kullanmak istiyorsanız, öncelikle Jabberd 2 dağıtımı içindeki kurulum betiğini çalıştırmanız gerekmektedir. Öncelikle '[Jabberd Source Files]/tools' dizinine geçin ve MySQL konsolunu başlatın (MySQL sunucusu zaten çalışıyor olmalıdır). MySQL konsolundan aşağıdaki komutu çalıştırın:
-
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
-      mysql -u root -p
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">mysql -u root -p
       mysql&gt;\. db-setup.mysql
 </pre> </td></tr></table></div>
 Böylece Jabberd için bir veritabanı ve MySQL sunucusuna erişebilecek bir kullanıcı yarattık.
 </p><p>
 
 Daha sonra MySQL konsolundan aşağıdaki SQL ifadesini çalıştırın (secret yazan yeri kendi parolanız ile değiştirin):
-<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
-          GRANT select,insert,delete,update ON jabberd2.* 
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">GRANT select,insert,delete,update ON jabberd2.* 
           to jabberd2@localhost IDENTIFIED by 'secret';
 </pre> </td></tr></table></div>
 
 Böylece MySQL, Jabberd ile kullanılmaya hazır hale geldi.
 
-</p></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/jabberd-howto-config-postgre.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/jabberd-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/jabberd-howto-config-mysql.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Yapılandırma </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Yapılandırma</td></tr><tr><td colspan="3" align="center">
+</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="jabberd-howto-mysql-config"></a>Yapılandırma</h3></div></dt><dd><p>Jabberd dosyalarının içerdiği bilgiler arasında parolalar da olduğu için gerekli izinleri aşağıdaki gibi ayarlayalım:
+
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen"><b><tt>chown</tt></b> -R root:jabber <tt>/usr/local/etc/jabberd/*</tt>
+<b><tt>chmod</tt></b> -R 640 <tt>/usr/local/etc/jabberd/*</tt></pre> </td></tr></table></div>
+</p><p>Böylece artık yalnızca jabber kullanıcısı ve root'un yapılandırma
+dosyalarını okuyabilmesini ve değiştirebilmesini sağladık.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0"><tr><td rowspan="2" align="center" valign="top" width="25"><img src="../images/xsl/tip.png"></td><th>İpucu</th></tr><tr><td colspan="2" align="left" valign="top"><p>Kolaylık için yapılandırma dosyalarına bir sembolik link atayabilirsiniz:</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ln -s /usr/local/etc/jabberd/ /etc/jabberd</pre> </td></tr></table></div></td></tr></table></div><p>Şimdi yapılandırma dosyanızda veritabanı için ufak bir kaç ayar
+yapmanız gerekiyor. Öncelikle <tt>sm.xml</tt> dosyasında "Storage database configuration" ile
+başlayan satırda driver etiketleri arasında mysql yazdığından emin olun:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+&lt;!-- Storage database configuration --&gt;
+       &lt;storage&gt;
+         &lt;!-- By default, we use the MySQL driver for all storage --&gt;
+         &lt;driver&gt;<i><tt>mysql</tt></i>&lt;/driver&gt;
+</pre> </td></tr></table></div>
+</p><p>Daha sonra sm.xml dosyasında "MySQL driver configuration" olarak etiketlenmiş sekmede "secret" yerine parolanızı yazın:
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+          &lt;!-- MySQL driver configuration --&gt;
+          &lt;mysql&gt;
+            &lt;!-- Database server host and port --&gt;
+            &lt;host&gt;localhost&lt;/host&gt;
+            &lt;port&gt;3306&lt;/port&gt;
+
+            &lt;!-- Database name --&gt;
+            &lt;dbname&gt;jabberd2&lt;/dbname&gt;
+
+            &lt;!-- Database username and password --&gt;
+            &lt;user&gt;jabberd2&lt;/user&gt;
+            &lt;pass&gt;secret&lt;/pass&gt;
+
+            &lt;!-- Transaction support. If this is commented out, transactions
+                 will be disabled. This might make database accesses faster,
+                 but data may be lost if jabberd crashes.
+
+                 This will need to be disabled if you are using a MySQL
+                 earlier than v3.23.xx, as transaction support did not appear
+                 until this version. --&gt;
+            &lt;transactions/&gt;
+          &lt;/mysql&gt;
+</pre> </td></tr></table></div>
+Böylece MySQL ile olan işimiz bitti.
+</p><p>Artık sunucumuzu test edebiliriz. Root iken aşağıdaki komutları uygulayın ve Jabber'ın keyfini çıkarın!
+<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">
+<b><tt>su
+    su jabber
+    cd /usr/local/bin
+    ./jabberd  </tt></b></pre> </td></tr></table></div>
+</p></dd></div></dl></dd></div></dl><h1></h1><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td width="40%" align="left"><a accesskey="p" href="../howto/jabberd-howto-postgresql.html">Önceki</a> </td><td width="20%" align="center"><a accesskey="u" href="../howto/jabberd-howto.html">Üst Ana Başlık</a></td><td width="40%" align="right"> <a accesskey="n" href="../howto/jabberd-howto-ldap.html">Sonraki</a></td></tr><tr><td width="40%" align="left" valign="top">Kullanıcıların Postgresql'de tutulması </td><td width="20%" align="center"><a accesskey="h" href="../KiTAPLIK/index.html">Başlangıç</a></td><td width="40%" align="right" valign="top"> Kullanıcıların OpenLDAP'ta Tutulması</td></tr><tr><td colspan="3" align="center">
                   Bir <a href="http://www.belgeler.org/">Linux Kitaplığı</a> Sayfası
                 </td></tr></table></td></tr></table></td></tr></table></body></html>

@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ********************************************************************
-     $Id: jabberd-howto.xml $
-     ******************************************************************** -->
 <article id="jabberd-howto" lang="tr">
   <articleinfo>
     <title>Jabber Sunucusu NASIL</title>
@@ -11,19 +8,28 @@
       <affiliation>
         <address><email>pinar@comu.edu.tr</email></address>
       </affiliation>
+</author><author>
+	<firstname>Mete</firstname>
+	<surname>Bilgin</surname>
+	<affiliation>
+		<address><email>metebilgin@comu.edu.tr</email></address>
+	</affiliation>
     </author></authorgroup>
-    
 <revhistory>
     <revision>
-      <revnumber>1.0</revnumber>
-      <date>Kasım 2006</date>
+      <revnumber>1.1</revnumber>
+      <date>Mart 2009</date>
       <authorinitials>py</authorinitials>
-      <revremark>İlk sürüm</revremark>
+      <revremark>SSL desteği ve LDAP yetkilendirmesi bölümleri eklendi.</revremark>
+</revision><revision>
+	<revnumber>1.0</revnumber>
+	<date>Kasım 2006</date>
+	<authorinitials>py</authorinitials>
+	<revremark>İlk sürüm</revremark>
     </revision>
   </revhistory>  
-    
   <legalnotice><title>Yasal Açıklamalar</title><para>
-Bu belgenin, <emphasis>Jabber Sunucusu Nasıl</emphasis> belgesinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2006 <emphasis>Pınar Yanardağ</emphasis>'a</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 2.0 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
+		  Bu belgenin, <emphasis>Jabber Sunucusu Nasıl</emphasis> belgesinin 1.1 sürümünün <emphasis role="bold">telif hakkı © 2006 - 2009 <emphasis>Pınar Yanardağ</emphasis> ve <emphasis>Mete Bilgin</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3.0 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.
   </para>
   <para>
 BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
@@ -80,23 +86,9 @@ Genişletilebilir: XML teknolojisi sayesinde, protokol için özel fonksiyonel y
 Esnek: Jabber protokolü, anında mesajlaşma servislerinin dışında, ağ yönetimi, dosya paylaşımı, oyun ve uzak sistem izlemesi gibi işlerde kullanılmaktadır.
 </listitem>
 </itemizedlist>
-</para>
-
-    <para>Jabberd sunucusu ise yıllardır açık kaynak kodlu olarak geliştirilen
-bir projedir ve Jabberd 2 versiyonu getirdiği yeni kod altyapısı, yeni mimarisi ve yeni
-pek çok özelliğiyle beraber Jabberd 1.4 sunucusunun yerini almaya hazırlanmaktadır. Aşağıda Jabberd 2 sunucusunun hem Postgresql hem de Mysql veritabanları ile kurulumu anlatılmıştır.</para>
-
-
-
-    </sect1>
-
-
-    <sect1 id="jabberd-howto-install">
-
-<title>Ön Hazırlık</title>
-
-
-
+</para><para>Jabberd sunucusu ise yıllardır açık kaynak kodlu olarak geliştirilen bir projedir ve Jabberd 2 versiyonu getirdiği yeni kod altyapısı, yeni mimarisi ve yeni pek çok özelliğiyle beraber Jabberd 1.4 sunucusunun yerini almaya hazırlanmaktadır. Bu belgede Jabberd 2 sunucusunun kullanıcıları Postgresql ve Mysql veritabanlarında ve OpenLDAP'da bulundurduğu farklı senaryolarla kurulumu anlatılmaktadır.</para>
+	</sect1>
+	<sect1 id="jabberd-howto-install"><title>Ön Hazırlık</title>
 <para>Öncelikle sistemde bir Jabber kullanıcısının ve grubunun oluşturulması gerekmektedir:
 <screen><command>su</command> -
 <command>groupadd</command> jabber
@@ -109,28 +101,18 @@ pek çok özelliğiyle beraber Jabberd 1.4 sunucusunun yerini almaya hazırlanma
 </para><para>Log dosyaları için:
 <screen><command>mkdir</command> -p <filename>/usr/local/var/jabberd/log/</filename>
 <command>chown</command> -R jabber:jabber <filename>/usr/local/var/jabberd/log</filename></screen></para>     
-      
 <para>Jabberd varsayılan olarak logları syslog'a
 yazmaktadır, bu yüzden logların oluşturulan log dizinine kayıt edilmesi için
 yapılandırma dosyasının sonradan düzenlenmesi gerekmektedir.</para>
-
-<para>Jabber2 kurulumu için Openssl ve Lididn'nin ve Postgresql/Mysql'in sistemde kurulu olup olmadığına dikkat edin.</para>      
-
-
-<para>Jabberd 2'yi <ulink url="http://jabberd.jabberstudio.org/2/">bu</ulink>
+<para>Jabber2 kurulumu için Openssl ve Lididn'nin ve Postgresql/Mysql/OpenLDAP'ın sistemde kurulu olup olmadığına dikkat edin.</para>
+<para>Jabberd 2'yi <ulink url="http://ftp.xiaoka.com/jabberd2/releases/">bu</ulink>
 adresten indirin ve bulunduğu dizine geçip, aşağıdaki komut ile açın:
-<screen><command>tar</command> -zxvf jabberd-2.0s11.tar.gz</screen></para>
-
-
-</sect1>
-<sect1 id="jabberd-howto-postgresql">
-
-<title>Postgresql Üzerinde Jabberd Kurulumu</title>
-
-
-      
+<screen><command>tar</command> -xvfj jabberd-2.2.7.1.tar.bz2</screen></para>
+	</sect1>
+	<sect1 id="jabberd-howto-postgresql"><title>Kullanıcıların Postgresql'de tutulması</title>
+	<sect2 id="jabberd-howto-postgresql-install"><title>Kurulum</title>
 <para>Jabberd varsayılan olarak Mysql veritabanını seçmektedir, ancak belgenin bu kısmında Jabber sunucusunu Postgresql ile kullanacağımızdan,  Openssl ve Libidn kullanılarak sistemi yapılandıralım:
-<screen><command>cd</command> jabberd-2.0s11
+<screen><command>cd</command> jabberd-2.2.7.1
 <command>./configure</command> --enable-pgsql --enable-ssl --enable-idn</screen></para>
 
 <note><para>Eğer yukarıdaki komutu uygulamanıza rağmen halen Mysql ile derleme konusunda ısrarla karşılaşırsanız aşağıdaki komutu deneyin:</para><screen>
@@ -144,18 +126,13 @@ Eğer ek olarak path ya da kütüphane eklemek istiyorsanız:
 <screen><command>./configure</command> <varname>--disable-mysql --enable-pgsql --enable-ssl --enable-idn</varname> \
 <varname>-with-extra-include-path=/etc/postgresql:/usr/include/postgresql:/usr/share/postgresql</varname> \
 <varname>-with-extra-library-path=/usr/lib/postgresql</varname></screen>
-</para>
-
-<para>Yapılandırma sorunsuz bittikten sonra;
+</para><para>Yapılandırma sorunsuz bittikten sonra;
 <screen><command>make</command>
 <command>make install</command></screen>
 komutlarını vererek kurulum işini bitirin.
-</para>
+</para></sect2>
 
-   </sect1>
-
-<sect1 id="jabberd-howto-config-postgre"><title>Yapılandırma</title>
-
+   <sect2 id="jabberd-howto-postgresql-config"><title>Yapılandırma</title>
 <para>Jabberd dosyalarının içerdiği bilgiler arasında parolalar da olduğu için gerekli izinleri aşağıdaki gibi ayarlayalım:
 
 <screen><command>chown</command> -R root:jabber <filename>/usr/local/etc/jabberd/*</filename>
@@ -284,21 +261,14 @@ kelimesinin yerine jabberd2 kullanıcısının veritabanı parolasını yazın.
 
 
 <!--postgresql'in kapanış tag'ı-->
-</sect1>
+</sect2></sect1>
 
 
-<sect1 id="jabberd-howto-mysql">
+<sect1 id="jabberd-howto-mysql"><title>Kullanıcıların Mysql'de Tutulması</title>
+	<sect2 id="jabberd-howto-mysql-install"><title>Kurulum</title>
+<para>Jabberd'yi Mysql ile birlikte kullanmak istiyorsanız, öncelikle Jabberd 2 dağıtımı içindeki kurulum betiğini çalıştırmanız gerekmektedir. Öncelikle '[Jabberd Source Files]/tools' dizinine geçin ve MySQL konsolunu başlatın (MySQL sunucusu zaten çalışıyor olmalıdır). MySQL konsolundan aşağıdaki komutu çalıştırın:
 
-
-<title>Mysql Üzerinde Jabberd Kurulumu</title>
-
-
-<para>
-
-Jabberd'yi Mysql ile birlikte kullanmak istiyorsanız, öncelikle Jabberd 2 dağıtımı içindeki kurulum betiğini çalıştırmanız gerekmektedir. Öncelikle '[Jabberd Source Files]/tools' dizinine geçin ve MySQL konsolunu başlatın (MySQL sunucusu zaten çalışıyor olmalıdır). MySQL konsolundan aşağıdaki komutu çalıştırın:
-
-<screen>
-      mysql -u root -p
+<screen>mysql -u root -p
       mysql>\. db-setup.mysql
 </screen>
 Böylece Jabberd için bir veritabanı ve MySQL sunucusuna erişebilecek bir kullanıcı yarattık.
@@ -308,18 +278,15 @@ Böylece Jabberd için bir veritabanı ve MySQL sunucusuna erişebilecek bir kul
 <para>
 
 Daha sonra MySQL konsolundan aşağıdaki SQL ifadesini çalıştırın (secret yazan yeri kendi parolanız ile değiştirin):
-<screen>
-          GRANT select,insert,delete,update ON jabberd2.* 
+<screen>GRANT select,insert,delete,update ON jabberd2.* 
           to jabberd2@localhost IDENTIFIED by 'secret';
 </screen>
 
 Böylece MySQL, Jabberd ile kullanılmaya hazır hale geldi.
 
-</para>
+</para></sect2>
 
-   </sect1>
-
-<sect1 id="jabberd-howto-config-mysql"><title>Yapılandırma</title>
+   <sect2 id="jabberd-howto-mysql-config"><title>Yapılandırma</title>
 
 <para>Jabberd dosyalarının içerdiği bilgiler arasında parolalar da olduğu için gerekli izinleri aşağıdaki gibi ayarlayalım:
 
@@ -340,7 +307,7 @@ başlayan satırda driver etiketleri arasında mysql yazdığından emin olun:
 &lt;!-- Storage database configuration --&gt;
        &lt;storage&gt;
          &lt;!-- By default, we use the MySQL driver for all storage --&gt;
-         &lt;driver&gt;<varname>mysql</varname>&gt;&lt;/driver&gt;
+         &lt;driver&gt;<varname>mysql</varname>&lt;/driver&gt;
 </screen>
 </para>
 
@@ -371,13 +338,51 @@ başlayan satırda driver etiketleri arasında mysql yazdığından emin olun:
 </screen>
 Böylece MySQL ile olan işimiz bitti.
 </para>
-
 <para>Artık sunucumuzu test edebiliriz. Root iken aşağıdaki komutları uygulayın ve Jabber'ın keyfini çıkarın!
 <screen>
 <command>su
     su jabber
     cd /usr/local/bin
     ./jabberd  </command></screen>
-</para>
+</para></sect2>
+</sect1>
+<sect1 id="jabberd-howto-ldap"><title>Kullanıcıların OpenLDAP'ta Tutulması</title>
+	<sect2 id="jabberd-howto-ldap-install"><title>Kurulum</title>
+		<para>Jabber sunucusunu OpenLDAP ile kimlik kanıtlaması yapması için <command>configure</command> komutu <varname>--enable-ldap --enable-idn</varname> parametreleriyle birlikte kullanılmalıdır.</para>
+	</sect2>
+	<sect2 id="jabberd-howto-ldap-config"><title>Yapılandırma</title>
+	<para><filename>/usr/local/etc/c2s.xml</filename> dosyasında aşağıdaki değişiklikler yapılmalıdır.</para><para><screen>&lt;authreg&gt; 
+&lt;module&gt; ldap &lt;/module&gt;
+&lt;/authreg&gt;
+...
+&lt;ldap&gt;
+&lt;host&gt; ldap.comu.edu.tr &lt;/host&gt;
+&lt;v3 /&gt;
+&lt;binddn&gt; cn=admin,dc=comu,dc=edu,dc=tr &lt;/binddn&gt;
+&lt;bindpw&gt; xxx &lt;/bindpw&gt;
+&lt;uidattr&gt; uid &lt;/uidattr&gt; 
+&lt;base&gt; dc=comu,dc=edu,dc=tr &lt;/base&gt;
+&lt;/ldap&gt;</screen></para>
+		<para>Bu değişiklikler sonrasında <command>jabberd</command> süreci yeniden başlatılmalıdır.</para>
+	</sect2>
+</sect1>
+<sect1 id="jabberd-howto-ssl"><title>Güvenli Bağlantı</title>
+	<para>Güvenli (SSL ile) bağlantı yapılabilmesi için jabberd'nin <varname>--enable-ldap</varname> parametresi ile derlenmiş olması gerekiyor. Bu bağlantıda kullanılacak bir sertifika satın almadıysanız kendiniz bir SSL sertifikası üretmelisiniz.</para><para>Bir ssl sertifikası basitçe aşağıdaki gibi üretilebilir:
+<screen>$ openssl req -new &gt; jabber.cert.csr
+$ openssl rsa -in privkey.pem -out jabber.cert.key
+$ openssl x509 -in jabber.cert.csr -out jabber.cert.cert -req -signkey jabber.cert.key -days 3650
+$ cat jabber.cert.cert jabber.cert.key &gt; server.pem
+$ openssl x509 -in server.pem -text</screen></para>
+<para>Oluşan <filename>server.pem</filename> dosyası jabberd2'de kullanacağız sertifikadır.
+	<screen>$ chown root:jabber server.pem
+$ chmod 640 server.pem</screen></para>
+<para>Oluşturduğumuz ve izinlerini değiştirdiğimiz <filename>server.pem</filename> dosyasını güvenli bir dizine yerleştirebiliriz.</para>
+<para><filename>/usr/local/etc/c2s.xml</filename> dosyasında aşağıdaki değişiklikler yapılmalıdır:
+	<screen>&lt;!-- Local network configuration --&gt;
+&lt;local&gt;
+...
+&lt;pemfile&gt;<varname>/usr/local/etc/server.pem</varname>&lt;/pemfile&gt; 
+&lt;ssl-port&gt;5223&lt;/ssl-port&gt;</screen></para>
+<para>Bu aşamada istenildiğinde ssl ile bağlantı da yapılabilir. Ancak eğer sadece ssl ile bağlantılara izin vermek diğer bağlantıları reddetmek isterseniz &lt;port&gt;5222&lt;/port&gt; satırını &lt;port&gt;0&lt;/port&gt; şeklinde değiştirmek gerekir.</para>	
 </sect1>
 </article>
