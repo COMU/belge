@@ -12,6 +12,10 @@
 <webMaster>Necdet Yücel</webMaster>
 
 <item>
+	<title>LDAP ile Kimlik Kanıtlama NASIL belgesi güncellendi.</TITLE>
+	<link>http://docs.comu.edu.tr/howto/ldap-howto.html</link>
+</item>
+<item>
 	<title>Dosya Sistemi Sıradüzeni Standardı belgesi eklendi.</TITLE>
 	<link>http://docs.comu.edu.tr/howto/file-system-hierarchy-standard-howto.html</link>
 </item>

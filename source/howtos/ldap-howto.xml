@@ -19,8 +19,12 @@
 	</affiliation>
     </author></authorgroup>
     
-<revhistory>
-    <revision>
+<revhistory>    <revision>
+		<revnumber>1.1</revnumber>
+		<date>23 Nisan 2009</date>
+		<authorinitials>mb, kö</authorinitials>
+		<revremark>Freeradius ile kimlik kanıtlama bölümü yenilendi.</revremark>
+    </revision><revision>
       <revnumber>1.0</revnumber>
       <date>26 Eylül 2008</date>
       <authorinitials>mb, kö</authorinitials>
@@ -29,7 +33,7 @@
   </revhistory>  
     
   <legalnotice><title>Yasal Açıklamalar</title>
-	  <para>Bu belgenin, <emphasis>LDAP ile Kimlik Kanıtlama NASIL</emphasis> belgesinin 1.0 sürümünün <emphasis role="bold">telif hakkı © 2008 <emphasis>Mete Bilgin</emphasis> ve <emphasis>Kemal Ökmen</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
+	  <para>Bu belgenin, <emphasis>LDAP ile Kimlik Kanıtlama NASIL</emphasis> belgesinin 1.1 sürümünün <emphasis role="bold">telif hakkı © 2008-2009 <emphasis>Mete Bilgin</emphasis> ve <emphasis>Kemal Ökmen</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
   <para>BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
   </para>
   <para>İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
@@ -46,8 +50,7 @@
 <sect1 id="ldap-howto-intro"><title>LDAP Hakkında</title>
 	<para>LDAP (Lightweight Directory Access Protocol - Hafifletilmiş Dizin Erişim Prtokolü) Michigan Üniversitesi tarafından geliştirilen, LAN hizmetlerinin yerellestirilmesi icin ortaya cikmis, diğer programlardan gelen veri isteklerine cevap veren bir dizin sunucu protokolüdür. İlk olarak X.500 Dizin Erişim Protokolünün (DAP) ön ucu (front-end) olacak şekilde kullanılmıştır fakat tek başına da çalışabilmektedir. X.500 dizinlerinin gerektirdigi 7 katmanli OSI katmani yerine hafiflestilmis (lightweight) olan 4 katmanli TCP/IP kullanilmistir. LDAP özgün bir veritabanı yönetim sistemidir. Normal veritabanı yönetim sistemlerinden farklı olarak okuma işlemi için özelleştirilmiştir.Okuma işlemi LDAP'da yazma işleminden çok daha fazla kullanılmaktadır.</para>
 	<para>LDAP'da dizinler dosya sisteminde, NIS'de veya DNS'de olduğu gibi sıradüzensel (hiyerarşik) yapıda bulunur. Bütün dizinlerin bağlı olduğu bir kök dizin bulunur ve her dizinin kendi alt dizinleri bulunabilir. Bu şekliyle veriler çok bilinen ağaç yapısında tutulur.</para>
-	
-	<!--sekil>	images/ldaptree.jpg </sekil-->
+
 	<para>Ldap girdileri (düğüm, veri, kayıt, dizin de denir) bağlı oldukları düğümlerle birlikte biriciktir (unique). Nasıl ki dosya sisteminde aynı isimli dosya birden fazla yerde olabilirken aynı tam yola sahip tek bir dosya olabiliyorsa LDAP'da da aynı <emphasis>DN (Distinguished Name)</emphasis> e sahip tek bir kayıt olabilir. Yukarıdaki ağaç yapısında mete kullanıcısının DN'si şöyle yazılır: <emphasis>dn: uid=mete, ou=people, cd=comu,cd=edu,cd=tr</emphasis></para>
 	<para>DN LDAP girdisinin ismidir, onun herhangi bir parçası veya özniteliği (attribute) değildir. Yukarıdaki örnekte <emphasis>uid=mete</emphasis> girdinin RDN'sidir (Relative Distinguished Names), <emphasis>dn: ou=people, dc=comu,dc=edu,dc=tr</emphasis> ise üst düğümünün DN'sidir (burada dc, Domain Component, Alan Adı Elemanı kısaltmasıdır). Başka bir deyişle bir DN seri RDN'lerden oluşmuştur. Diğer satırlar girdinin öznitelik değerleridir.</para>
 	
@@ -85,7 +88,7 @@
 	<para>OpenLDAP bir çok Linux dağıtımının deposunda bulunabilir ve kolayca kurulur. Kaynak koddan kurulum yapmak da mümkündür. Buradaki kurulum Debian GNU/Linux 4.0 r1 "Etch" stable sürüm içindir. 
 <screen>apt-get install slapd ldap-utils</screen></para>
 	<para>Bu komutla debian deposundaki OpenLDAP sunucu programını kurulumunu yapıyoruz ve istemci için gerekli programları (ldapsearch, ldapadd, vb.) kurmuş oluyoruz. Admin parolasını girdikten sonra kurulum tamamlanıyor.</para>
-	<!--sekil>images/aptgetslapd.png</sekil-->
+
 	<para>OpenLDAP paketi krulduktan sonra ilk olarak <filename>/etc/ldap/slapd.conf</filename> dosyasını düzenlemek ve bir kök girdi (base entry) oluşturmak gerekir.
 	<screen>#vi /etc/ldap/slapd.conf
 # Schema and objectClass definitions
@@ -146,7 +149,6 @@ result: 0 Success
 # numEntries: 2</screen></para>
 	</sect2>
 	
-	
 	<sect2 id="ldap-howto-conf"><title>LDAP erişim yetkilerinin yapılandırılması</title>
 	<para>
 	<screen>access to attrs=userPassword,shadowLastChange
@@ -163,21 +165,7 @@ Burada kullanıcı izinlerini düzenleyebiliriz. Yapılandırma işimiz bitti.</
 	
 	<sect2 id="ldap-pam-nss"><title>OpenLDAP + PAM + NSS</title>
 	
-	<para>Kurulum için <command>apt-get install ldapscripts  libpam-ldap libnss-ldap</command> komutu verilir. Burada ldapscripts paketi LDAP dizinindeki kullanıcı hesaplarını yönetmek için (kullanıcı/grup ekleme, silme vb.) gereken kabuk betiklerini kurar. libpam-ldap paketi PAM kullanabilen servislerin LDAP üzerinden kimlik kanıtlama yapabilmesini sağlar. libnss-ldap paketi ise kimlik kanıtlama sırasında gerekli olan diğer bilgilerin LDAP sunucudan alınması için gereklidir. Kurulum sırasında çeşitli diyaloglarla paketlerin yapılandırılması yapılır.
-		<!-- Her şekille ilgili kısa açıklama... bazı şekiller çıkartılabilir 
-			<sekil>images/aptgetlibnssldap1.png</sekil>
-			<sekil>images/aptgetlibnssldap2.png</sekil>
-			<sekil>images/aptgetlibnssldap3.png</sekil>
-			<sekil>images/aptgetlibpamldap1.png</sekil>
-			<sekil>images/aptgetlibpamldap2.png</sekil>
-			<sekil>images/aptgetlibpamldap3.png</sekil>
-			<sekil>images/aptgetlibpamldap4.png</sekil>
-			<sekil>images/aptgetlibpamldap5.png</sekil>
-			<sekil>images/aptgetlibpamldap6.png</sekil>
-			<sekil>images/aptgetlibpamldap7.png</sekil>
-			<sekil>images/aptgetlibpamldap8.png</sekil>
-			<sekil>images/aptgetlibpamldap9.png</sekil>-->
-	</para>
+	<para>Kurulum için <command>apt-get install ldapscripts  libpam-ldap libnss-ldap</command> komutu verilir. Burada ldapscripts paketi LDAP dizinindeki kullanıcı hesaplarını yönetmek için (kullanıcı/grup ekleme, silme vb.) gereken kabuk betiklerini kurar. libpam-ldap paketi PAM kullanabilen servislerin LDAP üzerinden kimlik kanıtlama yapabilmesini sağlar. libnss-ldap paketi ise kimlik kanıtlama sırasında gerekli olan diğer bilgilerin LDAP sunucudan alınması için gereklidir. Kurulum sırasında çeşitli diyaloglarla paketlerin yapılandırılması yapılır.</para>
 	<para>Paketleri kurarken bizden bazı bilgileri istiyor. Libpam-ldap için ldap  host ismini, ldap'ın base adresini (ldap.conf'deki kök dizini "dc=ornek,dc=com"), ldap versiyon 3 seçtik. Make local root Database admin (bu seçenekte bize root kullanıcı ile ldap admin gibi davransın mı diye soruyor.) yes diyoruz. Does the LDAP database require login? (ldap veri tabanı için kullanıcı girişi gereksin mi?) no diyoruz. LDAP account for root: ldap root kullancısının tam yolunu ( dn)  yazıyoruz. Ldap root'unun parolasını yazıyoruz.Local crypt to use when changing passwords ( ldap kendi içerisindeki parolaları nasıl saklasın? ) md5 diyoruz. Ve şimdilik işimiz bitti. Sonra <filename>/etc/nsswitch.conf</filename>'u düzenliyoruz. Bu dosyayı aşağıdaki gibi değiştiriyoruz: 
 		<screen>passwd:         compat ldap
 group:          compat ldap
@@ -224,31 +212,84 @@ Bu ayarlardan sonra vsftpd, OpenLDAP ile kimlik kanıtlaması yapacaktır.</para
 	
 	<sect2 id="ldap-howto-auth-freeradius"><title>FreeRADIUS</title>
 	<para>FreeRADIUS kimlik kanıtlamasını farklı yöntemlerle yapabilmektedir. <filename>users</filename> dosyasında her kullanıcı için birer kullanıcı adı ve parola çifti saklanabileceği gibi istenirse bir veritabanı (mysql, postgresql, gibi) veya ldap kullanarak da kimlik kanıtlaması yapılabilir. Ldap kullanmak isterseniz <filename>freeradius-ldap*.deb</filename> paketini de (veya dağıtımınıza uygun paketi) kurmanız gerekir.</para>
+	<sect3 id="ldap-howto-auth-freeradius-ldap"><title>OpenLDAP sunucusunda yapılacaklar</title>
+		<para>OpenLDAP sunucusunda FreeRADIUS için kullanabileceğiniz şema kullandığınız pakete göre farklılık içermekle birlikte <filename>/usr/share/doc/freeradius/examples/openldap.schema</filename> dosyasında bulunmaktadır. <filename>slapd.conf</filename> dosyasında ldap sunucunun bu şemayı kullanmasını söylemeliyiz.</para>
+		<screen>...
+include         /etc/ldap/schema/radius.schema
+...</screen>
+	</sect3>
+	
 	<sect3 id="ldap-howto-auth-freeradius-radius"><title>FreeRADIUS sunucusunda yapılacaklar</title>
-		<para>Kullanıcı bilgilerinin OpenLDAP'ta tutulması durumunda <filename>radiusd.conf</filename> dosyasında authorize bölümüne ldap eklenmelidir. Yine aynı dosyada modules bölümüne sunucunuza uygun olacak şekilde aşağıdaki satırları eklemelisiniz:<screen>ldap {
-	server = "127.0.0.1"
-	password = parola
-	basedn = "dc=comu,dc=edu,dc=tr"
-	base_filter = "(objectclass=radiusprofile)"
-	access_attr = "radiusFilterId"
-	dictionary_mapping = ${raddbdir}/ldap.attrmap
-	authtype = ldap
-	ldap_connections_number = 5
-	timeout = 4
-	timelimit = 3
-	net_timeout = 1
-	set_auth_type = yes
-}</screen></para>
-<para><filename>ldap.attrmap</filename> dosyasına aşağıdaki satırlar eklenmelidir.
-	<screen>checkItem   User-Password                  userPassword
+		<para>
+			FreeRADIUS yapılandırma dosyalarında (<filename>radiusd.conf</filename>, <filename>sites-enabled/default</filename>, <filename>sites-enabled/inner-tunnel</filename>, <filename>ldap.attrmap</filename>) aşağıdaki gibi gerekli değişiklikleri yapıyoruz.
+		</para>
+		<para><filename>radiusd.conf</filename> dosyasında <emphasis>ldap</emphasis> bloğunu açarak parametreleri sunucumuza uygun bir şekilde giriyoruz:
+			<screen>ldap {
+server = "localhost"
+identity = "cn=admin,dc=localhost"
+password = gizli
+basedn = "dc=localhost"
+base_filter = "(objectclass=radiusObjectProfile)"
+access_attr = "cn"
+dictionary_mapping = ${raddbdir}/ldap.attrmap
+authtype = ldap
+ldap_connections_number = 5
+timeout = 4
+timelimit = 3
+net_timeout = 1
+dictionary_mapping = ${confdir}/ldap.attrmap
+password_attribute = userPassword
+set_auth_type = no
+}</screen>
+		</para>
+		<para>
+			<filename>sites-enabled/default</filename> dosyasında <emphasis>authorize</emphasis> bloğu içinde <emphasis>ldap</emphasis> satırını açıyoruz ve gereksiz olanları kapatıyoruz. <emphasis>post-auth</emphasis> bloğunda da <emphasis>ldap</emphasis> satırını açıyoruz:
+			<screen>authorize {
+...
+#		ntdomain
+		ldap
+#		unix
+#		files
+...
+}
+post-auth {
+...
+ldap
+...
+}</screen>
+		</para>
+		<para>
+			<filename>sites-enabled/inner-tunnel</filename> dosyasında aşağıdaki şekilde değişiklik yapıyoruz:
+			<screen>...
+#		chap
+#		mschap
+#		unix
+#		ntdomain
+ldap
+}
+post-auth {
+...
+ldap
+...
+}
+post-proxy {
+...
+#		eap
+...
+}</screen>
+		</para>
+		<para>
+			<filename>ldap.attrmap</filename> dosyasına aşağıdaki satırları ekliyoruz.
+			<screen>checkItem   User-Password                  userPassword
+checkItem   Cleartext-Password             userPassword
 replyItem   Tunnel-Type                    radiusTunnelType
 replyItem   Tunnel-Medium-Type             radiusTunnelMediumType
-replyItem   Tunnel-Private-Group-Id        radiusTunnelPrivateGroupId</screen></para>
+replyItem   Tunnel-Private-Group-Id        radiusTunnelPrivateGroupId</screen>
+		</para>
+		
 <para>Bu değişikliklerden sonra elbette freeradius süreci yeniden başlatılmalıdır.</para>
 </sect3>
-<sect3 id="ldap-howto-auth-freeradius-ldap"><title>OpenLDAP sunucusunda yapılacaklar</title>
-	<para>OpenLDAP sunucusunda FreeRADIUS için kullanabileceğiniz şema kullandığınız pakete göre farklılık içermekle birlikte <filename>/usr/share/doc/freeradius/examples/openldap.schema</filename> dosyasında bulunmaktadır.</para>
-</sect3>
+
 </sect2>
 	
 <sect2 id="ldap-howto-auth-jabber"><title>Jabber</title><para>Bu belge hazırlanırken jabber 2.2.1 sürümü kullanılmıştır.</para><para>Jabber programında yapacağımız yalnızca kimlik kanıtlanmasını yapılacaktır. Kullanıcıların diğer bilgilerini seçilebilecek başka bir veri tabanında ( mysql, postgresql, gibi) tutulacak şeklinde hazırlanmıştır bu ayarlar.</para><para>Jabber kurulumunu kaynak koddan kurulmuştur.</para><para>Jabber sunucusunu ldap ile kimlik kanıtlamak için configure sırasında <command>--enable-ldap  --enable-idn</command> eklenmelidir. Jabber sunucusunun kurulum aşaması bittikten sonra <filename>/usr/local/etc/</filename> altında gerekli olan ayar dosyalarına gerekli değişiklikleri yapabiliriz.</para>

@@ -1,7 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2008-09-26T10:50:41+03:00"><title>Sistem Servislerinde Kimlik Kanıtlama</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ldap-howto.html" title="LDAP ile Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/ldap-howto-install.html" title="OpenLDAP Kurulumu ve Yapılandırması"><link rel="next" href="../howto/kerberos-howto.html" title="Kerberos Altyapısı NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sistem Servislerinde Kimlik Kanıtlama</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ldap-howto-install.html">Önceki</a> </td><th width="60%" align="center">LDAP ile Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kerberos-howto.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ldap-howto-auth"></a>Sistem Servislerinde Kimlik Kanıtlama</h2></div></dt><dd><p>LDAP, sistem servisleri için kimlik kanıtlamada <i>PAM</i> (Pluggable Authentication Modules) ile birlikte çalışır. Bu şekilde pam kullanan servislerin (ftp, ssh, sistem kullanıcısı vb.) hepsi için tek bir yerden kimlik kanıtlama gerçekleştirilir. Eğer servis kullanıcı adı ve parola dışında başka hesap bilgilerine de (örneğin ev dizini) ihtiyaç duyuyorsa NSS (Name Service Switch) kullanılmalıdır.  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-pam-nss"></a>OpenLDAP + PAM + NSS</h3></div></dt><dd><p>Kurulum için <b><tt>apt-get install ldapscripts  libpam-ldap libnss-ldap</tt></b> komutu verilir. Burada ldapscripts paketi LDAP dizinindeki kullanıcı hesaplarını yönetmek için (kullanıcı/grup ekleme, silme vb.) gereken kabuk betiklerini kurar. libpam-ldap paketi PAM kullanabilen servislerin LDAP üzerinden kimlik kanıtlama yapabilmesini sağlar. libnss-ldap paketi ise kimlik kanıtlama sırasında gerekli olan diğer bilgilerin LDAP sunucudan alınması için gereklidir. Kurulum sırasında çeşitli diyaloglarla paketlerin yapılandırılması yapılır.
-		
-	</p><p>Paketleri kurarken bizden bazı bilgileri istiyor. Libpam-ldap için ldap  host ismini, ldap'ın base adresini (ldap.conf'deki kök dizini "dc=ornek,dc=com"), ldap versiyon 3 seçtik. Make local root Database admin (bu seçenekte bize root kullanıcı ile ldap admin gibi davransın mı diye soruyor.) yes diyoruz. Does the LDAP database require login? (ldap veri tabanı için kullanıcı girişi gereksin mi?) no diyoruz. LDAP account for root: ldap root kullancısının tam yolunu ( dn)  yazıyoruz. Ldap root'unun parolasını yazıyoruz.Local crypt to use when changing passwords ( ldap kendi içerisindeki parolaları nasıl saklasın? ) md5 diyoruz. Ve şimdilik işimiz bitti. Sonra <tt>/etc/nsswitch.conf</tt>'u düzenliyoruz. Bu dosyayı aşağıdaki gibi değiştiriyoruz: 
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"><meta name="date" content="2009-04-23T15:08:30+03:00"><title>Sistem Servislerinde Kimlik Kanıtlama</title><link rel="icon" type="image/png" href="../images/belgeler-logo.png"><link rel="stylesheet" href="../belgeler.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V-special(derived from 1.49 for Turkish Linux Documentation WG by Nilgün Belma Bugüner - nilgun@superonline.com)"><link rel="home" href="../KiTAPLIK/index.html" title="Linux Kitaplığı"><link rel="up" href="../howto/ldap-howto.html" title="LDAP ile Kimlik Kanıtlama NASIL"><link rel="previous" href="../howto/ldap-howto-install.html" title="OpenLDAP Kurulumu ve Yapılandırması"><link rel="next" href="../howto/kerberos-howto.html" title="Kerberos Altyapısı NASIL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table width="100%" summary="Navigation header" cellpadding="1" cellspacing="0" border="0"><tr><td bgcolor="black" class="navoutline"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="white" class="navinline"><table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><th colspan="3" align="center">Sistem Servislerinde Kimlik Kanıtlama</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="../howto/ldap-howto-install.html">Önceki</a> </td><th width="60%" align="center">LDAP ile Kimlik Kanıtlama NASIL</th><td width="20%" align="right"> <a accesskey="n" href="../howto/kerberos-howto.html">Sonraki</a></td></tr></table></td></tr></table></td></tr></table><dl><div class="sect1"><dt><div> <h2 class="title" style="clear: both"><a name="ldap-howto-auth"></a>Sistem Servislerinde Kimlik Kanıtlama</h2></div></dt><dd><p>LDAP, sistem servisleri için kimlik kanıtlamada <i>PAM</i> (Pluggable Authentication Modules) ile birlikte çalışır. Bu şekilde pam kullanan servislerin (ftp, ssh, sistem kullanıcısı vb.) hepsi için tek bir yerden kimlik kanıtlama gerçekleştirilir. Eğer servis kullanıcı adı ve parola dışında başka hesap bilgilerine de (örneğin ev dizini) ihtiyaç duyuyorsa NSS (Name Service Switch) kullanılmalıdır.  </p><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-pam-nss"></a>OpenLDAP + PAM + NSS</h3></div></dt><dd><p>Kurulum için <b><tt>apt-get install ldapscripts  libpam-ldap libnss-ldap</tt></b> komutu verilir. Burada ldapscripts paketi LDAP dizinindeki kullanıcı hesaplarını yönetmek için (kullanıcı/grup ekleme, silme vb.) gereken kabuk betiklerini kurar. libpam-ldap paketi PAM kullanabilen servislerin LDAP üzerinden kimlik kanıtlama yapabilmesini sağlar. libnss-ldap paketi ise kimlik kanıtlama sırasında gerekli olan diğer bilgilerin LDAP sunucudan alınması için gereklidir. Kurulum sırasında çeşitli diyaloglarla paketlerin yapılandırılması yapılır.</p><p>Paketleri kurarken bizden bazı bilgileri istiyor. Libpam-ldap için ldap  host ismini, ldap'ın base adresini (ldap.conf'deki kök dizini "dc=ornek,dc=com"), ldap versiyon 3 seçtik. Make local root Database admin (bu seçenekte bize root kullanıcı ile ldap admin gibi davransın mı diye soruyor.) yes diyoruz. Does the LDAP database require login? (ldap veri tabanı için kullanıcı girişi gereksin mi?) no diyoruz. LDAP account for root: ldap root kullancısının tam yolunu ( dn)  yazıyoruz. Ldap root'unun parolasını yazıyoruz.Local crypt to use when changing passwords ( ldap kendi içerisindeki parolaları nasıl saklasın? ) md5 diyoruz. Ve şimdilik işimiz bitti. Sonra <tt>/etc/nsswitch.conf</tt>'u düzenliyoruz. Bu dosyayı aşağıdaki gibi değiştiriyoruz: 
 		<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">passwd:         compat ldap
 group:          compat ldap
 shadow:         compat ldap</pre> </td></tr></table></div></p><p>Ardından <tt>/etc/libnns-ldap.conf</tt>'da ldap host'un
@@ -29,24 +27,70 @@ bindpw xxx
 scope sub // farklı düğümdeki kullanıcılarda giriş yapabilsin isterseniz bunu değiştirmeyebilirsiniz.
 pam_login_attribute userid // giriş yapacak kullanıcın hangi özelligine göre seçileceği.
 pam_password md5  // buradaki şifreleme şeklini önceden yapılan ayarlar ile aynı olmalıdır.</pre> </td></tr></table></div>
-Bu ayarlardan sonra vsftpd, OpenLDAP ile kimlik kanıtlaması yapacaktır.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-howto-auth-freeradius"></a>FreeRADIUS</h3></div></dt><dd><p>FreeRADIUS kimlik kanıtlamasını farklı yöntemlerle yapabilmektedir. <tt>users</tt> dosyasında her kullanıcı için birer kullanıcı adı ve parola çifti saklanabileceği gibi istenirse bir veritabanı (mysql, postgresql, gibi) veya ldap kullanarak da kimlik kanıtlaması yapılabilir. Ldap kullanmak isterseniz <tt>freeradius-ldap*.deb</tt> paketini de (veya dağıtımınıza uygun paketi) kurmanız gerekir.</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ldap-howto-auth-freeradius-radius"></a>FreeRADIUS sunucusunda yapılacaklar</h4></div></dt><dd><p>Kullanıcı bilgilerinin OpenLDAP'ta tutulması durumunda <tt>radiusd.conf</tt> dosyasında authorize bölümüne ldap eklenmelidir. Yine aynı dosyada modules bölümüne sunucunuza uygun olacak şekilde aşağıdaki satırları eklemelisiniz:<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ldap {
-	server = "127.0.0.1"
-	password = parola
-	basedn = "dc=comu,dc=edu,dc=tr"
-	base_filter = "(objectclass=radiusprofile)"
-	access_attr = "radiusFilterId"
-	dictionary_mapping = ${raddbdir}/ldap.attrmap
-	authtype = ldap
-	ldap_connections_number = 5
-	timeout = 4
-	timelimit = 3
-	net_timeout = 1
-	set_auth_type = yes
-}</pre> </td></tr></table></div></p><p><tt>ldap.attrmap</tt> dosyasına aşağıdaki satırlar eklenmelidir.
-	<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">checkItem   User-Password                  userPassword
+Bu ayarlardan sonra vsftpd, OpenLDAP ile kimlik kanıtlaması yapacaktır.</p></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-howto-auth-freeradius"></a>FreeRADIUS</h3></div></dt><dd><p>FreeRADIUS kimlik kanıtlamasını farklı yöntemlerle yapabilmektedir. <tt>users</tt> dosyasında her kullanıcı için birer kullanıcı adı ve parola çifti saklanabileceği gibi istenirse bir veritabanı (mysql, postgresql, gibi) veya ldap kullanarak da kimlik kanıtlaması yapılabilir. Ldap kullanmak isterseniz <tt>freeradius-ldap*.deb</tt> paketini de (veya dağıtımınıza uygun paketi) kurmanız gerekir.</p><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ldap-howto-auth-freeradius-ldap"></a>OpenLDAP sunucusunda yapılacaklar</h4></div></dt><dd><p>OpenLDAP sunucusunda FreeRADIUS için kullanabileceğiniz şema kullandığınız pakete göre farklılık içermekle birlikte <tt>/usr/share/doc/freeradius/examples/openldap.schema</tt> dosyasında bulunmaktadır. <tt>slapd.conf</tt> dosyasında ldap sunucunun bu şemayı kullanmasını söylemeliyiz.</p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">...
+include         /etc/ldap/schema/radius.schema
+...</pre> </td></tr></table></div></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ldap-howto-auth-freeradius-radius"></a>FreeRADIUS sunucusunda yapılacaklar</h4></div></dt><dd><p>
+			FreeRADIUS yapılandırma dosyalarında (<tt>radiusd.conf</tt>, <tt>sites-enabled/default</tt>, <tt>sites-enabled/inner-tunnel</tt>, <tt>ldap.attrmap</tt>) aşağıdaki gibi gerekli değişiklikleri yapıyoruz.
+		</p><p><tt>radiusd.conf</tt> dosyasında <i>ldap</i> bloğunu açarak parametreleri sunucumuza uygun bir şekilde giriyoruz:
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">ldap {
+server = "localhost"
+identity = "cn=admin,dc=localhost"
+password = gizli
+basedn = "dc=localhost"
+base_filter = "(objectclass=radiusObjectProfile)"
+access_attr = "cn"
+dictionary_mapping = ${raddbdir}/ldap.attrmap
+authtype = ldap
+ldap_connections_number = 5
+timeout = 4
+timelimit = 3
+net_timeout = 1
+dictionary_mapping = ${confdir}/ldap.attrmap
+password_attribute = userPassword
+set_auth_type = no
+}</pre> </td></tr></table></div>
+		</p><p>
+			<tt>sites-enabled/default</tt> dosyasında <i>authorize</i> bloğu içinde <i>ldap</i> satırını açıyoruz ve gereksiz olanları kapatıyoruz. <i>post-auth</i> bloğunda da <i>ldap</i> satırını açıyoruz:
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">authorize {
+...
+#		ntdomain
+		ldap
+#		unix
+#		files
+...
+}
+post-auth {
+...
+ldap
+...
+}</pre> </td></tr></table></div>
+		</p><p>
+			<tt>sites-enabled/inner-tunnel</tt> dosyasında aşağıdaki şekilde değişiklik yapıyoruz:
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">...
+#		chap
+#		mschap
+#		unix
+#		ntdomain
+ldap
+}
+post-auth {
+...
+ldap
+...
+}
+post-proxy {
+...
+#		eap
+...
+}</pre> </td></tr></table></div>
+		</p><p>
+			<tt>ldap.attrmap</tt> dosyasına aşağıdaki satırları ekliyoruz.
+			<div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">checkItem   User-Password                  userPassword
+checkItem   Cleartext-Password             userPassword
 replyItem   Tunnel-Type                    radiusTunnelType
 replyItem   Tunnel-Medium-Type             radiusTunnelMediumType
-replyItem   Tunnel-Private-Group-Id        radiusTunnelPrivateGroupId</pre> </td></tr></table></div></p><p>Bu değişikliklerden sonra elbette freeradius süreci yeniden başlatılmalıdır.</p></dd></div></dl><dl><div class="sect3"><dt><div> <h4 class="title"><a name="ldap-howto-auth-freeradius-ldap"></a>OpenLDAP sunucusunda yapılacaklar</h4></div></dt><dd><p>OpenLDAP sunucusunda FreeRADIUS için kullanabileceğiniz şema kullandığınız pakete göre farklılık içermekle birlikte <tt>/usr/share/doc/freeradius/examples/openldap.schema</tt> dosyasında bulunmaktadır.</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-howto-auth-jabber"></a>Jabber</h3></div></dt><dd><p>Bu belge hazırlanırken jabber 2.2.1 sürümü kullanılmıştır.</p><p>Jabber programında yapacağımız yalnızca kimlik kanıtlanmasını yapılacaktır. Kullanıcıların diğer bilgilerini seçilebilecek başka bir veri tabanında ( mysql, postgresql, gibi) tutulacak şeklinde hazırlanmıştır bu ayarlar.</p><p>Jabber kurulumunu kaynak koddan Kurulmuştur.</p><p>Jabber sunucusunu ldap ile kimlik kanıtlamak için configure sırasında <b><tt>--enable-ldap  --enable-idn</tt></b> eklenmelidir. Jabber sunucusunun kurulum aşaması bittikten sonra <tt>/usr/local/etc/</tt> altında gerekli olan ayar dosyalarına gerekli değişiklikleri yapabiliriz.</p><p><tt>/usr/local/etc/c2s.xml</tt> dosyasında aşağıdaki değişiklikler yapılmalıdır.</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt; authreg &gt; 
+replyItem   Tunnel-Private-Group-Id        radiusTunnelPrivateGroupId</pre> </td></tr></table></div>
+		</p><p>Bu değişikliklerden sonra elbette freeradius süreci yeniden başlatılmalıdır.</p></dd></div></dl></dd></div></dl><dl><div class="sect2"><dt><div> <h3 class="title"><a name="ldap-howto-auth-jabber"></a>Jabber</h3></div></dt><dd><p>Bu belge hazırlanırken jabber 2.2.1 sürümü kullanılmıştır.</p><p>Jabber programında yapacağımız yalnızca kimlik kanıtlanmasını yapılacaktır. Kullanıcıların diğer bilgilerini seçilebilecek başka bir veri tabanında ( mysql, postgresql, gibi) tutulacak şeklinde hazırlanmıştır bu ayarlar.</p><p>Jabber kurulumunu kaynak koddan kurulmuştur.</p><p>Jabber sunucusunu ldap ile kimlik kanıtlamak için configure sırasında <b><tt>--enable-ldap  --enable-idn</tt></b> eklenmelidir. Jabber sunucusunun kurulum aşaması bittikten sonra <tt>/usr/local/etc/</tt> altında gerekli olan ayar dosyalarına gerekli değişiklikleri yapabiliriz.</p><p><tt>/usr/local/etc/c2s.xml</tt> dosyasında aşağıdaki değişiklikler yapılmalıdır.</p><p><div class="screen" align="right"><table width="95%" cellpadding="5" cellspacing="1" border="0" class="preoutline"><tr class="preinline"><td> <pre class="screen">&lt; authreg &gt; 
 &lt; module &gt; ldap &lt;/ module &gt;
 &lt;/ authreg &gt;
 ...
