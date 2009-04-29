@@ -19,7 +19,12 @@
 	</affiliation>
     </author></authorgroup>
     
-<revhistory>    <revision>
+<revhistory><revision>
+		<revnumber>1.2</revnumber>
+		<date>29 Nisan 2009</date>
+		<authorinitials>mb, kö</authorinitials>
+		<revremark>Squid bölümü eklendi.</revremark>
+    </revision><revision>
 		<revnumber>1.1</revnumber>
 		<date>23 Nisan 2009</date>
 		<authorinitials>mb, kö</authorinitials>
@@ -33,7 +38,7 @@
   </revhistory>  
     
   <legalnotice><title>Yasal Açıklamalar</title>
-	  <para>Bu belgenin, <emphasis>LDAP ile Kimlik Kanıtlama NASIL</emphasis> belgesinin 1.1 sürümünün <emphasis role="bold">telif hakkı © 2008-2009 <emphasis>Mete Bilgin</emphasis> ve <emphasis>Kemal Ökmen</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
+	  <para>Bu belgenin, <emphasis>LDAP ile Kimlik Kanıtlama NASIL</emphasis> belgesinin 1.2 sürümünün <emphasis role="bold">telif hakkı © 2008-2009 <emphasis>Mete Bilgin</emphasis> ve <emphasis>Kemal Ökmen</emphasis>'e</emphasis> aittir. Bu belgeyi, Free Software Foundation tarafından yayınlanmış bulunan <link linkend="gpl">GNU Genel Kamu Lisansının</link> 3 ya da daha sonraki sürümünün koşullarına bağlı kalarak kopyalayabilir, dağıtabilir ve/veya değiştirebilirsiniz. Bu Lisansın bir kopyasını <ulink url="http://www.gnu.org/licenses/gpl.html"/> adresinde bulabilirsiniz.</para>
   <para>BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
   </para>
   <para>İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
@@ -305,19 +310,26 @@ replyItem   Tunnel-Private-Group-Id        radiusTunnelPrivateGroupId</screen>
 &lt; uidattr &gt; uid &lt; / uidattr &gt; 
 &lt; base &gt; dc=comu,dc=edu,dc=tr &lt; / base &gt;
 &lt;/ ldap&gt;</screen></para>
-		<para>Bu değişiklikler sonrasında <command>jabberd</command> süreci yeniden başlatılmalıdır.</para>
-	</sect2>	
+<para>Bu değişiklikler sonrasında <command>jabberd</command> süreci yeniden başlatılmalıdır.</para>
+</sect2>	
+<sect2 id="ldap-howto-auth-squid"><title>Squid</title>
+<para>Öncelikle kullandığınız squid sürümünün ldap ile kimlik kanıtlaması yapıp yapamayacağını aşağıdaki komutla denetlemelisiniz.<screen># /usr/lib/squid3/squid_ldap_auth -b "dc=comu,dc=edu,dc=tr" -f "uid=%s" ldap.comu.edu.tr</screen></para>
+<para>Eğer bir problem yoksa <filename>squid.conf</filename> dosyasına aşağıdaki satırları eklediğinizde kullanıcı sorgulamasını ldap ile yapabilirsiniz:
+<screen>auth_param basic program /usr/lib/squid3/squid_ldap_auth -v 3 -b "dc=comu,dc=edu,dc=tr" -f uid=%s ldap.comu.edu.tr
+auth_param basic children 5
+auth_param basic realm Squid proxy-caching web server
+auth_param basic credentialsttl 2 hours
+...
+acl ldapauth proxy_auth REQUIRED
+...
+http_access allow ldapauth</screen></para>
+<para>Bu değişiklikler sonrasında <command>squid3</command> süreci yeniden başlatılmalıdır.</para>
+</sect2>
 	<!--sect2 id="ldap-howto-auth-svn"><title>SVN</title>
 	</sect2>
-	
-	<sect2 id="ldap-howto-auth-squid"><title>Squid</title>
-	</sect2>
-	
 	<sect2 id="ldap-howto-auth-mail"><title>Qmail</title>
 	</sect2>
-	
 	<sect2 id="ldap-howto-auth-apache"><title>Apache</title>
-	</sect2-->
-	
+	</sect2-->	
 </sect1>
 </article>
